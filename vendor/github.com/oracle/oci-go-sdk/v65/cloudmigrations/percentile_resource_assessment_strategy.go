@@ -32,7 +32,7 @@ type PercentileResourceAssessmentStrategy struct {
 	MetricTimeWindow MetricTimeWindowEnum `mandatory:"false" json:"metricTimeWindow,omitempty"`
 }
 
-// GetResourceType returns ResourceType
+//GetResourceType returns ResourceType
 func (m PercentileResourceAssessmentStrategy) GetResourceType() ResourceAssessmentStrategyResourceTypeEnum {
 	return m.ResourceType
 }

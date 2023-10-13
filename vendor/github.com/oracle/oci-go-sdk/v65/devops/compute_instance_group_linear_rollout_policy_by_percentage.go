@@ -26,7 +26,7 @@ type ComputeInstanceGroupLinearRolloutPolicyByPercentage struct {
 	BatchDelayInSeconds *int `mandatory:"false" json:"batchDelayInSeconds"`
 }
 
-// GetBatchDelayInSeconds returns BatchDelayInSeconds
+//GetBatchDelayInSeconds returns BatchDelayInSeconds
 func (m ComputeInstanceGroupLinearRolloutPolicyByPercentage) GetBatchDelayInSeconds() *int {
 	return m.BatchDelayInSeconds
 }

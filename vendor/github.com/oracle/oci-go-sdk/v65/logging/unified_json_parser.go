@@ -5,8 +5,7 @@
 // Logging Management API
 //
 // Use the Logging Management API to create, read, list, update, move and delete
-// log groups, log objects, log saved searches, agent configurations, log data models,
-// continuous queries, and managed continuous queries.
+// log groups, log objects, log saved searches, and agent configurations.
 // For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
@@ -22,7 +21,7 @@ import (
 // UnifiedJsonParser JSON parser.
 type UnifiedJsonParser struct {
 
-	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// Specifies the time field for the event time. If the event doesn't have this field, the current time is used.
 	FieldTimeKey *string `mandatory:"false" json:"fieldTimeKey"`
 
 	// Specify types for converting a field into another type.
@@ -48,13 +47,13 @@ type UnifiedJsonParser struct {
 	// Specify the null value pattern.
 	NullValuePattern *string `mandatory:"false" json:"nullValuePattern"`
 
-	// If true, an empty string field is replaced with nil.
+	// If true, an empty string field is replaced with a null value.
 	IsNullEmptyString *bool `mandatory:"false" json:"isNullEmptyString"`
 
-	// If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	// If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.
 	IsEstimateCurrentEvent *bool `mandatory:"false" json:"isEstimateCurrentEvent"`
 
-	// If true, keep time field in the record.
+	// If true, keep the time field in the record.
 	IsKeepTimeKey *bool `mandatory:"false" json:"isKeepTimeKey"`
 
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
@@ -63,41 +62,41 @@ type UnifiedJsonParser struct {
 	// Process time value using the specified format.
 	TimeFormat *string `mandatory:"false" json:"timeFormat"`
 
-	// Time type of JSON parser.
+	// JSON parser time type.
 	TimeType UnifiedJsonParserTimeTypeEnum `mandatory:"false" json:"timeType,omitempty"`
 }
 
-// GetFieldTimeKey returns FieldTimeKey
+//GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedJsonParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-// GetTypes returns Types
+//GetTypes returns Types
 func (m UnifiedJsonParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-// GetNullValuePattern returns NullValuePattern
+//GetNullValuePattern returns NullValuePattern
 func (m UnifiedJsonParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-// GetIsNullEmptyString returns IsNullEmptyString
+//GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedJsonParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedJsonParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-// GetIsKeepTimeKey returns IsKeepTimeKey
+//GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedJsonParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedJsonParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

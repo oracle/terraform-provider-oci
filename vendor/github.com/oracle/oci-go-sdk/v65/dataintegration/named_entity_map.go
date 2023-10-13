@@ -42,7 +42,7 @@ type NamedEntityMap struct {
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m NamedEntityMap) GetDescription() *string {
 	return m.Description
 }

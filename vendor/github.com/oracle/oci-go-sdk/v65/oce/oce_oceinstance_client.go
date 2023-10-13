@@ -93,7 +93,7 @@ func (client *OceInstanceClient) ConfigurationProvider() *common.ConfigurationPr
 
 // ChangeOceInstanceCompartment Moves a OceInstance into a different compartment
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/ChangeOceInstanceCompartment.go.html to see an example of how to use ChangeOceInstanceCompartment API.
 // A default retry strategy applies to this operation ChangeOceInstanceCompartment()
@@ -156,7 +156,7 @@ func (client OceInstanceClient) changeOceInstanceCompartment(ctx context.Context
 
 // CreateOceInstance Creates a new OceInstance.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/CreateOceInstance.go.html to see an example of how to use CreateOceInstance API.
 // A default retry strategy applies to this operation CreateOceInstance()
@@ -219,7 +219,7 @@ func (client OceInstanceClient) createOceInstance(ctx context.Context, request c
 
 // DeleteOceInstance Deletes a OceInstance resource by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/DeleteOceInstance.go.html to see an example of how to use DeleteOceInstance API.
 // A default retry strategy applies to this operation DeleteOceInstance()
@@ -277,7 +277,7 @@ func (client OceInstanceClient) deleteOceInstance(ctx context.Context, request c
 
 // GetOceInstance Gets a OceInstance by identifier
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/GetOceInstance.go.html to see an example of how to use GetOceInstance API.
 // A default retry strategy applies to this operation GetOceInstance()
@@ -335,7 +335,7 @@ func (client OceInstanceClient) getOceInstance(ctx context.Context, request comm
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -393,7 +393,7 @@ func (client OceInstanceClient) getWorkRequest(ctx context.Context, request comm
 
 // ListOceInstances Returns a list of OceInstances.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/ListOceInstances.go.html to see an example of how to use ListOceInstances API.
 // A default retry strategy applies to this operation ListOceInstances()
@@ -451,7 +451,7 @@ func (client OceInstanceClient) listOceInstances(ctx context.Context, request co
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -509,7 +509,7 @@ func (client OceInstanceClient) listWorkRequestErrors(ctx context.Context, reque
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -567,7 +567,7 @@ func (client OceInstanceClient) listWorkRequestLogs(ctx context.Context, request
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -625,7 +625,7 @@ func (client OceInstanceClient) listWorkRequests(ctx context.Context, request co
 
 // UpdateOceInstance Updates the OceInstance
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oce/UpdateOceInstance.go.html to see an example of how to use UpdateOceInstance API.
 // A default retry strategy applies to this operation UpdateOceInstance()

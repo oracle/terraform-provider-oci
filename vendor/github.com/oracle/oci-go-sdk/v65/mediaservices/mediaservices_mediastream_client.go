@@ -94,7 +94,7 @@ func (client *MediaStreamClient) ConfigurationProvider() *common.ConfigurationPr
 
 // GeneratePlaylist Gets the playlist content for the specified Packaging Configuration and Media Asset combination.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GeneratePlaylist.go.html to see an example of how to use GeneratePlaylist API.
 // A default retry strategy applies to this operation GeneratePlaylist()
@@ -151,7 +151,7 @@ func (client MediaStreamClient) generatePlaylist(ctx context.Context, request co
 
 // GenerateSessionToken Generate a new streaming session token.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GenerateSessionToken.go.html to see an example of how to use GenerateSessionToken API.
 // A default retry strategy applies to this operation GenerateSessionToken()

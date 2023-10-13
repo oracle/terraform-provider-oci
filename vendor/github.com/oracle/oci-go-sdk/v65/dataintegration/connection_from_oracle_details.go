@@ -61,62 +61,62 @@ type ConnectionFromOracleDetails struct {
 	PasswordSecret *SensitiveAttribute `mandatory:"false" json:"passwordSecret"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m ConnectionFromOracleDetails) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m ConnectionFromOracleDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m ConnectionFromOracleDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m ConnectionFromOracleDetails) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m ConnectionFromOracleDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m ConnectionFromOracleDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m ConnectionFromOracleDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m ConnectionFromOracleDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetPrimarySchema returns PrimarySchema
+//GetPrimarySchema returns PrimarySchema
 func (m ConnectionFromOracleDetails) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-// GetConnectionProperties returns ConnectionProperties
+//GetConnectionProperties returns ConnectionProperties
 func (m ConnectionFromOracleDetails) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-// GetIsDefault returns IsDefault
+//GetIsDefault returns IsDefault
 func (m ConnectionFromOracleDetails) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m ConnectionFromOracleDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

@@ -5,8 +5,7 @@
 // Logging Management API
 //
 // Use the Logging Management API to create, read, list, update, move and delete
-// log groups, log objects, log saved searches, agent configurations, log data models,
-// continuous queries, and managed continuous queries.
+// log groups, log objects, log saved searches, and agent configurations.
 // For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
@@ -22,14 +21,14 @@ import (
 // UnifiedAgentWindowsEventSource Windows events log source object.
 type UnifiedAgentWindowsEventSource struct {
 
-	// unique name for the source
+	// Unique name for the source.
 	Name *string `mandatory:"true" json:"name"`
 
 	// Windows event log channels.
 	Channels []string `mandatory:"true" json:"channels"`
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UnifiedAgentWindowsEventSource) GetName() *string {
 	return m.Name
 }

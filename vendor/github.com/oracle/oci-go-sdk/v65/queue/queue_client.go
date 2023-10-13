@@ -95,7 +95,7 @@ func (client *QueueClient) ConfigurationProvider() *common.ConfigurationProvider
 // You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to delete messages.
 // The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteMessage.go.html to see an example of how to use DeleteMessage API.
 // A default retry strategy applies to this operation DeleteMessage()
@@ -155,7 +155,7 @@ func (client QueueClient) deleteMessage(ctx context.Context, request common.OCIR
 // You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to delete messages.
 // The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteMessages.go.html to see an example of how to use DeleteMessages API.
 // A default retry strategy applies to this operation DeleteMessages()
@@ -218,7 +218,7 @@ func (client QueueClient) deleteMessages(ctx context.Context, request common.OCI
 // When channelFilter is present, service will return available messages from the channel which ID exactly matched the filter.
 // When filter is not specified, messages will be returned from a random non-empty channel within a queue.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetMessages.go.html to see an example of how to use GetMessages API.
 func (client QueueClient) GetMessages(ctx context.Context, request GetMessagesRequest) (response GetMessagesResponse, err error) {
@@ -277,7 +277,7 @@ func (client QueueClient) getMessages(ctx context.Context, request common.OCIReq
 // You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to get a queue's statistics.
 // The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetStats.go.html to see an example of how to use GetStats API.
 // A default retry strategy applies to this operation GetStats()
@@ -338,7 +338,7 @@ func (client QueueClient) getStats(ctx context.Context, request common.OCIReques
 // API supports optional channelFilter parameter which will filter the returned results according to the specified filter.
 // List of channel IDs is approximate, because statistics is refreshed once per-second, and that list represents a snapshot of the past information. API is paginated.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListChannels.go.html to see an example of how to use ListChannels API.
 // A default retry strategy applies to this operation ListChannels()
@@ -398,7 +398,7 @@ func (client QueueClient) listChannels(ctx context.Context, request common.OCIRe
 // You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to produce messages.
 // The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/PutMessages.go.html to see an example of how to use PutMessages API.
 func (client QueueClient) PutMessages(ctx context.Context, request PutMessagesRequest) (response PutMessagesResponse, err error) {
@@ -457,7 +457,7 @@ func (client QueueClient) putMessages(ctx context.Context, request common.OCIReq
 // You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to update messages.
 // The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/UpdateMessage.go.html to see an example of how to use UpdateMessage API.
 // A default retry strategy applies to this operation UpdateMessage()
@@ -517,7 +517,7 @@ func (client QueueClient) updateMessage(ctx context.Context, request common.OCIR
 // You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to update messages.
 // The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/UpdateMessages.go.html to see an example of how to use UpdateMessages API.
 // A default retry strategy applies to this operation UpdateMessages()

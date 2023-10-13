@@ -46,32 +46,32 @@ type CreateWebAppAccelerationLoadBalancerDetails struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateWebAppAccelerationLoadBalancerDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateWebAppAccelerationLoadBalancerDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
+//GetWebAppAccelerationPolicyId returns WebAppAccelerationPolicyId
 func (m CreateWebAppAccelerationLoadBalancerDetails) GetWebAppAccelerationPolicyId() *string {
 	return m.WebAppAccelerationPolicyId
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateWebAppAccelerationLoadBalancerDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateWebAppAccelerationLoadBalancerDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m CreateWebAppAccelerationLoadBalancerDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

@@ -19,6 +19,12 @@ import (
 // VaultMappedSecret Mapped secret stored in OCI vault used in the firewall policy rules.
 type VaultMappedSecret struct {
 
+	// Name of the secret.
+	Name *string `mandatory:"true" json:"name"`
+
+	// OCID of the Network Firewall Policy this Mapped Secret belongs to.
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
 	// OCID for the Vault Secret to be used.
 	VaultSecretId *string `mandatory:"true" json:"vaultSecretId"`
 
@@ -28,12 +34,22 @@ type VaultMappedSecret struct {
 	// Type of the secrets mapped based on the policy.
 	//  * `SSL_INBOUND_INSPECTION`: For Inbound inspection of SSL traffic.
 	//  * `SSL_FORWARD_PROXY`: For forward proxy certificates for SSL inspection.
-	Type MappedSecretTypeEnum `mandatory:"true" json:"type"`
+	Type InspectionTypeEnum `mandatory:"true" json:"type"`
 }
 
-// GetType returns Type
-func (m VaultMappedSecret) GetType() MappedSecretTypeEnum {
+//GetName returns Name
+func (m VaultMappedSecret) GetName() *string {
+	return m.Name
+}
+
+//GetType returns Type
+func (m VaultMappedSecret) GetType() InspectionTypeEnum {
 	return m.Type
+}
+
+//GetParentResourceId returns ParentResourceId
+func (m VaultMappedSecret) GetParentResourceId() *string {
+	return m.ParentResourceId
 }
 
 func (m VaultMappedSecret) String() string {
@@ -46,8 +62,8 @@ func (m VaultMappedSecret) String() string {
 func (m VaultMappedSecret) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingMappedSecretTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetMappedSecretTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingInspectionTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetInspectionTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

@@ -34,22 +34,22 @@ type UpdateComputeInstanceGroupDeployEnvironmentDetails struct {
 	ComputeInstanceGroupSelectors *ComputeInstanceGroupSelectorCollection `mandatory:"false" json:"computeInstanceGroupSelectors"`
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateComputeInstanceGroupDeployEnvironmentDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateComputeInstanceGroupDeployEnvironmentDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateComputeInstanceGroupDeployEnvironmentDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateComputeInstanceGroupDeployEnvironmentDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

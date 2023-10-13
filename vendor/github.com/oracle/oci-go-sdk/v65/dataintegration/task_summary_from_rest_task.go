@@ -90,77 +90,77 @@ type TaskSummaryFromRestTask struct {
 	CancelMethodType TaskSummaryFromRestTaskCancelMethodTypeEnum `mandatory:"false" json:"cancelMethodType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m TaskSummaryFromRestTask) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m TaskSummaryFromRestTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m TaskSummaryFromRestTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m TaskSummaryFromRestTask) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m TaskSummaryFromRestTask) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m TaskSummaryFromRestTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m TaskSummaryFromRestTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m TaskSummaryFromRestTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetInputPorts returns InputPorts
+//GetInputPorts returns InputPorts
 func (m TaskSummaryFromRestTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-// GetOutputPorts returns OutputPorts
+//GetOutputPorts returns OutputPorts
 func (m TaskSummaryFromRestTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-// GetParameters returns Parameters
+//GetParameters returns Parameters
 func (m TaskSummaryFromRestTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-// GetOpConfigValues returns OpConfigValues
+//GetOpConfigValues returns OpConfigValues
 func (m TaskSummaryFromRestTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-// GetConfigProviderDelegate returns ConfigProviderDelegate
+//GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m TaskSummaryFromRestTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-// GetMetadata returns Metadata
+//GetMetadata returns Metadata
 func (m TaskSummaryFromRestTask) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-// GetKeyMap returns KeyMap
+//GetKeyMap returns KeyMap
 func (m TaskSummaryFromRestTask) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

@@ -73,72 +73,72 @@ type VmTargetAssetSummary struct {
 	PreferredShapeType VmTargetAssetPreferredShapeTypeEnum `mandatory:"true" json:"preferredShapeType"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m VmTargetAssetSummary) GetId() *string {
 	return m.Id
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m VmTargetAssetSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m VmTargetAssetSummary) GetLifecycleState() TargetAssetLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetMigrationPlanId returns MigrationPlanId
+//GetMigrationPlanId returns MigrationPlanId
 func (m VmTargetAssetSummary) GetMigrationPlanId() *string {
 	return m.MigrationPlanId
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m VmTargetAssetSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetCreatedResourceId returns CreatedResourceId
+//GetCreatedResourceId returns CreatedResourceId
 func (m VmTargetAssetSummary) GetCreatedResourceId() *string {
 	return m.CreatedResourceId
 }
 
-// GetIsExcludedFromExecution returns IsExcludedFromExecution
+//GetIsExcludedFromExecution returns IsExcludedFromExecution
 func (m VmTargetAssetSummary) GetIsExcludedFromExecution() *bool {
 	return m.IsExcludedFromExecution
 }
 
-// GetCompatibilityMessages returns CompatibilityMessages
+//GetCompatibilityMessages returns CompatibilityMessages
 func (m VmTargetAssetSummary) GetCompatibilityMessages() []CompatibilityMessage {
 	return m.CompatibilityMessages
 }
 
-// GetEstimatedCost returns EstimatedCost
+//GetEstimatedCost returns EstimatedCost
 func (m VmTargetAssetSummary) GetEstimatedCost() *CostEstimation {
 	return m.EstimatedCost
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m VmTargetAssetSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetLifecycleDetails returns LifecycleDetails
+//GetLifecycleDetails returns LifecycleDetails
 func (m VmTargetAssetSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m VmTargetAssetSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetTimeAssessed returns TimeAssessed
+//GetTimeAssessed returns TimeAssessed
 func (m VmTargetAssetSummary) GetTimeAssessed() *common.SDKTime {
 	return m.TimeAssessed
 }
 
-// GetMigrationAsset returns MigrationAsset
+//GetMigrationAsset returns MigrationAsset
 func (m VmTargetAssetSummary) GetMigrationAsset() *MigrationAssetSummary {
 	return m.MigrationAsset
 }

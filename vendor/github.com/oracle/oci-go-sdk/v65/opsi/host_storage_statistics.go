@@ -36,22 +36,22 @@ type HostStorageStatistics struct {
 	FilesystemAvailableInPercent *float64 `mandatory:"false" json:"filesystemAvailableInPercent"`
 }
 
-// GetUsage returns Usage
+//GetUsage returns Usage
 func (m HostStorageStatistics) GetUsage() *float64 {
 	return m.Usage
 }
 
-// GetCapacity returns Capacity
+//GetCapacity returns Capacity
 func (m HostStorageStatistics) GetCapacity() *float64 {
 	return m.Capacity
 }
 
-// GetUtilizationPercent returns UtilizationPercent
+//GetUtilizationPercent returns UtilizationPercent
 func (m HostStorageStatistics) GetUtilizationPercent() *float64 {
 	return m.UtilizationPercent
 }
 
-// GetUsageChangePercent returns UsageChangePercent
+//GetUsageChangePercent returns UsageChangePercent
 func (m HostStorageStatistics) GetUsageChangePercent() *float64 {
 	return m.UsageChangePercent
 }

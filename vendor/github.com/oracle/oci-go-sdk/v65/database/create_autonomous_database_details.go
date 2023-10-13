@@ -237,242 +237,242 @@ type CreateAutonomousDatabaseDetails struct {
 	AutonomousMaintenanceScheduleType CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m CreateAutonomousDatabaseDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetCharacterSet returns CharacterSet
+//GetCharacterSet returns CharacterSet
 func (m CreateAutonomousDatabaseDetails) GetCharacterSet() *string {
 	return m.CharacterSet
 }
 
-// GetNcharacterSet returns NcharacterSet
+//GetNcharacterSet returns NcharacterSet
 func (m CreateAutonomousDatabaseDetails) GetNcharacterSet() *string {
 	return m.NcharacterSet
 }
 
-// GetDbName returns DbName
+//GetDbName returns DbName
 func (m CreateAutonomousDatabaseDetails) GetDbName() *string {
 	return m.DbName
 }
 
-// GetCpuCoreCount returns CpuCoreCount
+//GetCpuCoreCount returns CpuCoreCount
 func (m CreateAutonomousDatabaseDetails) GetCpuCoreCount() *int {
 	return m.CpuCoreCount
 }
 
-// GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
+//GetBackupRetentionPeriodInDays returns BackupRetentionPeriodInDays
 func (m CreateAutonomousDatabaseDetails) GetBackupRetentionPeriodInDays() *int {
 	return m.BackupRetentionPeriodInDays
 }
 
-// GetComputeModel returns ComputeModel
+//GetComputeModel returns ComputeModel
 func (m CreateAutonomousDatabaseDetails) GetComputeModel() CreateAutonomousDatabaseBaseComputeModelEnum {
 	return m.ComputeModel
 }
 
-// GetComputeCount returns ComputeCount
+//GetComputeCount returns ComputeCount
 func (m CreateAutonomousDatabaseDetails) GetComputeCount() *float32 {
 	return m.ComputeCount
 }
 
-// GetOcpuCount returns OcpuCount
+//GetOcpuCount returns OcpuCount
 func (m CreateAutonomousDatabaseDetails) GetOcpuCount() *float32 {
 	return m.OcpuCount
 }
 
-// GetDbWorkload returns DbWorkload
+//GetDbWorkload returns DbWorkload
 func (m CreateAutonomousDatabaseDetails) GetDbWorkload() CreateAutonomousDatabaseBaseDbWorkloadEnum {
 	return m.DbWorkload
 }
 
-// GetDataStorageSizeInTBs returns DataStorageSizeInTBs
+//GetDataStorageSizeInTBs returns DataStorageSizeInTBs
 func (m CreateAutonomousDatabaseDetails) GetDataStorageSizeInTBs() *int {
 	return m.DataStorageSizeInTBs
 }
 
-// GetDataStorageSizeInGBs returns DataStorageSizeInGBs
+//GetDataStorageSizeInGBs returns DataStorageSizeInGBs
 func (m CreateAutonomousDatabaseDetails) GetDataStorageSizeInGBs() *int {
 	return m.DataStorageSizeInGBs
 }
 
-// GetIsFreeTier returns IsFreeTier
+//GetIsFreeTier returns IsFreeTier
 func (m CreateAutonomousDatabaseDetails) GetIsFreeTier() *bool {
 	return m.IsFreeTier
 }
 
-// GetKmsKeyId returns KmsKeyId
+//GetKmsKeyId returns KmsKeyId
 func (m CreateAutonomousDatabaseDetails) GetKmsKeyId() *string {
 	return m.KmsKeyId
 }
 
-// GetVaultId returns VaultId
+//GetVaultId returns VaultId
 func (m CreateAutonomousDatabaseDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetAdminPassword returns AdminPassword
+//GetAdminPassword returns AdminPassword
 func (m CreateAutonomousDatabaseDetails) GetAdminPassword() *string {
 	return m.AdminPassword
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m CreateAutonomousDatabaseDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetLicenseModel returns LicenseModel
+//GetLicenseModel returns LicenseModel
 func (m CreateAutonomousDatabaseDetails) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
 }
 
-// GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
+//GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
 func (m CreateAutonomousDatabaseDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
 	return m.IsPreviewVersionWithServiceTermsAccepted
 }
 
-// GetIsAutoScalingEnabled returns IsAutoScalingEnabled
+//GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m CreateAutonomousDatabaseDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
 }
 
-// GetIsDedicated returns IsDedicated
+//GetIsDedicated returns IsDedicated
 func (m CreateAutonomousDatabaseDetails) GetIsDedicated() *bool {
 	return m.IsDedicated
 }
 
-// GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
+//GetAutonomousContainerDatabaseId returns AutonomousContainerDatabaseId
 func (m CreateAutonomousDatabaseDetails) GetAutonomousContainerDatabaseId() *string {
 	return m.AutonomousContainerDatabaseId
 }
 
-// GetInMemoryPercentage returns InMemoryPercentage
+//GetInMemoryPercentage returns InMemoryPercentage
 func (m CreateAutonomousDatabaseDetails) GetInMemoryPercentage() *int {
 	return m.InMemoryPercentage
 }
 
-// GetIsAccessControlEnabled returns IsAccessControlEnabled
+//GetIsAccessControlEnabled returns IsAccessControlEnabled
 func (m CreateAutonomousDatabaseDetails) GetIsAccessControlEnabled() *bool {
 	return m.IsAccessControlEnabled
 }
 
-// GetWhitelistedIps returns WhitelistedIps
+//GetWhitelistedIps returns WhitelistedIps
 func (m CreateAutonomousDatabaseDetails) GetWhitelistedIps() []string {
 	return m.WhitelistedIps
 }
 
-// GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
+//GetArePrimaryWhitelistedIpsUsed returns ArePrimaryWhitelistedIpsUsed
 func (m CreateAutonomousDatabaseDetails) GetArePrimaryWhitelistedIpsUsed() *bool {
 	return m.ArePrimaryWhitelistedIpsUsed
 }
 
-// GetStandbyWhitelistedIps returns StandbyWhitelistedIps
+//GetStandbyWhitelistedIps returns StandbyWhitelistedIps
 func (m CreateAutonomousDatabaseDetails) GetStandbyWhitelistedIps() []string {
 	return m.StandbyWhitelistedIps
 }
 
-// GetIsDataGuardEnabled returns IsDataGuardEnabled
+//GetIsDataGuardEnabled returns IsDataGuardEnabled
 func (m CreateAutonomousDatabaseDetails) GetIsDataGuardEnabled() *bool {
 	return m.IsDataGuardEnabled
 }
 
-// GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
+//GetIsLocalDataGuardEnabled returns IsLocalDataGuardEnabled
 func (m CreateAutonomousDatabaseDetails) GetIsLocalDataGuardEnabled() *bool {
 	return m.IsLocalDataGuardEnabled
 }
 
-// GetSubnetId returns SubnetId
+//GetSubnetId returns SubnetId
 func (m CreateAutonomousDatabaseDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-// GetNsgIds returns NsgIds
+//GetNsgIds returns NsgIds
 func (m CreateAutonomousDatabaseDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-// GetPrivateEndpointLabel returns PrivateEndpointLabel
+//GetPrivateEndpointLabel returns PrivateEndpointLabel
 func (m CreateAutonomousDatabaseDetails) GetPrivateEndpointLabel() *string {
 	return m.PrivateEndpointLabel
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m CreateAutonomousDatabaseDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m CreateAutonomousDatabaseDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetPrivateEndpointIp returns PrivateEndpointIp
+//GetPrivateEndpointIp returns PrivateEndpointIp
 func (m CreateAutonomousDatabaseDetails) GetPrivateEndpointIp() *string {
 	return m.PrivateEndpointIp
 }
 
-// GetDbVersion returns DbVersion
+//GetDbVersion returns DbVersion
 func (m CreateAutonomousDatabaseDetails) GetDbVersion() *string {
 	return m.DbVersion
 }
 
-// GetCustomerContacts returns CustomerContacts
+//GetCustomerContacts returns CustomerContacts
 func (m CreateAutonomousDatabaseDetails) GetCustomerContacts() []CustomerContact {
 	return m.CustomerContacts
 }
 
-// GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
+//GetIsMtlsConnectionRequired returns IsMtlsConnectionRequired
 func (m CreateAutonomousDatabaseDetails) GetIsMtlsConnectionRequired() *bool {
 	return m.IsMtlsConnectionRequired
 }
 
-// GetResourcePoolLeaderId returns ResourcePoolLeaderId
+//GetResourcePoolLeaderId returns ResourcePoolLeaderId
 func (m CreateAutonomousDatabaseDetails) GetResourcePoolLeaderId() *string {
 	return m.ResourcePoolLeaderId
 }
 
-// GetResourcePoolSummary returns ResourcePoolSummary
+//GetResourcePoolSummary returns ResourcePoolSummary
 func (m CreateAutonomousDatabaseDetails) GetResourcePoolSummary() *ResourcePoolSummary {
 	return m.ResourcePoolSummary
 }
 
-// GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
+//GetAutonomousMaintenanceScheduleType returns AutonomousMaintenanceScheduleType
 func (m CreateAutonomousDatabaseDetails) GetAutonomousMaintenanceScheduleType() CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum {
 	return m.AutonomousMaintenanceScheduleType
 }
 
-// GetScheduledOperations returns ScheduledOperations
+//GetScheduledOperations returns ScheduledOperations
 func (m CreateAutonomousDatabaseDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
 }
 
-// GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
+//GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
 func (m CreateAutonomousDatabaseDetails) GetIsAutoScalingForStorageEnabled() *bool {
 	return m.IsAutoScalingForStorageEnabled
 }
 
-// GetMaxCpuCoreCount returns MaxCpuCoreCount
+//GetMaxCpuCoreCount returns MaxCpuCoreCount
 func (m CreateAutonomousDatabaseDetails) GetMaxCpuCoreCount() *int {
 	return m.MaxCpuCoreCount
 }
 
-// GetDatabaseEdition returns DatabaseEdition
+//GetDatabaseEdition returns DatabaseEdition
 func (m CreateAutonomousDatabaseDetails) GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum {
 	return m.DatabaseEdition
 }
 
-// GetDbToolsDetails returns DbToolsDetails
+//GetDbToolsDetails returns DbToolsDetails
 func (m CreateAutonomousDatabaseDetails) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
 }
 
-// GetSecretId returns SecretId
+//GetSecretId returns SecretId
 func (m CreateAutonomousDatabaseDetails) GetSecretId() *string {
 	return m.SecretId
 }
 
-// GetSecretVersionNumber returns SecretVersionNumber
+//GetSecretVersionNumber returns SecretVersionNumber
 func (m CreateAutonomousDatabaseDetails) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
 }

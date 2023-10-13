@@ -44,32 +44,32 @@ type UpdateOpsiUxConfigurationDetails struct {
 	ConfigItems []UpdateConfigurationItemDetails `mandatory:"false" json:"configItems"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m UpdateOpsiUxConfigurationDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateOpsiUxConfigurationDetails) GetDescription() *string {
 	return m.Description
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateOpsiUxConfigurationDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateOpsiUxConfigurationDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-// GetSystemTags returns SystemTags
+//GetSystemTags returns SystemTags
 func (m UpdateOpsiUxConfigurationDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-// GetConfigItems returns ConfigItems
+//GetConfigItems returns ConfigItems
 func (m UpdateOpsiUxConfigurationDetails) GetConfigItems() []UpdateConfigurationItemDetails {
 	return m.ConfigItems
 }

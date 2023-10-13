@@ -38,12 +38,12 @@ type UpdateSpanFilterDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateSpanFilterDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateSpanFilterDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

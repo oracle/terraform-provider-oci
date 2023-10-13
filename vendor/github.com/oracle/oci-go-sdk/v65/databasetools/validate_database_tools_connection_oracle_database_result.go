@@ -38,22 +38,22 @@ type ValidateDatabaseToolsConnectionOracleDatabaseResult struct {
 	DatabaseVersion *string `mandatory:"false" json:"databaseVersion"`
 }
 
-// GetCode returns Code
+//GetCode returns Code
 func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) GetCode() *string {
 	return m.Code
 }
 
-// GetMessage returns Message
+//GetMessage returns Message
 func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) GetMessage() *string {
 	return m.Message
 }
 
-// GetCause returns Cause
+//GetCause returns Cause
 func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) GetCause() *string {
 	return m.Cause
 }
 
-// GetAction returns Action
+//GetAction returns Action
 func (m ValidateDatabaseToolsConnectionOracleDatabaseResult) GetAction() *string {
 	return m.Action
 }

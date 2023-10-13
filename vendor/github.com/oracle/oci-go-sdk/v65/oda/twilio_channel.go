@@ -71,52 +71,52 @@ type TwilioChannel struct {
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetId returns Id
+//GetId returns Id
 func (m TwilioChannel) GetId() *string {
 	return m.Id
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m TwilioChannel) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m TwilioChannel) GetDescription() *string {
 	return m.Description
 }
 
-// GetCategory returns Category
+//GetCategory returns Category
 func (m TwilioChannel) GetCategory() ChannelCategoryEnum {
 	return m.Category
 }
 
-// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m TwilioChannel) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-// GetLifecycleState returns LifecycleState
+//GetLifecycleState returns LifecycleState
 func (m TwilioChannel) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m TwilioChannel) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-// GetTimeUpdated returns TimeUpdated
+//GetTimeUpdated returns TimeUpdated
 func (m TwilioChannel) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m TwilioChannel) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m TwilioChannel) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

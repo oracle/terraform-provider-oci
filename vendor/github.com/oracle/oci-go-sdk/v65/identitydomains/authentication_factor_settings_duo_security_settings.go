@@ -19,13 +19,13 @@ import (
 // AuthenticationFactorSettingsDuoSecuritySettings Settings related to Duo Security
 // **Added In:** 19.2.1
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AuthenticationFactorSettingsDuoSecuritySettings struct {
 
 	// Integration key from Duo Security authenticator

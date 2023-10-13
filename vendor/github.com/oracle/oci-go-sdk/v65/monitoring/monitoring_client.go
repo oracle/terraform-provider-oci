@@ -96,7 +96,7 @@ func (client *MonitoringClient) ConfigurationProvider() *common.ConfigurationPro
 // ChangeAlarmCompartment Moves an alarm into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see Moving Resources Between Compartments (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ChangeAlarmCompartment.go.html to see an example of how to use ChangeAlarmCompartment API.
 func (client MonitoringClient) ChangeAlarmCompartment(ctx context.Context, request ChangeAlarmCompartmentRequest) (response ChangeAlarmCompartmentResponse, err error) {
@@ -162,7 +162,7 @@ func (client MonitoringClient) changeAlarmCompartment(ctx context.Context, reque
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 // or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/CreateAlarm.go.html to see an example of how to use CreateAlarm API.
 func (client MonitoringClient) CreateAlarm(ctx context.Context, request CreateAlarmRequest) (response CreateAlarmResponse, err error) {
@@ -228,7 +228,7 @@ func (client MonitoringClient) createAlarm(ctx context.Context, request common.O
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 // or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/DeleteAlarm.go.html to see an example of how to use DeleteAlarm API.
 func (client MonitoringClient) DeleteAlarm(ctx context.Context, request DeleteAlarmRequest) (response DeleteAlarmResponse, err error) {
@@ -289,7 +289,7 @@ func (client MonitoringClient) deleteAlarm(ctx context.Context, request common.O
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 // or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/GetAlarm.go.html to see an example of how to use GetAlarm API.
 func (client MonitoringClient) GetAlarm(ctx context.Context, request GetAlarmRequest) (response GetAlarmResponse, err error) {
@@ -350,7 +350,7 @@ func (client MonitoringClient) getAlarm(ctx context.Context, request common.OCIR
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 // or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/GetAlarmHistory.go.html to see an example of how to use GetAlarmHistory API.
 func (client MonitoringClient) GetAlarmHistory(ctx context.Context, request GetAlarmHistoryRequest) (response GetAlarmHistoryResponse, err error) {
@@ -411,7 +411,7 @@ func (client MonitoringClient) getAlarmHistory(ctx context.Context, request comm
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 // or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ListAlarms.go.html to see an example of how to use ListAlarms API.
 func (client MonitoringClient) ListAlarms(ctx context.Context, request ListAlarmsRequest) (response ListAlarmsResponse, err error) {
@@ -475,7 +475,7 @@ func (client MonitoringClient) listAlarms(ctx context.Context, request common.OC
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 // or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ListAlarmsStatus.go.html to see an example of how to use ListAlarmsStatus API.
 func (client MonitoringClient) ListAlarmsStatus(ctx context.Context, request ListAlarmsStatusRequest) (response ListAlarmsStatusResponse, err error) {
@@ -535,7 +535,7 @@ func (client MonitoringClient) listAlarmsStatus(ctx context.Context, request com
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 // Transactions Per Second (TPS) per-tenancy limit for this operation: 10.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/ListMetrics.go.html to see an example of how to use ListMetrics API.
 func (client MonitoringClient) ListMetrics(ctx context.Context, request ListMetricsRequest) (response ListMetricsResponse, err error) {
@@ -604,7 +604,7 @@ func (client MonitoringClient) listMetrics(ctx context.Context, request common.O
 // The endpoints for this operation differ from other Monitoring operations. Replace the string `telemetry` with `telemetry-ingestion` in the endpoint, as in the following example:
 // https://telemetry-ingestion.eu-frankfurt-1.oraclecloud.com
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/PostMetricData.go.html to see an example of how to use PostMetricData API.
 func (client MonitoringClient) PostMetricData(ctx context.Context, request PostMetricDataRequest) (response PostMetricDataResponse, err error) {
@@ -665,7 +665,7 @@ func (client MonitoringClient) postMetricData(ctx context.Context, request commo
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 // or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/RemoveAlarmSuppression.go.html to see an example of how to use RemoveAlarmSuppression API.
 func (client MonitoringClient) RemoveAlarmSuppression(ctx context.Context, request RemoveAlarmSuppressionRequest) (response RemoveAlarmSuppressionResponse, err error) {
@@ -723,16 +723,14 @@ func (client MonitoringClient) removeAlarmSuppression(ctx context.Context, reque
 // RetrieveDimensionStates Lists the current alarm status of each metric stream, where status is derived from the metric stream's last associated transition.
 // Optionally filter by status value and one or more dimension key-value pairs.
 // This operation is only valid for alarms that have notifications per dimension enabled (`isNotificationsPerMetricDimensionEnabled=true`).
-//
-//	If `isNotificationsPerMetricDimensionEnabled` for the alarm is false or null, then no results are returned.
-//
+//  If `isNotificationsPerMetricDimensionEnabled` for the alarm is false or null, then no results are returned.
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 //
-//	This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
-//	Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
-//	or transactions, per second (TPS) for a given tenancy.
+//  This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+//  Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
+//  or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/RetrieveDimensionStates.go.html to see an example of how to use RetrieveDimensionStates API.
 func (client MonitoringClient) RetrieveDimensionStates(ctx context.Context, request RetrieveDimensionStatesRequest) (response RetrieveDimensionStatesResponse, err error) {
@@ -792,7 +790,7 @@ func (client MonitoringClient) retrieveDimensionStates(ctx context.Context, requ
 // For important limits information, see Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
 // Transactions Per Second (TPS) per-tenancy limit for this operation: 10.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/SummarizeMetricsData.go.html to see an example of how to use SummarizeMetricsData API.
 func (client MonitoringClient) SummarizeMetricsData(ctx context.Context, request SummarizeMetricsDataRequest) (response SummarizeMetricsDataResponse, err error) {
@@ -853,7 +851,7 @@ func (client MonitoringClient) summarizeMetricsData(ctx context.Context, request
 // Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 // or transactions, per second (TPS) for a given tenancy.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/UpdateAlarm.go.html to see an example of how to use UpdateAlarm API.
 func (client MonitoringClient) UpdateAlarm(ctx context.Context, request UpdateAlarmRequest) (response UpdateAlarmResponse, err error) {

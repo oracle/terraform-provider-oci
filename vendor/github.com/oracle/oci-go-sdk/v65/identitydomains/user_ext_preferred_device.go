@@ -19,14 +19,14 @@ import (
 // UserExtPreferredDevice The user's preferred device.
 // **Added In:** 18.3.6
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type UserExtPreferredDevice struct {
 
 	// The user's preferred device identifier.

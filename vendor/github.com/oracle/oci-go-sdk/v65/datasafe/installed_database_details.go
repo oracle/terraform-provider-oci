@@ -35,7 +35,7 @@ type InstalledDatabaseDetails struct {
 	InfrastructureType InfrastructureTypeEnum `mandatory:"true" json:"infrastructureType"`
 }
 
-// GetInfrastructureType returns InfrastructureType
+//GetInfrastructureType returns InfrastructureType
 func (m InstalledDatabaseDetails) GetInfrastructureType() InfrastructureTypeEnum {
 	return m.InfrastructureType
 }

@@ -31,7 +31,7 @@ type ZipUploadConfigSource struct {
 	WorkingDirectory *string `mandatory:"false" json:"workingDirectory"`
 }
 
-// GetWorkingDirectory returns WorkingDirectory
+//GetWorkingDirectory returns WorkingDirectory
 func (m ZipUploadConfigSource) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

@@ -52,52 +52,52 @@ type UpdateDataAssetFromAmazonS3 struct {
 	Region *string `mandatory:"false" json:"region"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m UpdateDataAssetFromAmazonS3) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m UpdateDataAssetFromAmazonS3) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m UpdateDataAssetFromAmazonS3) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m UpdateDataAssetFromAmazonS3) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m UpdateDataAssetFromAmazonS3) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetObjectVersion returns ObjectVersion
+//GetObjectVersion returns ObjectVersion
 func (m UpdateDataAssetFromAmazonS3) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m UpdateDataAssetFromAmazonS3) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m UpdateDataAssetFromAmazonS3) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m UpdateDataAssetFromAmazonS3) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m UpdateDataAssetFromAmazonS3) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

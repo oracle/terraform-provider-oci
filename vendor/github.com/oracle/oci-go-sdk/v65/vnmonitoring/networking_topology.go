@@ -35,22 +35,22 @@ type NetworkingTopology struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 }
 
-// GetEntities returns Entities
+//GetEntities returns Entities
 func (m NetworkingTopology) GetEntities() []interface{} {
 	return m.Entities
 }
 
-// GetRelationships returns Relationships
+//GetRelationships returns Relationships
 func (m NetworkingTopology) GetRelationships() []TopologyEntityRelationship {
 	return m.Relationships
 }
 
-// GetLimitedEntities returns LimitedEntities
+//GetLimitedEntities returns LimitedEntities
 func (m NetworkingTopology) GetLimitedEntities() []string {
 	return m.LimitedEntities
 }
 
-// GetTimeCreated returns TimeCreated
+//GetTimeCreated returns TimeCreated
 func (m NetworkingTopology) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }

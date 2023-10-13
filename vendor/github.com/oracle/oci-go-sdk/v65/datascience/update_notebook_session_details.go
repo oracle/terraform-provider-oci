@@ -10,6 +10,7 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -34,6 +35,9 @@ type UpdateNotebookSessionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	NotebookSessionRuntimeConfigDetails *NotebookSessionRuntimeConfigDetails `mandatory:"false" json:"notebookSessionRuntimeConfigDetails"`
+
+	// Collection of NotebookSessionStorageMountConfigurationDetails.
+	NotebookSessionStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"notebookSessionStorageMountConfigurationDetailsList"`
 }
 
 func (m UpdateNotebookSessionDetails) String() string {
@@ -50,4 +54,45 @@ func (m UpdateNotebookSessionDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateNotebookSessionDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName                                         *string                              `json:"displayName"`
+		NotebookSessionConfigurationDetails                 *NotebookSessionConfigurationDetails `json:"notebookSessionConfigurationDetails"`
+		FreeformTags                                        map[string]string                    `json:"freeformTags"`
+		DefinedTags                                         map[string]map[string]interface{}    `json:"definedTags"`
+		NotebookSessionRuntimeConfigDetails                 *NotebookSessionRuntimeConfigDetails `json:"notebookSessionRuntimeConfigDetails"`
+		NotebookSessionStorageMountConfigurationDetailsList []storagemountconfigurationdetails   `json:"notebookSessionStorageMountConfigurationDetailsList"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.NotebookSessionConfigurationDetails = model.NotebookSessionConfigurationDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.NotebookSessionRuntimeConfigDetails = model.NotebookSessionRuntimeConfigDetails
+
+	m.NotebookSessionStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.NotebookSessionStorageMountConfigurationDetailsList))
+	for i, n := range model.NotebookSessionStorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nil
+		}
+	}
+	return
 }

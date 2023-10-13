@@ -19,13 +19,13 @@ import (
 // MyDeviceThirdPartyFactor User's third-party authentication factor details
 // **Added In:** 19.2.1
 // **SCIM++ Properties:**
-//   - idcsSearchable: false
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - idcsSearchable: false
+//  - multiValued: false
+//  - mutability: immutable
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type MyDeviceThirdPartyFactor struct {
 
 	// The vendor name of the third party factor

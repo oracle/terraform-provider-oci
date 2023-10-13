@@ -41,7 +41,7 @@ type CsvFormatAttribute struct {
 	TimestampFormat *string `mandatory:"false" json:"timestampFormat"`
 }
 
-// GetIsFilePattern returns IsFilePattern
+//GetIsFilePattern returns IsFilePattern
 func (m CsvFormatAttribute) GetIsFilePattern() *bool {
 	return m.IsFilePattern
 }

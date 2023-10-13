@@ -34,22 +34,22 @@ type UpdateAnnouncementsPreferencesDetails struct {
 	PreferenceType BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum `mandatory:"true" json:"preferenceType"`
 }
 
-// GetIsUnsubscribed returns IsUnsubscribed
+//GetIsUnsubscribed returns IsUnsubscribed
 func (m UpdateAnnouncementsPreferencesDetails) GetIsUnsubscribed() *bool {
 	return m.IsUnsubscribed
 }
 
-// GetCompartmentId returns CompartmentId
+//GetCompartmentId returns CompartmentId
 func (m UpdateAnnouncementsPreferencesDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-// GetPreferenceType returns PreferenceType
+//GetPreferenceType returns PreferenceType
 func (m UpdateAnnouncementsPreferencesDetails) GetPreferenceType() BaseCreateAnnouncementsPreferencesDetailsPreferenceTypeEnum {
 	return m.PreferenceType
 }
 
-// GetPreferredTimeZone returns PreferredTimeZone
+//GetPreferredTimeZone returns PreferredTimeZone
 func (m UpdateAnnouncementsPreferencesDetails) GetPreferredTimeZone() *string {
 	return m.PreferredTimeZone
 }

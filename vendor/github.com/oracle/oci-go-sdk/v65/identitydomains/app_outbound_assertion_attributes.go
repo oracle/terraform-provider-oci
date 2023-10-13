@@ -19,15 +19,15 @@ import (
 // AppOutboundAssertionAttributes Use to construct the outgoing SAML attributes
 // **Added In:** 18.2.6
 // **SCIM++ Properties:**
-//   - caseExact: false
-//   - idcsCompositeKey: [value]
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readOnly
-//   - required: false
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
+//  - caseExact: false
+//  - idcsCompositeKey: [value]
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readOnly
+//  - required: false
+//  - returned: default
+//  - type: complex
+//  - uniqueness: none
 type AppOutboundAssertionAttributes struct {
 
 	// Mapped Attribute identifier

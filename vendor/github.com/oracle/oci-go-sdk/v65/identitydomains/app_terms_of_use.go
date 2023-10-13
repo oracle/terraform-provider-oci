@@ -19,12 +19,12 @@ import (
 // AppTermsOfUse Terms Of Use.
 // **Added In:** 18.2.6
 // **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: readWrite
-//   - required: false
-//   - returned: default
-//   - type: complex
+//  - idcsSearchable: true
+//  - multiValued: false
+//  - mutability: readWrite
+//  - required: false
+//  - returned: default
+//  - type: complex
 type AppTermsOfUse struct {
 
 	// Identifier of the TermsOfUse

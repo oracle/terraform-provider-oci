@@ -30,12 +30,17 @@ type SecurityRule struct {
 	//   * DROP - Silently drops the traffic, e.g. without sending a TCP reset.
 	//   * REJECT - Rejects the traffic, sending a TCP reset to client and/or server as applicable.
 	//   * INSPECT - Inspects traffic for vulnerability as specified in `inspection`, which may result in rejection.
-	Action SecurityRuleActionEnum `mandatory:"true" json:"action"`
+	Action TrafficActionTypeEnum `mandatory:"true" json:"action"`
+
+	// OCID of the Network Firewall Policy this security rule belongs to.
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
 
 	// Type of inspection to affect the Traffic flow. This is only applicable if action is INSPECT.
 	//   * INTRUSION_DETECTION - Intrusion Detection.
 	//   * INTRUSION_PREVENTION - Intrusion Detection and Prevention. Traffic classified as potentially malicious will be rejected as described in `type`.
-	Inspection SecurityRuleInspectionEnum `mandatory:"false" json:"inspection,omitempty"`
+	Inspection TrafficInspectionTypeEnum `mandatory:"false" json:"inspection,omitempty"`
+
+	Position *RulePosition `mandatory:"false" json:"position"`
 }
 
 func (m SecurityRule) String() string {
@@ -47,107 +52,15 @@ func (m SecurityRule) String() string {
 // Not recommended for calling this function directly
 func (m SecurityRule) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingSecurityRuleActionEnum(string(m.Action)); !ok && m.Action != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetSecurityRuleActionEnumStringValues(), ",")))
+	if _, ok := GetMappingTrafficActionTypeEnum(string(m.Action)); !ok && m.Action != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Action: %s. Supported values are: %s.", m.Action, strings.Join(GetTrafficActionTypeEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingSecurityRuleInspectionEnum(string(m.Inspection)); !ok && m.Inspection != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Inspection: %s. Supported values are: %s.", m.Inspection, strings.Join(GetSecurityRuleInspectionEnumStringValues(), ",")))
+	if _, ok := GetMappingTrafficInspectionTypeEnum(string(m.Inspection)); !ok && m.Inspection != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Inspection: %s. Supported values are: %s.", m.Inspection, strings.Join(GetTrafficInspectionTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// SecurityRuleActionEnum Enum with underlying type: string
-type SecurityRuleActionEnum string
-
-// Set of constants representing the allowable values for SecurityRuleActionEnum
-const (
-	SecurityRuleActionAllow   SecurityRuleActionEnum = "ALLOW"
-	SecurityRuleActionDrop    SecurityRuleActionEnum = "DROP"
-	SecurityRuleActionReject  SecurityRuleActionEnum = "REJECT"
-	SecurityRuleActionInspect SecurityRuleActionEnum = "INSPECT"
-)
-
-var mappingSecurityRuleActionEnum = map[string]SecurityRuleActionEnum{
-	"ALLOW":   SecurityRuleActionAllow,
-	"DROP":    SecurityRuleActionDrop,
-	"REJECT":  SecurityRuleActionReject,
-	"INSPECT": SecurityRuleActionInspect,
-}
-
-var mappingSecurityRuleActionEnumLowerCase = map[string]SecurityRuleActionEnum{
-	"allow":   SecurityRuleActionAllow,
-	"drop":    SecurityRuleActionDrop,
-	"reject":  SecurityRuleActionReject,
-	"inspect": SecurityRuleActionInspect,
-}
-
-// GetSecurityRuleActionEnumValues Enumerates the set of values for SecurityRuleActionEnum
-func GetSecurityRuleActionEnumValues() []SecurityRuleActionEnum {
-	values := make([]SecurityRuleActionEnum, 0)
-	for _, v := range mappingSecurityRuleActionEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSecurityRuleActionEnumStringValues Enumerates the set of values in String for SecurityRuleActionEnum
-func GetSecurityRuleActionEnumStringValues() []string {
-	return []string{
-		"ALLOW",
-		"DROP",
-		"REJECT",
-		"INSPECT",
-	}
-}
-
-// GetMappingSecurityRuleActionEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSecurityRuleActionEnum(val string) (SecurityRuleActionEnum, bool) {
-	enum, ok := mappingSecurityRuleActionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// SecurityRuleInspectionEnum Enum with underlying type: string
-type SecurityRuleInspectionEnum string
-
-// Set of constants representing the allowable values for SecurityRuleInspectionEnum
-const (
-	SecurityRuleInspectionDetection  SecurityRuleInspectionEnum = "INTRUSION_DETECTION"
-	SecurityRuleInspectionPrevention SecurityRuleInspectionEnum = "INTRUSION_PREVENTION"
-)
-
-var mappingSecurityRuleInspectionEnum = map[string]SecurityRuleInspectionEnum{
-	"INTRUSION_DETECTION":  SecurityRuleInspectionDetection,
-	"INTRUSION_PREVENTION": SecurityRuleInspectionPrevention,
-}
-
-var mappingSecurityRuleInspectionEnumLowerCase = map[string]SecurityRuleInspectionEnum{
-	"intrusion_detection":  SecurityRuleInspectionDetection,
-	"intrusion_prevention": SecurityRuleInspectionPrevention,
-}
-
-// GetSecurityRuleInspectionEnumValues Enumerates the set of values for SecurityRuleInspectionEnum
-func GetSecurityRuleInspectionEnumValues() []SecurityRuleInspectionEnum {
-	values := make([]SecurityRuleInspectionEnum, 0)
-	for _, v := range mappingSecurityRuleInspectionEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSecurityRuleInspectionEnumStringValues Enumerates the set of values in String for SecurityRuleInspectionEnum
-func GetSecurityRuleInspectionEnumStringValues() []string {
-	return []string{
-		"INTRUSION_DETECTION",
-		"INTRUSION_PREVENTION",
-	}
-}
-
-// GetMappingSecurityRuleInspectionEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSecurityRuleInspectionEnum(val string) (SecurityRuleInspectionEnum, bool) {
-	enum, ok := mappingSecurityRuleInspectionEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

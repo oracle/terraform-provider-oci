@@ -93,7 +93,7 @@ func (client *BudgetClient) ConfigurationProvider() *common.ConfigurationProvide
 
 // CreateAlertRule Creates a new Alert Rule.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/CreateAlertRule.go.html to see an example of how to use CreateAlertRule API.
 // A default retry strategy applies to this operation CreateAlertRule()
@@ -156,7 +156,7 @@ func (client BudgetClient) createAlertRule(ctx context.Context, request common.O
 
 // CreateBudget Creates a new budget.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/CreateBudget.go.html to see an example of how to use CreateBudget API.
 // A default retry strategy applies to this operation CreateBudget()
@@ -219,7 +219,7 @@ func (client BudgetClient) createBudget(ctx context.Context, request common.OCIR
 
 // DeleteAlertRule Deletes a specified Alert Rule resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/DeleteAlertRule.go.html to see an example of how to use DeleteAlertRule API.
 // A default retry strategy applies to this operation DeleteAlertRule()
@@ -277,7 +277,7 @@ func (client BudgetClient) deleteAlertRule(ctx context.Context, request common.O
 
 // DeleteBudget Deletes a specified budget resource.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/DeleteBudget.go.html to see an example of how to use DeleteBudget API.
 // A default retry strategy applies to this operation DeleteBudget()
@@ -335,7 +335,7 @@ func (client BudgetClient) deleteBudget(ctx context.Context, request common.OCIR
 
 // GetAlertRule Gets an Alert Rule for a specified budget.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/GetAlertRule.go.html to see an example of how to use GetAlertRule API.
 // A default retry strategy applies to this operation GetAlertRule()
@@ -393,7 +393,7 @@ func (client BudgetClient) getAlertRule(ctx context.Context, request common.OCIR
 
 // GetBudget Gets a budget by the identifier.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/GetBudget.go.html to see an example of how to use GetBudget API.
 // A default retry strategy applies to this operation GetBudget()
@@ -451,7 +451,7 @@ func (client BudgetClient) getBudget(ctx context.Context, request common.OCIRequ
 
 // ListAlertRules Returns a list of Alert Rules for a specified budget.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/ListAlertRules.go.html to see an example of how to use ListAlertRules API.
 // A default retry strategy applies to this operation ListAlertRules()
@@ -512,7 +512,7 @@ func (client BudgetClient) listAlertRules(ctx context.Context, request common.OC
 // To list all budgets, set the targetType query parameter to ALL (for example: 'targetType=ALL').
 // Clients should ignore new targetTypes, or upgrade to the latest version of the client SDK to handle new targetTypes.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/ListBudgets.go.html to see an example of how to use ListBudgets API.
 // A default retry strategy applies to this operation ListBudgets()
@@ -570,7 +570,7 @@ func (client BudgetClient) listBudgets(ctx context.Context, request common.OCIRe
 
 // UpdateAlertRule Update an Alert Rule for the budget identified by the OCID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/UpdateAlertRule.go.html to see an example of how to use UpdateAlertRule API.
 // A default retry strategy applies to this operation UpdateAlertRule()
@@ -628,7 +628,7 @@ func (client BudgetClient) updateAlertRule(ctx context.Context, request common.O
 
 // UpdateBudget Update a budget identified by the OCID.
 //
-// # See also
+// See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/UpdateBudget.go.html to see an example of how to use UpdateBudget API.
 // A default retry strategy applies to this operation UpdateBudget()

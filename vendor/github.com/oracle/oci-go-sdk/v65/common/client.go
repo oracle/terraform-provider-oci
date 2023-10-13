@@ -7,13 +7,10 @@ package common
 import (
 	"bytes"
 	"context"
-	"crypto/tls"
-	"crypto/x509"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"math/rand"
-	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
@@ -23,6 +20,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"runtime"
+	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -103,12 +101,35 @@ const (
 	//circuitBreakerNumberOfHistoryResponseEnv is the number of recorded history responses
 	circuitBreakerNumberOfHistoryResponseEnv = "OCI_SDK_CIRCUITBREAKER_NUM_HISTORY_RESPONSE"
 
+	// ociDefaultRefreshIntervalForCustomCerts is the env var for overriding the defaultRefreshIntervalForCustomCerts.
+	// The value represents the refresh interval in minutes and has a higher precedence than defaultRefreshIntervalForCustomCerts
+	// but has a lower precedence then the refresh interval configured via OciGlobalRefreshIntervalForCustomCerts
+	// If the value is negative, then it is assumed that this property is not configured
+	// if the value is Zero, then the refresh of custom certs will be disabled
+	ociDefaultRefreshIntervalForCustomCerts = "OCI_DEFAULT_REFRESH_INTERVAL_FOR_CUSTOM_CERTS"
+
 	// ociDefaultCertsPath is the env var for the path to the SSL cert file
 	ociDefaultCertsPath = "OCI_DEFAULT_CERTS_PATH"
 
+	// ociDefaultClientCertsPath is the env var for the path to the custom client cert
+	ociDefaultClientCertsPath = "OCI_DEFAULT_CLIENT_CERTS_PATH"
+
+	// ociDefaultClientCertsPrivateKeyPath is the env var for the path to the custom client cert private key
+	ociDefaultClientCertsPrivateKeyPath = "OCI_DEFAULT_CLIENT_CERTS_PRIVATE_KEY_PATH"
+
 	//maxAttemptsForRefreshableRetry is the number of retry when 401 happened on a refreshable auth type
 	maxAttemptsForRefreshableRetry = 3
+
+	//defaultRefreshIntervalForCustomCerts is the default refresh interval in minutes
+	defaultRefreshIntervalForCustomCerts = 30
 )
+
+// OciGlobalRefreshIntervalForCustomCerts is the global policy for overriding the refresh interval in minutes.
+// This variable has a higher precedence than the env variable OCI_DEFAULT_REFRESH_INTERVAL_FOR_CUSTOM_CERTS
+// and the defaultRefreshIntervalForCustomCerts values.
+// If the value is negative, then it is assumed that this property is not configured
+// if the value is Zero, then the refresh of custom certs will be disabled
+var OciGlobalRefreshIntervalForCustomCerts int = -1
 
 // RequestInterceptor function used to customize the request before calling the underlying service
 type RequestInterceptor func(*http.Request) error
@@ -213,32 +234,13 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 
 func defaultHTTPDispatcher() http.Client {
 	var httpClient http.Client
-	var tp = http.DefaultTransport.(*http.Transport)
-	if isExpectHeaderDisabled := IsEnvVarFalse(UsingExpectHeaderEnvVar); !isExpectHeaderDisabled {
-		tp.Proxy = http.ProxyFromEnvironment
-		tp.DialContext = (&net.Dialer{
-			Timeout:   30 * time.Second,
-			KeepAlive: 30 * time.Second,
-			DualStack: true,
-		}).DialContext
-		tp.ForceAttemptHTTP2 = true
-		tp.MaxIdleConns = 100
-		tp.IdleConnTimeout = 90 * time.Second
-		tp.TLSHandshakeTimeout = 10 * time.Second
-		tp.ExpectContinueTimeout = 3 * time.Second
+	refreshInterval := getCustomCertRefreshInterval()
+	if refreshInterval <= 0 {
+		Debug("Custom cert refresh has been disabled")
 	}
-	if certFile, ok := os.LookupEnv(ociDefaultCertsPath); ok {
-		pool := x509.NewCertPool()
-		pemCert := readCertPem(certFile)
-		cert, err := x509.ParseCertificate(pemCert)
-		if err != nil {
-			Logf("unable to parse content to cert fallback to pem format from env var value: %s", certFile)
-			pool.AppendCertsFromPEM(pemCert)
-		} else {
-			Logf("using custom cert parsed from env var value: %s", certFile)
-			pool.AddCert(cert)
-		}
-		tp.TLSClientConfig = &tls.Config{RootCAs: pool}
+	var tp = &OciHTTPTransportWrapper{
+		RefreshRate:       time.Duration(refreshInterval) * time.Minute,
+		TLSConfigProvider: GetTLSConfigTemplateForTransport(),
 	}
 	httpClient = http.Client{
 		Timeout:   defaultTimeout,
@@ -730,4 +732,22 @@ func (client BaseClient) IsOciRealmSpecificServiceEndpointTemplateEnabled() bool
 		return *client.Configuration.RealmSpecificServiceEndpointTemplateEnabled
 	}
 	return IsEnvVarTrue(OciRealmSpecificServiceEndpointTemplateEnabledEnvVar)
+}
+
+func getCustomCertRefreshInterval() int {
+	if OciGlobalRefreshIntervalForCustomCerts >= 0 {
+		Debugf("Setting refresh interval as %d for custom certs via OciGlobalRefreshIntervalForCustomCerts", OciGlobalRefreshIntervalForCustomCerts)
+		return OciGlobalRefreshIntervalForCustomCerts
+	}
+	if refreshIntervalValue, ok := os.LookupEnv(ociDefaultRefreshIntervalForCustomCerts); ok {
+		refreshInterval, err := strconv.Atoi(refreshIntervalValue)
+		if err != nil || refreshInterval < 0 {
+			Debugf("The environment variable %s is not a valid int or is a negative value, skipping this configuration", ociDefaultRefreshIntervalForCustomCerts)
+		} else {
+			Debugf("Setting refresh interval as %d for custom certs via the env variable %s", refreshInterval, ociDefaultRefreshIntervalForCustomCerts)
+			return refreshInterval
+		}
+	}
+	Debugf("Setting the default refresh interval %d for custom certs", defaultRefreshIntervalForCustomCerts)
+	return defaultRefreshIntervalForCustomCerts
 }

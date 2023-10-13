@@ -46,12 +46,12 @@ type UpdateMetricGroupDetails struct {
 	Metrics []Metric `mandatory:"false" json:"metrics"`
 }
 
-// GetFreeformTags returns FreeformTags
+//GetFreeformTags returns FreeformTags
 func (m UpdateMetricGroupDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-// GetDefinedTags returns DefinedTags
+//GetDefinedTags returns DefinedTags
 func (m UpdateMetricGroupDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

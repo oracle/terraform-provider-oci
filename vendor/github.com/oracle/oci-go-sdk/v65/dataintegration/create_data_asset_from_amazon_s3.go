@@ -51,47 +51,47 @@ type CreateDataAssetFromAmazonS3 struct {
 	DefaultConnection *CreateConnectionFromAmazonS3 `mandatory:"false" json:"defaultConnection"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m CreateDataAssetFromAmazonS3) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m CreateDataAssetFromAmazonS3) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetName returns Name
+//GetName returns Name
 func (m CreateDataAssetFromAmazonS3) GetName() *string {
 	return m.Name
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m CreateDataAssetFromAmazonS3) GetDescription() *string {
 	return m.Description
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m CreateDataAssetFromAmazonS3) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetIdentifier returns Identifier
+//GetIdentifier returns Identifier
 func (m CreateDataAssetFromAmazonS3) GetIdentifier() *string {
 	return m.Identifier
 }
 
-// GetExternalKey returns ExternalKey
+//GetExternalKey returns ExternalKey
 func (m CreateDataAssetFromAmazonS3) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-// GetAssetProperties returns AssetProperties
+//GetAssetProperties returns AssetProperties
 func (m CreateDataAssetFromAmazonS3) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-// GetRegistryMetadata returns RegistryMetadata
+//GetRegistryMetadata returns RegistryMetadata
 func (m CreateDataAssetFromAmazonS3) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

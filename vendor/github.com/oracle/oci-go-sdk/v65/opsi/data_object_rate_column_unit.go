@@ -29,7 +29,7 @@ type DataObjectRateColumnUnit struct {
 	Denominator DataObjectColumnUnit `mandatory:"false" json:"denominator"`
 }
 
-// GetDisplayName returns DisplayName
+//GetDisplayName returns DisplayName
 func (m DataObjectRateColumnUnit) GetDisplayName() *string {
 	return m.DisplayName
 }

@@ -66,37 +66,37 @@ type TypedNamePatternRule struct {
 	RuleType TypedNamePatternRuleRuleTypeEnum `mandatory:"false" json:"ruleType,omitempty"`
 }
 
-// GetKey returns Key
+//GetKey returns Key
 func (m TypedNamePatternRule) GetKey() *string {
 	return m.Key
 }
 
-// GetModelVersion returns ModelVersion
+//GetModelVersion returns ModelVersion
 func (m TypedNamePatternRule) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-// GetParentRef returns ParentRef
+//GetParentRef returns ParentRef
 func (m TypedNamePatternRule) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-// GetIsJavaRegexSyntax returns IsJavaRegexSyntax
+//GetIsJavaRegexSyntax returns IsJavaRegexSyntax
 func (m TypedNamePatternRule) GetIsJavaRegexSyntax() *bool {
 	return m.IsJavaRegexSyntax
 }
 
-// GetConfigValues returns ConfigValues
+//GetConfigValues returns ConfigValues
 func (m TypedNamePatternRule) GetConfigValues() *ConfigValues {
 	return m.ConfigValues
 }
 
-// GetObjectStatus returns ObjectStatus
+//GetObjectStatus returns ObjectStatus
 func (m TypedNamePatternRule) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-// GetDescription returns Description
+//GetDescription returns Description
 func (m TypedNamePatternRule) GetDescription() *string {
 	return m.Description
 }

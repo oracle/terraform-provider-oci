@@ -10,6 +10,7 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -47,6 +48,9 @@ type NotebookSession struct {
 
 	NotebookSessionRuntimeConfigDetails *NotebookSessionRuntimeConfigDetails `mandatory:"false" json:"notebookSessionRuntimeConfigDetails"`
 
+	// Collection of NotebookSessionStorageMountConfigurationDetails.
+	NotebookSessionStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"notebookSessionStorageMountConfigurationDetailsList"`
+
 	// The URL to interact with the notebook session.
 	NotebookSessionUrl *string `mandatory:"false" json:"notebookSessionUrl"`
 
@@ -79,4 +83,72 @@ func (m NotebookSession) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *NotebookSession) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		NotebookSessionConfigurationDetails                 *NotebookSessionConfigurationDetails `json:"notebookSessionConfigurationDetails"`
+		NotebookSessionConfigDetails                        *NotebookSessionConfigDetails        `json:"notebookSessionConfigDetails"`
+		NotebookSessionRuntimeConfigDetails                 *NotebookSessionRuntimeConfigDetails `json:"notebookSessionRuntimeConfigDetails"`
+		NotebookSessionStorageMountConfigurationDetailsList []storagemountconfigurationdetails   `json:"notebookSessionStorageMountConfigurationDetailsList"`
+		NotebookSessionUrl                                  *string                              `json:"notebookSessionUrl"`
+		LifecycleDetails                                    *string                              `json:"lifecycleDetails"`
+		FreeformTags                                        map[string]string                    `json:"freeformTags"`
+		DefinedTags                                         map[string]map[string]interface{}    `json:"definedTags"`
+		Id                                                  *string                              `json:"id"`
+		TimeCreated                                         *common.SDKTime                      `json:"timeCreated"`
+		DisplayName                                         *string                              `json:"displayName"`
+		ProjectId                                           *string                              `json:"projectId"`
+		CreatedBy                                           *string                              `json:"createdBy"`
+		CompartmentId                                       *string                              `json:"compartmentId"`
+		LifecycleState                                      NotebookSessionLifecycleStateEnum    `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.NotebookSessionConfigurationDetails = model.NotebookSessionConfigurationDetails
+
+	m.NotebookSessionConfigDetails = model.NotebookSessionConfigDetails
+
+	m.NotebookSessionRuntimeConfigDetails = model.NotebookSessionRuntimeConfigDetails
+
+	m.NotebookSessionStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.NotebookSessionStorageMountConfigurationDetailsList))
+	for i, n := range model.NotebookSessionStorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.NotebookSessionStorageMountConfigurationDetailsList[i] = nil
+		}
+	}
+	m.NotebookSessionUrl = model.NotebookSessionUrl
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.Id = model.Id
+
+	m.TimeCreated = model.TimeCreated
+
+	m.DisplayName = model.DisplayName
+
+	m.ProjectId = model.ProjectId
+
+	m.CreatedBy = model.CreatedBy
+
+	m.CompartmentId = model.CompartmentId
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }
