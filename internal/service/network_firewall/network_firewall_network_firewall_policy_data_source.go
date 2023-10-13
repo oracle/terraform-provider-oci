@@ -13,15 +13,15 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-//func NetworkFirewallNetworkFirewallPolicyDataSource() *schema.Resource {
-//	fieldMap := make(map[string]*schema.Schema)
-//	fieldMap["network_firewall_policy_id"] = &schema.Schema{
-//		Type:     schema.TypeString,
-//		Required: true,
-//	}
-//
-//	return tfresource.GetSingularDataSourceItemSchema(NetworkFirewallNetworkFirewallPolicyResource(), fieldMap, readSingularNetworkFirewallNetworkFirewallPolicy)
-//}
+func NetworkFirewallNetworkFirewallPolicyDataSource() *schema.Resource {
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["network_firewall_policy_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+
+	return tfresource.GetSingularDataSourceItemSchema(NetworkFirewallNetworkFirewallPolicyResource(), fieldMap, readSingularNetworkFirewallNetworkFirewallPolicy)
+}
 
 func readSingularNetworkFirewallNetworkFirewallPolicy(d *schema.ResourceData, m interface{}) error {
 	sync := &NetworkFirewallNetworkFirewallPolicyDataSourceCrud{}
@@ -67,31 +67,13 @@ func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	//s.D.Set("application_lists", s.Res.ApplicationLists)
-	//if s.Res.ApplicationLists != nil {
-	//	s.D.Set("application_lists", propertyApplicationListsToMap(s.Res.ApplicationLists))
-	//} else {
-	//	s.D.Set("application_lists", nil)
-	//}
+	if s.Res.AttachedNetworkFirewallCount != nil {
+		s.D.Set("attached_network_firewall_count", *s.Res.AttachedNetworkFirewallCount)
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
-
-	//s.D.Set("decryption_profiles", s.Res.DecryptionProfiles)
-
-	//if s.Res.DecryptionProfiles != nil {
-	//	s.D.Set("decryption_profiles", DecryptionProfileMapToMap(s.Res.DecryptionProfiles))
-	//} else {
-	//	s.D.Set("decryption_profiles", nil)
-	//}
-
-	decryptionRules := []interface{}{}
-	//for _, item := range s.Res.DecryptionRules {
-	//	decryptionRules = append(decryptionRules, DecryptionRuleToMap(item))
-	//}
-	s.D.Set("decryption_rules", decryptionRules)
-
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -102,33 +84,9 @@ func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	//s.D.Set("ip_address_lists", s.Res.IpAddressLists)
-	//if s.Res.IpAddressLists != nil {
-	//	s.D.Set("ip_address_lists", ipAddressListsToMap(s.Res.IpAddressLists))
-	//} else {
-	//	s.D.Set("ip_address_lists", nil)
-	//}
-
-	//if s.Res.IsFirewallAttached != nil {
-	//	s.D.Set("is_firewall_attached", *s.Res.IsFirewallAttached)
-	//}
-
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
-
-	//s.D.Set("mapped_secrets", s.Res.MappedSecrets)
-	//if s.Res.MappedSecrets != nil {
-	//	s.D.Set("mapped_secrets", MappedSecretsToMap(s.Res.MappedSecrets))
-	//} else {
-	//	s.D.Set("mapped_secrets", nil)
-	//}
-
-	securityRules := []interface{}{}
-	//for _, item := range s.Res.SecurityRules {
-	//	securityRules = append(securityRules, SecurityRuleToMap(item))
-	//}
-	s.D.Set("security_rules", securityRules)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -143,12 +101,5 @@ func (s *NetworkFirewallNetworkFirewallPolicyDataSourceCrud) SetData() error {
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
-
-	//s.D.Set("url_lists", s.Res.UrlLists)
-	//if s.Res.UrlLists != nil {
-	//	s.D.Set("url_lists", propertyUrlListsToMap(s.Res.UrlLists))
-	//} else {
-	//	s.D.Set("url_lists", nil)
-	//}
 	return nil
 }
