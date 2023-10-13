@@ -1,3 +1,11 @@
+## 5.17.0 (Unreleased)
+
+### Added
+- Support for OCI Caching Service with Redis
+- Support for Higher Limits for Network Firewall - Network Firewall Scalability
+- Support for Unified agent operational metrics
+- Support for Mount File System in Data Science Jobs and Notebooks
+
 ## 5.16.0 (October 11, 2023)
 
 ### Added
