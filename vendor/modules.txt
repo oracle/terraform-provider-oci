@@ -343,6 +343,7 @@ github.com/oracle/oci-go-sdk/v65/osubsubscription
 github.com/oracle/oci-go-sdk/v65/osubusage
 github.com/oracle/oci-go-sdk/v65/queue
 github.com/oracle/oci-go-sdk/v65/recovery
+github.com/oracle/oci-go-sdk/v65/redis
 github.com/oracle/oci-go-sdk/v65/resourcemanager
 github.com/oracle/oci-go-sdk/v65/sch
 github.com/oracle/oci-go-sdk/v65/secrets
