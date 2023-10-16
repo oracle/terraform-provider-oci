@@ -106,11 +106,24 @@ var exportStackMonitoringMetricExtensionHints = &tf_export.TerraformResourceHint
 	},
 }
 
+var exportStackMonitoringBaselineableMetricHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_baselineable_metric",
+	DatasourceClass:        "oci_stack_monitoring_baselineable_metrics",
+	DatasourceItemsAttr:    "baselineable_metric_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "baselineable_metric",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.LifecycleStateActive),
+	},
+}
+
 var stackMonitoringResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportStackMonitoringDiscoveryJobHints},
 		{TerraformResourceHints: exportStackMonitoringConfigHints},
 		{TerraformResourceHints: exportStackMonitoringMetricExtensionHints},
+		{TerraformResourceHints: exportStackMonitoringBaselineableMetricHints},
 	},
 	"oci_stack_monitoring_monitored_resource": {
 		{

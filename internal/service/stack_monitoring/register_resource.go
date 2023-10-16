@@ -6,6 +6,7 @@ package stack_monitoring
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_stack_monitoring_baselineable_metric", StackMonitoringBaselineableMetricResource())
 	tfresource.RegisterResource("oci_stack_monitoring_config", StackMonitoringConfigResource())
 	tfresource.RegisterResource("oci_stack_monitoring_discovery_job", StackMonitoringDiscoveryJobResource())
 	tfresource.RegisterResource("oci_stack_monitoring_metric_extension", StackMonitoringMetricExtensionResource())
