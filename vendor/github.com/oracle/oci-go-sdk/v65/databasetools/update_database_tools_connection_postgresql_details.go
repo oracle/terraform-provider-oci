@@ -51,17 +51,17 @@ type UpdateDatabaseToolsConnectionPostgresqlDetails struct {
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateDatabaseToolsConnectionPostgresqlDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateDatabaseToolsConnectionPostgresqlDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateDatabaseToolsConnectionPostgresqlDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }

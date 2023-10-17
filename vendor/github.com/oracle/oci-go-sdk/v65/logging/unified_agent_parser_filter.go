@@ -54,7 +54,7 @@ type UnifiedAgentParserFilter struct {
 	EmitInvalidRecordToError *bool `mandatory:"false" json:"emitInvalidRecordToError"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UnifiedAgentParserFilter) GetName() *string {
 	return m.Name
 }

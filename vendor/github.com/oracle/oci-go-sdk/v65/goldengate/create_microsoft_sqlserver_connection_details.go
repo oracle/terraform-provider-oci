@@ -101,52 +101,52 @@ type CreateMicrosoftSqlserverConnectionDetails struct {
 	SecurityProtocol MicrosoftSqlserverConnectionSecurityProtocolEnum `mandatory:"true" json:"securityProtocol"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateMicrosoftSqlserverConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateMicrosoftSqlserverConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateMicrosoftSqlserverConnectionDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateMicrosoftSqlserverConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateMicrosoftSqlserverConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m CreateMicrosoftSqlserverConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m CreateMicrosoftSqlserverConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m CreateMicrosoftSqlserverConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m CreateMicrosoftSqlserverConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRoutingMethod returns RoutingMethod
+// GetRoutingMethod returns RoutingMethod
 func (m CreateMicrosoftSqlserverConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

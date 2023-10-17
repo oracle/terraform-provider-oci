@@ -33,7 +33,7 @@ type PatchProhibitInstruction struct {
 	Value *interface{} `mandatory:"false" json:"value"`
 }
 
-//GetSelection returns Selection
+// GetSelection returns Selection
 func (m PatchProhibitInstruction) GetSelection() *string {
 	return m.Selection
 }

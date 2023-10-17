@@ -45,32 +45,32 @@ type DataType struct {
 	DtType DataTypeDtTypeEnum `mandatory:"false" json:"dtType,omitempty"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m DataType) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m DataType) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m DataType) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DataType) GetName() *string {
 	return m.Name
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m DataType) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DataType) GetDescription() *string {
 	return m.Description
 }

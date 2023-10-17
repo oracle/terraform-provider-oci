@@ -637,7 +637,9 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 
 // ChangeComputeImageCapabilitySchemaCompartment Moves a compute image capability schema into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-//         Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+//	Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
 // A default retry strategy applies to this operation ChangeComputeImageCapabilitySchemaCompartment()
 func (client ComputeClient) ChangeComputeImageCapabilitySchemaCompartment(ctx context.Context, request ChangeComputeImageCapabilitySchemaCompartmentRequest) (response ChangeComputeImageCapabilitySchemaCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3873,9 +3875,9 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // crash dump file when it crashes. The crash dump captures information about the state of the OS at the time of
 // the crash. After the OS restarts, you can analyze the crash dump to diagnose the issue. For more information, see
 // Sending a Diagnostic Interrupt (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/sendingdiagnosticinterrupt.htm).
-// - **EXTENDSCHEDULEDSTOP** - Extends the scheduled stop time of instance.
-// - **VALIDATELIVEMIGRATE** - Live migrate the instance to validate impact on the customer workload.
-//                             Live migrating an instance moves it to a different physical host while the instance is running.
+//   - **EXTENDSCHEDULEDSTOP** - Extends the scheduled stop time of instance.
+//   - **VALIDATELIVEMIGRATE** - Live migrate the instance to validate impact on the customer workload.
+//     Live migrating an instance moves it to a different physical host while the instance is running.
 //
 // - **DIAGNOSTICREBOOT** - Powers off the instance, rebuilds it, and then powers it back on.
 // Before you send a diagnostic reboot, restart the instance's OS, confirm that the instance and networking settings are configured

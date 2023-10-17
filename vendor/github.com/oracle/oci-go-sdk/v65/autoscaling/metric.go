@@ -34,7 +34,7 @@ type Metric struct {
 	MetricType MetricMetricTypeEnum `mandatory:"true" json:"metricType"`
 }
 
-//GetPendingDuration returns PendingDuration
+// GetPendingDuration returns PendingDuration
 func (m Metric) GetPendingDuration() *string {
 	return m.PendingDuration
 }

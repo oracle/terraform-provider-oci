@@ -18,13 +18,13 @@ import (
 
 // UserExtRealmUsers A list of kerberos realm users for an Oracle Identity Cloud Service User
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - multiValued: true
-//  - mutability: readWrite
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - multiValued: true
+//   - mutability: readWrite
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type UserExtRealmUsers struct {
 
 	// id of the KerberosRealmUser associated with the Oracle Identity Cloud Service User.

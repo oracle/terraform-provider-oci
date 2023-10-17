@@ -27,12 +27,12 @@ type PrometheusEmitterDataSourceSummary struct {
 	Name *string `mandatory:"true" json:"name"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m PrometheusEmitterDataSourceSummary) GetId() *string {
 	return m.Id
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m PrometheusEmitterDataSourceSummary) GetName() *string {
 	return m.Name
 }

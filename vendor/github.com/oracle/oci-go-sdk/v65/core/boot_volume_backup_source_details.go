@@ -33,7 +33,7 @@ type BootVolumeBackupSourceDetails struct {
 	VolumeBackupId *string `mandatory:"true" json:"volumeBackupId"`
 }
 
-//GetVolumeBackupId returns VolumeBackupId
+// GetVolumeBackupId returns VolumeBackupId
 func (m BootVolumeBackupSourceDetails) GetVolumeBackupId() *string {
 	return m.VolumeBackupId
 }

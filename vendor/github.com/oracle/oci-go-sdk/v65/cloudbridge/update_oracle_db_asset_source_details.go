@@ -65,32 +65,32 @@ type UpdateOracleDbAssetSourceDetails struct {
 	Protocol DatabaseNetworkProtocolEnum `mandatory:"false" json:"protocol,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateOracleDbAssetSourceDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetAssetsCompartmentId returns AssetsCompartmentId
+// GetAssetsCompartmentId returns AssetsCompartmentId
 func (m UpdateOracleDbAssetSourceDetails) GetAssetsCompartmentId() *string {
 	return m.AssetsCompartmentId
 }
 
-//GetDiscoveryScheduleId returns DiscoveryScheduleId
+// GetDiscoveryScheduleId returns DiscoveryScheduleId
 func (m UpdateOracleDbAssetSourceDetails) GetDiscoveryScheduleId() *string {
 	return m.DiscoveryScheduleId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateOracleDbAssetSourceDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateOracleDbAssetSourceDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m UpdateOracleDbAssetSourceDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

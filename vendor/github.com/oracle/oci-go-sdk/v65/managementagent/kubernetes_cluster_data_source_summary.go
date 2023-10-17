@@ -30,12 +30,12 @@ type KubernetesClusterDataSourceSummary struct {
 	IsDaemonSet *bool `mandatory:"false" json:"isDaemonSet"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m KubernetesClusterDataSourceSummary) GetId() *string {
 	return m.Id
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m KubernetesClusterDataSourceSummary) GetName() *string {
 	return m.Name
 }

@@ -61,42 +61,42 @@ type AttachParavirtualizedVolumeDetails struct {
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 }
 
-//GetDevice returns Device
+// GetDevice returns Device
 func (m AttachParavirtualizedVolumeDetails) GetDevice() *string {
 	return m.Device
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m AttachParavirtualizedVolumeDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetInstanceId returns InstanceId
+// GetInstanceId returns InstanceId
 func (m AttachParavirtualizedVolumeDetails) GetInstanceId() *string {
 	return m.InstanceId
 }
 
-//GetIsReadOnly returns IsReadOnly
+// GetIsReadOnly returns IsReadOnly
 func (m AttachParavirtualizedVolumeDetails) GetIsReadOnly() *bool {
 	return m.IsReadOnly
 }
 
-//GetIsShareable returns IsShareable
+// GetIsShareable returns IsShareable
 func (m AttachParavirtualizedVolumeDetails) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
-//GetImageVolumeIndex returns ImageVolumeIndex
+// GetImageVolumeIndex returns ImageVolumeIndex
 func (m AttachParavirtualizedVolumeDetails) GetImageVolumeIndex() *int {
 	return m.ImageVolumeIndex
 }
 
-//GetVolumeId returns VolumeId
+// GetVolumeId returns VolumeId
 func (m AttachParavirtualizedVolumeDetails) GetVolumeId() *string {
 	return m.VolumeId
 }
 
-//GetCreateVolumeDetails returns CreateVolumeDetails
+// GetCreateVolumeDetails returns CreateVolumeDetails
 func (m AttachParavirtualizedVolumeDetails) GetCreateVolumeDetails() *CreateVolumeDetails {
 	return m.CreateVolumeDetails
 }

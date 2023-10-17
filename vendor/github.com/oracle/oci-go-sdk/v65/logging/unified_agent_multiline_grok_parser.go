@@ -72,37 +72,37 @@ type UnifiedAgentMultilineGrokParser struct {
 	MultiLineStartRegexp *string `mandatory:"false" json:"multiLineStartRegexp"`
 }
 
-//GetFieldTimeKey returns FieldTimeKey
+// GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedAgentMultilineGrokParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-//GetTypes returns Types
+// GetTypes returns Types
 func (m UnifiedAgentMultilineGrokParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-//GetNullValuePattern returns NullValuePattern
+// GetNullValuePattern returns NullValuePattern
 func (m UnifiedAgentMultilineGrokParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-//GetIsNullEmptyString returns IsNullEmptyString
+// GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedAgentMultilineGrokParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedAgentMultilineGrokParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-//GetIsKeepTimeKey returns IsKeepTimeKey
+// GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedAgentMultilineGrokParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedAgentMultilineGrokParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

@@ -65,52 +65,52 @@ type EmManagedExternalDatabaseConfigurationSummary struct {
 	ProcessorCount *int `mandatory:"false" json:"processorCount"`
 }
 
-//GetDatabaseInsightId returns DatabaseInsightId
+// GetDatabaseInsightId returns DatabaseInsightId
 func (m EmManagedExternalDatabaseConfigurationSummary) GetDatabaseInsightId() *string {
 	return m.DatabaseInsightId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m EmManagedExternalDatabaseConfigurationSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDatabaseName returns DatabaseName
+// GetDatabaseName returns DatabaseName
 func (m EmManagedExternalDatabaseConfigurationSummary) GetDatabaseName() *string {
 	return m.DatabaseName
 }
 
-//GetDatabaseDisplayName returns DatabaseDisplayName
+// GetDatabaseDisplayName returns DatabaseDisplayName
 func (m EmManagedExternalDatabaseConfigurationSummary) GetDatabaseDisplayName() *string {
 	return m.DatabaseDisplayName
 }
 
-//GetDatabaseType returns DatabaseType
+// GetDatabaseType returns DatabaseType
 func (m EmManagedExternalDatabaseConfigurationSummary) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-//GetDatabaseVersion returns DatabaseVersion
+// GetDatabaseVersion returns DatabaseVersion
 func (m EmManagedExternalDatabaseConfigurationSummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-//GetCdbName returns CdbName
+// GetCdbName returns CdbName
 func (m EmManagedExternalDatabaseConfigurationSummary) GetCdbName() *string {
 	return m.CdbName
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m EmManagedExternalDatabaseConfigurationSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m EmManagedExternalDatabaseConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m EmManagedExternalDatabaseConfigurationSummary) GetProcessorCount() *int {
 	return m.ProcessorCount
 }

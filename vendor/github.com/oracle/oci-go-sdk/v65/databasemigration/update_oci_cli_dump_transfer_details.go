@@ -26,7 +26,7 @@ type UpdateOciCliDumpTransferDetails struct {
 	WalletLocation *string `mandatory:"false" json:"walletLocation"`
 }
 
-//GetWalletLocation returns WalletLocation
+// GetWalletLocation returns WalletLocation
 func (m UpdateOciCliDumpTransferDetails) GetWalletLocation() *string {
 	return m.WalletLocation
 }

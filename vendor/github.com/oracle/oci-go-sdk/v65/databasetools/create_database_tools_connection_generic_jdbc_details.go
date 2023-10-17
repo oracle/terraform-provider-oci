@@ -55,32 +55,32 @@ type CreateDatabaseToolsConnectionGenericJdbcDetails struct {
 	RuntimeSupport RuntimeSupportEnum `mandatory:"false" json:"runtimeSupport,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateDatabaseToolsConnectionGenericJdbcDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateDatabaseToolsConnectionGenericJdbcDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateDatabaseToolsConnectionGenericJdbcDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateDatabaseToolsConnectionGenericJdbcDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetLocks returns Locks
+// GetLocks returns Locks
 func (m CreateDatabaseToolsConnectionGenericJdbcDetails) GetLocks() []ResourceLock {
 	return m.Locks
 }
 
-//GetRuntimeSupport returns RuntimeSupport
+// GetRuntimeSupport returns RuntimeSupport
 func (m CreateDatabaseToolsConnectionGenericJdbcDetails) GetRuntimeSupport() RuntimeSupportEnum {
 	return m.RuntimeSupport
 }

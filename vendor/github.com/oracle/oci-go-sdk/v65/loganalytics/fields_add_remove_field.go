@@ -54,52 +54,52 @@ type FieldsAddRemoveField struct {
 	ValueType ValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m FieldsAddRemoveField) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetIsDeclared returns IsDeclared
+// GetIsDeclared returns IsDeclared
 func (m FieldsAddRemoveField) GetIsDeclared() *bool {
 	return m.IsDeclared
 }
 
-//GetOriginalDisplayNames returns OriginalDisplayNames
+// GetOriginalDisplayNames returns OriginalDisplayNames
 func (m FieldsAddRemoveField) GetOriginalDisplayNames() []string {
 	return m.OriginalDisplayNames
 }
 
-//GetInternalName returns InternalName
+// GetInternalName returns InternalName
 func (m FieldsAddRemoveField) GetInternalName() *string {
 	return m.InternalName
 }
 
-//GetValueType returns ValueType
+// GetValueType returns ValueType
 func (m FieldsAddRemoveField) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-//GetIsGroupable returns IsGroupable
+// GetIsGroupable returns IsGroupable
 func (m FieldsAddRemoveField) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-//GetIsDuration returns IsDuration
+// GetIsDuration returns IsDuration
 func (m FieldsAddRemoveField) GetIsDuration() *bool {
 	return m.IsDuration
 }
 
-//GetAlias returns Alias
+// GetAlias returns Alias
 func (m FieldsAddRemoveField) GetAlias() *string {
 	return m.Alias
 }
 
-//GetFilterQueryString returns FilterQueryString
+// GetFilterQueryString returns FilterQueryString
 func (m FieldsAddRemoveField) GetFilterQueryString() *string {
 	return m.FilterQueryString
 }
 
-//GetUnitType returns UnitType
+// GetUnitType returns UnitType
 func (m FieldsAddRemoveField) GetUnitType() *string {
 	return m.UnitType
 }

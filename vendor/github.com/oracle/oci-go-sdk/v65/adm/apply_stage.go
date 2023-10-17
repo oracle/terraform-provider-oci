@@ -48,42 +48,42 @@ type ApplyStage struct {
 	NextStageType RemediationRunStageTypeEnum `mandatory:"false" json:"nextStageType,omitempty"`
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m ApplyStage) GetStatus() RemediationRunStageStatusEnum {
 	return m.Status
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ApplyStage) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m ApplyStage) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m ApplyStage) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetSummary returns Summary
+// GetSummary returns Summary
 func (m ApplyStage) GetSummary() *string {
 	return m.Summary
 }
 
-//GetRemediationRunId returns RemediationRunId
+// GetRemediationRunId returns RemediationRunId
 func (m ApplyStage) GetRemediationRunId() *string {
 	return m.RemediationRunId
 }
 
-//GetPreviousStageType returns PreviousStageType
+// GetPreviousStageType returns PreviousStageType
 func (m ApplyStage) GetPreviousStageType() RemediationRunStageTypeEnum {
 	return m.PreviousStageType
 }
 
-//GetNextStageType returns NextStageType
+// GetNextStageType returns NextStageType
 func (m ApplyStage) GetNextStageType() RemediationRunStageTypeEnum {
 	return m.NextStageType
 }

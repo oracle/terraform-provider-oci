@@ -35,7 +35,7 @@ type BipCallAttribute struct {
 	BucketSchema *Schema `mandatory:"false" json:"bucketSchema"`
 }
 
-//GetFetchSize returns FetchSize
+// GetFetchSize returns FetchSize
 func (m BipCallAttribute) GetFetchSize() *int {
 	return m.FetchSize
 }

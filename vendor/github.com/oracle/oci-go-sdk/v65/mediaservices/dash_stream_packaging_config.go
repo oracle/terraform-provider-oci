@@ -62,67 +62,67 @@ type DashStreamPackagingConfig struct {
 	LifecycleState StreamPackagingConfigLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m DashStreamPackagingConfig) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m DashStreamPackagingConfig) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDistributionChannelId returns DistributionChannelId
+// GetDistributionChannelId returns DistributionChannelId
 func (m DashStreamPackagingConfig) GetDistributionChannelId() *string {
 	return m.DistributionChannelId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DashStreamPackagingConfig) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetSegmentTimeInSeconds returns SegmentTimeInSeconds
+// GetSegmentTimeInSeconds returns SegmentTimeInSeconds
 func (m DashStreamPackagingConfig) GetSegmentTimeInSeconds() *int {
 	return m.SegmentTimeInSeconds
 }
 
-//GetEncryption returns Encryption
+// GetEncryption returns Encryption
 func (m DashStreamPackagingConfig) GetEncryption() StreamPackagingConfigEncryption {
 	return m.Encryption
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m DashStreamPackagingConfig) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m DashStreamPackagingConfig) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m DashStreamPackagingConfig) GetLifecycleState() StreamPackagingConfigLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m DashStreamPackagingConfig) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m DashStreamPackagingConfig) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m DashStreamPackagingConfig) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetLocks returns Locks
+// GetLocks returns Locks
 func (m DashStreamPackagingConfig) GetLocks() []ResourceLock {
 	return m.Locks
 }

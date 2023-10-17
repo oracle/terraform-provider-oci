@@ -35,7 +35,7 @@ type HostProduct struct {
 	Version *string `mandatory:"false" json:"version"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m HostProduct) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

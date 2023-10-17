@@ -60,37 +60,37 @@ type UnifiedAgentMsgpackParser struct {
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
 }
 
-//GetFieldTimeKey returns FieldTimeKey
+// GetFieldTimeKey returns FieldTimeKey
 func (m UnifiedAgentMsgpackParser) GetFieldTimeKey() *string {
 	return m.FieldTimeKey
 }
 
-//GetTypes returns Types
+// GetTypes returns Types
 func (m UnifiedAgentMsgpackParser) GetTypes() map[string]string {
 	return m.Types
 }
 
-//GetNullValuePattern returns NullValuePattern
+// GetNullValuePattern returns NullValuePattern
 func (m UnifiedAgentMsgpackParser) GetNullValuePattern() *string {
 	return m.NullValuePattern
 }
 
-//GetIsNullEmptyString returns IsNullEmptyString
+// GetIsNullEmptyString returns IsNullEmptyString
 func (m UnifiedAgentMsgpackParser) GetIsNullEmptyString() *bool {
 	return m.IsNullEmptyString
 }
 
-//GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
+// GetIsEstimateCurrentEvent returns IsEstimateCurrentEvent
 func (m UnifiedAgentMsgpackParser) GetIsEstimateCurrentEvent() *bool {
 	return m.IsEstimateCurrentEvent
 }
 
-//GetIsKeepTimeKey returns IsKeepTimeKey
+// GetIsKeepTimeKey returns IsKeepTimeKey
 func (m UnifiedAgentMsgpackParser) GetIsKeepTimeKey() *bool {
 	return m.IsKeepTimeKey
 }
 
-//GetTimeoutInMilliseconds returns TimeoutInMilliseconds
+// GetTimeoutInMilliseconds returns TimeoutInMilliseconds
 func (m UnifiedAgentMsgpackParser) GetTimeoutInMilliseconds() *int {
 	return m.TimeoutInMilliseconds
 }

@@ -37,22 +37,22 @@ type CreateLicenseAutoAssignConfigDetails struct {
 	License LicenseTypeEnum `mandatory:"true" json:"license"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateLicenseAutoAssignConfigDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateLicenseAutoAssignConfigDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateLicenseAutoAssignConfigDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateLicenseAutoAssignConfigDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

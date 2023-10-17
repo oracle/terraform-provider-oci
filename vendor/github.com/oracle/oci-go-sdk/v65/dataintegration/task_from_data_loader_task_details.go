@@ -76,87 +76,87 @@ type TaskFromDataLoaderTaskDetails struct {
 	ParallelLoadLimit *int `mandatory:"false" json:"parallelLoadLimit"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m TaskFromDataLoaderTaskDetails) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m TaskFromDataLoaderTaskDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m TaskFromDataLoaderTaskDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m TaskFromDataLoaderTaskDetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m TaskFromDataLoaderTaskDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m TaskFromDataLoaderTaskDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m TaskFromDataLoaderTaskDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m TaskFromDataLoaderTaskDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m TaskFromDataLoaderTaskDetails) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m TaskFromDataLoaderTaskDetails) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m TaskFromDataLoaderTaskDetails) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m TaskFromDataLoaderTaskDetails) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-//GetConfigProviderDelegate returns ConfigProviderDelegate
+// GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m TaskFromDataLoaderTaskDetails) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-//GetIsConcurrentAllowed returns IsConcurrentAllowed
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
 func (m TaskFromDataLoaderTaskDetails) GetIsConcurrentAllowed() *bool {
 	return m.IsConcurrentAllowed
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m TaskFromDataLoaderTaskDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-//GetKeyMap returns KeyMap
+// GetKeyMap returns KeyMap
 func (m TaskFromDataLoaderTaskDetails) GetKeyMap() map[string]string {
 	return m.KeyMap
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m TaskFromDataLoaderTaskDetails) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

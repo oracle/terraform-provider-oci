@@ -33,12 +33,12 @@ type Base64SecretContentDetails struct {
 	Stage SecretContentDetailsStageEnum `mandatory:"false" json:"stage,omitempty"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m Base64SecretContentDetails) GetName() *string {
 	return m.Name
 }
 
-//GetStage returns Stage
+// GetStage returns Stage
 func (m Base64SecretContentDetails) GetStage() SecretContentDetailsStageEnum {
 	return m.Stage
 }

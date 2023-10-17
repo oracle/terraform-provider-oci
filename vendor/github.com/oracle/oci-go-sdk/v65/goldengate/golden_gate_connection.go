@@ -112,87 +112,87 @@ type GoldenGateConnection struct {
 	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m GoldenGateConnection) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m GoldenGateConnection) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m GoldenGateConnection) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m GoldenGateConnection) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m GoldenGateConnection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m GoldenGateConnection) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m GoldenGateConnection) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m GoldenGateConnection) GetLifecycleState() ConnectionLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m GoldenGateConnection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m GoldenGateConnection) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m GoldenGateConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m GoldenGateConnection) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m GoldenGateConnection) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetIngressIps returns IngressIps
+// GetIngressIps returns IngressIps
 func (m GoldenGateConnection) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m GoldenGateConnection) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m GoldenGateConnection) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRoutingMethod returns RoutingMethod
+// GetRoutingMethod returns RoutingMethod
 func (m GoldenGateConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

@@ -53,7 +53,7 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 	TransportOnlyMode *bool `mandatory:"false" json:"transportOnlyMode"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m VirtualCircuitDrgAttachmentNetworkDetails) GetId() *string {
 	return m.Id
 }

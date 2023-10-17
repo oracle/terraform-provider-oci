@@ -45,32 +45,32 @@ type KubernetesClusterDataSource struct {
 	State LifecycleStatesEnum `mandatory:"true" json:"state"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m KubernetesClusterDataSource) GetId() *string {
 	return m.Id
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m KubernetesClusterDataSource) GetName() *string {
 	return m.Name
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m KubernetesClusterDataSource) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetState returns State
+// GetState returns State
 func (m KubernetesClusterDataSource) GetState() LifecycleStatesEnum {
 	return m.State
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m KubernetesClusterDataSource) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m KubernetesClusterDataSource) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }

@@ -1255,10 +1255,12 @@ func (client DbManagementClient) createExternalDbSystemDiscovery(ctx context.Con
 
 // CreateExternalExadataInfrastructure Creates an OCI resource for the Exadata infrastructure and enables the Monitoring service for the Exadata infrastructure.
 // The following resource/subresources are created:
-//   Infrastructure
-//   Storage server connectors
-//   Storage servers
-//   Storage grids
+//
+//	Infrastructure
+//	Storage server connectors
+//	Storage servers
+//	Storage grids
+//
 // A default retry strategy applies to this operation CreateExternalExadataInfrastructure()
 func (client DbManagementClient) CreateExternalExadataInfrastructure(ctx context.Context, request CreateExternalExadataInfrastructureRequest) (response CreateExternalExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2443,10 +2445,14 @@ func (client DbManagementClient) disableSqlPlanBaselinesUsage(ctx context.Contex
 // - Exadata storage grid for all Exadata storage servers
 // - Exadata infrastructure
 // The same API covers both new discovery and rediscovery cases.
-//   For the new discovery case, new managed resources/sub-resources are created or the existing ones are overridden.
-//   For rediscovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which ones
+//
+//	For the new discovery case, new managed resources/sub-resources are created or the existing ones are overridden.
+//	For rediscovery case, the existing managed resources/sub-resources are checked to find out which ones should be added or which ones
+//
 // should be
-//     removed based on the unique key defined for each resource/sub-resource.
+//
+//	removed based on the unique key defined for each resource/sub-resource.
+//
 // A default retry strategy applies to this operation DiscoverExternalExadataInfrastructure()
 func (client DbManagementClient) DiscoverExternalExadataInfrastructure(ctx context.Context, request DiscoverExternalExadataInfrastructureRequest) (response DiscoverExternalExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse

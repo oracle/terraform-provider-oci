@@ -67,77 +67,77 @@ type UpdateTaskFromOciDataflowTask struct {
 	ExecutorShapeDetails *ShapeDetails `mandatory:"false" json:"executorShapeDetails"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m UpdateTaskFromOciDataflowTask) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m UpdateTaskFromOciDataflowTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m UpdateTaskFromOciDataflowTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UpdateTaskFromOciDataflowTask) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateTaskFromOciDataflowTask) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m UpdateTaskFromOciDataflowTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m UpdateTaskFromOciDataflowTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m UpdateTaskFromOciDataflowTask) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetInputPorts returns InputPorts
+// GetInputPorts returns InputPorts
 func (m UpdateTaskFromOciDataflowTask) GetInputPorts() []InputPort {
 	return m.InputPorts
 }
 
-//GetOutputPorts returns OutputPorts
+// GetOutputPorts returns OutputPorts
 func (m UpdateTaskFromOciDataflowTask) GetOutputPorts() []OutputPort {
 	return m.OutputPorts
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m UpdateTaskFromOciDataflowTask) GetParameters() []Parameter {
 	return m.Parameters
 }
 
-//GetOpConfigValues returns OpConfigValues
+// GetOpConfigValues returns OpConfigValues
 func (m UpdateTaskFromOciDataflowTask) GetOpConfigValues() *ConfigValues {
 	return m.OpConfigValues
 }
 
-//GetConfigProviderDelegate returns ConfigProviderDelegate
+// GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m UpdateTaskFromOciDataflowTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
-//GetIsConcurrentAllowed returns IsConcurrentAllowed
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
 func (m UpdateTaskFromOciDataflowTask) GetIsConcurrentAllowed() *bool {
 	return m.IsConcurrentAllowed
 }
 
-//GetRegistryMetadata returns RegistryMetadata
+// GetRegistryMetadata returns RegistryMetadata
 func (m UpdateTaskFromOciDataflowTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
 }

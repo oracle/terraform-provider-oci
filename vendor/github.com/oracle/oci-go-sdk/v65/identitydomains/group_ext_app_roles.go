@@ -18,15 +18,15 @@ import (
 
 // GroupExtAppRoles A list of appRoles that the user belongs to, either thorough direct membership, nested groups, or dynamically calculated
 // **SCIM++ Properties:**
-//  - caseExact: false
-//  - idcsCompositeKey: [value]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readOnly
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - caseExact: false
+//   - idcsCompositeKey: [value]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readOnly
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type GroupExtAppRoles struct {
 
 	// The identifier of the appRole

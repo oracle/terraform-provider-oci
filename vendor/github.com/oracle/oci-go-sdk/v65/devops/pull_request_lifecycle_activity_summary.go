@@ -34,22 +34,22 @@ type PullRequestLifecycleActivitySummary struct {
 	State PullRequestLifecycleActivitySummaryStateEnum `mandatory:"true" json:"state"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m PullRequestLifecycleActivitySummary) GetId() *string {
 	return m.Id
 }
 
-//GetPrincipal returns Principal
+// GetPrincipal returns Principal
 func (m PullRequestLifecycleActivitySummary) GetPrincipal() *PrincipalDetails {
 	return m.Principal
 }
 
-//GetPullRequestId returns PullRequestId
+// GetPullRequestId returns PullRequestId
 func (m PullRequestLifecycleActivitySummary) GetPullRequestId() *string {
 	return m.PullRequestId
 }
 
-//GetTimeOccurred returns TimeOccurred
+// GetTimeOccurred returns TimeOccurred
 func (m PullRequestLifecycleActivitySummary) GetTimeOccurred() *common.SDKTime {
 	return m.TimeOccurred
 }

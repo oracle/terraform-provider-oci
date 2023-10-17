@@ -37,22 +37,22 @@ type AwrDbCollection struct {
 	Items []AwrDbSummary `mandatory:"false" json:"items"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m AwrDbCollection) GetName() *string {
 	return m.Name
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m AwrDbCollection) GetVersion() *string {
 	return m.Version
 }
 
-//GetQueryKey returns QueryKey
+// GetQueryKey returns QueryKey
 func (m AwrDbCollection) GetQueryKey() *string {
 	return m.QueryKey
 }
 
-//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDbCollection) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

@@ -43,17 +43,17 @@ type AwrDatabaseCpuUsageCollection struct {
 	Items []AwrDatabaseCpuUsageSummary `mandatory:"false" json:"items"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m AwrDatabaseCpuUsageCollection) GetName() *string {
 	return m.Name
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m AwrDatabaseCpuUsageCollection) GetVersion() *string {
 	return m.Version
 }
 
-//GetDbQueryTimeInSecs returns DbQueryTimeInSecs
+// GetDbQueryTimeInSecs returns DbQueryTimeInSecs
 func (m AwrDatabaseCpuUsageCollection) GetDbQueryTimeInSecs() *float64 {
 	return m.DbQueryTimeInSecs
 }

@@ -61,62 +61,62 @@ type OpsiUxConfiguration struct {
 	LifecycleState OpsiConfigurationLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m OpsiUxConfiguration) GetId() *string {
 	return m.Id
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m OpsiUxConfiguration) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m OpsiUxConfiguration) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m OpsiUxConfiguration) GetDescription() *string {
 	return m.Description
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m OpsiUxConfiguration) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m OpsiUxConfiguration) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m OpsiUxConfiguration) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m OpsiUxConfiguration) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m OpsiUxConfiguration) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m OpsiUxConfiguration) GetLifecycleState() OpsiConfigurationLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m OpsiUxConfiguration) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetConfigItems returns ConfigItems
+// GetConfigItems returns ConfigItems
 func (m OpsiUxConfiguration) GetConfigItems() []OpsiConfigurationConfigurationItemSummary {
 	return m.ConfigItems
 }

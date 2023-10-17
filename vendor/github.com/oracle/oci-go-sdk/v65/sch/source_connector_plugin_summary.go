@@ -42,22 +42,22 @@ type SourceConnectorPluginSummary struct {
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetType returns Type
+// GetType returns Type
 func (m SourceConnectorPluginSummary) GetType() *string {
 	return m.Type
 }
 
-//GetEstimatedThroughput returns EstimatedThroughput
+// GetEstimatedThroughput returns EstimatedThroughput
 func (m SourceConnectorPluginSummary) GetEstimatedThroughput() EstimatedThroughputEnum {
 	return m.EstimatedThroughput
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m SourceConnectorPluginSummary) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m SourceConnectorPluginSummary) GetDisplayName() *string {
 	return m.DisplayName
 }

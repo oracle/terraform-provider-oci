@@ -82,52 +82,52 @@ type CreateSnowflakeConnectionDetails struct {
 	AuthenticationType SnowflakeConnectionAuthenticationTypeEnum `mandatory:"true" json:"authenticationType"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateSnowflakeConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateSnowflakeConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateSnowflakeConnectionDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateSnowflakeConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateSnowflakeConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m CreateSnowflakeConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m CreateSnowflakeConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m CreateSnowflakeConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m CreateSnowflakeConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRoutingMethod returns RoutingMethod
+// GetRoutingMethod returns RoutingMethod
 func (m CreateSnowflakeConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

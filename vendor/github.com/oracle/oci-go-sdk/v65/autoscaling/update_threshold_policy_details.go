@@ -33,17 +33,17 @@ type UpdateThresholdPolicyDetails struct {
 	Rules []UpdateConditionDetails `mandatory:"false" json:"rules"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateThresholdPolicyDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCapacity returns Capacity
+// GetCapacity returns Capacity
 func (m UpdateThresholdPolicyDetails) GetCapacity() *Capacity {
 	return m.Capacity
 }
 
-//GetIsEnabled returns IsEnabled
+// GetIsEnabled returns IsEnabled
 func (m UpdateThresholdPolicyDetails) GetIsEnabled() *bool {
 	return m.IsEnabled
 }

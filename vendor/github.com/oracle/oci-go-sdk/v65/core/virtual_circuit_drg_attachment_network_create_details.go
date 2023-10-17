@@ -50,7 +50,7 @@ type VirtualCircuitDrgAttachmentNetworkCreateDetails struct {
 	Throughput VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum `mandatory:"false" json:"throughput,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m VirtualCircuitDrgAttachmentNetworkCreateDetails) GetId() *string {
 	return m.Id
 }

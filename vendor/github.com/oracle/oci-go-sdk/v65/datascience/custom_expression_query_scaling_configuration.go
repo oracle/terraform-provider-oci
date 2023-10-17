@@ -45,12 +45,12 @@ type CustomExpressionQueryScalingConfiguration struct {
 	InstanceCountAdjustment *int `mandatory:"false" json:"instanceCountAdjustment"`
 }
 
-//GetPendingDuration returns PendingDuration
+// GetPendingDuration returns PendingDuration
 func (m CustomExpressionQueryScalingConfiguration) GetPendingDuration() *string {
 	return m.PendingDuration
 }
 
-//GetInstanceCountAdjustment returns InstanceCountAdjustment
+// GetInstanceCountAdjustment returns InstanceCountAdjustment
 func (m CustomExpressionQueryScalingConfiguration) GetInstanceCountAdjustment() *int {
 	return m.InstanceCountAdjustment
 }

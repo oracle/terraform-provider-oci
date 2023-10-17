@@ -53,62 +53,62 @@ type ConnectionFromLakeDetails struct {
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m ConnectionFromLakeDetails) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m ConnectionFromLakeDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m ConnectionFromLakeDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ConnectionFromLakeDetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ConnectionFromLakeDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m ConnectionFromLakeDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m ConnectionFromLakeDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m ConnectionFromLakeDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetPrimarySchema returns PrimarySchema
+// GetPrimarySchema returns PrimarySchema
 func (m ConnectionFromLakeDetails) GetPrimarySchema() *Schema {
 	return m.PrimarySchema
 }
 
-//GetConnectionProperties returns ConnectionProperties
+// GetConnectionProperties returns ConnectionProperties
 func (m ConnectionFromLakeDetails) GetConnectionProperties() []ConnectionProperty {
 	return m.ConnectionProperties
 }
 
-//GetIsDefault returns IsDefault
+// GetIsDefault returns IsDefault
 func (m ConnectionFromLakeDetails) GetIsDefault() *bool {
 	return m.IsDefault
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m ConnectionFromLakeDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }

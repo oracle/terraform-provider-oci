@@ -33,7 +33,7 @@ type UpdateZipUploadConfigSourceDetails struct {
 	ZipFileBase64Encoded *string `mandatory:"false" json:"zipFileBase64Encoded"`
 }
 
-//GetWorkingDirectory returns WorkingDirectory
+// GetWorkingDirectory returns WorkingDirectory
 func (m UpdateZipUploadConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

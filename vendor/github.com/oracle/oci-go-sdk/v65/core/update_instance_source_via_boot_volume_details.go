@@ -35,12 +35,12 @@ type UpdateInstanceSourceViaBootVolumeDetails struct {
 	IsForceStopEnabled *bool `mandatory:"false" json:"isForceStopEnabled"`
 }
 
-//GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
+// GetIsPreserveBootVolumeEnabled returns IsPreserveBootVolumeEnabled
 func (m UpdateInstanceSourceViaBootVolumeDetails) GetIsPreserveBootVolumeEnabled() *bool {
 	return m.IsPreserveBootVolumeEnabled
 }
 
-//GetIsForceStopEnabled returns IsForceStopEnabled
+// GetIsForceStopEnabled returns IsForceStopEnabled
 func (m UpdateInstanceSourceViaBootVolumeDetails) GetIsForceStopEnabled() *bool {
 	return m.IsForceStopEnabled
 }

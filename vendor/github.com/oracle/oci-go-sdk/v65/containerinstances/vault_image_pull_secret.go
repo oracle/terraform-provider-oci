@@ -26,7 +26,7 @@ type VaultImagePullSecret struct {
 	SecretId *string `mandatory:"true" json:"secretId"`
 }
 
-//GetRegistryEndpoint returns RegistryEndpoint
+// GetRegistryEndpoint returns RegistryEndpoint
 func (m VaultImagePullSecret) GetRegistryEndpoint() *string {
 	return m.RegistryEndpoint
 }

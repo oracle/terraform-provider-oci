@@ -44,7 +44,7 @@ type DrProtectionGroupMemberComputeInstance struct {
 	DestinationDedicatedVmHostId *string `mandatory:"false" json:"destinationDedicatedVmHostId"`
 }
 
-//GetMemberId returns MemberId
+// GetMemberId returns MemberId
 func (m DrProtectionGroupMemberComputeInstance) GetMemberId() *string {
 	return m.MemberId
 }

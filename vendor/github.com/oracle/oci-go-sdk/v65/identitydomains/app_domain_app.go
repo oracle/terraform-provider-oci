@@ -19,13 +19,13 @@ import (
 // AppDomainApp Description:
 // **Added In:** 18.2.2
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AppDomainApp struct {
 
 	// DB Domain App identifier

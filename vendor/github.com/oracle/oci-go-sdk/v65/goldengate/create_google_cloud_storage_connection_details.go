@@ -66,52 +66,52 @@ type CreateGoogleCloudStorageConnectionDetails struct {
 	TechnologyType GoogleCloudStorageConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateGoogleCloudStorageConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateGoogleCloudStorageConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateGoogleCloudStorageConnectionDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateGoogleCloudStorageConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateGoogleCloudStorageConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m CreateGoogleCloudStorageConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m CreateGoogleCloudStorageConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m CreateGoogleCloudStorageConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m CreateGoogleCloudStorageConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRoutingMethod returns RoutingMethod
+// GetRoutingMethod returns RoutingMethod
 func (m CreateGoogleCloudStorageConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

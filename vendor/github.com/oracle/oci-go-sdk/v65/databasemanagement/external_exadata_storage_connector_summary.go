@@ -72,52 +72,52 @@ type ExternalExadataStorageConnectorSummary struct {
 	LifecycleState DbmResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m ExternalExadataStorageConnectorSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m ExternalExadataStorageConnectorSummary) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m ExternalExadataStorageConnectorSummary) GetVersion() *string {
 	return m.Version
 }
 
-//GetInternalId returns InternalId
+// GetInternalId returns InternalId
 func (m ExternalExadataStorageConnectorSummary) GetInternalId() *string {
 	return m.InternalId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m ExternalExadataStorageConnectorSummary) GetStatus() *string {
 	return m.Status
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m ExternalExadataStorageConnectorSummary) GetLifecycleState() DbmResourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ExternalExadataStorageConnectorSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m ExternalExadataStorageConnectorSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m ExternalExadataStorageConnectorSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetAdditionalDetails returns AdditionalDetails
+// GetAdditionalDetails returns AdditionalDetails
 func (m ExternalExadataStorageConnectorSummary) GetAdditionalDetails() map[string]string {
 	return m.AdditionalDetails
 }

@@ -69,32 +69,32 @@ type PrometheusEmitterDataSource struct {
 	State LifecycleStatesEnum `mandatory:"true" json:"state"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m PrometheusEmitterDataSource) GetId() *string {
 	return m.Id
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m PrometheusEmitterDataSource) GetName() *string {
 	return m.Name
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m PrometheusEmitterDataSource) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetState returns State
+// GetState returns State
 func (m PrometheusEmitterDataSource) GetState() LifecycleStatesEnum {
 	return m.State
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m PrometheusEmitterDataSource) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m PrometheusEmitterDataSource) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }

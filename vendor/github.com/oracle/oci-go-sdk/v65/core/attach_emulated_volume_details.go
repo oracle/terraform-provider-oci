@@ -58,42 +58,42 @@ type AttachEmulatedVolumeDetails struct {
 	CreateVolumeDetails *CreateVolumeDetails `mandatory:"false" json:"createVolumeDetails"`
 }
 
-//GetDevice returns Device
+// GetDevice returns Device
 func (m AttachEmulatedVolumeDetails) GetDevice() *string {
 	return m.Device
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m AttachEmulatedVolumeDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetInstanceId returns InstanceId
+// GetInstanceId returns InstanceId
 func (m AttachEmulatedVolumeDetails) GetInstanceId() *string {
 	return m.InstanceId
 }
 
-//GetIsReadOnly returns IsReadOnly
+// GetIsReadOnly returns IsReadOnly
 func (m AttachEmulatedVolumeDetails) GetIsReadOnly() *bool {
 	return m.IsReadOnly
 }
 
-//GetIsShareable returns IsShareable
+// GetIsShareable returns IsShareable
 func (m AttachEmulatedVolumeDetails) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
-//GetImageVolumeIndex returns ImageVolumeIndex
+// GetImageVolumeIndex returns ImageVolumeIndex
 func (m AttachEmulatedVolumeDetails) GetImageVolumeIndex() *int {
 	return m.ImageVolumeIndex
 }
 
-//GetVolumeId returns VolumeId
+// GetVolumeId returns VolumeId
 func (m AttachEmulatedVolumeDetails) GetVolumeId() *string {
 	return m.VolumeId
 }
 
-//GetCreateVolumeDetails returns CreateVolumeDetails
+// GetCreateVolumeDetails returns CreateVolumeDetails
 func (m AttachEmulatedVolumeDetails) GetCreateVolumeDetails() *CreateVolumeDetails {
 	return m.CreateVolumeDetails
 }

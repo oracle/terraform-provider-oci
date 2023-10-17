@@ -45,12 +45,12 @@ type CreateExternalDbSystemMacsConnectorDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateExternalDbSystemMacsConnectorDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetExternalDbSystemId returns ExternalDbSystemId
+// GetExternalDbSystemId returns ExternalDbSystemId
 func (m CreateExternalDbSystemMacsConnectorDetails) GetExternalDbSystemId() *string {
 	return m.ExternalDbSystemId
 }

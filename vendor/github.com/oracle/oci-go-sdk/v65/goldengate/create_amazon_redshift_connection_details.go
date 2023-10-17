@@ -75,52 +75,52 @@ type CreateAmazonRedshiftConnectionDetails struct {
 	TechnologyType AmazonRedshiftConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateAmazonRedshiftConnectionDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m CreateAmazonRedshiftConnectionDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateAmazonRedshiftConnectionDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateAmazonRedshiftConnectionDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateAmazonRedshiftConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetVaultId returns VaultId
+// GetVaultId returns VaultId
 func (m CreateAmazonRedshiftConnectionDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-//GetKeyId returns KeyId
+// GetKeyId returns KeyId
 func (m CreateAmazonRedshiftConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-//GetNsgIds returns NsgIds
+// GetNsgIds returns NsgIds
 func (m CreateAmazonRedshiftConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
-//GetSubnetId returns SubnetId
+// GetSubnetId returns SubnetId
 func (m CreateAmazonRedshiftConnectionDetails) GetSubnetId() *string {
 	return m.SubnetId
 }
 
-//GetRoutingMethod returns RoutingMethod
+// GetRoutingMethod returns RoutingMethod
 func (m CreateAmazonRedshiftConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
 }

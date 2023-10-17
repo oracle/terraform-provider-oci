@@ -18,14 +18,14 @@ import (
 
 // ApprovalWorkflowAssignmentAssignedTo Details of resource for which Approval Workflow is assigned
 // **SCIM++ Properties:**
-//  - caseExact: true
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - caseExact: true
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type ApprovalWorkflowAssignmentAssignedTo struct {
 
 	// Identifier of the resource for which Approval Workflow is assigned

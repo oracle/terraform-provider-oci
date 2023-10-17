@@ -95,52 +95,52 @@ type ExternalExadataStorageServer struct {
 	LifecycleState DbmResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m ExternalExadataStorageServer) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m ExternalExadataStorageServer) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetVersion returns Version
+// GetVersion returns Version
 func (m ExternalExadataStorageServer) GetVersion() *string {
 	return m.Version
 }
 
-//GetInternalId returns InternalId
+// GetInternalId returns InternalId
 func (m ExternalExadataStorageServer) GetInternalId() *string {
 	return m.InternalId
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m ExternalExadataStorageServer) GetStatus() *string {
 	return m.Status
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m ExternalExadataStorageServer) GetLifecycleState() DbmResourceLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m ExternalExadataStorageServer) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m ExternalExadataStorageServer) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m ExternalExadataStorageServer) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetAdditionalDetails returns AdditionalDetails
+// GetAdditionalDetails returns AdditionalDetails
 func (m ExternalExadataStorageServer) GetAdditionalDetails() map[string]string {
 	return m.AdditionalDetails
 }

@@ -18,14 +18,14 @@ import (
 
 // UserName A complex attribute that contains attributes representing the name
 // **SCIM++ Properties:**
-//  - idcsCsvAttributeNameMappings: [[columnHeaderName:Formatted Name, mapsTo:name.formatted], [columnHeaderName:Honorific Prefix, mapsTo:name.honorificPrefix], [columnHeaderName:First Name, mapsTo:name.givenName], [columnHeaderName:Middle Name, mapsTo:name.middleName], [columnHeaderName:Last Name, mapsTo:name.familyName], [columnHeaderName:Honorific Suffix, mapsTo:name.honorificSuffix]]
-//  - idcsPii: true
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCsvAttributeNameMappings: [[columnHeaderName:Formatted Name, mapsTo:name.formatted], [columnHeaderName:Honorific Prefix, mapsTo:name.honorificPrefix], [columnHeaderName:First Name, mapsTo:name.givenName], [columnHeaderName:Middle Name, mapsTo:name.middleName], [columnHeaderName:Last Name, mapsTo:name.familyName], [columnHeaderName:Honorific Suffix, mapsTo:name.honorificSuffix]]
+//   - idcsPii: true
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type UserName struct {
 
 	// Full name

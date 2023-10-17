@@ -66,42 +66,42 @@ type PublishedObjectFromDataLoaderTask struct {
 	ParallelLoadLimit *int `mandatory:"false" json:"parallelLoadLimit"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m PublishedObjectFromDataLoaderTask) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m PublishedObjectFromDataLoaderTask) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m PublishedObjectFromDataLoaderTask) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m PublishedObjectFromDataLoaderTask) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m PublishedObjectFromDataLoaderTask) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m PublishedObjectFromDataLoaderTask) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m PublishedObjectFromDataLoaderTask) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m PublishedObjectFromDataLoaderTask) GetIdentifier() *string {
 	return m.Identifier
 }

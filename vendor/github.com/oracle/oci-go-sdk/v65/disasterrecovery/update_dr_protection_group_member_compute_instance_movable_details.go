@@ -54,7 +54,7 @@ type UpdateDrProtectionGroupMemberComputeInstanceMovableDetails struct {
 	FileSystemOperations []UpdateComputeInstanceMovableFileSystemOperationDetails `mandatory:"false" json:"fileSystemOperations"`
 }
 
-//GetMemberId returns MemberId
+// GetMemberId returns MemberId
 func (m UpdateDrProtectionGroupMemberComputeInstanceMovableDetails) GetMemberId() *string {
 	return m.MemberId
 }

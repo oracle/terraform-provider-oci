@@ -32,12 +32,12 @@ type Icmp6ApplicationSummary struct {
 	IcmpCode *int `mandatory:"false" json:"icmpCode"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m Icmp6ApplicationSummary) GetName() *string {
 	return m.Name
 }
 
-//GetParentResourceId returns ParentResourceId
+// GetParentResourceId returns ParentResourceId
 func (m Icmp6ApplicationSummary) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

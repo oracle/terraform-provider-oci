@@ -19,14 +19,14 @@ import (
 // IdentityProviderRelayIdpParamMappings Relay Param variable for Social IDP
 // **Added In:** 2305190132
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [relayParamKey]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [relayParamKey]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type IdentityProviderRelayIdpParamMappings struct {
 
 	// Key or name of the relayParam.

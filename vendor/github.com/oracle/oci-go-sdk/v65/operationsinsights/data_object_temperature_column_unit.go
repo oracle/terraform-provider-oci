@@ -28,7 +28,7 @@ type DataObjectTemperatureColumnUnit struct {
 	Unit DataObjectTemperatureColumnUnitUnitEnum `mandatory:"false" json:"unit,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DataObjectTemperatureColumnUnit) GetDisplayName() *string {
 	return m.DisplayName
 }

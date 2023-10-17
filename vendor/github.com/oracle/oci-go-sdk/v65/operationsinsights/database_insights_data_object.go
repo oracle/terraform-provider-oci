@@ -48,42 +48,42 @@ type DatabaseInsightsDataObject struct {
 	SupportedQueryParams []OpsiDataObjectSupportedQueryParam `mandatory:"false" json:"supportedQueryParams"`
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m DatabaseInsightsDataObject) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m DatabaseInsightsDataObject) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DatabaseInsightsDataObject) GetDescription() *string {
 	return m.Description
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DatabaseInsightsDataObject) GetName() *string {
 	return m.Name
 }
 
-//GetGroupNames returns GroupNames
+// GetGroupNames returns GroupNames
 func (m DatabaseInsightsDataObject) GetGroupNames() []string {
 	return m.GroupNames
 }
 
-//GetSupportedQueryTimePeriod returns SupportedQueryTimePeriod
+// GetSupportedQueryTimePeriod returns SupportedQueryTimePeriod
 func (m DatabaseInsightsDataObject) GetSupportedQueryTimePeriod() *string {
 	return m.SupportedQueryTimePeriod
 }
 
-//GetColumnsMetadata returns ColumnsMetadata
+// GetColumnsMetadata returns ColumnsMetadata
 func (m DatabaseInsightsDataObject) GetColumnsMetadata() []DataObjectColumnMetadata {
 	return m.ColumnsMetadata
 }
 
-//GetSupportedQueryParams returns SupportedQueryParams
+// GetSupportedQueryParams returns SupportedQueryParams
 func (m DatabaseInsightsDataObject) GetSupportedQueryParams() []OpsiDataObjectSupportedQueryParam {
 	return m.SupportedQueryParams
 }

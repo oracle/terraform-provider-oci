@@ -19,13 +19,13 @@ import (
 // AuthenticationFactorSettingsThirdPartyFactor Settings related to third-party factor
 // **Added In:** 19.2.1
 // **SCIM++ Properties:**
-//  - idcsSearchable: false
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: false
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AuthenticationFactorSettingsThirdPartyFactor struct {
 
 	// To enable Duo Security factor

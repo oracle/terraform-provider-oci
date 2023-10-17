@@ -18,14 +18,14 @@ import (
 
 // Meta A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.
 // **SCIM++ Properties:**
-//  - caseExact: false
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: readOnly
-//  - required: false
-//  - returned: default
-//  - idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]
-//  - type: complex
+//   - caseExact: false
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: readOnly
+//   - required: false
+//   - returned: default
+//   - idcsCsvAttributeNameMappings: [[columnHeaderName:Created Date, mapsTo:meta.created]]
+//   - type: complex
 type Meta struct {
 
 	// Name of the resource type of the resource--for example, Users or Groups

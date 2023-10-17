@@ -67,27 +67,27 @@ type UpdateOssChannelDetails struct {
 	AuthToken *string `mandatory:"false" json:"authToken"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UpdateOssChannelDetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateOssChannelDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
+// GetSessionExpiryDurationInMilliseconds returns SessionExpiryDurationInMilliseconds
 func (m UpdateOssChannelDetails) GetSessionExpiryDurationInMilliseconds() *int64 {
 	return m.SessionExpiryDurationInMilliseconds
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateOssChannelDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateOssChannelDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
