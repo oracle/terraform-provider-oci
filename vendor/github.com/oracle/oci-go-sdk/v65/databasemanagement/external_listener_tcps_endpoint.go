@@ -31,7 +31,7 @@ type ExternalListenerTcpsEndpoint struct {
 	Services []string `mandatory:"false" json:"services"`
 }
 
-//GetServices returns Services
+// GetServices returns Services
 func (m ExternalListenerTcpsEndpoint) GetServices() []string {
 	return m.Services
 }

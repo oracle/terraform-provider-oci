@@ -23,7 +23,7 @@ type BasicWorkItemDetails struct {
 	WorkItemType WorkItemTypeEnum `mandatory:"false" json:"workItemType,omitempty"`
 }
 
-//GetWorkItemType returns WorkItemType
+// GetWorkItemType returns WorkItemType
 func (m BasicWorkItemDetails) GetWorkItemType() WorkItemTypeEnum {
 	return m.WorkItemType
 }

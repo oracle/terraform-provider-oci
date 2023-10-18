@@ -18,14 +18,14 @@ import (
 
 // AppRoleApp A unique identifier for the application that references this role.
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - idcsCsvAttributeNameMappings: [[columnHeaderName:App Name, mapsTo:app.display]]
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - idcsCsvAttributeNameMappings: [[columnHeaderName:App Name, mapsTo:app.display]]
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AppRoleApp struct {
 
 	// App identifier

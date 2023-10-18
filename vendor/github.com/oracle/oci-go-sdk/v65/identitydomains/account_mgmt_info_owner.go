@@ -18,13 +18,13 @@ import (
 
 // AccountMgmtInfoOwner Owning user of the account
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AccountMgmtInfoOwner struct {
 
 	// User Identifier

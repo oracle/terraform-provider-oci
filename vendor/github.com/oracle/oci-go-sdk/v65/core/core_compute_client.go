@@ -97,7 +97,7 @@ func (client *ComputeClient) ConfigurationProvider() *common.ConfigurationProvid
 
 // AcceptShieldedIntegrityPolicy Accept the changes to the PCR values in the measured boot report.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AcceptShieldedIntegrityPolicy.go.html to see an example of how to use AcceptShieldedIntegrityPolicy API.
 func (client ComputeClient) AcceptShieldedIntegrityPolicy(ctx context.Context, request AcceptShieldedIntegrityPolicyRequest) (response AcceptShieldedIntegrityPolicyResponse, err error) {
@@ -159,7 +159,7 @@ func (client ComputeClient) acceptShieldedIntegrityPolicy(ctx context.Context, r
 
 // AddImageShapeCompatibilityEntry Adds a shape to the compatible shapes list for the image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddImageShapeCompatibilityEntry.go.html to see an example of how to use AddImageShapeCompatibilityEntry API.
 func (client ComputeClient) AddImageShapeCompatibilityEntry(ctx context.Context, request AddImageShapeCompatibilityEntryRequest) (response AddImageShapeCompatibilityEntryResponse, err error) {
@@ -216,7 +216,7 @@ func (client ComputeClient) addImageShapeCompatibilityEntry(ctx context.Context,
 
 // AttachBootVolume Attaches the specified boot volume to the specified instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachBootVolume.go.html to see an example of how to use AttachBootVolume API.
 func (client ComputeClient) AttachBootVolume(ctx context.Context, request AttachBootVolumeRequest) (response AttachBootVolumeResponse, err error) {
@@ -280,7 +280,7 @@ func (client ComputeClient) attachBootVolume(ctx context.Context, request common
 // For more information about secondary VNICs, see
 // Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachVnic.go.html to see an example of how to use AttachVnic API.
 func (client ComputeClient) AttachVnic(ctx context.Context, request AttachVnicRequest) (response AttachVnicResponse, err error) {
@@ -342,7 +342,7 @@ func (client ComputeClient) attachVnic(ctx context.Context, request common.OCIRe
 
 // AttachVolume Attaches the specified storage volume to the specified instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachVolume.go.html to see an example of how to use AttachVolume API.
 func (client ComputeClient) AttachVolume(ctx context.Context, request AttachVolumeRequest) (response AttachVolumeResponse, err error) {
@@ -418,7 +418,7 @@ func (client ComputeClient) attachVolume(ctx context.Context, request common.OCI
 // 4. Optionally, use `DeleteConsoleHistory` to delete the console history metadata
 // and the console history data.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CaptureConsoleHistory.go.html to see an example of how to use CaptureConsoleHistory API.
 func (client ComputeClient) CaptureConsoleHistory(ctx context.Context, request CaptureConsoleHistoryRequest) (response CaptureConsoleHistoryResponse, err error) {
@@ -482,7 +482,7 @@ func (client ComputeClient) captureConsoleHistory(ctx context.Context, request c
 // moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeCapacityReservationCompartment.go.html to see an example of how to use ChangeComputeCapacityReservationCompartment API.
 func (client ComputeClient) ChangeComputeCapacityReservationCompartment(ctx context.Context, request ChangeComputeCapacityReservationCompartmentRequest) (response ChangeComputeCapacityReservationCompartmentResponse, err error) {
@@ -547,7 +547,7 @@ func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx cont
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeClusterCompartment.go.html to see an example of how to use ChangeComputeClusterCompartment API.
 func (client ComputeClient) ChangeComputeClusterCompartment(ctx context.Context, request ChangeComputeClusterCompartmentRequest) (response ChangeComputeClusterCompartmentResponse, err error) {
@@ -609,9 +609,10 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 
 // ChangeComputeImageCapabilitySchemaCompartment Moves a compute image capability schema into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
-//         Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+//	Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeImageCapabilitySchemaCompartment.go.html to see an example of how to use ChangeComputeImageCapabilitySchemaCompartment API.
 // A default retry strategy applies to this operation ChangeComputeImageCapabilitySchemaCompartment()
@@ -674,7 +675,7 @@ func (client ComputeClient) changeComputeImageCapabilitySchemaCompartment(ctx co
 
 // ChangeDedicatedVmHostCompartment Moves a dedicated virtual machine host from one compartment to another.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeDedicatedVmHostCompartment.go.html to see an example of how to use ChangeDedicatedVmHostCompartment API.
 func (client ComputeClient) ChangeDedicatedVmHostCompartment(ctx context.Context, request ChangeDedicatedVmHostCompartmentRequest) (response ChangeDedicatedVmHostCompartmentResponse, err error) {
@@ -738,7 +739,7 @@ func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context
 // resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeImageCompartment.go.html to see an example of how to use ChangeImageCompartment API.
 // A default retry strategy applies to this operation ChangeImageCompartment()
@@ -805,7 +806,7 @@ func (client ComputeClient) changeImageCompartment(ctx context.Context, request 
 // When you move an instance to a different compartment, associated resources such as boot volumes and VNICs
 // are not moved.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeInstanceCompartment.go.html to see an example of how to use ChangeInstanceCompartment API.
 func (client ComputeClient) ChangeInstanceCompartment(ctx context.Context, request ChangeInstanceCompartmentRequest) (response ChangeInstanceCompartmentResponse, err error) {
@@ -867,7 +868,7 @@ func (client ComputeClient) changeInstanceCompartment(ctx context.Context, reque
 
 // CreateAppCatalogSubscription Create a subscription for listing resource version for a compartment. It will take some time to propagate to all regions.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateAppCatalogSubscription.go.html to see an example of how to use CreateAppCatalogSubscription API.
 // A default retry strategy applies to this operation CreateAppCatalogSubscription()
@@ -934,7 +935,7 @@ func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, re
 // Use the capacity report to determine whether sufficient capacity is available for a shape before
 // you create an instance or change the shape of an instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityReport.go.html to see an example of how to use CreateComputeCapacityReport API.
 // A default retry strategy applies to this operation CreateComputeCapacityReport()
@@ -1001,7 +1002,7 @@ func (client ComputeClient) createComputeCapacityReport(ctx context.Context, req
 // and you won't get out of capacity errors.
 // For more information, see Reserved Capacity (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityReservation.go.html to see an example of how to use CreateComputeCapacityReservation API.
 func (client ComputeClient) CreateComputeCapacityReservation(ctx context.Context, request CreateComputeCapacityReservationRequest) (response CreateComputeCapacityReservationResponse, err error) {
@@ -1072,7 +1073,7 @@ func (client ComputeClient) createComputeCapacityReservation(ctx context.Context
 // create a cluster network that uses instance pools by using the
 // CreateClusterNetwork operation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCluster.go.html to see an example of how to use CreateComputeCluster API.
 func (client ComputeClient) CreateComputeCluster(ctx context.Context, request CreateComputeClusterRequest) (response CreateComputeClusterResponse, err error) {
@@ -1134,7 +1135,7 @@ func (client ComputeClient) createComputeCluster(ctx context.Context, request co
 
 // CreateComputeImageCapabilitySchema Creates compute image capability schema.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeImageCapabilitySchema.go.html to see an example of how to use CreateComputeImageCapabilitySchema API.
 // A default retry strategy applies to this operation CreateComputeImageCapabilitySchema()
@@ -1200,7 +1201,7 @@ func (client ComputeClient) createComputeImageCapabilitySchema(ctx context.Conte
 // that are a single tenant and not shared with other customers.
 // For more information, see Dedicated Virtual Machine Hosts (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/dedicatedvmhosts.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateDedicatedVmHost.go.html to see an example of how to use CreateDedicatedVmHost API.
 func (client ComputeClient) CreateDedicatedVmHost(ctx context.Context, request CreateDedicatedVmHostRequest) (response CreateDedicatedVmHostResponse, err error) {
@@ -1278,7 +1279,7 @@ func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request c
 // It does not have to be unique, and you can change it. See UpdateImage.
 // Avoid entering confidential information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateImage.go.html to see an example of how to use CreateImage API.
 // A default retry strategy applies to this operation CreateImage()
@@ -1344,7 +1345,7 @@ func (client ComputeClient) createImage(ctx context.Context, request common.OCIR
 // you connect to the console using SSH.
 // For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateInstanceConsoleConnection.go.html to see an example of how to use CreateInstanceConsoleConnection API.
 func (client ComputeClient) CreateInstanceConsoleConnection(ctx context.Context, request CreateInstanceConsoleConnectionRequest) (response CreateInstanceConsoleConnectionResponse, err error) {
@@ -1406,7 +1407,7 @@ func (client ComputeClient) createInstanceConsoleConnection(ctx context.Context,
 
 // DeleteAppCatalogSubscription Delete a subscription for a listing resource version for a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteAppCatalogSubscription.go.html to see an example of how to use DeleteAppCatalogSubscription API.
 func (client ComputeClient) DeleteAppCatalogSubscription(ctx context.Context, request DeleteAppCatalogSubscriptionRequest) (response DeleteAppCatalogSubscriptionResponse, err error) {
@@ -1463,7 +1464,7 @@ func (client ComputeClient) deleteAppCatalogSubscription(ctx context.Context, re
 
 // DeleteComputeCapacityReservation Deletes the specified compute capacity reservation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCapacityReservation.go.html to see an example of how to use DeleteComputeCapacityReservation API.
 func (client ComputeClient) DeleteComputeCapacityReservation(ctx context.Context, request DeleteComputeCapacityReservationRequest) (response DeleteComputeCapacityReservationResponse, err error) {
@@ -1523,7 +1524,7 @@ func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context
 // Before you delete a compute cluster, first delete all instances in the cluster by using
 // the TerminateInstance operation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCluster.go.html to see an example of how to use DeleteComputeCluster API.
 func (client ComputeClient) DeleteComputeCluster(ctx context.Context, request DeleteComputeClusterRequest) (response DeleteComputeClusterResponse, err error) {
@@ -1580,7 +1581,7 @@ func (client ComputeClient) deleteComputeCluster(ctx context.Context, request co
 
 // DeleteComputeImageCapabilitySchema Deletes the specified Compute Image Capability Schema
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeImageCapabilitySchema.go.html to see an example of how to use DeleteComputeImageCapabilitySchema API.
 func (client ComputeClient) DeleteComputeImageCapabilitySchema(ctx context.Context, request DeleteComputeImageCapabilitySchemaRequest) (response DeleteComputeImageCapabilitySchemaResponse, err error) {
@@ -1637,7 +1638,7 @@ func (client ComputeClient) deleteComputeImageCapabilitySchema(ctx context.Conte
 
 // DeleteConsoleHistory Deletes the specified console history metadata and the console history data.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteConsoleHistory.go.html to see an example of how to use DeleteConsoleHistory API.
 func (client ComputeClient) DeleteConsoleHistory(ctx context.Context, request DeleteConsoleHistoryRequest) (response DeleteConsoleHistoryResponse, err error) {
@@ -1696,7 +1697,7 @@ func (client ComputeClient) deleteConsoleHistory(ctx context.Context, request co
 // If any VM instances are assigned to the dedicated virtual machine host,
 // the delete operation will fail and the service will return a 409 response code.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteDedicatedVmHost.go.html to see an example of how to use DeleteDedicatedVmHost API.
 func (client ComputeClient) DeleteDedicatedVmHost(ctx context.Context, request DeleteDedicatedVmHostRequest) (response DeleteDedicatedVmHostResponse, err error) {
@@ -1753,7 +1754,7 @@ func (client ComputeClient) deleteDedicatedVmHost(ctx context.Context, request c
 
 // DeleteImage Deletes an image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteImage.go.html to see an example of how to use DeleteImage API.
 func (client ComputeClient) DeleteImage(ctx context.Context, request DeleteImageRequest) (response DeleteImageResponse, err error) {
@@ -1810,7 +1811,7 @@ func (client ComputeClient) deleteImage(ctx context.Context, request common.OCIR
 
 // DeleteInstanceConsoleConnection Deletes the specified instance console connection.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteInstanceConsoleConnection.go.html to see an example of how to use DeleteInstanceConsoleConnection API.
 func (client ComputeClient) DeleteInstanceConsoleConnection(ctx context.Context, request DeleteInstanceConsoleConnectionRequest) (response DeleteInstanceConsoleConnectionResponse, err error) {
@@ -1869,7 +1870,7 @@ func (client ComputeClient) deleteInstanceConsoleConnection(ctx context.Context,
 // This is an asynchronous operation. The attachment's `lifecycleState` will change to DETACHING temporarily
 // until the attachment is completely removed.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachBootVolume.go.html to see an example of how to use DetachBootVolume API.
 func (client ComputeClient) DetachBootVolume(ctx context.Context, request DetachBootVolumeRequest) (response DetachBootVolumeResponse, err error) {
@@ -1934,7 +1935,7 @@ func (client ComputeClient) detachBootVolume(ctx context.Context, request common
 // deleting the VNIC causes that route rule to blackhole and the traffic
 // will be dropped.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachVnic.go.html to see an example of how to use DetachVnic API.
 func (client ComputeClient) DetachVnic(ctx context.Context, request DetachVnicRequest) (response DetachVnicResponse, err error) {
@@ -1993,7 +1994,7 @@ func (client ComputeClient) detachVnic(ctx context.Context, request common.OCIRe
 // This is an asynchronous operation. The attachment's `lifecycleState` will change to DETACHING temporarily
 // until the attachment is completely removed.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachVolume.go.html to see an example of how to use DetachVolume API.
 func (client ComputeClient) DetachVolume(ctx context.Context, request DetachVolumeRequest) (response DetachVolumeResponse, err error) {
@@ -2056,7 +2057,7 @@ func (client ComputeClient) detachVolume(ctx context.Context, request common.OCI
 // See Object Storage URLs (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 // for constructing URLs for image import/export.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ExportImage.go.html to see an example of how to use ExportImage API.
 // A default retry strategy applies to this operation ExportImage()
@@ -2119,7 +2120,7 @@ func (client ComputeClient) exportImage(ctx context.Context, request common.OCIR
 
 // GetAppCatalogListing Gets the specified listing.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAppCatalogListing.go.html to see an example of how to use GetAppCatalogListing API.
 // A default retry strategy applies to this operation GetAppCatalogListing()
@@ -2177,7 +2178,7 @@ func (client ComputeClient) getAppCatalogListing(ctx context.Context, request co
 
 // GetAppCatalogListingAgreements Retrieves the agreements for a particular resource version of a listing.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAppCatalogListingAgreements.go.html to see an example of how to use GetAppCatalogListingAgreements API.
 // A default retry strategy applies to this operation GetAppCatalogListingAgreements()
@@ -2235,7 +2236,7 @@ func (client ComputeClient) getAppCatalogListingAgreements(ctx context.Context, 
 
 // GetAppCatalogListingResourceVersion Gets the specified listing resource version.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAppCatalogListingResourceVersion.go.html to see an example of how to use GetAppCatalogListingResourceVersion API.
 // A default retry strategy applies to this operation GetAppCatalogListingResourceVersion()
@@ -2293,7 +2294,7 @@ func (client ComputeClient) getAppCatalogListingResourceVersion(ctx context.Cont
 
 // GetBootVolumeAttachment Gets information about the specified boot volume attachment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetBootVolumeAttachment.go.html to see an example of how to use GetBootVolumeAttachment API.
 func (client ComputeClient) GetBootVolumeAttachment(ctx context.Context, request GetBootVolumeAttachmentRequest) (response GetBootVolumeAttachmentResponse, err error) {
@@ -2350,7 +2351,7 @@ func (client ComputeClient) getBootVolumeAttachment(ctx context.Context, request
 
 // GetComputeCapacityReservation Gets information about the specified compute capacity reservation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeCapacityReservation.go.html to see an example of how to use GetComputeCapacityReservation API.
 func (client ComputeClient) GetComputeCapacityReservation(ctx context.Context, request GetComputeCapacityReservationRequest) (response GetComputeCapacityReservationResponse, err error) {
@@ -2408,7 +2409,7 @@ func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, r
 // GetComputeCluster Gets information about a compute cluster. A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm)
 // is a remote direct memory access (RDMA) network group.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeCluster.go.html to see an example of how to use GetComputeCluster API.
 func (client ComputeClient) GetComputeCluster(ctx context.Context, request GetComputeClusterRequest) (response GetComputeClusterResponse, err error) {
@@ -2465,7 +2466,7 @@ func (client ComputeClient) getComputeCluster(ctx context.Context, request commo
 
 // GetComputeGlobalImageCapabilitySchema Gets the specified Compute Global Image Capability Schema
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeGlobalImageCapabilitySchema.go.html to see an example of how to use GetComputeGlobalImageCapabilitySchema API.
 // A default retry strategy applies to this operation GetComputeGlobalImageCapabilitySchema()
@@ -2523,7 +2524,7 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchema(ctx context.Co
 
 // GetComputeGlobalImageCapabilitySchemaVersion Gets the specified Compute Global Image Capability Schema Version
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeGlobalImageCapabilitySchemaVersion.go.html to see an example of how to use GetComputeGlobalImageCapabilitySchemaVersion API.
 // A default retry strategy applies to this operation GetComputeGlobalImageCapabilitySchemaVersion()
@@ -2581,7 +2582,7 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchemaVersion(ctx con
 
 // GetComputeImageCapabilitySchema Gets the specified Compute Image Capability Schema
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeImageCapabilitySchema.go.html to see an example of how to use GetComputeImageCapabilitySchema API.
 // A default retry strategy applies to this operation GetComputeImageCapabilitySchema()
@@ -2641,7 +2642,7 @@ func (client ComputeClient) getComputeImageCapabilitySchema(ctx context.Context,
 // See CaptureConsoleHistory
 // for details about using the console history operations.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetConsoleHistory.go.html to see an example of how to use GetConsoleHistory API.
 func (client ComputeClient) GetConsoleHistory(ctx context.Context, request GetConsoleHistoryRequest) (response GetConsoleHistoryResponse, err error) {
@@ -2700,7 +2701,7 @@ func (client ComputeClient) getConsoleHistory(ctx context.Context, request commo
 // See CaptureConsoleHistory
 // for details about using the console history operations.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetConsoleHistoryContent.go.html to see an example of how to use GetConsoleHistoryContent API.
 func (client ComputeClient) GetConsoleHistoryContent(ctx context.Context, request GetConsoleHistoryContentRequest) (response GetConsoleHistoryContentResponse, err error) {
@@ -2757,7 +2758,7 @@ func (client ComputeClient) getConsoleHistoryContent(ctx context.Context, reques
 
 // GetDedicatedVmHost Gets information about the specified dedicated virtual machine host.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDedicatedVmHost.go.html to see an example of how to use GetDedicatedVmHost API.
 func (client ComputeClient) GetDedicatedVmHost(ctx context.Context, request GetDedicatedVmHostRequest) (response GetDedicatedVmHostResponse, err error) {
@@ -2814,7 +2815,7 @@ func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request comm
 
 // GetImage Gets the specified image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetImage.go.html to see an example of how to use GetImage API.
 // A default retry strategy applies to this operation GetImage()
@@ -2872,7 +2873,7 @@ func (client ComputeClient) getImage(ctx context.Context, request common.OCIRequ
 
 // GetImageShapeCompatibilityEntry Retrieves an image shape compatibility entry.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetImageShapeCompatibilityEntry.go.html to see an example of how to use GetImageShapeCompatibilityEntry API.
 // A default retry strategy applies to this operation GetImageShapeCompatibilityEntry()
@@ -2932,7 +2933,7 @@ func (client ComputeClient) getImageShapeCompatibilityEntry(ctx context.Context,
 // **Note:** To retrieve public and private IP addresses for an instance, use the ListVnicAttachments
 // operation to get the VNIC ID for the instance, and then call GetVnic with the VNIC ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstance.go.html to see an example of how to use GetInstance API.
 func (client ComputeClient) GetInstance(ctx context.Context, request GetInstanceRequest) (response GetInstanceResponse, err error) {
@@ -2989,7 +2990,7 @@ func (client ComputeClient) getInstance(ctx context.Context, request common.OCIR
 
 // GetInstanceConsoleConnection Gets the specified instance console connection's information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstanceConsoleConnection.go.html to see an example of how to use GetInstanceConsoleConnection API.
 func (client ComputeClient) GetInstanceConsoleConnection(ctx context.Context, request GetInstanceConsoleConnectionRequest) (response GetInstanceConsoleConnectionResponse, err error) {
@@ -3047,7 +3048,7 @@ func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, re
 // GetInstanceMaintenanceReboot Gets the maximum possible date that a maintenance reboot can be extended. For more information, see
 // Infrastructure Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstanceMaintenanceReboot.go.html to see an example of how to use GetInstanceMaintenanceReboot API.
 func (client ComputeClient) GetInstanceMaintenanceReboot(ctx context.Context, request GetInstanceMaintenanceRebootRequest) (response GetInstanceMaintenanceRebootResponse, err error) {
@@ -3104,7 +3105,7 @@ func (client ComputeClient) getInstanceMaintenanceReboot(ctx context.Context, re
 
 // GetMeasuredBootReport Gets the measured boot report for this shielded instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetMeasuredBootReport.go.html to see an example of how to use GetMeasuredBootReport API.
 func (client ComputeClient) GetMeasuredBootReport(ctx context.Context, request GetMeasuredBootReportRequest) (response GetMeasuredBootReportResponse, err error) {
@@ -3161,7 +3162,7 @@ func (client ComputeClient) getMeasuredBootReport(ctx context.Context, request c
 
 // GetVnicAttachment Gets the information for the specified VNIC attachment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVnicAttachment.go.html to see an example of how to use GetVnicAttachment API.
 func (client ComputeClient) GetVnicAttachment(ctx context.Context, request GetVnicAttachmentRequest) (response GetVnicAttachmentResponse, err error) {
@@ -3218,7 +3219,7 @@ func (client ComputeClient) getVnicAttachment(ctx context.Context, request commo
 
 // GetVolumeAttachment Gets information about the specified volume attachment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVolumeAttachment.go.html to see an example of how to use GetVolumeAttachment API.
 func (client ComputeClient) GetVolumeAttachment(ctx context.Context, request GetVolumeAttachmentRequest) (response GetVolumeAttachmentResponse, err error) {
@@ -3276,7 +3277,7 @@ func (client ComputeClient) getVolumeAttachment(ctx context.Context, request com
 // GetWindowsInstanceInitialCredentials Gets the generated credentials for the instance. Only works for instances that require a password to log in, such as Windows.
 // For certain operating systems, users will be forced to change the initial credentials.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetWindowsInstanceInitialCredentials.go.html to see an example of how to use GetWindowsInstanceInitialCredentials API.
 func (client ComputeClient) GetWindowsInstanceInitialCredentials(ctx context.Context, request GetWindowsInstanceInitialCredentialsRequest) (response GetWindowsInstanceInitialCredentialsResponse, err error) {
@@ -3363,7 +3364,7 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // For more information about managing instance lifecycle states, see
 // Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/InstanceAction.go.html to see an example of how to use InstanceAction API.
 func (client ComputeClient) InstanceAction(ctx context.Context, request InstanceActionRequest) (response InstanceActionResponse, err error) {
@@ -3459,7 +3460,7 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 // use the CreateComputeCapacityReport
 // operation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/LaunchInstance.go.html to see an example of how to use LaunchInstance API.
 func (client ComputeClient) LaunchInstance(ctx context.Context, request LaunchInstanceRequest) (response LaunchInstanceResponse, err error) {
@@ -3521,7 +3522,7 @@ func (client ComputeClient) launchInstance(ctx context.Context, request common.O
 
 // ListAppCatalogListingResourceVersions Gets all resource versions for a particular listing.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAppCatalogListingResourceVersions.go.html to see an example of how to use ListAppCatalogListingResourceVersions API.
 // A default retry strategy applies to this operation ListAppCatalogListingResourceVersions()
@@ -3579,7 +3580,7 @@ func (client ComputeClient) listAppCatalogListingResourceVersions(ctx context.Co
 
 // ListAppCatalogListings Lists the published listings.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAppCatalogListings.go.html to see an example of how to use ListAppCatalogListings API.
 // A default retry strategy applies to this operation ListAppCatalogListings()
@@ -3637,7 +3638,7 @@ func (client ComputeClient) listAppCatalogListings(ctx context.Context, request 
 
 // ListAppCatalogSubscriptions Lists subscriptions for a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAppCatalogSubscriptions.go.html to see an example of how to use ListAppCatalogSubscriptions API.
 // A default retry strategy applies to this operation ListAppCatalogSubscriptions()
@@ -3696,7 +3697,7 @@ func (client ComputeClient) listAppCatalogSubscriptions(ctx context.Context, req
 // ListBootVolumeAttachments Lists the boot volume attachments in the specified compartment. You can filter the
 // list by specifying an instance OCID, boot volume OCID, or both.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListBootVolumeAttachments.go.html to see an example of how to use ListBootVolumeAttachments API.
 func (client ComputeClient) ListBootVolumeAttachments(ctx context.Context, request ListBootVolumeAttachmentsRequest) (response ListBootVolumeAttachmentsResponse, err error) {
@@ -3753,7 +3754,7 @@ func (client ComputeClient) listBootVolumeAttachments(ctx context.Context, reque
 
 // ListComputeCapacityReservationInstanceShapes Lists the shapes that can be reserved within the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservationInstanceShapes.go.html to see an example of how to use ListComputeCapacityReservationInstanceShapes API.
 func (client ComputeClient) ListComputeCapacityReservationInstanceShapes(ctx context.Context, request ListComputeCapacityReservationInstanceShapesRequest) (response ListComputeCapacityReservationInstanceShapesResponse, err error) {
@@ -3810,7 +3811,7 @@ func (client ComputeClient) listComputeCapacityReservationInstanceShapes(ctx con
 
 // ListComputeCapacityReservationInstances Lists the instances launched under a capacity reservation. You can filter results by specifying criteria.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservationInstances.go.html to see an example of how to use ListComputeCapacityReservationInstances API.
 func (client ComputeClient) ListComputeCapacityReservationInstances(ctx context.Context, request ListComputeCapacityReservationInstancesRequest) (response ListComputeCapacityReservationInstancesResponse, err error) {
@@ -3869,7 +3870,7 @@ func (client ComputeClient) listComputeCapacityReservationInstances(ctx context.
 // You can limit the list by specifying a compute capacity reservation display name
 // (the list will include all the identically-named compute capacity reservations in the compartment).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservations.go.html to see an example of how to use ListComputeCapacityReservations API.
 func (client ComputeClient) ListComputeCapacityReservations(ctx context.Context, request ListComputeCapacityReservationsRequest) (response ListComputeCapacityReservationsResponse, err error) {
@@ -3927,7 +3928,7 @@ func (client ComputeClient) listComputeCapacityReservations(ctx context.Context,
 // ListComputeClusters Lists the compute clusters in the specified compartment.
 // A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeClusters.go.html to see an example of how to use ListComputeClusters API.
 func (client ComputeClient) ListComputeClusters(ctx context.Context, request ListComputeClustersRequest) (response ListComputeClustersResponse, err error) {
@@ -3984,7 +3985,7 @@ func (client ComputeClient) listComputeClusters(ctx context.Context, request com
 
 // ListComputeGlobalImageCapabilitySchemaVersions Lists Compute Global Image Capability Schema versions in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeGlobalImageCapabilitySchemaVersions.go.html to see an example of how to use ListComputeGlobalImageCapabilitySchemaVersions API.
 // A default retry strategy applies to this operation ListComputeGlobalImageCapabilitySchemaVersions()
@@ -4042,7 +4043,7 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemaVersions(ctx c
 
 // ListComputeGlobalImageCapabilitySchemas Lists Compute Global Image Capability Schema in the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeGlobalImageCapabilitySchemas.go.html to see an example of how to use ListComputeGlobalImageCapabilitySchemas API.
 // A default retry strategy applies to this operation ListComputeGlobalImageCapabilitySchemas()
@@ -4100,7 +4101,7 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemas(ctx context.
 
 // ListComputeImageCapabilitySchemas Lists Compute Image Capability Schema in the specified compartment. You can also query by a specific imageId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeImageCapabilitySchemas.go.html to see an example of how to use ListComputeImageCapabilitySchemas API.
 // A default retry strategy applies to this operation ListComputeImageCapabilitySchemas()
@@ -4158,7 +4159,7 @@ func (client ComputeClient) listComputeImageCapabilitySchemas(ctx context.Contex
 
 // ListConsoleHistories Lists the console history metadata for the specified compartment or instance.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListConsoleHistories.go.html to see an example of how to use ListConsoleHistories API.
 func (client ComputeClient) ListConsoleHistories(ctx context.Context, request ListConsoleHistoriesRequest) (response ListConsoleHistoriesResponse, err error) {
@@ -4216,7 +4217,7 @@ func (client ComputeClient) listConsoleHistories(ctx context.Context, request co
 // ListDedicatedVmHostInstanceShapes Lists the shapes that can be used to launch a virtual machine instance on a dedicated virtual machine host within the specified compartment.
 // You can filter the list by compatibility with a specific dedicated virtual machine host shape.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHostInstanceShapes.go.html to see an example of how to use ListDedicatedVmHostInstanceShapes API.
 func (client ComputeClient) ListDedicatedVmHostInstanceShapes(ctx context.Context, request ListDedicatedVmHostInstanceShapesRequest) (response ListDedicatedVmHostInstanceShapesResponse, err error) {
@@ -4273,7 +4274,7 @@ func (client ComputeClient) listDedicatedVmHostInstanceShapes(ctx context.Contex
 
 // ListDedicatedVmHostInstances Returns the list of instances on the dedicated virtual machine hosts that match the specified criteria.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHostInstances.go.html to see an example of how to use ListDedicatedVmHostInstances API.
 func (client ComputeClient) ListDedicatedVmHostInstances(ctx context.Context, request ListDedicatedVmHostInstancesRequest) (response ListDedicatedVmHostInstancesResponse, err error) {
@@ -4330,7 +4331,7 @@ func (client ComputeClient) listDedicatedVmHostInstances(ctx context.Context, re
 
 // ListDedicatedVmHostShapes Lists the shapes that can be used to launch a dedicated virtual machine host within the specified compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHostShapes.go.html to see an example of how to use ListDedicatedVmHostShapes API.
 func (client ComputeClient) ListDedicatedVmHostShapes(ctx context.Context, request ListDedicatedVmHostShapesRequest) (response ListDedicatedVmHostShapesResponse, err error) {
@@ -4389,7 +4390,7 @@ func (client ComputeClient) listDedicatedVmHostShapes(ctx context.Context, reque
 // You can limit the list by specifying a dedicated virtual machine host display name. The list will include all the identically-named
 // dedicated virtual machine hosts in the compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHosts.go.html to see an example of how to use ListDedicatedVmHosts API.
 func (client ComputeClient) ListDedicatedVmHosts(ctx context.Context, request ListDedicatedVmHostsRequest) (response ListDedicatedVmHostsResponse, err error) {
@@ -4446,7 +4447,7 @@ func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request co
 
 // ListImageShapeCompatibilityEntries Lists the compatible shapes for the specified image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListImageShapeCompatibilityEntries.go.html to see an example of how to use ListImageShapeCompatibilityEntries API.
 // A default retry strategy applies to this operation ListImageShapeCompatibilityEntries()
@@ -4512,7 +4513,7 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 // **Caution:** Platform images are refreshed regularly. When new images are released, older versions are replaced.
 // The image OCIDs remain available, but when the platform image is replaced, the image OCIDs are no longer returned as part of the platform image list.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListImages.go.html to see an example of how to use ListImages API.
 // A default retry strategy applies to this operation ListImages()
@@ -4571,7 +4572,7 @@ func (client ComputeClient) listImages(ctx context.Context, request common.OCIRe
 // ListInstanceConsoleConnections Lists the console connections for the specified compartment or instance.
 // For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstanceConsoleConnections.go.html to see an example of how to use ListInstanceConsoleConnections API.
 func (client ComputeClient) ListInstanceConsoleConnections(ctx context.Context, request ListInstanceConsoleConnectionsRequest) (response ListInstanceConsoleConnectionsResponse, err error) {
@@ -4628,7 +4629,7 @@ func (client ComputeClient) listInstanceConsoleConnections(ctx context.Context, 
 
 // ListInstanceDevices Gets a list of all the devices for given instance. You can optionally filter results by device availability.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstanceDevices.go.html to see an example of how to use ListInstanceDevices API.
 func (client ComputeClient) ListInstanceDevices(ctx context.Context, request ListInstanceDevicesRequest) (response ListInstanceDevicesResponse, err error) {
@@ -4689,7 +4690,7 @@ func (client ComputeClient) listInstanceDevices(ctx context.Context, request com
 // **Note:** To retrieve public and private IP addresses for an instance, use the ListVnicAttachments
 // operation to get the VNIC ID for the instance, and then call GetVnic with the VNIC ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstances.go.html to see an example of how to use ListInstances API.
 func (client ComputeClient) ListInstances(ctx context.Context, request ListInstancesRequest) (response ListInstancesResponse, err error) {
@@ -4747,7 +4748,7 @@ func (client ComputeClient) listInstances(ctx context.Context, request common.OC
 // ListShapes Lists the shapes that can be used to launch an instance within the specified compartment. You can
 // filter the list by compatibility with a specific image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListShapes.go.html to see an example of how to use ListShapes API.
 func (client ComputeClient) ListShapes(ctx context.Context, request ListShapesRequest) (response ListShapesResponse, err error) {
@@ -4806,7 +4807,7 @@ func (client ComputeClient) listShapes(ctx context.Context, request common.OCIRe
 // resides in the same compartment as the attached instance. The list can be
 // filtered by instance, VNIC, or availability domain.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVnicAttachments.go.html to see an example of how to use ListVnicAttachments API.
 func (client ComputeClient) ListVnicAttachments(ctx context.Context, request ListVnicAttachmentsRequest) (response ListVnicAttachmentsResponse, err error) {
@@ -4882,7 +4883,7 @@ func (m *listvolumeattachment) UnmarshalPolymorphicJSON(data []byte) (interface{
 // Currently, the only supported volume attachment type are IScsiVolumeAttachment and
 // ParavirtualizedVolumeAttachment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeAttachments.go.html to see an example of how to use ListVolumeAttachments API.
 func (client ComputeClient) ListVolumeAttachments(ctx context.Context, request ListVolumeAttachmentsRequest) (response ListVolumeAttachmentsResponse, err error) {
@@ -4939,7 +4940,7 @@ func (client ComputeClient) listVolumeAttachments(ctx context.Context, request c
 
 // RemoveImageShapeCompatibilityEntry Removes a shape from the compatible shapes list for the image.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveImageShapeCompatibilityEntry.go.html to see an example of how to use RemoveImageShapeCompatibilityEntry API.
 func (client ComputeClient) RemoveImageShapeCompatibilityEntry(ctx context.Context, request RemoveImageShapeCompatibilityEntryRequest) (response RemoveImageShapeCompatibilityEntryResponse, err error) {
@@ -5002,7 +5003,7 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 // until the instance is completely deleted. After the instance is deleted, the record remains visible in the list of instances
 // with the state TERMINATED for at least 12 hours, but no further action is needed.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/TerminateInstance.go.html to see an example of how to use TerminateInstance API.
 func (client ComputeClient) TerminateInstance(ctx context.Context, request TerminateInstanceRequest) (response TerminateInstanceResponse, err error) {
@@ -5061,7 +5062,7 @@ func (client ComputeClient) terminateInstance(ctx context.Context, request commo
 // Fields that are not provided in the request will not be updated. Capacity configurations that are not included will be deleted.
 // Avoid entering confidential information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCapacityReservation.go.html to see an example of how to use UpdateComputeCapacityReservation API.
 func (client ComputeClient) UpdateComputeCapacityReservation(ctx context.Context, request UpdateComputeCapacityReservationRequest) (response UpdateComputeCapacityReservationResponse, err error) {
@@ -5123,7 +5124,7 @@ func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context
 // To delete instances from a compute cluster, use the TerminateInstance
 // operation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCluster.go.html to see an example of how to use UpdateComputeCluster API.
 func (client ComputeClient) UpdateComputeCluster(ctx context.Context, request UpdateComputeClusterRequest) (response UpdateComputeClusterResponse, err error) {
@@ -5185,7 +5186,7 @@ func (client ComputeClient) updateComputeCluster(ctx context.Context, request co
 
 // UpdateComputeImageCapabilitySchema Updates the specified Compute Image Capability Schema
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeImageCapabilitySchema.go.html to see an example of how to use UpdateComputeImageCapabilitySchema API.
 func (client ComputeClient) UpdateComputeImageCapabilitySchema(ctx context.Context, request UpdateComputeImageCapabilitySchemaRequest) (response UpdateComputeImageCapabilitySchemaResponse, err error) {
@@ -5242,7 +5243,7 @@ func (client ComputeClient) updateComputeImageCapabilitySchema(ctx context.Conte
 
 // UpdateConsoleHistory Updates the specified console history metadata.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateConsoleHistory.go.html to see an example of how to use UpdateConsoleHistory API.
 func (client ComputeClient) UpdateConsoleHistory(ctx context.Context, request UpdateConsoleHistoryRequest) (response UpdateConsoleHistoryResponse, err error) {
@@ -5300,7 +5301,7 @@ func (client ComputeClient) updateConsoleHistory(ctx context.Context, request co
 // UpdateDedicatedVmHost Updates the displayName, freeformTags, and definedTags attributes for the specified dedicated virtual machine host.
 // If an attribute value is not included, it will not be updated.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDedicatedVmHost.go.html to see an example of how to use UpdateDedicatedVmHost API.
 func (client ComputeClient) UpdateDedicatedVmHost(ctx context.Context, request UpdateDedicatedVmHostRequest) (response UpdateDedicatedVmHostResponse, err error) {
@@ -5362,7 +5363,7 @@ func (client ComputeClient) updateDedicatedVmHost(ctx context.Context, request c
 
 // UpdateImage Updates the display name of the image. Avoid entering confidential information.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateImage.go.html to see an example of how to use UpdateImage API.
 func (client ComputeClient) UpdateImage(ctx context.Context, request UpdateImageRequest) (response UpdateImageResponse, err error) {
@@ -5428,7 +5429,7 @@ func (client ComputeClient) updateImage(ctx context.Context, request common.OCIR
 // up to a minute).
 // The OCID of the instance remains the same.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInstance.go.html to see an example of how to use UpdateInstance API.
 func (client ComputeClient) UpdateInstance(ctx context.Context, request UpdateInstanceRequest) (response UpdateInstanceResponse, err error) {
@@ -5490,7 +5491,7 @@ func (client ComputeClient) updateInstance(ctx context.Context, request common.O
 
 // UpdateInstanceConsoleConnection Updates the defined tags and free-form tags for the specified instance console connection.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInstanceConsoleConnection.go.html to see an example of how to use UpdateInstanceConsoleConnection API.
 func (client ComputeClient) UpdateInstanceConsoleConnection(ctx context.Context, request UpdateInstanceConsoleConnectionRequest) (response UpdateInstanceConsoleConnectionResponse, err error) {
@@ -5547,7 +5548,7 @@ func (client ComputeClient) updateInstanceConsoleConnection(ctx context.Context,
 
 // UpdateVolumeAttachment Updates information about the specified volume attachment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVolumeAttachment.go.html to see an example of how to use UpdateVolumeAttachment API.
 func (client ComputeClient) UpdateVolumeAttachment(ctx context.Context, request UpdateVolumeAttachmentRequest) (response UpdateVolumeAttachmentResponse, err error) {

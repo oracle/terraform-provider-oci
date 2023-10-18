@@ -47,17 +47,17 @@ type CreateEmManagedExternalExadataInsightDetails struct {
 	IsAutoSyncEnabled *bool `mandatory:"false" json:"isAutoSyncEnabled"`
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateEmManagedExternalExadataInsightDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateEmManagedExternalExadataInsightDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateEmManagedExternalExadataInsightDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

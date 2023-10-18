@@ -36,12 +36,12 @@ type InstanceAgentCommandExecutionOutputViaObjectStorageTupleDetails struct {
 	Message *string `mandatory:"false" json:"message"`
 }
 
-//GetExitCode returns ExitCode
+// GetExitCode returns ExitCode
 func (m InstanceAgentCommandExecutionOutputViaObjectStorageTupleDetails) GetExitCode() *int {
 	return m.ExitCode
 }
 
-//GetMessage returns Message
+// GetMessage returns Message
 func (m InstanceAgentCommandExecutionOutputViaObjectStorageTupleDetails) GetMessage() *string {
 	return m.Message
 }

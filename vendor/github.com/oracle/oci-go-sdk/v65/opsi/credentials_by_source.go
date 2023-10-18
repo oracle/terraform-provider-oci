@@ -25,7 +25,7 @@ type CredentialsBySource struct {
 	CredentialSourceName *string `mandatory:"true" json:"credentialSourceName"`
 }
 
-//GetCredentialSourceName returns CredentialSourceName
+// GetCredentialSourceName returns CredentialSourceName
 func (m CredentialsBySource) GetCredentialSourceName() *string {
 	return m.CredentialSourceName
 }

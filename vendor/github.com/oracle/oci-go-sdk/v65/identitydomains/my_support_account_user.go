@@ -18,14 +18,14 @@ import (
 
 // MySupportAccountUser User linked to Support Account
 // **SCIM++ Properties:**
-//  - caseExact: false
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - caseExact: false
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type MySupportAccountUser struct {
 
 	// User's id

@@ -25,7 +25,7 @@ type ForwardedRoutingAction struct {
 	ActionType RoutingActionActionTypeEnum `mandatory:"true" json:"actionType"`
 }
 
-//GetActionType returns ActionType
+// GetActionType returns ActionType
 func (m ForwardedRoutingAction) GetActionType() RoutingActionActionTypeEnum {
 	return m.ActionType
 }

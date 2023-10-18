@@ -27,7 +27,7 @@ type TextClassificationModelDetails struct {
 	ClassificationMode ClassificationType `mandatory:"false" json:"classificationMode"`
 }
 
-//GetLanguageCode returns LanguageCode
+// GetLanguageCode returns LanguageCode
 func (m TextClassificationModelDetails) GetLanguageCode() *string {
 	return m.LanguageCode
 }

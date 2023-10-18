@@ -48,32 +48,32 @@ type CreateMediaWorkflowJobByNameDetails struct {
 	MediaWorkflowName *string `mandatory:"false" json:"mediaWorkflowName"`
 }
 
-//GetMediaWorkflowConfigurationIds returns MediaWorkflowConfigurationIds
+// GetMediaWorkflowConfigurationIds returns MediaWorkflowConfigurationIds
 func (m CreateMediaWorkflowJobByNameDetails) GetMediaWorkflowConfigurationIds() []string {
 	return m.MediaWorkflowConfigurationIds
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m CreateMediaWorkflowJobByNameDetails) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m CreateMediaWorkflowJobByNameDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetParameters returns Parameters
+// GetParameters returns Parameters
 func (m CreateMediaWorkflowJobByNameDetails) GetParameters() map[string]interface{} {
 	return m.Parameters
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m CreateMediaWorkflowJobByNameDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m CreateMediaWorkflowJobByNameDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

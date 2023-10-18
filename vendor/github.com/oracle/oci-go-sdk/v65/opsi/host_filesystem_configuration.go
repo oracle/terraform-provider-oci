@@ -35,7 +35,7 @@ type HostFilesystemConfiguration struct {
 	FileSystemSizeInGB *float64 `mandatory:"true" json:"fileSystemSizeInGB"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m HostFilesystemConfiguration) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

@@ -35,7 +35,7 @@ type ShuffleFormatEntry struct {
 	GroupingColumns []string `mandatory:"false" json:"groupingColumns"`
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m ShuffleFormatEntry) GetDescription() *string {
 	return m.Description
 }

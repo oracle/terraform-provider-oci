@@ -18,13 +18,13 @@ import (
 
 // AuthenticationFactorSettingsBypassCodeSettings Settings related to the bypass code, such as bypass code length, bypass code expiry, max active bypass codes, and so on
 // **SCIM++ Properties:**
-//  - idcsSearchable: false
-//  - multiValued: false
-//  - mutability: readWrite
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: false
+//   - multiValued: false
+//   - mutability: readWrite
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AuthenticationFactorSettingsBypassCodeSettings struct {
 
 	// If true, indicates that self-service bypass code generation is enabled

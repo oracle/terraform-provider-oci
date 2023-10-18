@@ -38,12 +38,12 @@ type CreditCardPaymentOption struct {
 	CreditCardType CreditCardTypeEnum `mandatory:"false" json:"creditCardType,omitempty"`
 }
 
-//GetWalletInstrumentId returns WalletInstrumentId
+// GetWalletInstrumentId returns WalletInstrumentId
 func (m CreditCardPaymentOption) GetWalletInstrumentId() *string {
 	return m.WalletInstrumentId
 }
 
-//GetWalletTransactionId returns WalletTransactionId
+// GetWalletTransactionId returns WalletTransactionId
 func (m CreditCardPaymentOption) GetWalletTransactionId() *string {
 	return m.WalletTransactionId
 }

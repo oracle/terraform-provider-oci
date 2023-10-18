@@ -33,12 +33,12 @@ type EmbeddedDetectAnomaliesRequest struct {
 	ContentType EmbeddedDetectAnomaliesRequestContentTypeEnum `mandatory:"false" json:"contentType,omitempty"`
 }
 
-//GetModelId returns ModelId
+// GetModelId returns ModelId
 func (m EmbeddedDetectAnomaliesRequest) GetModelId() *string {
 	return m.ModelId
 }
 
-//GetSensitivity returns Sensitivity
+// GetSensitivity returns Sensitivity
 func (m EmbeddedDetectAnomaliesRequest) GetSensitivity() *float32 {
 	return m.Sensitivity
 }

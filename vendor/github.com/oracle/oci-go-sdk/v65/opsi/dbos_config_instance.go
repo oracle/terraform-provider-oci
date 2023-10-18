@@ -44,7 +44,7 @@ type DbosConfigInstance struct {
 	PhysicalMemoryBytes *float64 `mandatory:"false" json:"physicalMemoryBytes"`
 }
 
-//GetTimeCollected returns TimeCollected
+// GetTimeCollected returns TimeCollected
 func (m DbosConfigInstance) GetTimeCollected() *common.SDKTime {
 	return m.TimeCollected
 }

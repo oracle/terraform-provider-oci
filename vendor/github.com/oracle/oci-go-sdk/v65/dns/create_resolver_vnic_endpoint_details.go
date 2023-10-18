@@ -48,27 +48,27 @@ type CreateResolverVnicEndpointDetails struct {
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateResolverVnicEndpointDetails) GetName() *string {
 	return m.Name
 }
 
-//GetForwardingAddress returns ForwardingAddress
+// GetForwardingAddress returns ForwardingAddress
 func (m CreateResolverVnicEndpointDetails) GetForwardingAddress() *string {
 	return m.ForwardingAddress
 }
 
-//GetIsForwarding returns IsForwarding
+// GetIsForwarding returns IsForwarding
 func (m CreateResolverVnicEndpointDetails) GetIsForwarding() *bool {
 	return m.IsForwarding
 }
 
-//GetIsListening returns IsListening
+// GetIsListening returns IsListening
 func (m CreateResolverVnicEndpointDetails) GetIsListening() *bool {
 	return m.IsListening
 }
 
-//GetListeningAddress returns ListeningAddress
+// GetListeningAddress returns ListeningAddress
 func (m CreateResolverVnicEndpointDetails) GetListeningAddress() *string {
 	return m.ListeningAddress
 }

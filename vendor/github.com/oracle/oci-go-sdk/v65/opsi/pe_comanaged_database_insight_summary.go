@@ -91,92 +91,92 @@ type PeComanagedDatabaseInsightSummary struct {
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m PeComanagedDatabaseInsightSummary) GetId() *string {
 	return m.Id
 }
 
-//GetDatabaseId returns DatabaseId
+// GetDatabaseId returns DatabaseId
 func (m PeComanagedDatabaseInsightSummary) GetDatabaseId() *string {
 	return m.DatabaseId
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m PeComanagedDatabaseInsightSummary) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetDatabaseName returns DatabaseName
+// GetDatabaseName returns DatabaseName
 func (m PeComanagedDatabaseInsightSummary) GetDatabaseName() *string {
 	return m.DatabaseName
 }
 
-//GetDatabaseDisplayName returns DatabaseDisplayName
+// GetDatabaseDisplayName returns DatabaseDisplayName
 func (m PeComanagedDatabaseInsightSummary) GetDatabaseDisplayName() *string {
 	return m.DatabaseDisplayName
 }
 
-//GetDatabaseType returns DatabaseType
+// GetDatabaseType returns DatabaseType
 func (m PeComanagedDatabaseInsightSummary) GetDatabaseType() *string {
 	return m.DatabaseType
 }
 
-//GetDatabaseVersion returns DatabaseVersion
+// GetDatabaseVersion returns DatabaseVersion
 func (m PeComanagedDatabaseInsightSummary) GetDatabaseVersion() *string {
 	return m.DatabaseVersion
 }
 
-//GetDatabaseHostNames returns DatabaseHostNames
+// GetDatabaseHostNames returns DatabaseHostNames
 func (m PeComanagedDatabaseInsightSummary) GetDatabaseHostNames() []string {
 	return m.DatabaseHostNames
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m PeComanagedDatabaseInsightSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m PeComanagedDatabaseInsightSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m PeComanagedDatabaseInsightSummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }
 
-//GetProcessorCount returns ProcessorCount
+// GetProcessorCount returns ProcessorCount
 func (m PeComanagedDatabaseInsightSummary) GetProcessorCount() *int {
 	return m.ProcessorCount
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m PeComanagedDatabaseInsightSummary) GetStatus() ResourceStatusEnum {
 	return m.Status
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m PeComanagedDatabaseInsightSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m PeComanagedDatabaseInsightSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m PeComanagedDatabaseInsightSummary) GetLifecycleState() LifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m PeComanagedDatabaseInsightSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
+// GetDatabaseConnectionStatusDetails returns DatabaseConnectionStatusDetails
 func (m PeComanagedDatabaseInsightSummary) GetDatabaseConnectionStatusDetails() *string {
 	return m.DatabaseConnectionStatusDetails
 }

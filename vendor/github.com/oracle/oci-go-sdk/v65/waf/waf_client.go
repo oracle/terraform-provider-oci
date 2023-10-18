@@ -95,7 +95,7 @@ func (client *WafClient) ConfigurationProvider() *common.ConfigurationProvider {
 // ChangeNetworkAddressListCompartment Moves a NetworkAddressList resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeNetworkAddressListCompartment.go.html to see an example of how to use ChangeNetworkAddressListCompartment API.
 // A default retry strategy applies to this operation ChangeNetworkAddressListCompartment()
@@ -154,7 +154,7 @@ func (client WafClient) changeNetworkAddressListCompartment(ctx context.Context,
 // ChangeWebAppFirewallCompartment Moves a Web App Firewall resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeWebAppFirewallCompartment.go.html to see an example of how to use ChangeWebAppFirewallCompartment API.
 // A default retry strategy applies to this operation ChangeWebAppFirewallCompartment()
@@ -213,7 +213,7 @@ func (client WafClient) changeWebAppFirewallCompartment(ctx context.Context, req
 // ChangeWebAppFirewallPolicyCompartment Moves a WebAppFirewallfPolicy resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ChangeWebAppFirewallPolicyCompartment.go.html to see an example of how to use ChangeWebAppFirewallPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeWebAppFirewallPolicyCompartment()
@@ -271,7 +271,7 @@ func (client WafClient) changeWebAppFirewallPolicyCompartment(ctx context.Contex
 
 // CreateNetworkAddressList Creates a new NetworkAddressList.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateNetworkAddressList.go.html to see an example of how to use CreateNetworkAddressList API.
 // A default retry strategy applies to this operation CreateNetworkAddressList()
@@ -334,7 +334,7 @@ func (client WafClient) createNetworkAddressList(ctx context.Context, request co
 
 // CreateWebAppFirewall Creates a new WebAppFirewall.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateWebAppFirewall.go.html to see an example of how to use CreateWebAppFirewall API.
 // A default retry strategy applies to this operation CreateWebAppFirewall()
@@ -397,7 +397,7 @@ func (client WafClient) createWebAppFirewall(ctx context.Context, request common
 
 // CreateWebAppFirewallPolicy Creates a new WebAppFirewallPolicy.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateWebAppFirewallPolicy.go.html to see an example of how to use CreateWebAppFirewallPolicy API.
 // A default retry strategy applies to this operation CreateWebAppFirewallPolicy()
@@ -460,7 +460,7 @@ func (client WafClient) createWebAppFirewallPolicy(ctx context.Context, request 
 
 // DeleteNetworkAddressList Deletes a NetworkAddressList resource identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteNetworkAddressList.go.html to see an example of how to use DeleteNetworkAddressList API.
 // A default retry strategy applies to this operation DeleteNetworkAddressList()
@@ -518,7 +518,7 @@ func (client WafClient) deleteNetworkAddressList(ctx context.Context, request co
 
 // DeleteWebAppFirewall Deletes a WebAppFirewall resource identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteWebAppFirewall.go.html to see an example of how to use DeleteWebAppFirewall API.
 // A default retry strategy applies to this operation DeleteWebAppFirewall()
@@ -576,7 +576,7 @@ func (client WafClient) deleteWebAppFirewall(ctx context.Context, request common
 
 // DeleteWebAppFirewallPolicy Deletes a WebAppFirewallPolicy resource identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/DeleteWebAppFirewallPolicy.go.html to see an example of how to use DeleteWebAppFirewallPolicy API.
 // A default retry strategy applies to this operation DeleteWebAppFirewallPolicy()
@@ -634,7 +634,7 @@ func (client WafClient) deleteWebAppFirewallPolicy(ctx context.Context, request 
 
 // GetNetworkAddressList Gets a NetworkAddressList by OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetNetworkAddressList.go.html to see an example of how to use GetNetworkAddressList API.
 // A default retry strategy applies to this operation GetNetworkAddressList()
@@ -692,7 +692,7 @@ func (client WafClient) getNetworkAddressList(ctx context.Context, request commo
 
 // GetWebAppFirewall Gets a WebAppFirewall by OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWebAppFirewall.go.html to see an example of how to use GetWebAppFirewall API.
 // A default retry strategy applies to this operation GetWebAppFirewall()
@@ -750,7 +750,7 @@ func (client WafClient) getWebAppFirewall(ctx context.Context, request common.OC
 
 // GetWebAppFirewallPolicy Gets a WebAppFirewallPolicy with the given OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWebAppFirewallPolicy.go.html to see an example of how to use GetWebAppFirewallPolicy API.
 // A default retry strategy applies to this operation GetWebAppFirewallPolicy()
@@ -808,7 +808,7 @@ func (client WafClient) getWebAppFirewallPolicy(ctx context.Context, request com
 
 // GetWorkRequest Gets the status of the WorkRequest with the given OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -866,7 +866,7 @@ func (client WafClient) getWorkRequest(ctx context.Context, request common.OCIRe
 
 // ListNetworkAddressLists Gets a list of all NetworkAddressLists in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListNetworkAddressLists.go.html to see an example of how to use ListNetworkAddressLists API.
 // A default retry strategy applies to this operation ListNetworkAddressLists()
@@ -924,7 +924,7 @@ func (client WafClient) listNetworkAddressLists(ctx context.Context, request com
 
 // ListProtectionCapabilities Lists of protection capabilities filtered by query parameters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListProtectionCapabilities.go.html to see an example of how to use ListProtectionCapabilities API.
 // A default retry strategy applies to this operation ListProtectionCapabilities()
@@ -982,7 +982,7 @@ func (client WafClient) listProtectionCapabilities(ctx context.Context, request 
 
 // ListProtectionCapabilityGroupTags Lists of available group tags filtered by query parameters.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListProtectionCapabilityGroupTags.go.html to see an example of how to use ListProtectionCapabilityGroupTags API.
 // A default retry strategy applies to this operation ListProtectionCapabilityGroupTags()
@@ -1040,7 +1040,7 @@ func (client WafClient) listProtectionCapabilityGroupTags(ctx context.Context, r
 
 // ListWebAppFirewallPolicies Gets a list of all WebAppFirewallPolicies in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWebAppFirewallPolicies.go.html to see an example of how to use ListWebAppFirewallPolicies API.
 // A default retry strategy applies to this operation ListWebAppFirewallPolicies()
@@ -1098,7 +1098,7 @@ func (client WafClient) listWebAppFirewallPolicies(ctx context.Context, request 
 
 // ListWebAppFirewalls Gets a list of all WebAppFirewalls in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWebAppFirewalls.go.html to see an example of how to use ListWebAppFirewalls API.
 // A default retry strategy applies to this operation ListWebAppFirewalls()
@@ -1156,7 +1156,7 @@ func (client WafClient) listWebAppFirewalls(ctx context.Context, request common.
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given WorkRequest.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -1214,7 +1214,7 @@ func (client WafClient) listWorkRequestErrors(ctx context.Context, request commo
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given WorkRequest.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -1272,7 +1272,7 @@ func (client WafClient) listWorkRequestLogs(ctx context.Context, request common.
 
 // ListWorkRequests Lists the WorkRequests in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -1330,7 +1330,7 @@ func (client WafClient) listWorkRequests(ctx context.Context, request common.OCI
 
 // UpdateNetworkAddressList Update the NetworkAddressList identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/UpdateNetworkAddressList.go.html to see an example of how to use UpdateNetworkAddressList API.
 // A default retry strategy applies to this operation UpdateNetworkAddressList()
@@ -1388,7 +1388,7 @@ func (client WafClient) updateNetworkAddressList(ctx context.Context, request co
 
 // UpdateWebAppFirewall Updates the WebAppFirewall identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/UpdateWebAppFirewall.go.html to see an example of how to use UpdateWebAppFirewall API.
 // A default retry strategy applies to this operation UpdateWebAppFirewall()
@@ -1446,7 +1446,7 @@ func (client WafClient) updateWebAppFirewall(ctx context.Context, request common
 
 // UpdateWebAppFirewallPolicy Update the WebAppFirewallPolicy identified by the OCID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/UpdateWebAppFirewallPolicy.go.html to see an example of how to use UpdateWebAppFirewallPolicy API.
 // A default retry strategy applies to this operation UpdateWebAppFirewallPolicy()
