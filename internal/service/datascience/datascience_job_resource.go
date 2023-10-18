@@ -241,6 +241,63 @@ func DatascienceJobResource() *schema.Resource {
 					},
 				},
 			},
+			"job_storage_mount_configuration_details_list": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"destination_directory_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"storage_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"FILE_STORAGE",
+								"OBJECT_STORAGE",
+							}, true),
+						},
+
+						// Optional
+						"bucket": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"destination_path": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"export_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"mount_target_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"prefix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"artifact_content_md5": {
@@ -423,6 +480,23 @@ func (s *DatascienceJobResourceCrud) Create() error {
 		}
 	}
 
+	if jobStorageMountConfigurationDetailsList, ok := s.D.GetOkExists("job_storage_mount_configuration_details_list"); ok {
+		interfaces := jobStorageMountConfigurationDetailsList.([]interface{})
+		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "job_storage_mount_configuration_details_list", stateDataIndex)
+			converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("job_storage_mount_configuration_details_list") {
+			request.JobStorageMountConfigurationDetailsList = tmp
+		}
+	}
+
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
 		tmp := projectId.(string)
 		request.ProjectId = &tmp
@@ -513,6 +587,23 @@ func (s *DatascienceJobResourceCrud) Update() error {
 		}
 	}
 
+	if jobStorageMountConfigurationDetailsList, ok := s.D.GetOkExists("job_storage_mount_configuration_details_list"); ok {
+		interfaces := jobStorageMountConfigurationDetailsList.([]interface{})
+		tmp := make([]oci_datascience.StorageMountConfigurationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "job_storage_mount_configuration_details_list", stateDataIndex)
+			converted, err := s.mapToStorageMountConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("job_storage_mount_configuration_details_list") {
+			request.JobStorageMountConfigurationDetailsList = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateJob(context.Background(), request)
@@ -589,6 +680,12 @@ func (s *DatascienceJobResourceCrud) SetData() error {
 	} else {
 		s.D.Set("job_log_configuration_details", nil)
 	}
+
+	jobStorageMountConfigurationDetailsList := []interface{}{}
+	for _, item := range s.Res.JobStorageMountConfigurationDetailsList {
+		jobStorageMountConfigurationDetailsList = append(jobStorageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("job_storage_mount_configuration_details_list", jobStorageMountConfigurationDetailsList)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -844,6 +941,116 @@ func JobShapeConfigDetailsToMap(obj *oci_datascience.JobShapeConfigDetails) map[
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	return result
+}
+
+func (s *DatascienceJobResourceCrud) mapToStorageMountConfigurationDetails(fieldKeyFormat string) (oci_datascience.StorageMountConfigurationDetails, error) {
+	var baseObject oci_datascience.StorageMountConfigurationDetails
+	//discriminator
+	storageTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "storage_type"))
+	var storageType string
+	if ok {
+		storageType = storageTypeRaw.(string)
+	} else {
+		storageType = "" // default value
+	}
+	switch strings.ToLower(storageType) {
+	case strings.ToLower("FILE_STORAGE"):
+		details := oci_datascience.FileStorageMountConfigurationDetails{}
+		if exportId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_id")); ok {
+			tmp := exportId.(string)
+			details.ExportId = &tmp
+		}
+		if mountTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_target_id")); ok {
+			tmp := mountTargetId.(string)
+			details.MountTargetId = &tmp
+		}
+		if destinationDirectoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_directory_name")); ok {
+			tmp := destinationDirectoryName.(string)
+			details.DestinationDirectoryName = &tmp
+		}
+		if destinationPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_path")); ok {
+			tmp := destinationPath.(string)
+			details.DestinationPath = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE"):
+		details := oci_datascience.ObjectStorageMountConfigurationDetails{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.Bucket = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.Namespace = &tmp
+		}
+		if prefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "prefix")); ok {
+			tmp := prefix.(string)
+			details.Prefix = &tmp
+		}
+		if destinationDirectoryName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_directory_name")); ok {
+			tmp := destinationDirectoryName.(string)
+			details.DestinationDirectoryName = &tmp
+		}
+		if destinationPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "destination_path")); ok {
+			tmp := destinationPath.(string)
+			details.DestinationPath = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown storage_type '%v' was specified", storageType)
+	}
+	return baseObject, nil
+}
+
+func StorageMountConfigurationDetailsToMap(obj oci_datascience.StorageMountConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_datascience.FileStorageMountConfigurationDetails:
+		result["storage_type"] = "FILE_STORAGE"
+
+		if v.ExportId != nil {
+			result["export_id"] = string(*v.ExportId)
+		}
+
+		if v.MountTargetId != nil {
+			result["mount_target_id"] = string(*v.MountTargetId)
+		}
+
+		if v.DestinationDirectoryName != nil {
+			result["destination_directory_name"] = string(*v.DestinationDirectoryName)
+		}
+
+		if v.DestinationPath != nil {
+			result["destination_path"] = string(*v.DestinationPath)
+		}
+	case oci_datascience.ObjectStorageMountConfigurationDetails:
+		result["storage_type"] = "OBJECT_STORAGE"
+
+		if v.Bucket != nil {
+			result["bucket"] = string(*v.Bucket)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.Prefix != nil {
+			result["prefix"] = string(*v.Prefix)
+		}
+
+		if v.DestinationDirectoryName != nil {
+			result["destination_directory_name"] = string(*v.DestinationDirectoryName)
+		}
+
+		if v.DestinationPath != nil {
+			result["destination_path"] = string(*v.DestinationPath)
+		}
+	default:
+		log.Printf("[WARN] Received 'storage_type' of unknown type %v", obj)
+		return nil
 	}
 
 	return result

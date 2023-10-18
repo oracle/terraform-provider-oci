@@ -5,8 +5,7 @@
 // Logging Management API
 //
 // Use the Logging Management API to create, read, list, update, move and delete
-// log groups, log objects, log saved searches, agent configurations, log data models,
-// continuous queries, and managed continuous queries.
+// log groups, log objects, log saved searches, and agent configurations.
 // For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
@@ -19,10 +18,10 @@ import (
 	"strings"
 )
 
-// UnifiedAgentParser source parser object.
+// UnifiedAgentParser Source parser object.
 type UnifiedAgentParser interface {
 
-	// Specify time field for the event time. If the event doesn't have this field, the current time is used.
+	// Specifies the time field for the event time. If the event doesn't have this field, the current time is used.
 	GetFieldTimeKey() *string
 
 	// Specify types for converting a field into another type.
@@ -48,13 +47,13 @@ type UnifiedAgentParser interface {
 	// Specify the null value pattern.
 	GetNullValuePattern() *string
 
-	// If true, an empty string field is replaced with nil.
+	// If true, an empty string field is replaced with a null value.
 	GetIsNullEmptyString() *bool
 
-	// If true, use Fluent::EventTime.now(current time) as a timestamp when time_key is specified.
+	// If true, use Fluent::EventTime.now(current time) as a timestamp when the time_key is specified.
 	GetIsEstimateCurrentEvent() *bool
 
-	// If true, keep time field in the record.
+	// If true, keep the time field in the record.
 	GetIsKeepTimeKey() *bool
 
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.

@@ -27,6 +27,17 @@ resource "oci_datascience_project" "job" {
   compartment_id = var.compartment_ocid
 }
 
+resource "oci_core_subnet" "tf_subnet" {
+  cidr_block     = "10.0.1.0/24"
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.tf_vcn.id
+}
+
+resource "oci_core_vcn" "tf_vcn" {
+  cidr_block     = "10.0.0.0/16"
+  compartment_id = var.compartment_ocid
+}
+
 resource "oci_datascience_job" "job" {
   compartment_id               = var.compartment_ocid
   project_id                   = oci_datascience_project.job.id
@@ -41,9 +52,10 @@ resource "oci_datascience_job" "job" {
   }
 
   job_infrastructure_configuration_details {
-    job_infrastructure_type   = "ME_STANDALONE"
-    shape_name                = "VM.Standard2.2"
+    job_infrastructure_type   = "STANDALONE"
+    shape_name                = "VM.Standard3.Flex"
     block_storage_size_in_gbs = 100
+    subnet_id = oci_core_subnet.tf_subnet.id
 
     # Optional
     job_shape_config_details {
@@ -75,7 +87,7 @@ data "oci_datascience_jobs" "by_compartment" {
 resource "oci_datascience_job_run" "sync" {
   compartment_id = var.compartment_ocid
   project_id     = oci_datascience_project.job.id
-  job_id         = oci_datascience_project.job.id
+  job_id         = oci_datascience_job.job.id
   asynchronous   = false
 }
 
@@ -84,7 +96,7 @@ resource "oci_datascience_job_run" "sync" {
 resource "oci_datascience_job_run" "async" {
   compartment_id = var.compartment_ocid
   project_id     = oci_datascience_project.job.id
-  job_id         = oci_datascience_project.job.id
+  job_id         = oci_datascience_job.job.id
   asynchronous   = true
 }
 

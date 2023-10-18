@@ -20,16 +20,19 @@ import (
 type SecurityRuleMatchCriteria struct {
 
 	// An array of IP address list names to be evaluated against the traffic source address.
-	Sources []string `mandatory:"false" json:"sources"`
+	SourceAddress []string `mandatory:"false" json:"sourceAddress"`
 
 	// An array of IP address list names to be evaluated against the traffic destination address.
-	Destinations []string `mandatory:"false" json:"destinations"`
+	DestinationAddress []string `mandatory:"false" json:"destinationAddress"`
 
 	// An array of application list names to be evaluated against the traffic protocol and protocol-specific parameters.
-	Applications []string `mandatory:"false" json:"applications"`
+	Application []string `mandatory:"false" json:"application"`
+
+	// An array of service list names to be evaluated against the traffic protocol and protocol-specific parameters.
+	Service []string `mandatory:"false" json:"service"`
 
 	// An array of URL pattern list names to be evaluated against the HTTP(S) request target.
-	Urls []string `mandatory:"false" json:"urls"`
+	Url []string `mandatory:"false" json:"url"`
 }
 
 func (m SecurityRuleMatchCriteria) String() string {

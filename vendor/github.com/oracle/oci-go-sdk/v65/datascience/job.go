@@ -50,6 +50,9 @@ type Job struct {
 
 	JobLogConfigurationDetails *JobLogConfigurationDetails `mandatory:"false" json:"jobLogConfigurationDetails"`
 
+	// Collection of JobStorageMountConfigurationDetails.
+	JobStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
+
 	// The state of the job.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -84,20 +87,21 @@ func (m Job) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                           *string                               `json:"displayName"`
-		Description                           *string                               `json:"description"`
-		JobLogConfigurationDetails            *JobLogConfigurationDetails           `json:"jobLogConfigurationDetails"`
-		LifecycleDetails                      *string                               `json:"lifecycleDetails"`
-		FreeformTags                          map[string]string                     `json:"freeformTags"`
-		DefinedTags                           map[string]map[string]interface{}     `json:"definedTags"`
-		Id                                    *string                               `json:"id"`
-		TimeCreated                           *common.SDKTime                       `json:"timeCreated"`
-		CreatedBy                             *string                               `json:"createdBy"`
-		ProjectId                             *string                               `json:"projectId"`
-		CompartmentId                         *string                               `json:"compartmentId"`
-		JobConfigurationDetails               jobconfigurationdetails               `json:"jobConfigurationDetails"`
-		JobInfrastructureConfigurationDetails jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationDetails"`
-		LifecycleState                        JobLifecycleStateEnum                 `json:"lifecycleState"`
+		DisplayName                             *string                               `json:"displayName"`
+		Description                             *string                               `json:"description"`
+		JobLogConfigurationDetails              *JobLogConfigurationDetails           `json:"jobLogConfigurationDetails"`
+		JobStorageMountConfigurationDetailsList []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
+		LifecycleDetails                        *string                               `json:"lifecycleDetails"`
+		FreeformTags                            map[string]string                     `json:"freeformTags"`
+		DefinedTags                             map[string]map[string]interface{}     `json:"definedTags"`
+		Id                                      *string                               `json:"id"`
+		TimeCreated                             *common.SDKTime                       `json:"timeCreated"`
+		CreatedBy                               *string                               `json:"createdBy"`
+		ProjectId                               *string                               `json:"projectId"`
+		CompartmentId                           *string                               `json:"compartmentId"`
+		JobConfigurationDetails                 jobconfigurationdetails               `json:"jobConfigurationDetails"`
+		JobInfrastructureConfigurationDetails   jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationDetails"`
+		LifecycleState                          JobLifecycleStateEnum                 `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -111,6 +115,18 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 
 	m.JobLogConfigurationDetails = model.JobLogConfigurationDetails
 
+	m.JobStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.JobStorageMountConfigurationDetailsList))
+	for i, n := range model.JobStorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.JobStorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.JobStorageMountConfigurationDetailsList[i] = nil
+		}
+	}
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

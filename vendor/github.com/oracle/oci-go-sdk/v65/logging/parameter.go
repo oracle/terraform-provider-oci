@@ -5,8 +5,7 @@
 // Logging Management API
 //
 // Use the Logging Management API to create, read, list, update, move and delete
-// log groups, log objects, log saved searches, agent configurations, log data models,
-// continuous queries, and managed continuous queries.
+// log groups, log objects, log saved searches, and agent configurations.
 // For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
@@ -24,15 +23,7 @@ type Parameter struct {
 	// Parameter name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Parameter type.
 	Type ParameterTypeEnum `mandatory:"true" json:"type"`
-
-	// The user-friendly display name. This must be unique within the enclosing resource,
-	// and it's changeable. Avoid entering confidential information.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
-	// Parameter rqsType if applicable.
-	RqsType *string `mandatory:"false" json:"rqsType"`
 
 	// Java regex pattern to validate a parameter value.
 	Pattern *string `mandatory:"false" json:"pattern"`
@@ -62,27 +53,21 @@ type ParameterTypeEnum string
 
 // Set of constants representing the allowable values for ParameterTypeEnum
 const (
-	ParameterTypeInteger    ParameterTypeEnum = "integer"
-	ParameterTypeString     ParameterTypeEnum = "string"
-	ParameterTypeBoolean    ParameterTypeEnum = "boolean"
-	ParameterTypeEnumString ParameterTypeEnum = "ENUM_STRING"
-	ParameterTypeRqsFilter  ParameterTypeEnum = "RQS_FILTER"
+	ParameterTypeInteger ParameterTypeEnum = "integer"
+	ParameterTypeString  ParameterTypeEnum = "string"
+	ParameterTypeBoolean ParameterTypeEnum = "boolean"
 )
 
 var mappingParameterTypeEnum = map[string]ParameterTypeEnum{
-	"integer":     ParameterTypeInteger,
-	"string":      ParameterTypeString,
-	"boolean":     ParameterTypeBoolean,
-	"ENUM_STRING": ParameterTypeEnumString,
-	"RQS_FILTER":  ParameterTypeRqsFilter,
+	"integer": ParameterTypeInteger,
+	"string":  ParameterTypeString,
+	"boolean": ParameterTypeBoolean,
 }
 
 var mappingParameterTypeEnumLowerCase = map[string]ParameterTypeEnum{
-	"integer":     ParameterTypeInteger,
-	"string":      ParameterTypeString,
-	"boolean":     ParameterTypeBoolean,
-	"enum_string": ParameterTypeEnumString,
-	"rqs_filter":  ParameterTypeRqsFilter,
+	"integer": ParameterTypeInteger,
+	"string":  ParameterTypeString,
+	"boolean": ParameterTypeBoolean,
 }
 
 // GetParameterTypeEnumValues Enumerates the set of values for ParameterTypeEnum
@@ -100,8 +85,6 @@ func GetParameterTypeEnumStringValues() []string {
 		"integer",
 		"string",
 		"boolean",
-		"ENUM_STRING",
-		"RQS_FILTER",
 	}
 }
 

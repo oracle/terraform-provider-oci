@@ -5,8 +5,7 @@
 // Logging Management API
 //
 // Use the Logging Management API to create, read, list, update, move and delete
-// log groups, log objects, log saved searches, agent configurations, log data models,
-// continuous queries, and managed continuous queries.
+// log groups, log objects, log saved searches, and agent configurations.
 // For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
@@ -22,10 +21,10 @@ import (
 // UnifiedAgentTailLogSource Tail log source object.
 type UnifiedAgentTailLogSource struct {
 
-	// unique name for the source
+	// Unique name for the source.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Absolute paths for log source files. Wildcard can be used.
+	// Absolute paths for log source files. Wildcards can be used.
 	Paths []string `mandatory:"true" json:"paths"`
 
 	Parser UnifiedAgentParser `mandatory:"false" json:"parser"`

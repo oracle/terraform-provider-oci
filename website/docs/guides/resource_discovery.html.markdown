@@ -201,6 +201,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
+    * `redis` - Discovers redis resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     *`service_mesh` - Discovers service_mesh resources within the specified compartment
@@ -897,6 +898,16 @@ network_firewall
 
 * oci\_network\_firewall\_network\_firewall\_policy
 * oci\_network\_firewall\_network\_firewall
+* oci\_network\_firewall\_network\_firewall\_policy\_address\_list
+* oci\_network\_firewall\_network\_firewall\_policy\_url\_list
+* oci\_network\_firewall\_network\_firewall\_policy\_mapped\_secret
+* oci\_network\_firewall\_network\_firewall\_policy\_application\_group
+* oci\_network\_firewall\_network\_firewall\_policy\_decryption\_rule
+* oci\_network\_firewall\_network\_firewall\_policy\_security\_rule
+* oci\_network\_firewall\_network\_firewall\_policy\_application
+* oci\_network\_firewall\_network\_firewall\_policy\_service\_list
+* oci\_network\_firewall\_network\_firewall\_policy\_service
+* oci\_network\_firewall\_network\_firewall\_policy\_decryption\_profile
 
 network_load_balancer
 
@@ -992,6 +1003,10 @@ recovery
 * oci\_recovery\_recovery\_service\_subnet
 * oci\_recovery\_protected\_database
 * oci\_recovery\_protection\_policy
+
+redis
+    
+* oci\_redis\_redis\_cluster
 
 resourcemanager
 

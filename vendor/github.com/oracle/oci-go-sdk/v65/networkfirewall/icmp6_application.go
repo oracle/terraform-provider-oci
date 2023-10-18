@@ -19,11 +19,27 @@ import (
 // Icmp6Application ICMP6 Application used on the firewall policy rules.
 type Icmp6Application struct {
 
+	// Name of the application.
+	Name *string `mandatory:"true" json:"name"`
+
+	// OCID of the Network Firewall Policy this application belongs to.
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
 	// The value of the ICMP6 message Type field as defined by RFC 4443 (https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
 	IcmpType *int `mandatory:"true" json:"icmpType"`
 
 	// The value of the ICMP6 message Code (subtype) field as defined by RFC 4443 (https://www.rfc-editor.org/rfc/rfc4443.html#section-2.1).
 	IcmpCode *int `mandatory:"false" json:"icmpCode"`
+}
+
+// GetName returns Name
+func (m Icmp6Application) GetName() *string {
+	return m.Name
+}
+
+// GetParentResourceId returns ParentResourceId
+func (m Icmp6Application) GetParentResourceId() *string {
+	return m.ParentResourceId
 }
 
 func (m Icmp6Application) String() string {
@@ -49,7 +65,7 @@ func (m Icmp6Application) MarshalJSON() (buff []byte, e error) {
 		DiscriminatorParam string `json:"type"`
 		MarshalTypeIcmp6Application
 	}{
-		"ICMP6",
+		"ICMP_V6",
 		(MarshalTypeIcmp6Application)(m),
 	}
 

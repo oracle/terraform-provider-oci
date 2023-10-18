@@ -60,6 +60,15 @@ The following attributes are exported:
 	* `notebook_session_git_config_details` - Git configuration Details.
 		* `notebook_session_git_repo_config_collection` - A collection of Git repository configurations.
 			* `url` - The repository URL
+* `notebook_session_storage_mount_configuration_details_list` - Collection of NotebookSessionStorageMountConfigurationDetails.
+	* `bucket` - The object storage bucket
+	* `destination_directory_name` - The local directory name to be mounted
+	* `destination_path` - The local path of the mounted directory, excluding directory name.
+	* `export_id` - OCID of the export
+	* `mount_target_id` - OCID of the mount target
+	* `namespace` - The object storage namespace
+	* `prefix` - Prefix in the bucket to mount
+	* `storage_type` - The type of storage.
 * `notebook_session_url` - The URL to interact with the notebook session.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the notebook session.
 * `state` - The state of the notebook session.

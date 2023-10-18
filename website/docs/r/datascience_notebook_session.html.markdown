@@ -67,6 +67,19 @@ resource "oci_datascience_notebook_session" "test_notebook_session" {
 			}
 		}
 	}
+	notebook_session_storage_mount_configuration_details_list {
+		#Required
+		destination_directory_name = var.notebook_session_notebook_session_storage_mount_configuration_details_list_destination_directory_name
+		storage_type = var.notebook_session_notebook_session_storage_mount_configuration_details_list_storage_type
+
+		#Optional
+		bucket = var.notebook_session_notebook_session_storage_mount_configuration_details_list_bucket
+		destination_path = var.notebook_session_notebook_session_storage_mount_configuration_details_list_destination_path
+		export_id = oci_file_storage_export.test_export.id
+		mount_target_id = oci_file_storage_mount_target.test_mount_target.id
+		namespace = var.notebook_session_notebook_session_storage_mount_configuration_details_list_namespace
+		prefix = var.notebook_session_notebook_session_storage_mount_configuration_details_list_prefix
+	}
 }
 ```
 
@@ -99,6 +112,15 @@ The following arguments are supported:
 	* `notebook_session_git_config_details` - (Optional) (Updatable) Git configuration Details.
 		* `notebook_session_git_repo_config_collection` - (Optional) (Updatable) A collection of Git repository configurations.
 			* `url` - (Required) (Updatable) The repository URL
+* `notebook_session_storage_mount_configuration_details_list` - (Optional) (Updatable) Collection of NotebookSessionStorageMountConfigurationDetails.
+	* `bucket` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage bucket
+	* `destination_directory_name` - (Required) (Updatable) The local directory name to be mounted
+	* `destination_path` - (Optional) (Updatable) The local path of the mounted directory, excluding directory name.
+	* `export_id` - (Required when storage_type=FILE_STORAGE) (Updatable) OCID of the export
+	* `mount_target_id` - (Required when storage_type=FILE_STORAGE) (Updatable) OCID of the mount target
+	* `namespace` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage namespace
+	* `prefix` - (Applicable when storage_type=OBJECT_STORAGE) (Updatable) Prefix in the bucket to mount
+	* `storage_type` - (Required) (Updatable) The type of storage.
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate with the notebook session.
 
 
@@ -137,6 +159,15 @@ The following attributes are exported:
 	* `notebook_session_git_config_details` - Git configuration Details.
 		* `notebook_session_git_repo_config_collection` - A collection of Git repository configurations.
 			* `url` - The repository URL
+* `notebook_session_storage_mount_configuration_details_list` - Collection of NotebookSessionStorageMountConfigurationDetails.
+	* `bucket` - The object storage bucket
+	* `destination_directory_name` - The local directory name to be mounted
+	* `destination_path` - The local path of the mounted directory, excluding directory name.
+	* `export_id` - OCID of the export
+	* `mount_target_id` - OCID of the mount target
+	* `namespace` - The object storage namespace
+	* `prefix` - Prefix in the bucket to mount
+	* `storage_type` - The type of storage.
 * `notebook_session_url` - The URL to interact with the notebook session.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the notebook session.
 * `state` - The state of the notebook session.
