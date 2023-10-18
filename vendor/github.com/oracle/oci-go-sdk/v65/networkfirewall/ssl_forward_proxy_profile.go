@@ -19,33 +19,49 @@ import (
 // SslForwardProxyProfile SSLForwardProxy used on the firewall policy rules.
 type SslForwardProxyProfile struct {
 
+	// Unique Name of the decryption profile.
+	Name *string `mandatory:"true" json:"name"`
+
+	// OCID of the Network Firewall Policy this decryption profile belongs to.
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
 	// Whether to block sessions if server's certificate is expired.
-	IsExpiredCertificateBlocked *bool `mandatory:"true" json:"isExpiredCertificateBlocked"`
+	IsExpiredCertificateBlocked *bool `mandatory:"false" json:"isExpiredCertificateBlocked"`
 
 	// Whether to block sessions if server's certificate is issued by an untrusted certificate authority (CA).
-	IsUntrustedIssuerBlocked *bool `mandatory:"true" json:"isUntrustedIssuerBlocked"`
+	IsUntrustedIssuerBlocked *bool `mandatory:"false" json:"isUntrustedIssuerBlocked"`
 
 	// Whether to block sessions if the revocation status check for server's certificate
 	// does not succeed within the maximum allowed time (defaulting to 5 seconds).
-	IsRevocationStatusTimeoutBlocked *bool `mandatory:"true" json:"isRevocationStatusTimeoutBlocked"`
+	IsRevocationStatusTimeoutBlocked *bool `mandatory:"false" json:"isRevocationStatusTimeoutBlocked"`
 
 	// Whether to block sessions if SSL version is not supported.
-	IsUnsupportedVersionBlocked *bool `mandatory:"true" json:"isUnsupportedVersionBlocked"`
+	IsUnsupportedVersionBlocked *bool `mandatory:"false" json:"isUnsupportedVersionBlocked"`
 
 	// Whether to block sessions if SSL cipher suite is not supported.
-	IsUnsupportedCipherBlocked *bool `mandatory:"true" json:"isUnsupportedCipherBlocked"`
+	IsUnsupportedCipherBlocked *bool `mandatory:"false" json:"isUnsupportedCipherBlocked"`
 
 	// Whether to block sessions if the revocation status check for server's certificate results in "unknown".
-	IsUnknownRevocationStatusBlocked *bool `mandatory:"true" json:"isUnknownRevocationStatusBlocked"`
+	IsUnknownRevocationStatusBlocked *bool `mandatory:"false" json:"isUnknownRevocationStatusBlocked"`
 
 	// Whether to block sessions if the server's certificate uses extensions other than key usage and/or extended key usage.
-	AreCertificateExtensionsRestricted *bool `mandatory:"true" json:"areCertificateExtensionsRestricted"`
+	AreCertificateExtensionsRestricted *bool `mandatory:"false" json:"areCertificateExtensionsRestricted"`
 
 	// Whether to automatically append SAN to impersonating certificate if server certificate is missing SAN.
-	IsAutoIncludeAltName *bool `mandatory:"true" json:"isAutoIncludeAltName"`
+	IsAutoIncludeAltName *bool `mandatory:"false" json:"isAutoIncludeAltName"`
 
 	// Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.
-	IsOutOfCapacityBlocked *bool `mandatory:"true" json:"isOutOfCapacityBlocked"`
+	IsOutOfCapacityBlocked *bool `mandatory:"false" json:"isOutOfCapacityBlocked"`
+}
+
+// GetName returns Name
+func (m SslForwardProxyProfile) GetName() *string {
+	return m.Name
+}
+
+// GetParentResourceId returns ParentResourceId
+func (m SslForwardProxyProfile) GetParentResourceId() *string {
+	return m.ParentResourceId
 }
 
 func (m SslForwardProxyProfile) String() string {

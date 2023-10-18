@@ -109,14 +109,10 @@ type ListNetworkFirewallPoliciesResponse struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response,
-	// then a partial list might have been returned. Include this value as the `page` parameter for the
-	// subsequent GET request to get the next batch of items.
+	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
-	// For pagination of a list of items. When paging through a list, if this header appears in the response,
-	// then a partial list might have been returned. Include this value as the `page` parameter for the
-	// subsequent GET request to get the previous batch of items.
+	// For list pagination. When this header appears in the response, previous pages of results exist. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcPrevPage *string `presentIn:"header" name:"opc-prev-page"`
 
 	// For pagination of a list of items. When paging through a list, if this header appears in the response,
@@ -141,30 +137,39 @@ type ListNetworkFirewallPoliciesLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListNetworkFirewallPoliciesLifecycleStateEnum
 const (
-	ListNetworkFirewallPoliciesLifecycleStateCreating ListNetworkFirewallPoliciesLifecycleStateEnum = "CREATING"
-	ListNetworkFirewallPoliciesLifecycleStateUpdating ListNetworkFirewallPoliciesLifecycleStateEnum = "UPDATING"
-	ListNetworkFirewallPoliciesLifecycleStateActive   ListNetworkFirewallPoliciesLifecycleStateEnum = "ACTIVE"
-	ListNetworkFirewallPoliciesLifecycleStateDeleting ListNetworkFirewallPoliciesLifecycleStateEnum = "DELETING"
-	ListNetworkFirewallPoliciesLifecycleStateDeleted  ListNetworkFirewallPoliciesLifecycleStateEnum = "DELETED"
-	ListNetworkFirewallPoliciesLifecycleStateFailed   ListNetworkFirewallPoliciesLifecycleStateEnum = "FAILED"
+	ListNetworkFirewallPoliciesLifecycleStateCreating       ListNetworkFirewallPoliciesLifecycleStateEnum = "CREATING"
+	ListNetworkFirewallPoliciesLifecycleStateUpdating       ListNetworkFirewallPoliciesLifecycleStateEnum = "UPDATING"
+	ListNetworkFirewallPoliciesLifecycleStateActive         ListNetworkFirewallPoliciesLifecycleStateEnum = "ACTIVE"
+	ListNetworkFirewallPoliciesLifecycleStateDeleting       ListNetworkFirewallPoliciesLifecycleStateEnum = "DELETING"
+	ListNetworkFirewallPoliciesLifecycleStateDeleted        ListNetworkFirewallPoliciesLifecycleStateEnum = "DELETED"
+	ListNetworkFirewallPoliciesLifecycleStateFailed         ListNetworkFirewallPoliciesLifecycleStateEnum = "FAILED"
+	ListNetworkFirewallPoliciesLifecycleStateNeedsAttention ListNetworkFirewallPoliciesLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListNetworkFirewallPoliciesLifecycleStateAttaching      ListNetworkFirewallPoliciesLifecycleStateEnum = "ATTACHING"
+	ListNetworkFirewallPoliciesLifecycleStateDetaching      ListNetworkFirewallPoliciesLifecycleStateEnum = "DETACHING"
 )
 
 var mappingListNetworkFirewallPoliciesLifecycleStateEnum = map[string]ListNetworkFirewallPoliciesLifecycleStateEnum{
-	"CREATING": ListNetworkFirewallPoliciesLifecycleStateCreating,
-	"UPDATING": ListNetworkFirewallPoliciesLifecycleStateUpdating,
-	"ACTIVE":   ListNetworkFirewallPoliciesLifecycleStateActive,
-	"DELETING": ListNetworkFirewallPoliciesLifecycleStateDeleting,
-	"DELETED":  ListNetworkFirewallPoliciesLifecycleStateDeleted,
-	"FAILED":   ListNetworkFirewallPoliciesLifecycleStateFailed,
+	"CREATING":        ListNetworkFirewallPoliciesLifecycleStateCreating,
+	"UPDATING":        ListNetworkFirewallPoliciesLifecycleStateUpdating,
+	"ACTIVE":          ListNetworkFirewallPoliciesLifecycleStateActive,
+	"DELETING":        ListNetworkFirewallPoliciesLifecycleStateDeleting,
+	"DELETED":         ListNetworkFirewallPoliciesLifecycleStateDeleted,
+	"FAILED":          ListNetworkFirewallPoliciesLifecycleStateFailed,
+	"NEEDS_ATTENTION": ListNetworkFirewallPoliciesLifecycleStateNeedsAttention,
+	"ATTACHING":       ListNetworkFirewallPoliciesLifecycleStateAttaching,
+	"DETACHING":       ListNetworkFirewallPoliciesLifecycleStateDetaching,
 }
 
 var mappingListNetworkFirewallPoliciesLifecycleStateEnumLowerCase = map[string]ListNetworkFirewallPoliciesLifecycleStateEnum{
-	"creating": ListNetworkFirewallPoliciesLifecycleStateCreating,
-	"updating": ListNetworkFirewallPoliciesLifecycleStateUpdating,
-	"active":   ListNetworkFirewallPoliciesLifecycleStateActive,
-	"deleting": ListNetworkFirewallPoliciesLifecycleStateDeleting,
-	"deleted":  ListNetworkFirewallPoliciesLifecycleStateDeleted,
-	"failed":   ListNetworkFirewallPoliciesLifecycleStateFailed,
+	"creating":        ListNetworkFirewallPoliciesLifecycleStateCreating,
+	"updating":        ListNetworkFirewallPoliciesLifecycleStateUpdating,
+	"active":          ListNetworkFirewallPoliciesLifecycleStateActive,
+	"deleting":        ListNetworkFirewallPoliciesLifecycleStateDeleting,
+	"deleted":         ListNetworkFirewallPoliciesLifecycleStateDeleted,
+	"failed":          ListNetworkFirewallPoliciesLifecycleStateFailed,
+	"needs_attention": ListNetworkFirewallPoliciesLifecycleStateNeedsAttention,
+	"attaching":       ListNetworkFirewallPoliciesLifecycleStateAttaching,
+	"detaching":       ListNetworkFirewallPoliciesLifecycleStateDetaching,
 }
 
 // GetListNetworkFirewallPoliciesLifecycleStateEnumValues Enumerates the set of values for ListNetworkFirewallPoliciesLifecycleStateEnum
@@ -185,6 +190,9 @@ func GetListNetworkFirewallPoliciesLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
+		"ATTACHING",
+		"DETACHING",
 	}
 }
 

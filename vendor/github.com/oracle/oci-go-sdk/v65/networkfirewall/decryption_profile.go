@@ -18,11 +18,19 @@ import (
 
 // DecryptionProfile Decryption Profile used on the firewall policy rules.
 type DecryptionProfile interface {
+
+	// Unique Name of the decryption profile.
+	GetName() *string
+
+	// OCID of the Network Firewall Policy this decryption profile belongs to.
+	GetParentResourceId() *string
 }
 
 type decryptionprofile struct {
-	JsonData []byte
-	Type     string `json:"type"`
+	JsonData         []byte
+	Name             *string `mandatory:"true" json:"name"`
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+	Type             string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -36,6 +44,8 @@ func (m *decryptionprofile) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Name = s.Model.Name
+	m.ParentResourceId = s.Model.ParentResourceId
 	m.Type = s.Model.Type
 
 	return err
@@ -64,6 +74,16 @@ func (m *decryptionprofile) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
+// GetName returns Name
+func (m decryptionprofile) GetName() *string {
+	return m.Name
+}
+
+// GetParentResourceId returns ParentResourceId
+func (m decryptionprofile) GetParentResourceId() *string {
+	return m.ParentResourceId
+}
+
 func (m decryptionprofile) String() string {
 	return common.PointerString(m)
 }
@@ -78,46 +98,4 @@ func (m decryptionprofile) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// DecryptionProfileTypeEnum Enum with underlying type: string
-type DecryptionProfileTypeEnum string
-
-// Set of constants representing the allowable values for DecryptionProfileTypeEnum
-const (
-	DecryptionProfileTypeInboundInspection DecryptionProfileTypeEnum = "SSL_INBOUND_INSPECTION"
-	DecryptionProfileTypeForwardProxy      DecryptionProfileTypeEnum = "SSL_FORWARD_PROXY"
-)
-
-var mappingDecryptionProfileTypeEnum = map[string]DecryptionProfileTypeEnum{
-	"SSL_INBOUND_INSPECTION": DecryptionProfileTypeInboundInspection,
-	"SSL_FORWARD_PROXY":      DecryptionProfileTypeForwardProxy,
-}
-
-var mappingDecryptionProfileTypeEnumLowerCase = map[string]DecryptionProfileTypeEnum{
-	"ssl_inbound_inspection": DecryptionProfileTypeInboundInspection,
-	"ssl_forward_proxy":      DecryptionProfileTypeForwardProxy,
-}
-
-// GetDecryptionProfileTypeEnumValues Enumerates the set of values for DecryptionProfileTypeEnum
-func GetDecryptionProfileTypeEnumValues() []DecryptionProfileTypeEnum {
-	values := make([]DecryptionProfileTypeEnum, 0)
-	for _, v := range mappingDecryptionProfileTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetDecryptionProfileTypeEnumStringValues Enumerates the set of values in String for DecryptionProfileTypeEnum
-func GetDecryptionProfileTypeEnumStringValues() []string {
-	return []string{
-		"SSL_INBOUND_INSPECTION",
-		"SSL_FORWARD_PROXY",
-	}
-}
-
-// GetMappingDecryptionProfileTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingDecryptionProfileTypeEnum(val string) (DecryptionProfileTypeEnum, bool) {
-	enum, ok := mappingDecryptionProfileTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

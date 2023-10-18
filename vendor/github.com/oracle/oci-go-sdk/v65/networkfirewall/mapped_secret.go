@@ -19,16 +19,24 @@ import (
 // MappedSecret Mapped secret used on the firewall policy rules.
 type MappedSecret interface {
 
+	// Name of the secret.
+	GetName() *string
+
 	// Type of the secrets mapped based on the policy.
 	//  * `SSL_INBOUND_INSPECTION`: For Inbound inspection of SSL traffic.
 	//  * `SSL_FORWARD_PROXY`: For forward proxy certificates for SSL inspection.
-	GetType() MappedSecretTypeEnum
+	GetType() InspectionTypeEnum
+
+	// OCID of the Network Firewall Policy this Mapped Secret belongs to.
+	GetParentResourceId() *string
 }
 
 type mappedsecret struct {
-	JsonData []byte
-	Type     MappedSecretTypeEnum `mandatory:"true" json:"type"`
-	Source   string               `json:"source"`
+	JsonData         []byte
+	Name             *string            `mandatory:"true" json:"name"`
+	Type             InspectionTypeEnum `mandatory:"true" json:"type"`
+	ParentResourceId *string            `mandatory:"true" json:"parentResourceId"`
+	Source           string             `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -42,7 +50,9 @@ func (m *mappedsecret) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Name = s.Model.Name
 	m.Type = s.Model.Type
+	m.ParentResourceId = s.Model.ParentResourceId
 	m.Source = s.Model.Source
 
 	return err
@@ -67,9 +77,19 @@ func (m *mappedsecret) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 	}
 }
 
+// GetName returns Name
+func (m mappedsecret) GetName() *string {
+	return m.Name
+}
+
 // GetType returns Type
-func (m mappedsecret) GetType() MappedSecretTypeEnum {
+func (m mappedsecret) GetType() InspectionTypeEnum {
 	return m.Type
+}
+
+// GetParentResourceId returns ParentResourceId
+func (m mappedsecret) GetParentResourceId() *string {
+	return m.ParentResourceId
 }
 
 func (m mappedsecret) String() string {
@@ -81,54 +101,12 @@ func (m mappedsecret) String() string {
 // Not recommended for calling this function directly
 func (m mappedsecret) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingMappedSecretTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetMappedSecretTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingInspectionTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetInspectionTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MappedSecretTypeEnum Enum with underlying type: string
-type MappedSecretTypeEnum string
-
-// Set of constants representing the allowable values for MappedSecretTypeEnum
-const (
-	MappedSecretTypeInboundInspection MappedSecretTypeEnum = "SSL_INBOUND_INSPECTION"
-	MappedSecretTypeForwardProxy      MappedSecretTypeEnum = "SSL_FORWARD_PROXY"
-)
-
-var mappingMappedSecretTypeEnum = map[string]MappedSecretTypeEnum{
-	"SSL_INBOUND_INSPECTION": MappedSecretTypeInboundInspection,
-	"SSL_FORWARD_PROXY":      MappedSecretTypeForwardProxy,
-}
-
-var mappingMappedSecretTypeEnumLowerCase = map[string]MappedSecretTypeEnum{
-	"ssl_inbound_inspection": MappedSecretTypeInboundInspection,
-	"ssl_forward_proxy":      MappedSecretTypeForwardProxy,
-}
-
-// GetMappedSecretTypeEnumValues Enumerates the set of values for MappedSecretTypeEnum
-func GetMappedSecretTypeEnumValues() []MappedSecretTypeEnum {
-	values := make([]MappedSecretTypeEnum, 0)
-	for _, v := range mappingMappedSecretTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetMappedSecretTypeEnumStringValues Enumerates the set of values in String for MappedSecretTypeEnum
-func GetMappedSecretTypeEnumStringValues() []string {
-	return []string{
-		"SSL_INBOUND_INSPECTION",
-		"SSL_FORWARD_PROXY",
-	}
-}
-
-// GetMappingMappedSecretTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingMappedSecretTypeEnum(val string) (MappedSecretTypeEnum, bool) {
-	enum, ok := mappingMappedSecretTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

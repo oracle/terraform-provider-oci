@@ -19,14 +19,30 @@ import (
 // SslInboundInspectionProfile SSLInboundInspection used on the firewall policy rules.
 type SslInboundInspectionProfile struct {
 
+	// Unique Name of the decryption profile.
+	Name *string `mandatory:"true" json:"name"`
+
+	// OCID of the Network Firewall Policy this decryption profile belongs to.
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
 	// Whether to block sessions if SSL version is not supported.
-	IsUnsupportedVersionBlocked *bool `mandatory:"true" json:"isUnsupportedVersionBlocked"`
+	IsUnsupportedVersionBlocked *bool `mandatory:"false" json:"isUnsupportedVersionBlocked"`
 
 	// Whether to block sessions if SSL cipher suite is not supported.
-	IsUnsupportedCipherBlocked *bool `mandatory:"true" json:"isUnsupportedCipherBlocked"`
+	IsUnsupportedCipherBlocked *bool `mandatory:"false" json:"isUnsupportedCipherBlocked"`
 
 	// Whether to block sessions if the firewall is temporarily unable to decrypt their traffic.
-	IsOutOfCapacityBlocked *bool `mandatory:"true" json:"isOutOfCapacityBlocked"`
+	IsOutOfCapacityBlocked *bool `mandatory:"false" json:"isOutOfCapacityBlocked"`
+}
+
+// GetName returns Name
+func (m SslInboundInspectionProfile) GetName() *string {
+	return m.Name
+}
+
+// GetParentResourceId returns ParentResourceId
+func (m SslInboundInspectionProfile) GetParentResourceId() *string {
+	return m.ParentResourceId
 }
 
 func (m SslInboundInspectionProfile) String() string {

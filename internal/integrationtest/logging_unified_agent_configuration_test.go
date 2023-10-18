@@ -58,12 +58,39 @@ var (
 
 	LoggingUnifiedAgentConfigurationServiceConfigurationRepresentation = map[string]interface{}{
 		"configuration_type": acctest.Representation{RepType: acctest.Required, Create: `LOGGING`},
-		"destination":        acctest.RepresentationGroup{RepType: acctest.Required, Group: unifiedAgentConfigurationServiceConfigurationDestinationRepresentation},
+		"destination":        acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationDestinationRepresentation},
 		"sources":            acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesRepresentation},
 	}
 
 	LoggingUnifiedAgentConfigurationGroupAssociationRepresentation = map[string]interface{}{
 		"group_list": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_group.test_group.id}`}}, // Update: []string{`${oci_identity_group.test_group.id}`, `ocid1.Group.oc1..aaaaaaaa5rvs7zjwdk3zdmysm7x7wcxyanbllutswe4xbl7ng4stohtg3sla`}},
+	}
+
+	LoggingUnifiedAgentConfigurationServiceConfigurationDestinationRepresentation = map[string]interface{}{
+		"log_object_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_logging_log.test_log.id}`},
+		"operational_metrics_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationDestinationOperationalMetricsConfigurationRepresentation},
+	}
+
+	LoggingUnifiedAgentConfigurationServiceConfigurationDestinationOperationalMetricsConfigurationRepresentation = map[string]interface{}{
+		"destination": acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationDestinationOperationalMetricsConfigurationDestinationRepresentation},
+		"source":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationDestinationOperationalMetricsConfigurationSourceRepresentation},
+	}
+
+	// operational metrics dest
+	LoggingUnifiedAgentConfigurationServiceConfigurationDestinationOperationalMetricsConfigurationDestinationRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	}
+
+	// operational metrics source
+	LoggingUnifiedAgentConfigurationServiceConfigurationDestinationOperationalMetricsConfigurationSourceRepresentation = map[string]interface{}{
+		"type":         acctest.Representation{RepType: acctest.Required, Create: `UMA_METRICS`},
+		"metrics":      acctest.Representation{RepType: acctest.Optional, Create: []string{`RestartMetric`}, Update: []string{`EmitRecords`}},
+		"record_input": acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationDestinationOperationalMetricsConfigurationSourceRecordInputRepresentation},
+	}
+
+	LoggingUnifiedAgentConfigurationServiceConfigurationDestinationOperationalMetricsConfigurationSourceRecordInputRepresentation = map[string]interface{}{
+		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `namespace`, Update: `namespace2`},
+		"resource_group": acctest.Representation{RepType: acctest.Optional, Create: `resourceGroup`, Update: `resourceGroup2`},
 	}
 
 	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation = map[string]interface{}{
@@ -93,9 +120,9 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_identity_group", "test_group", acctest.Required, acctest.Create, LoggingUAIdentityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, LoggingLogGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, customLogRepresentation) // +
-		//acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
-		//acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
-		//acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation)
+	//acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+	//acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+	//acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation)
 
 	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesRepresentation = map[string]interface{}{
 		"source_type": acctest.Representation{RepType: acctest.Required, Create: `LOG_TAIL`},
@@ -107,7 +134,7 @@ var (
 
 	// Add new test configs here
 	// CRI parser configs
-	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesCriParserNestedParserRepresentation = map[string]interface{}{
+	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserNestedParserRepresentation = map[string]interface{}{
 		"time_format":      acctest.Representation{RepType: acctest.Optional, Create: `%Y-%m-%dT%H:%M:%S.%L%z`, Update: `%Y-%m-%d %H:%M:%S.%L%z`},
 		"field_time_key":   acctest.Representation{RepType: acctest.Optional, Create: `time`, Update: `time1`},
 		"is_keep_time_key": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
@@ -116,7 +143,7 @@ var (
 	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesCriParserRepresentation = map[string]interface{}{
 		"parser_type":         acctest.Representation{RepType: acctest.Required, Create: `CRI`},
 		"is_merge_cri_fields": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
-		"nested_parser":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesCriParserNestedParserRepresentation},
+		"nested_parser":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserNestedParserRepresentation},
 	}
 
 	LoggingUnifiedAgentConfigurationCriRepresentation = acctest.GetUpdatedRepresentationCopy(
@@ -277,6 +304,15 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.destination.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.metrics.0", "RestartMetric"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.namespace", "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.resource_group", "resourceGroup"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.type", "UMA_METRICS"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
@@ -318,6 +354,15 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.destination.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.metrics.0", "RestartMetric"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.namespace", "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.resource_group", "resourceGroup"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.type", "UMA_METRICS"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
@@ -352,6 +397,15 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.configuration_type", "LOGGING"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "service_configuration.0.destination.0.log_object_id"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.destination.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.metrics.0", "EmitRecords"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.namespace", "namespace2"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.resource_group", "resourceGroup2"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.type", "UMA_METRICS"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "2"),
 				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name2"),
@@ -405,6 +459,15 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.configuration_type", "LOGGING"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.destination.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.destination.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.metrics.0", "EmitRecords"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.namespace", "namespace2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.resource_group", "resourceGroup2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.type", "UMA_METRICS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.#", "1"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.channels.#", "2"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.name", "name2"),

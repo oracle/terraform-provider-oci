@@ -5,8 +5,7 @@
 // Logging Management API
 //
 // Use the Logging Management API to create, read, list, update, move and delete
-// log groups, log objects, log saved searches, agent configurations, log data models,
-// continuous queries, and managed continuous queries.
+// log groups, log objects, log saved searches, and agent configurations.
 // For more information, see Logging Overview (https://docs.cloud.oracle.com/iaas/Content/Logging/Concepts/loggingoverview.htm).
 //
 
@@ -23,6 +22,8 @@ type UnifiedAgentLoggingDestination struct {
 
 	// The OCID of the resource.
 	LogObjectId *string `mandatory:"true" json:"logObjectId"`
+
+	OperationalMetricsConfiguration *OperationalMetricsConfiguration `mandatory:"false" json:"operationalMetricsConfiguration"`
 }
 
 func (m UnifiedAgentLoggingDestination) String() string {

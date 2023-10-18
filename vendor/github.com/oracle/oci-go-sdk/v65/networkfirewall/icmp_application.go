@@ -19,11 +19,27 @@ import (
 // IcmpApplication ICMP Application used on the firewall policy rules.
 type IcmpApplication struct {
 
+	// Name of the application.
+	Name *string `mandatory:"true" json:"name"`
+
+	// OCID of the Network Firewall Policy this application belongs to.
+	ParentResourceId *string `mandatory:"true" json:"parentResourceId"`
+
 	// The value of the ICMP message Type field as defined by RFC 792 (https://www.rfc-editor.org/rfc/rfc792.html).
 	IcmpType *int `mandatory:"true" json:"icmpType"`
 
 	// The value of the ICMP message Code (subtype) field as defined by RFC 792 (https://www.rfc-editor.org/rfc/rfc792.html).
 	IcmpCode *int `mandatory:"false" json:"icmpCode"`
+}
+
+// GetName returns Name
+func (m IcmpApplication) GetName() *string {
+	return m.Name
+}
+
+// GetParentResourceId returns ParentResourceId
+func (m IcmpApplication) GetParentResourceId() *string {
+	return m.ParentResourceId
 }
 
 func (m IcmpApplication) String() string {

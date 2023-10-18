@@ -18,30 +18,39 @@ type LifecycleStateEnum string
 
 // Set of constants representing the allowable values for LifecycleStateEnum
 const (
-	LifecycleStateCreating LifecycleStateEnum = "CREATING"
-	LifecycleStateUpdating LifecycleStateEnum = "UPDATING"
-	LifecycleStateActive   LifecycleStateEnum = "ACTIVE"
-	LifecycleStateDeleting LifecycleStateEnum = "DELETING"
-	LifecycleStateDeleted  LifecycleStateEnum = "DELETED"
-	LifecycleStateFailed   LifecycleStateEnum = "FAILED"
+	LifecycleStateCreating       LifecycleStateEnum = "CREATING"
+	LifecycleStateUpdating       LifecycleStateEnum = "UPDATING"
+	LifecycleStateActive         LifecycleStateEnum = "ACTIVE"
+	LifecycleStateDeleting       LifecycleStateEnum = "DELETING"
+	LifecycleStateDeleted        LifecycleStateEnum = "DELETED"
+	LifecycleStateFailed         LifecycleStateEnum = "FAILED"
+	LifecycleStateNeedsAttention LifecycleStateEnum = "NEEDS_ATTENTION"
+	LifecycleStateAttaching      LifecycleStateEnum = "ATTACHING"
+	LifecycleStateDetaching      LifecycleStateEnum = "DETACHING"
 )
 
 var mappingLifecycleStateEnum = map[string]LifecycleStateEnum{
-	"CREATING": LifecycleStateCreating,
-	"UPDATING": LifecycleStateUpdating,
-	"ACTIVE":   LifecycleStateActive,
-	"DELETING": LifecycleStateDeleting,
-	"DELETED":  LifecycleStateDeleted,
-	"FAILED":   LifecycleStateFailed,
+	"CREATING":        LifecycleStateCreating,
+	"UPDATING":        LifecycleStateUpdating,
+	"ACTIVE":          LifecycleStateActive,
+	"DELETING":        LifecycleStateDeleting,
+	"DELETED":         LifecycleStateDeleted,
+	"FAILED":          LifecycleStateFailed,
+	"NEEDS_ATTENTION": LifecycleStateNeedsAttention,
+	"ATTACHING":       LifecycleStateAttaching,
+	"DETACHING":       LifecycleStateDetaching,
 }
 
 var mappingLifecycleStateEnumLowerCase = map[string]LifecycleStateEnum{
-	"creating": LifecycleStateCreating,
-	"updating": LifecycleStateUpdating,
-	"active":   LifecycleStateActive,
-	"deleting": LifecycleStateDeleting,
-	"deleted":  LifecycleStateDeleted,
-	"failed":   LifecycleStateFailed,
+	"creating":        LifecycleStateCreating,
+	"updating":        LifecycleStateUpdating,
+	"active":          LifecycleStateActive,
+	"deleting":        LifecycleStateDeleting,
+	"deleted":         LifecycleStateDeleted,
+	"failed":          LifecycleStateFailed,
+	"needs_attention": LifecycleStateNeedsAttention,
+	"attaching":       LifecycleStateAttaching,
+	"detaching":       LifecycleStateDetaching,
 }
 
 // GetLifecycleStateEnumValues Enumerates the set of values for LifecycleStateEnum
@@ -62,6 +71,9 @@ func GetLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
+		"ATTACHING",
+		"DETACHING",
 	}
 }
 

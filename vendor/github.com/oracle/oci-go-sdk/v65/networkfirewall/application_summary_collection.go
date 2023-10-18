@@ -16,24 +16,21 @@ import (
 	"strings"
 )
 
-// TcpApplication TCP Application used on the firewall policy rules.
-type TcpApplication struct {
+// ApplicationSummaryCollection Collection of Applications in the network firewall policy
+type ApplicationSummaryCollection struct {
 
-	// The minimum port in the range (inclusive), or the sole port of a single-port range.
-	MinimumPort *int `mandatory:"true" json:"minimumPort"`
-
-	// The maximum port in the range (inclusive), which may be absent for a single-port range.
-	MaximumPort *int `mandatory:"false" json:"maximumPort"`
+	// Collection of Applications.
+	Items []ApplicationSummary `mandatory:"true" json:"items"`
 }
 
-func (m TcpApplication) String() string {
+func (m ApplicationSummaryCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m TcpApplication) ValidateEnumValue() (bool, error) {
+func (m ApplicationSummaryCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -42,16 +39,28 @@ func (m TcpApplication) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// MarshalJSON marshals to json representation
-func (m TcpApplication) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeTcpApplication TcpApplication
-	s := struct {
-		DiscriminatorParam string `json:"type"`
-		MarshalTypeTcpApplication
-	}{
-		"TCP",
-		(MarshalTypeTcpApplication)(m),
-	}
+// UnmarshalJSON unmarshals from json
+func (m *ApplicationSummaryCollection) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Items []applicationsummary `json:"items"`
+	}{}
 
-	return json.Marshal(&s)
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Items = make([]ApplicationSummary, len(model.Items))
+	for i, n := range model.Items {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.Items[i] = nn.(ApplicationSummary)
+		} else {
+			m.Items[i] = nil
+		}
+	}
+	return
 }
