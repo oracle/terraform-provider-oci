@@ -29,7 +29,7 @@ type PemEncodedPublicKey struct {
 	Key *string `mandatory:"true" json:"key"`
 }
 
-//GetKid returns Kid
+// GetKid returns Kid
 func (m PemEncodedPublicKey) GetKid() *string {
 	return m.Kid
 }

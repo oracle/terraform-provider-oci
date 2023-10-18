@@ -40,37 +40,37 @@ type OkeCanaryTrafficShiftDeployStageExecutionProgress struct {
 	Status DeployStageExecutionProgressStatusEnum `mandatory:"false" json:"status,omitempty"`
 }
 
-//GetDeployStageDisplayName returns DeployStageDisplayName
+// GetDeployStageDisplayName returns DeployStageDisplayName
 func (m OkeCanaryTrafficShiftDeployStageExecutionProgress) GetDeployStageDisplayName() *string {
 	return m.DeployStageDisplayName
 }
 
-//GetDeployStageId returns DeployStageId
+// GetDeployStageId returns DeployStageId
 func (m OkeCanaryTrafficShiftDeployStageExecutionProgress) GetDeployStageId() *string {
 	return m.DeployStageId
 }
 
-//GetTimeStarted returns TimeStarted
+// GetTimeStarted returns TimeStarted
 func (m OkeCanaryTrafficShiftDeployStageExecutionProgress) GetTimeStarted() *common.SDKTime {
 	return m.TimeStarted
 }
 
-//GetTimeFinished returns TimeFinished
+// GetTimeFinished returns TimeFinished
 func (m OkeCanaryTrafficShiftDeployStageExecutionProgress) GetTimeFinished() *common.SDKTime {
 	return m.TimeFinished
 }
 
-//GetStatus returns Status
+// GetStatus returns Status
 func (m OkeCanaryTrafficShiftDeployStageExecutionProgress) GetStatus() DeployStageExecutionProgressStatusEnum {
 	return m.Status
 }
 
-//GetDeployStagePredecessors returns DeployStagePredecessors
+// GetDeployStagePredecessors returns DeployStagePredecessors
 func (m OkeCanaryTrafficShiftDeployStageExecutionProgress) GetDeployStagePredecessors() *DeployStagePredecessorCollection {
 	return m.DeployStagePredecessors
 }
 
-//GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
+// GetDeployStageExecutionProgressDetails returns DeployStageExecutionProgressDetails
 func (m OkeCanaryTrafficShiftDeployStageExecutionProgress) GetDeployStageExecutionProgressDetails() []DeployStageExecutionProgressDetails {
 	return m.DeployStageExecutionProgressDetails
 }

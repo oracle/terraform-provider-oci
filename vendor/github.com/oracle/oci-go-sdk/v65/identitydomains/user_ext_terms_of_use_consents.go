@@ -19,14 +19,14 @@ import (
 // UserExtTermsOfUseConsents Description:
 // **Added In:** 18.2.6
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [value]
-//  - idcsSearchable: true
-//  - multiValued: true
-//  - mutability: readWrite
-//  - required: false
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [value]
+//   - idcsSearchable: true
+//   - multiValued: true
+//   - mutability: readWrite
+//   - required: false
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type UserExtTermsOfUseConsents struct {
 	Value *string `mandatory:"true" json:"value"`
 

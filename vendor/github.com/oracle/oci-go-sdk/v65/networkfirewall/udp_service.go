@@ -29,12 +29,12 @@ type UdpService struct {
 	PortRanges []PortRange `mandatory:"true" json:"portRanges"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UdpService) GetName() *string {
 	return m.Name
 }
 
-//GetParentResourceId returns ParentResourceId
+// GetParentResourceId returns ParentResourceId
 func (m UdpService) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

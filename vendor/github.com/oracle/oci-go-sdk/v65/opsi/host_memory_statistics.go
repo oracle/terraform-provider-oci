@@ -52,22 +52,22 @@ type HostMemoryStatistics struct {
 	Load *SummaryStatistics `mandatory:"false" json:"load"`
 }
 
-//GetUsage returns Usage
+// GetUsage returns Usage
 func (m HostMemoryStatistics) GetUsage() *float64 {
 	return m.Usage
 }
 
-//GetCapacity returns Capacity
+// GetCapacity returns Capacity
 func (m HostMemoryStatistics) GetCapacity() *float64 {
 	return m.Capacity
 }
 
-//GetUtilizationPercent returns UtilizationPercent
+// GetUtilizationPercent returns UtilizationPercent
 func (m HostMemoryStatistics) GetUtilizationPercent() *float64 {
 	return m.UtilizationPercent
 }
 
-//GetUsageChangePercent returns UsageChangePercent
+// GetUsageChangePercent returns UsageChangePercent
 func (m HostMemoryStatistics) GetUsageChangePercent() *float64 {
 	return m.UsageChangePercent
 }

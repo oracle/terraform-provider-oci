@@ -35,27 +35,27 @@ type UpdateBitbucketServerTriggerDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m UpdateBitbucketServerTriggerDetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m UpdateBitbucketServerTriggerDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetActions returns Actions
+// GetActions returns Actions
 func (m UpdateBitbucketServerTriggerDetails) GetActions() []TriggerAction {
 	return m.Actions
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m UpdateBitbucketServerTriggerDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m UpdateBitbucketServerTriggerDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

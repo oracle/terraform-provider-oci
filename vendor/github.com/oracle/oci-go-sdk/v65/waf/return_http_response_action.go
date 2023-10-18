@@ -81,7 +81,7 @@ type ReturnHttpResponseAction struct {
 	Body HttpResponseBody `mandatory:"false" json:"body"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ReturnHttpResponseAction) GetName() *string {
 	return m.Name
 }

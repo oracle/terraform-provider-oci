@@ -35,17 +35,17 @@ type PaypalPaymentDetail struct {
 	PaypalReference *string `mandatory:"false" json:"paypalReference"`
 }
 
-//GetTimePaidOn returns TimePaidOn
+// GetTimePaidOn returns TimePaidOn
 func (m PaypalPaymentDetail) GetTimePaidOn() *common.SDKTime {
 	return m.TimePaidOn
 }
 
-//GetPaidBy returns PaidBy
+// GetPaidBy returns PaidBy
 func (m PaypalPaymentDetail) GetPaidBy() *string {
 	return m.PaidBy
 }
 
-//GetAmountPaid returns AmountPaid
+// GetAmountPaid returns AmountPaid
 func (m PaypalPaymentDetail) GetAmountPaid() *float32 {
 	return m.AmountPaid
 }

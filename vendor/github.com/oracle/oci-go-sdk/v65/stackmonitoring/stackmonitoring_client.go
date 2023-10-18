@@ -95,7 +95,7 @@ func (client *StackMonitoringClient) ConfigurationProvider() *common.Configurati
 // between resources from different compartments as long they are in same tenancy.
 // User should have required access in both the compartments.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/AssociateMonitoredResources.go.html to see an example of how to use AssociateMonitoredResources API.
 func (client StackMonitoringClient) AssociateMonitoredResources(ctx context.Context, request AssociateMonitoredResourcesRequest) (response AssociateMonitoredResourcesResponse, err error) {
@@ -164,7 +164,7 @@ func (client StackMonitoringClient) associateMonitoredResources(ctx context.Cont
 // recreating it in another compartment.
 // When provided, If-Match is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeConfigCompartment.go.html to see an example of how to use ChangeConfigCompartment API.
 // A default retry strategy applies to this operation ChangeConfigCompartment()
@@ -228,7 +228,7 @@ func (client StackMonitoringClient) changeConfigCompartment(ctx context.Context,
 // ChangeMonitoredResourceCompartment Moves a monitored resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeMonitoredResourceCompartment.go.html to see an example of how to use ChangeMonitoredResourceCompartment API.
 func (client StackMonitoringClient) ChangeMonitoredResourceCompartment(ctx context.Context, request ChangeMonitoredResourceCompartmentRequest) (response ChangeMonitoredResourceCompartmentResponse, err error) {
@@ -295,7 +295,7 @@ func (client StackMonitoringClient) changeMonitoredResourceCompartment(ctx conte
 // The configuration item will determine if HOST resources in the selected compartment will be
 // discovered automatically.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateConfig.go.html to see an example of how to use CreateConfig API.
 // A default retry strategy applies to this operation CreateConfig()
@@ -358,7 +358,7 @@ func (client StackMonitoringClient) createConfig(ctx context.Context, request co
 
 // CreateDiscoveryJob API to create discovery Job and submit discovery Details to agent.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateDiscoveryJob.go.html to see an example of how to use CreateDiscoveryJob API.
 func (client StackMonitoringClient) CreateDiscoveryJob(ctx context.Context, request CreateDiscoveryJobRequest) (response CreateDiscoveryJobResponse, err error) {
@@ -422,7 +422,7 @@ func (client StackMonitoringClient) createDiscoveryJob(ctx context.Context, requ
 // a work request for promoting the resource to agent. Once the resource is successfully
 // added to agent, resource state will be marked active.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResource.go.html to see an example of how to use CreateMonitoredResource API.
 func (client StackMonitoringClient) CreateMonitoredResource(ctx context.Context, request CreateMonitoredResourceRequest) (response CreateMonitoredResourceResponse, err error) {
@@ -484,7 +484,7 @@ func (client StackMonitoringClient) createMonitoredResource(ctx context.Context,
 
 // DeleteConfig Deletes a configuration identified by the id.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteConfig.go.html to see an example of how to use DeleteConfig API.
 // A default retry strategy applies to this operation DeleteConfig()
@@ -542,7 +542,7 @@ func (client StackMonitoringClient) deleteConfig(ctx context.Context, request co
 
 // DeleteDiscoveryJob Deletes a DiscoveryJob by identifier
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteDiscoveryJob.go.html to see an example of how to use DeleteDiscoveryJob API.
 // A default retry strategy applies to this operation DeleteDiscoveryJob()
@@ -603,7 +603,7 @@ func (client StackMonitoringClient) deleteDiscoveryJob(ctx context.Context, requ
 // then the member resources will be deleted too. If the operation fails partially, the deleted entries
 // will not be rolled back.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMonitoredResource.go.html to see an example of how to use DeleteMonitoredResource API.
 func (client StackMonitoringClient) DeleteMonitoredResource(ctx context.Context, request DeleteMonitoredResourceRequest) (response DeleteMonitoredResourceResponse, err error) {
@@ -661,7 +661,7 @@ func (client StackMonitoringClient) deleteMonitoredResource(ctx context.Context,
 // DisableExternalDatabase Disable external database resource monitoring. All the references in DBaaS,
 // DBM and resource service will be deleted as part of this operation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DisableExternalDatabase.go.html to see an example of how to use DisableExternalDatabase API.
 func (client StackMonitoringClient) DisableExternalDatabase(ctx context.Context, request DisableExternalDatabaseRequest) (response DisableExternalDatabaseResponse, err error) {
@@ -723,7 +723,7 @@ func (client StackMonitoringClient) disableExternalDatabase(ctx context.Context,
 
 // DisassociateMonitoredResources Removes associations between two monitored resources.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DisassociateMonitoredResources.go.html to see an example of how to use DisassociateMonitoredResources API.
 func (client StackMonitoringClient) DisassociateMonitoredResources(ctx context.Context, request DisassociateMonitoredResourcesRequest) (response DisassociateMonitoredResourcesResponse, err error) {
@@ -785,7 +785,7 @@ func (client StackMonitoringClient) disassociateMonitoredResources(ctx context.C
 
 // GetConfig Gets the details of a configuration.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetConfig.go.html to see an example of how to use GetConfig API.
 // A default retry strategy applies to this operation GetConfig()
@@ -843,7 +843,7 @@ func (client StackMonitoringClient) getConfig(ctx context.Context, request commo
 
 // GetDiscoveryJob API to get the details of discovery Job by identifier.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetDiscoveryJob.go.html to see an example of how to use GetDiscoveryJob API.
 // A default retry strategy applies to this operation GetDiscoveryJob()
@@ -901,7 +901,7 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 
 // GetMonitoredResource Get monitored resource for the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMonitoredResource.go.html to see an example of how to use GetMonitoredResource API.
 // A default retry strategy applies to this operation GetMonitoredResource()
@@ -959,7 +959,7 @@ func (client StackMonitoringClient) getMonitoredResource(ctx context.Context, re
 
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -1017,7 +1017,7 @@ func (client StackMonitoringClient) getWorkRequest(ctx context.Context, request 
 
 // ListConfigs Get a list of configurations in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListConfigs.go.html to see an example of how to use ListConfigs API.
 // A default retry strategy applies to this operation ListConfigs()
@@ -1075,7 +1075,7 @@ func (client StackMonitoringClient) listConfigs(ctx context.Context, request com
 
 // ListDiscoveryJobLogs API to get all the logs of a Discovery Job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListDiscoveryJobLogs.go.html to see an example of how to use ListDiscoveryJobLogs API.
 // A default retry strategy applies to this operation ListDiscoveryJobLogs()
@@ -1133,7 +1133,7 @@ func (client StackMonitoringClient) listDiscoveryJobLogs(ctx context.Context, re
 
 // ListDiscoveryJobs API to get the details of all Discovery Jobs.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListDiscoveryJobs.go.html to see an example of how to use ListDiscoveryJobs API.
 // A default retry strategy applies to this operation ListDiscoveryJobs()
@@ -1191,7 +1191,7 @@ func (client StackMonitoringClient) listDiscoveryJobs(ctx context.Context, reque
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -1249,7 +1249,7 @@ func (client StackMonitoringClient) listWorkRequestErrors(ctx context.Context, r
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -1307,7 +1307,7 @@ func (client StackMonitoringClient) listWorkRequestLogs(ctx context.Context, req
 
 // ListWorkRequests Lists the work requests in a compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -1366,7 +1366,7 @@ func (client StackMonitoringClient) listWorkRequests(ctx context.Context, reques
 // SearchAssociatedResources List all associated resources recursively up-to a specified level,
 // for the monitored resources of type specified.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchAssociatedResources.go.html to see an example of how to use SearchAssociatedResources API.
 // A default retry strategy applies to this operation SearchAssociatedResources()
@@ -1429,7 +1429,7 @@ func (client StackMonitoringClient) searchAssociatedResources(ctx context.Contex
 
 // SearchMonitoredResourceAssociations Search associations in the given compartment based on the search criteria.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResourceAssociations.go.html to see an example of how to use SearchMonitoredResourceAssociations API.
 // A default retry strategy applies to this operation SearchMonitoredResourceAssociations()
@@ -1492,7 +1492,7 @@ func (client StackMonitoringClient) searchMonitoredResourceAssociations(ctx cont
 
 // SearchMonitoredResourceMembers List the member resources for the given monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResourceMembers.go.html to see an example of how to use SearchMonitoredResourceMembers API.
 // A default retry strategy applies to this operation SearchMonitoredResourceMembers()
@@ -1555,7 +1555,7 @@ func (client StackMonitoringClient) searchMonitoredResourceMembers(ctx context.C
 
 // SearchMonitoredResources Gets a list of all monitored resources in a compartment for the given search criteria.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResources.go.html to see an example of how to use SearchMonitoredResources API.
 // A default retry strategy applies to this operation SearchMonitoredResources()
@@ -1621,7 +1621,7 @@ func (client StackMonitoringClient) searchMonitoredResources(ctx context.Context
 // If association types not specified, then tags will be updated only for the resource identified by
 // the given monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateAndPropagateTags.go.html to see an example of how to use UpdateAndPropagateTags API.
 // A default retry strategy applies to this operation UpdateAndPropagateTags()
@@ -1684,7 +1684,7 @@ func (client StackMonitoringClient) updateAndPropagateTags(ctx context.Context, 
 
 // UpdateConfig Updates the configuration identified by the id given.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateConfig.go.html to see an example of how to use UpdateConfig API.
 // A default retry strategy applies to this operation UpdateConfig()
@@ -1744,7 +1744,7 @@ func (client StackMonitoringClient) updateConfig(ctx context.Context, request co
 // Note that "properties" object, if specified, will entirely replace the existing object,
 // as part this operation.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMonitoredResource.go.html to see an example of how to use UpdateMonitoredResource API.
 func (client StackMonitoringClient) UpdateMonitoredResource(ctx context.Context, request UpdateMonitoredResourceRequest) (response UpdateMonitoredResourceResponse, err error) {

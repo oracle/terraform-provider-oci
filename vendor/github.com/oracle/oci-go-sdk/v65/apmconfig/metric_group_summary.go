@@ -69,42 +69,42 @@ type MetricGroupSummary struct {
 	Metrics []Metric `mandatory:"false" json:"metrics"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m MetricGroupSummary) GetId() *string {
 	return m.Id
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m MetricGroupSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m MetricGroupSummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetCreatedBy returns CreatedBy
+// GetCreatedBy returns CreatedBy
 func (m MetricGroupSummary) GetCreatedBy() *string {
 	return m.CreatedBy
 }
 
-//GetUpdatedBy returns UpdatedBy
+// GetUpdatedBy returns UpdatedBy
 func (m MetricGroupSummary) GetUpdatedBy() *string {
 	return m.UpdatedBy
 }
 
-//GetEtag returns Etag
+// GetEtag returns Etag
 func (m MetricGroupSummary) GetEtag() *string {
 	return m.Etag
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m MetricGroupSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m MetricGroupSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }

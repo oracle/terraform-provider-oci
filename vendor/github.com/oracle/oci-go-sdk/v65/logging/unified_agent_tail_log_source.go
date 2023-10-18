@@ -30,7 +30,7 @@ type UnifiedAgentTailLogSource struct {
 	Parser UnifiedAgentParser `mandatory:"false" json:"parser"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m UnifiedAgentTailLogSource) GetName() *string {
 	return m.Name
 }

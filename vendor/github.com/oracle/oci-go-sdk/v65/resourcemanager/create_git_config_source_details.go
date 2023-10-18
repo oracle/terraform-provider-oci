@@ -41,7 +41,7 @@ type CreateGitConfigSourceDetails struct {
 	BranchName *string `mandatory:"false" json:"branchName"`
 }
 
-//GetWorkingDirectory returns WorkingDirectory
+// GetWorkingDirectory returns WorkingDirectory
 func (m CreateGitConfigSourceDetails) GetWorkingDirectory() *string {
 	return m.WorkingDirectory
 }

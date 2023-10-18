@@ -93,7 +93,7 @@ func (client *DatabaseMigrationClient) ConfigurationProvider() *common.Configura
 
 // AbortJob Aborts a Migration Job (either Evaluation or Migration).
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/AbortJob.go.html to see an example of how to use AbortJob API.
 // A default retry strategy applies to this operation AbortJob()
@@ -156,7 +156,7 @@ func (client DatabaseMigrationClient) abortJob(ctx context.Context, request comm
 
 // AddMigrationObjects Add excluded/included object to the list.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/AddMigrationObjects.go.html to see an example of how to use AddMigrationObjects API.
 // A default retry strategy applies to this operation AddMigrationObjects()
@@ -214,7 +214,7 @@ func (client DatabaseMigrationClient) addMigrationObjects(ctx context.Context, r
 
 // ChangeAgentCompartment Used to configure an ODMS Agent Compartment ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ChangeAgentCompartment.go.html to see an example of how to use ChangeAgentCompartment API.
 // A default retry strategy applies to this operation ChangeAgentCompartment()
@@ -277,7 +277,7 @@ func (client DatabaseMigrationClient) changeAgentCompartment(ctx context.Context
 
 // ChangeConnectionCompartment Used to change the Database Connection compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ChangeConnectionCompartment.go.html to see an example of how to use ChangeConnectionCompartment API.
 // A default retry strategy applies to this operation ChangeConnectionCompartment()
@@ -340,7 +340,7 @@ func (client DatabaseMigrationClient) changeConnectionCompartment(ctx context.Co
 
 // ChangeMigrationCompartment Used to change the Migration compartment.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ChangeMigrationCompartment.go.html to see an example of how to use ChangeMigrationCompartment API.
 // A default retry strategy applies to this operation ChangeMigrationCompartment()
@@ -403,7 +403,7 @@ func (client DatabaseMigrationClient) changeMigrationCompartment(ctx context.Con
 
 // CloneMigration Clone a configuration from an existing Migration.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CloneMigration.go.html to see an example of how to use CloneMigration API.
 // A default retry strategy applies to this operation CloneMigration()
@@ -466,7 +466,7 @@ func (client DatabaseMigrationClient) cloneMigration(ctx context.Context, reques
 
 // ConnectionDiagnostics Perform connection test for a database connection.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ConnectionDiagnostics.go.html to see an example of how to use ConnectionDiagnostics API.
 // A default retry strategy applies to this operation ConnectionDiagnostics()
@@ -530,7 +530,7 @@ func (client DatabaseMigrationClient) connectionDiagnostics(ctx context.Context,
 // CreateConnection Create a Database Connection resource that contains the details to connect to either a Source or Target Database
 // in the migration.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CreateConnection.go.html to see an example of how to use CreateConnection API.
 // A default retry strategy applies to this operation CreateConnection()
@@ -595,7 +595,7 @@ func (client DatabaseMigrationClient) createConnection(ctx context.Context, requ
 // database migration operation, such as source and destination database
 // details, credentials, etc.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CreateMigration.go.html to see an example of how to use CreateMigration API.
 // A default retry strategy applies to this operation CreateMigration()
@@ -658,7 +658,7 @@ func (client DatabaseMigrationClient) createMigration(ctx context.Context, reque
 
 // DeleteAgent Delete the ODMS Agent represented by the specified ODMS Agent ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteAgent.go.html to see an example of how to use DeleteAgent API.
 // A default retry strategy applies to this operation DeleteAgent()
@@ -716,7 +716,7 @@ func (client DatabaseMigrationClient) deleteAgent(ctx context.Context, request c
 
 // DeleteConnection Deletes the Database Connection represented by the specified connection ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
 // A default retry strategy applies to this operation DeleteConnection()
@@ -774,7 +774,7 @@ func (client DatabaseMigrationClient) deleteConnection(ctx context.Context, requ
 
 // DeleteJob Deletes the migration job represented by the given job ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteJob.go.html to see an example of how to use DeleteJob API.
 // A default retry strategy applies to this operation DeleteJob()
@@ -832,7 +832,7 @@ func (client DatabaseMigrationClient) deleteJob(ctx context.Context, request com
 
 // DeleteMigration Deletes the Migration represented by the specified migration ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteMigration.go.html to see an example of how to use DeleteMigration API.
 // A default retry strategy applies to this operation DeleteMigration()
@@ -890,7 +890,7 @@ func (client DatabaseMigrationClient) deleteMigration(ctx context.Context, reque
 
 // EvaluateMigration Start Validate Migration job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/EvaluateMigration.go.html to see an example of how to use EvaluateMigration API.
 // A default retry strategy applies to this operation EvaluateMigration()
@@ -953,7 +953,7 @@ func (client DatabaseMigrationClient) evaluateMigration(ctx context.Context, req
 
 // GetAdvisorReport Get the Pre-Migration Advisor report details
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetAdvisorReport.go.html to see an example of how to use GetAdvisorReport API.
 // A default retry strategy applies to this operation GetAdvisorReport()
@@ -1011,7 +1011,7 @@ func (client DatabaseMigrationClient) getAdvisorReport(ctx context.Context, requ
 
 // GetAgent Display the ODMS Agent configuration.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetAgent.go.html to see an example of how to use GetAgent API.
 // A default retry strategy applies to this operation GetAgent()
@@ -1069,7 +1069,7 @@ func (client DatabaseMigrationClient) getAgent(ctx context.Context, request comm
 
 // GetConnection Display Database Connection details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetConnection.go.html to see an example of how to use GetConnection API.
 // A default retry strategy applies to this operation GetConnection()
@@ -1127,7 +1127,7 @@ func (client DatabaseMigrationClient) getConnection(ctx context.Context, request
 
 // GetJob Get a migration job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetJob.go.html to see an example of how to use GetJob API.
 // A default retry strategy applies to this operation GetJob()
@@ -1185,7 +1185,7 @@ func (client DatabaseMigrationClient) getJob(ctx context.Context, request common
 
 // GetJobOutputContent Get the migration Job Output content as a String.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetJobOutputContent.go.html to see an example of how to use GetJobOutputContent API.
 // A default retry strategy applies to this operation GetJobOutputContent()
@@ -1242,7 +1242,7 @@ func (client DatabaseMigrationClient) getJobOutputContent(ctx context.Context, r
 
 // GetMigration Display Migration details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetMigration.go.html to see an example of how to use GetMigration API.
 // A default retry strategy applies to this operation GetMigration()
@@ -1300,7 +1300,7 @@ func (client DatabaseMigrationClient) getMigration(ctx context.Context, request 
 
 // GetWorkRequest Gets the details of a work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
@@ -1358,7 +1358,7 @@ func (client DatabaseMigrationClient) getWorkRequest(ctx context.Context, reques
 
 // ListAgentImages Get details of the ODMS Agent Images available to install on-premises.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListAgentImages.go.html to see an example of how to use ListAgentImages API.
 // A default retry strategy applies to this operation ListAgentImages()
@@ -1416,7 +1416,7 @@ func (client DatabaseMigrationClient) listAgentImages(ctx context.Context, reque
 
 // ListAgents Display the name of all the existing ODMS Agents in the server.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListAgents.go.html to see an example of how to use ListAgents API.
 // A default retry strategy applies to this operation ListAgents()
@@ -1474,7 +1474,7 @@ func (client DatabaseMigrationClient) listAgents(ctx context.Context, request co
 
 // ListConnections List all Database Connections.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListConnections.go.html to see an example of how to use ListConnections API.
 // A default retry strategy applies to this operation ListConnections()
@@ -1532,7 +1532,7 @@ func (client DatabaseMigrationClient) listConnections(ctx context.Context, reque
 
 // ListExcludedObjects List the excluded database objects.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListExcludedObjects.go.html to see an example of how to use ListExcludedObjects API.
 // A default retry strategy applies to this operation ListExcludedObjects()
@@ -1590,7 +1590,7 @@ func (client DatabaseMigrationClient) listExcludedObjects(ctx context.Context, r
 
 // ListJobOutputs List the Job Outputs
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListJobOutputs.go.html to see an example of how to use ListJobOutputs API.
 // A default retry strategy applies to this operation ListJobOutputs()
@@ -1649,7 +1649,7 @@ func (client DatabaseMigrationClient) listJobOutputs(ctx context.Context, reques
 // ListJobs List all the names of the Migration jobs associated to the specified
 // migration site.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListJobs.go.html to see an example of how to use ListJobs API.
 // A default retry strategy applies to this operation ListJobs()
@@ -1707,7 +1707,7 @@ func (client DatabaseMigrationClient) listJobs(ctx context.Context, request comm
 
 // ListMigrationObjectTypes Display sample object types to exclude or include for a Migration.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationObjectTypes.go.html to see an example of how to use ListMigrationObjectTypes API.
 // A default retry strategy applies to this operation ListMigrationObjectTypes()
@@ -1765,7 +1765,7 @@ func (client DatabaseMigrationClient) listMigrationObjectTypes(ctx context.Conte
 
 // ListMigrationObjects Display excluded/included objects.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationObjects.go.html to see an example of how to use ListMigrationObjects API.
 // A default retry strategy applies to this operation ListMigrationObjects()
@@ -1823,7 +1823,7 @@ func (client DatabaseMigrationClient) listMigrationObjects(ctx context.Context, 
 
 // ListMigrations List all Migrations.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrations.go.html to see an example of how to use ListMigrations API.
 // A default retry strategy applies to this operation ListMigrations()
@@ -1881,7 +1881,7 @@ func (client DatabaseMigrationClient) listMigrations(ctx context.Context, reques
 
 // ListWorkRequestErrors Gets the errors for a work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
@@ -1939,7 +1939,7 @@ func (client DatabaseMigrationClient) listWorkRequestErrors(ctx context.Context,
 
 // ListWorkRequestLogs Gets the logs for a work request.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
@@ -1997,7 +1997,7 @@ func (client DatabaseMigrationClient) listWorkRequestLogs(ctx context.Context, r
 
 // ListWorkRequests Lists the work requests in a compartment or for a specified resource.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
@@ -2055,7 +2055,7 @@ func (client DatabaseMigrationClient) listWorkRequests(ctx context.Context, requ
 
 // RemoveMigrationObjects Remove excluded/included objects.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/RemoveMigrationObjects.go.html to see an example of how to use RemoveMigrationObjects API.
 // A default retry strategy applies to this operation RemoveMigrationObjects()
@@ -2113,7 +2113,7 @@ func (client DatabaseMigrationClient) removeMigrationObjects(ctx context.Context
 
 // ResumeJob Resume a migration Job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ResumeJob.go.html to see an example of how to use ResumeJob API.
 // A default retry strategy applies to this operation ResumeJob()
@@ -2176,7 +2176,7 @@ func (client DatabaseMigrationClient) resumeJob(ctx context.Context, request com
 
 // RetrieveSupportedPhases Display Migration Phases for a specified migration.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/RetrieveSupportedPhases.go.html to see an example of how to use RetrieveSupportedPhases API.
 // A default retry strategy applies to this operation RetrieveSupportedPhases()
@@ -2234,7 +2234,7 @@ func (client DatabaseMigrationClient) retrieveSupportedPhases(ctx context.Contex
 
 // StartMigration Start Migration job.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/StartMigration.go.html to see an example of how to use StartMigration API.
 // A default retry strategy applies to this operation StartMigration()
@@ -2297,7 +2297,7 @@ func (client DatabaseMigrationClient) startMigration(ctx context.Context, reques
 
 // UpdateAgent Modifies the ODMS Agent represented by the given ODMS Agent ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateAgent.go.html to see an example of how to use UpdateAgent API.
 // A default retry strategy applies to this operation UpdateAgent()
@@ -2360,7 +2360,7 @@ func (client DatabaseMigrationClient) updateAgent(ctx context.Context, request c
 
 // UpdateConnection Update Database Connection resource details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
 // A default retry strategy applies to this operation UpdateConnection()
@@ -2418,7 +2418,7 @@ func (client DatabaseMigrationClient) updateConnection(ctx context.Context, requ
 
 // UpdateJob Update Migration Job resource details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateJob.go.html to see an example of how to use UpdateJob API.
 // A default retry strategy applies to this operation UpdateJob()
@@ -2476,7 +2476,7 @@ func (client DatabaseMigrationClient) updateJob(ctx context.Context, request com
 
 // UpdateMigration Update Migration resource details.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateMigration.go.html to see an example of how to use UpdateMigration API.
 // A default retry strategy applies to this operation UpdateMigration()

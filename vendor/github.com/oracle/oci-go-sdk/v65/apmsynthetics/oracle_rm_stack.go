@@ -29,7 +29,7 @@ type OracleRmStack struct {
 	DvpStreamId *string `mandatory:"true" json:"dvpStreamId"`
 }
 
-//GetDvpVersion returns DvpVersion
+// GetDvpVersion returns DvpVersion
 func (m OracleRmStack) GetDvpVersion() *string {
 	return m.DvpVersion
 }

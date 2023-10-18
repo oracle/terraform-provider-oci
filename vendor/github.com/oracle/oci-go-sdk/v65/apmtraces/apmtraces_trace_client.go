@@ -93,7 +93,7 @@ func (client *TraceClient) ConfigurationProvider() *common.ConfigurationProvider
 
 // GetAggregatedSnapshot Gets the aggregated snapshot identified by trace ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetAggregatedSnapshot.go.html to see an example of how to use GetAggregatedSnapshot API.
 func (client TraceClient) GetAggregatedSnapshot(ctx context.Context, request GetAggregatedSnapshotRequest) (response GetAggregatedSnapshotResponse, err error) {
@@ -150,7 +150,7 @@ func (client TraceClient) getAggregatedSnapshot(ctx context.Context, request com
 
 // GetSpan Gets the span details identified by spanId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetSpan.go.html to see an example of how to use GetSpan API.
 func (client TraceClient) GetSpan(ctx context.Context, request GetSpanRequest) (response GetSpanResponse, err error) {
@@ -207,7 +207,7 @@ func (client TraceClient) getSpan(ctx context.Context, request common.OCIRequest
 
 // GetTrace Gets the trace details identified by traceId.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetTrace.go.html to see an example of how to use GetTrace API.
 func (client TraceClient) GetTrace(ctx context.Context, request GetTraceRequest) (response GetTraceResponse, err error) {
@@ -264,7 +264,7 @@ func (client TraceClient) getTrace(ctx context.Context, request common.OCIReques
 
 // GetTraceSnapshot Gets the trace snapshots data identified by trace ID.
 //
-// See also
+// # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetTraceSnapshot.go.html to see an example of how to use GetTraceSnapshot API.
 func (client TraceClient) GetTraceSnapshot(ctx context.Context, request GetTraceSnapshotRequest) (response GetTraceSnapshotResponse, err error) {

@@ -71,57 +71,57 @@ type TrendColumn struct {
 	ValueType ValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m TrendColumn) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetSubSystem returns SubSystem
+// GetSubSystem returns SubSystem
 func (m TrendColumn) GetSubSystem() SubSystemNameEnum {
 	return m.SubSystem
 }
 
-//GetValues returns Values
+// GetValues returns Values
 func (m TrendColumn) GetValues() []FieldValue {
 	return m.Values
 }
 
-//GetIsListOfValues returns IsListOfValues
+// GetIsListOfValues returns IsListOfValues
 func (m TrendColumn) GetIsListOfValues() *bool {
 	return m.IsListOfValues
 }
 
-//GetIsMultiValued returns IsMultiValued
+// GetIsMultiValued returns IsMultiValued
 func (m TrendColumn) GetIsMultiValued() *bool {
 	return m.IsMultiValued
 }
 
-//GetIsCaseSensitive returns IsCaseSensitive
+// GetIsCaseSensitive returns IsCaseSensitive
 func (m TrendColumn) GetIsCaseSensitive() *bool {
 	return m.IsCaseSensitive
 }
 
-//GetIsGroupable returns IsGroupable
+// GetIsGroupable returns IsGroupable
 func (m TrendColumn) GetIsGroupable() *bool {
 	return m.IsGroupable
 }
 
-//GetIsEvaluable returns IsEvaluable
+// GetIsEvaluable returns IsEvaluable
 func (m TrendColumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
 }
 
-//GetValueType returns ValueType
+// GetValueType returns ValueType
 func (m TrendColumn) GetValueType() ValueTypeEnum {
 	return m.ValueType
 }
 
-//GetOriginalDisplayName returns OriginalDisplayName
+// GetOriginalDisplayName returns OriginalDisplayName
 func (m TrendColumn) GetOriginalDisplayName() *string {
 	return m.OriginalDisplayName
 }
 
-//GetInternalName returns InternalName
+// GetInternalName returns InternalName
 func (m TrendColumn) GetInternalName() *string {
 	return m.InternalName
 }

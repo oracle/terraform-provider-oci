@@ -43,37 +43,37 @@ type ReferencedDataObjectFromApi struct {
 	Key *string `mandatory:"false" json:"key"`
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m ReferencedDataObjectFromApi) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m ReferencedDataObjectFromApi) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m ReferencedDataObjectFromApi) GetName() *string {
 	return m.Name
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m ReferencedDataObjectFromApi) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetResourceName returns ResourceName
+// GetResourceName returns ResourceName
 func (m ReferencedDataObjectFromApi) GetResourceName() *string {
 	return m.ResourceName
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m ReferencedDataObjectFromApi) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m ReferencedDataObjectFromApi) GetExternalKey() *string {
 	return m.ExternalKey
 }

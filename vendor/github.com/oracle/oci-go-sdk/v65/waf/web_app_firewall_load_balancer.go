@@ -61,57 +61,57 @@ type WebAppFirewallLoadBalancer struct {
 	LifecycleState WebAppFirewallLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-//GetId returns Id
+// GetId returns Id
 func (m WebAppFirewallLoadBalancer) GetId() *string {
 	return m.Id
 }
 
-//GetDisplayName returns DisplayName
+// GetDisplayName returns DisplayName
 func (m WebAppFirewallLoadBalancer) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-//GetCompartmentId returns CompartmentId
+// GetCompartmentId returns CompartmentId
 func (m WebAppFirewallLoadBalancer) GetCompartmentId() *string {
 	return m.CompartmentId
 }
 
-//GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
+// GetWebAppFirewallPolicyId returns WebAppFirewallPolicyId
 func (m WebAppFirewallLoadBalancer) GetWebAppFirewallPolicyId() *string {
 	return m.WebAppFirewallPolicyId
 }
 
-//GetTimeCreated returns TimeCreated
+// GetTimeCreated returns TimeCreated
 func (m WebAppFirewallLoadBalancer) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
 }
 
-//GetTimeUpdated returns TimeUpdated
+// GetTimeUpdated returns TimeUpdated
 func (m WebAppFirewallLoadBalancer) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
-//GetLifecycleState returns LifecycleState
+// GetLifecycleState returns LifecycleState
 func (m WebAppFirewallLoadBalancer) GetLifecycleState() WebAppFirewallLifecycleStateEnum {
 	return m.LifecycleState
 }
 
-//GetLifecycleDetails returns LifecycleDetails
+// GetLifecycleDetails returns LifecycleDetails
 func (m WebAppFirewallLoadBalancer) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
-//GetFreeformTags returns FreeformTags
+// GetFreeformTags returns FreeformTags
 func (m WebAppFirewallLoadBalancer) GetFreeformTags() map[string]string {
 	return m.FreeformTags
 }
 
-//GetDefinedTags returns DefinedTags
+// GetDefinedTags returns DefinedTags
 func (m WebAppFirewallLoadBalancer) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
 }
 
-//GetSystemTags returns SystemTags
+// GetSystemTags returns SystemTags
 func (m WebAppFirewallLoadBalancer) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
 }

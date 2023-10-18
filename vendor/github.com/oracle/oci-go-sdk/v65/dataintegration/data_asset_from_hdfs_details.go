@@ -70,67 +70,67 @@ type DataAssetFromHdfsDetails struct {
 	ValidateCertificate *bool `mandatory:"false" json:"validateCertificate"`
 }
 
-//GetKey returns Key
+// GetKey returns Key
 func (m DataAssetFromHdfsDetails) GetKey() *string {
 	return m.Key
 }
 
-//GetModelVersion returns ModelVersion
+// GetModelVersion returns ModelVersion
 func (m DataAssetFromHdfsDetails) GetModelVersion() *string {
 	return m.ModelVersion
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m DataAssetFromHdfsDetails) GetName() *string {
 	return m.Name
 }
 
-//GetDescription returns Description
+// GetDescription returns Description
 func (m DataAssetFromHdfsDetails) GetDescription() *string {
 	return m.Description
 }
 
-//GetObjectStatus returns ObjectStatus
+// GetObjectStatus returns ObjectStatus
 func (m DataAssetFromHdfsDetails) GetObjectStatus() *int {
 	return m.ObjectStatus
 }
 
-//GetIdentifier returns Identifier
+// GetIdentifier returns Identifier
 func (m DataAssetFromHdfsDetails) GetIdentifier() *string {
 	return m.Identifier
 }
 
-//GetExternalKey returns ExternalKey
+// GetExternalKey returns ExternalKey
 func (m DataAssetFromHdfsDetails) GetExternalKey() *string {
 	return m.ExternalKey
 }
 
-//GetAssetProperties returns AssetProperties
+// GetAssetProperties returns AssetProperties
 func (m DataAssetFromHdfsDetails) GetAssetProperties() map[string]string {
 	return m.AssetProperties
 }
 
-//GetNativeTypeSystem returns NativeTypeSystem
+// GetNativeTypeSystem returns NativeTypeSystem
 func (m DataAssetFromHdfsDetails) GetNativeTypeSystem() *TypeSystem {
 	return m.NativeTypeSystem
 }
 
-//GetObjectVersion returns ObjectVersion
+// GetObjectVersion returns ObjectVersion
 func (m DataAssetFromHdfsDetails) GetObjectVersion() *int {
 	return m.ObjectVersion
 }
 
-//GetParentRef returns ParentRef
+// GetParentRef returns ParentRef
 func (m DataAssetFromHdfsDetails) GetParentRef() *ParentReference {
 	return m.ParentRef
 }
 
-//GetMetadata returns Metadata
+// GetMetadata returns Metadata
 func (m DataAssetFromHdfsDetails) GetMetadata() *ObjectMetadata {
 	return m.Metadata
 }
 
-//GetKeyMap returns KeyMap
+// GetKeyMap returns KeyMap
 func (m DataAssetFromHdfsDetails) GetKeyMap() map[string]string {
 	return m.KeyMap
 }

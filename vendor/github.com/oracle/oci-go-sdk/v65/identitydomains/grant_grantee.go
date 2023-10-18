@@ -18,14 +18,14 @@ import (
 
 // GrantGrantee Grantee beneficiary. The grantee may be a User, Group, App or DynamicResourceGroup.
 // **SCIM++ Properties:**
-//  - idcsCsvAttributeNameMappings: [[columnHeaderName:Grantee Name, csvColumnForResolvingResourceType:Grantee Type, mapsTo:grantee.value], [columnHeaderName:Grantee Type, mapsTo:grantee.type]]
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: true
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCsvAttributeNameMappings: [[columnHeaderName:Grantee Name, csvColumnForResolvingResourceType:Grantee Type, mapsTo:grantee.value], [columnHeaderName:Grantee Type, mapsTo:grantee.type]]
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: true
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type GrantGrantee struct {
 
 	// Grantee identifier

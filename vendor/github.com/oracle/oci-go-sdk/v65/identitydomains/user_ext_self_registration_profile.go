@@ -18,13 +18,13 @@ import (
 
 // UserExtSelfRegistrationProfile Self registration profile used when user is self registered.
 // **SCIM++ Properties:**
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: true
-//  - returned: request
-//  - type: complex
-//  - uniqueness: none
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: true
+//   - returned: request
+//   - type: complex
+//   - uniqueness: none
 type UserExtSelfRegistrationProfile struct {
 
 	// Self Registration Profile Id

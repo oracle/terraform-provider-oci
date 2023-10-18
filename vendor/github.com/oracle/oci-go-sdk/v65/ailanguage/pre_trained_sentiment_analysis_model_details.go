@@ -29,7 +29,7 @@ type PreTrainedSentimentAnalysisModelDetails struct {
 	Version *string `mandatory:"false" json:"version"`
 }
 
-//GetLanguageCode returns LanguageCode
+// GetLanguageCode returns LanguageCode
 func (m PreTrainedSentimentAnalysisModelDetails) GetLanguageCode() *string {
 	return m.LanguageCode
 }

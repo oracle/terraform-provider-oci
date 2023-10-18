@@ -17,8 +17,8 @@ import (
 )
 
 // IpSecConnectionDeviceConfig Deprecated. For tunnel information, instead see:
-//   * IPSecConnectionTunnel
-//   * IPSecConnectionTunnelSharedSecret
+//   - IPSecConnectionTunnel
+//   - IPSecConnectionTunnelSharedSecret
 type IpSecConnectionDeviceConfig struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the IPSec connection.

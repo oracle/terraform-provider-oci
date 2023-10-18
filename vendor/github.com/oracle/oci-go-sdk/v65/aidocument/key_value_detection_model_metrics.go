@@ -27,7 +27,7 @@ type KeyValueDetectionModelMetrics struct {
 	DatasetSummary *DatasetSummary `mandatory:"false" json:"datasetSummary"`
 }
 
-//GetDatasetSummary returns DatasetSummary
+// GetDatasetSummary returns DatasetSummary
 func (m KeyValueDetectionModelMetrics) GetDatasetSummary() *DatasetSummary {
 	return m.DatasetSummary
 }

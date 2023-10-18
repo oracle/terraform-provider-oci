@@ -18,13 +18,13 @@ import (
 
 // AppFormFillUrlMatch A list of application-formURLs that FormFill should match against any formUrl that the user-specifies when signing in to the target service.  Each item in the list also indicates how FormFill should interpret that formUrl.
 // **SCIM++ Properties:**
-//  - idcsCompositeKey: [formUrl]
-//  - multiValued: true
-//  - mutability: readWrite
-//  - required: false
-//  - returned: default
-//  - type: complex
-//  - uniqueness: none
+//   - idcsCompositeKey: [formUrl]
+//   - multiValued: true
+//   - mutability: readWrite
+//   - required: false
+//   - returned: default
+//   - type: complex
+//   - uniqueness: none
 type AppFormFillUrlMatch struct {
 
 	// An application formUrl that FormFill will match against any formUrl that a User enters in trying to access the target-service which this App represents.

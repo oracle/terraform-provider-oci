@@ -18,13 +18,13 @@ import (
 
 // GrantEntitlement The entitlement or privilege that is being granted
 // **SCIM++ Properties:**
-//  - idcsCsvAttributeNameMappings: [[columnHeaderName:Entitlement Value, csvColumnForResolvingResourceType:Entitlement Name, mapsTo:entitlement.attributeValue, referencedResourceTypeUniqueAttributeNameMappings:[[mapsFromColumnName:Entitlement Value, resourceTypeAttributeName:displayName], [mapsFromColumnName:App Name, resourceTypeAttributeName:app.display]], resolveValueUsingResourceType:[[resolveBy:AppRole, valueToBeResolved:appRoles]]], [columnHeaderName:Entitlement Name, defaultValue:appRoles, mapsTo:entitlement.attributeName]]
-//  - idcsSearchable: true
-//  - multiValued: false
-//  - mutability: immutable
-//  - required: false
-//  - returned: default
-//  - type: complex
+//   - idcsCsvAttributeNameMappings: [[columnHeaderName:Entitlement Value, csvColumnForResolvingResourceType:Entitlement Name, mapsTo:entitlement.attributeValue, referencedResourceTypeUniqueAttributeNameMappings:[[mapsFromColumnName:Entitlement Value, resourceTypeAttributeName:displayName], [mapsFromColumnName:App Name, resourceTypeAttributeName:app.display]], resolveValueUsingResourceType:[[resolveBy:AppRole, valueToBeResolved:appRoles]]], [columnHeaderName:Entitlement Name, defaultValue:appRoles, mapsTo:entitlement.attributeName]]
+//   - idcsSearchable: true
+//   - multiValued: false
+//   - mutability: immutable
+//   - required: false
+//   - returned: default
+//   - type: complex
 type GrantEntitlement struct {
 
 	// The name of the attribute whose value (specified by attributeValue) confers privilege within the service-instance (specified by app).

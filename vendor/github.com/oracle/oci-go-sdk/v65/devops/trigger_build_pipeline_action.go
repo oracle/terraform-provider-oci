@@ -25,7 +25,7 @@ type TriggerBuildPipelineAction struct {
 	Filter Filter `mandatory:"false" json:"filter"`
 }
 
-//GetFilter returns Filter
+// GetFilter returns Filter
 func (m TriggerBuildPipelineAction) GetFilter() Filter {
 	return m.Filter
 }

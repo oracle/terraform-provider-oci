@@ -54,12 +54,12 @@ type SslForwardProxyProfile struct {
 	IsOutOfCapacityBlocked *bool `mandatory:"false" json:"isOutOfCapacityBlocked"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m SslForwardProxyProfile) GetName() *string {
 	return m.Name
 }
 
-//GetParentResourceId returns ParentResourceId
+// GetParentResourceId returns ParentResourceId
 func (m SslForwardProxyProfile) GetParentResourceId() *string {
 	return m.ParentResourceId
 }

@@ -32,7 +32,7 @@ type CreateSslInboundInspectionProfileDetails struct {
 	IsOutOfCapacityBlocked *bool `mandatory:"false" json:"isOutOfCapacityBlocked"`
 }
 
-//GetName returns Name
+// GetName returns Name
 func (m CreateSslInboundInspectionProfileDetails) GetName() *string {
 	return m.Name
 }
