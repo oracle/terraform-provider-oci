@@ -1,4 +1,4 @@
-## 5.17.0 (Unreleased)
+## 5.17.0 (October 18, 2023)
 
 ### Added
 - Support for OCI Caching Service with Redis
