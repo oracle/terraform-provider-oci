@@ -116,6 +116,7 @@ const (
 	DiscoveryJobSummaryResourceTypeOracleMft        DiscoveryJobSummaryResourceTypeEnum = "ORACLE_MFT"
 	DiscoveryJobSummaryResourceTypeApacheHttpServer DiscoveryJobSummaryResourceTypeEnum = "APACHE_HTTP_SERVER"
 	DiscoveryJobSummaryResourceTypeOracleGoldengate DiscoveryJobSummaryResourceTypeEnum = "ORACLE_GOLDENGATE"
+	DiscoveryJobSummaryResourceTypeCustomResource   DiscoveryJobSummaryResourceTypeEnum = "CUSTOM_RESOURCE"
 )
 
 var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -132,6 +133,7 @@ var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryR
 	"ORACLE_MFT":         DiscoveryJobSummaryResourceTypeOracleMft,
 	"APACHE_HTTP_SERVER": DiscoveryJobSummaryResourceTypeApacheHttpServer,
 	"ORACLE_GOLDENGATE":  DiscoveryJobSummaryResourceTypeOracleGoldengate,
+	"CUSTOM_RESOURCE":    DiscoveryJobSummaryResourceTypeCustomResource,
 }
 
 var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -148,6 +150,7 @@ var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJo
 	"oracle_mft":         DiscoveryJobSummaryResourceTypeOracleMft,
 	"apache_http_server": DiscoveryJobSummaryResourceTypeApacheHttpServer,
 	"oracle_goldengate":  DiscoveryJobSummaryResourceTypeOracleGoldengate,
+	"custom_resource":    DiscoveryJobSummaryResourceTypeCustomResource,
 }
 
 // GetDiscoveryJobSummaryResourceTypeEnumValues Enumerates the set of values for DiscoveryJobSummaryResourceTypeEnum
@@ -175,6 +178,7 @@ func GetDiscoveryJobSummaryResourceTypeEnumStringValues() []string {
 		"ORACLE_MFT",
 		"APACHE_HTTP_SERVER",
 		"ORACLE_GOLDENGATE",
+		"CUSTOM_RESOURCE",
 	}
 }
 

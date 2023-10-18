@@ -582,7 +582,7 @@ func (client ContainerInstanceClient) listContainers(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequestErrors Return a paginated list of errors for a given work request.
+// ListWorkRequestErrors Returns a paginated list of errors for a work request.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ContainerInstanceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -636,7 +636,7 @@ func (client ContainerInstanceClient) listWorkRequestErrors(ctx context.Context,
 	return response, err
 }
 
-// ListWorkRequestLogs Return a paginated list of logs for a given work request.
+// ListWorkRequestLogs Returns a paginated list of logs for a work request.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ContainerInstanceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
