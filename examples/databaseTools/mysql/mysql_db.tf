@@ -19,6 +19,9 @@ variable "private_key_path" {
 variable "compartment_ocid" {
 }
 
+variable "secret_ocid" {
+}
+
 variable "region" {
 }
 
@@ -41,7 +44,7 @@ resource "oci_database_tools_database_tools_connection" "dbtools_connection_mysq
   user_password {
     value_type = "SECRETID"
     # The user password to use exists as a secret in an OCI Vault
-    secret_id  = "ocid1.vaultsecret.oc1.phx.exampleaihuofciaiazy2u5ko3uyz3sspwd6hf7oqhqmlk5xu3xdetkpffff"
+    secret_id  = var.secret_ocid
   }
 
   # Optional
@@ -50,36 +53,35 @@ resource "oci_database_tools_database_tools_connection" "dbtools_connection_mysq
     "sslMode": "VERIFY_CA"
   }
   key_stores {
+    key_store_type = "CLIENT_CERTIFICATE_PEM"
     key_store_content {
       value_type = "SECRETID"
-      secret_id = "ocid1.vaultsecret.oc1.phx.exampleaihuofciaiazy2u5ko3uyz3sspwd6hf7oqhqmlk5xu3xdetkpfffe"
+      secret_id = var.secret_ocid
     }
-    key_store_type = "CA_CERTIFICATE_PEM"
   }
   key_stores {
+    key_store_type = "CLIENT_PRIVATE_KEY_PEM"
     key_store_content {
       value_type = "SECRETID"
-      secret_id = "ocid1.vaultsecret.oc1.phx.exampleaihuofciaiazy2u5ko3uyz3sspwd6hf7oqhqmlk5xu3xdetkpfffd"
+      secret_id = var.secret_ocid
     }
     key_store_password {
       value_type = "SECRETID"
-      secret_id = "ocid1.vaultsecret.oc1.phx.exampleaihuofciaiazy2u5ko3uyz3sspwd6hf7oqhqmlk5xu3xdetkpfffc"
+      secret_id = var.secret_ocid
     }
-    key_store_type = "CLIENT_PRIVATE_KEY_PEM"
   }
   key_stores {
+    key_store_type = "CA_CERTIFICATE_PEM"
     key_store_content {
       value_type = "SECRETID"
-      secret_id = "ocid1.vaultsecret.oc1.phx.exampleaihuofciaiazy2u5ko3uyz3sspwd6hf7oqhqmlk5xu3xdetkpfffb"
+      secret_id = var.secret_ocid
     }
-    key_store_type = "CLIENT_CERTIFICATE_PEM"
   }
 
   related_resource {
     entity_type = "MYSQLDBSYSTEM"
     identifier  = "ocid1.mysqldbsystem.oc1.phx.exampletksujfufl4bhe5sqkfgn7t7lcrkkpy7km5iwzvg6ycls7r5dlfff1"
   }
-
 }
 
 output "connection_r_mysql" {
@@ -89,7 +91,7 @@ output "connection_r_mysql" {
 # Connection - Data Sources
 data "oci_database_tools_database_tools_connections" "test_database_tools_connections_mysql" {
   compartment_id = var.compartment_ocid
-  display_name   = oci_database_tools_database_tools_connection.dbtools_connection.display_name
+  display_name   = oci_database_tools_database_tools_connection.dbtools_connection_mysql.display_name
   state          = "ACTIVE"
 }
 

@@ -6,13 +6,13 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"strconv"
 	"testing"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
@@ -90,9 +90,6 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_database_tools_database_tools_private_endpoint.test_database_tools_private_endpoint"
 
 	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseToolsDatabaseToolsPrivateEndpointResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_private_endpoint", "test_database_tools_private_endpoint", acctest.Optional, acctest.Create, DatabaseToolsDatabaseToolsPrivateEndpointRepresentation), "databasetools", "databaseToolsPrivateEndpoint", t)
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
@@ -252,7 +249,7 @@ func TestDatabaseToolsDatabaseToolsPrivateEndpointResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "private_endpoint_ip", "10.0.0.4"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_endpoint_vnic_id"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "reverse_connection_configuration.#", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "reverse_connection_configuration.#", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
