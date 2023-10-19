@@ -11,8 +11,12 @@ description: |-
 This data source provides the list of Metric Data in Oracle Cloud Infrastructure Monitoring service.
 
 Returns aggregated data that match the criteria specified in the request. Compartment OCID required.
-For information on metric queries, see [Building Metric Queries](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/buildingqueries.htm).
-For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
+For more information, see
+[Querying Metric Data](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-landing.htm)
+and
+[Creating a Query](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric.htm).
+For important limits information, see
+[Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#limits).
 
 Transactions Per Second (TPS) per-tenancy limit for this operation: 10.
 
@@ -50,7 +54,7 @@ The following arguments are supported:
 	For details about Monitoring Query Language (MQL), see [Monitoring Query Language (MQL) Reference](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Reference/mql.htm). For available dimensions, review the metric definition for the supported service. See [Supported Services](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#SupportedServices).
 
 	Example: `CpuUtilization[1m].sum()` 
-* `resolution` - (Optional) The time between calculated aggregation windows. Use with the query interval to vary the frequency at which aggregated data points are returned. For example, use a query interval of 5 minutes with a resolution of 1 minute to retrieve five-minute aggregations at a one-minute frequency. The resolution must be equal or less than the interval in the query. The default resolution is 1m (one minute). Supported values: `1m`-`60m`, `1h`-`24h`, `1d`.  Example: `5m` 
+* `resolution` - (Optional) The time between calculated aggregation windows. Use with the query interval to vary the frequency for returning aggregated data points. For example, use a query interval of 5 minutes with a resolution of 1 minute to retrieve five-minute aggregations at a one-minute frequency. The resolution must be equal or less than the interval in the query. The default resolution is 1m (one minute). Supported values: `1m`-`60m`, `1h`-`24h`, `1d`.  Example: `5m` 
 * `resource_group` - (Optional) Resource group that you want to match. A null value returns only metric data that has no resource groups. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).  Example: `frontend-fleet` 
 * `start_time` - (Optional) The beginning of the time range to use when searching for metric data points. Format is defined by RFC3339. The response includes metric data points for the startTime. Default value: the timestamp 3 hours before the call was sent.  Example: `2019-02-01T01:02:29.600Z` 
 
@@ -68,11 +72,11 @@ The following attributes are exported:
 * `aggregated_datapoints` - The list of timestamp-value pairs returned for the specified request. Metric values are rolled up to the start time specified in the request. For important limits information related to data points, see MetricData Reference at the top of this page. 
 	* `timestamp` - The date and time associated with the value of this data point. Format defined by RFC3339.  Example: `2019-02-01T01:02:29.600Z` 
 	* `value` - Numeric value of the metric.  Example: `10.4` 
-* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the resources from which the aggregated data was returned. 
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the resources that the aggregated data was returned from. 
 * `dimensions` - Qualifiers provided in the definition of the returned metric. Available dimensions vary by metric namespace. Each dimension takes the form of a key-value pair.  Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"` 
 * `metadata` - The references provided in a metric definition to indicate extra information about the metric.  Example: `"unit": "bytes"` 
 * `name` - The name of the metric.  Example: `CpuUtilization` 
 * `namespace` - The reference provided in a metric definition to indicate the source service or application that emitted the metric.  Example: `oci_computeagent` 
-* `resolution` - The time between calculated aggregation windows. Use with the query interval to vary the frequency at which aggregated data points are returned. For example, use a query interval of 5 minutes with a resolution of 1 minute to retrieve five-minute aggregations at a one-minute frequency. The resolution must be equal or less than the interval in the query. The default resolution is 1m (one minute). Supported values: `1m`-`60m`, `1h`-`24h`, `1d`.  Example: `5m` 
+* `resolution` - The time between calculated aggregation windows. Use with the query interval to vary the frequency for returning aggregated data points. For example, use a query interval of 5 minutes with a resolution of 1 minute to retrieve five-minute aggregations at a one-minute frequency. The resolution must be equal or less than the interval in the query. The default resolution is 1m (one minute). Supported values: `1m`-`60m`, `1h`-`24h`, `1d`.  Example: `5m` 
 * `resource_group` - Resource group provided with the posted metric. A resource group is a custom string that you can match when retrieving custom metrics. Only one resource group can be applied per metric. A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).  Example: `frontend-fleet` 
 
