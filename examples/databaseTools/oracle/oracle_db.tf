@@ -12,6 +12,9 @@ variable "tenancy_ocid" {
 variable "user_ocid" {
 }
 
+variable "secret_ocid" {
+}
+
 variable "fingerprint" {
 }
 
@@ -121,7 +124,7 @@ resource "oci_database_tools_database_tools_connection" "dbtools_connection" {
     value_type = "SECRETID"
 
     # The user password to use exists as a secret in an OCI Vault
-    secret_id  = "ocid1.vaultsecret.oc1.phx.exampleaihuofciaiazy2u5ko3uyz3sspwd6hf7oqhqmlk5xu3xdetkpffff"
+    secret_id  = var.secret_ocid
   }
 
   # Optional
@@ -134,6 +137,16 @@ resource "oci_database_tools_database_tools_connection" "dbtools_connection" {
     identifier  = "ocid1.database.oc1.phx.exampletksujfufl4bhe5sqkfgn7t7lcrkkpy7km5iwzvg6ycls7r5dlffff"
   }
   private_endpoint_id = oci_database_tools_database_tools_private_endpoint.test_database_tools_private_endpoint.id
+
+  proxy_client {
+    proxy_authentication_type = "USER_NAME"
+    user_name = "jane.doe@oracle.com"
+    user_password {
+      #Required
+      secret_id = var.secret_ocid
+      value_type = "SECRETID"
+    }
+  }
 }
 
 output "connection_r" {
