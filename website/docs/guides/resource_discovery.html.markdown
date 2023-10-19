@@ -343,6 +343,8 @@ adm
 
 * oci\_adm\_vulnerability\_audit
 * oci\_adm\_knowledge\_base
+* oci\_adm\_remediation\_recipe
+* oci\_adm\_remediation\_run
 
 ai_anomaly_detection
 

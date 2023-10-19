@@ -31,9 +31,9 @@ data "oci_adm_knowledge_bases" "test_knowledge_bases" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) A filter to return only resources that belong to the specified compartment identifier.
+* `compartment_id` - (Optional) A filter to return only resources that belong to the specified compartment identifier. Required only if the id query param is not specified. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `id` - (Optional) A filter to return only resources that match the specified identifier.
+* `id` - (Optional) A filter to return only resources that match the specified identifier. Required only if the compartmentId query parameter is not specified. 
 * `state` - (Optional) A filter to return only Knowledge Bases that match the specified lifecycleState.
 
 
@@ -47,13 +47,13 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - The Oracle Cloud Identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the Knowledge Base's compartment.
+* `compartment_id` - The compartment Oracle Cloud Identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the knowledge base.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `display_name` - The name of the Knowledge Base.
+* `display_name` - The name of the knowledge base.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `id` - The Oracle Cloud Identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the Knowledge Base.
-* `state` - The current lifecycle state of the Knowledge Base.
+* `id` - The Oracle Cloud Identifier ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the knowledge base.
+* `state` - The current lifecycle state of the knowledge base.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The creation date and time of the Knowledge Base (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
-* `time_updated` - The date and time the Knowledge Base was last updated (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
+* `time_created` - The creation date and time of the knowledge base (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
+* `time_updated` - The date and time the knowledge base was last updated (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
 
