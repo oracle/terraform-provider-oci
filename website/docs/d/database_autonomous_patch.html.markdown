@@ -32,6 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `autonomous_patch_type` - Maintenance run type, either "QUARTERLY" or "TIMEZONE". 
 * `description` - The text describing this patch package.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically can contain additional displayable text. 

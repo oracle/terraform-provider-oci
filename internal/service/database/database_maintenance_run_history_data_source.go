@@ -147,6 +147,10 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_dst_file_update_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"lifecycle_details": {
 							Type:     schema.TypeString,
 							Computed: true,
