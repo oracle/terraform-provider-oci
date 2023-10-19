@@ -103,9 +103,54 @@ func NosqlTableResource() *schema.Resource {
 			},
 
 			// Computed
+			"is_multi_region": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"local_replica_initialization_in_percent": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"replicas": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"capacity_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"max_write_units": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"region": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"table_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"schema": {
 				Type:     schema.TypeList,
@@ -199,6 +244,10 @@ func NosqlTableResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"schema_state": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -685,13 +734,27 @@ func (s *NosqlTableResourceCrud) SetData() error {
 		s.D.Set("is_auto_reclaimable", *s.Res.IsAutoReclaimable)
 	}
 
+	if s.Res.IsMultiRegion != nil {
+		s.D.Set("is_multi_region", *s.Res.IsMultiRegion)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LocalReplicaInitializationInPercent != nil {
+		s.D.Set("local_replica_initialization_in_percent", *s.Res.LocalReplicaInitializationInPercent)
 	}
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
+
+	replicas := []interface{}{}
+	for _, item := range s.Res.Replicas {
+		replicas = append(replicas, ReplicaToMap(item))
+	}
+	s.D.Set("replicas", replicas)
 
 	if s.Res.Id != nil {
 		s.D.SetId(*s.Res.Id)
@@ -702,6 +765,8 @@ func (s *NosqlTableResourceCrud) SetData() error {
 	} else {
 		s.D.Set("schema", nil)
 	}
+
+	s.D.Set("schema_state", s.Res.SchemaState)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -773,6 +838,32 @@ func IdentityToMap(obj *oci_nosql.Identity) map[string]interface{} {
 
 	if obj.IsNull != nil {
 		result["is_null"] = bool(*obj.IsNull)
+	}
+
+	return result
+}
+
+func ReplicaToMap(obj oci_nosql.Replica) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["capacity_mode"] = string(obj.CapacityMode)
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.MaxWriteUnits != nil {
+		result["max_write_units"] = int(*obj.MaxWriteUnits)
+	}
+
+	if obj.Region != nil {
+		result["region"] = string(*obj.Region)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TableId != nil {
+		result["table_id"] = string(*obj.TableId)
 	}
 
 	return result
@@ -868,6 +959,10 @@ func TableSummaryToMap(obj oci_nosql.TableSummary) map[string]interface{} {
 		result["is_auto_reclaimable"] = bool(*obj.IsAutoReclaimable)
 	}
 
+	if obj.IsMultiRegion != nil {
+		result["is_multi_region"] = bool(*obj.IsMultiRegion)
+	}
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
@@ -875,6 +970,8 @@ func TableSummaryToMap(obj oci_nosql.TableSummary) map[string]interface{} {
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
+
+	result["schema_state"] = string(obj.SchemaState)
 
 	result["state"] = string(obj.LifecycleState)
 
