@@ -7,5 +7,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
 	tfresource.RegisterResource("oci_adm_knowledge_base", AdmKnowledgeBaseResource())
+	tfresource.RegisterResource("oci_adm_remediation_recipe", AdmRemediationRecipeResource())
+	tfresource.RegisterResource("oci_adm_remediation_run", AdmRemediationRunResource())
 	tfresource.RegisterResource("oci_adm_vulnerability_audit", AdmVulnerabilityAuditResource())
 }
