@@ -26,6 +26,17 @@ func DatabaseToolsDatabaseToolsConnectionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"related_resource_identifier": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"runtime_support": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -86,6 +97,28 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if relatedResourceIdentifier, ok := s.D.GetOkExists("related_resource_identifier"); ok {
+		tmp := relatedResourceIdentifier.(string)
+		request.RelatedResourceIdentifier = &tmp
+	}
+
+	if runtimeSupport, ok := s.D.GetOkExists("runtime_support"); ok {
+		interfaces := runtimeSupport.([]interface{})
+		tmp := make([]oci_database_tools.RuntimeSupportEnum, 0)
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				runtime := interfaces[i].(string)
+				e, ok := oci_database_tools.GetMappingRuntimeSupportEnum(runtime)
+				if ok {
+					tmp = append(tmp, e)
+				}
+			}
+		}
+		if len(tmp) != 0 {
+			request.RuntimeSupport = tmp
+		}
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database_tools.ListDatabaseToolsConnectionsLifecycleStateEnum(state.(string))
 	}
@@ -96,8 +129,9 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) Get() error {
 		for i := range interfaces {
 			if interfaces[i] != nil {
 				connectionType := interfaces[i].(string)
-				if connectionType == "ORACLE_DATABASE" {
-					tmp = append(tmp, oci_database_tools.ConnectionTypeOracleDatabase)
+				e, ok := oci_database_tools.GetMappingConnectionTypeEnum(connectionType)
+				if ok {
+					tmp = append(tmp, e)
 				}
 			}
 		}
@@ -135,6 +169,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("DatabaseToolsDatabaseToolsConnectionsDataSource-", DatabaseToolsDatabaseToolsConnectionsDataSource(), s.D))
+
 	resources := []map[string]interface{}{}
 	databaseToolsConnection := map[string]interface{}{}
 
@@ -146,6 +181,7 @@ func (s *DatabaseToolsDatabaseToolsConnectionsDataSourceCrud) SetData() error {
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
 		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, DatabaseToolsDatabaseToolsConnectionsDataSource().Schema["database_tools_connection_collection"].Elem.(*schema.Resource).Schema)
+
 		databaseToolsConnection["items"] = items
 	}
 

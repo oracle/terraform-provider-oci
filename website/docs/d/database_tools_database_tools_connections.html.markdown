@@ -22,6 +22,8 @@ data "oci_database_tools_database_tools_connections" "test_database_tools_connec
 
 	#Optional
 	display_name = var.database_tools_connection_display_name
+	related_resource_identifier = var.database_tools_connection_related_resource_identifier
+	runtime_support = var.database_tools_connection_runtime_support
 	state = var.database_tools_connection_state
 	type = var.database_tools_connection_type
 }
@@ -33,6 +35,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire specified display name.
+* `related_resource_identifier` - (Optional) A filter to return only resources associated to the related resource identifier OCID passed in the query string.
+* `runtime_support` - (Optional) A filter to return only resources with one of the specified runtimeSupport values.
 * `state` - (Optional) A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
 * `type` - (Optional) A filter to return only resources their type matches the specified type.
 
@@ -63,15 +67,29 @@ The following attributes are exported:
 		* `value_type` - The value type of the key store password.
 	* `key_store_type` - The key store type.
 * `lifecycle_details` - A message describing the current state in more detail. For example, this message can be used to provide actionable information for a resource in the Failed state.
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `private_endpoint_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
+* `proxy_client` - The proxy client information.
+	* `proxy_authentication_type` - The proxy authentication type.
+	* `roles` - A list of database roles for the client. These roles are enabled if the proxy is authorized to use the roles on behalf of the client.
+	* `user_name` - The user name.
+	* `user_password` - The user password.
+		* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
+		* `value_type` - The value type of the user password.
 * `related_resource` - A related resource
 	* `entity_type` - The resource entity type.
 	* `identifier` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related resource.
+* `runtime_support` - Specifies whether this connection is supported by the Database Tools Runtime.
 * `state` - The current state of the Database Tools connection.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the Database Tools connection was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
 * `type` - The Database Tools connection type.
+* `url` - The JDBC URL used to connect to the Generic JDBC database system.
 * `user_name` - The database user name.
 * `user_password` - The user password.
 	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.

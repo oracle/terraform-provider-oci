@@ -69,6 +69,45 @@ func DatabaseToolsDatabaseToolsPrivateEndpointResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"time_created": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -261,6 +300,23 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_database_tools.ResourceLock, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToResourceLock(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
 	}
 
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
@@ -472,6 +528,11 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -502,6 +563,11 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.DatabaseToolsPrivateEndpointId = &tmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 
@@ -549,6 +615,12 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) SetData() error 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, PrivateEndpointResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
 
 	nsgIds := []interface{}{}
 	for _, item := range s.Res.NsgIds {
@@ -656,6 +728,12 @@ func DatabaseToolsPrivateEndpointSummaryToMap(obj oci_database_tools.DatabaseToo
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, PrivateEndpointResourceLockToMap(item))
+	}
+	result["locks"] = locks
+
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {
 		nsgIds = append(nsgIds, item)
@@ -703,6 +781,54 @@ func DatabaseToolsPrivateEndpointSummaryToMap(obj oci_database_tools.DatabaseToo
 	return result
 }
 
+func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) mapToResourceLock(fieldKeyFormat string) (oci_database_tools.ResourceLock, error) {
+	result := oci_database_tools.ResourceLock{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if relatedResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "related_resource_id")); ok {
+		tmp := relatedResourceId.(string)
+		result.RelatedResourceId = &tmp
+	}
+
+	if timeCreated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_created")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeCreated.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeCreated = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_database_tools.ResourceLockTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
+func PrivateEndpointResourceLockToMap(obj oci_database_tools.ResourceLock) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Message != nil {
+		result["message"] = string(*obj.Message)
+	}
+
+	if obj.RelatedResourceId != nil {
+		result["related_resource_id"] = string(*obj.RelatedResourceId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.Format(time.RFC3339Nano)
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+
 func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_database_tools.ChangeDatabaseToolsPrivateEndpointCompartmentRequest{}
 
@@ -711,6 +837,11 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointResourceCrud) updateCompartmen
 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DatabaseToolsPrivateEndpointId = &idTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_tools")
 

@@ -98,6 +98,12 @@ func (s *DatabaseToolsDatabaseToolsPrivateEndpointDataSourceCrud) SetData() erro
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, PrivateEndpointResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
 	if s.Res.PrivateEndpointIp != nil {
