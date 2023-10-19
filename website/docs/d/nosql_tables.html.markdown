@@ -49,8 +49,10 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier that is immutable.
 * `is_auto_reclaimable` - True if this table can be reclaimed after an idle period.
+* `is_multi_region` - True if this table is currently a member of a replication set.
 * `lifecycle_details` - A message describing the current state in more detail. 
 * `name` - Human-friendly table name, immutable.
+* `schema_state` - The current state of this table's schema. Available states are MUTABLE - The schema can be changed. The table is not eligible for replication. FROZEN - The schema is immutable. The table is eligible for replication. 
 * `state` - The state of a table.
 * `system_tags` - Read-only system tag. These predefined keys are scoped to namespaces.  At present the only supported namespace is `"orcl-cloud"`; and the only key in that namespace is `"free-tier-retained"`. Example: `{"orcl-cloud"": {"free-tier-retained": "true"}}` 
 * `table_limits` - Throughput and storage limits configuration of a table.
