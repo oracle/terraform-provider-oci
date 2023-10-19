@@ -20,6 +20,10 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_monitoring_alarm.test_alarm.display_name}`},
+		// 		"entity_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_monitoring_alarm.test_alarm.id}`},
+		// 		"resource_id":               acctest.Representation{RepType: acctest.Optional, Create: `${oci_monitoring_alarm.test_alarm.id}`},
+		// 		"service_name":              acctest.Representation{RepType: acctest.Optional, Create: `monitoring`},
+		// 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `FIRING`},
 	}
 
 	MonitoringAlarmStatusResourceConfig = DefinedTagsDependencies + AvailabilityDomainConfig +
@@ -51,6 +55,10 @@ func TestMonitoringAlarmStatusResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "display_name"),
+				// 				resource.TestCheckResourceAttrSet(datasourceName, "entity_id"),
+				// 				resource.TestCheckResourceAttrSet(datasourceName, "resource_id"),
+				// 				resource.TestCheckResourceAttrSet(datasourceName, "service_name"),
+				// 				resource.TestCheckResourceAttr(datasourceName, "status", "FIRING"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.0.display_name"),
