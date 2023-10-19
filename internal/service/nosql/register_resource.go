@@ -8,4 +8,5 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_nosql_index", NosqlIndexResource())
 	tfresource.RegisterResource("oci_nosql_table", NosqlTableResource())
+	tfresource.RegisterResource("oci_nosql_table_replica", NosqlTableReplicaResource())
 }

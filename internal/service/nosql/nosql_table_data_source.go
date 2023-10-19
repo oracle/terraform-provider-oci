@@ -93,19 +93,35 @@ func (s *NosqlTableDataSourceCrud) SetData() error {
 		s.D.Set("is_auto_reclaimable", *s.Res.IsAutoReclaimable)
 	}
 
+	if s.Res.IsMultiRegion != nil {
+		s.D.Set("is_multi_region", *s.Res.IsMultiRegion)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.LocalReplicaInitializationInPercent != nil {
+		s.D.Set("local_replica_initialization_in_percent", *s.Res.LocalReplicaInitializationInPercent)
 	}
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	replicas := []interface{}{}
+	for _, item := range s.Res.Replicas {
+		replicas = append(replicas, ReplicaToMap(item))
+	}
+	s.D.Set("replicas", replicas)
+
 	if s.Res.Schema != nil {
 		s.D.Set("schema", []interface{}{SchemaToMap(s.Res.Schema)})
 	} else {
 		s.D.Set("schema", nil)
 	}
+
+	s.D.Set("schema_state", s.Res.SchemaState)
 
 	s.D.Set("state", s.Res.LifecycleState)
 
