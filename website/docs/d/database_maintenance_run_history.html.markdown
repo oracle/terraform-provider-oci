@@ -56,6 +56,7 @@ The following attributes are exported:
 		* `total_estimated_patching_time` - The estimated total time required in minutes for all patching operations.
 	* `id` - The OCID of the maintenance run.
 	* `is_custom_action_timeout_enabled` - If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.
+	* `is_dst_file_update_enabled` - Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
 	* `lifecycle_details` - Additional information about the current lifecycle state.
 	* `maintenance_subtype` - Maintenance sub-type.
 	* `maintenance_type` - Maintenance type.

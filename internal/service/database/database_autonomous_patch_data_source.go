@@ -22,6 +22,10 @@ func DatabaseAutonomousPatchDataSource() *schema.Resource {
 				Required: true,
 			},
 			// Computed
+			"autonomous_patch_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"description": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -105,6 +109,8 @@ func (s *DatabaseAutonomousPatchDataSourceCrud) SetData() error {
 	}
 
 	s.D.SetId(*s.Res.Id)
+
+	s.D.Set("autonomous_patch_type", s.Res.AutonomousPatchType)
 
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)

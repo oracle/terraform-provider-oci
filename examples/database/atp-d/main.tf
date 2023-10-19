@@ -56,6 +56,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   }
   rotate_key_trigger = "true"
   version_preference = "LATEST_RELEASE_UPDATE"
+  is_dst_file_update_enabled = false
 }
 
 variable "cloud_exadata_infrastructure_un_allocated_resource_db_servers" {

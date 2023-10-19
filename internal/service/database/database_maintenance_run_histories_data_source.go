@@ -181,6 +181,10 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"is_dst_file_update_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -476,6 +480,10 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 
 	if obj.IsCustomActionTimeoutEnabled != nil {
 		result["is_custom_action_timeout_enabled"] = bool(*obj.IsCustomActionTimeoutEnabled)
+	}
+
+	if obj.IsDstFileUpdateEnabled != nil {
+		result["is_dst_file_update_enabled"] = bool(*obj.IsDstFileUpdateEnabled)
 	}
 
 	if obj.LifecycleDetails != nil {

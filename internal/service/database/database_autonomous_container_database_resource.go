@@ -169,6 +169,11 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_dst_file_update_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"key_store_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -430,6 +435,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"compute_model": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"dst_file_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -808,6 +817,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.IsAutomaticFailoverEnabled = &tmp
 	}
 
+	if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok {
+		tmp := isDstFileUpdateEnabled.(bool)
+		request.IsDstFileUpdateEnabled = &tmp
+	}
+
 	if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
 		tmp := keyStoreId.(string)
 		request.KeyStoreId = &tmp
@@ -981,6 +995,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok {
+		tmp := isDstFileUpdateEnabled.(bool)
+		request.IsDstFileUpdateEnabled = &tmp
+	}
+
 	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
 		if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
@@ -1089,9 +1108,17 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.DstFileVersion != nil {
+		s.D.Set("dst_file_version", *s.Res.DstFileVersion)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
+
+	if s.Res.IsDstFileUpdateEnabled != nil {
+		s.D.Set("is_dst_file_update_enabled", *s.Res.IsDstFileUpdateEnabled)
+	}
 
 	keyHistoryEntry := []interface{}{}
 	for _, item := range s.Res.KeyHistoryEntry {

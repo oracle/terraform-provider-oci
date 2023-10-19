@@ -25,6 +25,7 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
   patch_model = "RELEASE_UPDATES"
   service_level_agreement_type = "STANDARD"
   version_preference = "LATEST_RELEASE_UPDATE"
+  is_dst_file_update_enabled = false
 }
 
 data "oci_database_autonomous_container_database_resource_usage" "test_autonomous_container_database_resource_usages" {

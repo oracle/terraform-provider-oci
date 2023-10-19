@@ -28,77 +28,52 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 		Delete:   deleteDatabaseMaintenanceRun,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"maintenance_run_id": {
+			"patch_type": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
+			"target_resource_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"time_scheduled": {
+				Type:             schema.TypeString,
+				Required:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+			},
 
 			// Optional
-			"current_custom_action_timeout_in_mins": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"custom_action_timeout_in_mins": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"is_custom_action_timeout_enabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
-			"is_enabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
-			"is_patch_now_enabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
-			"is_resume_patching": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
-			"patch_id": {
+			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
+			},
+			"is_dst_file_update_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"patching_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
-			"target_db_server_version": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"target_storage_server_version": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"time_scheduled": {
-				Type:             schema.TypeString,
-				Optional:         true,
-				Computed:         true,
-				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
-			},
 
 			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
+			"current_custom_action_timeout_in_mins": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"current_patching_component": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"custom_action_timeout_in_mins": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"description": {
@@ -142,6 +117,10 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 					},
 				},
 			},
+			"is_custom_action_timeout_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -156,6 +135,10 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 			},
 			"patch_failure_count": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"patch_id": {
+				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"patching_end_time": {
@@ -178,11 +161,15 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"target_resource_id": {
+			"target_db_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"target_resource_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"target_storage_server_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -270,60 +257,29 @@ func (s *DatabaseMaintenanceRunResourceCrud) DeletedTarget() []string {
 }
 
 func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
-	request := oci_database.UpdateMaintenanceRunRequest{}
+	request := oci_database.CreateMaintenanceRunRequest{}
 
-	if currentCustomActionTimeoutInMins, ok := s.D.GetOkExists("current_custom_action_timeout_in_mins"); ok {
-		tmp := currentCustomActionTimeoutInMins.(int)
-		request.CurrentCustomActionTimeoutInMins = &tmp
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
 	}
 
-	if customActionTimeoutInMins, ok := s.D.GetOkExists("custom_action_timeout_in_mins"); ok {
-		tmp := customActionTimeoutInMins.(int)
-		request.CustomActionTimeoutInMins = &tmp
+	if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok {
+		tmp := isDstFileUpdateEnabled.(bool)
+		request.IsDstFileUpdateEnabled = &tmp
 	}
 
-	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists("is_custom_action_timeout_enabled"); ok {
-		tmp := isCustomActionTimeoutEnabled.(bool)
-		request.IsCustomActionTimeoutEnabled = &tmp
-	}
-
-	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
-		tmp := isEnabled.(bool)
-		request.IsEnabled = &tmp
-	}
-
-	if isPatchNowEnabled, ok := s.D.GetOkExists("is_patch_now_enabled"); ok {
-		tmp := isPatchNowEnabled.(bool)
-		request.IsPatchNowEnabled = &tmp
-	}
-
-	if isResumePatching, ok := s.D.GetOkExists("is_resume_patching"); ok {
-		tmp := isResumePatching.(bool)
-		request.IsResumePatching = &tmp
-	}
-
-	if maintenanceRunId, ok := s.D.GetOkExists("id"); ok {
-		tmp := maintenanceRunId.(string)
-		request.MaintenanceRunId = &tmp
-	}
-
-	if patchId, ok := s.D.GetOkExists("patch_id"); ok {
-		tmp := patchId.(string)
-		request.PatchId = &tmp
+	if patchType, ok := s.D.GetOkExists("patch_type"); ok {
+		request.PatchType = oci_database.CreateMaintenanceRunDetailsPatchTypeEnum(patchType.(string))
 	}
 
 	if patchingMode, ok := s.D.GetOkExists("patching_mode"); ok {
-		request.PatchingMode = oci_database.UpdateMaintenanceRunDetailsPatchingModeEnum(patchingMode.(string))
+		request.PatchingMode = oci_database.CreateMaintenanceRunDetailsPatchingModeEnum(patchingMode.(string))
 	}
 
-	if targetDbServerVersion, ok := s.D.GetOkExists("target_db_server_version"); ok {
-		tmp := targetDbServerVersion.(string)
-		request.TargetDbServerVersion = &tmp
-	}
-
-	if targetStorageServerVersion, ok := s.D.GetOkExists("target_storage_server_version"); ok {
-		tmp := targetStorageServerVersion.(string)
-		request.TargetStorageServerVersion = &tmp
+	if targetResourceId, ok := s.D.GetOkExists("target_resource_id"); ok {
+		tmp := targetResourceId.(string)
+		request.TargetResourceId = &tmp
 	}
 
 	if timeScheduled, ok := s.D.GetOkExists("time_scheduled"); ok {
@@ -336,7 +292,7 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateMaintenanceRun(context.Background(), request)
+	response, err := s.Client.CreateMaintenanceRun(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -484,6 +440,10 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 
 	if s.Res.IsCustomActionTimeoutEnabled != nil {
 		s.D.Set("is_custom_action_timeout_enabled", *s.Res.IsCustomActionTimeoutEnabled)
+	}
+
+	if s.Res.IsDstFileUpdateEnabled != nil {
+		s.D.Set("is_dst_file_update_enabled", *s.Res.IsDstFileUpdateEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {
