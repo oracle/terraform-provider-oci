@@ -6,7 +6,7 @@ variable "volume_group_defined_tags_value" {
 }
 
 variable "volume_group_display_name" {
-  default = "displayName"
+  default = "example-volume-group"
 }
 
 variable "volume_group_freeform_tags" {
@@ -34,45 +34,7 @@ variable "volume_group_volume_group_replicas_display_name" {
 }
 
 data "oci_identity_availability_domains" "test_availability_domains" {
-    compartment_id = var.tenancy_ocid
-}
-
-resource "oci_core_volume" "source_volume_list" {
-	count = 2
-	display_name = format("source-volume-%d", count.index + 1)
-
-	#Required
-	availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name
-	compartment_id = var.compartment_id
-}
-
-resource "oci_core_volume_group" "test_volume_group" {
-  #Required
-  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name
-  compartment_id      = var.compartment_id
-  source_details {
-    #Required
-    type = var.volume_group_source_details_type
-
-    #Optional
-    volume_ids              = oci_core_volume.source_volume_list.*.id
-  }
-
-  lifecycle {
-    ignore_changes = [defined_tags]
-  }
-
-  #Optional
-  defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.volume_group_defined_tags_value}")
-  display_name     = var.volume_group_display_name
-  freeform_tags    = var.volume_group_freeform_tags
-  volume_group_replicas {
-    #Required
-    availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name
-
-    #Optional
-    display_name = var.volume_group_volume_group_replicas_display_name
-  }
+  compartment_id = var.tenancy_ocid
 }
 
 data "oci_core_volume_groups" "test_volume_groups" {
@@ -80,8 +42,7 @@ data "oci_core_volume_groups" "test_volume_groups" {
   compartment_id = var.compartment_id
 
   #Optional
-  availability_domain = "${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}"
+  availability_domain = data.oci_identity_availability_domains.test_availability_domains.availability_domains[0].name
   display_name        = var.volume_group_display_name
   state               = var.volume_group_state
 }
-
