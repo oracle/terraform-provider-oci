@@ -50,6 +50,10 @@ func DisasterRecoveryDrPlanExecutionResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"FAILOVER",
 								"FAILOVER_PRECHECK",
+								"START_DRILL",
+								"START_DRILL_PRECHECK",
+								"STOP_DRILL",
+								"STOP_DRILL_PRECHECK",
 								"SWITCHOVER",
 								"SWITCHOVER_PRECHECK",
 							}, true),
@@ -737,6 +741,42 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) mapToDrPlanExecutionOption
 			details.AreWarningsIgnored = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("START_DRILL"):
+		details := oci_disaster_recovery.StartDrillExecutionOptionDetails{}
+		if arePrechecksEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_prechecks_enabled")); ok {
+			tmp := arePrechecksEnabled.(bool)
+			details.ArePrechecksEnabled = &tmp
+		}
+		if areWarningsIgnored, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_warnings_ignored")); ok {
+			tmp := areWarningsIgnored.(bool)
+			details.AreWarningsIgnored = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("START_DRILL_PRECHECK"):
+		details := oci_disaster_recovery.StartDrillPrecheckExecutionOptionDetails{}
+		if areWarningsIgnored, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_warnings_ignored")); ok {
+			tmp := areWarningsIgnored.(bool)
+			details.AreWarningsIgnored = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("STOP_DRILL"):
+		details := oci_disaster_recovery.StopDrillExecutionOptionDetails{}
+		if arePrechecksEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_prechecks_enabled")); ok {
+			tmp := arePrechecksEnabled.(bool)
+			details.ArePrechecksEnabled = &tmp
+		}
+		if areWarningsIgnored, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_warnings_ignored")); ok {
+			tmp := areWarningsIgnored.(bool)
+			details.AreWarningsIgnored = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("STOP_DRILL_PRECHECK"):
+		details := oci_disaster_recovery.StopDrillPrecheckExecutionOptionDetails{}
+		if areWarningsIgnored, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_warnings_ignored")); ok {
+			tmp := areWarningsIgnored.(bool)
+			details.AreWarningsIgnored = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("SWITCHOVER"):
 		details := oci_disaster_recovery.SwitchoverExecutionOptionDetails{}
 		if arePrechecksEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "are_prechecks_enabled")); ok {
@@ -776,6 +816,38 @@ func DrPlanExecutionOptionsToMap(obj *oci_disaster_recovery.DrPlanExecutionOptio
 		}
 	case oci_disaster_recovery.FailoverPrecheckExecutionOptions:
 		result["plan_execution_type"] = "FAILOVER_PRECHECK"
+
+		if v.AreWarningsIgnored != nil {
+			result["are_warnings_ignored"] = bool(*v.AreWarningsIgnored)
+		}
+	case oci_disaster_recovery.StartDrillExecutionOptionDetails:
+		result["plan_execution_type"] = "START_DRILL"
+
+		if v.ArePrechecksEnabled != nil {
+			result["are_prechecks_enabled"] = bool(*v.ArePrechecksEnabled)
+		}
+
+		if v.AreWarningsIgnored != nil {
+			result["are_warnings_ignored"] = bool(*v.AreWarningsIgnored)
+		}
+	case oci_disaster_recovery.StartDrillPrecheckExecutionOptionDetails:
+		result["plan_execution_type"] = "START_DRILL_PRECHECK"
+
+		if v.AreWarningsIgnored != nil {
+			result["are_warnings_ignored"] = bool(*v.AreWarningsIgnored)
+		}
+	case oci_disaster_recovery.StopDrillExecutionOptionDetails:
+		result["plan_execution_type"] = "STOP_DRILL"
+
+		if v.ArePrechecksEnabled != nil {
+			result["are_prechecks_enabled"] = bool(*v.ArePrechecksEnabled)
+		}
+
+		if v.AreWarningsIgnored != nil {
+			result["are_warnings_ignored"] = bool(*v.AreWarningsIgnored)
+		}
+	case oci_disaster_recovery.StopDrillPrecheckExecutionOptionDetails:
+		result["plan_execution_type"] = "STOP_DRILL_PRECHECK"
 
 		if v.AreWarningsIgnored != nil {
 			result["are_warnings_ignored"] = bool(*v.AreWarningsIgnored)

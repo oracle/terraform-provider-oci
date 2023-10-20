@@ -39,7 +39,7 @@ var (
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `My DR Protection Group`, Update: `displayName2`},
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id}`},
-		"role":                   acctest.Representation{RepType: acctest.Optional, Create: `PRIMARY`},
+		"role":                   acctest.Representation{RepType: acctest.Optional, Create: `STANDBY`},
 		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrProtectionGroupDataSourceFilterRepresentation}}
 	DisasterRecoveryDrProtectionGroupDataSourceFilterRepresentation = map[string]interface{}{
@@ -274,7 +274,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "dr_protection_group_id"),
-				resource.TestCheckResourceAttr(datasourceName, "role", "PRIMARY"),
+				resource.TestCheckResourceAttr(datasourceName, "role", "STANDBY"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "dr_protection_group_collection.#", "1"),
