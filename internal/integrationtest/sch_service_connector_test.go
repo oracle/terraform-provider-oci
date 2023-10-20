@@ -31,13 +31,19 @@ var (
 	// Dependency definition
 	SchServiceConnectorResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, LoggingLogRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_update_log", acctest.Required, acctest.Update, acctest.GetUpdatedRepresentationCopy("configuration.source.category", acctest.Representation{RepType: acctest.Required, Create: `read`}, LoggingLogRepresentation)) +
-		LoggingLogResourceDependencies +
+		SchLoggingLogResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_functions_application", "test_application", acctest.Required, acctest.Create, FunctionsApplicationRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, FunctionsFunctionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_functions_function", "test_function", acctest.Required, acctest.Create, SchFunctionsFunctionRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_streaming_stream", "test_stream", acctest.Required, acctest.Create, StreamingStreamRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
+
+	SchLoggingLogResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, LoggingLogGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Create, logGroupUpdateRepresentation)
 
 	// source definitions
 	SchServiceConnectorSourceLogSourcesRepresentation = map[string]interface{}{
@@ -68,6 +74,15 @@ var (
 	functionTargetRepresentation = map[string]interface{}{
 		"kind":        acctest.Representation{RepType: acctest.Required, Create: `functions`},
 		"function_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_function.test_function.id}`},
+	}
+
+	// target definitions with batching details
+	functionTargetBatchRepresentation = map[string]interface{}{
+		"kind":              acctest.Representation{RepType: acctest.Required, Create: `functions`},
+		"function_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_function.test_function.id}`},
+		"batch_size_in_kbs": acctest.Representation{RepType: acctest.Optional, Create: `5000`},
+		"batch_size_in_num": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"batch_time_in_sec": acctest.Representation{RepType: acctest.Optional, Create: `5`},
 	}
 
 	objectStorageTargetRepresentation = map[string]interface{}{
@@ -230,6 +245,17 @@ var (
 	SchServiceConnectorTargetRepresentation = map[string]interface{}{
 		"kind":      acctest.Representation{RepType: acctest.Required, Create: `streaming`},
 		"stream_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_streaming_stream.test_stream.id}`},
+	}
+
+	SchFunctionsFunctionRepresentation = map[string]interface{}{
+		"application_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_application.test_application.id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `ExampleFunction`},
+		"memory_in_mbs":  acctest.Representation{RepType: acctest.Required, Create: `128`, Update: `256`},
+		"config":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"MY_FUNCTION_CONFIG": "ConfVal"}},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"image":          acctest.Representation{RepType: acctest.Required, Create: `${var.image}`, Update: `${var.image_for_update}`},
+		"image_digest":   acctest.Representation{RepType: acctest.Optional, Create: `${var.image_digest}`, Update: `${var.image_digest_for_update}`},
 	}
 
 	serviceConnectorTargetStaticDimensionsRepresentation_0 = map[string]interface{}{
