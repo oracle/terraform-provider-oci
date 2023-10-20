@@ -71,15 +71,15 @@ type ConnectionSummary interface {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	GetSubnetId() *string
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	GetIngressIps() []IngressIpDetails
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	GetSubnetId() *string
 }
 
 type connectionsummary struct {
@@ -91,9 +91,9 @@ type connectionsummary struct {
 	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
 	VaultId          *string                           `mandatory:"false" json:"vaultId"`
 	KeyId            *string                           `mandatory:"false" json:"keyId"`
-	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -127,9 +127,9 @@ func (m *connectionsummary) UnmarshalJSON(data []byte) error {
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.VaultId = s.Model.VaultId
 	m.KeyId = s.Model.KeyId
-	m.SubnetId = s.Model.SubnetId
 	m.IngressIps = s.Model.IngressIps
 	m.NsgIds = s.Model.NsgIds
+	m.SubnetId = s.Model.SubnetId
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -172,6 +172,14 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := SnowflakeConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_KINESIS":
+		mm := AmazonKinesisConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REDIS":
+		mm := RedisConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := OciObjectStorageConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -188,6 +196,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := MongoDbConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GOOGLE_BIGQUERY":
+		mm := GoogleBigQueryConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMAZON_S3":
 		mm := AmazonS3ConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -200,12 +212,28 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := MysqlConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GENERIC":
+		mm := GenericConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "KAFKA":
 		mm := KafkaConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ELASTICSEARCH":
+		mm := ElasticsearchConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_REDSHIFT":
+		mm := AmazonRedshiftConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HDFS":
 		mm := HdfsConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_CLOUD_STORAGE":
+		mm := GoogleCloudStorageConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -249,11 +277,6 @@ func (m connectionsummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m connectionsummary) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetIngressIps returns IngressIps
 func (m connectionsummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
@@ -262,6 +285,11 @@ func (m connectionsummary) GetIngressIps() []IngressIpDetails {
 // GetNsgIds returns NsgIds
 func (m connectionsummary) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m connectionsummary) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 // GetId returns Id

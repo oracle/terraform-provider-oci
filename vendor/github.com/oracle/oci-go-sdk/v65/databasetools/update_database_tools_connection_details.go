@@ -67,6 +67,14 @@ func (m *updatedatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data []b
 
 	var err error
 	switch m.Type {
+	case "GENERIC_JDBC":
+		mm := UpdateDatabaseToolsConnectionGenericJdbcDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "POSTGRESQL":
+		mm := UpdateDatabaseToolsConnectionPostgresqlDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL":
 		mm := UpdateDatabaseToolsConnectionMySqlDetails{}
 		err = json.Unmarshal(data, &mm)

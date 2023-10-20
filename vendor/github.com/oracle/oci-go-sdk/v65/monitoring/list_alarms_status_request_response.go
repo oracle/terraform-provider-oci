@@ -36,11 +36,13 @@ type ListAlarmsStatusRequest struct {
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Default: 1000
 	// Example: 500
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -56,6 +58,27 @@ type ListAlarmsStatusRequest struct {
 	// The sort order to use when sorting returned alarm definitions. Ascending (ASC) or descending (DESC).
 	// Example: `ASC`
 	SortOrder ListAlarmsStatusSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a resource that is monitored by the
+	// metric that you are searching for.
+	// Example: `ocid1.instance.oc1.phx.exampleuniqueID`
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
+	// A filter to return only resources that match the given service name exactly.
+	// Use this filter to list all alarms containing metric streams that match the *exact* service-name dimension.
+	// Example: `logging-analytics`
+	ServiceName *string `mandatory:"false" contributesTo:"query" name:"serviceName"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the entity monitored by the
+	// metric that you are searching for.
+	// Example: `ocid1.instance.oc1.phx.exampleuniqueID`
+	EntityId *string `mandatory:"false" contributesTo:"query" name:"entityId"`
+
+	// The status of the metric stream to use for alarm filtering. For example, set `StatusQueryParam` to
+	// "FIRING" to filter results to metric streams of the alarm with that status. Default behaviour is to return
+	// alarms irrespective of metric streams' status.
+	// Example: `FIRING`
+	Status ListAlarmsStatusStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -99,6 +122,9 @@ func (request ListAlarmsStatusRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListAlarmsStatusSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListAlarmsStatusSortOrderEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListAlarmsStatusStatusEnum(string(request.Status)); !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListAlarmsStatusStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -115,7 +141,8 @@ type ListAlarmsStatusResponse struct {
 	Items []AlarmStatusSummary `presentIn:"body"`
 
 	// For list pagination. When this header appears in the response, additional pages of results remain.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about
@@ -213,5 +240,47 @@ func GetListAlarmsStatusSortOrderEnumStringValues() []string {
 // GetMappingListAlarmsStatusSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListAlarmsStatusSortOrderEnum(val string) (ListAlarmsStatusSortOrderEnum, bool) {
 	enum, ok := mappingListAlarmsStatusSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListAlarmsStatusStatusEnum Enum with underlying type: string
+type ListAlarmsStatusStatusEnum string
+
+// Set of constants representing the allowable values for ListAlarmsStatusStatusEnum
+const (
+	ListAlarmsStatusStatusFiring ListAlarmsStatusStatusEnum = "FIRING"
+	ListAlarmsStatusStatusOk     ListAlarmsStatusStatusEnum = "OK"
+)
+
+var mappingListAlarmsStatusStatusEnum = map[string]ListAlarmsStatusStatusEnum{
+	"FIRING": ListAlarmsStatusStatusFiring,
+	"OK":     ListAlarmsStatusStatusOk,
+}
+
+var mappingListAlarmsStatusStatusEnumLowerCase = map[string]ListAlarmsStatusStatusEnum{
+	"firing": ListAlarmsStatusStatusFiring,
+	"ok":     ListAlarmsStatusStatusOk,
+}
+
+// GetListAlarmsStatusStatusEnumValues Enumerates the set of values for ListAlarmsStatusStatusEnum
+func GetListAlarmsStatusStatusEnumValues() []ListAlarmsStatusStatusEnum {
+	values := make([]ListAlarmsStatusStatusEnum, 0)
+	for _, v := range mappingListAlarmsStatusStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListAlarmsStatusStatusEnumStringValues Enumerates the set of values in String for ListAlarmsStatusStatusEnum
+func GetListAlarmsStatusStatusEnumStringValues() []string {
+	return []string{
+		"FIRING",
+		"OK",
+	}
+}
+
+// GetMappingListAlarmsStatusStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListAlarmsStatusStatusEnum(val string) (ListAlarmsStatusStatusEnum, bool) {
+	enum, ok := mappingListAlarmsStatusStatusEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

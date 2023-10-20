@@ -26,11 +26,13 @@ type RetrieveDimensionStatesRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Default: 1000
 	// Example: 500
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -94,7 +96,8 @@ type RetrieveDimensionStatesResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For list pagination. When this header appears in the response, additional pages of results remain.
-	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// For important details about how pagination works, see
+	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 

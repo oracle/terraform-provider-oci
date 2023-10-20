@@ -19,6 +19,7 @@ import (
 type ListWorkRequestsRequest struct {
 
 	// A filter to return only resources that belong to the specified compartment identifier.
+	// Required only if the id query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The identifier of the asynchronous work request.

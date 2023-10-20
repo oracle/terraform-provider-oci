@@ -60,6 +60,9 @@ type MaintenanceRun struct {
 	// Maintenance sub-type.
 	MaintenanceSubtype MaintenanceRunMaintenanceSubtypeEnum `mandatory:"false" json:"maintenanceSubtype,omitempty"`
 
+	// Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
+	IsDstFileUpdateEnabled *bool `mandatory:"false" json:"isDstFileUpdateEnabled"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the maintenance run for the Autonomous Data Guard association's peer container database.
 	PeerMaintenanceRunId *string `mandatory:"false" json:"peerMaintenanceRunId"`
 
@@ -328,6 +331,7 @@ const (
 	MaintenanceRunMaintenanceSubtypeDatabase        MaintenanceRunMaintenanceSubtypeEnum = "DATABASE"
 	MaintenanceRunMaintenanceSubtypeOneoff          MaintenanceRunMaintenanceSubtypeEnum = "ONEOFF"
 	MaintenanceRunMaintenanceSubtypeSecurityMonthly MaintenanceRunMaintenanceSubtypeEnum = "SECURITY_MONTHLY"
+	MaintenanceRunMaintenanceSubtypeTimezone        MaintenanceRunMaintenanceSubtypeEnum = "TIMEZONE"
 )
 
 var mappingMaintenanceRunMaintenanceSubtypeEnum = map[string]MaintenanceRunMaintenanceSubtypeEnum{
@@ -338,6 +342,7 @@ var mappingMaintenanceRunMaintenanceSubtypeEnum = map[string]MaintenanceRunMaint
 	"DATABASE":         MaintenanceRunMaintenanceSubtypeDatabase,
 	"ONEOFF":           MaintenanceRunMaintenanceSubtypeOneoff,
 	"SECURITY_MONTHLY": MaintenanceRunMaintenanceSubtypeSecurityMonthly,
+	"TIMEZONE":         MaintenanceRunMaintenanceSubtypeTimezone,
 }
 
 var mappingMaintenanceRunMaintenanceSubtypeEnumLowerCase = map[string]MaintenanceRunMaintenanceSubtypeEnum{
@@ -348,6 +353,7 @@ var mappingMaintenanceRunMaintenanceSubtypeEnumLowerCase = map[string]Maintenanc
 	"database":         MaintenanceRunMaintenanceSubtypeDatabase,
 	"oneoff":           MaintenanceRunMaintenanceSubtypeOneoff,
 	"security_monthly": MaintenanceRunMaintenanceSubtypeSecurityMonthly,
+	"timezone":         MaintenanceRunMaintenanceSubtypeTimezone,
 }
 
 // GetMaintenanceRunMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunMaintenanceSubtypeEnum
@@ -369,6 +375,7 @@ func GetMaintenanceRunMaintenanceSubtypeEnumStringValues() []string {
 		"DATABASE",
 		"ONEOFF",
 		"SECURITY_MONTHLY",
+		"TIMEZONE",
 	}
 }
 

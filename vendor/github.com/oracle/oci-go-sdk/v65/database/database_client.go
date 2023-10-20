@@ -3469,6 +3469,71 @@ func (client DatabaseClient) createKeyStore(ctx context.Context, request common.
 	return response, err
 }
 
+// CreateMaintenanceRun Creates a maintenance run with one of the following:
+// The latest available release update patch (RUP) for the Autonomous Container Database.
+// The latest available RUP and DST time zone (TZ) file updates for the Autonomous Container Database.
+// Creates a maintenance run to update the DST TZ file for the Autonomous Container Database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateMaintenanceRun.go.html to see an example of how to use CreateMaintenanceRun API.
+func (client DatabaseClient) CreateMaintenanceRun(ctx context.Context, request CreateMaintenanceRunRequest) (response CreateMaintenanceRunResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMaintenanceRun, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMaintenanceRunResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMaintenanceRunResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMaintenanceRunResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMaintenanceRunResponse")
+	}
+	return
+}
+
+// createMaintenanceRun implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createMaintenanceRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/maintenanceRuns", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMaintenanceRunResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/MaintenanceRun/CreateMaintenanceRun"
+		err = common.PostProcessServiceError(err, "Database", "CreateMaintenanceRun", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateOneoffPatch Creates one-off patch for specified database version to download.
 //
 // # See also

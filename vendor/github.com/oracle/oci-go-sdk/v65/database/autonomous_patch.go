@@ -48,6 +48,9 @@ type AutonomousPatch struct {
 
 	// Year in which the patch was released.
 	Year *string `mandatory:"false" json:"year"`
+
+	// Maintenance run type, either "QUARTERLY" or "TIMEZONE".
+	AutonomousPatchType AutonomousPatchAutonomousPatchTypeEnum `mandatory:"false" json:"autonomousPatchType,omitempty"`
 }
 
 func (m AutonomousPatch) String() string {
@@ -65,6 +68,9 @@ func (m AutonomousPatch) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousPatchPatchModelEnum(string(m.PatchModel)); !ok && m.PatchModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PatchModel: %s. Supported values are: %s.", m.PatchModel, strings.Join(GetAutonomousPatchPatchModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousPatchAutonomousPatchTypeEnum(string(m.AutonomousPatchType)); !ok && m.AutonomousPatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousPatchType: %s. Supported values are: %s.", m.AutonomousPatchType, strings.Join(GetAutonomousPatchAutonomousPatchTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -161,5 +167,47 @@ func GetAutonomousPatchPatchModelEnumStringValues() []string {
 // GetMappingAutonomousPatchPatchModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousPatchPatchModelEnum(val string) (AutonomousPatchPatchModelEnum, bool) {
 	enum, ok := mappingAutonomousPatchPatchModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousPatchAutonomousPatchTypeEnum Enum with underlying type: string
+type AutonomousPatchAutonomousPatchTypeEnum string
+
+// Set of constants representing the allowable values for AutonomousPatchAutonomousPatchTypeEnum
+const (
+	AutonomousPatchAutonomousPatchTypeQuarterly AutonomousPatchAutonomousPatchTypeEnum = "QUARTERLY"
+	AutonomousPatchAutonomousPatchTypeTimezone  AutonomousPatchAutonomousPatchTypeEnum = "TIMEZONE"
+)
+
+var mappingAutonomousPatchAutonomousPatchTypeEnum = map[string]AutonomousPatchAutonomousPatchTypeEnum{
+	"QUARTERLY": AutonomousPatchAutonomousPatchTypeQuarterly,
+	"TIMEZONE":  AutonomousPatchAutonomousPatchTypeTimezone,
+}
+
+var mappingAutonomousPatchAutonomousPatchTypeEnumLowerCase = map[string]AutonomousPatchAutonomousPatchTypeEnum{
+	"quarterly": AutonomousPatchAutonomousPatchTypeQuarterly,
+	"timezone":  AutonomousPatchAutonomousPatchTypeTimezone,
+}
+
+// GetAutonomousPatchAutonomousPatchTypeEnumValues Enumerates the set of values for AutonomousPatchAutonomousPatchTypeEnum
+func GetAutonomousPatchAutonomousPatchTypeEnumValues() []AutonomousPatchAutonomousPatchTypeEnum {
+	values := make([]AutonomousPatchAutonomousPatchTypeEnum, 0)
+	for _, v := range mappingAutonomousPatchAutonomousPatchTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousPatchAutonomousPatchTypeEnumStringValues Enumerates the set of values in String for AutonomousPatchAutonomousPatchTypeEnum
+func GetAutonomousPatchAutonomousPatchTypeEnumStringValues() []string {
+	return []string{
+		"QUARTERLY",
+		"TIMEZONE",
+	}
+}
+
+// GetMappingAutonomousPatchAutonomousPatchTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousPatchAutonomousPatchTypeEnum(val string) (AutonomousPatchAutonomousPatchTypeEnum, bool) {
+	enum, ok := mappingAutonomousPatchAutonomousPatchTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
