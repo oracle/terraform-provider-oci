@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// UpdateKnowledgeBaseDetails Details to update an existing Knowledge Base.
+// UpdateKnowledgeBaseDetails Details to update an existing knowledge base.
 type UpdateKnowledgeBaseDetails struct {
 
-	// The name of the Knowledge Base.
+	// The name of the knowledge base.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

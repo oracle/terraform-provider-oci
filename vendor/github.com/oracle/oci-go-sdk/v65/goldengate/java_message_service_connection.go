@@ -71,15 +71,15 @@ type JavaMessageServiceConnection struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The Connection Factory can be looked up using this name.
 	// e.g.: 'ConnectionFactory'
@@ -120,6 +120,14 @@ type JavaMessageServiceConnection struct {
 
 	// The Java Message Service technology type.
 	TechnologyType JavaMessageServiceConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
+
+	// Security protocol for Java Message Service. If not provided, default is PLAIN.
+	// Optional until 2024-06-27, in the release after it will be made required.
+	SecurityProtocol JavaMessageServiceConnectionSecurityProtocolEnum `mandatory:"false" json:"securityProtocol,omitempty"`
+
+	// Authentication type for Java Message Service.  If not provided, default is NONE.
+	// Optional until 2024-06-27, in the release after it will be made required.
+	AuthenticationType JavaMessageServiceConnectionAuthenticationTypeEnum `mandatory:"false" json:"authenticationType,omitempty"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -190,11 +198,6 @@ func (m JavaMessageServiceConnection) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m JavaMessageServiceConnection) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetIngressIps returns IngressIps
 func (m JavaMessageServiceConnection) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
@@ -203,6 +206,11 @@ func (m JavaMessageServiceConnection) GetIngressIps() []IngressIpDetails {
 // GetNsgIds returns NsgIds
 func (m JavaMessageServiceConnection) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m JavaMessageServiceConnection) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m JavaMessageServiceConnection) String() string {
@@ -216,6 +224,12 @@ func (m JavaMessageServiceConnection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingJavaMessageServiceConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetJavaMessageServiceConnectionTechnologyTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingJavaMessageServiceConnectionSecurityProtocolEnum(string(m.SecurityProtocol)); !ok && m.SecurityProtocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityProtocol: %s. Supported values are: %s.", m.SecurityProtocol, strings.Join(GetJavaMessageServiceConnectionSecurityProtocolEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingJavaMessageServiceConnectionAuthenticationTypeEnum(string(m.AuthenticationType)); !ok && m.AuthenticationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetJavaMessageServiceConnectionAuthenticationTypeEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingConnectionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
@@ -276,5 +290,93 @@ func GetJavaMessageServiceConnectionTechnologyTypeEnumStringValues() []string {
 // GetMappingJavaMessageServiceConnectionTechnologyTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingJavaMessageServiceConnectionTechnologyTypeEnum(val string) (JavaMessageServiceConnectionTechnologyTypeEnum, bool) {
 	enum, ok := mappingJavaMessageServiceConnectionTechnologyTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// JavaMessageServiceConnectionSecurityProtocolEnum Enum with underlying type: string
+type JavaMessageServiceConnectionSecurityProtocolEnum string
+
+// Set of constants representing the allowable values for JavaMessageServiceConnectionSecurityProtocolEnum
+const (
+	JavaMessageServiceConnectionSecurityProtocolPlain JavaMessageServiceConnectionSecurityProtocolEnum = "PLAIN"
+	JavaMessageServiceConnectionSecurityProtocolTls   JavaMessageServiceConnectionSecurityProtocolEnum = "TLS"
+	JavaMessageServiceConnectionSecurityProtocolMtls  JavaMessageServiceConnectionSecurityProtocolEnum = "MTLS"
+)
+
+var mappingJavaMessageServiceConnectionSecurityProtocolEnum = map[string]JavaMessageServiceConnectionSecurityProtocolEnum{
+	"PLAIN": JavaMessageServiceConnectionSecurityProtocolPlain,
+	"TLS":   JavaMessageServiceConnectionSecurityProtocolTls,
+	"MTLS":  JavaMessageServiceConnectionSecurityProtocolMtls,
+}
+
+var mappingJavaMessageServiceConnectionSecurityProtocolEnumLowerCase = map[string]JavaMessageServiceConnectionSecurityProtocolEnum{
+	"plain": JavaMessageServiceConnectionSecurityProtocolPlain,
+	"tls":   JavaMessageServiceConnectionSecurityProtocolTls,
+	"mtls":  JavaMessageServiceConnectionSecurityProtocolMtls,
+}
+
+// GetJavaMessageServiceConnectionSecurityProtocolEnumValues Enumerates the set of values for JavaMessageServiceConnectionSecurityProtocolEnum
+func GetJavaMessageServiceConnectionSecurityProtocolEnumValues() []JavaMessageServiceConnectionSecurityProtocolEnum {
+	values := make([]JavaMessageServiceConnectionSecurityProtocolEnum, 0)
+	for _, v := range mappingJavaMessageServiceConnectionSecurityProtocolEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetJavaMessageServiceConnectionSecurityProtocolEnumStringValues Enumerates the set of values in String for JavaMessageServiceConnectionSecurityProtocolEnum
+func GetJavaMessageServiceConnectionSecurityProtocolEnumStringValues() []string {
+	return []string{
+		"PLAIN",
+		"TLS",
+		"MTLS",
+	}
+}
+
+// GetMappingJavaMessageServiceConnectionSecurityProtocolEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingJavaMessageServiceConnectionSecurityProtocolEnum(val string) (JavaMessageServiceConnectionSecurityProtocolEnum, bool) {
+	enum, ok := mappingJavaMessageServiceConnectionSecurityProtocolEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// JavaMessageServiceConnectionAuthenticationTypeEnum Enum with underlying type: string
+type JavaMessageServiceConnectionAuthenticationTypeEnum string
+
+// Set of constants representing the allowable values for JavaMessageServiceConnectionAuthenticationTypeEnum
+const (
+	JavaMessageServiceConnectionAuthenticationTypeNone  JavaMessageServiceConnectionAuthenticationTypeEnum = "NONE"
+	JavaMessageServiceConnectionAuthenticationTypeBasic JavaMessageServiceConnectionAuthenticationTypeEnum = "BASIC"
+)
+
+var mappingJavaMessageServiceConnectionAuthenticationTypeEnum = map[string]JavaMessageServiceConnectionAuthenticationTypeEnum{
+	"NONE":  JavaMessageServiceConnectionAuthenticationTypeNone,
+	"BASIC": JavaMessageServiceConnectionAuthenticationTypeBasic,
+}
+
+var mappingJavaMessageServiceConnectionAuthenticationTypeEnumLowerCase = map[string]JavaMessageServiceConnectionAuthenticationTypeEnum{
+	"none":  JavaMessageServiceConnectionAuthenticationTypeNone,
+	"basic": JavaMessageServiceConnectionAuthenticationTypeBasic,
+}
+
+// GetJavaMessageServiceConnectionAuthenticationTypeEnumValues Enumerates the set of values for JavaMessageServiceConnectionAuthenticationTypeEnum
+func GetJavaMessageServiceConnectionAuthenticationTypeEnumValues() []JavaMessageServiceConnectionAuthenticationTypeEnum {
+	values := make([]JavaMessageServiceConnectionAuthenticationTypeEnum, 0)
+	for _, v := range mappingJavaMessageServiceConnectionAuthenticationTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetJavaMessageServiceConnectionAuthenticationTypeEnumStringValues Enumerates the set of values in String for JavaMessageServiceConnectionAuthenticationTypeEnum
+func GetJavaMessageServiceConnectionAuthenticationTypeEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"BASIC",
+	}
+}
+
+// GetMappingJavaMessageServiceConnectionAuthenticationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingJavaMessageServiceConnectionAuthenticationTypeEnum(val string) (JavaMessageServiceConnectionAuthenticationTypeEnum, bool) {
+	enum, ok := mappingJavaMessageServiceConnectionAuthenticationTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

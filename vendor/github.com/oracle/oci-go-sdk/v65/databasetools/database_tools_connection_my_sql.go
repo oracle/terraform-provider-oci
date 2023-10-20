@@ -34,6 +34,9 @@ type DatabaseToolsConnectionMySql struct {
 	// The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// The connection string used to connect to the MySQL Server.
+	ConnectionString *string `mandatory:"true" json:"connectionString"`
+
 	// A message describing the current state in more detail. For example, this message can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -49,10 +52,10 @@ type DatabaseToolsConnectionMySql struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	RelatedResource *DatabaseToolsRelatedResourceMySql `mandatory:"false" json:"relatedResource"`
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
-	// The connection string used to connect to the MySQL Server.
-	ConnectionString *string `mandatory:"false" json:"connectionString"`
+	RelatedResource *DatabaseToolsRelatedResourceMySql `mandatory:"false" json:"relatedResource"`
 
 	// The user name.
 	UserName *string `mandatory:"false" json:"userName"`
@@ -71,6 +74,9 @@ type DatabaseToolsConnectionMySql struct {
 
 	// The current state of the Database Tools connection.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Specifies whether this connection is supported by the Database Tools Runtime.
+	RuntimeSupport RuntimeSupportEnum `mandatory:"true" json:"runtimeSupport"`
 }
 
 // GetId returns Id
@@ -123,6 +129,16 @@ func (m DatabaseToolsConnectionMySql) GetSystemTags() map[string]map[string]inte
 	return m.SystemTags
 }
 
+// GetLocks returns Locks
+func (m DatabaseToolsConnectionMySql) GetLocks() []ResourceLock {
+	return m.Locks
+}
+
+// GetRuntimeSupport returns RuntimeSupport
+func (m DatabaseToolsConnectionMySql) GetRuntimeSupport() RuntimeSupportEnum {
+	return m.RuntimeSupport
+}
+
 func (m DatabaseToolsConnectionMySql) String() string {
 	return common.PointerString(m)
 }
@@ -135,6 +151,9 @@ func (m DatabaseToolsConnectionMySql) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuntimeSupportEnum(string(m.RuntimeSupport)); !ok && m.RuntimeSupport != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", m.RuntimeSupport, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -163,8 +182,8 @@ func (m *DatabaseToolsConnectionMySql) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags        map[string]map[string]interface{}  `json:"definedTags"`
 		FreeformTags       map[string]string                  `json:"freeformTags"`
 		SystemTags         map[string]map[string]interface{}  `json:"systemTags"`
+		Locks              []ResourceLock                     `json:"locks"`
 		RelatedResource    *DatabaseToolsRelatedResourceMySql `json:"relatedResource"`
-		ConnectionString   *string                            `json:"connectionString"`
 		UserName           *string                            `json:"userName"`
 		UserPassword       databasetoolsuserpassword          `json:"userPassword"`
 		AdvancedProperties map[string]string                  `json:"advancedProperties"`
@@ -176,6 +195,8 @@ func (m *DatabaseToolsConnectionMySql) UnmarshalJSON(data []byte) (e error) {
 		LifecycleState     LifecycleStateEnum                 `json:"lifecycleState"`
 		TimeCreated        *common.SDKTime                    `json:"timeCreated"`
 		TimeUpdated        *common.SDKTime                    `json:"timeUpdated"`
+		RuntimeSupport     RuntimeSupportEnum                 `json:"runtimeSupport"`
+		ConnectionString   *string                            `json:"connectionString"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -191,9 +212,9 @@ func (m *DatabaseToolsConnectionMySql) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.RelatedResource = model.RelatedResource
-
-	m.ConnectionString = model.ConnectionString
 
 	m.UserName = model.UserName
 
@@ -224,6 +245,10 @@ func (m *DatabaseToolsConnectionMySql) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated
+
+	m.RuntimeSupport = model.RuntimeSupport
+
+	m.ConnectionString = model.ConnectionString
 
 	return
 }

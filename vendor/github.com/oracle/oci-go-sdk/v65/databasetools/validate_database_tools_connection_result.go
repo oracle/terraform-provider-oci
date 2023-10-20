@@ -78,6 +78,10 @@ func (m *validatedatabasetoolsconnectionresult) UnmarshalPolymorphicJSON(data []
 		mm := ValidateDatabaseToolsConnectionMySqlResult{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "POSTGRESQL":
+		mm := ValidateDatabaseToolsConnectionPostgresqlResult{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for ValidateDatabaseToolsConnectionResult: %s.", m.Type)
 		return *m, nil

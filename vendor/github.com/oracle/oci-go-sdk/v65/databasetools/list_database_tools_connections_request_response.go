@@ -30,6 +30,12 @@ type ListDatabaseToolsConnectionsRequest struct {
 	// A filter to return only resources their type matches the specified type.
 	Type []ConnectionTypeEnum `contributesTo:"query" name:"type" omitEmpty:"true" collectionFormat:"multi"`
 
+	// A filter to return only resources with one of the specified runtimeSupport values.
+	RuntimeSupport []RuntimeSupportEnum `contributesTo:"query" name:"runtimeSupport" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources associated to the related resource identifier OCID passed in the query string.
+	RelatedResourceIdentifier *string `mandatory:"false" contributesTo:"query" name:"relatedResourceIdentifier"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -90,6 +96,12 @@ func (request ListDatabaseToolsConnectionsRequest) ValidateEnumValue() (bool, er
 		}
 	}
 
+	for _, val := range request.RuntimeSupport {
+		if _, ok := GetMappingRuntimeSupportEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", val, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingListDatabaseToolsConnectionsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDatabaseToolsConnectionsSortOrderEnumStringValues(), ",")))
 	}
@@ -141,6 +153,7 @@ const (
 	ListDatabaseToolsConnectionsLifecycleStateDeleting ListDatabaseToolsConnectionsLifecycleStateEnum = "DELETING"
 	ListDatabaseToolsConnectionsLifecycleStateDeleted  ListDatabaseToolsConnectionsLifecycleStateEnum = "DELETED"
 	ListDatabaseToolsConnectionsLifecycleStateFailed   ListDatabaseToolsConnectionsLifecycleStateEnum = "FAILED"
+	ListDatabaseToolsConnectionsLifecycleStateInactive ListDatabaseToolsConnectionsLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingListDatabaseToolsConnectionsLifecycleStateEnum = map[string]ListDatabaseToolsConnectionsLifecycleStateEnum{
@@ -150,6 +163,7 @@ var mappingListDatabaseToolsConnectionsLifecycleStateEnum = map[string]ListDatab
 	"DELETING": ListDatabaseToolsConnectionsLifecycleStateDeleting,
 	"DELETED":  ListDatabaseToolsConnectionsLifecycleStateDeleted,
 	"FAILED":   ListDatabaseToolsConnectionsLifecycleStateFailed,
+	"INACTIVE": ListDatabaseToolsConnectionsLifecycleStateInactive,
 }
 
 var mappingListDatabaseToolsConnectionsLifecycleStateEnumLowerCase = map[string]ListDatabaseToolsConnectionsLifecycleStateEnum{
@@ -159,6 +173,7 @@ var mappingListDatabaseToolsConnectionsLifecycleStateEnumLowerCase = map[string]
 	"deleting": ListDatabaseToolsConnectionsLifecycleStateDeleting,
 	"deleted":  ListDatabaseToolsConnectionsLifecycleStateDeleted,
 	"failed":   ListDatabaseToolsConnectionsLifecycleStateFailed,
+	"inactive": ListDatabaseToolsConnectionsLifecycleStateInactive,
 }
 
 // GetListDatabaseToolsConnectionsLifecycleStateEnumValues Enumerates the set of values for ListDatabaseToolsConnectionsLifecycleStateEnum
@@ -179,6 +194,7 @@ func GetListDatabaseToolsConnectionsLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"INACTIVE",
 	}
 }
 

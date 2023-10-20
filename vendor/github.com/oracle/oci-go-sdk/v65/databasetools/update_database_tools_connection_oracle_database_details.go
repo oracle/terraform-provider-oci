@@ -49,6 +49,8 @@ type UpdateDatabaseToolsConnectionOracleDatabaseDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsPrivateEndpoint used to access the database in the Customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
+	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClientDetails `mandatory:"false" json:"proxyClient"`
 }
 
 // GetDisplayName returns DisplayName
@@ -99,16 +101,17 @@ func (m UpdateDatabaseToolsConnectionOracleDatabaseDetails) MarshalJSON() (buff 
 // UnmarshalJSON unmarshals from json
 func (m *UpdateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName        *string                                    `json:"displayName"`
-		DefinedTags        map[string]map[string]interface{}          `json:"definedTags"`
-		FreeformTags       map[string]string                          `json:"freeformTags"`
-		RelatedResource    *UpdateDatabaseToolsRelatedResourceDetails `json:"relatedResource"`
-		ConnectionString   *string                                    `json:"connectionString"`
-		UserName           *string                                    `json:"userName"`
-		UserPassword       databasetoolsuserpassworddetails           `json:"userPassword"`
-		AdvancedProperties map[string]string                          `json:"advancedProperties"`
-		KeyStores          []DatabaseToolsKeyStoreDetails             `json:"keyStores"`
-		PrivateEndpointId  *string                                    `json:"privateEndpointId"`
+		DisplayName        *string                                                 `json:"displayName"`
+		DefinedTags        map[string]map[string]interface{}                       `json:"definedTags"`
+		FreeformTags       map[string]string                                       `json:"freeformTags"`
+		RelatedResource    *UpdateDatabaseToolsRelatedResourceDetails              `json:"relatedResource"`
+		ConnectionString   *string                                                 `json:"connectionString"`
+		UserName           *string                                                 `json:"userName"`
+		UserPassword       databasetoolsuserpassworddetails                        `json:"userPassword"`
+		AdvancedProperties map[string]string                                       `json:"advancedProperties"`
+		KeyStores          []DatabaseToolsKeyStoreDetails                          `json:"keyStores"`
+		PrivateEndpointId  *string                                                 `json:"privateEndpointId"`
+		ProxyClient        databasetoolsconnectionoracledatabaseproxyclientdetails `json:"proxyClient"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -143,6 +146,16 @@ func (m *UpdateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 	m.KeyStores = make([]DatabaseToolsKeyStoreDetails, len(model.KeyStores))
 	copy(m.KeyStores, model.KeyStores)
 	m.PrivateEndpointId = model.PrivateEndpointId
+
+	nn, e = model.ProxyClient.UnmarshalPolymorphicJSON(model.ProxyClient.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ProxyClient = nn.(DatabaseToolsConnectionOracleDatabaseProxyClientDetails)
+	} else {
+		m.ProxyClient = nil
+	}
 
 	return
 }

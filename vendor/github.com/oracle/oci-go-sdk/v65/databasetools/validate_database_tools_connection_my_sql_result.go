@@ -25,6 +25,9 @@ type ValidateDatabaseToolsConnectionMySqlResult struct {
 	// A human-readable message that describes the result of the validation.
 	Message *string `mandatory:"true" json:"message"`
 
+	// The database version.
+	DatabaseVersion *string `mandatory:"true" json:"databaseVersion"`
+
 	// A human-readable message that describes possible causes for the validation error.
 	Cause *string `mandatory:"false" json:"cause"`
 
@@ -33,9 +36,6 @@ type ValidateDatabaseToolsConnectionMySqlResult struct {
 
 	// The database name.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
-
-	// The database version.
-	DatabaseVersion *string `mandatory:"false" json:"databaseVersion"`
 }
 
 // GetCode returns Code
