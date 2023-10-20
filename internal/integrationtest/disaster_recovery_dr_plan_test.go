@@ -37,7 +37,7 @@ var (
 
 	DisasterRecoveryDisasterRecoveryDrPlanDataSourceRepresentation = map[string]interface{}{
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `My DR Plan`, Update: `displayName2`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `Switchover from PHX to IAD`, Update: `displayName2`},
 		"dr_plan_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_disaster_recovery_dr_plan.test_dr_plan.id}`},
 		"dr_plan_type":           acctest.Representation{RepType: acctest.Optional, Create: `SWITCHOVER`},
 		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -48,7 +48,7 @@ var (
 	}
 
 	DisasterRecoveryDrPlanRepresentation = map[string]interface{}{
-		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `My DR Plan`, Update: `displayName2`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Switchover from PHX to IAD`, Update: `displayName2`},
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id}`},
 		"type":                   acctest.Representation{RepType: acctest.Required, Create: `SWITCHOVER`},
 		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -107,7 +107,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				DrProtectionGroupConfig + VolumeGroupWithReplicationConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan", "test_dr_plan", acctest.Required, acctest.Create, DisasterRecoveryDrPlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Plan"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Switchover from PHX to IAD"),
 				resource.TestCheckResourceAttrSet(resourceName, "dr_protection_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "SWITCHOVER"),
 
@@ -130,7 +130,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan", "test_dr_plan", acctest.Optional, acctest.Create, DisasterRecoveryDrPlanRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Plan"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Switchover from PHX to IAD"),
 				resource.TestCheckResourceAttrSet(resourceName, "dr_protection_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),

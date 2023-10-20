@@ -7,7 +7,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {
-  default = "ocid1.compartment.oc1..aaaaaaaaaq4dqogd2ktatzmuekujkasvwendyhisgfqdky3ojru47w3f634a"
+  default = "ocid1.tenancy.oc1..aaaaaaaahowp4zu5z3p3to5mj7vjtlo7zqi2qmbjiij73vfulltlmvtf624a"
 }
 
 variable "dr_plan_execution_defined_tags_value" {
@@ -76,7 +76,7 @@ resource "oci_disaster_recovery_dr_plan_execution" "test_dr_plan_execution" {
 
 data "oci_disaster_recovery_dr_plan_executions" "test_dr_plan_executions" {
   #Required
-  dr_protection_group_id = oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id
+  dr_protection_group_id = data.oci_disaster_recovery_dr_protection_groups.test_dr_protection_groups.dr_protection_group_collection.0.items.0.id
 
   #Optional
   display_name           = var.dr_plan_execution_display_name
@@ -84,4 +84,3 @@ data "oci_disaster_recovery_dr_plan_executions" "test_dr_plan_executions" {
   dr_plan_execution_type = var.dr_plan_execution_dr_plan_execution_type
   #state                  = var.dr_plan_execution_state
 }
-

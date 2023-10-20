@@ -37,7 +37,7 @@ var (
 
 	DisasterRecoveryDisasterRecoveryDrPlanExecutionDataSourceRepresentation = map[string]interface{}{
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id}`},
-		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `My DR Plan Execution`, Update: `displayName2`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `Precheck Switchover from PHX to IAD`, Update: `displayName2`},
 		"dr_plan_execution_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_disaster_recovery_dr_plan_execution.test_dr_plan_execution.id}`},
 		"dr_plan_execution_type": acctest.Representation{RepType: acctest.Optional, Create: `SWITCHOVER_PRECHECK`},
 		"state":                  acctest.Representation{RepType: acctest.Optional, Create: `SUCCEEDED`},
@@ -51,7 +51,7 @@ var (
 		"execution_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: DisasterRecoveryDrPlanExecutionExecutionOptionsRepresentation},
 		"plan_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_plan.test_dr_plan.id}`},
 		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `My DR Plan Execution`, Update: `displayName2`},
+		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `Precheck Switchover from PHX to IAD`, Update: `displayName2`},
 		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DefinedTagsIgnoreRepresentation},
 	}
@@ -158,7 +158,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Create, DisasterRecoveryDrPlanExecutionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "My DR Plan Execution"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Precheck Switchover from PHX to IAD"),
 				resource.TestCheckResourceAttrSet(resourceName, "dr_protection_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "execution_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "execution_options.0.are_prechecks_enabled", "false"),
