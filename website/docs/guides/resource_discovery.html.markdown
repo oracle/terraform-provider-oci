@@ -1053,6 +1053,7 @@ stack_monitoring
 * oci\_stack\_monitoring\_config
 * oci\_stack\_monitoring\_monitored\_resource\_task
 * oci\_stack\_monitoring\_monitored\_resource\_type
+* oci\_stack\_monitoring\_metric\_extension
 
 streaming
 

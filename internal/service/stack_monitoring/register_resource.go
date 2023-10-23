@@ -8,6 +8,9 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_stack_monitoring_config", StackMonitoringConfigResource())
 	tfresource.RegisterResource("oci_stack_monitoring_discovery_job", StackMonitoringDiscoveryJobResource())
+	tfresource.RegisterResource("oci_stack_monitoring_metric_extension", StackMonitoringMetricExtensionResource())
+	tfresource.RegisterResource("oci_stack_monitoring_metric_extension_metric_extension_on_given_resources_management", StackMonitoringMetricExtensionMetricExtensionOnGivenResourcesManagementResource())
+	tfresource.RegisterResource("oci_stack_monitoring_metric_extensions_test_management", StackMonitoringMetricExtensionsTestManagementResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resource", StackMonitoringMonitoredResourceResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resource_task", StackMonitoringMonitoredResourceTaskResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resource_type", StackMonitoringMonitoredResourceTypeResource())
