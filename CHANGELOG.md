@@ -1,4 +1,4 @@
-## 5.18.0 (Unreleased)
+## 5.18.0 (October 24, 2023)
 
 ### Added
 - Support for Add MR table feature into Oracle NoSQL Database Cloud
