@@ -30,6 +30,9 @@ type ListContainerDatabasePatchesRequest struct {
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// Autonomous patch type, either "QUARTERLY" or "TIMEZONE".
+	AutonomousPatchType ListContainerDatabasePatchesAutonomousPatchTypeEnum `mandatory:"false" contributesTo:"query" name:"autonomousPatchType" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -70,6 +73,9 @@ func (request ListContainerDatabasePatchesRequest) RetryPolicy() *common.RetryPo
 // Not recommended for calling this function directly
 func (request ListContainerDatabasePatchesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListContainerDatabasePatchesAutonomousPatchTypeEnum(string(request.AutonomousPatchType)); !ok && request.AutonomousPatchType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousPatchType: %s. Supported values are: %s.", request.AutonomousPatchType, strings.Join(GetListContainerDatabasePatchesAutonomousPatchTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -103,4 +109,46 @@ func (response ListContainerDatabasePatchesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListContainerDatabasePatchesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListContainerDatabasePatchesAutonomousPatchTypeEnum Enum with underlying type: string
+type ListContainerDatabasePatchesAutonomousPatchTypeEnum string
+
+// Set of constants representing the allowable values for ListContainerDatabasePatchesAutonomousPatchTypeEnum
+const (
+	ListContainerDatabasePatchesAutonomousPatchTypeQuarterly ListContainerDatabasePatchesAutonomousPatchTypeEnum = "QUARTERLY"
+	ListContainerDatabasePatchesAutonomousPatchTypeTimezone  ListContainerDatabasePatchesAutonomousPatchTypeEnum = "TIMEZONE"
+)
+
+var mappingListContainerDatabasePatchesAutonomousPatchTypeEnum = map[string]ListContainerDatabasePatchesAutonomousPatchTypeEnum{
+	"QUARTERLY": ListContainerDatabasePatchesAutonomousPatchTypeQuarterly,
+	"TIMEZONE":  ListContainerDatabasePatchesAutonomousPatchTypeTimezone,
+}
+
+var mappingListContainerDatabasePatchesAutonomousPatchTypeEnumLowerCase = map[string]ListContainerDatabasePatchesAutonomousPatchTypeEnum{
+	"quarterly": ListContainerDatabasePatchesAutonomousPatchTypeQuarterly,
+	"timezone":  ListContainerDatabasePatchesAutonomousPatchTypeTimezone,
+}
+
+// GetListContainerDatabasePatchesAutonomousPatchTypeEnumValues Enumerates the set of values for ListContainerDatabasePatchesAutonomousPatchTypeEnum
+func GetListContainerDatabasePatchesAutonomousPatchTypeEnumValues() []ListContainerDatabasePatchesAutonomousPatchTypeEnum {
+	values := make([]ListContainerDatabasePatchesAutonomousPatchTypeEnum, 0)
+	for _, v := range mappingListContainerDatabasePatchesAutonomousPatchTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListContainerDatabasePatchesAutonomousPatchTypeEnumStringValues Enumerates the set of values in String for ListContainerDatabasePatchesAutonomousPatchTypeEnum
+func GetListContainerDatabasePatchesAutonomousPatchTypeEnumStringValues() []string {
+	return []string{
+		"QUARTERLY",
+		"TIMEZONE",
+	}
+}
+
+// GetMappingListContainerDatabasePatchesAutonomousPatchTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListContainerDatabasePatchesAutonomousPatchTypeEnum(val string) (ListContainerDatabasePatchesAutonomousPatchTypeEnum, bool) {
+	enum, ok := mappingListContainerDatabasePatchesAutonomousPatchTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

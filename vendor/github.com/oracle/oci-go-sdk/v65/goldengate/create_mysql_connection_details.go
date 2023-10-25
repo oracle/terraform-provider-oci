@@ -58,11 +58,11 @@ type CreateMysqlConnectionDetails struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The name or address of a host.
 	Host *string `mandatory:"false" json:"host"`
@@ -145,14 +145,14 @@ func (m CreateMysqlConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m CreateMysqlConnectionDetails) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetNsgIds returns NsgIds
 func (m CreateMysqlConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m CreateMysqlConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m CreateMysqlConnectionDetails) String() string {

@@ -34,6 +34,9 @@ type DatabaseToolsConnectionOracleDatabase struct {
 	// The time the DatabaseToolsConnection was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// The connect descriptor or Easy Connect Naming method used to connect to the database.
+	ConnectionString *string `mandatory:"true" json:"connectionString"`
+
 	// A message describing the current state in more detail. For example, this message can be used to provide actionable information for a resource in the Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -49,10 +52,10 @@ type DatabaseToolsConnectionOracleDatabase struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	RelatedResource *DatabaseToolsRelatedResource `mandatory:"false" json:"relatedResource"`
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
-	// The connect descriptor or Easy Connect Naming method used to connect to the database.
-	ConnectionString *string `mandatory:"false" json:"connectionString"`
+	RelatedResource *DatabaseToolsRelatedResource `mandatory:"false" json:"relatedResource"`
 
 	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
@@ -69,8 +72,13 @@ type DatabaseToolsConnectionOracleDatabase struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
 
+	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClient `mandatory:"false" json:"proxyClient"`
+
 	// The current state of the Database Tools connection.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// Specifies whether this connection is supported by the Database Tools Runtime.
+	RuntimeSupport RuntimeSupportEnum `mandatory:"true" json:"runtimeSupport"`
 }
 
 // GetId returns Id
@@ -123,6 +131,16 @@ func (m DatabaseToolsConnectionOracleDatabase) GetSystemTags() map[string]map[st
 	return m.SystemTags
 }
 
+// GetLocks returns Locks
+func (m DatabaseToolsConnectionOracleDatabase) GetLocks() []ResourceLock {
+	return m.Locks
+}
+
+// GetRuntimeSupport returns RuntimeSupport
+func (m DatabaseToolsConnectionOracleDatabase) GetRuntimeSupport() RuntimeSupportEnum {
+	return m.RuntimeSupport
+}
+
 func (m DatabaseToolsConnectionOracleDatabase) String() string {
 	return common.PointerString(m)
 }
@@ -135,6 +153,9 @@ func (m DatabaseToolsConnectionOracleDatabase) ValidateEnumValue() (bool, error)
 
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuntimeSupportEnum(string(m.RuntimeSupport)); !ok && m.RuntimeSupport != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", m.RuntimeSupport, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -159,23 +180,26 @@ func (m DatabaseToolsConnectionOracleDatabase) MarshalJSON() (buff []byte, e err
 // UnmarshalJSON unmarshals from json
 func (m *DatabaseToolsConnectionOracleDatabase) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		LifecycleDetails   *string                           `json:"lifecycleDetails"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
-		RelatedResource    *DatabaseToolsRelatedResource     `json:"relatedResource"`
-		ConnectionString   *string                           `json:"connectionString"`
-		UserName           *string                           `json:"userName"`
-		UserPassword       databasetoolsuserpassword         `json:"userPassword"`
-		AdvancedProperties map[string]string                 `json:"advancedProperties"`
-		KeyStores          []DatabaseToolsKeyStore           `json:"keyStores"`
-		PrivateEndpointId  *string                           `json:"privateEndpointId"`
-		Id                 *string                           `json:"id"`
-		DisplayName        *string                           `json:"displayName"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		LifecycleState     LifecycleStateEnum                `json:"lifecycleState"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated        *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleDetails   *string                                          `json:"lifecycleDetails"`
+		DefinedTags        map[string]map[string]interface{}                `json:"definedTags"`
+		FreeformTags       map[string]string                                `json:"freeformTags"`
+		SystemTags         map[string]map[string]interface{}                `json:"systemTags"`
+		Locks              []ResourceLock                                   `json:"locks"`
+		RelatedResource    *DatabaseToolsRelatedResource                    `json:"relatedResource"`
+		UserName           *string                                          `json:"userName"`
+		UserPassword       databasetoolsuserpassword                        `json:"userPassword"`
+		AdvancedProperties map[string]string                                `json:"advancedProperties"`
+		KeyStores          []DatabaseToolsKeyStore                          `json:"keyStores"`
+		PrivateEndpointId  *string                                          `json:"privateEndpointId"`
+		ProxyClient        databasetoolsconnectionoracledatabaseproxyclient `json:"proxyClient"`
+		Id                 *string                                          `json:"id"`
+		DisplayName        *string                                          `json:"displayName"`
+		CompartmentId      *string                                          `json:"compartmentId"`
+		LifecycleState     LifecycleStateEnum                               `json:"lifecycleState"`
+		TimeCreated        *common.SDKTime                                  `json:"timeCreated"`
+		TimeUpdated        *common.SDKTime                                  `json:"timeUpdated"`
+		RuntimeSupport     RuntimeSupportEnum                               `json:"runtimeSupport"`
+		ConnectionString   *string                                          `json:"connectionString"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -191,9 +215,9 @@ func (m *DatabaseToolsConnectionOracleDatabase) UnmarshalJSON(data []byte) (e er
 
 	m.SystemTags = model.SystemTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.RelatedResource = model.RelatedResource
-
-	m.ConnectionString = model.ConnectionString
 
 	m.UserName = model.UserName
 
@@ -213,6 +237,16 @@ func (m *DatabaseToolsConnectionOracleDatabase) UnmarshalJSON(data []byte) (e er
 	copy(m.KeyStores, model.KeyStores)
 	m.PrivateEndpointId = model.PrivateEndpointId
 
+	nn, e = model.ProxyClient.UnmarshalPolymorphicJSON(model.ProxyClient.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ProxyClient = nn.(DatabaseToolsConnectionOracleDatabaseProxyClient)
+	} else {
+		m.ProxyClient = nil
+	}
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName
@@ -224,6 +258,10 @@ func (m *DatabaseToolsConnectionOracleDatabase) UnmarshalJSON(data []byte) (e er
 	m.TimeCreated = model.TimeCreated
 
 	m.TimeUpdated = model.TimeUpdated
+
+	m.RuntimeSupport = model.RuntimeSupport
+
+	m.ConnectionString = model.ConnectionString
 
 	return
 }

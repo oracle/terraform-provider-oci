@@ -168,6 +168,13 @@ const (
 	ListDeploymentsSupportedConnectionTypeHdfs                  ListDeploymentsSupportedConnectionTypeEnum = "HDFS"
 	ListDeploymentsSupportedConnectionTypeOracleNosql           ListDeploymentsSupportedConnectionTypeEnum = "ORACLE_NOSQL"
 	ListDeploymentsSupportedConnectionTypeMongodb               ListDeploymentsSupportedConnectionTypeEnum = "MONGODB"
+	ListDeploymentsSupportedConnectionTypeAmazonKinesis         ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_KINESIS"
+	ListDeploymentsSupportedConnectionTypeAmazonRedshift        ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_REDSHIFT"
+	ListDeploymentsSupportedConnectionTypeRedis                 ListDeploymentsSupportedConnectionTypeEnum = "REDIS"
+	ListDeploymentsSupportedConnectionTypeElasticsearch         ListDeploymentsSupportedConnectionTypeEnum = "ELASTICSEARCH"
+	ListDeploymentsSupportedConnectionTypeGeneric               ListDeploymentsSupportedConnectionTypeEnum = "GENERIC"
+	ListDeploymentsSupportedConnectionTypeGoogleCloudStorage    ListDeploymentsSupportedConnectionTypeEnum = "GOOGLE_CLOUD_STORAGE"
+	ListDeploymentsSupportedConnectionTypeGoogleBigquery        ListDeploymentsSupportedConnectionTypeEnum = "GOOGLE_BIGQUERY"
 )
 
 var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymentsSupportedConnectionTypeEnum{
@@ -187,6 +194,13 @@ var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymen
 	"HDFS":                    ListDeploymentsSupportedConnectionTypeHdfs,
 	"ORACLE_NOSQL":            ListDeploymentsSupportedConnectionTypeOracleNosql,
 	"MONGODB":                 ListDeploymentsSupportedConnectionTypeMongodb,
+	"AMAZON_KINESIS":          ListDeploymentsSupportedConnectionTypeAmazonKinesis,
+	"AMAZON_REDSHIFT":         ListDeploymentsSupportedConnectionTypeAmazonRedshift,
+	"REDIS":                   ListDeploymentsSupportedConnectionTypeRedis,
+	"ELASTICSEARCH":           ListDeploymentsSupportedConnectionTypeElasticsearch,
+	"GENERIC":                 ListDeploymentsSupportedConnectionTypeGeneric,
+	"GOOGLE_CLOUD_STORAGE":    ListDeploymentsSupportedConnectionTypeGoogleCloudStorage,
+	"GOOGLE_BIGQUERY":         ListDeploymentsSupportedConnectionTypeGoogleBigquery,
 }
 
 var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]ListDeploymentsSupportedConnectionTypeEnum{
@@ -206,6 +220,13 @@ var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]List
 	"hdfs":                    ListDeploymentsSupportedConnectionTypeHdfs,
 	"oracle_nosql":            ListDeploymentsSupportedConnectionTypeOracleNosql,
 	"mongodb":                 ListDeploymentsSupportedConnectionTypeMongodb,
+	"amazon_kinesis":          ListDeploymentsSupportedConnectionTypeAmazonKinesis,
+	"amazon_redshift":         ListDeploymentsSupportedConnectionTypeAmazonRedshift,
+	"redis":                   ListDeploymentsSupportedConnectionTypeRedis,
+	"elasticsearch":           ListDeploymentsSupportedConnectionTypeElasticsearch,
+	"generic":                 ListDeploymentsSupportedConnectionTypeGeneric,
+	"google_cloud_storage":    ListDeploymentsSupportedConnectionTypeGoogleCloudStorage,
+	"google_bigquery":         ListDeploymentsSupportedConnectionTypeGoogleBigquery,
 }
 
 // GetListDeploymentsSupportedConnectionTypeEnumValues Enumerates the set of values for ListDeploymentsSupportedConnectionTypeEnum
@@ -236,6 +257,13 @@ func GetListDeploymentsSupportedConnectionTypeEnumStringValues() []string {
 		"HDFS",
 		"ORACLE_NOSQL",
 		"MONGODB",
+		"AMAZON_KINESIS",
+		"AMAZON_REDSHIFT",
+		"REDIS",
+		"ELASTICSEARCH",
+		"GENERIC",
+		"GOOGLE_CLOUD_STORAGE",
+		"GOOGLE_BIGQUERY",
 	}
 }
 

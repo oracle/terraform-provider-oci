@@ -72,15 +72,15 @@ type KafkaSchemaRegistryConnectionSummary struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The username to access Schema Registry using basic authentation.
 	// This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property.
@@ -168,11 +168,6 @@ func (m KafkaSchemaRegistryConnectionSummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m KafkaSchemaRegistryConnectionSummary) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetIngressIps returns IngressIps
 func (m KafkaSchemaRegistryConnectionSummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
@@ -181,6 +176,11 @@ func (m KafkaSchemaRegistryConnectionSummary) GetIngressIps() []IngressIpDetails
 // GetNsgIds returns NsgIds
 func (m KafkaSchemaRegistryConnectionSummary) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m KafkaSchemaRegistryConnectionSummary) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m KafkaSchemaRegistryConnectionSummary) String() string {

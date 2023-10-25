@@ -54,6 +54,14 @@ type TableSummary struct {
 	// An RFC3339 formatted datetime string.
 	TimeOfExpiration *common.SDKTime `mandatory:"false" json:"timeOfExpiration"`
 
+	// The current state of this table's schema. Available states are
+	// MUTABLE - The schema can be changed. The table is not eligible for replication.
+	// FROZEN - The schema is immutable. The table is eligible for replication.
+	SchemaState TableSummarySchemaStateEnum `mandatory:"false" json:"schemaState,omitempty"`
+
+	// True if this table is currently a member of a replication set.
+	IsMultiRegion *bool `mandatory:"false" json:"isMultiRegion"`
+
 	// Simple key-value pair that is applied without any predefined
 	// name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -85,8 +93,53 @@ func (m TableSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingTableLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTableLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingTableSummarySchemaStateEnum(string(m.SchemaState)); !ok && m.SchemaState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SchemaState: %s. Supported values are: %s.", m.SchemaState, strings.Join(GetTableSummarySchemaStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// TableSummarySchemaStateEnum Enum with underlying type: string
+type TableSummarySchemaStateEnum string
+
+// Set of constants representing the allowable values for TableSummarySchemaStateEnum
+const (
+	TableSummarySchemaStateMutable TableSummarySchemaStateEnum = "MUTABLE"
+	TableSummarySchemaStateFrozen  TableSummarySchemaStateEnum = "FROZEN"
+)
+
+var mappingTableSummarySchemaStateEnum = map[string]TableSummarySchemaStateEnum{
+	"MUTABLE": TableSummarySchemaStateMutable,
+	"FROZEN":  TableSummarySchemaStateFrozen,
+}
+
+var mappingTableSummarySchemaStateEnumLowerCase = map[string]TableSummarySchemaStateEnum{
+	"mutable": TableSummarySchemaStateMutable,
+	"frozen":  TableSummarySchemaStateFrozen,
+}
+
+// GetTableSummarySchemaStateEnumValues Enumerates the set of values for TableSummarySchemaStateEnum
+func GetTableSummarySchemaStateEnumValues() []TableSummarySchemaStateEnum {
+	values := make([]TableSummarySchemaStateEnum, 0)
+	for _, v := range mappingTableSummarySchemaStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetTableSummarySchemaStateEnumStringValues Enumerates the set of values in String for TableSummarySchemaStateEnum
+func GetTableSummarySchemaStateEnumStringValues() []string {
+	return []string{
+		"MUTABLE",
+		"FROZEN",
+	}
+}
+
+// GetMappingTableSummarySchemaStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingTableSummarySchemaStateEnum(val string) (TableSummarySchemaStateEnum, bool) {
+	enum, ok := mappingTableSummarySchemaStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

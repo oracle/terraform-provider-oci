@@ -71,15 +71,15 @@ type JavaMessageServiceConnectionSummary struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The Connection Factory can be looked up using this name.
 	// e.g.: 'ConnectionFactory'
@@ -123,6 +123,14 @@ type JavaMessageServiceConnectionSummary struct {
 
 	// The Java Message Service technology type.
 	TechnologyType JavaMessageServiceConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
+
+	// Security protocol for Java Message Service. If not provided, default is PLAIN.
+	// Optional until 2024-06-27, in the release after it will be made required.
+	SecurityProtocol JavaMessageServiceConnectionSecurityProtocolEnum `mandatory:"false" json:"securityProtocol,omitempty"`
+
+	// Authentication type for Java Message Service.  If not provided, default is NONE.
+	// Optional until 2024-06-27, in the release after it will be made required.
+	AuthenticationType JavaMessageServiceConnectionAuthenticationTypeEnum `mandatory:"false" json:"authenticationType,omitempty"`
 }
 
 // GetId returns Id
@@ -190,11 +198,6 @@ func (m JavaMessageServiceConnectionSummary) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m JavaMessageServiceConnectionSummary) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetIngressIps returns IngressIps
 func (m JavaMessageServiceConnectionSummary) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
@@ -203,6 +206,11 @@ func (m JavaMessageServiceConnectionSummary) GetIngressIps() []IngressIpDetails 
 // GetNsgIds returns NsgIds
 func (m JavaMessageServiceConnectionSummary) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m JavaMessageServiceConnectionSummary) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m JavaMessageServiceConnectionSummary) String() string {
@@ -220,6 +228,12 @@ func (m JavaMessageServiceConnectionSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingJavaMessageServiceConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetJavaMessageServiceConnectionTechnologyTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingJavaMessageServiceConnectionSecurityProtocolEnum(string(m.SecurityProtocol)); !ok && m.SecurityProtocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityProtocol: %s. Supported values are: %s.", m.SecurityProtocol, strings.Join(GetJavaMessageServiceConnectionSecurityProtocolEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingJavaMessageServiceConnectionAuthenticationTypeEnum(string(m.AuthenticationType)); !ok && m.AuthenticationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetJavaMessageServiceConnectionAuthenticationTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

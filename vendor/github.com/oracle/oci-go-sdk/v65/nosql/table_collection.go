@@ -35,6 +35,9 @@ type TableCollection struct {
 
 	// The maximum number of on demand capacity tables allowed in the tenancy.
 	MaxOnDemandCapacityTables *int `mandatory:"false" json:"maxOnDemandCapacityTables"`
+
+	// An array of regions that are available for replication.
+	AvailableReplicationRegions []string `mandatory:"false" json:"availableReplicationRegions"`
 }
 
 func (m TableCollection) String() string {

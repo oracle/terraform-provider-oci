@@ -24,6 +24,7 @@ const (
 	LifecycleStateDeleting LifecycleStateEnum = "DELETING"
 	LifecycleStateDeleted  LifecycleStateEnum = "DELETED"
 	LifecycleStateFailed   LifecycleStateEnum = "FAILED"
+	LifecycleStateInactive LifecycleStateEnum = "INACTIVE"
 )
 
 var mappingLifecycleStateEnum = map[string]LifecycleStateEnum{
@@ -33,6 +34,7 @@ var mappingLifecycleStateEnum = map[string]LifecycleStateEnum{
 	"DELETING": LifecycleStateDeleting,
 	"DELETED":  LifecycleStateDeleted,
 	"FAILED":   LifecycleStateFailed,
+	"INACTIVE": LifecycleStateInactive,
 }
 
 var mappingLifecycleStateEnumLowerCase = map[string]LifecycleStateEnum{
@@ -42,6 +44,7 @@ var mappingLifecycleStateEnumLowerCase = map[string]LifecycleStateEnum{
 	"deleting": LifecycleStateDeleting,
 	"deleted":  LifecycleStateDeleted,
 	"failed":   LifecycleStateFailed,
+	"inactive": LifecycleStateInactive,
 }
 
 // GetLifecycleStateEnumValues Enumerates the set of values for LifecycleStateEnum
@@ -62,6 +65,7 @@ func GetLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"INACTIVE",
 	}
 }
 

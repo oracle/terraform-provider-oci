@@ -182,6 +182,10 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) SetData() error {
 			maintenanceRun["is_custom_action_timeout_enabled"] = *r.IsCustomActionTimeoutEnabled
 		}
 
+		if r.IsDstFileUpdateEnabled != nil {
+			maintenanceRun["is_dst_file_update_enabled"] = *r.IsDstFileUpdateEnabled
+		}
+
 		if r.LifecycleDetails != nil {
 			maintenanceRun["lifecycle_details"] = *r.LifecycleDetails
 		}

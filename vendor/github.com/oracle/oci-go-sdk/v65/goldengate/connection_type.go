@@ -34,6 +34,13 @@ const (
 	ConnectionTypeHdfs                  ConnectionTypeEnum = "HDFS"
 	ConnectionTypeOracleNosql           ConnectionTypeEnum = "ORACLE_NOSQL"
 	ConnectionTypeMongodb               ConnectionTypeEnum = "MONGODB"
+	ConnectionTypeAmazonKinesis         ConnectionTypeEnum = "AMAZON_KINESIS"
+	ConnectionTypeAmazonRedshift        ConnectionTypeEnum = "AMAZON_REDSHIFT"
+	ConnectionTypeRedis                 ConnectionTypeEnum = "REDIS"
+	ConnectionTypeElasticsearch         ConnectionTypeEnum = "ELASTICSEARCH"
+	ConnectionTypeGeneric               ConnectionTypeEnum = "GENERIC"
+	ConnectionTypeGoogleCloudStorage    ConnectionTypeEnum = "GOOGLE_CLOUD_STORAGE"
+	ConnectionTypeGoogleBigquery        ConnectionTypeEnum = "GOOGLE_BIGQUERY"
 )
 
 var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
@@ -53,6 +60,13 @@ var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"HDFS":                    ConnectionTypeHdfs,
 	"ORACLE_NOSQL":            ConnectionTypeOracleNosql,
 	"MONGODB":                 ConnectionTypeMongodb,
+	"AMAZON_KINESIS":          ConnectionTypeAmazonKinesis,
+	"AMAZON_REDSHIFT":         ConnectionTypeAmazonRedshift,
+	"REDIS":                   ConnectionTypeRedis,
+	"ELASTICSEARCH":           ConnectionTypeElasticsearch,
+	"GENERIC":                 ConnectionTypeGeneric,
+	"GOOGLE_CLOUD_STORAGE":    ConnectionTypeGoogleCloudStorage,
+	"GOOGLE_BIGQUERY":         ConnectionTypeGoogleBigquery,
 }
 
 var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
@@ -72,6 +86,13 @@ var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"hdfs":                    ConnectionTypeHdfs,
 	"oracle_nosql":            ConnectionTypeOracleNosql,
 	"mongodb":                 ConnectionTypeMongodb,
+	"amazon_kinesis":          ConnectionTypeAmazonKinesis,
+	"amazon_redshift":         ConnectionTypeAmazonRedshift,
+	"redis":                   ConnectionTypeRedis,
+	"elasticsearch":           ConnectionTypeElasticsearch,
+	"generic":                 ConnectionTypeGeneric,
+	"google_cloud_storage":    ConnectionTypeGoogleCloudStorage,
+	"google_bigquery":         ConnectionTypeGoogleBigquery,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
@@ -102,6 +123,13 @@ func GetConnectionTypeEnumStringValues() []string {
 		"HDFS",
 		"ORACLE_NOSQL",
 		"MONGODB",
+		"AMAZON_KINESIS",
+		"AMAZON_REDSHIFT",
+		"REDIS",
+		"ELASTICSEARCH",
+		"GENERIC",
+		"GOOGLE_CLOUD_STORAGE",
+		"GOOGLE_BIGQUERY",
 	}
 }
 

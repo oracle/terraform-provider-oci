@@ -15,25 +15,25 @@ import (
 	"strings"
 )
 
-// KnowledgeBase A Knowledge Base is a component of Application Dependency Management that contains vulnerability audits.
+// KnowledgeBase A knowledge base is a component of Application Dependency Management (ADM) service that provides access to vulnerabilities.
 type KnowledgeBase struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Knowledge Base.
+	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the knowledge base.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The name of the Knowledge Base.
+	// The name of the knowledge base.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The creation date and time of the Knowledge Base (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	// The creation date and time of the knowledge base (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time the Knowledge Base was last updated (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	// The date and time the knowledge base was last updated (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The current lifecycle state of the Knowledge Base.
+	// The current lifecycle state of the knowledge base.
 	LifecycleState KnowledgeBaseLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Knowledge Base's compartment.
+	// The compartment Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the knowledge base.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

@@ -58,6 +58,11 @@ var exportNosqlIndexHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportNosqlTableReplicaHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_nosql_table_replica",
+	ResourceAbbreviation: "table_replica",
+}
+
 var nosqlResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportNosqlTableHints},

@@ -64,6 +64,75 @@ var (
 	}
 
 	DatabaseMaintenanceRunResourceDependencies = ""
+
+	ExaccMRACDResourceConfig = ACDatabaseResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, ExaccMRACDatabaseRepresentation)
+
+	ExaccMRACDatabaseRepresentation = map[string]interface{}{
+		"version_preference":           acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
+		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `containerdatabases2`},
+		"patch_model":                  acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
+		"autonomous_vm_cluster_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}`},
+		"backup_config":                acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousContainerDatabaseBackupConfigRepresentation},
+		"key_store_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"db_unique_name":               acctest.Representation{RepType: acctest.Optional, Create: acbDBName},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
+		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.19.0.1.0`},
+		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+
+	ExaccDatabaseMaintenanceRunResourceConfig = ExaccDatabaseMaintenanceRunResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, ExaccDatabaseMaintenanceRunRepresentation)
+
+	ExaccDatabaseMaintenanceRunRepresentation = map[string]interface{}{
+		"patch_type":                 acctest.Representation{RepType: acctest.Required, Create: `QUARTERLY`},
+		"target_resource_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"is_dst_file_update_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"patching_mode":              acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
+		"time_scheduled":             acctest.Representation{RepType: acctest.Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano)},
+	}
+
+	ExaccDatabaseMaintenanceRunResourceDependencies = ExaccMRACDResourceConfig
+
+	ExaccDatabaseMaintenanceRunSingularDataSourceRepresentation = map[string]interface{}{
+		"maintenance_run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_maintenance_run.test_maintenance_run.id}`},
+	}
+
+	DatabaseMaintenanceRunRepresentationForACD = map[string]interface{}{
+		"patch_type":                 acctest.Representation{RepType: acctest.Required, Create: `QUARTERLY`},
+		"target_resource_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"is_dst_file_update_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"patching_mode":              acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
+		"time_scheduled":             acctest.Representation{RepType: acctest.Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano)},
+	}
+
+	DatabaseMaintenanceRunRepresentationForACDResourceConfig = ATPDAutonomousContainerDatabaseResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update, DatabaseMRAutonomousContainerDatabaseRepresentation)
+
+	DatabaseMRAutonomousContainerDatabaseRepresentation = map[string]interface{}{
+		"version_preference":             acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
+		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `containerDatabase2`, Update: `displayName2`},
+		"patch_model":                    acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
+		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: `19.19.0.1.0`},
+		"cloud_autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id}`},
+		"backup_config":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDatabaseBackupConfigRepresentation},
+		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"})}`, Update: `${tomap({"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"})}`},
+		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_automatic_failover_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"kms_key_id":                     acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"maintenance_window_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
+		"service_level_agreement_type":   acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+		"vault_id":                       acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_kms_vault.test_vault.id}`},
+		"db_name":                        acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
+		"is_dst_file_update_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -99,7 +168,9 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, DatabaseMaintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
+				resource.TestCheckResourceAttr(resourceName, "patch_type", "QUARTERLY"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", "timeScheduled"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -118,21 +189,14 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Create, DatabaseMaintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "current_custom_action_timeout_in_mins", "10"),
-				resource.TestCheckResourceAttr(resourceName, "custom_action_timeout_in_mins", "10"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_custom_action_timeout_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_patch_now_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_resume_patching", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "patch_type", "QUARTERLY"),
 				resource.TestCheckResourceAttr(resourceName, "patching_mode", "ROLLING"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "target_db_server_version", "targetDbServerVersion"),
-				resource.TestCheckResourceAttr(resourceName, "target_storage_server_version", "targetStorageServerVersion"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_scheduled", "timeScheduled"),
 				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
 
@@ -153,17 +217,11 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + maintenanceRunIdVariableStr + patchIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, DatabaseMaintenanceRunRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(resourceName, "current_custom_action_timeout_in_mins", "11"),
-				resource.TestCheckResourceAttr(resourceName, "custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_custom_action_timeout_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_patch_now_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_resume_patching", "true"),
-				resource.TestCheckResourceAttrSet(resourceName, "maintenance_run_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "patch_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "patch_type", "QUARTERLY"),
 				resource.TestCheckResourceAttr(resourceName, "patching_mode", "NONROLLING"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "target_db_server_version", "targetDbServerVersion2"),
@@ -268,19 +326,21 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
 
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "current_custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_custom_action_timeout_in_mins"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "current_patching_component"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "custom_action_timeout_in_mins", "11"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_action_timeout_in_mins"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "estimated_component_patching_start_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "estimated_patching_time.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_custom_action_timeout_enabled", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_custom_action_timeout_enabled"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_dst_file_update_enabled", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_subtype"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_failure_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patching_end_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "patching_mode", "NONROLLING"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patching_start_time"),
@@ -305,6 +365,117 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				"maintenance_run_id",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestExaccDatabaseMaintenanceRunResource(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseMaintenanceRunResource")
+	defer httpreplay.SaveScenario()
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_database_maintenance_run.test_maintenance_run"
+	//datasourceName := "data.oci_database_maintenance_run.test_maintenance_runs"
+	singularDatasourceName := "data.oci_database_maintenance_run.test_maintenance_run"
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// create maintenance run
+		{
+			Config: config + compartmentIdVariableStr + ExaccDatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run",
+					acctest.Optional, acctest.Create, ExaccDatabaseMaintenanceRunRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "maintenance_subtype", "QUARTERLY"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", `false`),
+				resource.TestCheckResourceAttr(resourceName, "patching_mode", `ROLLING`),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// update maintenance run
+		{
+			Config: config + compartmentIdVariableStr + ExaccDatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run",
+					acctest.Optional, acctest.Update, ExaccDatabaseMaintenanceRunRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "maintenance_subtype", "QUARTERLY"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", `false`),
+				resource.TestCheckResourceAttr(resourceName, "patching_mode", `NONROLLING`),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, ExaccDatabaseMaintenanceRunSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ExaccDatabaseMaintenanceRunResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_subtype", "QUARTERLY"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_dst_file_update_enabled", "false"),
+			),
+		},
+	})
+}
+
+func TestDatabaseMaintenanceRunResource(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseMaintenanceRunResource")
+	defer httpreplay.SaveScenario()
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_database_maintenance_run.test_maintenance_run"
+	//datasourceName := "data.oci_database_maintenance_run.test_maintenance_runs"
+	//singularDatasourceName := "data.oci_database_maintenance_run.test_maintenance_run"
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// create maintenance run
+		{
+			Config: config + compartmentIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run",
+					acctest.Required, acctest.Create, DatabaseMaintenanceRunRepresentationForACD) + DatabaseMaintenanceRunRepresentationForACDResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "patch_type", "QUARTERLY"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", `false`),
+				resource.TestCheckResourceAttr(resourceName, "patching_mode", `ROLLING`),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// update maintenance run
+		{
+			Config: config + compartmentIdVariableStr + DatabaseMaintenanceRunResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run",
+					acctest.Optional, acctest.Update, DatabaseMaintenanceRunRepresentationForACD) + DatabaseMaintenanceRunRepresentationForACDResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "patch_type", "QUARTERLY"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", `false`),
+				resource.TestCheckResourceAttr(resourceName, "patching_mode", `NONROLLING`),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
 	})
 }

@@ -19,6 +19,7 @@ import (
 type ListKnowledgeBasesRequest struct {
 
 	// A filter to return only resources that match the specified identifier.
+	// Required only if the compartmentId query parameter is not specified.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The field used to sort Knowledge Bases. Only one sort order is allowed.
@@ -43,6 +44,7 @@ type ListKnowledgeBasesRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// A filter to return only resources that belong to the specified compartment identifier.
+	// Required only if the id query param is not specified.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.

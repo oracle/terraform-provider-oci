@@ -48,6 +48,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 	fast_start_fail_over_lag_limit_in_seconds = var.autonomous_container_database_fast_start_fail_over_lag_limit_in_seconds
 	freeform_tags = {"Department"= "Finance"}
 	is_automatic_failover_enabled = var.autonomous_container_database_is_automatic_failover_enabled
+	is_dst_file_update_enabled = var.autonomous_container_database_is_dst_file_update_enabled
 	key_store_id = oci_database_key_store.test_key_store.id
 	kms_key_id = oci_kms_key.test_key.id
 	maintenance_window_details {
@@ -125,6 +126,7 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) The display name for the Autonomous Container Database.
 * `fast_start_fail_over_lag_limit_in_seconds` - (Optional) The lag time for my preference based on data loss tolerance in seconds.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `is_dst_file_update_enabled` - (Optional) (Updatable) Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
 * `is_automatic_failover_enabled` - (Optional) Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association. Input DataType: boolean. Example : is_automatic_failover_enabled = true.
 * `key_store_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store.
 * `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -200,9 +202,11 @@ The following attributes are exported:
 * `db_version` - Oracle Database version of the Autonomous Container Database.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-provided name for the Autonomous Container Database.
+* `dst_file_version` - DST Time Zone File version of the Autonomous Container Database.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Autonomous Container Database.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
+* `is_dst_file_update_enabled` - Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
 * `key_history_entry` - Key History Entry.
     * `id` - The id of the Autonomous Database [Vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts) service key management history entry.
     * `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 

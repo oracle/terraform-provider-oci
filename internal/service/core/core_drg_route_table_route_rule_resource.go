@@ -223,6 +223,7 @@ func (s *CoreDrgRouteTableRouteRuleResourceCrud) Get() error {
 	if err == nil {
 		request.DrgRouteTableId = &drgRouteTableId
 		s.D.Set("drg_route_table_id", &drgRouteTableId)
+		request.RouteType = oci_core.ListDrgRouteRulesRouteTypeStatic
 	} else {
 		log.Printf("[WARN] !!! Get() unable to parse current ID: %s", s.D.Id())
 	}

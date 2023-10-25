@@ -26,6 +26,7 @@ type CreateDatabaseToolsConnectionRequest struct {
 	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
 	// has been deleted and purged from the system, then a retry of the original creation request
 	// might be rejected.
+	// Accepted characters: ASCII alphanumerics plus underscore (U+005F LOW LINE "_") and dash (U+002D HYPHEN-MINUS "-")
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// The client request ID for tracing.

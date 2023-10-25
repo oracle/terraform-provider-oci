@@ -1,3 +1,13 @@
+## 5.18.0 (October 24, 2023)
+
+### Added
+- Support for Add MR table feature into Oracle NoSQL Database Cloud
+- Support for DST Timezone and non-Rolling updates for ADBD and ADBDCC
+- Support for Application Dependency Management (ADM) Remediation
+- Support for filter alarms by dimension
+### Bug Fix
+- adding static drgrouterule using core_drg_route_table_route_rule_resource makes calls to list dynamic route rules
+
 ## 5.17.0 (October 18, 2023)
 
 ### Added

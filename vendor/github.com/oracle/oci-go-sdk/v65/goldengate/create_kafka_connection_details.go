@@ -46,11 +46,11 @@ type CreateKafkaConnectionDetails struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
 	StreamPoolId *string `mandatory:"false" json:"streamPoolId"`
@@ -134,14 +134,14 @@ func (m CreateKafkaConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m CreateKafkaConnectionDetails) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetNsgIds returns NsgIds
 func (m CreateKafkaConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m CreateKafkaConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m CreateKafkaConnectionDetails) String() string {

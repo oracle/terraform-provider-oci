@@ -54,11 +54,11 @@ type CreateAmazonS3ConnectionDetails struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The Amazon S3 technology type.
 	TechnologyType AmazonS3ConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -99,14 +99,14 @@ func (m CreateAmazonS3ConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m CreateAmazonS3ConnectionDetails) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetNsgIds returns NsgIds
 func (m CreateAmazonS3ConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m CreateAmazonS3ConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m CreateAmazonS3ConnectionDetails) String() string {

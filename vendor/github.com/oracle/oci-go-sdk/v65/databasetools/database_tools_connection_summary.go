@@ -37,6 +37,9 @@ type DatabaseToolsConnectionSummary interface {
 	// The time the Database Tools connection was updated. An RFC3339 formatted datetime string.
 	GetTimeUpdated() *common.SDKTime
 
+	// Specifies whether this connection is supported by the Database Tools Runtime.
+	GetRuntimeSupport() RuntimeSupportEnum
+
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	GetLifecycleDetails() *string
 
@@ -51,6 +54,9 @@ type DatabaseToolsConnectionSummary interface {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
+
+	// Locks associated with this resource.
+	GetLocks() []ResourceLock
 }
 
 type databasetoolsconnectionsummary struct {
@@ -59,12 +65,14 @@ type databasetoolsconnectionsummary struct {
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Locks            []ResourceLock                    `mandatory:"false" json:"locks"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
 	LifecycleState   LifecycleStateEnum                `mandatory:"true" json:"lifecycleState"`
 	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
+	RuntimeSupport   RuntimeSupportEnum                `mandatory:"true" json:"runtimeSupport"`
 	Type             string                            `json:"type"`
 }
 
@@ -85,10 +93,12 @@ func (m *databasetoolsconnectionsummary) UnmarshalJSON(data []byte) error {
 	m.LifecycleState = s.Model.LifecycleState
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
+	m.RuntimeSupport = s.Model.RuntimeSupport
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.DefinedTags = s.Model.DefinedTags
 	m.FreeformTags = s.Model.FreeformTags
 	m.SystemTags = s.Model.SystemTags
+	m.Locks = s.Model.Locks
 	m.Type = s.Model.Type
 
 	return err
@@ -103,12 +113,20 @@ func (m *databasetoolsconnectionsummary) UnmarshalPolymorphicJSON(data []byte) (
 
 	var err error
 	switch m.Type {
+	case "POSTGRESQL":
+		mm := DatabaseToolsConnectionPostgresqlSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_DATABASE":
 		mm := DatabaseToolsConnectionOracleDatabaseSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "MYSQL":
 		mm := DatabaseToolsConnectionMySqlSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_JDBC":
+		mm := DatabaseToolsConnectionGenericJdbcSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -135,6 +153,11 @@ func (m databasetoolsconnectionsummary) GetFreeformTags() map[string]string {
 // GetSystemTags returns SystemTags
 func (m databasetoolsconnectionsummary) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetLocks returns Locks
+func (m databasetoolsconnectionsummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetId returns Id
@@ -167,6 +190,11 @@ func (m databasetoolsconnectionsummary) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
+// GetRuntimeSupport returns RuntimeSupport
+func (m databasetoolsconnectionsummary) GetRuntimeSupport() RuntimeSupportEnum {
+	return m.RuntimeSupport
+}
+
 func (m databasetoolsconnectionsummary) String() string {
 	return common.PointerString(m)
 }
@@ -178,6 +206,9 @@ func (m databasetoolsconnectionsummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuntimeSupportEnum(string(m.RuntimeSupport)); !ok && m.RuntimeSupport != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", m.RuntimeSupport, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {

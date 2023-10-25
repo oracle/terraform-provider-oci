@@ -10,27 +10,25 @@ description: |-
 # oci_database_maintenance_run
 This resource provides the Maintenance Run resource in Oracle Cloud Infrastructure Database service.
 
-Updates the properties of a maintenance run, such as the state of a maintenance run.
+Creates a maintenance run with one of the following:
+The latest available release update patch (RUP) for the Autonomous Container Database.
+The latest available RUP and DST time zone (TZ) file updates for the Autonomous Container Database.
+Creates a maintenance run to update the DST TZ file for the Autonomous Container Database.
+
 
 ## Example Usage
 
 ```hcl
 resource "oci_database_maintenance_run" "test_maintenance_run" {
 	#Required
-	maintenance_run_id = oci_database_maintenance_run.test_maintenance_run.id
+	patch_type = var.maintenance_run_patch_type
+	target_resource_id = oci_usage_proxy_resource.test_resource.id
+	time_scheduled = var.maintenance_run_time_scheduled
 
 	#Optional
-	current_custom_action_timeout_in_mins = var.maintenance_run_current_custom_action_timeout_in_mins
-	custom_action_timeout_in_mins = var.maintenance_run_custom_action_timeout_in_mins
-	is_custom_action_timeout_enabled = var.maintenance_run_is_custom_action_timeout_enabled
-	is_enabled = var.maintenance_run_is_enabled
-	is_patch_now_enabled = var.maintenance_run_is_patch_now_enabled
-	is_resume_patching = var.maintenance_run_is_resume_patching
-	patch_id = oci_database_patch.test_patch.id
+	compartment_id = var.compartment_id
+	is_dst_file_update_enabled = var.maintenance_run_is_dst_file_update_enabled
 	patching_mode = var.maintenance_run_patching_mode
-	target_db_server_version = var.maintenance_run_target_db_server_version
-	target_storage_server_version = var.maintenance_run_target_storage_server_version
-	time_scheduled = var.maintenance_run_time_scheduled
 }
 ```
 
@@ -38,20 +36,14 @@ resource "oci_database_maintenance_run" "test_maintenance_run" {
 
 The following arguments are supported:
 
-* `current_custom_action_timeout_in_mins` - (Optional) (Updatable) The current custom action timeout between the current database servers during waiting state in addition to custom action timeout, from 0 (zero) to 30 minutes.
-* `custom_action_timeout_in_mins` - (Optional) (Updatable) Determines the amount of time the system will wait before the start of each database server patching operation. Specify a number of minutes from 15 to 120. 
-* `is_custom_action_timeout_enabled` - (Optional) (Updatable) If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.
-* `is_enabled` - (Optional) (Updatable) If `FALSE`, skips the maintenance run.
-* `is_patch_now_enabled` - (Optional) (Updatable) If set to `TRUE`, starts patching immediately.
-* `is_resume_patching` - (Optional) (Updatable) If true, then the patching is resumed and the next component will be patched immediately.
-* `maintenance_run_id` - (Required) The maintenance run OCID.
-* `patch_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch to be applied in the maintenance run.
+* `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Maintenance Run.
+* `is_dst_file_update_enabled` - (Optional) Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
+* `patch_type` - (Required) Patch type, either "QUARTERLY" or "TIMEZONE". 
 * `patching_mode` - (Optional) (Updatable) Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 
 	*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
-* `target_db_server_version` - (Optional) (Updatable) The target database server system software version for the patching operation.
-* `target_storage_server_version` - (Optional) (Updatable) The target storage cell system software version for the patching operation.
-* `time_scheduled` - (Optional) (Updatable) The scheduled date and time of the maintenance run to update.
+* `target_resource_id` - (Required) The ID of the target resource for which the maintenance run should be created.
+* `time_scheduled` - (Required) (Updatable) The date and time that update should be scheduled.
 
 
 ** IMPORTANT **
@@ -75,6 +67,7 @@ The following attributes are exported:
 	* `total_estimated_patching_time` - The estimated total time required in minutes for all patching operations.
 * `id` - The OCID of the maintenance run.
 * `is_custom_action_timeout_enabled` - If true, enables the configuration of a custom action timeout (waiting period) between database servers patching operations.
+* `is_dst_file_update_enabled` - Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `maintenance_subtype` - Maintenance sub-type.
 * `maintenance_type` - Maintenance type.
