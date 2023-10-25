@@ -50,6 +50,9 @@ type TableUsageSummary struct {
 
 	// The percentage of allowed per-shard usage for the table shard with the highest usage.
 	MaxShardSizeUsageInPercent *int `mandatory:"false" json:"maxShardSizeUsageInPercent"`
+
+	// The time stamp of this usage record.
+	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 }
 
 func (m TableUsageSummary) String() string {

@@ -71,15 +71,15 @@ type AzureDataLakeStorageConnection struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Azure tenant ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'.
 	// e.g.: 14593954-d337-4a61-a364-9f758c64f97f
@@ -168,11 +168,6 @@ func (m AzureDataLakeStorageConnection) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m AzureDataLakeStorageConnection) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetIngressIps returns IngressIps
 func (m AzureDataLakeStorageConnection) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
@@ -181,6 +176,11 @@ func (m AzureDataLakeStorageConnection) GetIngressIps() []IngressIpDetails {
 // GetNsgIds returns NsgIds
 func (m AzureDataLakeStorageConnection) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m AzureDataLakeStorageConnection) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m AzureDataLakeStorageConnection) String() string {

@@ -72,15 +72,15 @@ type SnowflakeConnection struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	IngressIps []IngressIpDetails `mandatory:"false" json:"ingressIps"`
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// The username Oracle GoldenGate uses to connect to Snowflake.
 	// This username must already exist and be available by Snowflake platform to be connected to.
@@ -161,11 +161,6 @@ func (m SnowflakeConnection) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m SnowflakeConnection) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetIngressIps returns IngressIps
 func (m SnowflakeConnection) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
@@ -174,6 +169,11 @@ func (m SnowflakeConnection) GetIngressIps() []IngressIpDetails {
 // GetNsgIds returns NsgIds
 func (m SnowflakeConnection) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m SnowflakeConnection) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m SnowflakeConnection) String() string {

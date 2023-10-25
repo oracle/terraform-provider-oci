@@ -91,6 +91,120 @@ func (client *DatabaseToolsClient) ConfigurationProvider() *common.Configuration
 	return client.config
 }
 
+// AddDatabaseToolsConnectionLock Adds a lock to a DatabaseToolsConnection resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/AddDatabaseToolsConnectionLock.go.html to see an example of how to use AddDatabaseToolsConnectionLock API.
+func (client DatabaseToolsClient) AddDatabaseToolsConnectionLock(ctx context.Context, request AddDatabaseToolsConnectionLockRequest) (response AddDatabaseToolsConnectionLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addDatabaseToolsConnectionLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddDatabaseToolsConnectionLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddDatabaseToolsConnectionLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddDatabaseToolsConnectionLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddDatabaseToolsConnectionLockResponse")
+	}
+	return
+}
+
+// addDatabaseToolsConnectionLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) addDatabaseToolsConnectionLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsConnections/{databaseToolsConnectionId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddDatabaseToolsConnectionLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/AddDatabaseToolsConnectionLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsConnectionLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsconnection{})
+	return response, err
+}
+
+// AddDatabaseToolsPrivateEndpointLock Adds a lock to a DatabaseToolsPrivateEndpoint resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/AddDatabaseToolsPrivateEndpointLock.go.html to see an example of how to use AddDatabaseToolsPrivateEndpointLock API.
+func (client DatabaseToolsClient) AddDatabaseToolsPrivateEndpointLock(ctx context.Context, request AddDatabaseToolsPrivateEndpointLockRequest) (response AddDatabaseToolsPrivateEndpointLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addDatabaseToolsPrivateEndpointLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddDatabaseToolsPrivateEndpointLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddDatabaseToolsPrivateEndpointLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddDatabaseToolsPrivateEndpointLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddDatabaseToolsPrivateEndpointLockResponse")
+	}
+	return
+}
+
+// addDatabaseToolsPrivateEndpointLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) addDatabaseToolsPrivateEndpointLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsPrivateEndpoints/{databaseToolsPrivateEndpointId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddDatabaseToolsPrivateEndpointLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/AddDatabaseToolsPrivateEndpointLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "AddDatabaseToolsPrivateEndpointLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDatabaseToolsConnectionCompartment Moves the specified Database Tools connection to a different compartment in the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -107,11 +221,6 @@ func (client DatabaseToolsClient) ChangeDatabaseToolsConnectionCompartment(ctx c
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.changeDatabaseToolsConnectionCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -171,11 +280,6 @@ func (client DatabaseToolsClient) ChangeDatabaseToolsPrivateEndpointCompartment(
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.changeDatabaseToolsPrivateEndpointCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -224,9 +328,10 @@ func (client DatabaseToolsClient) changeDatabaseToolsPrivateEndpointCompartment(
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/CreateDatabaseToolsConnection.go.html to see an example of how to use CreateDatabaseToolsConnection API.
+// A default retry strategy applies to this operation CreateDatabaseToolsConnection()
 func (client DatabaseToolsClient) CreateDatabaseToolsConnection(ctx context.Context, request CreateDatabaseToolsConnectionRequest) (response CreateDatabaseToolsConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -286,9 +391,10 @@ func (client DatabaseToolsClient) createDatabaseToolsConnection(ctx context.Cont
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/CreateDatabaseToolsPrivateEndpoint.go.html to see an example of how to use CreateDatabaseToolsPrivateEndpoint API.
+// A default retry strategy applies to this operation CreateDatabaseToolsPrivateEndpoint()
 func (client DatabaseToolsClient) CreateDatabaseToolsPrivateEndpoint(ctx context.Context, request CreateDatabaseToolsPrivateEndpointRequest) (response CreateDatabaseToolsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1030,6 +1136,120 @@ func (client DatabaseToolsClient) listWorkRequests(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DatabaseTools", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveDatabaseToolsConnectionLock Removes a lock from a DatabaseToolsConnection resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/RemoveDatabaseToolsConnectionLock.go.html to see an example of how to use RemoveDatabaseToolsConnectionLock API.
+func (client DatabaseToolsClient) RemoveDatabaseToolsConnectionLock(ctx context.Context, request RemoveDatabaseToolsConnectionLockRequest) (response RemoveDatabaseToolsConnectionLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeDatabaseToolsConnectionLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveDatabaseToolsConnectionLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveDatabaseToolsConnectionLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveDatabaseToolsConnectionLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveDatabaseToolsConnectionLockResponse")
+	}
+	return
+}
+
+// removeDatabaseToolsConnectionLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) removeDatabaseToolsConnectionLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsConnections/{databaseToolsConnectionId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveDatabaseToolsConnectionLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsConnection/RemoveDatabaseToolsConnectionLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsConnectionLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &databasetoolsconnection{})
+	return response, err
+}
+
+// RemoveDatabaseToolsPrivateEndpointLock Removes a lock from a DatabaseToolsPrivateEndpoint resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/RemoveDatabaseToolsPrivateEndpointLock.go.html to see an example of how to use RemoveDatabaseToolsPrivateEndpointLock API.
+func (client DatabaseToolsClient) RemoveDatabaseToolsPrivateEndpointLock(ctx context.Context, request RemoveDatabaseToolsPrivateEndpointLockRequest) (response RemoveDatabaseToolsPrivateEndpointLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeDatabaseToolsPrivateEndpointLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveDatabaseToolsPrivateEndpointLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveDatabaseToolsPrivateEndpointLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveDatabaseToolsPrivateEndpointLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveDatabaseToolsPrivateEndpointLockResponse")
+	}
+	return
+}
+
+// removeDatabaseToolsPrivateEndpointLock implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseToolsClient) removeDatabaseToolsPrivateEndpointLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseToolsPrivateEndpoints/{databaseToolsPrivateEndpointId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveDatabaseToolsPrivateEndpointLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-tools/20201005/DatabaseToolsPrivateEndpoint/RemoveDatabaseToolsPrivateEndpointLock"
+		err = common.PostProcessServiceError(err, "DatabaseTools", "RemoveDatabaseToolsPrivateEndpointLock", apiReferenceLink)
 		return response, err
 	}
 

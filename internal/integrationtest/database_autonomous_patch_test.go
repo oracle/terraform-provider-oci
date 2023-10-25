@@ -47,6 +47,7 @@ func TestDatabaseAutonomousPatchResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_patch_id"),
 
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_patch_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "patch_model"),

@@ -118,9 +118,17 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.DstFileVersion != nil {
+		s.D.Set("dst_file_version", *s.Res.DstFileVersion)
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("infrastructure_type", s.Res.InfrastructureType)
+
+	if s.Res.IsDstFileUpdateEnabled != nil {
+		s.D.Set("is_dst_file_update_enabled", *s.Res.IsDstFileUpdateEnabled)
+	}
 
 	keyHistoryEntry := []interface{}{}
 	for _, item := range s.Res.KeyHistoryEntry {

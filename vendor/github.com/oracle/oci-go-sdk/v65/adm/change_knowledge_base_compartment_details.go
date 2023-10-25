@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ChangeKnowledgeBaseCompartmentDetails Details for moving a Knowledge Base.
+// ChangeKnowledgeBaseCompartmentDetails Details for moving a knowledge base.
 type ChangeKnowledgeBaseCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to which the resource must be moved.
+	// The compartment Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) to which the resource must be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

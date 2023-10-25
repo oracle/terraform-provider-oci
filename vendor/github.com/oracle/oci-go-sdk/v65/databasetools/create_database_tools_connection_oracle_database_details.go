@@ -25,6 +25,14 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Database Tools connection.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The connect descriptor or Easy Connect Naming method use to connect to the database.
+	ConnectionString *string `mandatory:"true" json:"connectionString"`
+
+	// The database user name.
+	UserName *string `mandatory:"true" json:"userName"`
+
+	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"true" json:"userPassword"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -33,15 +41,10 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	RelatedResource *CreateDatabaseToolsRelatedResourceDetails `mandatory:"false" json:"relatedResource"`
-
-	// The connect descriptor or Easy Connect Naming method use to connect to the database.
-	ConnectionString *string `mandatory:"false" json:"connectionString"`
-
-	// The database user name.
-	UserName *string `mandatory:"false" json:"userName"`
-
-	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"false" json:"userPassword"`
 
 	// The advanced connection properties key-value pair (e.g., `oracle.net.ssl_server_dn_match`).
 	AdvancedProperties map[string]string `mandatory:"false" json:"advancedProperties"`
@@ -52,6 +55,11 @@ type CreateDatabaseToolsConnectionOracleDatabaseDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Tools private endpoint used to access the database in the customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
+	ProxyClient DatabaseToolsConnectionOracleDatabaseProxyClientDetails `mandatory:"false" json:"proxyClient"`
+
+	// Specifies whether this connection is supported by the Database Tools Runtime.
+	RuntimeSupport RuntimeSupportEnum `mandatory:"false" json:"runtimeSupport,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -74,6 +82,16 @@ func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetFreeformTags() ma
 	return m.FreeformTags
 }
 
+// GetLocks returns Locks
+func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetLocks() []ResourceLock {
+	return m.Locks
+}
+
+// GetRuntimeSupport returns RuntimeSupport
+func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) GetRuntimeSupport() RuntimeSupportEnum {
+	return m.RuntimeSupport
+}
+
 func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
@@ -84,6 +102,9 @@ func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) String() string {
 func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRuntimeSupportEnum(string(m.RuntimeSupport)); !ok && m.RuntimeSupport != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", m.RuntimeSupport, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -107,17 +128,20 @@ func (m CreateDatabaseToolsConnectionOracleDatabaseDetails) MarshalJSON() (buff 
 // UnmarshalJSON unmarshals from json
 func (m *CreateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags        map[string]map[string]interface{}          `json:"definedTags"`
-		FreeformTags       map[string]string                          `json:"freeformTags"`
-		RelatedResource    *CreateDatabaseToolsRelatedResourceDetails `json:"relatedResource"`
-		ConnectionString   *string                                    `json:"connectionString"`
-		UserName           *string                                    `json:"userName"`
-		UserPassword       databasetoolsuserpassworddetails           `json:"userPassword"`
-		AdvancedProperties map[string]string                          `json:"advancedProperties"`
-		KeyStores          []DatabaseToolsKeyStoreDetails             `json:"keyStores"`
-		PrivateEndpointId  *string                                    `json:"privateEndpointId"`
-		DisplayName        *string                                    `json:"displayName"`
-		CompartmentId      *string                                    `json:"compartmentId"`
+		DefinedTags        map[string]map[string]interface{}                       `json:"definedTags"`
+		FreeformTags       map[string]string                                       `json:"freeformTags"`
+		Locks              []ResourceLock                                          `json:"locks"`
+		RuntimeSupport     RuntimeSupportEnum                                      `json:"runtimeSupport"`
+		RelatedResource    *CreateDatabaseToolsRelatedResourceDetails              `json:"relatedResource"`
+		AdvancedProperties map[string]string                                       `json:"advancedProperties"`
+		KeyStores          []DatabaseToolsKeyStoreDetails                          `json:"keyStores"`
+		PrivateEndpointId  *string                                                 `json:"privateEndpointId"`
+		ProxyClient        databasetoolsconnectionoracledatabaseproxyclientdetails `json:"proxyClient"`
+		DisplayName        *string                                                 `json:"displayName"`
+		CompartmentId      *string                                                 `json:"compartmentId"`
+		ConnectionString   *string                                                 `json:"connectionString"`
+		UserName           *string                                                 `json:"userName"`
+		UserPassword       databasetoolsuserpassworddetails                        `json:"userPassword"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -129,7 +153,31 @@ func (m *CreateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 
 	m.FreeformTags = model.FreeformTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
+	m.RuntimeSupport = model.RuntimeSupport
+
 	m.RelatedResource = model.RelatedResource
+
+	m.AdvancedProperties = model.AdvancedProperties
+
+	m.KeyStores = make([]DatabaseToolsKeyStoreDetails, len(model.KeyStores))
+	copy(m.KeyStores, model.KeyStores)
+	m.PrivateEndpointId = model.PrivateEndpointId
+
+	nn, e = model.ProxyClient.UnmarshalPolymorphicJSON(model.ProxyClient.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ProxyClient = nn.(DatabaseToolsConnectionOracleDatabaseProxyClientDetails)
+	} else {
+		m.ProxyClient = nil
+	}
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
 
 	m.ConnectionString = model.ConnectionString
 
@@ -144,16 +192,6 @@ func (m *CreateDatabaseToolsConnectionOracleDatabaseDetails) UnmarshalJSON(data 
 	} else {
 		m.UserPassword = nil
 	}
-
-	m.AdvancedProperties = model.AdvancedProperties
-
-	m.KeyStores = make([]DatabaseToolsKeyStoreDetails, len(model.KeyStores))
-	copy(m.KeyStores, model.KeyStores)
-	m.PrivateEndpointId = model.PrivateEndpointId
-
-	m.DisplayName = model.DisplayName
-
-	m.CompartmentId = model.CompartmentId
 
 	return
 }

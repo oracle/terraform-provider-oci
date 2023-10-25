@@ -211,6 +211,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["display_name"] = *r.DisplayName
 		}
 
+		if r.DstFileVersion != nil {
+			autonomousContainerDatabase["dst_file_version"] = *r.DstFileVersion
+		}
+
 		autonomousContainerDatabase["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
@@ -218,6 +222,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 		}
 
 		autonomousContainerDatabase["infrastructure_type"] = r.InfrastructureType
+
+		if r.IsDstFileUpdateEnabled != nil {
+			autonomousContainerDatabase["is_dst_file_update_enabled"] = *r.IsDstFileUpdateEnabled
+		}
 
 		keyHistoryEntry := []interface{}{}
 		for _, item := range r.KeyHistoryEntry {

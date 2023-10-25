@@ -30,6 +30,22 @@ func MonitoringAlarmStatusesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"entity_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"resource_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"service_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"status": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"alarm_statuses": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -126,6 +142,25 @@ func (s *MonitoringAlarmStatusesDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if entityId, ok := s.D.GetOkExists("entity_id"); ok {
+		tmp := entityId.(string)
+		request.EntityId = &tmp
+	}
+
+	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
+		tmp := resourceId.(string)
+		request.ResourceId = &tmp
+	}
+
+	if serviceName, ok := s.D.GetOkExists("service_name"); ok {
+		tmp := serviceName.(string)
+		request.ServiceName = &tmp
+	}
+
+	if status, ok := s.D.GetOkExists("status"); ok {
+		request.Status = oci_monitoring.ListAlarmsStatusStatusEnum(status.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "monitoring")

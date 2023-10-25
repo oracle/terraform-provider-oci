@@ -49,11 +49,11 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
 	// Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'.
 	// e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ==
@@ -122,14 +122,14 @@ func (m CreateAzureDataLakeStorageConnectionDetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m CreateAzureDataLakeStorageConnectionDetails) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetNsgIds returns NsgIds
 func (m CreateAzureDataLakeStorageConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m CreateAzureDataLakeStorageConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 func (m CreateAzureDataLakeStorageConnectionDetails) String() string {

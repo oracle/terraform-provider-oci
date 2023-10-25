@@ -91,20 +91,44 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.ConnectionType {
+	case "ELASTICSEARCH":
+		mm := UpdateElasticsearchConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_BIGQUERY":
+		mm := UpdateGoogleBigQueryConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE":
 		mm := UpdateOracleConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_REDSHIFT":
+		mm := UpdateAmazonRedshiftConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := UpdateOciObjectStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REDIS":
+		mm := UpdateRedisConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MONGODB":
 		mm := UpdateMongoDbConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GOOGLE_CLOUD_STORAGE":
+		mm := UpdateGoogleCloudStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_DATA_LAKE_STORAGE":
 		mm := UpdateAzureDataLakeStorageConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_KINESIS":
+		mm := UpdateAmazonKinesisConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "JAVA_MESSAGE_SERVICE":
@@ -149,6 +173,10 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "KAFKA":
 		mm := UpdateKafkaConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC":
+		mm := UpdateGenericConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":

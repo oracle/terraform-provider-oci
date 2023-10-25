@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// CreateKnowledgeBaseDetails Details to create a new Knowledge Base.
+// CreateKnowledgeBaseDetails Details to create a new knowledge base.
 type CreateKnowledgeBaseDetails struct {
 
-	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the Knowledge Base's compartment.
+	// The compartment Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of the knowledge base.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name of the Knowledge Base.
+	// The name of the knowledge base.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

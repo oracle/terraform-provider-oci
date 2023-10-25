@@ -20,6 +20,9 @@ data "oci_database_autonomous_container_patches" "test_autonomous_container_patc
 	#Required
 	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
 	compartment_id = var.compartment_id
+
+	#Optional
+	autonomous_patch_type = var.autonomous_container_patch_autonomous_patch_type
 }
 ```
 
@@ -28,6 +31,7 @@ data "oci_database_autonomous_container_patches" "test_autonomous_container_patc
 The following arguments are supported:
 
 * `autonomous_container_database_id` - (Required) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `autonomous_patch_type` - (Optional) Autonomous patch type, either "QUARTERLY" or "TIMEZONE". 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
@@ -41,6 +45,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `autonomous_patch_type` - Maintenance run type, either "QUARTERLY" or "TIMEZONE". 
 * `description` - The text describing this patch package.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the patch.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically can contain additional displayable text. 

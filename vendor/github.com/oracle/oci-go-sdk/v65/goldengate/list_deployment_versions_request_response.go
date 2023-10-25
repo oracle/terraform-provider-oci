@@ -137,6 +137,8 @@ const (
 	ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MICROSOFT_SQLSERVER"
 	ListDeploymentVersionsDeploymentTypeDatabaseMysql              ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_MYSQL"
 	ListDeploymentVersionsDeploymentTypeDatabasePostgresql         ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_POSTGRESQL"
+	ListDeploymentVersionsDeploymentTypeDatabaseDb2zos             ListDeploymentVersionsDeploymentTypeEnum = "DATABASE_DB2ZOS"
+	ListDeploymentVersionsDeploymentTypeDataTransforms             ListDeploymentVersionsDeploymentTypeEnum = "DATA_TRANSFORMS"
 )
 
 var mappingListDeploymentVersionsDeploymentTypeEnum = map[string]ListDeploymentVersionsDeploymentTypeEnum{
@@ -146,6 +148,8 @@ var mappingListDeploymentVersionsDeploymentTypeEnum = map[string]ListDeploymentV
 	"DATABASE_MICROSOFT_SQLSERVER": ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver,
 	"DATABASE_MYSQL":               ListDeploymentVersionsDeploymentTypeDatabaseMysql,
 	"DATABASE_POSTGRESQL":          ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
+	"DATABASE_DB2ZOS":              ListDeploymentVersionsDeploymentTypeDatabaseDb2zos,
+	"DATA_TRANSFORMS":              ListDeploymentVersionsDeploymentTypeDataTransforms,
 }
 
 var mappingListDeploymentVersionsDeploymentTypeEnumLowerCase = map[string]ListDeploymentVersionsDeploymentTypeEnum{
@@ -155,6 +159,8 @@ var mappingListDeploymentVersionsDeploymentTypeEnumLowerCase = map[string]ListDe
 	"database_microsoft_sqlserver": ListDeploymentVersionsDeploymentTypeDatabaseMicrosoftSqlserver,
 	"database_mysql":               ListDeploymentVersionsDeploymentTypeDatabaseMysql,
 	"database_postgresql":          ListDeploymentVersionsDeploymentTypeDatabasePostgresql,
+	"database_db2zos":              ListDeploymentVersionsDeploymentTypeDatabaseDb2zos,
+	"data_transforms":              ListDeploymentVersionsDeploymentTypeDataTransforms,
 }
 
 // GetListDeploymentVersionsDeploymentTypeEnumValues Enumerates the set of values for ListDeploymentVersionsDeploymentTypeEnum
@@ -175,6 +181,8 @@ func GetListDeploymentVersionsDeploymentTypeEnumStringValues() []string {
 		"DATABASE_MICROSOFT_SQLSERVER",
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
+		"DATABASE_DB2ZOS",
+		"DATA_TRANSFORMS",
 	}
 }
 

@@ -71,15 +71,15 @@ type Connection interface {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	GetSubnetId() *string
-
 	// List of ingress IP addresses from where the GoldenGate deployment connects to this connection's privateIp.
 	// Customers may optionally set up ingress security rules to restrict traffic from these IP addresses.
 	GetIngressIps() []IngressIpDetails
 
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	GetSubnetId() *string
 }
 
 type connection struct {
@@ -91,9 +91,9 @@ type connection struct {
 	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
 	VaultId          *string                           `mandatory:"false" json:"vaultId"`
 	KeyId            *string                           `mandatory:"false" json:"keyId"`
-	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -127,9 +127,9 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.VaultId = s.Model.VaultId
 	m.KeyId = s.Model.KeyId
-	m.SubnetId = s.Model.SubnetId
 	m.IngressIps = s.Model.IngressIps
 	m.NsgIds = s.Model.NsgIds
+	m.SubnetId = s.Model.SubnetId
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -156,6 +156,14 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := JavaMessageServiceConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ELASTICSEARCH":
+		mm := ElasticsearchConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_REDSHIFT":
+		mm := AmazonRedshiftConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SNOWFLAKE":
 		mm := SnowflakeConnection{}
 		err = json.Unmarshal(data, &mm)
@@ -170,6 +178,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "AMAZON_S3":
 		mm := AmazonS3Connection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_BIGQUERY":
+		mm := GoogleBigQueryConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE":
@@ -188,6 +200,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := HdfsConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GOOGLE_CLOUD_STORAGE":
+		mm := GoogleCloudStorageConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OCI_OBJECT_STORAGE":
 		mm := OciObjectStorageConnection{}
 		err = json.Unmarshal(data, &mm)
@@ -200,12 +216,24 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := MicrosoftSqlserverConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMAZON_KINESIS":
+		mm := AmazonKinesisConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC":
+		mm := GenericConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_NOSQL":
 		mm := OracleNosqlConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":
 		mm := AzureSynapseConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REDIS":
+		mm := RedisConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -249,11 +277,6 @@ func (m connection) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m connection) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetIngressIps returns IngressIps
 func (m connection) GetIngressIps() []IngressIpDetails {
 	return m.IngressIps
@@ -262,6 +285,11 @@ func (m connection) GetIngressIps() []IngressIpDetails {
 // GetNsgIds returns NsgIds
 func (m connection) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m connection) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 // GetId returns Id

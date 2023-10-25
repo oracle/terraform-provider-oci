@@ -18,8 +18,8 @@ import (
 // DeploymentTypeSummary The meta-data specific on particular deployment type represented by deploymentType field.
 type DeploymentTypeSummary struct {
 
-	// The deployment category defines the broad separation of the deployment type into categories.  Currently
-	// the separation is 'DATA_REPLICATION' and 'STREAM_ANALYTICS'.
+	// The deployment category defines the broad separation of the deployment type into three categories.
+	// Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'.
 	Category DeploymentTypeSummaryCategoryEnum `mandatory:"true" json:"category"`
 
 	// An object's Display Name.
@@ -45,6 +45,12 @@ type DeploymentTypeSummary struct {
 
 	// Version of OGG
 	OggVersion *string `mandatory:"false" json:"oggVersion"`
+
+	// The URL to the webpage listing the supported technologies.
+	SupportedTechnologiesUrl *string `mandatory:"false" json:"supportedTechnologiesUrl"`
+
+	// The default admin username used by deployment.
+	DefaultUsername *string `mandatory:"false" json:"defaultUsername"`
 }
 
 func (m DeploymentTypeSummary) String() string {
@@ -82,16 +88,19 @@ type DeploymentTypeSummaryCategoryEnum string
 const (
 	DeploymentTypeSummaryCategoryDataReplication DeploymentTypeSummaryCategoryEnum = "DATA_REPLICATION"
 	DeploymentTypeSummaryCategoryStreamAnalytics DeploymentTypeSummaryCategoryEnum = "STREAM_ANALYTICS"
+	DeploymentTypeSummaryCategoryDataTransforms  DeploymentTypeSummaryCategoryEnum = "DATA_TRANSFORMS"
 )
 
 var mappingDeploymentTypeSummaryCategoryEnum = map[string]DeploymentTypeSummaryCategoryEnum{
 	"DATA_REPLICATION": DeploymentTypeSummaryCategoryDataReplication,
 	"STREAM_ANALYTICS": DeploymentTypeSummaryCategoryStreamAnalytics,
+	"DATA_TRANSFORMS":  DeploymentTypeSummaryCategoryDataTransforms,
 }
 
 var mappingDeploymentTypeSummaryCategoryEnumLowerCase = map[string]DeploymentTypeSummaryCategoryEnum{
 	"data_replication": DeploymentTypeSummaryCategoryDataReplication,
 	"stream_analytics": DeploymentTypeSummaryCategoryStreamAnalytics,
+	"data_transforms":  DeploymentTypeSummaryCategoryDataTransforms,
 }
 
 // GetDeploymentTypeSummaryCategoryEnumValues Enumerates the set of values for DeploymentTypeSummaryCategoryEnum
@@ -108,6 +117,7 @@ func GetDeploymentTypeSummaryCategoryEnumStringValues() []string {
 	return []string{
 		"DATA_REPLICATION",
 		"STREAM_ANALYTICS",
+		"DATA_TRANSFORMS",
 	}
 }
 

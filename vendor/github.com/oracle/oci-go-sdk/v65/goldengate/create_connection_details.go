@@ -46,11 +46,11 @@ type CreateConnectionDetails interface {
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	GetKeyId() *string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
-	GetSubnetId() *string
-
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	GetSubnetId() *string
 }
 
 type createconnectiondetails struct {
@@ -60,8 +60,8 @@ type createconnectiondetails struct {
 	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	VaultId        *string                           `mandatory:"false" json:"vaultId"`
 	KeyId          *string                           `mandatory:"false" json:"keyId"`
-	SubnetId       *string                           `mandatory:"false" json:"subnetId"`
 	NsgIds         []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId       *string                           `mandatory:"false" json:"subnetId"`
 	DisplayName    *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
 	ConnectionType string                            `json:"connectionType"`
@@ -85,8 +85,8 @@ func (m *createconnectiondetails) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.VaultId = s.Model.VaultId
 	m.KeyId = s.Model.KeyId
-	m.SubnetId = s.Model.SubnetId
 	m.NsgIds = s.Model.NsgIds
+	m.SubnetId = s.Model.SubnetId
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -117,6 +117,14 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateJavaMessageServiceConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GOOGLE_BIGQUERY":
+		mm := CreateGoogleBigQueryConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_KINESIS":
+		mm := CreateAmazonKinesisConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SNOWFLAKE":
 		mm := CreateSnowflakeConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -141,12 +149,28 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateOciObjectStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ELASTICSEARCH":
+		mm := CreateElasticsearchConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE_SYNAPSE_ANALYTICS":
 		mm := CreateAzureSynapseConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REDIS":
+		mm := CreateRedisConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MYSQL":
 		mm := CreateMysqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC":
+		mm := CreateGenericConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GOOGLE_CLOUD_STORAGE":
+		mm := CreateGoogleCloudStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "KAFKA":
@@ -159,6 +183,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		return mm, err
 	case "GOLDENGATE":
 		mm := CreateGoldenGateConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMAZON_REDSHIFT":
+		mm := CreateAmazonRedshiftConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ORACLE_NOSQL":
@@ -196,14 +224,14 @@ func (m createconnectiondetails) GetKeyId() *string {
 	return m.KeyId
 }
 
-// GetSubnetId returns SubnetId
-func (m createconnectiondetails) GetSubnetId() *string {
-	return m.SubnetId
-}
-
 // GetNsgIds returns NsgIds
 func (m createconnectiondetails) GetNsgIds() []string {
 	return m.NsgIds
+}
+
+// GetSubnetId returns SubnetId
+func (m createconnectiondetails) GetSubnetId() *string {
+	return m.SubnetId
 }
 
 // GetDisplayName returns DisplayName

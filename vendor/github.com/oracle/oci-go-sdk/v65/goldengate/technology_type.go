@@ -19,6 +19,7 @@ type TechnologyTypeEnum string
 // Set of constants representing the allowable values for TechnologyTypeEnum
 const (
 	TechnologyTypeGoldengate                       TechnologyTypeEnum = "GOLDENGATE"
+	TechnologyTypeGeneric                          TechnologyTypeEnum = "GENERIC"
 	TechnologyTypeOciAutonomousDatabase            TechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
 	TechnologyTypeOciAutonomousJsonDatabase        TechnologyTypeEnum = "OCI_AUTONOMOUS_JSON_DATABASE"
 	TechnologyTypeOciMysql                         TechnologyTypeEnum = "OCI_MYSQL"
@@ -33,6 +34,8 @@ const (
 	TechnologyTypeAmazonS3                         TechnologyTypeEnum = "AMAZON_S3"
 	TechnologyTypeAmazonAuroraMysql                TechnologyTypeEnum = "AMAZON_AURORA_MYSQL"
 	TechnologyTypeAmazonAuroraPostgresql           TechnologyTypeEnum = "AMAZON_AURORA_POSTGRESQL"
+	TechnologyTypeAmazonKinesis                    TechnologyTypeEnum = "AMAZON_KINESIS"
+	TechnologyTypeAmazonRedshift                   TechnologyTypeEnum = "AMAZON_REDSHIFT"
 	TechnologyTypeAmazonRdsMariadb                 TechnologyTypeEnum = "AMAZON_RDS_MARIADB"
 	TechnologyTypeAmazonRdsMysql                   TechnologyTypeEnum = "AMAZON_RDS_MYSQL"
 	TechnologyTypeAmazonRdsPostgresql              TechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
@@ -47,14 +50,19 @@ const (
 	TechnologyTypeAzureSynapseAnalytics            TechnologyTypeEnum = "AZURE_SYNAPSE_ANALYTICS"
 	TechnologyTypeConfluentKafka                   TechnologyTypeEnum = "CONFLUENT_KAFKA"
 	TechnologyTypeConfluentSchemaRegistry          TechnologyTypeEnum = "CONFLUENT_SCHEMA_REGISTRY"
+	TechnologyTypeElasticsearch                    TechnologyTypeEnum = "ELASTICSEARCH"
+	TechnologyTypeGoogleBigquery                   TechnologyTypeEnum = "GOOGLE_BIGQUERY"
+	TechnologyTypeGoogleCloudStorage               TechnologyTypeEnum = "GOOGLE_CLOUD_STORAGE"
 	TechnologyTypeGoogleCloudSqlMysql              TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_MYSQL"
 	TechnologyTypeGoogleCloudSqlPostgresql         TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_POSTGRESQL"
+	TechnologyTypeGoogleCloudSqlSqlserver          TechnologyTypeEnum = "GOOGLE_CLOUD_SQL_SQLSERVER"
 	TechnologyTypeHdfs                             TechnologyTypeEnum = "HDFS"
 	TechnologyTypeMariadb                          TechnologyTypeEnum = "MARIADB"
 	TechnologyTypeMicrosoftSqlserver               TechnologyTypeEnum = "MICROSOFT_SQLSERVER"
 	TechnologyTypeMongodb                          TechnologyTypeEnum = "MONGODB"
 	TechnologyTypeMysqlServer                      TechnologyTypeEnum = "MYSQL_SERVER"
 	TechnologyTypePostgresqlServer                 TechnologyTypeEnum = "POSTGRESQL_SERVER"
+	TechnologyTypeRedis                            TechnologyTypeEnum = "REDIS"
 	TechnologyTypeSinglestoredb                    TechnologyTypeEnum = "SINGLESTOREDB"
 	TechnologyTypeSinglestoredbCloud               TechnologyTypeEnum = "SINGLESTOREDB_CLOUD"
 	TechnologyTypeSnowflake                        TechnologyTypeEnum = "SNOWFLAKE"
@@ -62,6 +70,7 @@ const (
 
 var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"GOLDENGATE":                           TechnologyTypeGoldengate,
+	"GENERIC":                              TechnologyTypeGeneric,
 	"OCI_AUTONOMOUS_DATABASE":              TechnologyTypeOciAutonomousDatabase,
 	"OCI_AUTONOMOUS_JSON_DATABASE":         TechnologyTypeOciAutonomousJsonDatabase,
 	"OCI_MYSQL":                            TechnologyTypeOciMysql,
@@ -76,6 +85,8 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"AMAZON_S3":                            TechnologyTypeAmazonS3,
 	"AMAZON_AURORA_MYSQL":                  TechnologyTypeAmazonAuroraMysql,
 	"AMAZON_AURORA_POSTGRESQL":             TechnologyTypeAmazonAuroraPostgresql,
+	"AMAZON_KINESIS":                       TechnologyTypeAmazonKinesis,
+	"AMAZON_REDSHIFT":                      TechnologyTypeAmazonRedshift,
 	"AMAZON_RDS_MARIADB":                   TechnologyTypeAmazonRdsMariadb,
 	"AMAZON_RDS_MYSQL":                     TechnologyTypeAmazonRdsMysql,
 	"AMAZON_RDS_POSTGRESQL":                TechnologyTypeAmazonRdsPostgresql,
@@ -90,14 +101,19 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 	"AZURE_SYNAPSE_ANALYTICS":              TechnologyTypeAzureSynapseAnalytics,
 	"CONFLUENT_KAFKA":                      TechnologyTypeConfluentKafka,
 	"CONFLUENT_SCHEMA_REGISTRY":            TechnologyTypeConfluentSchemaRegistry,
+	"ELASTICSEARCH":                        TechnologyTypeElasticsearch,
+	"GOOGLE_BIGQUERY":                      TechnologyTypeGoogleBigquery,
+	"GOOGLE_CLOUD_STORAGE":                 TechnologyTypeGoogleCloudStorage,
 	"GOOGLE_CLOUD_SQL_MYSQL":               TechnologyTypeGoogleCloudSqlMysql,
 	"GOOGLE_CLOUD_SQL_POSTGRESQL":          TechnologyTypeGoogleCloudSqlPostgresql,
+	"GOOGLE_CLOUD_SQL_SQLSERVER":           TechnologyTypeGoogleCloudSqlSqlserver,
 	"HDFS":                                 TechnologyTypeHdfs,
 	"MARIADB":                              TechnologyTypeMariadb,
 	"MICROSOFT_SQLSERVER":                  TechnologyTypeMicrosoftSqlserver,
 	"MONGODB":                              TechnologyTypeMongodb,
 	"MYSQL_SERVER":                         TechnologyTypeMysqlServer,
 	"POSTGRESQL_SERVER":                    TechnologyTypePostgresqlServer,
+	"REDIS":                                TechnologyTypeRedis,
 	"SINGLESTOREDB":                        TechnologyTypeSinglestoredb,
 	"SINGLESTOREDB_CLOUD":                  TechnologyTypeSinglestoredbCloud,
 	"SNOWFLAKE":                            TechnologyTypeSnowflake,
@@ -105,6 +121,7 @@ var mappingTechnologyTypeEnum = map[string]TechnologyTypeEnum{
 
 var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"goldengate":                           TechnologyTypeGoldengate,
+	"generic":                              TechnologyTypeGeneric,
 	"oci_autonomous_database":              TechnologyTypeOciAutonomousDatabase,
 	"oci_autonomous_json_database":         TechnologyTypeOciAutonomousJsonDatabase,
 	"oci_mysql":                            TechnologyTypeOciMysql,
@@ -119,6 +136,8 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"amazon_s3":                            TechnologyTypeAmazonS3,
 	"amazon_aurora_mysql":                  TechnologyTypeAmazonAuroraMysql,
 	"amazon_aurora_postgresql":             TechnologyTypeAmazonAuroraPostgresql,
+	"amazon_kinesis":                       TechnologyTypeAmazonKinesis,
+	"amazon_redshift":                      TechnologyTypeAmazonRedshift,
 	"amazon_rds_mariadb":                   TechnologyTypeAmazonRdsMariadb,
 	"amazon_rds_mysql":                     TechnologyTypeAmazonRdsMysql,
 	"amazon_rds_postgresql":                TechnologyTypeAmazonRdsPostgresql,
@@ -133,14 +152,19 @@ var mappingTechnologyTypeEnumLowerCase = map[string]TechnologyTypeEnum{
 	"azure_synapse_analytics":              TechnologyTypeAzureSynapseAnalytics,
 	"confluent_kafka":                      TechnologyTypeConfluentKafka,
 	"confluent_schema_registry":            TechnologyTypeConfluentSchemaRegistry,
+	"elasticsearch":                        TechnologyTypeElasticsearch,
+	"google_bigquery":                      TechnologyTypeGoogleBigquery,
+	"google_cloud_storage":                 TechnologyTypeGoogleCloudStorage,
 	"google_cloud_sql_mysql":               TechnologyTypeGoogleCloudSqlMysql,
 	"google_cloud_sql_postgresql":          TechnologyTypeGoogleCloudSqlPostgresql,
+	"google_cloud_sql_sqlserver":           TechnologyTypeGoogleCloudSqlSqlserver,
 	"hdfs":                                 TechnologyTypeHdfs,
 	"mariadb":                              TechnologyTypeMariadb,
 	"microsoft_sqlserver":                  TechnologyTypeMicrosoftSqlserver,
 	"mongodb":                              TechnologyTypeMongodb,
 	"mysql_server":                         TechnologyTypeMysqlServer,
 	"postgresql_server":                    TechnologyTypePostgresqlServer,
+	"redis":                                TechnologyTypeRedis,
 	"singlestoredb":                        TechnologyTypeSinglestoredb,
 	"singlestoredb_cloud":                  TechnologyTypeSinglestoredbCloud,
 	"snowflake":                            TechnologyTypeSnowflake,
@@ -159,6 +183,7 @@ func GetTechnologyTypeEnumValues() []TechnologyTypeEnum {
 func GetTechnologyTypeEnumStringValues() []string {
 	return []string{
 		"GOLDENGATE",
+		"GENERIC",
 		"OCI_AUTONOMOUS_DATABASE",
 		"OCI_AUTONOMOUS_JSON_DATABASE",
 		"OCI_MYSQL",
@@ -173,6 +198,8 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"AMAZON_S3",
 		"AMAZON_AURORA_MYSQL",
 		"AMAZON_AURORA_POSTGRESQL",
+		"AMAZON_KINESIS",
+		"AMAZON_REDSHIFT",
 		"AMAZON_RDS_MARIADB",
 		"AMAZON_RDS_MYSQL",
 		"AMAZON_RDS_POSTGRESQL",
@@ -187,14 +214,19 @@ func GetTechnologyTypeEnumStringValues() []string {
 		"AZURE_SYNAPSE_ANALYTICS",
 		"CONFLUENT_KAFKA",
 		"CONFLUENT_SCHEMA_REGISTRY",
+		"ELASTICSEARCH",
+		"GOOGLE_BIGQUERY",
+		"GOOGLE_CLOUD_STORAGE",
 		"GOOGLE_CLOUD_SQL_MYSQL",
 		"GOOGLE_CLOUD_SQL_POSTGRESQL",
+		"GOOGLE_CLOUD_SQL_SQLSERVER",
 		"HDFS",
 		"MARIADB",
 		"MICROSOFT_SQLSERVER",
 		"MONGODB",
 		"MYSQL_SERVER",
 		"POSTGRESQL_SERVER",
+		"REDIS",
 		"SINGLESTOREDB",
 		"SINGLESTOREDB_CLOUD",
 		"SNOWFLAKE",

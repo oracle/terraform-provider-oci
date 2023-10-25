@@ -50,6 +50,10 @@ func (m *validatedatabasetoolsconnectiondetails) UnmarshalPolymorphicJSON(data [
 
 	var err error
 	switch m.Type {
+	case "POSTGRESQL":
+		mm := ValidateDatabaseToolsConnectionPostgresqlDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_DATABASE":
 		mm := ValidateDatabaseToolsConnectionOracleDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)

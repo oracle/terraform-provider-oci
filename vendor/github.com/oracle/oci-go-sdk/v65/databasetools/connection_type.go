@@ -20,16 +20,22 @@ type ConnectionTypeEnum string
 const (
 	ConnectionTypeOracleDatabase ConnectionTypeEnum = "ORACLE_DATABASE"
 	ConnectionTypeMysql          ConnectionTypeEnum = "MYSQL"
+	ConnectionTypePostgresql     ConnectionTypeEnum = "POSTGRESQL"
+	ConnectionTypeGenericJdbc    ConnectionTypeEnum = "GENERIC_JDBC"
 )
 
 var mappingConnectionTypeEnum = map[string]ConnectionTypeEnum{
 	"ORACLE_DATABASE": ConnectionTypeOracleDatabase,
 	"MYSQL":           ConnectionTypeMysql,
+	"POSTGRESQL":      ConnectionTypePostgresql,
+	"GENERIC_JDBC":    ConnectionTypeGenericJdbc,
 }
 
 var mappingConnectionTypeEnumLowerCase = map[string]ConnectionTypeEnum{
 	"oracle_database": ConnectionTypeOracleDatabase,
 	"mysql":           ConnectionTypeMysql,
+	"postgresql":      ConnectionTypePostgresql,
+	"generic_jdbc":    ConnectionTypeGenericJdbc,
 }
 
 // GetConnectionTypeEnumValues Enumerates the set of values for ConnectionTypeEnum
@@ -46,6 +52,8 @@ func GetConnectionTypeEnumStringValues() []string {
 	return []string{
 		"ORACLE_DATABASE",
 		"MYSQL",
+		"POSTGRESQL",
+		"GENERIC_JDBC",
 	}
 }
 

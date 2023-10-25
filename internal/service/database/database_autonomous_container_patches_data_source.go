@@ -22,6 +22,10 @@ func DatabaseAutonomousContainerPatchesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"autonomous_patch_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -36,6 +40,10 @@ func DatabaseAutonomousContainerPatchesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"autonomous_patch_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -109,6 +117,10 @@ func (s *DatabaseAutonomousContainerPatchesDataSourceCrud) Get() error {
 		request.AutonomousContainerDatabaseId = &tmp
 	}
 
+	if autonomousPatchType, ok := s.D.GetOkExists("autonomous_patch_type"); ok {
+		request.AutonomousPatchType = oci_database.ListContainerDatabasePatchesAutonomousPatchTypeEnum(autonomousPatchType.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -147,6 +159,8 @@ func (s *DatabaseAutonomousContainerPatchesDataSourceCrud) SetData() error {
 
 	for _, r := range s.Res.Items {
 		autonomousContainerPatch := map[string]interface{}{}
+
+		autonomousContainerPatch["autonomous_patch_type"] = r.AutonomousPatchType
 
 		if r.Description != nil {
 			autonomousContainerPatch["description"] = *r.Description

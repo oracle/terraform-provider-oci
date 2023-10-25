@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// KnowledgeBaseCollection Collection of Knowledge Base summaries.
+// KnowledgeBaseCollection Collection of knowledge base summaries.
 type KnowledgeBaseCollection struct {
 
-	// List of Knowledge Base summaries.
+	// List of knowledge base summaries.
 	Items []KnowledgeBaseSummary `mandatory:"true" json:"items"`
 }
 

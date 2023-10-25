@@ -59,6 +59,22 @@ type Table struct {
 	// A DDL statement representing the schema.
 	DdlStatement *string `mandatory:"false" json:"ddlStatement"`
 
+	// The current state of this table's schema. Available states are
+	// MUTABLE - The schema can be changed. The table is not eligible for replication.
+	// FROZEN - The schema is immutable. The table is eligible for replication.
+	SchemaState TableSchemaStateEnum `mandatory:"false" json:"schemaState,omitempty"`
+
+	// True if this table is currently a member of a replication set.
+	IsMultiRegion *bool `mandatory:"false" json:"isMultiRegion"`
+
+	// If this table is in a replication set, this value represents
+	// the progress of the initialization of the replica's data.  A
+	// value of 100 indicates that initialization has completed.
+	LocalReplicaInitializationInPercent *int `mandatory:"false" json:"localReplicaInitializationInPercent"`
+
+	// An array of Replica listing this table's replicas, if any
+	Replicas []Replica `mandatory:"false" json:"replicas"`
+
 	// Simple key-value pair that is applied without any predefined
 	// name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -89,6 +105,9 @@ func (m Table) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingTableLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetTableLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingTableSchemaStateEnum(string(m.SchemaState)); !ok && m.SchemaState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SchemaState: %s. Supported values are: %s.", m.SchemaState, strings.Join(GetTableSchemaStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -155,5 +174,47 @@ func GetTableLifecycleStateEnumStringValues() []string {
 // GetMappingTableLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingTableLifecycleStateEnum(val string) (TableLifecycleStateEnum, bool) {
 	enum, ok := mappingTableLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// TableSchemaStateEnum Enum with underlying type: string
+type TableSchemaStateEnum string
+
+// Set of constants representing the allowable values for TableSchemaStateEnum
+const (
+	TableSchemaStateMutable TableSchemaStateEnum = "MUTABLE"
+	TableSchemaStateFrozen  TableSchemaStateEnum = "FROZEN"
+)
+
+var mappingTableSchemaStateEnum = map[string]TableSchemaStateEnum{
+	"MUTABLE": TableSchemaStateMutable,
+	"FROZEN":  TableSchemaStateFrozen,
+}
+
+var mappingTableSchemaStateEnumLowerCase = map[string]TableSchemaStateEnum{
+	"mutable": TableSchemaStateMutable,
+	"frozen":  TableSchemaStateFrozen,
+}
+
+// GetTableSchemaStateEnumValues Enumerates the set of values for TableSchemaStateEnum
+func GetTableSchemaStateEnumValues() []TableSchemaStateEnum {
+	values := make([]TableSchemaStateEnum, 0)
+	for _, v := range mappingTableSchemaStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetTableSchemaStateEnumStringValues Enumerates the set of values in String for TableSchemaStateEnum
+func GetTableSchemaStateEnumStringValues() []string {
+	return []string{
+		"MUTABLE",
+		"FROZEN",
+	}
+}
+
+// GetMappingTableSchemaStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingTableSchemaStateEnum(val string) (TableSchemaStateEnum, bool) {
+	enum, ok := mappingTableSchemaStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
