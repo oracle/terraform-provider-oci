@@ -33,12 +33,3 @@ data "oci_database_db_nodes" "test_db_nodes" {
   state         = var.db_node_state
   vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
 }
-
-
-output "test_db_node_value" {
-  value = data.oci_database_db_nodes.test_db_nodes.db_nodes
-}
-
-output "test_db_node_value1" {
-    value = data.oci_database_db_nodes.test_db_nodes.db_nodes[0]["id"]
-}
