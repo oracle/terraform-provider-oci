@@ -28,7 +28,7 @@ resource "oci_data_safe_set_security_assessment_baseline" "test_set_security_ass
 
 The following arguments are supported:
 
-* `assessment_ids` - (Optional) The list of OCIDs for the security assessments that need to be updated while setting the baseline.
+* `assessment_ids` - (Optional) List of security assessment OCIDs that need to be updated while setting the baseline.
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 
 
