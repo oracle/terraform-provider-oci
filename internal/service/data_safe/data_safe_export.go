@@ -300,69 +300,6 @@ var exportDataSafeDiscoveryJobsResultHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation:   "discovery_jobs_result",
 }
 
-var exportDataSafeSecurityPolicyDeploymentHints = &tf_export.TerraformResourceHints{
-	ResourceClass:          "oci_data_safe_security_policy_deployment",
-	DatasourceClass:        "oci_data_safe_security_policy_deployments",
-	DatasourceItemsAttr:    "security_policy_deployment_collection",
-	IsDatasourceCollection: true,
-	ResourceAbbreviation:   "security_policy_deployment",
-	RequireResourceRefresh: true,
-	DiscoverableLifecycleStates: []string{
-		string(oci_data_safe.SecurityPolicyDeploymentLifecycleStateNeedsAttention),
-	},
-}
-
-var exportDataSafeSecurityPolicyHints = &tf_export.TerraformResourceHints{
-	ResourceClass:          "oci_data_safe_security_policy",
-	DatasourceClass:        "oci_data_safe_security_policies",
-	DatasourceItemsAttr:    "security_policy_collection",
-	IsDatasourceCollection: true,
-	ResourceAbbreviation:   "security_policy",
-	RequireResourceRefresh: true,
-	DiscoverableLifecycleStates: []string{
-		string(oci_data_safe.SecurityPolicyLifecycleStateActive),
-	},
-}
-
-var exportDataSafeDatabaseSecurityConfigHints = &tf_export.TerraformResourceHints{
-	ResourceClass:          "oci_data_safe_database_security_config",
-	DatasourceClass:        "oci_data_safe_database_security_configs",
-	DatasourceItemsAttr:    "database_security_config_collection",
-	IsDatasourceCollection: true,
-	ResourceAbbreviation:   "database_security_config",
-	RequireResourceRefresh: true,
-	DiscoverableLifecycleStates: []string{
-		string(oci_data_safe.DatabaseSecurityConfigLifecycleStateActive),
-		string(oci_data_safe.DatabaseSecurityConfigLifecycleStateNeedsAttention),
-	},
-}
-
-var exportDataSafeSqlFirewallPolicyHints = &tf_export.TerraformResourceHints{
-	ResourceClass:          "oci_data_safe_sql_firewall_policy",
-	DatasourceClass:        "oci_data_safe_sql_firewall_policies",
-	DatasourceItemsAttr:    "sql_firewall_policy_collection",
-	IsDatasourceCollection: true,
-	ResourceAbbreviation:   "sql_firewall_policy",
-	RequireResourceRefresh: true,
-	DiscoverableLifecycleStates: []string{
-		string(oci_data_safe.SqlFirewallPolicyLifecycleStateActive),
-		string(oci_data_safe.SqlFirewallPolicyLifecycleStateNeedsAttention),
-	},
-}
-
-var exportDataSafeSqlCollectionHints = &tf_export.TerraformResourceHints{
-	ResourceClass:          "oci_data_safe_sql_collection",
-	DatasourceClass:        "oci_data_safe_sql_collections",
-	DatasourceItemsAttr:    "sql_collection_collection",
-	IsDatasourceCollection: true,
-	ResourceAbbreviation:   "sql_collection",
-	RequireResourceRefresh: true,
-	DiscoverableLifecycleStates: []string{
-		string(oci_data_safe.SqlCollectionLifecycleStateCollecting),
-		string(oci_data_safe.SqlCollectionLifecycleStateInactive),
-	},
-}
-
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
@@ -383,11 +320,6 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeSensitiveDataModelHints},
 		{TerraformResourceHints: exportDataSafeDiscoveryJobHints},
 		{TerraformResourceHints: exportDataSafeSdmMaskingPolicyDifferenceHints},
-		{TerraformResourceHints: exportDataSafeSecurityPolicyDeploymentHints},
-		{TerraformResourceHints: exportDataSafeSecurityPolicyHints},
-		{TerraformResourceHints: exportDataSafeDatabaseSecurityConfigHints},
-		{TerraformResourceHints: exportDataSafeSqlFirewallPolicyHints},
-		{TerraformResourceHints: exportDataSafeSqlCollectionHints},
 	},
 	"oci_data_safe_masking_policy": {
 		{
