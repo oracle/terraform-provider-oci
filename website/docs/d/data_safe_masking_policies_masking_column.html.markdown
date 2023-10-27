@@ -37,7 +37,7 @@ The following attributes are exported:
 * `child_columns` - An array of child columns that are in referential relationship with the masking column.
 * `column_name` - The name of the database column. Note that the same name is used for the masking column.  There is no separate displayName attribute for the masking column.  
 * `data_type` - The data type of the masking column.
-* `is_masking_enabled` - Indicates whether data masking is enabled for the masking column.
+* `is_masking_enabled` - Indicates if data masking is enabled for the masking column.
 * `key` - The unique key that identifies the masking column. It's numeric and unique within a masking policy.
 * `lifecycle_details` - Details about the current state of the masking column.
 * `masking_column_group` - The group of the masking column. All the columns in a group are masked together to ensure  that the masked data across these columns continue to retain the same logical relationship.  For more details, check <a href=https://docs.oracle.com/en/cloud/paas/data-safe/udscs/group-masking1.html#GUID-755056B9-9540-48C0-9491-262A44A85037>Group Masking in the Data Safe documentation.</a>  

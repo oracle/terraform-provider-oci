@@ -42,7 +42,7 @@ The following attributes are exported:
 * `discovery_job_id` - The OCID of the discovery job.
 * `discovery_type` - The type of the discovery result. It can be one of the following three types: NEW: A new sensitive column in the target database that is not in the sensitive data model. DELETED: A column that is present in the sensitive data model but has been deleted from the target database. MODIFIED: A column that is present in the target database as well as the sensitive data model but some of its attributes have been modified. 
 * `estimated_data_value_count` - The estimated number of data values the column has in the associated database.
-* `is_result_applied` - Indicates whether the discovery result has been processed. You can update this attribute using the PatchDiscoveryJobResults operation to track whether the discovery result has already been processed and applied to the sensitive data model. 
+* `is_result_applied` - Indicates if the discovery result has been processed. You can update this attribute using the PatchDiscoveryJobResults operation to track whether the discovery result has already been processed and applied to the sensitive data model. 
 * `key` - The unique key that identifies the discovery result.
 * `modified_attributes` - The attributes of a sensitive column that have been modified in the target database. It's populated only in the case of MODIFIED discovery results and shows the new values of the modified attributes. 
 	* `app_defined_child_column_keys` - Unique keys identifying the columns that are application-level (non-dictionary) children of the sensitive column.
