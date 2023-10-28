@@ -78,7 +78,7 @@ type AuditTrail struct {
 	// The underlying source of unified audit trail.
 	TrailSource AuditTrailSourceEnum `mandatory:"false" json:"trailSource,omitempty"`
 
-	// The date and time of the last purge job, which deletes audit data in the
+	// The date and time of the last purge job. The purge job deletes audit data in the
 	// target database every seven days so that the database's audit trail does not become too large.
 	// In the format defined by RFC3339.
 	PurgeJobTime *common.SDKTime `mandatory:"false" json:"purgeJobTime"`
@@ -86,7 +86,7 @@ type AuditTrail struct {
 	// The current status of the audit trail purge job.
 	PurgeJobStatus AuditTrailPurgeJobStatusEnum `mandatory:"false" json:"purgeJobStatus,omitempty"`
 
-	// The details of the audit trail purge job that ran on the "purgeJobTime".
+	// The details of the audit trail purge job that ran at the time specified by purgeJobTime".
 	PurgeJobDetails *string `mandatory:"false" json:"purgeJobDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

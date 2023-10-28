@@ -138,6 +138,7 @@ type FileSystemLifecycleStateEnum string
 const (
 	FileSystemLifecycleStateCreating FileSystemLifecycleStateEnum = "CREATING"
 	FileSystemLifecycleStateActive   FileSystemLifecycleStateEnum = "ACTIVE"
+	FileSystemLifecycleStateUpdating FileSystemLifecycleStateEnum = "UPDATING"
 	FileSystemLifecycleStateDeleting FileSystemLifecycleStateEnum = "DELETING"
 	FileSystemLifecycleStateDeleted  FileSystemLifecycleStateEnum = "DELETED"
 	FileSystemLifecycleStateFailed   FileSystemLifecycleStateEnum = "FAILED"
@@ -146,6 +147,7 @@ const (
 var mappingFileSystemLifecycleStateEnum = map[string]FileSystemLifecycleStateEnum{
 	"CREATING": FileSystemLifecycleStateCreating,
 	"ACTIVE":   FileSystemLifecycleStateActive,
+	"UPDATING": FileSystemLifecycleStateUpdating,
 	"DELETING": FileSystemLifecycleStateDeleting,
 	"DELETED":  FileSystemLifecycleStateDeleted,
 	"FAILED":   FileSystemLifecycleStateFailed,
@@ -154,6 +156,7 @@ var mappingFileSystemLifecycleStateEnum = map[string]FileSystemLifecycleStateEnu
 var mappingFileSystemLifecycleStateEnumLowerCase = map[string]FileSystemLifecycleStateEnum{
 	"creating": FileSystemLifecycleStateCreating,
 	"active":   FileSystemLifecycleStateActive,
+	"updating": FileSystemLifecycleStateUpdating,
 	"deleting": FileSystemLifecycleStateDeleting,
 	"deleted":  FileSystemLifecycleStateDeleted,
 	"failed":   FileSystemLifecycleStateFailed,
@@ -173,6 +176,7 @@ func GetFileSystemLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

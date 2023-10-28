@@ -53,12 +53,6 @@ type InstanceMaintenanceEventSummary struct {
 	// this time.
 	TimeWindowStart *common.SDKTime `mandatory:"true" json:"timeWindowStart"`
 
-	// The duration of the time window Maintenance is scheduled to begin within.
-	StartWindowDuration *string `mandatory:"true" json:"startWindowDuration"`
-
-	// This is the estimated duration of the Maintenance, once the Maintenance has entered the STARTED state.
-	EstimatedDuration *string `mandatory:"true" json:"estimatedDuration"`
-
 	// Indicates if this MaintenanceEvent is capable of being rescheduled up to the timeHardDueDate.
 	CanReschedule *bool `mandatory:"true" json:"canReschedule"`
 
@@ -91,6 +85,12 @@ type InstanceMaintenanceEventSummary struct {
 
 	// The time at which the Maintenance actually finished.
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
+
+	// The duration of the time window Maintenance is scheduled to begin within.
+	StartWindowDuration *string `mandatory:"false" json:"startWindowDuration"`
+
+	// This is the estimated duration of the Maintenance, once the Maintenance has entered the STARTED state.
+	EstimatedDuration *string `mandatory:"false" json:"estimatedDuration"`
 
 	// It is the scheduled hard due date and time of the maintenance event.
 	// The maintenance event will happen at this time and the due date will not be extended.

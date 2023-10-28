@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// VnicShapeConfig Shape config of VNIC that will be used to allocate resource in the data plane once the VNIC is attached
+// VnicShapeConfig Shape configuration of the VNIC. This is used to allocate resources when the VNIC is attached to an instance.
 type VnicShapeConfig struct {
 
-	// It defines the percentage number of concurrent connections that can be tracked to the VNIC.
+	// The percentage of concurrent connections that can be tracked to the VNIC.
 	PercentageOfConnTrack *int `mandatory:"false" json:"percentageOfConnTrack"`
 
-	// It defines the bandwidthMbps for the shape.
+	// The bandwidth in Mbps that the shape can use.
 	AggregateBandwidthBps *int64 `mandatory:"false" json:"aggregateBandwidthBps"`
 
 	// VCNCP will use this flag to set the internet bandwidth for always free vnic.

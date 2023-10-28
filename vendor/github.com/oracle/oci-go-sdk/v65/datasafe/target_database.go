@@ -54,7 +54,7 @@ type TargetDatabase struct {
 	// The date and time of the target database update in Data Safe.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The OCIDs of associated resources like Database, Data Safe private endpoint etc.
+	// The OCIDs of associated resources like database, Data Safe private endpoint, etc.
 	PeerTargetDatabases []PeerTargetDatabase `mandatory:"false" json:"peerTargetDatabases"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

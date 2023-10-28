@@ -212,12 +212,12 @@ type CreateInternalVnicDetails struct {
 	// Type of service VNIC. Feature or use case that is creating this service VNIC. Used for forecasting, resource limits enforcement, and capacity management.
 	ServiceVnicType CreateInternalVnicDetailsServiceVnicTypeEnum `mandatory:"false" json:"serviceVnicType,omitempty"`
 
-	// Shape of VNIC that will be used to allocate resource in the data plane once the VNIC is attached
+	// Shape configuration of the VNIC. This is used to allocate resources when the VNIC is attached to an instance.
 	VnicShape CreateInternalVnicDetailsVnicShapeEnum `mandatory:"false" json:"vnicShape,omitempty"`
 
 	VnicShapeConfig *VnicShapeConfig `mandatory:"false" json:"vnicShapeConfig"`
 
-	VnicaasVnicShapeConfig *VnicassVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
+	VnicaasVnicShapeConfig *VnicaasVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
 }
 
 func (m CreateInternalVnicDetails) String() string {

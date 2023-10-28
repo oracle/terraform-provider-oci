@@ -116,6 +116,7 @@ const (
 	WorkRequestSummaryOperationTypeCompareWithBaselineSecurityAssessment     WorkRequestSummaryOperationTypeEnum = "COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT"
 	WorkRequestSummaryOperationTypeDeleteSecurityAssessment                  WorkRequestSummaryOperationTypeEnum = "DELETE_SECURITY_ASSESSMENT"
 	WorkRequestSummaryOperationTypeUpdateSecurityAssessment                  WorkRequestSummaryOperationTypeEnum = "UPDATE_SECURITY_ASSESSMENT"
+	WorkRequestSummaryOperationTypeUpdateFindingRisk                         WorkRequestSummaryOperationTypeEnum = "UPDATE_FINDING_RISK"
 	WorkRequestSummaryOperationTypeChangeSecurityAssessmentCompartment       WorkRequestSummaryOperationTypeEnum = "CHANGE_SECURITY_ASSESSMENT_COMPARTMENT"
 	WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline             WorkRequestSummaryOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
 	WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline           WorkRequestSummaryOperationTypeEnum = "UNSET_SECURITY_ASSESSMENT_BASELINE"
@@ -138,6 +139,7 @@ const (
 	WorkRequestSummaryOperationTypeChangeSqlCollectionCompartment            WorkRequestSummaryOperationTypeEnum = "CHANGE_SQL_COLLECTION_COMPARTMENT"
 	WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights           WorkRequestSummaryOperationTypeEnum = "REFRESH_SQL_COLLECTION_LOG_INSIGHTS"
 	WorkRequestSummaryOperationTypePurgeSqlCollectionLogs                    WorkRequestSummaryOperationTypeEnum = "PURGE_SQL_COLLECTION_LOGS"
+	WorkRequestSummaryOperationTypeRefreshViolations                         WorkRequestSummaryOperationTypeEnum = "REFRESH_VIOLATIONS"
 	WorkRequestSummaryOperationTypeUpdateSecurityPolicy                      WorkRequestSummaryOperationTypeEnum = "UPDATE_SECURITY_POLICY"
 	WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment           WorkRequestSummaryOperationTypeEnum = "CHANGE_SECURITY_POLICY_COMPARTMENT"
 	WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment            WorkRequestSummaryOperationTypeEnum = "UPDATE_SECURITY_POLICY_DEPLOYMENT"
@@ -193,6 +195,9 @@ const (
 	WorkRequestSummaryOperationTypeUpdateDifference                          WorkRequestSummaryOperationTypeEnum = "UPDATE_DIFFERENCE"
 	WorkRequestSummaryOperationTypePatchDifference                           WorkRequestSummaryOperationTypeEnum = "PATCH_DIFFERENCE"
 	WorkRequestSummaryOperationTypeApplyDifference                           WorkRequestSummaryOperationTypeEnum = "APPLY_DIFFERENCE"
+	WorkRequestSummaryOperationTypeAbortMasking                              WorkRequestSummaryOperationTypeEnum = "ABORT_MASKING"
+	WorkRequestSummaryOperationTypeCreateSecurityPolicyReport                WorkRequestSummaryOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
+	WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache                WorkRequestSummaryOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
 	WorkRequestSummaryOperationTypeCreateSchedule                            WorkRequestSummaryOperationTypeEnum = "CREATE_SCHEDULE"
 	WorkRequestSummaryOperationTypeRemoveScheduleReport                      WorkRequestSummaryOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestSummaryOperationTypeUpdateAllAlert                            WorkRequestSummaryOperationTypeEnum = "UPDATE_ALL_ALERT"
@@ -250,6 +255,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT":     WorkRequestSummaryOperationTypeCompareWithBaselineSecurityAssessment,
 	"DELETE_SECURITY_ASSESSMENT":                    WorkRequestSummaryOperationTypeDeleteSecurityAssessment,
 	"UPDATE_SECURITY_ASSESSMENT":                    WorkRequestSummaryOperationTypeUpdateSecurityAssessment,
+	"UPDATE_FINDING_RISK":                           WorkRequestSummaryOperationTypeUpdateFindingRisk,
 	"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT":        WorkRequestSummaryOperationTypeChangeSecurityAssessmentCompartment,
 	"SET_SECURITY_ASSESSMENT_BASELINE":              WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline,
 	"UNSET_SECURITY_ASSESSMENT_BASELINE":            WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline,
@@ -272,6 +278,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"CHANGE_SQL_COLLECTION_COMPARTMENT":             WorkRequestSummaryOperationTypeChangeSqlCollectionCompartment,
 	"REFRESH_SQL_COLLECTION_LOG_INSIGHTS":           WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights,
 	"PURGE_SQL_COLLECTION_LOGS":                     WorkRequestSummaryOperationTypePurgeSqlCollectionLogs,
+	"REFRESH_VIOLATIONS":                            WorkRequestSummaryOperationTypeRefreshViolations,
 	"UPDATE_SECURITY_POLICY":                        WorkRequestSummaryOperationTypeUpdateSecurityPolicy,
 	"CHANGE_SECURITY_POLICY_COMPARTMENT":            WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment,
 	"UPDATE_SECURITY_POLICY_DEPLOYMENT":             WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment,
@@ -327,6 +334,9 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_DIFFERENCE":                             WorkRequestSummaryOperationTypeUpdateDifference,
 	"PATCH_DIFFERENCE":                              WorkRequestSummaryOperationTypePatchDifference,
 	"APPLY_DIFFERENCE":                              WorkRequestSummaryOperationTypeApplyDifference,
+	"ABORT_MASKING":                                 WorkRequestSummaryOperationTypeAbortMasking,
+	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestSummaryOperationTypeCreateSecurityPolicyReport,
+	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache,
 	"CREATE_SCHEDULE":                               WorkRequestSummaryOperationTypeCreateSchedule,
 	"REMOVE_SCHEDULE_REPORT":                        WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                              WorkRequestSummaryOperationTypeUpdateAllAlert,
@@ -384,6 +394,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"compare_with_baseline_security_assessment":     WorkRequestSummaryOperationTypeCompareWithBaselineSecurityAssessment,
 	"delete_security_assessment":                    WorkRequestSummaryOperationTypeDeleteSecurityAssessment,
 	"update_security_assessment":                    WorkRequestSummaryOperationTypeUpdateSecurityAssessment,
+	"update_finding_risk":                           WorkRequestSummaryOperationTypeUpdateFindingRisk,
 	"change_security_assessment_compartment":        WorkRequestSummaryOperationTypeChangeSecurityAssessmentCompartment,
 	"set_security_assessment_baseline":              WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline,
 	"unset_security_assessment_baseline":            WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline,
@@ -406,6 +417,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"change_sql_collection_compartment":             WorkRequestSummaryOperationTypeChangeSqlCollectionCompartment,
 	"refresh_sql_collection_log_insights":           WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights,
 	"purge_sql_collection_logs":                     WorkRequestSummaryOperationTypePurgeSqlCollectionLogs,
+	"refresh_violations":                            WorkRequestSummaryOperationTypeRefreshViolations,
 	"update_security_policy":                        WorkRequestSummaryOperationTypeUpdateSecurityPolicy,
 	"change_security_policy_compartment":            WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment,
 	"update_security_policy_deployment":             WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment,
@@ -461,6 +473,9 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_difference":                             WorkRequestSummaryOperationTypeUpdateDifference,
 	"patch_difference":                              WorkRequestSummaryOperationTypePatchDifference,
 	"apply_difference":                              WorkRequestSummaryOperationTypeApplyDifference,
+	"abort_masking":                                 WorkRequestSummaryOperationTypeAbortMasking,
+	"create_security_policy_report":                 WorkRequestSummaryOperationTypeCreateSecurityPolicyReport,
+	"refresh_security_policy_cache":                 WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache,
 	"create_schedule":                               WorkRequestSummaryOperationTypeCreateSchedule,
 	"remove_schedule_report":                        WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"update_all_alert":                              WorkRequestSummaryOperationTypeUpdateAllAlert,
@@ -529,6 +544,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT",
 		"DELETE_SECURITY_ASSESSMENT",
 		"UPDATE_SECURITY_ASSESSMENT",
+		"UPDATE_FINDING_RISK",
 		"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT",
 		"SET_SECURITY_ASSESSMENT_BASELINE",
 		"UNSET_SECURITY_ASSESSMENT_BASELINE",
@@ -551,6 +567,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"CHANGE_SQL_COLLECTION_COMPARTMENT",
 		"REFRESH_SQL_COLLECTION_LOG_INSIGHTS",
 		"PURGE_SQL_COLLECTION_LOGS",
+		"REFRESH_VIOLATIONS",
 		"UPDATE_SECURITY_POLICY",
 		"CHANGE_SECURITY_POLICY_COMPARTMENT",
 		"UPDATE_SECURITY_POLICY_DEPLOYMENT",
@@ -606,6 +623,9 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_DIFFERENCE",
 		"PATCH_DIFFERENCE",
 		"APPLY_DIFFERENCE",
+		"ABORT_MASKING",
+		"CREATE_SECURITY_POLICY_REPORT",
+		"REFRESH_SECURITY_POLICY_CACHE",
 		"CREATE_SCHEDULE",
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",

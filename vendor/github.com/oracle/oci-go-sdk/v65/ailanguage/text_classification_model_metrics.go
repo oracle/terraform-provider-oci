@@ -32,14 +32,14 @@ type TextClassificationModelMetrics struct {
 	// F1-score, is a measure of a model’s accuracy on a dataset
 	MacroF1 *float32 `mandatory:"true" json:"macroF1"`
 
-	// The fraction of the labels that were correctly recognised .
-	Accuracy *float32 `mandatory:"true" json:"accuracy"`
-
 	// Precision refers to the number of true positives divided by the total number of positive predictions (i.e., the number of true positives plus the number of false positives)
-	MacroPrecision *float32 `mandatory:"false" json:"macroPrecision"`
+	MacroPrecision *float32 `mandatory:"true" json:"macroPrecision"`
 
 	// Measures the model's ability to predict actual positive classes. It is the ratio between the predicted true positives and what was actually tagged. The recall metric reveals how many of the predicted classes are correct.
-	MacroRecall *float32 `mandatory:"false" json:"macroRecall"`
+	MacroRecall *float32 `mandatory:"true" json:"macroRecall"`
+
+	// The fraction of the labels that were correctly recognised .
+	Accuracy *float32 `mandatory:"true" json:"accuracy"`
 
 	// F1-score, is a measure of a model’s accuracy on a dataset
 	WeightedF1 *float32 `mandatory:"false" json:"weightedF1"`

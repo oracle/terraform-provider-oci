@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Connector Hub API
+// Connector Hub API
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
@@ -19,13 +19,18 @@ import (
 	"strings"
 )
 
-// SourceConnectorPluginSummary Summary of a source plugin. Source plugin are used to fetch data from a specific service.
+// SourceConnectorPluginSummary Summary information for a connector plugin that fetches data from a source service.
 // For configuration instructions, see
-// To create a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create).
+// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
 type SourceConnectorPluginSummary struct {
 
-	// The type of the plugin. The service it is going to call.
-	Type *string `mandatory:"true" json:"type"`
+	// The service to be called by the connector plugin.
+	Name *string `mandatory:"true" json:"name"`
+
+	// The date and time when this plugin became available.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2023-09-10T21:10:29.600Z`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
@@ -39,12 +44,17 @@ type SourceConnectorPluginSummary struct {
 	EstimatedThroughput EstimatedThroughputEnum `mandatory:"false" json:"estimatedThroughput,omitempty"`
 
 	// The current state of the service connector.
-	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState ConnectorPluginLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetType returns Type
-func (m SourceConnectorPluginSummary) GetType() *string {
-	return m.Type
+// GetName returns Name
+func (m SourceConnectorPluginSummary) GetName() *string {
+	return m.Name
+}
+
+// GetTimeCreated returns TimeCreated
+func (m SourceConnectorPluginSummary) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
 }
 
 // GetEstimatedThroughput returns EstimatedThroughput
@@ -53,7 +63,7 @@ func (m SourceConnectorPluginSummary) GetEstimatedThroughput() EstimatedThroughp
 }
 
 // GetLifecycleState returns LifecycleState
-func (m SourceConnectorPluginSummary) GetLifecycleState() LifecycleStateEnum {
+func (m SourceConnectorPluginSummary) GetLifecycleState() ConnectorPluginLifecycleStateEnum {
 	return m.LifecycleState
 }
 
@@ -75,8 +85,8 @@ func (m SourceConnectorPluginSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingEstimatedThroughputEnum(string(m.EstimatedThroughput)); !ok && m.EstimatedThroughput != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EstimatedThroughput: %s. Supported values are: %s.", m.EstimatedThroughput, strings.Join(GetEstimatedThroughputEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingConnectorPluginLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectorPluginLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

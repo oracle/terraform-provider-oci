@@ -70,12 +70,12 @@ type CreateInternalVnicAttachmentDetails struct {
 
 	VnicShapeConfig *VnicShapeConfig `mandatory:"false" json:"vnicShapeConfig"`
 
-	VnicaasVnicShapeConfig *VnicassVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
+	VnicaasVnicShapeConfig *VnicaasVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
 
-	// The substrate IP address of the instance
+	// The IP address of the instance in the substrate.
 	SubstrateIp *string `mandatory:"false" json:"substrateIp"`
 
-	// Indicates if vlanTag 0 can be assigned to this vnic or not.
+	// Indicates whether vlanTag 0 can be assigned to this vnic or not.
 	IsSkipVlanTag0 *bool `mandatory:"false" json:"isSkipVlanTag0"`
 
 	// Specifies the shard to attach the VNIC to

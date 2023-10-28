@@ -22,11 +22,11 @@ type IdentityPropagationTrustImpersonationServiceUsers struct {
 	// The ID of the service user
 	// **SCIM++ Properties:**
 	//  - caseExact: true
-	//  - idcsSearchable: false
+	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
 	//  - required: true
-	//  - returned: request
+	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
@@ -37,7 +37,7 @@ type IdentityPropagationTrustImpersonationServiceUsers struct {
 	//  - multiValued: false
 	//  - mutability: readWrite
 	//  - required: true
-	//  - returned: request
+	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
 	Rule *string `mandatory:"true" json:"rule"`
@@ -45,11 +45,11 @@ type IdentityPropagationTrustImpersonationServiceUsers struct {
 	// The OCID of the Service User.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
-	//  - idcsSearchable: false
+	//  - idcsSearchable: true
 	//  - multiValued: false
 	//  - mutability: readWrite
 	//  - required: false
-	//  - returned: request
+	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
 	Ocid *string `mandatory:"false" json:"ocid"`

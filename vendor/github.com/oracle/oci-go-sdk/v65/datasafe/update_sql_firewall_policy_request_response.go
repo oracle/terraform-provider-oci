@@ -14,10 +14,10 @@ import (
 // UpdateSqlFirewallPolicyRequest wrapper for the UpdateSqlFirewallPolicy operation
 type UpdateSqlFirewallPolicyRequest struct {
 
-	// The OCID of the SQL firewall policy resource.
+	// The OCID of the SQL Firewall policy resource.
 	SqlFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"sqlFirewallPolicyId"`
 
-	// Details to update the SQL firewall policy.
+	// Details to update the SQL Firewall policy.
 	UpdateSqlFirewallPolicyDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -57,6 +57,9 @@ type UpdateVmClusterDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
+	// Details of the file system configuration of the VM cluster.
+	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 }
 
 func (m UpdateVmClusterDetails) String() string {

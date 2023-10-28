@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Connector Hub API
+// Connector Hub API
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
@@ -19,19 +19,25 @@ import (
 	"strings"
 )
 
-// ConnectorPlugin An object that represents the different types of plugins available while defining a service connector.
-// Example plugins are the streaming source plugin and the notification service destination plugin.
-// For more information about flows defined by service connectors, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// ConnectorPlugin A service source or service target used to create a connector.
+// Example connector plugins include the Queue source and the Notifications target.
+// For more information about flows defined by connectors, see
+// Overview of Connector Hub (https://docs.cloud.oracle.com/iaas/Content/connector-hub/overview.htm).
 // For configuration instructions, see
-// To create a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create).
+// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
 type ConnectorPlugin interface {
 
-	// The type of the plugin. The service it is going to call.
-	GetType() *string
+	// The service to be called by the connector plugin.
+	// Example: `QueueSource`
+	GetName() *string
+
+	// The date and time when this plugin became available.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2023-09-09T21:10:29.600Z`
+	GetTimeCreated() *common.SDKTime
 
 	// The current state of the service connector.
-	GetLifecycleState() LifecycleStateEnum
+	GetLifecycleState() ConnectorPluginLifecycleStateEnum
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
@@ -39,15 +45,20 @@ type ConnectorPlugin interface {
 
 	// The estimated throughput range (LOW, MEDIUM, HIGH).
 	GetEstimatedThroughput() EstimatedThroughputEnum
+
+	// Gets the specified connector plugin configuration information in OpenAPI specification format.
+	GetSchema() *string
 }
 
 type connectorplugin struct {
 	JsonData            []byte
-	EstimatedThroughput EstimatedThroughputEnum `mandatory:"false" json:"estimatedThroughput,omitempty"`
-	Type                *string                 `mandatory:"true" json:"type"`
-	LifecycleState      LifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
-	DisplayName         *string                 `mandatory:"true" json:"displayName"`
-	Kind                string                  `json:"kind"`
+	EstimatedThroughput EstimatedThroughputEnum           `mandatory:"false" json:"estimatedThroughput,omitempty"`
+	Schema              *string                           `mandatory:"false" json:"schema"`
+	Name                *string                           `mandatory:"true" json:"name"`
+	TimeCreated         *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	LifecycleState      ConnectorPluginLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	DisplayName         *string                           `mandatory:"true" json:"displayName"`
+	Kind                string                            `json:"kind"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -61,10 +72,12 @@ func (m *connectorplugin) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.Type = s.Model.Type
+	m.Name = s.Model.Name
+	m.TimeCreated = s.Model.TimeCreated
 	m.LifecycleState = s.Model.LifecycleState
 	m.DisplayName = s.Model.DisplayName
 	m.EstimatedThroughput = s.Model.EstimatedThroughput
+	m.Schema = s.Model.Schema
 	m.Kind = s.Model.Kind
 
 	return err
@@ -79,8 +92,8 @@ func (m *connectorplugin) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 
 	var err error
 	switch m.Kind {
-	case "DESTINATION":
-		mm := DestinationConnectorPlugin{}
+	case "TARGET":
+		mm := TargetConnectorPlugin{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SOURCE":
@@ -98,13 +111,23 @@ func (m connectorplugin) GetEstimatedThroughput() EstimatedThroughputEnum {
 	return m.EstimatedThroughput
 }
 
-// GetType returns Type
-func (m connectorplugin) GetType() *string {
-	return m.Type
+// GetSchema returns Schema
+func (m connectorplugin) GetSchema() *string {
+	return m.Schema
+}
+
+// GetName returns Name
+func (m connectorplugin) GetName() *string {
+	return m.Name
+}
+
+// GetTimeCreated returns TimeCreated
+func (m connectorplugin) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
 }
 
 // GetLifecycleState returns LifecycleState
-func (m connectorplugin) GetLifecycleState() LifecycleStateEnum {
+func (m connectorplugin) GetLifecycleState() ConnectorPluginLifecycleStateEnum {
 	return m.LifecycleState
 }
 
@@ -122,8 +145,8 @@ func (m connectorplugin) String() string {
 // Not recommended for calling this function directly
 func (m connectorplugin) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingConnectorPluginLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectorPluginLifecycleStateEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingEstimatedThroughputEnum(string(m.EstimatedThroughput)); !ok && m.EstimatedThroughput != "" {
@@ -140,18 +163,18 @@ type ConnectorPluginKindEnum string
 
 // Set of constants representing the allowable values for ConnectorPluginKindEnum
 const (
-	ConnectorPluginKindSource      ConnectorPluginKindEnum = "SOURCE"
-	ConnectorPluginKindDestination ConnectorPluginKindEnum = "DESTINATION"
+	ConnectorPluginKindSource ConnectorPluginKindEnum = "SOURCE"
+	ConnectorPluginKindTarget ConnectorPluginKindEnum = "TARGET"
 )
 
 var mappingConnectorPluginKindEnum = map[string]ConnectorPluginKindEnum{
-	"SOURCE":      ConnectorPluginKindSource,
-	"DESTINATION": ConnectorPluginKindDestination,
+	"SOURCE": ConnectorPluginKindSource,
+	"TARGET": ConnectorPluginKindTarget,
 }
 
 var mappingConnectorPluginKindEnumLowerCase = map[string]ConnectorPluginKindEnum{
-	"source":      ConnectorPluginKindSource,
-	"destination": ConnectorPluginKindDestination,
+	"source": ConnectorPluginKindSource,
+	"target": ConnectorPluginKindTarget,
 }
 
 // GetConnectorPluginKindEnumValues Enumerates the set of values for ConnectorPluginKindEnum
@@ -167,7 +190,7 @@ func GetConnectorPluginKindEnumValues() []ConnectorPluginKindEnum {
 func GetConnectorPluginKindEnumStringValues() []string {
 	return []string{
 		"SOURCE",
-		"DESTINATION",
+		"TARGET",
 	}
 }
 

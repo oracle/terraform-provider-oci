@@ -14,7 +14,7 @@ import (
 // DeleteSqlFirewallPolicyRequest wrapper for the DeleteSqlFirewallPolicy operation
 type DeleteSqlFirewallPolicyRequest struct {
 
-	// The OCID of the SQL firewall policy resource.
+	// The OCID of the SQL Firewall policy resource.
 	SqlFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"sqlFirewallPolicyId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

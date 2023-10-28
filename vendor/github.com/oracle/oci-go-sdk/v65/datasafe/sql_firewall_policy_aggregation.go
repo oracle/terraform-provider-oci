@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SqlFirewallPolicyAggregation The details of SQL firewall policy.
+// SqlFirewallPolicyAggregation The details of SQL Firewall policy.
 type SqlFirewallPolicyAggregation struct {
 	Dimensions *SqlFirewallPolicyDimensions `mandatory:"true" json:"dimensions"`
 

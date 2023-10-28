@@ -186,7 +186,7 @@ type IdentityPropagationTrust struct {
 	//  - multiValued: false
 	//  - required: false
 	//  - mutability: readWrite
-	//  - returned: request
+	//  - returned: default
 	//  - uniqueness: none
 	//  - caseExact: false
 	//  - idcsSearchable: false
@@ -255,7 +255,7 @@ type IdentityPropagationTrust struct {
 	//  - multiValued: true
 	//  - required: false
 	//  - mutability: readWrite
-	//  - returned: request
+	//  - returned: default
 	//  - uniqueness: none
 	//  - caseExact: true
 	//  - idcsSearchable: false
@@ -290,7 +290,7 @@ type IdentityPropagationTrust struct {
 	//  - multiValued: false
 	//  - required: false
 	//  - mutability: readWrite
-	//  - returned: request
+	//  - returned: default
 	//  - uniqueness: none
 	//  - idcsSearchable: false
 	PublicCertificate *string `mandatory:"false" json:"publicCertificate"`
@@ -328,6 +328,31 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: false
 	AllowImpersonation *bool `mandatory:"false" json:"allowImpersonation"`
 
+	// Clock Skew (in secs) that is allowed for the token issue and expiry time
+	// **Added In:** 2308181911
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: integer
+	//  - uniqueness: none
+	ClockSkewSeconds *int `mandatory:"false" json:"clockSkewSeconds"`
+
+	// To restrict token exchange to certain roles only if provider is AWS
+	// **SCIM++ Properties:**
+	//  - type: string
+	//  - multiValued: false
+	//  - required: false
+	//  - mutability: readWrite
+	//  - returned: default
+	//  - uniqueness: none
+	//  - caseExact: true
+	//  - idcsSearchable: false
+	AWSRoleARN *string `mandatory:"false" json:"AWSRoleARN"`
+
 	// Impersonating Principal
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [rule, value]
@@ -341,18 +366,6 @@ type IdentityPropagationTrust struct {
 	ImpersonationServiceUsers []IdentityPropagationTrustImpersonationServiceUsers `mandatory:"false" json:"impersonationServiceUsers"`
 
 	Keytab *IdentityPropagationTrustKeytab `mandatory:"false" json:"keytab"`
-
-	// To restrict token exchange to certain roles only if provider is AWS
-	// **SCIM++ Properties:**
-	//  - type: string
-	//  - multiValued: false
-	//  - required: false
-	//  - mutability: readWrite
-	//  - returned: default
-	//  - uniqueness: none
-	//  - caseExact: true
-	//  - idcsSearchable: false
-	AWSRoleARN *string `mandatory:"false" json:"AWSRoleARN"`
 }
 
 func (m IdentityPropagationTrust) String() string {

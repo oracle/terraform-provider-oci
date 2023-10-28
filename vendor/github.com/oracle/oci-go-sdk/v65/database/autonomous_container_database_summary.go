@@ -133,27 +133,22 @@ type AutonomousContainerDatabaseSummary struct {
 	// Indicates if FIPS-140 compliant cryptography is enabled for the Autonomous Container Database.
 	IsFipsEnabled *bool `mandatory:"false" json:"isFipsEnabled"`
 
-	// The amount of memory (in GBs) enabled per OCPU or ECPU in the Autonomous VM Cluster.
+	// The amount of memory (in GBs) enabled per ECPU or OCPU in the Autonomous VM Cluster.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
-	// Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.<br>
-	// For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
+	// Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
-	// The number of CPUs allocated to the Autonomous VM cluster.<br>
-	// For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
+	// The number of CPUs allocated to the Autonomous VM cluster.
 	TotalCpus *int `mandatory:"false" json:"totalCpus"`
 
-	// For Autonomous Databases on Dedicated Exadata Infrastructure:
-	// - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
-	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
+	// CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
-	// An array of CPU values that can be used to successfully provision a single Autonomous Database.\
-	// For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
+	// An array of CPU values that can be used to successfully provision a single Autonomous Database.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
-	// The compute model of the Autonomous VM Cluster.
+	// The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	ComputeModel AutonomousContainerDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The number of CPUs provisioned in an Autonomous Container Database.

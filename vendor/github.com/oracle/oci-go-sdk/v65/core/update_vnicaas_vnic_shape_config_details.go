@@ -27,7 +27,7 @@ type UpdateVnicaasVnicShapeConfigDetails struct {
 	// VNIC whose attachments need to be updated to the destination vnic shape.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
-	VnicaasVnicShapeConfig *VnicassVnicShapeConfig `mandatory:"true" json:"vnicaasVnicShapeConfig"`
+	VnicaasVnicShapeConfig *VnicaasVnicShapeConfig `mandatory:"true" json:"vnicaasVnicShapeConfig"`
 }
 
 func (m UpdateVnicaasVnicShapeConfigDetails) String() string {

@@ -22,6 +22,10 @@ type ListConnectorPluginsRequest struct {
 	// Example: `example_service_connector`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// A filter to return only resources that match the given connector plugin name ignoring case.
+	// Example: `QueueSource`
+	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
 	// For list pagination. The maximum number of results per page, or items to return
 	// in a paginated "List" call. For important details about how pagination works, see
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).

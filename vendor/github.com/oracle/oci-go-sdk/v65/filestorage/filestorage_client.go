@@ -3558,59 +3558,6 @@ func (client FileStorageClient) reserveTargetNum(ctx context.Context, request co
 	return response, err
 }
 
-// RestartStuckDelta Restarts a failed delta job for the specified replication id.
-func (client FileStorageClient) RestartStuckDelta(ctx context.Context, request RestartStuckDeltaRequest) (response RestartStuckDeltaResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.restartStuckDelta, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RestartStuckDeltaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = RestartStuckDeltaResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(RestartStuckDeltaResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RestartStuckDeltaResponse")
-	}
-	return
-}
-
-// restartStuckDelta implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) restartStuckDelta(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replications/{replicationId}/actions/restartStuckDelta", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response RestartStuckDeltaResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Replication/RestartStuckDelta"
-		err = common.PostProcessServiceError(err, "FileStorage", "RestartStuckDelta", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ShareSetJoinDomain Perform a join domain operation for the mount target share set to a domain controller for SMB access.
 func (client FileStorageClient) ShareSetJoinDomain(ctx context.Context, request ShareSetJoinDomainRequest) (response ShareSetJoinDomainResponse, err error) {
 	var ociResponse common.OCIResponse

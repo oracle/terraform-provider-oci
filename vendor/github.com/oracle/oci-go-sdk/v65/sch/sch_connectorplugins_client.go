@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Connector Hub API
+// Connector Hub API
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
@@ -94,10 +94,11 @@ func (client *ConnectorPluginsClient) ConfigurationProvider() *common.Configurat
 	return client.config
 }
 
-// GetConnectorPlugin Gets the specified connector plugin configuration information in open api specification format.
+// GetConnectorPlugin Gets the specified connector plugin configuration information.
+// A default retry strategy applies to this operation GetConnectorPlugin()
 func (client ConnectorPluginsClient) GetConnectorPlugin(ctx context.Context, request GetConnectorPluginRequest) (response GetConnectorPluginResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -127,7 +128,7 @@ func (client ConnectorPluginsClient) GetConnectorPlugin(ctx context.Context, req
 // getConnectorPlugin implements the OCIOperation interface (enables retrying operations)
 func (client ConnectorPluginsClient) getConnectorPlugin(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectorPlugins/{pluginName}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/connectorPlugins/{connectorPluginName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -143,14 +144,15 @@ func (client ConnectorPluginsClient) getConnectorPlugin(ctx context.Context, req
 		return response, err
 	}
 
-	err = common.UnmarshalResponse(httpResponse, &response)
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &connectorplugin{})
 	return response, err
 }
 
-// ListConnectorPlugins Lists all the available connector plugins currently available in the service.
+// ListConnectorPlugins Lists connector plugins according to the specified filter.
+// A default retry strategy applies to this operation ListConnectorPlugins()
 func (client ConnectorPluginsClient) ListConnectorPlugins(ctx context.Context, request ListConnectorPluginsRequest) (response ListConnectorPluginsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -191,7 +193,7 @@ func (client ConnectorPluginsClient) listConnectorPlugins(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ConnectorPluginSummary/ListConnectorPlugins"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ConnectorPlugins", "ListConnectorPlugins", apiReferenceLink)
 		return response, err
 	}

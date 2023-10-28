@@ -134,6 +134,8 @@ type DbSystem struct {
 
 	// Whether to enable monitoring via the Database Management service.
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
+
+	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
 }
 
 func (m DbSystem) String() string {
@@ -187,6 +189,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		CrashRecovery              CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		PointInTimeRecoveryDetails *PointInTimeRecoveryDetails       `json:"pointInTimeRecoveryDetails"`
 		DatabaseManagement         DatabaseManagementStatusEnum      `json:"databaseManagement"`
+		SecureConnections          *SecureConnectionDetails          `json:"secureConnections"`
 		Id                         *string                           `json:"id"`
 		DisplayName                *string                           `json:"displayName"`
 		CompartmentId              *string                           `json:"compartmentId"`
@@ -258,6 +261,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.PointInTimeRecoveryDetails = model.PointInTimeRecoveryDetails
 
 	m.DatabaseManagement = model.DatabaseManagement
+
+	m.SecureConnections = model.SecureConnections
 
 	m.Id = model.Id
 

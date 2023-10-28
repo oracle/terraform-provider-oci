@@ -101,7 +101,7 @@ type CreateAutonomousDatabaseBase interface {
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the
 	// Autonomous Exadata Infrastructure level. When provisioning an Autonomous Database Serverless  (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`.
-	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
+	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
 	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
@@ -198,7 +198,7 @@ type CreateAutonomousDatabaseBase interface {
 	GetCustomerContacts() []CustomerContact
 
 	// Specifies if the Autonomous Database requires mTLS connections.
-	// This may not be updated in parallel with any of the following: licenseModel, databaseEdition, cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, whitelistedIps, openMode, permissionLevel, db-workload, privateEndpointLabel, nsgIds, customerContacts, dbVersion, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
+	// This may not be updated in parallel with any of the following: licenseModel, databaseEdition, cpuCoreCount, computeCount, dataStorageSizeInTBs, whitelistedIps, openMode, permissionLevel, db-workload, privateEndpointLabel, nsgIds, customerContacts, dbVersion, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	// Service Change: The default value of the isMTLSConnectionRequired attribute will change from true to false on July 1, 2023 in the following APIs:
 	// - CreateAutonomousDatabase
 	// - GetAutonomousDatabase
@@ -226,9 +226,6 @@ type CreateAutonomousDatabaseBase interface {
 
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 	GetIsAutoScalingForStorageEnabled() *bool
-
-	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
-	GetMaxCpuCoreCount() *int
 
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum
@@ -290,7 +287,6 @@ type createautonomousdatabasebase struct {
 	IsOracleServiceGatewayAllowed            *bool                                                             `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
 	ScheduledOperations                      []ScheduledOperationDetails                                       `mandatory:"false" json:"scheduledOperations"`
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
-	MaxCpuCoreCount                          *int                                                              `mandatory:"false" json:"maxCpuCoreCount"`
 	DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `mandatory:"false" json:"databaseEdition,omitempty"`
 	DbToolsDetails                           []DatabaseTool                                                    `mandatory:"false" json:"dbToolsDetails"`
 	SecretId                                 *string                                                           `mandatory:"false" json:"secretId"`
@@ -354,7 +350,6 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsOracleServiceGatewayAllowed = s.Model.IsOracleServiceGatewayAllowed
 	m.ScheduledOperations = s.Model.ScheduledOperations
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
-	m.MaxCpuCoreCount = s.Model.MaxCpuCoreCount
 	m.DatabaseEdition = s.Model.DatabaseEdition
 	m.DbToolsDetails = s.Model.DbToolsDetails
 	m.SecretId = s.Model.SecretId
@@ -628,11 +623,6 @@ func (m createautonomousdatabasebase) GetScheduledOperations() []ScheduledOperat
 // GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
 func (m createautonomousdatabasebase) GetIsAutoScalingForStorageEnabled() *bool {
 	return m.IsAutoScalingForStorageEnabled
-}
-
-// GetMaxCpuCoreCount returns MaxCpuCoreCount
-func (m createautonomousdatabasebase) GetMaxCpuCoreCount() *int {
-	return m.MaxCpuCoreCount
 }
 
 // GetDatabaseEdition returns DatabaseEdition

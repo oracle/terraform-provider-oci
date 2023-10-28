@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// PatchAlertsDetails The alert details to update the status of one or more alert specified by the alert IDs.
+// PatchAlertsDetails The alert details to update the status of one or more alerts specified by the alert IDs.
 type PatchAlertsDetails struct {
 
 	// Array of alert detail to update the status of the alert specified by the alert ID.

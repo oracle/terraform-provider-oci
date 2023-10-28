@@ -43,7 +43,9 @@ type BatchLanguageTranslationDetails struct {
 	// - ko : Korean
 	// - no : Norwegian
 	// - pl : Polish
+	// - pt : Portuguese
 	// - ro : Romanian
+	// - ru : Russian
 	// - zh-CN : Simplified Chinese
 	// - es : Spanish
 	// - sv : Swedish

@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Connector Hub API
+// Connector Hub API
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
@@ -19,31 +19,46 @@ import (
 	"strings"
 )
 
-// SourceConnectorPlugin A source plugin. Source plugin are used to fetch data from a specific service.
+// SourceConnectorPlugin A connector plugin for fetching data from a source service.
 // For configuration instructions, see
-// To create a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create).
+// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
 type SourceConnectorPlugin struct {
 
-	// The type of the plugin. The service it is going to call.
-	Type *string `mandatory:"true" json:"type"`
+	// The service to be called by the connector plugin.
+	// Example: `QueueSource`
+	Name *string `mandatory:"true" json:"name"`
+
+	// The date and time when this plugin became available.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2023-09-09T21:10:29.600Z`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
+	// Gets the specified connector plugin configuration information in OpenAPI specification format.
+	Schema *string `mandatory:"false" json:"schema"`
+
 	// The estimated maximum period of time the data will be kept at the source.
+	// The duration is specified as a string in ISO 8601 format (P1D for one day or P30D for thrity days).
 	MaxRetention *string `mandatory:"false" json:"maxRetention"`
 
 	// The estimated throughput range (LOW, MEDIUM, HIGH).
 	EstimatedThroughput EstimatedThroughputEnum `mandatory:"false" json:"estimatedThroughput,omitempty"`
 
 	// The current state of the service connector.
-	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+	LifecycleState ConnectorPluginLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
-// GetType returns Type
-func (m SourceConnectorPlugin) GetType() *string {
-	return m.Type
+// GetName returns Name
+func (m SourceConnectorPlugin) GetName() *string {
+	return m.Name
+}
+
+// GetTimeCreated returns TimeCreated
+func (m SourceConnectorPlugin) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
 }
 
 // GetEstimatedThroughput returns EstimatedThroughput
@@ -52,13 +67,18 @@ func (m SourceConnectorPlugin) GetEstimatedThroughput() EstimatedThroughputEnum 
 }
 
 // GetLifecycleState returns LifecycleState
-func (m SourceConnectorPlugin) GetLifecycleState() LifecycleStateEnum {
+func (m SourceConnectorPlugin) GetLifecycleState() ConnectorPluginLifecycleStateEnum {
 	return m.LifecycleState
 }
 
 // GetDisplayName returns DisplayName
 func (m SourceConnectorPlugin) GetDisplayName() *string {
 	return m.DisplayName
+}
+
+// GetSchema returns Schema
+func (m SourceConnectorPlugin) GetSchema() *string {
+	return m.Schema
 }
 
 func (m SourceConnectorPlugin) String() string {
@@ -74,8 +94,8 @@ func (m SourceConnectorPlugin) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingEstimatedThroughputEnum(string(m.EstimatedThroughput)); !ok && m.EstimatedThroughput != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EstimatedThroughput: %s. Supported values are: %s.", m.EstimatedThroughput, strings.Join(GetEstimatedThroughputEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingConnectorPluginLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectorPluginLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

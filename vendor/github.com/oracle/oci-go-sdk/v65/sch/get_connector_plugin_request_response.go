@@ -14,8 +14,8 @@ import (
 // GetConnectorPluginRequest wrapper for the GetConnectorPlugin operation
 type GetConnectorPluginRequest struct {
 
-	// A specific plugin type.
-	PluginName *string `mandatory:"true" contributesTo:"path" name:"pluginName"`
+	// The name of the connector plugin. This name indicates the service to be called by the connector plugin. For example, `QueueSource` indicates the Queue service.
+	ConnectorPluginName *string `mandatory:"true" contributesTo:"path" name:"connectorPluginName"`
 
 	// The unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -69,8 +69,8 @@ type GetConnectorPluginResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The string instance
-	Value *string `presentIn:"body"`
+	// The ConnectorPlugin instance
+	ConnectorPlugin `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

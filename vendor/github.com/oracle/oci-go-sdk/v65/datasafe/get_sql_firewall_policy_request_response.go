@@ -14,7 +14,7 @@ import (
 // GetSqlFirewallPolicyRequest wrapper for the GetSqlFirewallPolicy operation
 type GetSqlFirewallPolicyRequest struct {
 
-	// The OCID of the SQL firewall policy resource.
+	// The OCID of the SQL Firewall policy resource.
 	SqlFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"sqlFirewallPolicyId"`
 
 	// Unique identifier for the request.

@@ -2,7 +2,7 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Connector Hub API
+// Connector Hub API
 //
 // Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
 // For more information about Connector Hub, see
@@ -19,10 +19,10 @@ import (
 	"strings"
 )
 
-// ConnectorPluginCollection Collection of service connector plugin property summaries.
+// ConnectorPluginCollection A list of connector plugins that match filter criteria. Results contain `ConnectorPlugin` objects.
 type ConnectorPluginCollection struct {
 
-	// The list of items.
+	// A list of connector plugins.
 	Items []ConnectorPluginSummary `mandatory:"true" json:"items"`
 }
 

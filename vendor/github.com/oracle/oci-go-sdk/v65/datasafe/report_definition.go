@@ -48,10 +48,10 @@ type ReportDefinition struct {
 	// Specifies how the report definitions are ordered in the display.
 	DisplayOrder *int `mandatory:"false" json:"displayOrder"`
 
-	// Specifies the data and time the report definition was created.
+	// Specifies the date and time the report definition was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the report definition was update.
+	// The date and time the report definition was updated.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Additional SCIM filters used to define the report.
@@ -84,7 +84,7 @@ type ReportDefinition struct {
 	// No constraint introduced when it is '*'. When not, day of month must equal the given value
 	Schedule *string `mandatory:"false" json:"schedule"`
 
-	// Specifies the format of the report ( either XLS or PDF )
+	// Specifies the format of the report ( either .xls or .pdf )
 	ScheduledReportMimeType ReportDefinitionScheduledReportMimeTypeEnum `mandatory:"false" json:"scheduledReportMimeType,omitempty"`
 
 	// Specifies the limit on the number of rows in the report.
@@ -93,7 +93,7 @@ type ReportDefinition struct {
 	// The name of the report to be scheduled.
 	ScheduledReportName *string `mandatory:"false" json:"scheduledReportName"`
 
-	// The OCID of the compartment in which the scheduled resource should be created.
+	// The OCID of the compartment in which the scheduled resource will be created.
 	ScheduledReportCompartmentId *string `mandatory:"false" json:"scheduledReportCompartmentId"`
 
 	// The time span for the records in the report to be scheduled.

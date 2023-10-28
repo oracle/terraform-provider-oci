@@ -83,6 +83,9 @@ type CreateVmClusterDetails struct {
 
 	// Operating system version of the image.
 	SystemVersion *string `mandatory:"false" json:"systemVersion"`
+
+	// Details of the file system configuration of the VM cluster.
+	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 }
 
 func (m CreateVmClusterDetails) String() string {

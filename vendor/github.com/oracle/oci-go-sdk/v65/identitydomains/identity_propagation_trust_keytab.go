@@ -23,7 +23,7 @@ import (
 //   - multiValued: false
 //   - mutability: readWrite
 //   - required: false
-//   - returned: request
+//   - returned: default
 //   - type: complex
 //   - uniqueness: none
 type IdentityPropagationTrustKeytab struct {
@@ -35,7 +35,7 @@ type IdentityPropagationTrustKeytab struct {
 	//  - multiValued: false
 	//  - mutability: readWrite
 	//  - required: true
-	//  - returned: request
+	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
 	SecretOcid *string `mandatory:"true" json:"secretOcid"`
@@ -47,7 +47,7 @@ type IdentityPropagationTrustKeytab struct {
 	//  - multiValued: false
 	//  - mutability: readWrite
 	//  - required: false
-	//  - returned: request
+	//  - returned: default
 	//  - type: integer
 	//  - uniqueness: none
 	SecretVersion *int `mandatory:"false" json:"secretVersion"`

@@ -52,7 +52,7 @@ type InternalVnicAttachment struct {
 
 	VnicShapeConfig *VnicShapeConfig `mandatory:"false" json:"vnicShapeConfig"`
 
-	VnicaasVnicShapeConfig *VnicassVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
+	VnicaasVnicShapeConfig *VnicaasVnicShapeConfig `mandatory:"false" json:"vnicaasVnicShapeConfig"`
 
 	// The instance that a VNIC is attached to
 	InstanceId *string `mandatory:"false" json:"instanceId"`

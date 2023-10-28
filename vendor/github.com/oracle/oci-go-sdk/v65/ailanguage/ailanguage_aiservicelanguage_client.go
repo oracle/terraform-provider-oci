@@ -151,6 +151,63 @@ func (client AIServiceLanguageClient) batchDetectDominantLanguage(ctx context.Co
 	return response, err
 }
 
+// BatchDetectHealthEntity The API extracts health entities in text records. For each entity, its type and confidence score (between 0 and 1) is returned.  It supports passing a batch of records.
+// Limitations:
+// - A batch may have up to 100 records.
+// - A record may be up to 5000 characters long.
+// - The total of characters to process in a request can be up to 20,000 characters.
+func (client AIServiceLanguageClient) BatchDetectHealthEntity(ctx context.Context, request BatchDetectHealthEntityRequest) (response BatchDetectHealthEntityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.batchDetectHealthEntity, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BatchDetectHealthEntityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BatchDetectHealthEntityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BatchDetectHealthEntityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BatchDetectHealthEntityResponse")
+	}
+	return
+}
+
+// batchDetectHealthEntity implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceLanguageClient) batchDetectHealthEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/batchDetectHealthEntities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BatchDetectHealthEntityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectHealthEntityDetails/BatchDetectHealthEntity"
+		err = common.PostProcessServiceError(err, "AIServiceLanguage", "BatchDetectHealthEntity", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BatchDetectLanguageEntities The API extracts entities in text records. For each entity, its type/subtype and confidence score (between 0 and 1) is returned.  It supports passing a batch of records.
 // List of supported entities. (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#ner__sup-ner-entity)
 // Limitations:
@@ -500,65 +557,6 @@ func (client AIServiceLanguageClient) batchLanguageTranslation(ctx context.Conte
 	return response, err
 }
 
-// CancelJob Canceling the job cancels all the tasks under it.
-// A default retry strategy applies to this operation CancelJob()
-func (client AIServiceLanguageClient) CancelJob(ctx context.Context, request CancelJobRequest) (response CancelJobResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.cancelJob, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CancelJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CancelJobResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CancelJobResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CancelJobResponse")
-	}
-	return
-}
-
-// cancelJob implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceLanguageClient) cancelJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/actions/cancel", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CancelJobResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Job/CancelJob"
-		err = common.PostProcessServiceError(err, "AIServiceLanguage", "CancelJob", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeEndpointCompartment Moves a Endpoint into a different compartment. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeEndpointCompartment()
 func (client AIServiceLanguageClient) ChangeEndpointCompartment(ctx context.Context, request ChangeEndpointCompartmentRequest) (response ChangeEndpointCompartmentResponse, err error) {
@@ -611,65 +609,6 @@ func (client AIServiceLanguageClient) changeEndpointCompartment(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Endpoint/ChangeEndpointCompartment"
 		err = common.PostProcessServiceError(err, "AIServiceLanguage", "ChangeEndpointCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ChangeJobCompartment Moves a Job into a different compartment. When provided, If-Match is checked against ETag values of the resource.
-// A default retry strategy applies to this operation ChangeJobCompartment()
-func (client AIServiceLanguageClient) ChangeJobCompartment(ctx context.Context, request ChangeJobCompartmentRequest) (response ChangeJobCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeJobCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeJobCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeJobCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeJobCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeJobCompartmentResponse")
-	}
-	return
-}
-
-// changeJobCompartment implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceLanguageClient) changeJobCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeJobCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Job/ChangeJobCompartment"
-		err = common.PostProcessServiceError(err, "AIServiceLanguage", "ChangeJobCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -854,65 +793,6 @@ func (client AIServiceLanguageClient) createEndpoint(ctx context.Context, reques
 	return response, err
 }
 
-// CreateJob Creates a new language service async job.
-// A default retry strategy applies to this operation CreateJob()
-func (client AIServiceLanguageClient) CreateJob(ctx context.Context, request CreateJobRequest) (response CreateJobResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createJob, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateJobResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateJobResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateJobResponse")
-	}
-	return
-}
-
-// createJob implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceLanguageClient) createJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateJobResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Job/CreateJob"
-		err = common.PostProcessServiceError(err, "AIServiceLanguage", "CreateJob", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateModel Creates a new model for training and train the model with date provided.
 // A default retry strategy applies to this operation CreateModel()
 func (client AIServiceLanguageClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
@@ -1085,60 +965,6 @@ func (client AIServiceLanguageClient) deleteEndpoint(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteJob Deletes the language service async Job
-// A default retry strategy applies to this operation DeleteJob()
-func (client AIServiceLanguageClient) DeleteJob(ctx context.Context, request DeleteJobRequest) (response DeleteJobResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteJob, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteJobResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteJobResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteJobResponse")
-	}
-	return
-}
-
-// deleteJob implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceLanguageClient) deleteJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/jobs/{jobId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteJobResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Job/DeleteJob"
-		err = common.PostProcessServiceError(err, "AIServiceLanguage", "DeleteJob", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteModel Deletes a provisioned model resource by identifier. This operation fails with a 409 error unless all associated resources are in a DELETED state. You must delete all associated resources before deleting a model.
 // A default retry strategy applies to this operation DeleteModel()
 func (client AIServiceLanguageClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
@@ -1249,7 +1075,8 @@ func (client AIServiceLanguageClient) deleteProject(ctx context.Context, request
 
 // DetectDominantLanguage **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
 // We recommend you replace this API with the batch API, BatchDetectDominantLanguage (https://docs.cloud.oracle.com/iaas/api/#/en/language/20221001/BatchDetectDominantLanguage/BatchDetectDominantLanguage).
-// List of supported languages. (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#lang-detect)
+// The DetectDominantLanguage API returns the detected language and a related confidence score (between 0 and 1).
+// List of supported languages (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#lang-detect)
 // Limitations:
 // - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectDominantLanguage(ctx context.Context, request DetectDominantLanguageRequest) (response DetectDominantLanguageResponse, err error) {
@@ -1362,8 +1189,10 @@ func (client AIServiceLanguageClient) detectLanguageEntities(ctx context.Context
 }
 
 // DetectLanguageKeyPhrases **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
-// We recommend you replace this API with the batch API, BatchDetectLanguageKeyPhrases (https://docs.cloud.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageKeyPhrases/BatchDetectLanguageKeyPhrases).
-// The DetectLanguageKeyPhrases API extracts key-phrases in text records. For each key-phrase, a score (between 0 and 1) is returned that highlights the importance of the key-phrase in the context of the text.
+//
+//	We recommend you replace this API with the batch API, BatchDetectLanguageKeyPhrases (https://docs.cloud.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageKeyPhrases/BatchDetectLanguageKeyPhrases).
+//	The DetectLanguageKeyPhrases API extracts key-phrases in text records. For each key-phrase, a score (between 0 and 1) is returned that highlights the importance of the key-phrase in the context of the text.
+//
 // Limitations:
 // - A record may be up to 1000 characters long.
 func (client AIServiceLanguageClient) DetectLanguageKeyPhrases(ctx context.Context, request DetectLanguageKeyPhrasesRequest) (response DetectLanguageKeyPhrasesResponse, err error) {
@@ -1583,60 +1412,6 @@ func (client AIServiceLanguageClient) getEndpoint(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Endpoint/GetEndpoint"
 		err = common.PostProcessServiceError(err, "AIServiceLanguage", "GetEndpoint", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetJob Gets a language service async job
-// A default retry strategy applies to this operation GetJob()
-func (client AIServiceLanguageClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getJob, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetJobResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetJobResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetJobResponse")
-	}
-	return
-}
-
-// getJob implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceLanguageClient) getJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetJobResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Job/GetJob"
-		err = common.PostProcessServiceError(err, "AIServiceLanguage", "GetJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1968,60 +1743,6 @@ func (client AIServiceLanguageClient) listEvaluationResults(ctx context.Context,
 	return response, err
 }
 
-// ListJobs Returns a list of language service async Jobs.
-// A default retry strategy applies to this operation ListJobs()
-func (client AIServiceLanguageClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listJobs, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListJobsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListJobsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListJobsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListJobsResponse")
-	}
-	return
-}
-
-// listJobs implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceLanguageClient) listJobs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListJobsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Job/ListJobs"
-		err = common.PostProcessServiceError(err, "AIServiceLanguage", "ListJobs", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListModels Returns a list of models.
 // A default retry strategy applies to this operation ListModels()
 func (client AIServiceLanguageClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
@@ -2339,60 +2060,6 @@ func (client AIServiceLanguageClient) updateEndpoint(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Endpoint/UpdateEndpoint"
 		err = common.PostProcessServiceError(err, "AIServiceLanguage", "UpdateEndpoint", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateJob Updates the language service async Job
-// A default retry strategy applies to this operation UpdateJob()
-func (client AIServiceLanguageClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateJob, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateJobResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateJobResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateJobResponse")
-	}
-	return
-}
-
-// updateJob implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceLanguageClient) updateJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/jobs/{jobId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateJobResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/Job/UpdateJob"
-		err = common.PostProcessServiceError(err, "AIServiceLanguage", "UpdateJob", apiReferenceLink)
 		return response, err
 	}
 
