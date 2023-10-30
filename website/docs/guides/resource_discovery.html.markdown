@@ -197,6 +197,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
     * `opsi` - Discovers opsi resources within the specified compartment
     * `optimizer` - Discovers optimizer resources across the entire tenancy
+    * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
@@ -989,6 +990,14 @@ opsi
 optimizer
 
 * oci\_optimizer\_profile
+
+os_management_hub
+    
+* oci\_os\_management\_hub\_lifecycle\_environment
+* oci\_os\_management\_hub\_software\_source
+* oci\_os\_management\_hub\_managed\_instance\_group
+* oci\_os\_management\_hub\_management\_station
+* oci\_os\_management\_hub\_profile
 
 osmanagement
 
