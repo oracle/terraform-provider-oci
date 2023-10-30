@@ -78,7 +78,7 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource2" {
 
 resource "oci_stack_monitoring_monitored_resources_associate_monitored_resource" "test_monitored_resources_associate_monitored_resource" {
 	#Required
-	association_type = "contains"
+	association_type = "uses"
 	compartment_id = var.compartment_ocid
 	destination_resource_id = oci_stack_monitoring_monitored_resource.test_monitored_resource2.id
 	source_resource_id = oci_stack_monitoring_monitored_resource.test_monitored_resource1.id
