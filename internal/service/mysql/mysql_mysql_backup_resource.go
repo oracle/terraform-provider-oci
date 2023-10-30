@@ -173,6 +173,10 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"database_management": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"defined_tags": {
 							Type:     schema.TypeMap,
 							Computed: true,
@@ -730,6 +734,8 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 	if obj.DataStorageSizeInGBs != nil {
 		result["data_storage_size_in_gb"] = int(*obj.DataStorageSizeInGBs)
 	}
+
+	result["database_management"] = string(obj.DatabaseManagement)
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
