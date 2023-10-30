@@ -33,7 +33,7 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_associate_monitored_resource", "test_monitored_resources_associate_monitored_resource", acctest.Required, acctest.Create, StackMonitoringMonitoredResourcesAssociateMonitoredResourceRepresentation)
 
 	StackMonitoringMonitoredResourcesAssociateMonitoredResourceRepresentation = map[string]interface{}{
-		"association_type":        acctest.Representation{RepType: acctest.Required, Create: `contains`},
+		"association_type":        acctest.Representation{RepType: acctest.Required, Create: `uses`},
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"destination_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_monitored_resource.test_destination_resource.id}`},
 		"source_resource_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_monitored_resource.test_source_resource.id}`},
@@ -45,7 +45,7 @@ var (
 	}
 
 	StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_destination_resource", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_source_resource", acctest.Optional, acctest.Create, StackMonitoredResourceRepresentation2)
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resource", "test_source_resource", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourceRepresentation2)
 )
 
 // issue-routing-tag: stack_monitoring/default
@@ -95,7 +95,7 @@ func TestStackMonitoringMonitoredResourcesAssociateMonitoredResourceResource_bas
 			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + StackMonitoringMonitoredResourcesAssociateMonitoredResourceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_associate_monitored_resource", "test_monitored_resources_associate_monitored_resource", acctest.Required, acctest.Create, StackMonitoringMonitoredResourcesAssociateMonitoredResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "association_type", "contains"),
+				resource.TestCheckResourceAttr(resourceName, "association_type", "uses"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_resource_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_resource_id"),

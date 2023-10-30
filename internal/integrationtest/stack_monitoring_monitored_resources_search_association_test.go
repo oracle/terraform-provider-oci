@@ -24,7 +24,7 @@ var (
 
 	StackMonitoringMonitoredResourcesSearchAssociationRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"association_type":          acctest.Representation{RepType: acctest.Optional, Create: `contains`},
+		"association_type":          acctest.Representation{RepType: acctest.Optional, Create: `uses`},
 		"destination_resource_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_stack_monitoring_monitored_resource.test_destination_resource.id}`},
 		"destination_resource_name": acctest.Representation{RepType: acctest.Optional, Create: `terraformResource`},
 		"destination_resource_type": acctest.Representation{RepType: acctest.Optional, Create: `host`},
@@ -96,7 +96,7 @@ func TestStackMonitoringMonitoredResourcesSearchAssociationResource_basic(t *tes
 			Config: config + compartmentIdVariableStr + managementAgentId1VariableStr + hostname1VariableStr + managementAgentId2VariableStr + hostname2VariableStr + StackMonitoringMonitoredResourcesSearchAssociationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_search_association", "test_monitored_resources_search_association", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourcesSearchAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "association_type", "contains"),
+				resource.TestCheckResourceAttr(resourceName, "association_type", "uses"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "destination_resource_id"),
 				resource.TestCheckResourceAttr(resourceName, "destination_resource_name", "terraformResource"),

@@ -137,6 +137,10 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"defined_tags": {
 							Type:     schema.TypeMap,
 							Computed: true,
@@ -408,6 +412,10 @@ func (s *StackMonitoringMonitoredResourcesSearchResourceCrud) SetData() error {
 
 func MonitoredResourceSummaryToMap(obj oci_stack_monitoring.MonitoredResourceSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)

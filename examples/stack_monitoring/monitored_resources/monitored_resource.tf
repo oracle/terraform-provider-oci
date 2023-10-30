@@ -51,3 +51,10 @@ data "oci_stack_monitoring_monitored_resource" "test_monitored_resource" {
   #Required
   monitored_resource_id = oci_stack_monitoring_monitored_resource.test_monitored_resource.id
 }
+
+data "oci_stack_monitoring_monitored_resources" "test_monitored_resources" {
+	#Required
+	compartment_id = oci_stack_monitoring_monitored_resource.test_monitored_resource.compartment_id
+	#Optional
+	name = 	oci_stack_monitoring_monitored_resource.test_monitored_resource.name
+}
