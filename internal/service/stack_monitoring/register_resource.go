@@ -9,6 +9,8 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_stack_monitoring_config", StackMonitoringConfigResource())
 	tfresource.RegisterResource("oci_stack_monitoring_discovery_job", StackMonitoringDiscoveryJobResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resource", StackMonitoringMonitoredResourceResource())
+	tfresource.RegisterResource("oci_stack_monitoring_monitored_resource_task", StackMonitoringMonitoredResourceTaskResource())
+	tfresource.RegisterResource("oci_stack_monitoring_monitored_resource_type", StackMonitoringMonitoredResourceTypeResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resources_associate_monitored_resource", StackMonitoringMonitoredResourcesAssociateMonitoredResourceResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resources_list_member", StackMonitoringMonitoredResourcesListMemberResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resources_search", StackMonitoringMonitoredResourcesSearchResource())

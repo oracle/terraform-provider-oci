@@ -205,7 +205,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `redis` - Discovers redis resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
-    *`service_mesh` - Discovers service_mesh resources within the specified compartment
+    * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
@@ -1051,6 +1051,8 @@ stack_monitoring
 * oci\_stack\_monitoring\_monitored\_resources\_search
 * oci\_stack\_monitoring\_monitored\_resources\_associate\_monitored\_resource
 * oci\_stack\_monitoring\_config
+* oci\_stack\_monitoring\_monitored\_resource\_task
+* oci\_stack\_monitoring\_monitored\_resource\_type
 
 streaming
 
