@@ -88,6 +88,7 @@ import (
 	tf_operator_access_control "github.com/oracle/terraform-provider-oci/internal/service/operator_access_control"
 	tf_opsi "github.com/oracle/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/oracle/terraform-provider-oci/internal/service/optimizer"
+	tf_os_management_hub "github.com/oracle/terraform-provider-oci/internal/service/os_management_hub"
 	tf_osmanagement "github.com/oracle/terraform-provider-oci/internal/service/osmanagement"
 	tf_osp_gateway "github.com/oracle/terraform-provider-oci/internal/service/osp_gateway"
 	tf_osub_billing_schedule "github.com/oracle/terraform-provider-oci/internal/service/osub_billing_schedule"
@@ -366,6 +367,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("optimizer") {
 		tf_optimizer.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("os_management_hub") {
+		tf_os_management_hub.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("osmanagement") {
 		tf_osmanagement.RegisterDatasource()
