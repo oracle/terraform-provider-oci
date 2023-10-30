@@ -23,6 +23,7 @@ data "oci_mysql_mysql_db_systems" "test_mysql_db_systems" {
 
 	#Optional
 	configuration_id = var.mysql_configuration_id
+	database_management = var.mysql_db_system_database_management
 	db_system_id = oci_mysql_mysql_db_system.test_db_system.id
 	display_name = var.mysql_db_system_display_name
 	is_heat_wave_cluster_attached = var.mysql_db_system_is_heat_wave_cluster_attached
@@ -37,6 +38,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `configuration_id` - (Optional) The requested Configuration instance.
+* `database_management` - (Optional) Filter DB Systems by their Database Management configuration. 
 * `db_system_id` - (Optional) The DB System [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only the resource matching the given display name exactly.
 * `is_heat_wave_cluster_attached` - (Optional) If true, return only DB Systems with a HeatWave cluster attached, if false return only DB Systems with no HeatWave cluster attached. If not present, return all DB Systems. 
@@ -130,6 +132,7 @@ The following attributes are exported:
 	* `availability_domain` - The availability domain in which the DB System is placed.
 	* `fault_domain` - The fault domain in which the DB System is placed.
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
+* `database_management` - Whether to enable monitoring via the Database Management service. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - The Deletion policy for the DB System.
 	* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 

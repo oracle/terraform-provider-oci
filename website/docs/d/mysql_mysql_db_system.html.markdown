@@ -108,6 +108,7 @@ The following attributes are exported:
 	* `availability_domain` - The availability domain in which the DB System is placed.
 	* `fault_domain` - The fault domain in which the DB System is placed.
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
+* `database_management` - Whether to enable monitoring via the Database Management service. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - The Deletion policy for the DB System.
 	* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 

@@ -42,6 +42,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	configuration_id = oci_audit_configuration.test_configuration.id
 	crash_recovery = var.mysql_db_system_crash_recovery
 	data_storage_size_in_gb = var.mysql_db_system_data_storage_size_in_gb
+	database_management = var.mysql_db_system_database_management
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deletion_policy {
 
@@ -109,6 +110,7 @@ The following arguments are supported:
 * `configuration_id` - (Optional) (Updatable) The OCID of the Configuration to be used for this DB System.
 * `crash_recovery` - (Optional) (Updatable) Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs. 
 * `data_storage_size_in_gb` - (Optional) (Updatable) Initial size of the data volume in GBs that will be created and attached. Keep in mind that this only specifies the size of the database data volume, the log volume for the database will be scaled appropriately with its shape. It is required if you are creating a new database. It cannot be set if you are creating a database from a backup.
+* `database_management` - (Optional) (Updatable) Whether to enable monitoring via the Database Management service. 
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - (Optional) (Updatable) Policy for how the DB System and related resources should be handled at the time of its deletion. 
 	* `automatic_backup_retention` - (Optional) (Updatable) Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
@@ -239,6 +241,7 @@ The following attributes are exported:
 	* `availability_domain` - The availability domain in which the DB System is placed.
 	* `fault_domain` - The fault domain in which the DB System is placed.
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
+* `database_management` - Whether to enable monitoring via the Database Management service. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - The Deletion policy for the DB System.
 	* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
