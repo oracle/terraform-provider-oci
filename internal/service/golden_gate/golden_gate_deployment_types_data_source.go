@@ -60,10 +60,6 @@ func GoldenGateDeploymentTypesDataSource() *schema.Resource {
 											Type: schema.TypeString,
 										},
 									},
-									"default_username": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
 									"deployment_type": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -82,10 +78,6 @@ func GoldenGateDeploymentTypesDataSource() *schema.Resource {
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
-									},
-									"supported_technologies_url": {
-										Type:     schema.TypeString,
-										Computed: true,
 									},
 									"target_technologies": {
 										Type:     schema.TypeList,
@@ -202,10 +194,6 @@ func DeploymentTypeSummaryToMap(obj oci_golden_gate.DeploymentTypeSummary) map[s
 
 	result["connection_types"] = obj.ConnectionTypes
 
-	if obj.DefaultUsername != nil {
-		result["default_username"] = string(*obj.DefaultUsername)
-	}
-
 	result["deployment_type"] = string(obj.DeploymentType)
 
 	if obj.DisplayName != nil {
@@ -217,11 +205,6 @@ func DeploymentTypeSummaryToMap(obj oci_golden_gate.DeploymentTypeSummary) map[s
 	}
 
 	result["source_technologies"] = obj.SourceTechnologies
-
-	if obj.SupportedTechnologiesUrl != nil {
-		result["supported_technologies_url"] = string(*obj.SupportedTechnologiesUrl)
-	}
-
 	result["target_technologies"] = obj.TargetTechnologies
 
 	return result
