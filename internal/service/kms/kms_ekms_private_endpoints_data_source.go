@@ -102,7 +102,6 @@ func (s *KmsEkmsPrivateEndpointsDataSourceCrud) SetData() error {
 		}
 
 		ekmsPrivateEndpoint["freeform_tags"] = r.FreeformTags
-		ekmsPrivateEndpoint["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			ekmsPrivateEndpoint["id"] = *r.Id

@@ -373,7 +373,6 @@ func (s *DataintegrationWorkspaceImportRequestResourceCrud) SetData() error {
 	}
 
 	s.D.Set("error_messages", s.Res.ErrorMessages)
-	s.D.Set("error_messages", s.Res.ErrorMessages)
 
 	if s.Res.FileName != nil {
 		s.D.Set("file_name", *s.Res.FileName)
@@ -519,7 +518,6 @@ func ImportRequestSummaryToMap(obj oci_dataintegration.ImportRequestSummary) map
 		result["created_by"] = string(*obj.CreatedBy)
 	}
 
-	result["error_messages"] = obj.ErrorMessages
 	result["error_messages"] = obj.ErrorMessages
 
 	if obj.FileName != nil {

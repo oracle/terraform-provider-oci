@@ -502,7 +502,6 @@ func (s *IdentityDomainsMyRequestResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.Justification != nil {
 		s.D.Set("justification", *s.Res.Justification)
@@ -530,7 +529,6 @@ func (s *IdentityDomainsMyRequestResourceCrud) SetData() error {
 		s.D.Set("requestor", nil)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.Status != nil {
@@ -582,7 +580,6 @@ func MyRequestToMap(obj oci_identity_domains.MyRequest) map[string]interface{} {
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.Justification != nil {
 		result["justification"] = string(*obj.Justification)
@@ -604,7 +601,6 @@ func MyRequestToMap(obj oci_identity_domains.MyRequest) map[string]interface{} {
 		result["requestor"] = []interface{}{MyRequestRequestorToMap(obj.Requestor)}
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	if obj.Status != nil {

@@ -937,7 +937,6 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifeCycleDetails != nil {
 		s.D.Set("life_cycle_details", *s.Res.LifeCycleDetails)
@@ -1146,7 +1145,6 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToComputeInstanceVnic
 func ComputeInstanceVnicMappingToMap(obj oci_disaster_recovery.ComputeInstanceVnicMapping) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["destination_nsg_id_list"] = obj.DestinationNsgIdList
 	result["destination_nsg_id_list"] = obj.DestinationNsgIdList
 
 	if obj.DestinationSubnetId != nil {

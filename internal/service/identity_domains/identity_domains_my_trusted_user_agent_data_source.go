@@ -402,7 +402,6 @@ func (s *IdentityDomainsMyTrustedUserAgentDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.LastUsedOn != nil {
 		s.D.Set("last_used_on", *s.Res.LastUsedOn)
@@ -430,7 +429,6 @@ func (s *IdentityDomainsMyTrustedUserAgentDataSourceCrud) SetData() error {
 		s.D.Set("platform", *s.Res.Platform)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}

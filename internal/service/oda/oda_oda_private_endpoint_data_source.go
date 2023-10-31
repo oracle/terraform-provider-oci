@@ -83,7 +83,6 @@ func (s *OdaOdaPrivateEndpointDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 	s.D.Set("nsg_ids", s.Res.NsgIds)

@@ -594,7 +594,6 @@ func (s *IdentityDomainsMyDeviceDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IsAccRecEnabled != nil {
 		s.D.Set("is_acc_rec_enabled", *s.Res.IsAccRecEnabled)
@@ -648,7 +647,6 @@ func (s *IdentityDomainsMyDeviceDataSourceCrud) SetData() error {
 		s.D.Set("reason", *s.Res.Reason)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.Seed != nil {

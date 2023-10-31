@@ -215,7 +215,6 @@ func (s *IdentityDomainsApiKeysDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartIndex != nil {
 		s.D.Set("start_index", *s.Res.StartIndex)

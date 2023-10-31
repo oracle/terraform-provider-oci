@@ -133,7 +133,6 @@ func (s *IdentityDomainsMyApiKeyDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.Key != nil {
 		s.D.Set("key", *s.Res.Key)
@@ -149,7 +148,6 @@ func (s *IdentityDomainsMyApiKeyDataSourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}

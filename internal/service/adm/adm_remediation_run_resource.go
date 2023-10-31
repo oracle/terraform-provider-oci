@@ -376,7 +376,6 @@ func (s *AdmRemediationRunResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.RemediationRecipeId != nil {
 		s.D.Set("remediation_recipe_id", *s.Res.RemediationRecipeId)
@@ -452,7 +451,6 @@ func RemediationRunSummaryToMap(obj oci_adm.RemediationRunSummary) map[string]in
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

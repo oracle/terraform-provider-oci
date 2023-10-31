@@ -81,7 +81,6 @@ func (s *AdmRemediationRunDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.RemediationRecipeId != nil {
 		s.D.Set("remediation_recipe_id", *s.Res.RemediationRecipeId)

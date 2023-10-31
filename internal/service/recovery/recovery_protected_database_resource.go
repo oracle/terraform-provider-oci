@@ -599,7 +599,6 @@ func (s *RecoveryProtectedDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("health", s.Res.Health)
 
@@ -749,7 +748,6 @@ func ProtectedDatabaseSummaryToMap(obj oci_recovery.ProtectedDatabaseSummary) ma
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	result["health"] = string(obj.Health)

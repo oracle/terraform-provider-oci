@@ -1676,7 +1676,6 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IdpSsoUrl != nil {
 		s.D.Set("idp_sso_url", *s.Res.IdpSsoUrl)
@@ -1781,7 +1780,6 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) SetData() error {
 	}
 
 	s.D.Set("requested_authentication_context", s.Res.RequestedAuthenticationContext)
-	s.D.Set("requested_authentication_context", s.Res.RequestedAuthenticationContext)
 
 	if s.Res.RequireForceAuthn != nil {
 		s.D.Set("require_force_authn", *s.Res.RequireForceAuthn)
@@ -1795,7 +1793,6 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) SetData() error {
 		s.D.Set("saml_ho_krequired", *s.Res.SamlHoKRequired)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.ServiceInstanceIdentifier != nil {
@@ -1987,7 +1984,6 @@ func ExtensionSocialIdentityProviderToMap(obj *oci_identity_domains.ExtensionSoc
 	}
 
 	result["admin_scope"] = obj.AdminScope
-	result["admin_scope"] = obj.AdminScope
 
 	if obj.AuthzUrl != nil {
 		result["authz_url"] = string(*obj.AuthzUrl)
@@ -2029,7 +2025,6 @@ func ExtensionSocialIdentityProviderToMap(obj *oci_identity_domains.ExtensionSoc
 		result["registration_enabled"] = bool(*obj.RegistrationEnabled)
 	}
 
-	result["scope"] = obj.Scope
 	result["scope"] = obj.Scope
 
 	if obj.ServiceProviderName != nil {
@@ -2184,7 +2179,6 @@ func ExtensionX509IdentityProviderToMap(obj *oci_identity_domains.ExtensionX509I
 	}
 
 	result["eku_values"] = obj.EkuValues
-	result["eku_values"] = obj.EkuValues
 
 	if obj.OcspAllowUnknownResponseStatus != nil {
 		result["ocsp_allow_unknown_response_status"] = bool(*obj.OcspAllowUnknownResponseStatus)
@@ -2211,13 +2205,11 @@ func ExtensionX509IdentityProviderToMap(obj *oci_identity_domains.ExtensionX509I
 	}
 
 	result["ocsp_trust_cert_chain"] = obj.OcspTrustCertChain
-	result["ocsp_trust_cert_chain"] = obj.OcspTrustCertChain
 
 	if obj.OtherCertMatchAttribute != nil {
 		result["other_cert_match_attribute"] = string(*obj.OtherCertMatchAttribute)
 	}
 
-	result["signing_certificate_chain"] = obj.SigningCertificateChain
 	result["signing_certificate_chain"] = obj.SigningCertificateChain
 
 	if obj.UserMatchAttribute != nil {
@@ -2288,7 +2280,6 @@ func IdentityProviderToMap(obj oci_identity_domains.IdentityProvider) map[string
 		result["idcs_last_upgraded_in_release"] = string(*obj.IdcsLastUpgradedInRelease)
 	}
 
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.IdpSsoUrl != nil {
@@ -2390,7 +2381,6 @@ func IdentityProviderToMap(obj oci_identity_domains.IdentityProvider) map[string
 	}
 
 	result["requested_authentication_context"] = obj.RequestedAuthenticationContext
-	result["requested_authentication_context"] = obj.RequestedAuthenticationContext
 
 	if obj.RequireForceAuthn != nil {
 		result["require_force_authn"] = bool(*obj.RequireForceAuthn)
@@ -2404,7 +2394,6 @@ func IdentityProviderToMap(obj oci_identity_domains.IdentityProvider) map[string
 		result["saml_ho_krequired"] = bool(*obj.SamlHoKRequired)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	if obj.ServiceInstanceIdentifier != nil {

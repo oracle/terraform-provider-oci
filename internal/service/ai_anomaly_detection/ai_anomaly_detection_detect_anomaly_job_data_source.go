@@ -83,7 +83,6 @@ func (s *AiAnomalyDetectionDetectAnomalyJobDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InputDetails != nil {
 		inputDetailsArray := []interface{}{}

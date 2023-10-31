@@ -241,9 +241,7 @@ func AutomaticCaptureFilterToMap(obj oci_database_management.AutomaticCaptureFil
 	}
 
 	result["values_to_exclude"] = obj.ValuesToExclude
-	result["values_to_exclude"] = obj.ValuesToExclude
 
-	result["values_to_include"] = obj.ValuesToInclude
 	result["values_to_include"] = obj.ValuesToInclude
 
 	return result
@@ -257,13 +255,11 @@ func SpmEvolveTaskParametersToMap(obj *oci_database_management.SpmEvolveTaskPara
 	}
 
 	result["alternate_plan_baselines"] = obj.AlternatePlanBaselines
-	result["alternate_plan_baselines"] = obj.AlternatePlanBaselines
 
 	if obj.AlternatePlanLimit != nil {
 		result["alternate_plan_limit"] = int(*obj.AlternatePlanLimit)
 	}
 
-	result["alternate_plan_sources"] = obj.AlternatePlanSources
 	result["alternate_plan_sources"] = obj.AlternatePlanSources
 
 	if obj.ArePlansAutoAccepted != nil {

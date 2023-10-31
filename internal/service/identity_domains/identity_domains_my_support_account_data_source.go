@@ -127,7 +127,6 @@ func (s *IdentityDomainsMySupportAccountDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.Meta != nil {
 		s.D.Set("meta", []interface{}{metaToMap(s.Res.Meta)})
@@ -139,7 +138,6 @@ func (s *IdentityDomainsMySupportAccountDataSourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}

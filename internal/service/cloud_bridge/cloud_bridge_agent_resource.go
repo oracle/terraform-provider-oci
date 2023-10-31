@@ -522,7 +522,6 @@ func (s *CloudBridgeAgentResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("heart_beat_status", s.Res.HeartBeatStatus)
 
@@ -591,7 +590,6 @@ func AgentSummaryToMap(obj oci_cloud_bridge.AgentSummary) map[string]interface{}
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	result["heart_beat_status"] = string(obj.HeartBeatStatus)
 
@@ -639,7 +637,6 @@ func PluginSummaryToMap(obj oci_cloud_bridge.PluginSummary) map[string]interface
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.LifecycleDetails != nil {

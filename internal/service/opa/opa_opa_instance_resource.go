@@ -555,7 +555,6 @@ func (s *OpaOpaInstanceResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IdentityAppDisplayName != nil {
 		s.D.Set("identity_app_display_name", *s.Res.IdentityAppDisplayName)
@@ -647,7 +646,6 @@ func OpaInstanceSummaryToMap(obj oci_opa.OpaInstanceSummary) map[string]interfac
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

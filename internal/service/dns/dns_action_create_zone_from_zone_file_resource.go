@@ -328,7 +328,6 @@ func (s *DnsActionCreateZoneFromZoneFileResourceCrud) SetData() error {
 	s.D.Set("external_masters", externalMasters)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsProtected != nil {
 		s.D.Set("is_protected", *s.Res.IsProtected)

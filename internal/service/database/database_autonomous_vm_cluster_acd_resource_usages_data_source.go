@@ -213,7 +213,6 @@ func (s *DatabaseAutonomousVmClusterAcdResourceUsagesDataSourceCrud) SetData() e
 		}
 
 		autonomousVmClusterAcdResourceUsage["freeform_tags"] = r.FreeformTags
-		autonomousVmClusterAcdResourceUsage["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			autonomousVmClusterAcdResourceUsage["id"] = *r.Id
@@ -223,7 +222,6 @@ func (s *DatabaseAutonomousVmClusterAcdResourceUsagesDataSourceCrud) SetData() e
 			autonomousVmClusterAcdResourceUsage["largest_provisionable_autonomous_database_in_cpus"] = *r.LargestProvisionableAutonomousDatabaseInCpus
 		}
 
-		autonomousVmClusterAcdResourceUsage["provisionable_cpus"] = r.ProvisionableCpus
 		autonomousVmClusterAcdResourceUsage["provisionable_cpus"] = r.ProvisionableCpus
 
 		if r.ProvisionedCpus != nil {

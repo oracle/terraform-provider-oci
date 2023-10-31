@@ -89,7 +89,6 @@ func (s *StackMonitoringConfigDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -121,7 +120,6 @@ func (s *StackMonitoringConfigDataSourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		s.D.Set("state", v.LifecycleState)
@@ -156,7 +154,6 @@ func (s *StackMonitoringConfigDataSourceCrud) SetData() error {
 			s.D.Set("display_name", *v.DisplayName)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		s.D.Set("state", v.LifecycleState)

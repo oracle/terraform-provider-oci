@@ -463,7 +463,6 @@ func (s *OdaOdaPrivateEndpointResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	nsgIds := []interface{}{}
 	for _, item := range s.Res.NsgIds {
@@ -507,7 +506,6 @@ func OdaPrivateEndpointSummaryToMap(obj oci_oda.OdaPrivateEndpointSummary) map[s
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

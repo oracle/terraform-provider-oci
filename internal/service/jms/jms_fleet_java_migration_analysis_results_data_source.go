@@ -276,7 +276,6 @@ func JavaMigrationAnalysisResultSummaryToMap(obj oci_jms.JavaMigrationAnalysisRe
 	}
 
 	result["object_list"] = obj.ObjectList
-	result["object_list"] = obj.ObjectList
 
 	if obj.ObjectStorageUploadDirPath != nil {
 		result["object_storage_upload_dir_path"] = string(*obj.ObjectStorageUploadDirPath)

@@ -376,7 +376,6 @@ func (s *MediaServicesStreamPackagingConfigResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.SegmentTimeInSeconds != nil {
 			s.D.Set("segment_time_in_seconds", *v.SegmentTimeInSeconds)
@@ -460,7 +459,6 @@ func StreamPackagingConfigSummaryToMap(obj oci_media_services.StreamPackagingCon
 		result["distribution_channel_id"] = string(*obj.DistributionChannelId)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

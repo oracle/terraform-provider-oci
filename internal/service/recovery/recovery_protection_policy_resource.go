@@ -421,7 +421,6 @@ func (s *RecoveryProtectionPolicyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsPredefinedPolicy != nil {
 		s.D.Set("is_predefined_policy", *s.Res.IsPredefinedPolicy)
@@ -467,7 +466,6 @@ func ProtectionPolicySummaryToMap(obj oci_recovery.ProtectionPolicySummary) map[
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

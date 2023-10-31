@@ -327,7 +327,6 @@ func (s *JmsJavaReleaseDataSourceCrud) SetData() error {
 	s.D.SetId(tfresource.GenerateDataSourceHashID("JmsJavaReleaseDataSource-", JmsJavaReleaseDataSource(), s.D))
 
 	s.D.Set("artifact_content_types", s.Res.ArtifactContentTypes)
-	s.D.Set("artifact_content_types", s.Res.ArtifactContentTypes)
 
 	artifacts := []interface{}{}
 	for _, item := range s.Res.Artifacts {

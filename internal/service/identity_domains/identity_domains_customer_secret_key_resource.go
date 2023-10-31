@@ -665,7 +665,6 @@ func (s *IdentityDomainsCustomerSecretKeyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.Meta != nil {
 		s.D.Set("meta", []interface{}{metaToMap(s.Res.Meta)})
@@ -677,7 +676,6 @@ func (s *IdentityDomainsCustomerSecretKeyResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	s.D.Set("status", s.Res.Status)
@@ -776,7 +774,6 @@ func CustomerSecretKeyToMap(obj oci_identity_domains.CustomerSecretKey) map[stri
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.Meta != nil {
 		result["meta"] = []interface{}{metaToMap(obj.Meta)}
@@ -786,7 +783,6 @@ func CustomerSecretKeyToMap(obj oci_identity_domains.CustomerSecretKey) map[stri
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	result["status"] = string(obj.Status)

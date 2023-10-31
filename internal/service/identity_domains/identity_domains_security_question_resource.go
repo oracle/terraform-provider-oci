@@ -603,7 +603,6 @@ func (s *IdentityDomainsSecurityQuestionResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.Meta != nil {
 		s.D.Set("meta", []interface{}{metaToMap(s.Res.Meta)})
@@ -621,7 +620,6 @@ func (s *IdentityDomainsSecurityQuestionResourceCrud) SetData() error {
 	}
 	s.D.Set("question_text", questionText)
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -700,7 +698,6 @@ func SecurityQuestionToMap(obj oci_identity_domains.SecurityQuestion) map[string
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.Meta != nil {
 		result["meta"] = []interface{}{metaToMap(obj.Meta)}
@@ -716,7 +713,6 @@ func SecurityQuestionToMap(obj oci_identity_domains.SecurityQuestion) map[string
 	}
 	result["question_text"] = questionText
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

@@ -635,7 +635,6 @@ func (s *DatasciencePipelineRunResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -850,7 +849,6 @@ func PipelineStepConfigurationDetailsToMap(obj *oci_datascience.PipelineStepConf
 		result["command_line_arguments"] = string(*obj.CommandLineArguments)
 	}
 
-	result["environment_variables"] = obj.EnvironmentVariables
 	result["environment_variables"] = obj.EnvironmentVariables
 
 	if obj.MaximumRuntimeInMinutes != nil {

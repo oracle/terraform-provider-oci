@@ -319,7 +319,6 @@ func PbfListingVersionSummaryToMap(obj oci_functions.PbfListingVersionSummary) m
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

@@ -83,7 +83,6 @@ func (s *FileStorageFilesystemSnapshotPolicyDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.PolicyPrefix != nil {
 		s.D.Set("policy_prefix", *s.Res.PolicyPrefix)

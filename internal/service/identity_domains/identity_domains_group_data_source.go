@@ -162,7 +162,6 @@ func (s *IdentityDomainsGroupDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	members := []interface{}{}
 	for _, item := range s.Res.Members {
@@ -184,7 +183,6 @@ func (s *IdentityDomainsGroupDataSourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}

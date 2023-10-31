@@ -184,7 +184,6 @@ func (s *IdentityDomainsAppRoleDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.LegacyGroupName != nil {
 		s.D.Set("legacy_group_name", *s.Res.LegacyGroupName)
@@ -218,7 +217,6 @@ func (s *IdentityDomainsAppRoleDataSourceCrud) SetData() error {
 		s.D.Set("public", *s.Res.Public)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}

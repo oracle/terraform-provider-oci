@@ -85,7 +85,6 @@ func (s *DataintegrationWorkspaceImportRequestDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("error_messages", s.Res.ErrorMessages)
-	s.D.Set("error_messages", s.Res.ErrorMessages)
 
 	if s.Res.FileName != nil {
 		s.D.Set("file_name", *s.Res.FileName)

@@ -576,7 +576,6 @@ func (s *ComputeCloudAtCustomerCccInfrastructureResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InfrastructureInventory != nil {
 		s.D.Set("infrastructure_inventory", []interface{}{CccInfrastructureInventoryToMap(s.Res.InfrastructureInventory)})
@@ -677,7 +676,6 @@ func CccInfrastructureNetworkConfigurationToMap(obj *oci_compute_cloud_at_custom
 	result := map[string]interface{}{}
 
 	result["dns_ips"] = obj.DnsIps
-	result["dns_ips"] = obj.DnsIps
 
 	if obj.InfrastructureRoutingDynamic != nil {
 		result["infrastructure_routing_dynamic"] = []interface{}{CccInfrastructureRoutingDynamicDetailsToMap(obj.InfrastructureRoutingDynamic)}
@@ -701,7 +699,6 @@ func CccInfrastructureNetworkConfigurationToMap(obj *oci_compute_cloud_at_custom
 		result["mgmt_vip_ip"] = string(*obj.MgmtVipIp)
 	}
 
-	result["spine_ips"] = obj.SpineIps
 	result["spine_ips"] = obj.SpineIps
 
 	if obj.SpineVip != nil {
@@ -786,7 +783,6 @@ func CccInfrastructureSummaryToMap(obj oci_compute_cloud_at_customer.CccInfrastr
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
