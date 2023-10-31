@@ -91,7 +91,6 @@ func (s *AiLanguageModelTypeDataSourceCrud) SetData() error {
 	s.D.Set("capabilities", string(buf))
 
 	s.D.Set("versions", s.Res.Versions)
-	s.D.Set("versions", s.Res.Versions)
 
 	return nil
 }

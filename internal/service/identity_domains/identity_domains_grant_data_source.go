@@ -194,7 +194,6 @@ func (s *IdentityDomainsGrantDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IsFulfilled != nil {
 		s.D.Set("is_fulfilled", *s.Res.IsFulfilled)
@@ -210,7 +209,6 @@ func (s *IdentityDomainsGrantDataSourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}

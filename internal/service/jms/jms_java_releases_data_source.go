@@ -532,7 +532,6 @@ func JavaReleaseSummaryToMap(obj oci_jms.JavaReleaseSummary) map[string]interfac
 	result := map[string]interface{}{}
 
 	result["artifact_content_types"] = obj.ArtifactContentTypes
-	result["artifact_content_types"] = obj.ArtifactContentTypes
 
 	if obj.DaysUnderSecurityBaseline != nil {
 		result["days_under_security_baseline"] = int(*obj.DaysUnderSecurityBaseline)

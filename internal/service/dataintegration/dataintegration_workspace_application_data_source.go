@@ -102,7 +102,6 @@ func (s *DataintegrationWorkspaceApplicationDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Identifier != nil {
 		s.D.Set("identifier", *s.Res.Identifier)
@@ -112,7 +111,6 @@ func (s *DataintegrationWorkspaceApplicationDataSourceCrud) SetData() error {
 		s.D.Set("key", *s.Res.Key)
 	}
 
-	s.D.Set("key_map", s.Res.KeyMap)
 	s.D.Set("key_map", s.Res.KeyMap)
 
 	if s.Res.Metadata != nil {

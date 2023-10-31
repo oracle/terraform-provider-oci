@@ -84,7 +84,6 @@ func (s *MediaServicesMediaAssetDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.MasterMediaAssetId != nil {
 		s.D.Set("master_media_asset_id", *s.Res.MasterMediaAssetId)

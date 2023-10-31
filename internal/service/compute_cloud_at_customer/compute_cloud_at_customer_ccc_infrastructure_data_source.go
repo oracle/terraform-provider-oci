@@ -93,7 +93,6 @@ func (s *ComputeCloudAtCustomerCccInfrastructureDataSourceCrud) SetData() error 
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InfrastructureInventory != nil {
 		s.D.Set("infrastructure_inventory", []interface{}{CccInfrastructureInventoryToMap(s.Res.InfrastructureInventory)})

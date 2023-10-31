@@ -629,7 +629,6 @@ func (s *IdentityDomainsResourceTypeSchemaAttributesDataSourceCrud) SetData() er
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartIndex != nil {
 		s.D.Set("start_index", *s.Res.StartIndex)
@@ -645,7 +644,6 @@ func (s *IdentityDomainsResourceTypeSchemaAttributesDataSourceCrud) SetData() er
 func ResourceTypeSchemaAttributeToMap(obj oci_identity_domains.ResourceTypeSchemaAttribute) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["canonical_values"] = obj.CanonicalValues
 	result["canonical_values"] = obj.CanonicalValues
 
 	if obj.CaseExact != nil {
@@ -670,7 +668,6 @@ func ResourceTypeSchemaAttributeToMap(obj oci_identity_domains.ResourceTypeSchem
 
 	result["end_user_mutability"] = string(obj.EndUserMutability)
 
-	result["end_user_mutability_allowed_values"] = obj.EndUserMutabilityAllowedValues
 	result["end_user_mutability_allowed_values"] = obj.EndUserMutabilityAllowedValues
 
 	if obj.Id != nil {
@@ -709,7 +706,6 @@ func ResourceTypeSchemaAttributeToMap(obj oci_identity_domains.ResourceTypeSchem
 		result["idcs_canonical_value_source_resource_type"] = string(*obj.IdcsCanonicalValueSourceResourceType)
 	}
 
-	result["idcs_composite_key"] = obj.IdcsCompositeKey
 	result["idcs_composite_key"] = obj.IdcsCompositeKey
 
 	if obj.IdcsCreatedBy != nil {
@@ -767,7 +763,6 @@ func ResourceTypeSchemaAttributeToMap(obj oci_identity_domains.ResourceTypeSchem
 	}
 
 	result["idcs_indirect_ref_resource_attributes"] = obj.IdcsIndirectRefResourceAttributes
-	result["idcs_indirect_ref_resource_attributes"] = obj.IdcsIndirectRefResourceAttributes
 
 	if obj.IdcsInternal != nil {
 		result["idcs_internal"] = bool(*obj.IdcsInternal)
@@ -802,13 +797,11 @@ func ResourceTypeSchemaAttributeToMap(obj oci_identity_domains.ResourceTypeSchem
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.IdcsRefResourceAttribute != nil {
 		result["idcs_ref_resource_attribute"] = string(*obj.IdcsRefResourceAttribute)
 	}
 
-	result["idcs_ref_resource_attributes"] = obj.IdcsRefResourceAttributes
 	result["idcs_ref_resource_attributes"] = obj.IdcsRefResourceAttributes
 
 	if obj.IdcsSchemaUrn != nil {
@@ -876,7 +869,6 @@ func ResourceTypeSchemaAttributeToMap(obj oci_identity_domains.ResourceTypeSchem
 	}
 
 	result["reference_types"] = obj.ReferenceTypes
-	result["reference_types"] = obj.ReferenceTypes
 
 	if obj.Required != nil {
 		result["required"] = bool(*obj.Required)
@@ -888,7 +880,6 @@ func ResourceTypeSchemaAttributeToMap(obj oci_identity_domains.ResourceTypeSchem
 
 	result["returned"] = string(obj.Returned)
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

@@ -212,7 +212,6 @@ func (s *FileStorageReplicationTargetsDataSourceCrud) SetData() error {
 		}
 
 		replicationTarget["freeform_tags"] = r.FreeformTags
-		replicationTarget["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			replicationTarget["id"] = *r.Id

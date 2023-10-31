@@ -264,7 +264,6 @@ func PbfListingSummaryToMap(obj oci_functions.PbfListingSummary) map[string]inte
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

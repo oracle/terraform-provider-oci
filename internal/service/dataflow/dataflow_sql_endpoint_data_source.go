@@ -103,7 +103,6 @@ func (s *DataflowSqlEndpointDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.JdbcEndpointUrl != nil {
 		s.D.Set("jdbc_endpoint_url", *s.Res.JdbcEndpointUrl)
@@ -139,7 +138,6 @@ func (s *DataflowSqlEndpointDataSourceCrud) SetData() error {
 		s.D.Set("network_configuration", nil)
 	}
 
-	s.D.Set("spark_advanced_configurations", s.Res.SparkAdvancedConfigurations)
 	s.D.Set("spark_advanced_configurations", s.Res.SparkAdvancedConfigurations)
 
 	if s.Res.SqlEndpointVersion != nil {

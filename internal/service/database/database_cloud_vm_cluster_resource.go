@@ -922,7 +922,6 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("db_servers", s.Res.DbServers)
-	s.D.Set("db_servers", s.Res.DbServers)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))

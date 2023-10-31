@@ -161,7 +161,6 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 		}
 
 		cloudVmCluster["db_servers"] = r.DbServers
-		cloudVmCluster["db_servers"] = r.DbServers
 
 		if r.DefinedTags != nil {
 			cloudVmCluster["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)

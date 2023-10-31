@@ -177,7 +177,6 @@ func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("object_list", s.Res.ObjectList)
-	s.D.Set("object_list", s.Res.ObjectList)
 
 	if s.Res.ObjectStorageUploadDirPath != nil {
 		s.D.Set("object_storage_upload_dir_path", *s.Res.ObjectStorageUploadDirPath)

@@ -635,7 +635,6 @@ func (s *IdentityDomainsApiKeyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.Key != nil {
 		s.D.Set("key", *s.Res.Key)
@@ -651,7 +650,6 @@ func (s *IdentityDomainsApiKeyResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -732,7 +730,6 @@ func ApiKeyToMap(obj oci_identity_domains.ApiKey) map[string]interface{} {
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.Key != nil {
 		result["key"] = string(*obj.Key)
@@ -746,7 +743,6 @@ func ApiKeyToMap(obj oci_identity_domains.ApiKey) map[string]interface{} {
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

@@ -326,7 +326,6 @@ func (s *StackMonitoringBaselineableMetricResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsOutOfBox != nil {
 		s.D.Set("is_out_of_box", *s.Res.IsOutOfBox)
@@ -384,7 +383,6 @@ func BaselineableMetricSummaryToMap(obj oci_stack_monitoring.BaselineableMetricS
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

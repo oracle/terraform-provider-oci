@@ -283,7 +283,6 @@ func (s *MediaServicesMediaWorkflowConfigurationResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecyleDetails != nil {
 		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
@@ -329,8 +328,6 @@ func MediaWorkflowConfigurationSummaryToMap(obj oci_media_services.MediaWorkflow
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
-
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}

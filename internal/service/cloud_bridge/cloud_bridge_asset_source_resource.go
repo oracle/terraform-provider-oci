@@ -521,7 +521,6 @@ func (s *CloudBridgeAssetSourceResourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.InventoryId != nil {
 			s.D.Set("inventory_id", *v.InventoryId)

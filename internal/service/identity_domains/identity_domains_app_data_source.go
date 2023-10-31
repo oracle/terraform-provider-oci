@@ -164,9 +164,7 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("allowed_grants", s.Res.AllowedGrants)
-	s.D.Set("allowed_grants", s.Res.AllowedGrants)
 
-	s.D.Set("allowed_operations", s.Res.AllowedOperations)
 	s.D.Set("allowed_operations", s.Res.AllowedOperations)
 
 	allowedScopes := []interface{}{}
@@ -260,7 +258,6 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("delegated_service_names", s.Res.DelegatedServiceNames)
-	s.D.Set("delegated_service_names", s.Res.DelegatedServiceNames)
 
 	if s.Res.DeleteInProgress != nil {
 		s.D.Set("delete_in_progress", *s.Res.DeleteInProgress)
@@ -336,7 +333,6 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 		s.D.Set("idcs_last_upgraded_in_release", *s.Res.IdcsLastUpgradedInRelease)
 	}
 
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	identityProviders := []interface{}{}
@@ -468,7 +464,6 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("post_logout_redirect_uris", s.Res.PostLogoutRedirectUris)
-	s.D.Set("post_logout_redirect_uris", s.Res.PostLogoutRedirectUris)
 
 	if s.Res.PrivacyPolicyUrl != nil {
 		s.D.Set("privacy_policy_url", *s.Res.PrivacyPolicyUrl)
@@ -499,7 +494,6 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("redirect_uris", s.Res.RedirectUris)
-	s.D.Set("redirect_uris", s.Res.RedirectUris)
 
 	if s.Res.RefreshTokenExpiry != nil {
 		s.D.Set("refresh_token_expiry", *s.Res.RefreshTokenExpiry)
@@ -512,7 +506,6 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	scopes := []interface{}{}
 	for _, item := range s.Res.Scopes {
@@ -520,7 +513,6 @@ func (s *IdentityDomainsAppDataSourceCrud) SetData() error {
 	}
 	s.D.Set("scopes", scopes)
 
-	s.D.Set("secondary_audiences", s.Res.SecondaryAudiences)
 	s.D.Set("secondary_audiences", s.Res.SecondaryAudiences)
 
 	serviceParams := []interface{}{}

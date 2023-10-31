@@ -1261,9 +1261,7 @@ func (s *IdentityDomainsPasswordPolicyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("disallowed_substrings", s.Res.DisallowedSubstrings)
-	s.D.Set("disallowed_substrings", s.Res.DisallowedSubstrings)
 
-	s.D.Set("disallowed_user_attribute_values", s.Res.DisallowedUserAttributeValues)
 	s.D.Set("disallowed_user_attribute_values", s.Res.DisallowedUserAttributeValues)
 
 	if s.Res.DistinctCharacters != nil {
@@ -1308,7 +1306,6 @@ func (s *IdentityDomainsPasswordPolicyResourceCrud) SetData() error {
 		s.D.Set("idcs_last_upgraded_in_release", *s.Res.IdcsLastUpgradedInRelease)
 	}
 
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.LastNameDisallowed != nil {
@@ -1408,7 +1405,6 @@ func (s *IdentityDomainsPasswordPolicyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartsWithAlphabet != nil {
 		s.D.Set("starts_with_alphabet", *s.Res.StartsWithAlphabet)
@@ -1494,9 +1490,7 @@ func PasswordPolicyToMap(obj oci_identity_domains.PasswordPolicy) map[string]int
 	}
 
 	result["disallowed_substrings"] = obj.DisallowedSubstrings
-	result["disallowed_substrings"] = obj.DisallowedSubstrings
 
-	result["disallowed_user_attribute_values"] = obj.DisallowedUserAttributeValues
 	result["disallowed_user_attribute_values"] = obj.DisallowedUserAttributeValues
 
 	if obj.DistinctCharacters != nil {
@@ -1541,7 +1535,6 @@ func PasswordPolicyToMap(obj oci_identity_domains.PasswordPolicy) map[string]int
 		result["idcs_last_upgraded_in_release"] = string(*obj.IdcsLastUpgradedInRelease)
 	}
 
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.LastNameDisallowed != nil {
@@ -1638,7 +1631,6 @@ func PasswordPolicyToMap(obj oci_identity_domains.PasswordPolicy) map[string]int
 		result["required_chars"] = string(*obj.RequiredChars)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	if obj.StartsWithAlphabet != nil {

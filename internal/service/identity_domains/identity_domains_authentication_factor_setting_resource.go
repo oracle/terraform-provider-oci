@@ -1507,7 +1507,6 @@ func (s *IdentityDomainsAuthenticationFactorSettingResourceCrud) SetData() error
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IdentityStoreSettings != nil {
 		s.D.Set("identity_store_settings", []interface{}{AuthenticationFactorSettingsIdentityStoreSettingsToMap(s.Res.IdentityStoreSettings)})
@@ -1547,7 +1546,6 @@ func (s *IdentityDomainsAuthenticationFactorSettingResourceCrud) SetData() error
 		s.D.Set("push_enabled", *s.Res.PushEnabled)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.SecurityQuestionsEnabled != nil {
@@ -1596,7 +1594,6 @@ func (s *IdentityDomainsAuthenticationFactorSettingResourceCrud) SetData() error
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", nil)
 	}
 
-	s.D.Set("user_enrollment_disabled_factors", s.Res.UserEnrollmentDisabledFactors)
 	s.D.Set("user_enrollment_disabled_factors", s.Res.UserEnrollmentDisabledFactors)
 
 	if s.Res.YubicoOtpEnabled != nil {
@@ -1701,7 +1698,6 @@ func AuthenticationFactorSettingToMap(obj oci_identity_domains.AuthenticationFac
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.IdentityStoreSettings != nil {
 		result["identity_store_settings"] = []interface{}{AuthenticationFactorSettingsIdentityStoreSettingsToMap(obj.IdentityStoreSettings)}
@@ -1735,7 +1731,6 @@ func AuthenticationFactorSettingToMap(obj oci_identity_domains.AuthenticationFac
 		result["push_enabled"] = bool(*obj.PushEnabled)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	if obj.SecurityQuestionsEnabled != nil {
@@ -1776,7 +1771,6 @@ func AuthenticationFactorSettingToMap(obj oci_identity_domains.AuthenticationFac
 		result["urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings"] = []interface{}{ExtensionThirdPartyAuthenticationFactorSettingsToMap(obj.UrnietfparamsscimschemasoracleidcsextensionthirdPartyAuthenticationFactorSettings)}
 	}
 
-	result["user_enrollment_disabled_factors"] = obj.UserEnrollmentDisabledFactors
 	result["user_enrollment_disabled_factors"] = obj.UserEnrollmentDisabledFactors
 
 	if obj.YubicoOtpEnabled != nil {
@@ -2419,7 +2413,6 @@ func ExtensionFidoAuthenticationFactorSettingsToMap(obj *oci_identity_domains.Ex
 		result["exclude_credentials"] = bool(*obj.ExcludeCredentials)
 	}
 
-	result["public_key_types"] = obj.PublicKeyTypes
 	result["public_key_types"] = obj.PublicKeyTypes
 
 	if obj.Timeout != nil {

@@ -778,7 +778,6 @@ func (s *IdentityDomainsGrantResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IsFulfilled != nil {
 		s.D.Set("is_fulfilled", *s.Res.IsFulfilled)
@@ -794,7 +793,6 @@ func (s *IdentityDomainsGrantResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -893,7 +891,6 @@ func GrantToMap(obj oci_identity_domains.Grant) map[string]interface{} {
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.IsFulfilled != nil {
 		result["is_fulfilled"] = bool(*obj.IsFulfilled)
@@ -907,7 +904,6 @@ func GrantToMap(obj oci_identity_domains.Grant) map[string]interface{} {
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

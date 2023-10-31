@@ -218,7 +218,6 @@ func (s *IdentityDomainsAccountMgmtInfosDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartIndex != nil {
 		s.D.Set("start_index", *s.Res.StartIndex)
@@ -291,7 +290,6 @@ func AccountMgmtInfoToMap(obj oci_identity_domains.AccountMgmtInfo) map[string]i
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.IsAccount != nil {
 		result["is_account"] = bool(*obj.IsAccount)
@@ -337,7 +335,6 @@ func AccountMgmtInfoToMap(obj oci_identity_domains.AccountMgmtInfo) map[string]i
 		result["resource_type"] = []interface{}{AccountMgmtInfoResourceTypeToMap(obj.ResourceType)}
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	if obj.SyncResponse != nil {

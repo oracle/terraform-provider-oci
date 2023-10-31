@@ -442,7 +442,6 @@ func (s *DatabaseManagementExternalClusterResourceCrud) Update() error {
 
 func (s *DatabaseManagementExternalClusterResourceCrud) SetData() error {
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

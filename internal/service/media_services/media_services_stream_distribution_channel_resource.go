@@ -306,7 +306,6 @@ func StreamDistributionChannelSummaryToMap(obj oci_media_services.StreamDistribu
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

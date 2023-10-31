@@ -393,7 +393,6 @@ func (s *MediaServicesStreamCdnConfigResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsEnabled != nil {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
@@ -559,7 +558,6 @@ func StreamCdnConfigSummaryToMap(obj oci_media_services.StreamCdnConfigSummary) 
 		result["distribution_channel_id"] = string(*obj.DistributionChannelId)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

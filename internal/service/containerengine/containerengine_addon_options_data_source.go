@@ -254,7 +254,6 @@ func (s *ContainerengineAddonOptionsDataSourceCrud) SetData() error {
 		}
 
 		addonOption["freeform_tags"] = r.FreeformTags
-		addonOption["freeform_tags"] = r.FreeformTags
 
 		if r.IsEssential != nil {
 			addonOption["is_essential"] = *r.IsEssential
@@ -349,7 +348,6 @@ func AddonVersionsToMap(obj oci_containerengine.AddonVersions) map[string]interf
 func KubernetesVersionsFiltersToMap(obj *oci_containerengine.KubernetesVersionsFilters) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["exact_kubernetes_versions"] = obj.ExactKubernetesVersions
 	result["exact_kubernetes_versions"] = obj.ExactKubernetesVersions
 
 	if obj.MaximumVersion != nil {

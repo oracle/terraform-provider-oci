@@ -725,7 +725,6 @@ func (s *DataflowPoolResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IdleTimeoutInMinutes != nil {
 		s.D.Set("idle_timeout_in_minutes", *s.Res.IdleTimeoutInMinutes)
@@ -954,7 +953,6 @@ func PoolSummaryToMap(obj oci_dataflow.PoolSummary) map[string]interface{} {
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

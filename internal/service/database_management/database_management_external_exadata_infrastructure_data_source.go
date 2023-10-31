@@ -67,13 +67,11 @@ func (s *DatabaseManagementExternalExadataInfrastructureDataSourceCrud) SetData(
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
-	s.D.Set("database_compartments", s.Res.DatabaseCompartments)
 	s.D.Set("database_compartments", s.Res.DatabaseCompartments)
 
 	databaseSystems := []interface{}{}

@@ -202,7 +202,6 @@ func (s *IdentityDomainsMyDevicesDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartIndex != nil {
 		s.D.Set("start_index", *s.Res.StartIndex)
@@ -295,7 +294,6 @@ func MyDeviceToMap(obj oci_identity_domains.MyDevice) map[string]interface{} {
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.IsAccRecEnabled != nil {
 		result["is_acc_rec_enabled"] = bool(*obj.IsAccRecEnabled)
@@ -345,7 +343,6 @@ func MyDeviceToMap(obj oci_identity_domains.MyDevice) map[string]interface{} {
 		result["reason"] = string(*obj.Reason)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	if obj.Seed != nil {

@@ -67,7 +67,6 @@ func (s *DataLabelingServiceDatasetDataSourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("additional_properties", s.Res.AdditionalProperties)
-	s.D.Set("additional_properties", s.Res.AdditionalProperties)
 
 	if s.Res.AnnotationFormat != nil {
 		s.D.Set("annotation_format", *s.Res.AnnotationFormat)

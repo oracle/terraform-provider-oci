@@ -631,7 +631,6 @@ func (s *IdentityDomainsAccountRecoverySettingResourceCrud) SetData() error {
 	}
 
 	s.D.Set("factors", s.Res.Factors)
-	s.D.Set("factors", s.Res.Factors)
 
 	if s.Res.IdcsCreatedBy != nil {
 		s.D.Set("idcs_created_by", []interface{}{idcsCreatedByToMap(s.Res.IdcsCreatedBy)})
@@ -649,7 +648,6 @@ func (s *IdentityDomainsAccountRecoverySettingResourceCrud) SetData() error {
 		s.D.Set("idcs_last_upgraded_in_release", *s.Res.IdcsLastUpgradedInRelease)
 	}
 
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.LockoutDuration != nil {
@@ -670,7 +668,6 @@ func (s *IdentityDomainsAccountRecoverySettingResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -727,7 +724,6 @@ func AccountRecoverySettingToMap(obj oci_identity_domains.AccountRecoverySetting
 	}
 
 	result["factors"] = obj.Factors
-	result["factors"] = obj.Factors
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -746,7 +742,6 @@ func AccountRecoverySettingToMap(obj oci_identity_domains.AccountRecoverySetting
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.LockoutDuration != nil {
 		result["lockout_duration"] = int(*obj.LockoutDuration)
@@ -764,7 +759,6 @@ func AccountRecoverySettingToMap(obj oci_identity_domains.AccountRecoverySetting
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

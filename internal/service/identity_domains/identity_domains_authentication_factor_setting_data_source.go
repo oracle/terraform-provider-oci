@@ -203,7 +203,6 @@ func (s *IdentityDomainsAuthenticationFactorSettingDataSourceCrud) SetData() err
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IdentityStoreSettings != nil {
 		s.D.Set("identity_store_settings", []interface{}{AuthenticationFactorSettingsIdentityStoreSettingsToMap(s.Res.IdentityStoreSettings)})
@@ -243,7 +242,6 @@ func (s *IdentityDomainsAuthenticationFactorSettingDataSourceCrud) SetData() err
 		s.D.Set("push_enabled", *s.Res.PushEnabled)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.SecurityQuestionsEnabled != nil {
@@ -292,7 +290,6 @@ func (s *IdentityDomainsAuthenticationFactorSettingDataSourceCrud) SetData() err
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionthird_party_authentication_factor_settings", nil)
 	}
 
-	s.D.Set("user_enrollment_disabled_factors", s.Res.UserEnrollmentDisabledFactors)
 	s.D.Set("user_enrollment_disabled_factors", s.Res.UserEnrollmentDisabledFactors)
 
 	if s.Res.YubicoOtpEnabled != nil {

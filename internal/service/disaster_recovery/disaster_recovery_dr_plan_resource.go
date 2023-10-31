@@ -579,7 +579,6 @@ func (s *DisasterRecoveryDrPlanResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifeCycleDetails != nil {
 		s.D.Set("life_cycle_details", *s.Res.LifeCycleDetails)
@@ -857,7 +856,6 @@ func DrPlanSummaryToMap(obj oci_disaster_recovery.DrPlanSummary) map[string]inte
 		result["dr_protection_group_id"] = string(*obj.DrProtectionGroupId)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
