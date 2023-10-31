@@ -164,9 +164,7 @@ func (s *IdentityDomainsPasswordPolicyDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("disallowed_substrings", s.Res.DisallowedSubstrings)
-	s.D.Set("disallowed_substrings", s.Res.DisallowedSubstrings)
 
-	s.D.Set("disallowed_user_attribute_values", s.Res.DisallowedUserAttributeValues)
 	s.D.Set("disallowed_user_attribute_values", s.Res.DisallowedUserAttributeValues)
 
 	if s.Res.DistinctCharacters != nil {
@@ -211,7 +209,6 @@ func (s *IdentityDomainsPasswordPolicyDataSourceCrud) SetData() error {
 		s.D.Set("idcs_last_upgraded_in_release", *s.Res.IdcsLastUpgradedInRelease)
 	}
 
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.LastNameDisallowed != nil {
@@ -310,7 +307,6 @@ func (s *IdentityDomainsPasswordPolicyDataSourceCrud) SetData() error {
 		s.D.Set("required_chars", *s.Res.RequiredChars)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartsWithAlphabet != nil {

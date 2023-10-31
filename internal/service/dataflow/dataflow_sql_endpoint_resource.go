@@ -660,7 +660,6 @@ func (s *DataflowSqlEndpointResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.JdbcEndpointUrl != nil {
 		s.D.Set("jdbc_endpoint_url", *s.Res.JdbcEndpointUrl)
@@ -696,7 +695,6 @@ func (s *DataflowSqlEndpointResourceCrud) SetData() error {
 		s.D.Set("network_configuration", nil)
 	}
 
-	s.D.Set("spark_advanced_configurations", s.Res.SparkAdvancedConfigurations)
 	s.D.Set("spark_advanced_configurations", s.Res.SparkAdvancedConfigurations)
 
 	if s.Res.SqlEndpointVersion != nil {
@@ -932,7 +930,6 @@ func SqlEndpointSummaryToMap(obj oci_dataflow.SqlEndpointSummary) map[string]int
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
@@ -970,7 +967,6 @@ func SqlEndpointSummaryToMap(obj oci_dataflow.SqlEndpointSummary) map[string]int
 		result["network_configuration"] = networkConfigurationArray
 	}
 
-	result["spark_advanced_configurations"] = obj.SparkAdvancedConfigurations
 	result["spark_advanced_configurations"] = obj.SparkAdvancedConfigurations
 
 	if obj.SqlEndpointVersion != nil {

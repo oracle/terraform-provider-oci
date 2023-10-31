@@ -159,7 +159,6 @@ func (s *IdentityDomainsUserAttributesSettingsDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartIndex != nil {
 		s.D.Set("start_index", *s.Res.StartIndex)
@@ -210,7 +209,6 @@ func UserAttributesSettingToMap(obj oci_identity_domains.UserAttributesSetting) 
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.Meta != nil {
 		result["meta"] = []interface{}{metaToMap(obj.Meta)}
@@ -220,7 +218,6 @@ func UserAttributesSettingToMap(obj oci_identity_domains.UserAttributesSetting) 
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}
@@ -243,7 +240,6 @@ func UserAttributesSettingsAttributeSettingsToMap(obj oci_identity_domains.UserA
 		result["end_user_mutability"] = string(*obj.EndUserMutability)
 	}
 
-	result["end_user_mutability_canonical_values"] = obj.EndUserMutabilityCanonicalValues
 	result["end_user_mutability_canonical_values"] = obj.EndUserMutabilityCanonicalValues
 
 	if obj.Name != nil {

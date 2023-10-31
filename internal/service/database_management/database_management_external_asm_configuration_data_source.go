@@ -134,13 +134,11 @@ func ExternalAsmInstanceParametersToMap(obj oci_database_management.ExternalAsmI
 	}
 
 	result["auto_mount_disk_groups"] = obj.AutoMountDiskGroups
-	result["auto_mount_disk_groups"] = obj.AutoMountDiskGroups
 
 	if obj.DiskDiscoveryPath != nil {
 		result["disk_discovery_path"] = string(*obj.DiskDiscoveryPath)
 	}
 
-	result["preferred_read_failure_groups"] = obj.PreferredReadFailureGroups
 	result["preferred_read_failure_groups"] = obj.PreferredReadFailureGroups
 
 	if obj.RebalancePower != nil {

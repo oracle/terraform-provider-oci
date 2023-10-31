@@ -642,7 +642,6 @@ func (s *IdentityDomainsSecurityQuestionSettingResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.MaxFieldLength != nil {
 		s.D.Set("max_field_length", *s.Res.MaxFieldLength)
@@ -670,7 +669,6 @@ func (s *IdentityDomainsSecurityQuestionSettingResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -743,7 +741,6 @@ func SecurityQuestionSettingToMap(obj oci_identity_domains.SecurityQuestionSetti
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.MaxFieldLength != nil {
 		result["max_field_length"] = int(*obj.MaxFieldLength)
@@ -769,7 +766,6 @@ func SecurityQuestionSettingToMap(obj oci_identity_domains.SecurityQuestionSetti
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

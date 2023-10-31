@@ -157,7 +157,6 @@ func (s *FileStorageOutboundConnectorsDataSourceCrud) SetData() error {
 			}
 
 			result["freeform_tags"] = v.FreeformTags
-			result["freeform_tags"] = v.FreeformTags
 
 			if v.Id != nil {
 				result["id"] = string(*v.Id)

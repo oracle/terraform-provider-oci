@@ -715,7 +715,6 @@ func SqlFirewallPolicySummaryToMap(obj oci_data_safe.SqlFirewallPolicySummary) m
 	result["enforcement_scope"] = string(obj.EnforcementScope)
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

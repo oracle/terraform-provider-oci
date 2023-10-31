@@ -541,8 +541,6 @@ func (s *MediaServicesMediaAssetResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
-
 	if s.Res.MasterMediaAssetId != nil {
 		s.D.Set("master_media_asset_id", *s.Res.MasterMediaAssetId)
 	}
@@ -629,7 +627,6 @@ func MediaAssetSummaryToMap(obj oci_media_services.MediaAssetSummary) map[string
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

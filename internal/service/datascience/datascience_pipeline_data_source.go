@@ -96,7 +96,6 @@ func (s *DatasciencePipelineDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InfrastructureConfigurationDetails != nil {
 		s.D.Set("infrastructure_configuration_details", []interface{}{PipelineInfrastructureConfigurationDetailsToMap(s.Res.InfrastructureConfigurationDetails)})

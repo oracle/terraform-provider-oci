@@ -257,13 +257,11 @@ func SqlFirewallAllowedSqlSummaryToMap(obj oci_data_safe.SqlFirewallAllowedSqlSu
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
 
-	result["sql_accessed_objects"] = obj.SqlAccessedObjects
 	result["sql_accessed_objects"] = obj.SqlAccessedObjects
 
 	if obj.SqlFirewallPolicyId != nil {

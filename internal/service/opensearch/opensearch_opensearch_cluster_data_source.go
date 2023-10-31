@@ -68,7 +68,6 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("availability_domains", s.Res.AvailabilityDomains)
-	s.D.Set("availability_domains", s.Res.AvailabilityDomains)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -108,7 +107,6 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 		s.D.Set("fqdn", *s.Res.Fqdn)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {

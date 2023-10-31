@@ -552,7 +552,6 @@ func (s *CloudBridgeAgentDependencyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -618,7 +617,6 @@ func AgentDependencySummaryToMap(obj oci_cloud_bridge.AgentDependencySummary) ma
 		result["e_tag"] = string(*obj.ETag)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

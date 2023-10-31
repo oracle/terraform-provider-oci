@@ -477,12 +477,9 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) Update() error {
 func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) SetData() error {
 
 	s.D.Set("allowed_client_ips", s.Res.AllowedClientIps)
-	s.D.Set("allowed_client_ips", s.Res.AllowedClientIps)
 
 	s.D.Set("allowed_client_os_usernames", s.Res.AllowedClientOsUsernames)
-	s.D.Set("allowed_client_os_usernames", s.Res.AllowedClientOsUsernames)
 
-	s.D.Set("allowed_client_programs", s.Res.AllowedClientPrograms)
 	s.D.Set("allowed_client_programs", s.Res.AllowedClientPrograms)
 
 	if s.Res.CompartmentId != nil {
@@ -507,7 +504,6 @@ func (s *DataSafeSqlFirewallPolicyManagementResourceCrud) SetData() error {
 
 	s.D.Set("enforcement_scope", s.Res.EnforcementScope)
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {

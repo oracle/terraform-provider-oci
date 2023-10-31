@@ -173,7 +173,6 @@ func ExternalAsmDiskGroupSummaryToMap(obj oci_database_management.ExternalAsmDis
 	result := map[string]interface{}{}
 
 	result["databases"] = obj.Databases
-	result["databases"] = obj.Databases
 
 	if obj.DismountingInstanceCount != nil {
 		result["dismounting_instance_count"] = int(*obj.DismountingInstanceCount)
