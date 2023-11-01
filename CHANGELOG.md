@@ -1,4 +1,4 @@
-## 5.19.0 (Unreleased)
+## 5.19.0 (November 01, 2023)
 
 ### Added
 - Support for Full Stack Disaster Recovery Service: Test standby
