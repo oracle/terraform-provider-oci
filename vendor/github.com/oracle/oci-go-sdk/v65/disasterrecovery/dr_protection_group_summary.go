@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,45 +18,48 @@ import (
 	"strings"
 )
 
-// DrProtectionGroupSummary Summary information about a DR Protection Group.
+// DrProtectionGroupSummary The summary of a DR protection group.
 type DrProtectionGroupSummary struct {
 
-	// The OCID of the DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.&lt;unique_id&gt;`
+	// The OCID of the DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing the DR Protection Group.
-	// Example: `ocid1.compartment.oc1..&lt;unique_id&gt;`
+	// The OCID of the compartment containing the DR protection group.
+	// Example: `ocid1.compartment.oc1..uniqueID`
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The display name of the DR Protection Group.
-	// Example: `EBS PHX DRPG`
+	// The display name of the DR protection group.
+	// Example: `EBS PHX Group`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The role of the DR Protection Group.
+	// The role of the DR protection group.
 	Role DrProtectionGroupRoleEnum `mandatory:"true" json:"role"`
 
-	// The date and time the DR Protection Group was created. An RFC3339 formatted datetime string.
+	// The date and time the DR protection group was created. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time the DR Protection Group was updated. An RFC3339 formatted datetime string.
+	// The date and time the DR protection group was updated. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The current state of the DR Protection Group.
+	// The current state of the DR protection group.
 	LifecycleState DrProtectionGroupLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The OCID of the peer (remote) DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.iad.&lt;unique_id&gt;`
+	// The OCID of the peer DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	PeerId *string `mandatory:"false" json:"peerId"`
 
-	// The region of the peer (remote) DR Protection Group.
+	// The region of the peer DR protection group.
 	// Example: `us-ashburn-1`
 	PeerRegion *string `mandatory:"false" json:"peerRegion"`
 
-	// A message describing the DR Protection Group's current state in more detail.
+	// A message describing the DR protection group's current state in more detail.
 	LifeCycleDetails *string `mandatory:"false" json:"lifeCycleDetails"`
+
+	// The current sub-state of the DR protection group.
+	LifecycleSubState DrProtectionGroupLifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"Department": "Finance"}`
@@ -86,6 +90,9 @@ func (m DrProtectionGroupSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrProtectionGroupLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDrProtectionGroupLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetDrProtectionGroupLifecycleSubStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -112,6 +112,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
   #Optional
   crash_recovery = "ENABLED"
+  database_management = "ENABLED"
 
   #Optional
   deletion_policy {

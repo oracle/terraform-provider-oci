@@ -26,6 +26,13 @@ func MysqlMysqlDbSystemsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"database_management": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -84,6 +91,19 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) Get() error {
 	if configurationId, ok := s.D.GetOkExists("configuration_id"); ok {
 		tmp := configurationId.(string)
 		request.ConfigurationId = &tmp
+	}
+
+	if databaseManagement, ok := s.D.GetOkExists("database_management"); ok {
+		interfaces := databaseManagement.([]interface{})
+		tmp := make([]oci_mysql.ListDbSystemsDatabaseManagementEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(oci_mysql.ListDbSystemsDatabaseManagementEnum)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("database_management") {
+			request.DatabaseManagement = tmp
+		}
 	}
 
 	if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
@@ -163,6 +183,8 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 		} else {
 			mysqlDbSystem["current_placement"] = nil
 		}
+
+		mysqlDbSystem["database_management"] = r.DatabaseManagement
 
 		if r.DefinedTags != nil {
 			mysqlDbSystem["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)

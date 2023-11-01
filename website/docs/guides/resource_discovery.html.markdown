@@ -197,6 +197,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `operator_access_control` - Discovers operator_access_control resources within the specified compartment
     * `opsi` - Discovers opsi resources within the specified compartment
     * `optimizer` - Discovers optimizer resources across the entire tenancy
+    * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
@@ -204,7 +205,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `redis` - Discovers redis resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
-    *`service_mesh` - Discovers service_mesh resources within the specified compartment
+    * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
@@ -575,6 +576,11 @@ data_safe
 * oci\_data\_safe\_discovery\_jobs\_result
 * oci\_data\_safe\_discovery\_job
 * oci\_data\_safe\_sdm\_masking\_policy\_difference
+* oci\_data\_safe\_security\_policy\_deployment
+* oci\_data\_safe\_security\_policy
+* oci\_data\_safe\_database\_security\_config
+* oci\_data\_safe\_sql\_firewall\_policy
+* oci\_data\_safe\_sql\_collection
 
 database
 
@@ -985,6 +991,14 @@ optimizer
 
 * oci\_optimizer\_profile
 
+os_management_hub
+    
+* oci\_os\_management\_hub\_lifecycle\_environment
+* oci\_os\_management\_hub\_software\_source
+* oci\_os\_management\_hub\_managed\_instance\_group
+* oci\_os\_management\_hub\_management\_station
+* oci\_os\_management\_hub\_profile
+
 osmanagement
 
 * oci\_osmanagement\_managed\_instance
@@ -1037,6 +1051,10 @@ stack_monitoring
 * oci\_stack\_monitoring\_monitored\_resources\_search
 * oci\_stack\_monitoring\_monitored\_resources\_associate\_monitored\_resource
 * oci\_stack\_monitoring\_config
+* oci\_stack\_monitoring\_monitored\_resource\_task
+* oci\_stack\_monitoring\_monitored\_resource\_type
+* oci\_stack\_monitoring\_metric\_extension
+* oci\_stack\_monitoring\_baselineable\_metric
 
 streaming
 

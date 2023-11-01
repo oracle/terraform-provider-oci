@@ -102,6 +102,14 @@ func (m *configsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := AutoPromoteConfigSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LICENSE_AUTO_ASSIGN":
+		mm := LicenseAutoAssignConfigSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
+		mm := LicenseEnterpriseExtensibilityConfigSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for ConfigSummary: %s.", m.ConfigType)
 		return *m, nil

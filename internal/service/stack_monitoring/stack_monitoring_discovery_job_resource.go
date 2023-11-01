@@ -142,6 +142,12 @@ func StackMonitoringDiscoveryJobResource() *schema.Resource {
 								},
 							},
 						},
+						"license": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"tags": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -532,6 +538,10 @@ func (s *StackMonitoringDiscoveryJobResourceCrud) mapToDiscoveryDetails(fieldKey
 		}
 	}
 
+	if license, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license")); ok {
+		result.License = oci_stack_monitoring.LicenseTypeEnum(license.(string))
+	}
+
 	if properties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "properties")); ok {
 		if tmpList := properties.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "properties"), 0)
@@ -576,6 +586,8 @@ func DiscoveryDetailsToMap(obj *oci_stack_monitoring.DiscoveryDetails) map[strin
 	if obj.Credentials != nil {
 		result["credentials"] = []interface{}{CredentialCollectionToMap(obj.Credentials)}
 	}
+
+	result["license"] = string(obj.License)
 
 	if obj.Properties != nil {
 		result["properties"] = []interface{}{PropertyDetailsToMap(obj.Properties)}

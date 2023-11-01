@@ -44,6 +44,7 @@ resource "oci_stack_monitoring_discovery_job" "test_discovery_job" {
 				}
 			}
 		}
+		license = var.discovery_job_discovery_details_license
 		tags {
 
 			#Optional
@@ -75,6 +76,7 @@ The following arguments are supported:
 			* `credential_type` - (Required) Name of Credential Type
 			* `properties` - (Required) Property Details
 				* `properties_map` - (Optional) Key/Value pair of Property
+	* `license` - (Optional) License edition of the monitored resource.
 	* `properties` - (Required) Property Details
 		* `properties_map` - (Optional) Key/Value pair of Property
 	* `resource_name` - (Required) The Name of resource type
@@ -104,6 +106,7 @@ The following attributes are exported:
 			* `credential_type` - Name of Credential Type
 			* `properties` - Property Details
 				* `properties_map` - Key/Value pair of Property
+	* `license` - License edition of the monitored resource.
 	* `properties` - Property Details
 		* `properties_map` - Key/Value pair of Property
 	* `resource_name` - The Name of resource type

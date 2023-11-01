@@ -29,6 +29,9 @@ type DiscoveryDetails struct {
 
 	Properties *PropertyDetails `mandatory:"true" json:"properties"`
 
+	// License edition of the monitored resource.
+	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
+
 	Credentials *CredentialCollection `mandatory:"false" json:"credentials"`
 
 	Tags *PropertyDetails `mandatory:"false" json:"tags"`
@@ -47,6 +50,9 @@ func (m DiscoveryDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetDiscoveryDetailsResourceTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

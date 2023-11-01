@@ -28,7 +28,7 @@ resource "oci_data_safe_set_user_assessment_baseline" "test_set_user_assessment_
 
 The following arguments are supported:
 
-* `assessment_ids` - (Optional) The list of user assessment OCIDs that need to be updated while setting the baseline.
+* `assessment_ids` - (Optional) The list of OCIDs for the user assessments that need to be updated while setting the baseline.
 * `user_assessment_id` - (Required) The OCID of the user assessment.
 
 

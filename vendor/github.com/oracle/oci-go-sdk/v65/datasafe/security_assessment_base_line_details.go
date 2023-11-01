@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// SecurityAssessmentBaseLineDetails The details reqired to set baseline assessment.
+// SecurityAssessmentBaseLineDetails The details required to set the baseline for the assessment.
 type SecurityAssessmentBaseLineDetails struct {
 
-	// List of security assessment OCIDs that need to be updated while setting the baseline.
+	// The list of OCIDs for the security assessments that need to be updated while setting the baseline.
 	AssessmentIds []string `mandatory:"false" json:"assessmentIds"`
 }
 

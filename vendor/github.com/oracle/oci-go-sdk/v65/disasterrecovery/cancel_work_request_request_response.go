@@ -19,7 +19,7 @@ import (
 type CancelWorkRequestRequest struct {
 
 	// The ID (OCID) of the asynchronous request.
-	// Example: `ocid1.workrequest.oc1.phx.exampleocid`
+	// Example: `ocid1.workrequest.oc1..uniqueID`
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

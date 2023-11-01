@@ -784,3 +784,56 @@ func TestMysqlMysqlDbSystemResource_updateConfigurationIdAndShape(t *testing.T) 
 		},
 	})
 }
+
+// issue-routing-tag: mysql/default
+func TestMysqlMysqlDbSystemResource_databaseManagement(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_databaseManagement")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	var resId, resId2 string
+
+	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("database_management", acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		acctest.RepresentationCopyWithNewProperties(MysqlMysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		}))
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create with optional fields
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "database_management", "ENABLED"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}

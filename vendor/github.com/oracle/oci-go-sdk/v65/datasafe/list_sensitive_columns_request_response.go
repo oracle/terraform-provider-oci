@@ -94,7 +94,7 @@ type ListSensitiveColumnsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListSensitiveColumnsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. You can specify only one sort order (sortOrder). The default order for timeCreated is descending.
+	// The field to sort by. You can specify only one sorting parameter (sortOrder). The default order for timeCreated is descending.
 	// The default order for schemaName, objectName, and columnName is ascending.
 	SortBy ListSensitiveColumnsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

@@ -27,7 +27,7 @@ type ListFindingsRequest struct {
 	// A filter to return only findings of a particular risk level.
 	Severity ListFindingsSeverityEnum `mandatory:"false" contributesTo:"query" name:"severity" omitEmpty:"true"`
 
-	// An optional filter to return only findings containing the specified reference.
+	// An optional filter to return only findings that match the specified reference.
 	References ListFindingsReferencesEnum `mandatory:"false" contributesTo:"query" name:"references" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
@@ -46,7 +46,8 @@ type ListFindingsRequest struct {
 	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
 	AccessLevel ListFindingsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
-	// Each finding has a key. This key is same for the finding across targets
+	// Each finding in security assessment has an associated key (think of key as a finding's name).
+	// For a given finding, the key will be the same across targets. The user can use these keys to filter the findings.
 	FindingKey *string `mandatory:"false" contributesTo:"query" name:"findingKey"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

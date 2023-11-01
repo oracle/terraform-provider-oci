@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// AutonomousDatabaseDetails The details of the Oracle Autonomous Database to be registered as a target database in Data Safe.
+// AutonomousDatabaseDetails The details of the Autonomous Database to be registered as a target database in Data Safe.
 type AutonomousDatabaseDetails struct {
 
-	// The OCID of the autonomous database registered as a target database in Data Safe.
+	// The OCID of the Autonomous Database registered as a target database in Data Safe.
 	AutonomousDatabaseId *string `mandatory:"true" json:"autonomousDatabaseId"`
 
 	// The infrastructure type the database is running on.

@@ -65,6 +65,12 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
+			"license": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"management_agent_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -137,6 +143,10 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"defined_tags": {
 							Type:     schema.TypeMap,
 							Computed: true,
@@ -160,6 +170,10 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 							Computed: true,
 						},
 						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"license": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -320,6 +334,10 @@ func (s *StackMonitoringMonitoredResourcesSearchResourceCrud) Create() error {
 		request.HostNameContains = &tmp
 	}
 
+	if license, ok := s.D.GetOkExists("license"); ok {
+		request.License = oci_stack_monitoring.LicenseTypeEnum(license.(string))
+	}
+
 	if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
 		tmp := managementAgentId.(string)
 		request.ManagementAgentId = &tmp
@@ -409,6 +427,10 @@ func (s *StackMonitoringMonitoredResourcesSearchResourceCrud) SetData() error {
 func MonitoredResourceSummaryToMap(obj oci_stack_monitoring.MonitoredResourceSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
@@ -430,6 +452,8 @@ func MonitoredResourceSummaryToMap(obj oci_stack_monitoring.MonitoredResourceSum
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
+
+	result["license"] = string(obj.License)
 
 	if obj.ManagementAgentId != nil {
 		result["management_agent_id"] = string(*obj.ManagementAgentId)

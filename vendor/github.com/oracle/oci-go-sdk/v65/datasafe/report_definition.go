@@ -156,21 +156,27 @@ type ReportDefinitionCategoryEnum string
 
 // Set of constants representing the allowable values for ReportDefinitionCategoryEnum
 const (
-	ReportDefinitionCategoryCustomReports    ReportDefinitionCategoryEnum = "CUSTOM_REPORTS"
-	ReportDefinitionCategorySummary          ReportDefinitionCategoryEnum = "SUMMARY"
-	ReportDefinitionCategoryActivityAuditing ReportDefinitionCategoryEnum = "ACTIVITY_AUDITING"
+	ReportDefinitionCategoryCustomReports      ReportDefinitionCategoryEnum = "CUSTOM_REPORTS"
+	ReportDefinitionCategorySummary            ReportDefinitionCategoryEnum = "SUMMARY"
+	ReportDefinitionCategoryActivityAuditing   ReportDefinitionCategoryEnum = "ACTIVITY_AUDITING"
+	ReportDefinitionCategoryFirewallViolations ReportDefinitionCategoryEnum = "FIREWALL_VIOLATIONS"
+	ReportDefinitionCategoryAllowedSql         ReportDefinitionCategoryEnum = "ALLOWED_SQL"
 )
 
 var mappingReportDefinitionCategoryEnum = map[string]ReportDefinitionCategoryEnum{
-	"CUSTOM_REPORTS":    ReportDefinitionCategoryCustomReports,
-	"SUMMARY":           ReportDefinitionCategorySummary,
-	"ACTIVITY_AUDITING": ReportDefinitionCategoryActivityAuditing,
+	"CUSTOM_REPORTS":      ReportDefinitionCategoryCustomReports,
+	"SUMMARY":             ReportDefinitionCategorySummary,
+	"ACTIVITY_AUDITING":   ReportDefinitionCategoryActivityAuditing,
+	"FIREWALL_VIOLATIONS": ReportDefinitionCategoryFirewallViolations,
+	"ALLOWED_SQL":         ReportDefinitionCategoryAllowedSql,
 }
 
 var mappingReportDefinitionCategoryEnumLowerCase = map[string]ReportDefinitionCategoryEnum{
-	"custom_reports":    ReportDefinitionCategoryCustomReports,
-	"summary":           ReportDefinitionCategorySummary,
-	"activity_auditing": ReportDefinitionCategoryActivityAuditing,
+	"custom_reports":      ReportDefinitionCategoryCustomReports,
+	"summary":             ReportDefinitionCategorySummary,
+	"activity_auditing":   ReportDefinitionCategoryActivityAuditing,
+	"firewall_violations": ReportDefinitionCategoryFirewallViolations,
+	"allowed_sql":         ReportDefinitionCategoryAllowedSql,
 }
 
 // GetReportDefinitionCategoryEnumValues Enumerates the set of values for ReportDefinitionCategoryEnum
@@ -188,6 +194,8 @@ func GetReportDefinitionCategoryEnumStringValues() []string {
 		"CUSTOM_REPORTS",
 		"SUMMARY",
 		"ACTIVITY_AUDITING",
+		"FIREWALL_VIOLATIONS",
+		"ALLOWED_SQL",
 	}
 }
 

@@ -117,6 +117,9 @@ type CreateDbSystemDetails struct {
 	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
 	// and whether to enable or disable syncing of the Binary Logs.
 	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
+
+	// Whether to enable monitoring via the Database Management service.
+	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
 }
 
 func (m CreateDbSystemDetails) String() string {
@@ -131,6 +134,9 @@ func (m CreateDbSystemDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCrashRecoveryStatusEnum(string(m.CrashRecovery)); !ok && m.CrashRecovery != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CrashRecovery: %s. Supported values are: %s.", m.CrashRecovery, strings.Join(GetCrashRecoveryStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDatabaseManagementStatusEnum(string(m.DatabaseManagement)); !ok && m.DatabaseManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseManagement: %s. Supported values are: %s.", m.DatabaseManagement, strings.Join(GetDatabaseManagementStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -162,6 +168,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
 		DeletionPolicy       *CreateDeletionPolicyDetails      `json:"deletionPolicy"`
 		CrashRecovery        CrashRecoveryStatusEnum           `json:"crashRecovery"`
+		DatabaseManagement   DatabaseManagementStatusEnum      `json:"databaseManagement"`
 		CompartmentId        *string                           `json:"compartmentId"`
 		ShapeName            *string                           `json:"shapeName"`
 		SubnetId             *string                           `json:"subnetId"`
@@ -221,6 +228,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DeletionPolicy = model.DeletionPolicy
 
 	m.CrashRecovery = model.CrashRecovery
+
+	m.DatabaseManagement = model.DatabaseManagement
 
 	m.CompartmentId = model.CompartmentId
 

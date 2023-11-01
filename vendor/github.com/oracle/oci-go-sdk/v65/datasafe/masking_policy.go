@@ -67,8 +67,7 @@ type MaskingPolicy struct {
 
 	// Specifies how to recompile invalid objects post data masking. Allowed values are 'SERIAL' (recompile in serial),
 	// 'PARALLEL' (recompile in parallel), 'NONE' (do not recompile). If it's set to PARALLEL, the value of parallelDegree
-	// attribute is used. Note that few objects may remain invalid even after recompiling once and you may have to further
-	// recompile manually using UTL_RECOMP package.
+	// attribute is used. Use the built-in UTL_RECOMP package to recompile any remaining invalid objects after masking completes.
 	Recompile MaskingPolicyRecompileEnum `mandatory:"true" json:"recompile"`
 
 	// The description of the masking policy.

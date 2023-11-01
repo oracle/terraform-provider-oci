@@ -102,6 +102,8 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
 
+	s.D.Set("database_management", s.Res.DatabaseManagement)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}

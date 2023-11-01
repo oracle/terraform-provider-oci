@@ -1067,10 +1067,37 @@ data "oci_database_management_external_exadata_storage_servers" "test_external_e
 }
 
 resource "oci_database_management_external_exadata_infrastructure_exadata_management" "test_external_exadata_infrastructure_exadata_management" {
-	#Required
-	external_exadata_infrastructure_id = oci_database_management_external_exadata_infrastructure.test_external_exadata_infrastructure.id
-	enable_exadata = var.enable_exadata
+  #Required
+  external_exadata_infrastructure_id = oci_database_management_external_exadata_infrastructure.test_external_exadata_infrastructure.id
+  enable_exadata = var.enable_exadata
 
-	#Optional
-	license_model = var.external_exadata_infrastructure_database_managements_management_license_model
+  #Optional
+  license_model = var.external_exadata_infrastructure_database_managements_management_license_model
+}
+
+# List managed MySQL database resources in a compartment
+data "oci_database_management_managed_my_sql_databases" "test_managed_my_sql_databases" {
+  #Required
+  compartment_id = var.compartment_id
+}
+
+# Get managed MySQL database resource
+data "oci_database_management_managed_my_sql_database" "test_managed_my_sql_database" {
+  #Required
+  managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.0.id
+}
+
+# Get configuration data for a managed MySQL database resource
+data "oci_database_management_managed_my_sql_database_configuration_data" "test_managed_my_sql_database_configuration_data" {
+  #Required
+  managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.0.id
+}
+
+# Get SQL data for a managed MySQL database resource
+data "oci_database_management_managed_my_sql_database_sql_data" "test_managed_my_sql_database_sql_data" {
+  #Required
+  managed_my_sql_database_id = data.oci_database_management_managed_my_sql_databases.test_managed_my_sql_databases.managed_my_sql_database_collection.0.items.0.id
+  filter_column = "COUNT_STAR"
+  start_time = replace(timeadd(timestamp(), "-2h"), "/Z/", ".000Z")
+  end_time = replace(timestamp(), "/Z/", ".000Z")
 }

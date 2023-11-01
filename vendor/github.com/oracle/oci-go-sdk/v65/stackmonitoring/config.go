@@ -102,6 +102,14 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ConfigType {
+	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
+		mm := LicenseEnterpriseExtensibilityConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LICENSE_AUTO_ASSIGN":
+		mm := LicenseAutoAssignConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTO_PROMOTE":
 		mm := AutoPromoteConfigDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -239,15 +247,21 @@ type ConfigConfigTypeEnum string
 
 // Set of constants representing the allowable values for ConfigConfigTypeEnum
 const (
-	ConfigConfigTypeAutoPromote ConfigConfigTypeEnum = "AUTO_PROMOTE"
+	ConfigConfigTypeAutoPromote                    ConfigConfigTypeEnum = "AUTO_PROMOTE"
+	ConfigConfigTypeLicenseAutoAssign              ConfigConfigTypeEnum = "LICENSE_AUTO_ASSIGN"
+	ConfigConfigTypeLicenseEnterpriseExtensibility ConfigConfigTypeEnum = "LICENSE_ENTERPRISE_EXTENSIBILITY"
 )
 
 var mappingConfigConfigTypeEnum = map[string]ConfigConfigTypeEnum{
-	"AUTO_PROMOTE": ConfigConfigTypeAutoPromote,
+	"AUTO_PROMOTE":                     ConfigConfigTypeAutoPromote,
+	"LICENSE_AUTO_ASSIGN":              ConfigConfigTypeLicenseAutoAssign,
+	"LICENSE_ENTERPRISE_EXTENSIBILITY": ConfigConfigTypeLicenseEnterpriseExtensibility,
 }
 
 var mappingConfigConfigTypeEnumLowerCase = map[string]ConfigConfigTypeEnum{
-	"auto_promote": ConfigConfigTypeAutoPromote,
+	"auto_promote":                     ConfigConfigTypeAutoPromote,
+	"license_auto_assign":              ConfigConfigTypeLicenseAutoAssign,
+	"license_enterprise_extensibility": ConfigConfigTypeLicenseEnterpriseExtensibility,
 }
 
 // GetConfigConfigTypeEnumValues Enumerates the set of values for ConfigConfigTypeEnum
@@ -263,6 +277,8 @@ func GetConfigConfigTypeEnumValues() []ConfigConfigTypeEnum {
 func GetConfigConfigTypeEnumStringValues() []string {
 	return []string{
 		"AUTO_PROMOTE",
+		"LICENSE_AUTO_ASSIGN",
+		"LICENSE_ENTERPRISE_EXTENSIBILITY",
 	}
 }
 

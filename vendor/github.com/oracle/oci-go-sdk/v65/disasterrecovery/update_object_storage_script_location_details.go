@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,18 +18,18 @@ import (
 	"strings"
 )
 
-// UpdateObjectStorageScriptLocationDetails Information about updating an Object Storage script location for a user-defined step in a DR Plan.
+// UpdateObjectStorageScriptLocationDetails The details for updating an object storage script location for a user-defined step in a DR plan.
 type UpdateObjectStorageScriptLocationDetails struct {
 
-	// The namespace in Object Storage (Note - this is usually the tenancy name).
+	// The namespace in object storage (Note - this is usually the tenancy name).
 	// Example: `myocitenancy`
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// The bucket name inside the Object Storage namespace.
+	// The bucket name inside the object storage namespace.
 	// Example: `custom_dr_scripts`
 	Bucket *string `mandatory:"true" json:"bucket"`
 
-	// The object name inside the Object Storage bucket.
+	// The object name inside the object storage bucket.
 	// Example: `validate_app_start.sh`
 	Object *string `mandatory:"true" json:"object"`
 }

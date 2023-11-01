@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,11 +19,11 @@ import (
 	"strings"
 )
 
-// UpdateDrProtectionGroupMemberDetails Update properties for a member in a DR Protection Group.
+// UpdateDrProtectionGroupMemberDetails Update properties for a member in a DR protection group.
 type UpdateDrProtectionGroupMemberDetails interface {
 
 	// The OCID of the member.
-	// Example: `ocid1.database.oc1.phx.&lt;unique_id&gt;`
+	// Example: `ocid1.database.oc1..uniqueID`
 	GetMemberId() *string
 }
 
@@ -62,8 +63,16 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := UpdateDrProtectionGroupMemberComputeInstanceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "NETWORK_LOAD_BALANCER":
+		mm := UpdateDrProtectionGroupMemberNetworkLoadBalancerDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTONOMOUS_DATABASE":
 		mm := UpdateDrProtectionGroupMemberAutonomousDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FILE_SYSTEM":
+		mm := UpdateDrProtectionGroupMemberFileSystemDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VOLUME_GROUP":
@@ -72,6 +81,10 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		return mm, err
 	case "COMPUTE_INSTANCE_NON_MOVABLE":
 		mm := UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOAD_BALANCER":
+		mm := UpdateDrProtectionGroupMemberLoadBalancerDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPUTE_INSTANCE_MOVABLE":

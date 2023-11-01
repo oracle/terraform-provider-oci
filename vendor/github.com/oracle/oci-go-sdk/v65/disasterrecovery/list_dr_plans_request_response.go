@@ -18,22 +18,22 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrPlans.go.html to see an example of how to use ListDrPlansRequest.
 type ListDrPlansRequest struct {
 
-	// The OCID of the DR Protection Group. Mandatory query param.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group. Mandatory query param.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"query" name:"drProtectionGroupId"`
 
-	// A filter to return only DR Plans that match the given lifecycleState.
+	// A filter to return only DR plans that match the given lifecycle state.
 	LifecycleState ListDrPlansLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The OCID of the DR Plan.
-	// Example: `ocid1.drplan.oc1.iad.exampleocid`
+	// The OCID of the DR plan.
+	// Example: `ocid1.drplan.oc1..uniqueID`
 	DrPlanId *string `mandatory:"false" contributesTo:"query" name:"drPlanId"`
 
-	// The DR Plan type.
+	// The DR plan type.
 	DrPlanType ListDrPlansDrPlanTypeEnum `mandatory:"false" contributesTo:"query" name:"drPlanType" omitEmpty:"true"`
 
-	// A filter to return only resources that match the entire display name given.
-	// Example: `MY UNIQUE DISPLAY NAME`
+	// A filter to return only resources that match the given display name.
+	// Example: `MyResourceDisplayName`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// For list pagination. The maximum number of results per page,
@@ -55,7 +55,7 @@ type ListDrPlansRequest struct {
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending.
 	// Default order for displayName is ascending. If no value is specified timeCreated is default.
-	// Example: `displayName`
+	// Example: `MyResourceDisplayName`
 	SortBy ListDrPlansSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -216,16 +216,22 @@ type ListDrPlansDrPlanTypeEnum string
 const (
 	ListDrPlansDrPlanTypeSwitchover ListDrPlansDrPlanTypeEnum = "SWITCHOVER"
 	ListDrPlansDrPlanTypeFailover   ListDrPlansDrPlanTypeEnum = "FAILOVER"
+	ListDrPlansDrPlanTypeStartDrill ListDrPlansDrPlanTypeEnum = "START_DRILL"
+	ListDrPlansDrPlanTypeStopDrill  ListDrPlansDrPlanTypeEnum = "STOP_DRILL"
 )
 
 var mappingListDrPlansDrPlanTypeEnum = map[string]ListDrPlansDrPlanTypeEnum{
-	"SWITCHOVER": ListDrPlansDrPlanTypeSwitchover,
-	"FAILOVER":   ListDrPlansDrPlanTypeFailover,
+	"SWITCHOVER":  ListDrPlansDrPlanTypeSwitchover,
+	"FAILOVER":    ListDrPlansDrPlanTypeFailover,
+	"START_DRILL": ListDrPlansDrPlanTypeStartDrill,
+	"STOP_DRILL":  ListDrPlansDrPlanTypeStopDrill,
 }
 
 var mappingListDrPlansDrPlanTypeEnumLowerCase = map[string]ListDrPlansDrPlanTypeEnum{
-	"switchover": ListDrPlansDrPlanTypeSwitchover,
-	"failover":   ListDrPlansDrPlanTypeFailover,
+	"switchover":  ListDrPlansDrPlanTypeSwitchover,
+	"failover":    ListDrPlansDrPlanTypeFailover,
+	"start_drill": ListDrPlansDrPlanTypeStartDrill,
+	"stop_drill":  ListDrPlansDrPlanTypeStopDrill,
 }
 
 // GetListDrPlansDrPlanTypeEnumValues Enumerates the set of values for ListDrPlansDrPlanTypeEnum
@@ -242,6 +248,8 @@ func GetListDrPlansDrPlanTypeEnumStringValues() []string {
 	return []string{
 		"SWITCHOVER",
 		"FAILOVER",
+		"START_DRILL",
+		"STOP_DRILL",
 	}
 }
 

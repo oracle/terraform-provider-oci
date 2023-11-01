@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,15 +19,16 @@ import (
 	"strings"
 )
 
-// DrProtectionGroupMemberDatabase Properties for a Database (DBCS) member of a DR Protection Group.
+// DrProtectionGroupMemberDatabase The properties for a Base Database or Exadata Database member of a DR protection group.
 type DrProtectionGroupMemberDatabase struct {
 
 	// The OCID of the member.
-	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
+	// Example: `ocid1.instance.oc1..uniqueID`
 	MemberId *string `mandatory:"true" json:"memberId"`
 
-	// The ID of the vault secret where the database password is stored.
-	// Example: `ocid1.vaultsecret.oc1.phx.exampleocid1`
+	// The OCID of the vault secret where the database SYSDBA password is stored.
+	// This password is used for performing database DR operations.
+	// Example: `ocid1.vaultsecret.oc1..uniqueID`
 	PasswordVaultSecretId *string `mandatory:"false" json:"passwordVaultSecretId"`
 }
 

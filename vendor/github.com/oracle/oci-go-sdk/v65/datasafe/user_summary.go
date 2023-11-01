@@ -32,13 +32,13 @@ type UserSummary struct {
 	// The user category based on the privileges and other details of the user.
 	UserCategory UserSummaryUserCategoryEnum `mandatory:"false" json:"userCategory,omitempty"`
 
-	// The user account status.
+	// The status of the user account.
 	AccountStatus UserSummaryAccountStatusEnum `mandatory:"false" json:"accountStatus,omitempty"`
 
-	// The date and time when the user last logged in, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the user last logged in, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeLastLogin *common.SDKTime `mandatory:"false" json:"timeLastLogin"`
 
-	// The date and time when the user was created in the database, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the user was created in the database, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeUserCreated *common.SDKTime `mandatory:"false" json:"timeUserCreated"`
 
 	// The user authentication method.
@@ -47,7 +47,7 @@ type UserSummary struct {
 	// The user profile name.
 	UserProfile *string `mandatory:"false" json:"userProfile"`
 
-	// The date and time when the user password was last changed, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the user password was last changed, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimePasswordChanged *common.SDKTime `mandatory:"false" json:"timePasswordChanged"`
 
 	// The user type, which can be a combination of the following:

@@ -28,7 +28,7 @@ variable "dr_plan_type" {
 resource "oci_disaster_recovery_dr_plan" "test_dr_plan" {
   #Required
   display_name           = var.dr_plan_display_name
-  dr_protection_group_id = oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id
+  dr_protection_group_id = data.oci_disaster_recovery_dr_protection_groups.test_dr_protection_groups.dr_protection_group_collection.0.items.0.id
   type                   = var.dr_plan_type
 
   lifecycle {
@@ -42,7 +42,7 @@ resource "oci_disaster_recovery_dr_plan" "test_dr_plan" {
 
 data "oci_disaster_recovery_dr_plans" "test_dr_plans" {
   #Required
-  dr_protection_group_id = oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id
+  dr_protection_group_id = data.oci_disaster_recovery_dr_protection_groups.test_dr_protection_groups.dr_protection_group_collection.0.items.0.id
 
   #Optional
   display_name = var.dr_plan_display_name
@@ -50,4 +50,3 @@ data "oci_disaster_recovery_dr_plans" "test_dr_plans" {
   dr_plan_type = var.dr_plan_dr_plan_type
   state        = var.dr_plan_state
 }
-

@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,69 +18,69 @@ import (
 	"strings"
 )
 
-// DrPlanExecutionSummary Summary information about a DR Plan Execution.
+// DrPlanExecutionSummary The summary of a DR plan execution.
 type DrPlanExecutionSummary struct {
 
-	// The OCID of this plan execution.
-	// Example: `ocid1.drplanexecution.oc1.iad.&lt;unique_id&gt;`
+	// The OCID of the DR plan execution.
+	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment containing this plan execution.
-	// Example: `ocid1.compartment.oc1..&lt;unique_id&gt;`
+	// Example: `ocid1.compartment.oc1..uniqueID`
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The display name of this DR Plan Execution.
+	// The display name of the DR plan execution.
 	// Example: `Execution - EBS Switchover PHX to IAD`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the DR Plan for this plan execution.
-	// Example: `ocid1.drplan.oc1.iad.&lt;unique_id&gt;`
+	// The OCID of the DR plan for this DR plan execution.
+	// Example: `ocid1.drplan.oc1..uniqueID`
 	PlanId *string `mandatory:"true" json:"planId"`
 
-	// The type of the DR Plan executed.
+	// The type of the DR plan execution.
 	PlanExecutionType DrPlanExecutionTypeEnum `mandatory:"true" json:"planExecutionType"`
 
-	// The OCID of DR Protection Group associated with this plan execution.
-	// Example: `ocid1.drprotectiongroup.oc1.iad.&lt;unique_id&gt;`
+	// The OCID of the DR protection group to which this DR plan execution belongs.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" json:"drProtectionGroupId"`
 
-	// The OCID of peer (remote) DR Protection Group associated with this plan execution's
-	// DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.&lt;unique_id&gt;`
+	// The OCID of peer DR protection group associated with this DR plan execution's
+	// DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	PeerDrProtectionGroupId *string `mandatory:"true" json:"peerDrProtectionGroupId"`
 
-	// The region of the peer (remote) DR Protection Group.
+	// The region of the peer DR protection group associated with this DR plan execution's
+	// DR protection group.
 	// Example: `us-ashburn-1`
 	PeerRegion *string `mandatory:"true" json:"peerRegion"`
 
 	LogLocation *ObjectStorageLogLocation `mandatory:"true" json:"logLocation"`
 
-	// The date and time at which DR Plan Execution was created. An RFC3339 formatted datetime string.
+	// The date and time at which DR plan execution was created. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time at which DR Plan Execution was last updated.
+	// The time when this DR plan execution was last updated.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The current state of the DR Plan Execution.
+	// The current state of the DR plan execution.
 	LifecycleState DrPlanExecutionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time at which DR Plan Execution began. An RFC3339 formatted datetime string.
+	// The date and time at which DR plan execution began. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time at which DR Plan Execution succeeded, failed, paused, or canceled.
+	// The date and time at which DR plan execution succeeded, failed, was paused, or canceled.
 	// An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 
-	// The total duration in seconds taken to complete the DR Plan Execution.
+	// The total duration in seconds taken to complete the DR plan execution.
 	// Example: `750`
 	ExecutionDurationInSec *int `mandatory:"false" json:"executionDurationInSec"`
 
-	// A message describing the DR Plan Execution's current state in more detail.
-	// Example: `The DR Plan Execution [Execution - EBS Switchover PHX to IAD] is currently in progress`
+	// A message describing the DR plan execution's current state in more detail.
 	LifeCycleDetails *string `mandatory:"false" json:"lifeCycleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

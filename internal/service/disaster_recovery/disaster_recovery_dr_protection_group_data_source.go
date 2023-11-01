@@ -85,6 +85,8 @@ func (s *DisasterRecoveryDrProtectionGroupDataSourceCrud) SetData() error {
 		s.D.Set("life_cycle_details", *s.Res.LifeCycleDetails)
 	}
 
+	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
 	if s.Res.LogLocation != nil {
 		s.D.Set("log_location", []interface{}{ObjectStorageLogLocationToMap(s.Res.LogLocation)})
 	} else {

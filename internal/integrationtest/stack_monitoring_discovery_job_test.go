@@ -32,11 +32,9 @@ import (
 	  management_agent_id = var.stack_mon_management_agent_id_discovery
 */
 var (
-	StackMonitoringDiscoveryJobRequiredOnlyResource = StackMonitoringDiscoveryJobResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, StackMonitoringDiscoveryJobRepresentation)
+	StackMonitoringDiscoveryJobRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Required, acctest.Create, StackMonitoringDiscoveryJobRepresentation)
 
-	StackMonitoringDiscoveryJobResourceConfig = StackMonitoringDiscoveryJobResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, StackMonitoringDiscoveryJobRepresentation)
+	StackMonitoringDiscoveryJobResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, StackMonitoringDiscoveryJobRepresentation)
 
 	StackMonitoringStackMonitoringDiscoveryJobSingularDataSourceRepresentation = map[string]interface{}{
 		"discovery_job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_discovery_job.test_discovery_job.id}`},
@@ -65,6 +63,7 @@ var (
 		"resource_name": acctest.Representation{RepType: acctest.Required, Create: `terraformDiscoveryJob`},
 		"resource_type": acctest.Representation{RepType: acctest.Required, Create: `WEBLOGIC_DOMAIN`},
 		"credentials":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringDiscoveryJobDiscoveryDetailsCredentialsRepresentation},
+		"license":       acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`},
 		"tags":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringDiscoveryJobDiscoveryDetailsTagsRepresentation},
 	}
 	StackMonitoringDiscoveryJobDiscoveryDetailsPropertiesRepresentation = map[string]interface{}{
@@ -91,8 +90,6 @@ var (
 		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Username": "d2VibG9naWM=",
 			"Password": "d2VibG9naWM="}},
 	}
-
-	StackMonitoringDiscoveryJobResourceDependencies = ""
 )
 
 // issue-routing-tag: stack_monitoring/default
@@ -117,13 +114,13 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+StackMonitoringDiscoveryJobResourceDependencies+managementAgentIdVariableStr+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+managementAgentIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, StackMonitoringDiscoveryJobRepresentation), "stackmonitoring", "discoveryJob", t)
 
 	acctest.ResourceTest(t, testAccCheckStackMonitoringDiscoveryJobDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + StackMonitoringDiscoveryJobResourceDependencies + managementAgentIdVariableStr +
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, StackMonitoringDiscoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -138,16 +135,17 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + StackMonitoringDiscoveryJobResourceDependencies,
+			Config: config + compartmentIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + StackMonitoringDiscoveryJobResourceDependencies + managementAgentIdVariableStr +
+			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Create, StackMonitoringDiscoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "discovery_client", "LA_SERVICE"),
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "discovery_details.0.license", "STANDARD_EDITION"),
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.0.agent_id", managementAgentId),
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "discovery_details.0.properties.0.properties_map.%", "3"),
@@ -173,7 +171,7 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_discovery_jobs", "test_discovery_jobs", acctest.Optional, acctest.Update, StackMonitoringStackMonitoringDiscoveryJobDataSourceRepresentation) +
-				compartmentIdVariableStr + StackMonitoringDiscoveryJobResourceDependencies + managementAgentIdVariableStr +
+				compartmentIdVariableStr + managementAgentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_discovery_job", "test_discovery_job", acctest.Optional, acctest.Update, StackMonitoringDiscoveryJobRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -200,6 +198,7 @@ func TestStackMonitoringDiscoveryJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_details.0.resource_type", "WEBLOGIC_DOMAIN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_details.0.tags.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_details.0.tags.0.properties_map.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_details.0.license", "STANDARD_EDITION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "discovery_type", "ADD"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

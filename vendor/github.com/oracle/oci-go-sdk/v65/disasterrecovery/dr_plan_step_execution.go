@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,21 +18,21 @@ import (
 	"strings"
 )
 
-// DrPlanStepExecution Summary information about a step execution.
+// DrPlanStepExecution The details of a step execution in a DR plan execution.
 type DrPlanStepExecution struct {
 
-	// The unique id of this step. Must not be modified by user.
-	// Example: `sgid1.step..&lt;unique_id&gt;`
+	// The unique id of the step. Must not be modified by user.
+	// Example: `sgid1.step..uniqueID`
 	StepId *string `mandatory:"true" json:"stepId"`
 
-	// The plan step type.
+	// The step type.
 	Type DrPlanStepTypeEnum `mandatory:"true" json:"type"`
 
 	// The unique id of the group to which this step belongs. Must not be modified by user.
-	// Example: `sgid1.group..&lt;unique_id&gt;`
+	// Example: `sgid1.group..uniqueID`
 	GroupId *string `mandatory:"true" json:"groupId"`
 
-	// The display name of the step.
+	// The display name of the step execution.
 	// Example: `DATABASE_SWITCHOVER`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
@@ -40,19 +41,19 @@ type DrPlanStepExecution struct {
 	// The status of the step execution.
 	Status DrPlanStepExecutionStatusEnum `mandatory:"true" json:"status"`
 
-	// Additional details about the step execution status.
+	// Additional details on the step execution status.
 	// Example: `This step failed to complete due to a timeout`
 	StatusDetails *string `mandatory:"false" json:"statusDetails"`
 
-	// The time at which step execution began. An RFC3339 formatted datetime string.
+	// The time when step execution began. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The time at which step execution ended. An RFC3339 formatted datetime string.
+	// The time when execution ended. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 
-	// The total duration in seconds taken to complete step execution.
+	// The total duration in seconds taken to complete the step execution.
 	// Example: `35`
 	ExecutionDurationInSec *int `mandatory:"false" json:"executionDurationInSec"`
 }

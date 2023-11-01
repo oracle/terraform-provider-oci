@@ -45,7 +45,7 @@ type TargetAlertPolicyAssociationSummary struct {
 	// The OCID of the target on which alert policy is to be applied.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
-	// Indicates if the target-alert policy association is enabled or disabled.
+	// Indicates if the target-alert policy association is enabled or disabled by user.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

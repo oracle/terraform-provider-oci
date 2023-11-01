@@ -21,7 +21,7 @@ type GetSecurityAssessmentComparisonRequest struct {
 	// The OCID of the security assessment.
 	SecurityAssessmentId *string `mandatory:"true" contributesTo:"path" name:"securityAssessmentId"`
 
-	// The OCID of the baseline security assessment.
+	// The OCID of the security assessment baseline.
 	ComparisonSecurityAssessmentId *string `mandatory:"true" contributesTo:"path" name:"comparisonSecurityAssessmentId"`
 
 	// Unique identifier for the request.

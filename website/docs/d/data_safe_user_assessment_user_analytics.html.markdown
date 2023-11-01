@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_safe_user_assessment_user_analytics
 This data source provides the list of User Assessment User Analytics in Oracle Cloud Infrastructure Data Safe service.
 
-Gets a list of aggregated user details from the specified user assessment. This provides information about the overall state
+Gets a list of aggregated user details from the specified user assessment. This provides information about the overall state.
 of database user security.  For example, the user details include how many users have the DBA role and how many users are in
 the critical category. This data is especially useful content for dashboards or to support analytics.
 

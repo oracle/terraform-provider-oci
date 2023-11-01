@@ -19,18 +19,18 @@ import (
 type ListWorkRequestsRequest struct {
 
 	// The ID (OCID) of the compartment in which to list resources.
-	// Example: `ocid1.compartment.oc1..exampleocid1`
+	// Example: `ocid1.compartment.oc1..uniqueID`
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The ID (OCID) of the asynchronous work request.
-	// Example: `ocid1.workrequest.oc1.phx.exampleocid1`
+	// Example: `ocid1.workrequest.oc1..uniqueID`
 	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`
 
 	// A filter to return only resources whose lifecycleState matches the given OperationStatus.
 	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
 	// The ID (OCID) of the resource affected by the work request.
-	// Example: `ocid1.drplanexecution.oc1.iad.exampleocid`
+	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
 	// The client request ID for tracing.

@@ -147,6 +147,11 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"database_management": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -781,6 +786,7 @@ func (s *MysqlMysqlDbSystemResourceCrud) ID() string {
 func (s *MysqlMysqlDbSystemResourceCrud) CreatedPending() []string {
 	return []string{
 		string(oci_mysql.DbSystemLifecycleStateCreating),
+		string(oci_mysql.DbSystemLifecycleStateUpdating),
 	}
 }
 
@@ -860,6 +866,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
+	}
+
+	if databaseManagement, ok := s.D.GetOkExists("database_management"); ok {
+		request.DatabaseManagement = oci_mysql.DatabaseManagementStatusEnum(databaseManagement.(string))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1021,6 +1031,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		request.DataStorageSizeInGBs = &tmp
 	}
 
+	if databaseManagement, ok := s.D.GetOkExists("database_management"); ok && s.D.HasChange("database_management") {
+		request.DatabaseManagement = oci_mysql.DatabaseManagementStatusEnum(databaseManagement.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -1133,6 +1147,8 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
+
+	s.D.Set("database_management", s.Res.DatabaseManagement)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))

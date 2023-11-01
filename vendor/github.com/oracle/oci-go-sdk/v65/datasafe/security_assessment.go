@@ -23,10 +23,10 @@ type SecurityAssessment struct {
 	// The OCID of the security assessment.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The date and time when the security assessment was created. Conforms to the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the security assessment was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time when the security assessment was last updated. Conforms to the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the security assessment was last updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The OCID of the compartment that contains the security assessment.
@@ -50,7 +50,7 @@ type SecurityAssessment struct {
 	//  the latest assessment or refresh action is executed. It is also automatically updated when a target is deleted or move to a different compartment.
 	Type SecurityAssessmentTypeEnum `mandatory:"true" json:"type"`
 
-	// The date and time when the security assessment was last run. Conforms to the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the security assessment was last executed, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeLastAssessed *common.SDKTime `mandatory:"false" json:"timeLastAssessed"`
 
 	// List containing maps as values.

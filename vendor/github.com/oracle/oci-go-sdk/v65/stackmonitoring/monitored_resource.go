@@ -65,6 +65,9 @@ type MonitoredResource struct {
 	// Lifecycle state of the monitored resource.
 	LifecycleState ResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// License edition of the monitored resource.
+	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
+
 	// List of monitored resource properties.
 	Properties []MonitoredResourceProperty `mandatory:"false" json:"properties"`
 
@@ -100,6 +103,9 @@ func (m MonitoredResource) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingResourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResourceLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -117,6 +123,7 @@ func (m *MonitoredResource) UnmarshalJSON(data []byte) (e error) {
 		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
 		TimeUpdated               *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleState            ResourceLifecycleStateEnum        `json:"lifecycleState"`
+		License                   LicenseTypeEnum                   `json:"license"`
 		Properties                []MonitoredResourceProperty       `json:"properties"`
 		DatabaseConnectionDetails *ConnectionDetails                `json:"databaseConnectionDetails"`
 		Credentials               monitoredresourcecredential       `json:"credentials"`
@@ -151,6 +158,8 @@ func (m *MonitoredResource) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleState = model.LifecycleState
+
+	m.License = model.License
 
 	m.Properties = make([]MonitoredResourceProperty, len(model.Properties))
 	copy(m.Properties, model.Properties)

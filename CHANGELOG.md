@@ -1,3 +1,16 @@
+## 5.19.0 (November 01, 2023)
+
+### Added
+- Support for Full Stack Disaster Recovery Service: Test standby
+- Support for Baseline and Anomaly Detection in Stack Monitoring
+- Support for DBM : Support MySQL Database Service
+- Support for Stack Monitoring: Metric Extensions
+- Support for Advanced SKU
+- Support for MDS: Integrate with Database Management Service
+- Stack Monitoring: Extensibility Support
+- Support for Extend the OS Management service to manage systems in OCI Compute, in customer data centers, and in 3rd party clouds.
+- Support for DB firewall support in Data Safe
+
 ## 5.18.0 (October 24, 2023)
 
 ### Added

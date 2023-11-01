@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -26,6 +27,9 @@ const (
 	DrProtectionGroupMemberTypeVolumeGroup               DrProtectionGroupMemberTypeEnum = "VOLUME_GROUP"
 	DrProtectionGroupMemberTypeDatabase                  DrProtectionGroupMemberTypeEnum = "DATABASE"
 	DrProtectionGroupMemberTypeAutonomousDatabase        DrProtectionGroupMemberTypeEnum = "AUTONOMOUS_DATABASE"
+	DrProtectionGroupMemberTypeLoadBalancer              DrProtectionGroupMemberTypeEnum = "LOAD_BALANCER"
+	DrProtectionGroupMemberTypeNetworkLoadBalancer       DrProtectionGroupMemberTypeEnum = "NETWORK_LOAD_BALANCER"
+	DrProtectionGroupMemberTypeFileSystem                DrProtectionGroupMemberTypeEnum = "FILE_SYSTEM"
 )
 
 var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberTypeEnum{
@@ -35,6 +39,9 @@ var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberT
 	"VOLUME_GROUP":                 DrProtectionGroupMemberTypeVolumeGroup,
 	"DATABASE":                     DrProtectionGroupMemberTypeDatabase,
 	"AUTONOMOUS_DATABASE":          DrProtectionGroupMemberTypeAutonomousDatabase,
+	"LOAD_BALANCER":                DrProtectionGroupMemberTypeLoadBalancer,
+	"NETWORK_LOAD_BALANCER":        DrProtectionGroupMemberTypeNetworkLoadBalancer,
+	"FILE_SYSTEM":                  DrProtectionGroupMemberTypeFileSystem,
 }
 
 var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGroupMemberTypeEnum{
@@ -44,6 +51,9 @@ var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGro
 	"volume_group":                 DrProtectionGroupMemberTypeVolumeGroup,
 	"database":                     DrProtectionGroupMemberTypeDatabase,
 	"autonomous_database":          DrProtectionGroupMemberTypeAutonomousDatabase,
+	"load_balancer":                DrProtectionGroupMemberTypeLoadBalancer,
+	"network_load_balancer":        DrProtectionGroupMemberTypeNetworkLoadBalancer,
+	"file_system":                  DrProtectionGroupMemberTypeFileSystem,
 }
 
 // GetDrProtectionGroupMemberTypeEnumValues Enumerates the set of values for DrProtectionGroupMemberTypeEnum
@@ -64,6 +74,9 @@ func GetDrProtectionGroupMemberTypeEnumStringValues() []string {
 		"VOLUME_GROUP",
 		"DATABASE",
 		"AUTONOMOUS_DATABASE",
+		"LOAD_BALANCER",
+		"NETWORK_LOAD_BALANCER",
+		"FILE_SYSTEM",
 	}
 }
 

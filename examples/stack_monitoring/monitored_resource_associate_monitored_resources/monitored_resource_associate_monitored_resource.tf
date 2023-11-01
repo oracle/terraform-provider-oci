@@ -31,6 +31,7 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource1" {
 	display_name = "exampleDisplayName"
 	host_name = var.stack_mon_hostname_resource1
 	management_agent_id = var.stack_mon_management_agent_id_resource1
+	license = "STANDARD_EDITION"
 	properties {
 		name = "osName"
 		value = "Linux"
@@ -78,7 +79,7 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource2" {
 
 resource "oci_stack_monitoring_monitored_resources_associate_monitored_resource" "test_monitored_resources_associate_monitored_resource" {
 	#Required
-	association_type = "contains"
+	association_type = "uses"
 	compartment_id = var.compartment_ocid
 	destination_resource_id = oci_stack_monitoring_monitored_resource.test_monitored_resource2.id
 	source_resource_id = oci_stack_monitoring_monitored_resource.test_monitored_resource1.id

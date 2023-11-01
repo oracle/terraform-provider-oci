@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CreateDataSafePrivateEndpointDetails The details used to create a new Data Safe private endpoint.
+// CreateDataSafePrivateEndpointDetails The details used to create the new Data Safe private endpoint.
 type CreateDataSafePrivateEndpointDetails struct {
 
 	// The display name for the private endpoint. The name does not have to be unique, and it's changeable.

@@ -1,0 +1,34 @@
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package os_management_hub
+
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_os_management_hub_lifecycle_environment", OsManagementHubLifecycleEnvironmentDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_lifecycle_environments", OsManagementHubLifecycleEnvironmentsDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_lifecycle_stage", OsManagementHubLifecycleStageDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_lifecycle_stages", OsManagementHubLifecycleStagesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group", OsManagementHubManagedInstanceGroupDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group_available_modules", OsManagementHubManagedInstanceGroupAvailableModulesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group_available_packages", OsManagementHubManagedInstanceGroupAvailablePackagesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_group_available_software_sources", OsManagementHubManagedInstanceGroupAvailableSoftwareSourcesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_managed_instance_groups", OsManagementHubManagedInstanceGroupsDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_management_station", OsManagementHubManagementStationDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_management_station_mirrors", OsManagementHubManagementStationMirrorsDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_management_stations", OsManagementHubManagementStationsDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_profile", OsManagementHubProfileDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_profiles", OsManagementHubProfilesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source", OsManagementHubSoftwareSourceDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_module_stream", OsManagementHubSoftwareSourceModuleStreamDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_module_stream_profile", OsManagementHubSoftwareSourceModuleStreamProfileDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_module_stream_profiles", OsManagementHubSoftwareSourceModuleStreamProfilesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_module_streams", OsManagementHubSoftwareSourceModuleStreamsDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_package_group", OsManagementHubSoftwareSourcePackageGroupDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_package_groups", OsManagementHubSoftwareSourcePackageGroupsDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_software_package", OsManagementHubSoftwareSourceSoftwarePackageDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_software_packages", OsManagementHubSoftwareSourceSoftwarePackagesDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_source_vendors", OsManagementHubSoftwareSourceVendorsDataSource())
+	tfresource.RegisterDatasource("oci_os_management_hub_software_sources", OsManagementHubSoftwareSourcesDataSource())
+}

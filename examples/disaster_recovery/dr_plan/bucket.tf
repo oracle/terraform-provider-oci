@@ -1,5 +1,5 @@
 variable "bucket_name" {
-  default = "testBucketName_2"
+  default = "testBucketName_1"
 }
 
 variable "bucket_namespace" {
@@ -17,9 +17,7 @@ data "oci_objectstorage_namespace" "test_namespace" {
   compartment_id = var.compartment_id
 }
 
-resource "oci_objectstorage_bucket" "test_bucket" {
-  #Required
-  compartment_id = var.compartment_id
-  name           = var.bucket_name
-  namespace      = data.oci_objectstorage_namespace.test_namespace.namespace
+data "oci_objectstorage_bucket" "test_bucket" {
+  namespace = data.oci_objectstorage_namespace.test_namespace.namespace
+  name      = var.bucket_name
 }

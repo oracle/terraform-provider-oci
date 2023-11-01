@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -21,11 +22,11 @@ import (
 type RetryDrPlanExecutionDetails struct {
 
 	// The unique id of the group to retry as a whole, or the group containing the step being retried.
-	// Example: `sgid1.group..&lt;unique_id&gt;`
+	// Example: `sgid1.group..uniqueID`
 	GroupId *string `mandatory:"true" json:"groupId"`
 
 	// The unique id of the step to retry (optional). Only needed when retrying a step.
-	// Example: `sgid1.step..&lt;unique_id&gt;`
+	// Example: `sgid1.step..uniqueID`
 	StepId *string `mandatory:"false" json:"stepId"`
 }
 

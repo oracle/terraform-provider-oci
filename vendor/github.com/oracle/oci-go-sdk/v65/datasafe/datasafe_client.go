@@ -533,7 +533,7 @@ func (client DataSafeClient) calculateAuditVolumeCollected(ctx context.Context, 
 	return response, err
 }
 
-// CancelWorkRequest Cancel the given work request.
+// CancelWorkRequest Cancel the specified work request.
 //
 // # See also
 //
@@ -899,6 +899,69 @@ func (client DataSafeClient) changeDataSafePrivateEndpointCompartment(ctx contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpoint/ChangeDataSafePrivateEndpointCompartment"
 		err = common.PostProcessServiceError(err, "DataSafe", "ChangeDataSafePrivateEndpointCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeDatabaseSecurityConfigCompartment Moves the specified database security configuration and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeDatabaseSecurityConfigCompartment.go.html to see an example of how to use ChangeDatabaseSecurityConfigCompartment API.
+// A default retry strategy applies to this operation ChangeDatabaseSecurityConfigCompartment()
+func (client DataSafeClient) ChangeDatabaseSecurityConfigCompartment(ctx context.Context, request ChangeDatabaseSecurityConfigCompartmentRequest) (response ChangeDatabaseSecurityConfigCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDatabaseSecurityConfigCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDatabaseSecurityConfigCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDatabaseSecurityConfigCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDatabaseSecurityConfigCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDatabaseSecurityConfigCompartmentResponse")
+	}
+	return
+}
+
+// changeDatabaseSecurityConfigCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeDatabaseSecurityConfigCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseSecurityConfigs/{databaseSecurityConfigId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDatabaseSecurityConfigCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DatabaseSecurityConfig/ChangeDatabaseSecurityConfigCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeDatabaseSecurityConfigCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -1475,6 +1538,132 @@ func (client DataSafeClient) changeSecurityAssessmentCompartment(ctx context.Con
 	return response, err
 }
 
+// ChangeSecurityPolicyCompartment Moves the specified security policy and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityPolicyCompartment.go.html to see an example of how to use ChangeSecurityPolicyCompartment API.
+// A default retry strategy applies to this operation ChangeSecurityPolicyCompartment()
+func (client DataSafeClient) ChangeSecurityPolicyCompartment(ctx context.Context, request ChangeSecurityPolicyCompartmentRequest) (response ChangeSecurityPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSecurityPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSecurityPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSecurityPolicyCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSecurityPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSecurityPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeSecurityPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSecurityPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityPolicies/{securityPolicyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSecurityPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicy/ChangeSecurityPolicyCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSecurityPolicyCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSecurityPolicyDeploymentCompartment Moves the specified security policy deployment and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityPolicyDeploymentCompartment.go.html to see an example of how to use ChangeSecurityPolicyDeploymentCompartment API.
+// A default retry strategy applies to this operation ChangeSecurityPolicyDeploymentCompartment()
+func (client DataSafeClient) ChangeSecurityPolicyDeploymentCompartment(ctx context.Context, request ChangeSecurityPolicyDeploymentCompartmentRequest) (response ChangeSecurityPolicyDeploymentCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSecurityPolicyDeploymentCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSecurityPolicyDeploymentCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSecurityPolicyDeploymentCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSecurityPolicyDeploymentCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSecurityPolicyDeploymentCompartmentResponse")
+	}
+	return
+}
+
+// changeSecurityPolicyDeploymentCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSecurityPolicyDeploymentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/securityPolicyDeployments/{securityPolicyDeploymentId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSecurityPolicyDeploymentCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyDeployment/ChangeSecurityPolicyDeploymentCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSecurityPolicyDeploymentCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeSensitiveDataModelCompartment Moves the specified sensitive data model and its dependent resources into a different compartment.
 //
 // # See also
@@ -1594,6 +1783,132 @@ func (client DataSafeClient) changeSensitiveTypeCompartment(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/ChangeSensitiveTypeCompartment"
 		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSensitiveTypeCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSqlCollectionCompartment Moves the specified SQL collection and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSqlCollectionCompartment.go.html to see an example of how to use ChangeSqlCollectionCompartment API.
+// A default retry strategy applies to this operation ChangeSqlCollectionCompartment()
+func (client DataSafeClient) ChangeSqlCollectionCompartment(ctx context.Context, request ChangeSqlCollectionCompartmentRequest) (response ChangeSqlCollectionCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSqlCollectionCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSqlCollectionCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSqlCollectionCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSqlCollectionCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSqlCollectionCompartmentResponse")
+	}
+	return
+}
+
+// changeSqlCollectionCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSqlCollectionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlCollections/{sqlCollectionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSqlCollectionCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/ChangeSqlCollectionCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSqlCollectionCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSqlFirewallPolicyCompartment Moves the specified SQL firewall policy and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSqlFirewallPolicyCompartment.go.html to see an example of how to use ChangeSqlFirewallPolicyCompartment API.
+// A default retry strategy applies to this operation ChangeSqlFirewallPolicyCompartment()
+func (client DataSafeClient) ChangeSqlFirewallPolicyCompartment(ctx context.Context, request ChangeSqlFirewallPolicyCompartmentRequest) (response ChangeSqlFirewallPolicyCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSqlFirewallPolicyCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSqlFirewallPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSqlFirewallPolicyCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSqlFirewallPolicyCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSqlFirewallPolicyCompartmentResponse")
+	}
+	return
+}
+
+// changeSqlFirewallPolicyCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSqlFirewallPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlFirewallPolicies/{sqlFirewallPolicyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSqlFirewallPolicyCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicy/ChangeSqlFirewallPolicyCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSqlFirewallPolicyCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2264,7 +2579,7 @@ func (client DataSafeClient) createMaskingColumn(ctx context.Context, request co
 	return response, err
 }
 
-// CreateMaskingPolicy Creates a new masking policy and associates it with a sensitive data model or a reference target database.
+// CreateMaskingPolicy Creates a new masking policy and associates it with a sensitive data model or a target database.
 // To use a sensitive data model as the source of masking columns, set the columnSource attribute to
 // SENSITIVE_DATA_MODEL and provide the sensitiveDataModelId attribute. After creating a masking policy,
 // you can use the AddMaskingColumnsFromSdm operation to automatically add all the columns from
@@ -2788,6 +3103,69 @@ func (client DataSafeClient) createSensitiveType(ctx context.Context, request co
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &sensitivetype{})
+	return response, err
+}
+
+// CreateSqlCollection Creates a new SQL collection resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSqlCollection.go.html to see an example of how to use CreateSqlCollection API.
+// A default retry strategy applies to this operation CreateSqlCollection()
+func (client DataSafeClient) CreateSqlCollection(ctx context.Context, request CreateSqlCollectionRequest) (response CreateSqlCollectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSqlCollection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSqlCollectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSqlCollectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSqlCollectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSqlCollectionResponse")
+	}
+	return
+}
+
+// createSqlCollection implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSqlCollection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlCollections", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSqlCollectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/CreateSqlCollection"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSqlCollection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -3912,6 +4290,122 @@ func (client DataSafeClient) deleteSensitiveType(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/DeleteSensitiveType"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSensitiveType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSqlCollection Deletes the specified SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlCollection.go.html to see an example of how to use DeleteSqlCollection API.
+// A default retry strategy applies to this operation DeleteSqlCollection()
+func (client DataSafeClient) DeleteSqlCollection(ctx context.Context, request DeleteSqlCollectionRequest) (response DeleteSqlCollectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSqlCollection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSqlCollectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSqlCollectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSqlCollectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSqlCollectionResponse")
+	}
+	return
+}
+
+// deleteSqlCollection implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSqlCollection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sqlCollections/{sqlCollectionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSqlCollectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/DeleteSqlCollection"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSqlCollection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSqlFirewallPolicy Deletes the SQL firewall policy resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlFirewallPolicy.go.html to see an example of how to use DeleteSqlFirewallPolicy API.
+// A default retry strategy applies to this operation DeleteSqlFirewallPolicy()
+func (client DataSafeClient) DeleteSqlFirewallPolicy(ctx context.Context, request DeleteSqlFirewallPolicyRequest) (response DeleteSqlFirewallPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSqlFirewallPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSqlFirewallPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSqlFirewallPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSqlFirewallPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSqlFirewallPolicyResponse")
+	}
+	return
+}
+
+// deleteSqlFirewallPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSqlFirewallPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sqlFirewallPolicies/{sqlFirewallPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSqlFirewallPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicy/DeleteSqlFirewallPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSqlFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
 
@@ -5138,6 +5632,69 @@ func (client DataSafeClient) generateSensitiveDataModelForDownload(ctx context.C
 	return response, err
 }
 
+// GenerateSqlFirewallPolicy Generates or appends to the SQL firewall policy using the specified SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateSqlFirewallPolicy.go.html to see an example of how to use GenerateSqlFirewallPolicy API.
+// A default retry strategy applies to this operation GenerateSqlFirewallPolicy()
+func (client DataSafeClient) GenerateSqlFirewallPolicy(ctx context.Context, request GenerateSqlFirewallPolicyRequest) (response GenerateSqlFirewallPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateSqlFirewallPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateSqlFirewallPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateSqlFirewallPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateSqlFirewallPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateSqlFirewallPolicyResponse")
+	}
+	return
+}
+
+// generateSqlFirewallPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) generateSqlFirewallPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlCollections/{sqlCollectionId}/actions/generateSqlFirewallPolicy", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateSqlFirewallPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/GenerateSqlFirewallPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateSqlFirewallPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GenerateUserAssessmentReport Generates the report of the specified user assessment. The report is available in PDF or XLS format.
 // After generating the report, use DownloadUserAssessmentReport to download it in the preferred format.
 //
@@ -5784,6 +6341,64 @@ func (client DataSafeClient) getDataSafePrivateEndpoint(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DataSafePrivateEndpoint/GetDataSafePrivateEndpoint"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetDataSafePrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDatabaseSecurityConfig Gets a database security configuration by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDatabaseSecurityConfig.go.html to see an example of how to use GetDatabaseSecurityConfig API.
+// A default retry strategy applies to this operation GetDatabaseSecurityConfig()
+func (client DataSafeClient) GetDatabaseSecurityConfig(ctx context.Context, request GetDatabaseSecurityConfigRequest) (response GetDatabaseSecurityConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseSecurityConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseSecurityConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseSecurityConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseSecurityConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseSecurityConfigResponse")
+	}
+	return
+}
+
+// getDatabaseSecurityConfig implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getDatabaseSecurityConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseSecurityConfigs/{databaseSecurityConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseSecurityConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DatabaseSecurityConfig/GetDatabaseSecurityConfig"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetDatabaseSecurityConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -6604,7 +7219,7 @@ func (client DataSafeClient) getSecurityAssessment(ctx context.Context, request 
 	return response, err
 }
 
-// GetSecurityAssessmentComparison Gets the details of the comparison report on the security assessments submitted for comparison.
+// GetSecurityAssessmentComparison Gets the details of the comparison report for the security assessments submitted for comparison.
 //
 // # See also
 //
@@ -6655,6 +7270,180 @@ func (client DataSafeClient) getSecurityAssessmentComparison(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/GetSecurityAssessmentComparison"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetSecurityAssessmentComparison", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSecurityPolicy Gets a security policy by the specified OCID of the security policy resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicy.go.html to see an example of how to use GetSecurityPolicy API.
+// A default retry strategy applies to this operation GetSecurityPolicy()
+func (client DataSafeClient) GetSecurityPolicy(ctx context.Context, request GetSecurityPolicyRequest) (response GetSecurityPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSecurityPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSecurityPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSecurityPolicyResponse")
+	}
+	return
+}
+
+// getSecurityPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSecurityPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicies/{securityPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSecurityPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicy/GetSecurityPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSecurityPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSecurityPolicyDeployment Gets a security policy deployment by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicyDeployment.go.html to see an example of how to use GetSecurityPolicyDeployment API.
+// A default retry strategy applies to this operation GetSecurityPolicyDeployment()
+func (client DataSafeClient) GetSecurityPolicyDeployment(ctx context.Context, request GetSecurityPolicyDeploymentRequest) (response GetSecurityPolicyDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSecurityPolicyDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityPolicyDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityPolicyDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSecurityPolicyDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSecurityPolicyDeploymentResponse")
+	}
+	return
+}
+
+// getSecurityPolicyDeployment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSecurityPolicyDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicyDeployments/{securityPolicyDeploymentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSecurityPolicyDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyDeployment/GetSecurityPolicyDeployment"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSecurityPolicyDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSecurityPolicyEntryState Gets a security policy entity states by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicyEntryState.go.html to see an example of how to use GetSecurityPolicyEntryState API.
+// A default retry strategy applies to this operation GetSecurityPolicyEntryState()
+func (client DataSafeClient) GetSecurityPolicyEntryState(ctx context.Context, request GetSecurityPolicyEntryStateRequest) (response GetSecurityPolicyEntryStateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSecurityPolicyEntryState, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSecurityPolicyEntryStateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSecurityPolicyEntryStateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSecurityPolicyEntryStateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSecurityPolicyEntryStateResponse")
+	}
+	return
+}
+
+// getSecurityPolicyEntryState implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSecurityPolicyEntryState(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicyDeployments/{securityPolicyDeploymentId}/securityPolicyEntryStates/{securityPolicyEntryStateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSecurityPolicyEntryStateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyEntryState/GetSecurityPolicyEntryState"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSecurityPolicyEntryState", apiReferenceLink)
 		return response, err
 	}
 
@@ -6836,6 +7625,122 @@ func (client DataSafeClient) getSensitiveType(ctx context.Context, request commo
 	return response, err
 }
 
+// GetSqlCollection Gets a SQL collection by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSqlCollection.go.html to see an example of how to use GetSqlCollection API.
+// A default retry strategy applies to this operation GetSqlCollection()
+func (client DataSafeClient) GetSqlCollection(ctx context.Context, request GetSqlCollectionRequest) (response GetSqlCollectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSqlCollection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSqlCollectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSqlCollectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSqlCollectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSqlCollectionResponse")
+	}
+	return
+}
+
+// getSqlCollection implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSqlCollection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlCollections/{sqlCollectionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSqlCollectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/GetSqlCollection"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSqlCollection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSqlFirewallPolicy Gets a SQL firewall policy by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSqlFirewallPolicy.go.html to see an example of how to use GetSqlFirewallPolicy API.
+// A default retry strategy applies to this operation GetSqlFirewallPolicy()
+func (client DataSafeClient) GetSqlFirewallPolicy(ctx context.Context, request GetSqlFirewallPolicyRequest) (response GetSqlFirewallPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSqlFirewallPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSqlFirewallPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSqlFirewallPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSqlFirewallPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSqlFirewallPolicyResponse")
+	}
+	return
+}
+
+// getSqlFirewallPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSqlFirewallPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlFirewallPolicies/{sqlFirewallPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSqlFirewallPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicy/GetSqlFirewallPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSqlFirewallPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetTargetAlertPolicyAssociation Gets the details of target-alert policy association by its ID.
 //
 // # See also
@@ -7010,7 +7915,7 @@ func (client DataSafeClient) getUserAssessment(ctx context.Context, request comm
 	return response, err
 }
 
-// GetUserAssessmentComparison Gets the details of the comparison report for the user assessments provided.
+// GetUserAssessmentComparison Gets the details of the comparison report for the user assessments submitted for comparison.
 //
 // # See also
 //
@@ -8207,6 +9112,74 @@ func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, r
 	return response, err
 }
 
+// ListDatabaseSecurityConfigs Retrieves a list of all database security configurations in Data Safe.
+// The ListDatabaseSecurityConfigs operation returns only the database security configurations in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListDatabaseSecurityConfigs on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDatabaseSecurityConfigs.go.html to see an example of how to use ListDatabaseSecurityConfigs API.
+// A default retry strategy applies to this operation ListDatabaseSecurityConfigs()
+func (client DataSafeClient) ListDatabaseSecurityConfigs(ctx context.Context, request ListDatabaseSecurityConfigsRequest) (response ListDatabaseSecurityConfigsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDatabaseSecurityConfigs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDatabaseSecurityConfigsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDatabaseSecurityConfigsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDatabaseSecurityConfigsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDatabaseSecurityConfigsResponse")
+	}
+	return
+}
+
+// listDatabaseSecurityConfigs implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listDatabaseSecurityConfigs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseSecurityConfigs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDatabaseSecurityConfigsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DatabaseSecurityConfigCollection/ListDatabaseSecurityConfigs"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListDatabaseSecurityConfigs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDifferenceColumns Gets a list of columns of a SDM masking policy difference resource based on the specified query parameters.
 //
 // # See also
@@ -8441,7 +9414,7 @@ func (client DataSafeClient) listDiscoveryJobs(ctx context.Context, request comm
 	return response, err
 }
 
-// ListFindings List all the findings from all the targets in the specified assessment.
+// ListFindings List all the findings from all the targets in the specified compartment.
 //
 // # See also
 //
@@ -9583,6 +10556,201 @@ func (client DataSafeClient) listSecurityAssessments(ctx context.Context, reques
 	return response, err
 }
 
+// ListSecurityPolicies Retrieves a list of all security policies in Data Safe.
+// The ListSecurityPolicies operation returns only the security policies in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListSecurityPolicies on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityPolicies.go.html to see an example of how to use ListSecurityPolicies API.
+// A default retry strategy applies to this operation ListSecurityPolicies()
+func (client DataSafeClient) ListSecurityPolicies(ctx context.Context, request ListSecurityPoliciesRequest) (response ListSecurityPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSecurityPolicies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityPoliciesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSecurityPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSecurityPoliciesResponse")
+	}
+	return
+}
+
+// listSecurityPolicies implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSecurityPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSecurityPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyCollection/ListSecurityPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSecurityPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSecurityPolicyDeployments Retrieves a list of all security policy deployments in Data Safe.
+// The ListSecurityPolicyDeployments operation returns only the security policy deployments in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListSecurityPolicyDeployments on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityPolicyDeployments.go.html to see an example of how to use ListSecurityPolicyDeployments API.
+// A default retry strategy applies to this operation ListSecurityPolicyDeployments()
+func (client DataSafeClient) ListSecurityPolicyDeployments(ctx context.Context, request ListSecurityPolicyDeploymentsRequest) (response ListSecurityPolicyDeploymentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSecurityPolicyDeployments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityPolicyDeploymentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityPolicyDeploymentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSecurityPolicyDeploymentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSecurityPolicyDeploymentsResponse")
+	}
+	return
+}
+
+// listSecurityPolicyDeployments implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSecurityPolicyDeployments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicyDeployments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSecurityPolicyDeploymentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyDeploymentCollection/ListSecurityPolicyDeployments"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSecurityPolicyDeployments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSecurityPolicyEntryStates Retrieves a list of all security policy entry states in Data Safe.
+// The ListSecurityPolicyEntryStates operation returns only the security policy entry states for the specified security policy entry.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityPolicyEntryStates.go.html to see an example of how to use ListSecurityPolicyEntryStates API.
+// A default retry strategy applies to this operation ListSecurityPolicyEntryStates()
+func (client DataSafeClient) ListSecurityPolicyEntryStates(ctx context.Context, request ListSecurityPolicyEntryStatesRequest) (response ListSecurityPolicyEntryStatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSecurityPolicyEntryStates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSecurityPolicyEntryStatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSecurityPolicyEntryStatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSecurityPolicyEntryStatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSecurityPolicyEntryStatesResponse")
+	}
+	return
+}
+
+// listSecurityPolicyEntryStates implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSecurityPolicyEntryStates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/securityPolicyDeployments/{securityPolicyDeploymentId}/securityPolicyEntryStates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSecurityPolicyEntryStatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyEntryStateCollection/ListSecurityPolicyEntryStates"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSecurityPolicyEntryStates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSensitiveColumns Gets a list of sensitive columns present in the specified sensitive data model based on the specified query parameters.
 //
 // # See also
@@ -9873,6 +11041,592 @@ func (client DataSafeClient) listSensitiveTypes(ctx context.Context, request com
 	return response, err
 }
 
+// ListSqlCollectionAnalytics Retrieves a list of all SQL collection analytics in Data Safe.
+// The ListSqlCollectionAnalytics operation returns only the analytics for the SQL collections in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListSqlCollections on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollectionAnalytics.go.html to see an example of how to use ListSqlCollectionAnalytics API.
+// A default retry strategy applies to this operation ListSqlCollectionAnalytics()
+func (client DataSafeClient) ListSqlCollectionAnalytics(ctx context.Context, request ListSqlCollectionAnalyticsRequest) (response ListSqlCollectionAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlCollectionAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlCollectionAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlCollectionAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlCollectionAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlCollectionAnalyticsResponse")
+	}
+	return
+}
+
+// listSqlCollectionAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlCollectionAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlCollectionAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlCollectionAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollectionAnalyticsCollection/ListSqlCollectionAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlCollectionAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlCollectionLogInsights Retrieves a list of the SQL collection log analytics.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollectionLogInsights.go.html to see an example of how to use ListSqlCollectionLogInsights API.
+// A default retry strategy applies to this operation ListSqlCollectionLogInsights()
+func (client DataSafeClient) ListSqlCollectionLogInsights(ctx context.Context, request ListSqlCollectionLogInsightsRequest) (response ListSqlCollectionLogInsightsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlCollectionLogInsights, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlCollectionLogInsightsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlCollectionLogInsightsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlCollectionLogInsightsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlCollectionLogInsightsResponse")
+	}
+	return
+}
+
+// listSqlCollectionLogInsights implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlCollectionLogInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlCollections/{sqlCollectionId}/logInsights", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlCollectionLogInsightsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollectionLogInsightsCollection/ListSqlCollectionLogInsights"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlCollectionLogInsights", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlCollections Retrieves a list of all SQL collections in Data Safe.
+// The ListSqlCollections operation returns only the SQL collections in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListSqlCollections on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollections.go.html to see an example of how to use ListSqlCollections API.
+// A default retry strategy applies to this operation ListSqlCollections()
+func (client DataSafeClient) ListSqlCollections(ctx context.Context, request ListSqlCollectionsRequest) (response ListSqlCollectionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlCollections, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlCollectionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlCollectionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlCollectionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlCollectionsResponse")
+	}
+	return
+}
+
+// listSqlCollections implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlCollections(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlCollections", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlCollectionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollectionCollection/ListSqlCollections"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlCollections", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlFirewallAllowedSqlAnalytics Returns the aggregation details of all SQL firewall allowed SQL statements.
+// The ListSqlFirewallAllowedSqlAnalytics operation returns the aggregates of the SQL firewall allowed SQL statements in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListSqlFirewallAllowedSqlAnalytics on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallAllowedSqlAnalytics.go.html to see an example of how to use ListSqlFirewallAllowedSqlAnalytics API.
+// A default retry strategy applies to this operation ListSqlFirewallAllowedSqlAnalytics()
+func (client DataSafeClient) ListSqlFirewallAllowedSqlAnalytics(ctx context.Context, request ListSqlFirewallAllowedSqlAnalyticsRequest) (response ListSqlFirewallAllowedSqlAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlFirewallAllowedSqlAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlFirewallAllowedSqlAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlFirewallAllowedSqlAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlFirewallAllowedSqlAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlFirewallAllowedSqlAnalyticsResponse")
+	}
+	return
+}
+
+// listSqlFirewallAllowedSqlAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlFirewallAllowedSqlAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlFirewallAllowedSqlAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlFirewallAllowedSqlAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallAllowedSqlAnalyticsCollection/ListSqlFirewallAllowedSqlAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlFirewallAllowedSqlAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlFirewallAllowedSqls Retrieves a list of all SQL firewall allowed SQL statements.
+// The ListSqlFirewallAllowedSqls operation returns only the SQL firewall allowed SQL statements in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListSqlFirewallPolicies on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallAllowedSqls.go.html to see an example of how to use ListSqlFirewallAllowedSqls API.
+// A default retry strategy applies to this operation ListSqlFirewallAllowedSqls()
+func (client DataSafeClient) ListSqlFirewallAllowedSqls(ctx context.Context, request ListSqlFirewallAllowedSqlsRequest) (response ListSqlFirewallAllowedSqlsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlFirewallAllowedSqls, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlFirewallAllowedSqlsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlFirewallAllowedSqlsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlFirewallAllowedSqlsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlFirewallAllowedSqlsResponse")
+	}
+	return
+}
+
+// listSqlFirewallAllowedSqls implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlFirewallAllowedSqls(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlFirewallAllowedSqls", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlFirewallAllowedSqlsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallAllowedSqlCollection/ListSqlFirewallAllowedSqls"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlFirewallAllowedSqls", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlFirewallPolicies Retrieves a list of all SQL firewall policies.
+// The ListSqlFirewallPolicies operation returns only the SQL firewall policies in the specified `compartmentId`.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListSqlFirewallPolicies on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallPolicies.go.html to see an example of how to use ListSqlFirewallPolicies API.
+// A default retry strategy applies to this operation ListSqlFirewallPolicies()
+func (client DataSafeClient) ListSqlFirewallPolicies(ctx context.Context, request ListSqlFirewallPoliciesRequest) (response ListSqlFirewallPoliciesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlFirewallPolicies, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlFirewallPoliciesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlFirewallPoliciesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlFirewallPoliciesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlFirewallPoliciesResponse")
+	}
+	return
+}
+
+// listSqlFirewallPolicies implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlFirewallPolicies(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlFirewallPolicies", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlFirewallPoliciesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicyCollection/ListSqlFirewallPolicies"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlFirewallPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlFirewallPolicyAnalytics Gets a list of aggregated SQL firewall policy details.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform SummarizedSqlFirewallPolicyInfo on the specified
+// `compartmentId` and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallPolicyAnalytics.go.html to see an example of how to use ListSqlFirewallPolicyAnalytics API.
+// A default retry strategy applies to this operation ListSqlFirewallPolicyAnalytics()
+func (client DataSafeClient) ListSqlFirewallPolicyAnalytics(ctx context.Context, request ListSqlFirewallPolicyAnalyticsRequest) (response ListSqlFirewallPolicyAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlFirewallPolicyAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlFirewallPolicyAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlFirewallPolicyAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlFirewallPolicyAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlFirewallPolicyAnalyticsResponse")
+	}
+	return
+}
+
+// listSqlFirewallPolicyAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlFirewallPolicyAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlFirewallPolicyAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlFirewallPolicyAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicyAnalyticsCollection/ListSqlFirewallPolicyAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlFirewallPolicyAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlFirewallViolationAnalytics Returns the aggregation details of the SQL firewall violations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallViolationAnalytics.go.html to see an example of how to use ListSqlFirewallViolationAnalytics API.
+// A default retry strategy applies to this operation ListSqlFirewallViolationAnalytics()
+func (client DataSafeClient) ListSqlFirewallViolationAnalytics(ctx context.Context, request ListSqlFirewallViolationAnalyticsRequest) (response ListSqlFirewallViolationAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listSqlFirewallViolationAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlFirewallViolationAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlFirewallViolationAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlFirewallViolationAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlFirewallViolationAnalyticsResponse")
+	}
+	return
+}
+
+// listSqlFirewallViolationAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlFirewallViolationAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlFirewallViolationAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlFirewallViolationAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallViolationSummary/ListSqlFirewallViolationAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlFirewallViolationAnalytics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSqlFirewallViolations Gets a list of all the SQL firewall violations captured by the firewall.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallViolations.go.html to see an example of how to use ListSqlFirewallViolations API.
+// A default retry strategy applies to this operation ListSqlFirewallViolations()
+func (client DataSafeClient) ListSqlFirewallViolations(ctx context.Context, request ListSqlFirewallViolationsRequest) (response ListSqlFirewallViolationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSqlFirewallViolations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSqlFirewallViolationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSqlFirewallViolationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSqlFirewallViolationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSqlFirewallViolationsResponse")
+	}
+	return
+}
+
+// listSqlFirewallViolations implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSqlFirewallViolations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlFirewallViolations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSqlFirewallViolationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallViolationSummary/ListSqlFirewallViolations"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSqlFirewallViolations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListTables Returns a list of table metadata objects.
 //
 // # See also
@@ -10047,7 +11801,7 @@ func (client DataSafeClient) listTargetDatabases(ctx context.Context, request co
 	return response, err
 }
 
-// ListUserAnalytics Gets a list of aggregated user details from the specified user assessment. This provides information about the overall state
+// ListUserAnalytics Gets a list of aggregated user details from the specified user assessment. This provides information about the overall state.
 // of database user security.  For example, the user details include how many users have the DBA role and how many users are in
 // the critical category. This data is especially useful content for dashboards or to support analytics.
 // When you perform the ListUserAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
@@ -10958,6 +12712,132 @@ func (client DataSafeClient) provisionAuditPolicy(ctx context.Context, request c
 	return response, err
 }
 
+// PurgeSqlCollectionLogs Purge the SQL collection logs for the specified SqlCollection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PurgeSqlCollectionLogs.go.html to see an example of how to use PurgeSqlCollectionLogs API.
+// A default retry strategy applies to this operation PurgeSqlCollectionLogs()
+func (client DataSafeClient) PurgeSqlCollectionLogs(ctx context.Context, request PurgeSqlCollectionLogsRequest) (response PurgeSqlCollectionLogsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.purgeSqlCollectionLogs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PurgeSqlCollectionLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PurgeSqlCollectionLogsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PurgeSqlCollectionLogsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PurgeSqlCollectionLogsResponse")
+	}
+	return
+}
+
+// purgeSqlCollectionLogs implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) purgeSqlCollectionLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlCollections/{sqlCollectionId}/actions/purgeLogs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PurgeSqlCollectionLogsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/PurgeSqlCollectionLogs"
+		err = common.PostProcessServiceError(err, "DataSafe", "PurgeSqlCollectionLogs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RefreshDatabaseSecurityConfiguration Refreshes the specified database security configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshDatabaseSecurityConfiguration.go.html to see an example of how to use RefreshDatabaseSecurityConfiguration API.
+// A default retry strategy applies to this operation RefreshDatabaseSecurityConfiguration()
+func (client DataSafeClient) RefreshDatabaseSecurityConfiguration(ctx context.Context, request RefreshDatabaseSecurityConfigurationRequest) (response RefreshDatabaseSecurityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshDatabaseSecurityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshDatabaseSecurityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshDatabaseSecurityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshDatabaseSecurityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshDatabaseSecurityConfigurationResponse")
+	}
+	return
+}
+
+// refreshDatabaseSecurityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) refreshDatabaseSecurityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseSecurityConfigs/{databaseSecurityConfigId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshDatabaseSecurityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DatabaseSecurityConfig/RefreshDatabaseSecurityConfiguration"
+		err = common.PostProcessServiceError(err, "DataSafe", "RefreshDatabaseSecurityConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RefreshSecurityAssessment Runs a security assessment, refreshes the latest assessment, and saves it for future reference.
 // The assessment runs with a securityAssessmentId of type LATEST. Before you start, first call the ListSecurityAssessments operation with filter "type = latest" to get the security assessment id for the target's latest assessment.
 //
@@ -11015,6 +12895,69 @@ func (client DataSafeClient) refreshSecurityAssessment(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityAssessment/RefreshSecurityAssessment"
 		err = common.PostProcessServiceError(err, "DataSafe", "RefreshSecurityAssessment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RefreshSqlCollectionLogInsights Refresh the specified SQL collection Log Insights.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshSqlCollectionLogInsights.go.html to see an example of how to use RefreshSqlCollectionLogInsights API.
+// A default retry strategy applies to this operation RefreshSqlCollectionLogInsights()
+func (client DataSafeClient) RefreshSqlCollectionLogInsights(ctx context.Context, request RefreshSqlCollectionLogInsightsRequest) (response RefreshSqlCollectionLogInsightsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshSqlCollectionLogInsights, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshSqlCollectionLogInsightsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshSqlCollectionLogInsightsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshSqlCollectionLogInsightsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshSqlCollectionLogInsightsResponse")
+	}
+	return
+}
+
+// refreshSqlCollectionLogInsights implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) refreshSqlCollectionLogInsights(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlCollections/{sqlCollectionId}/actions/refreshLogInsights", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshSqlCollectionLogInsightsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/RefreshSqlCollectionLogInsights"
+		err = common.PostProcessServiceError(err, "DataSafe", "RefreshSqlCollectionLogInsights", apiReferenceLink)
 		return response, err
 	}
 
@@ -11586,6 +13529,69 @@ func (client DataSafeClient) startAuditTrail(ctx context.Context, request common
 	return response, err
 }
 
+// StartSqlCollection Start the specified SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StartSqlCollection.go.html to see an example of how to use StartSqlCollection API.
+// A default retry strategy applies to this operation StartSqlCollection()
+func (client DataSafeClient) StartSqlCollection(ctx context.Context, request StartSqlCollectionRequest) (response StartSqlCollectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startSqlCollection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartSqlCollectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartSqlCollectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartSqlCollectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartSqlCollectionResponse")
+	}
+	return
+}
+
+// startSqlCollection implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) startSqlCollection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlCollections/{sqlCollectionId}/actions/start", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartSqlCollectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/sqlCollection/StartSqlCollection"
+		err = common.PostProcessServiceError(err, "DataSafe", "StartSqlCollection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StopAuditTrail Stops the specified audit trail.
 //
 // # See also
@@ -11637,6 +13643,69 @@ func (client DataSafeClient) stopAuditTrail(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AuditTrail/StopAuditTrail"
 		err = common.PostProcessServiceError(err, "DataSafe", "StopAuditTrail", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StopSqlCollection Stops the specified SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StopSqlCollection.go.html to see an example of how to use StopSqlCollection API.
+// A default retry strategy applies to this operation StopSqlCollection()
+func (client DataSafeClient) StopSqlCollection(ctx context.Context, request StopSqlCollectionRequest) (response StopSqlCollectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stopSqlCollection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StopSqlCollectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StopSqlCollectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopSqlCollectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopSqlCollectionResponse")
+	}
+	return
+}
+
+// stopSqlCollection implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) stopSqlCollection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlCollections/{sqlCollectionId}/actions/stop", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopSqlCollectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/StopSqlCollection"
+		err = common.PostProcessServiceError(err, "DataSafe", "StopSqlCollection", apiReferenceLink)
 		return response, err
 	}
 
@@ -12183,6 +14252,64 @@ func (client DataSafeClient) updateDataSafePrivateEndpoint(ctx context.Context, 
 	return response, err
 }
 
+// UpdateDatabaseSecurityConfig Updates the database security configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateDatabaseSecurityConfig.go.html to see an example of how to use UpdateDatabaseSecurityConfig API.
+// A default retry strategy applies to this operation UpdateDatabaseSecurityConfig()
+func (client DataSafeClient) UpdateDatabaseSecurityConfig(ctx context.Context, request UpdateDatabaseSecurityConfigRequest) (response UpdateDatabaseSecurityConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDatabaseSecurityConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDatabaseSecurityConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDatabaseSecurityConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDatabaseSecurityConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDatabaseSecurityConfigResponse")
+	}
+	return
+}
+
+// updateDatabaseSecurityConfig implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateDatabaseSecurityConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/databaseSecurityConfigs/{databaseSecurityConfigId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDatabaseSecurityConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/DatabaseSecurityConfig/UpdateDatabaseSecurityConfig"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateDatabaseSecurityConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateLibraryMaskingFormat Updates one or more attributes of the specified library masking format. Note that updating the formatEntries attribute replaces all the existing masking format entries with the specified format entries.
 //
 // # See also
@@ -12658,6 +14785,122 @@ func (client DataSafeClient) updateSecurityAssessment(ctx context.Context, reque
 	return response, err
 }
 
+// UpdateSecurityPolicy Updates the security policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSecurityPolicy.go.html to see an example of how to use UpdateSecurityPolicy API.
+// A default retry strategy applies to this operation UpdateSecurityPolicy()
+func (client DataSafeClient) UpdateSecurityPolicy(ctx context.Context, request UpdateSecurityPolicyRequest) (response UpdateSecurityPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSecurityPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSecurityPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSecurityPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSecurityPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSecurityPolicyResponse")
+	}
+	return
+}
+
+// updateSecurityPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSecurityPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/securityPolicies/{securityPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSecurityPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicy/UpdateSecurityPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSecurityPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSecurityPolicyDeployment Updates the security policy deployment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSecurityPolicyDeployment.go.html to see an example of how to use UpdateSecurityPolicyDeployment API.
+// A default retry strategy applies to this operation UpdateSecurityPolicyDeployment()
+func (client DataSafeClient) UpdateSecurityPolicyDeployment(ctx context.Context, request UpdateSecurityPolicyDeploymentRequest) (response UpdateSecurityPolicyDeploymentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSecurityPolicyDeployment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSecurityPolicyDeploymentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSecurityPolicyDeploymentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSecurityPolicyDeploymentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSecurityPolicyDeploymentResponse")
+	}
+	return
+}
+
+// updateSecurityPolicyDeployment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSecurityPolicyDeployment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/securityPolicyDeployments/{securityPolicyDeploymentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSecurityPolicyDeploymentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SecurityPolicyDeployment/UpdateSecurityPolicyDeployment"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSecurityPolicyDeployment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateSensitiveColumn Updates one or more attributes of the specified sensitive column.
 //
 // # See also
@@ -12826,6 +15069,122 @@ func (client DataSafeClient) updateSensitiveType(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/UpdateSensitiveType"
 		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSensitiveType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSqlCollection Updates the SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSqlCollection.go.html to see an example of how to use UpdateSqlCollection API.
+// A default retry strategy applies to this operation UpdateSqlCollection()
+func (client DataSafeClient) UpdateSqlCollection(ctx context.Context, request UpdateSqlCollectionRequest) (response UpdateSqlCollectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSqlCollection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSqlCollectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSqlCollectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSqlCollectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSqlCollectionResponse")
+	}
+	return
+}
+
+// updateSqlCollection implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSqlCollection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sqlCollections/{sqlCollectionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSqlCollectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/UpdateSqlCollection"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSqlCollection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSqlFirewallPolicy Updates the SQL firewall policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSqlFirewallPolicy.go.html to see an example of how to use UpdateSqlFirewallPolicy API.
+// A default retry strategy applies to this operation UpdateSqlFirewallPolicy()
+func (client DataSafeClient) UpdateSqlFirewallPolicy(ctx context.Context, request UpdateSqlFirewallPolicyRequest) (response UpdateSqlFirewallPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSqlFirewallPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSqlFirewallPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSqlFirewallPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSqlFirewallPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSqlFirewallPolicyResponse")
+	}
+	return
+}
+
+// updateSqlFirewallPolicy implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSqlFirewallPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sqlFirewallPolicies/{sqlFirewallPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSqlFirewallPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallPolicy/UpdateSqlFirewallPolicy"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSqlFirewallPolicy", apiReferenceLink)
 		return response, err
 	}
 

@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// UserAssessmentBaseLineDetails The details reqired to set baseline assessment.
+// UserAssessmentBaseLineDetails The details required to set the baseline for the assessment.
 type UserAssessmentBaseLineDetails struct {
 
-	// The list of user assessment OCIDs that need to be updated while setting the baseline.
+	// The list of OCIDs for the user assessments that need to be updated while setting the baseline.
 	AssessmentIds []string `mandatory:"false" json:"assessmentIds"`
 }
 

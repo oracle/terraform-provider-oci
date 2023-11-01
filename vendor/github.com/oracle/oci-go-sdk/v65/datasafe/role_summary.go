@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// RoleSummary Details of a role fetched from the database.
+// RoleSummary The details of a role fetched from the database.
 type RoleSummary struct {
 
-	// Name of the role.
+	// The name of the role.
 	RoleName *string `mandatory:"true" json:"roleName"`
 
 	// Type of authentication.
