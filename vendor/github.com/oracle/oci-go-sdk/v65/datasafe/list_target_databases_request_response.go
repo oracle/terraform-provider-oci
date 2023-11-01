@@ -30,13 +30,13 @@ type ListTargetDatabasesRequest struct {
 	// A filter to return only resources that match the specified display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return the target databases that matches the current state of the target database.
+	// A filter to return only target databases that match the specified lifecycle state.
 	LifecycleState ListTargetDatabasesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return target databases that match the database type of the target database.
+	// A filter to return only target databases that match the specified database type.
 	DatabaseType ListTargetDatabasesDatabaseTypeEnum `mandatory:"false" contributesTo:"query" name:"databaseType" omitEmpty:"true"`
 
-	// A filter to return target databases that match the infrastructure type of the target database.
+	// A filter to return only target databases that match the specified infrastructure type.
 	InfrastructureType ListTargetDatabasesInfrastructureTypeEnum `mandatory:"false" contributesTo:"query" name:"infrastructureType" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).

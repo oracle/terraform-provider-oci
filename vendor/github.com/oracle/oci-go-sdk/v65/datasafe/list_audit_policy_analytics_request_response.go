@@ -237,30 +237,33 @@ type ListAuditPolicyAnalyticsAuditPolicyCategoryEnum string
 
 // Set of constants representing the allowable values for ListAuditPolicyAnalyticsAuditPolicyCategoryEnum
 const (
-	ListAuditPolicyAnalyticsAuditPolicyCategoryBasicActivity      ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "BASIC_ACTIVITY"
-	ListAuditPolicyAnalyticsAuditPolicyCategoryAdminUserActivity  ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "ADMIN_USER_ACTIVITY"
-	ListAuditPolicyAnalyticsAuditPolicyCategoryUserActivity       ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "USER_ACTIVITY"
-	ListAuditPolicyAnalyticsAuditPolicyCategoryOraclePredefined   ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "ORACLE_PREDEFINED"
-	ListAuditPolicyAnalyticsAuditPolicyCategoryComplianceStandard ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "COMPLIANCE_STANDARD"
-	ListAuditPolicyAnalyticsAuditPolicyCategoryCustom             ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "CUSTOM"
+	ListAuditPolicyAnalyticsAuditPolicyCategoryBasicActivity       ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "BASIC_ACTIVITY"
+	ListAuditPolicyAnalyticsAuditPolicyCategoryAdminUserActivity   ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "ADMIN_USER_ACTIVITY"
+	ListAuditPolicyAnalyticsAuditPolicyCategoryUserActivity        ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "USER_ACTIVITY"
+	ListAuditPolicyAnalyticsAuditPolicyCategoryOraclePredefined    ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "ORACLE_PREDEFINED"
+	ListAuditPolicyAnalyticsAuditPolicyCategoryComplianceStandard  ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "COMPLIANCE_STANDARD"
+	ListAuditPolicyAnalyticsAuditPolicyCategoryCustom              ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "CUSTOM"
+	ListAuditPolicyAnalyticsAuditPolicyCategorySqlFirewallAuditing ListAuditPolicyAnalyticsAuditPolicyCategoryEnum = "SQL_FIREWALL_AUDITING"
 )
 
 var mappingListAuditPolicyAnalyticsAuditPolicyCategoryEnum = map[string]ListAuditPolicyAnalyticsAuditPolicyCategoryEnum{
-	"BASIC_ACTIVITY":      ListAuditPolicyAnalyticsAuditPolicyCategoryBasicActivity,
-	"ADMIN_USER_ACTIVITY": ListAuditPolicyAnalyticsAuditPolicyCategoryAdminUserActivity,
-	"USER_ACTIVITY":       ListAuditPolicyAnalyticsAuditPolicyCategoryUserActivity,
-	"ORACLE_PREDEFINED":   ListAuditPolicyAnalyticsAuditPolicyCategoryOraclePredefined,
-	"COMPLIANCE_STANDARD": ListAuditPolicyAnalyticsAuditPolicyCategoryComplianceStandard,
-	"CUSTOM":              ListAuditPolicyAnalyticsAuditPolicyCategoryCustom,
+	"BASIC_ACTIVITY":        ListAuditPolicyAnalyticsAuditPolicyCategoryBasicActivity,
+	"ADMIN_USER_ACTIVITY":   ListAuditPolicyAnalyticsAuditPolicyCategoryAdminUserActivity,
+	"USER_ACTIVITY":         ListAuditPolicyAnalyticsAuditPolicyCategoryUserActivity,
+	"ORACLE_PREDEFINED":     ListAuditPolicyAnalyticsAuditPolicyCategoryOraclePredefined,
+	"COMPLIANCE_STANDARD":   ListAuditPolicyAnalyticsAuditPolicyCategoryComplianceStandard,
+	"CUSTOM":                ListAuditPolicyAnalyticsAuditPolicyCategoryCustom,
+	"SQL_FIREWALL_AUDITING": ListAuditPolicyAnalyticsAuditPolicyCategorySqlFirewallAuditing,
 }
 
 var mappingListAuditPolicyAnalyticsAuditPolicyCategoryEnumLowerCase = map[string]ListAuditPolicyAnalyticsAuditPolicyCategoryEnum{
-	"basic_activity":      ListAuditPolicyAnalyticsAuditPolicyCategoryBasicActivity,
-	"admin_user_activity": ListAuditPolicyAnalyticsAuditPolicyCategoryAdminUserActivity,
-	"user_activity":       ListAuditPolicyAnalyticsAuditPolicyCategoryUserActivity,
-	"oracle_predefined":   ListAuditPolicyAnalyticsAuditPolicyCategoryOraclePredefined,
-	"compliance_standard": ListAuditPolicyAnalyticsAuditPolicyCategoryComplianceStandard,
-	"custom":              ListAuditPolicyAnalyticsAuditPolicyCategoryCustom,
+	"basic_activity":        ListAuditPolicyAnalyticsAuditPolicyCategoryBasicActivity,
+	"admin_user_activity":   ListAuditPolicyAnalyticsAuditPolicyCategoryAdminUserActivity,
+	"user_activity":         ListAuditPolicyAnalyticsAuditPolicyCategoryUserActivity,
+	"oracle_predefined":     ListAuditPolicyAnalyticsAuditPolicyCategoryOraclePredefined,
+	"compliance_standard":   ListAuditPolicyAnalyticsAuditPolicyCategoryComplianceStandard,
+	"custom":                ListAuditPolicyAnalyticsAuditPolicyCategoryCustom,
+	"sql_firewall_auditing": ListAuditPolicyAnalyticsAuditPolicyCategorySqlFirewallAuditing,
 }
 
 // GetListAuditPolicyAnalyticsAuditPolicyCategoryEnumValues Enumerates the set of values for ListAuditPolicyAnalyticsAuditPolicyCategoryEnum
@@ -281,6 +284,7 @@ func GetListAuditPolicyAnalyticsAuditPolicyCategoryEnumStringValues() []string {
 		"ORACLE_PREDEFINED",
 		"COMPLIANCE_STANDARD",
 		"CUSTOM",
+		"SQL_FIREWALL_AUDITING",
 	}
 }
 

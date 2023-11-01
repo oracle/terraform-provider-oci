@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -21,12 +22,15 @@ import (
 // RunObjectStoreScriptUserDefinedStep Run Object Store Script step details.
 type RunObjectStoreScriptUserDefinedStep struct {
 
-	// The OCID of the instance where this script or command should be executed.
-	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
+	// The OCID of the instance on which this script or command should be executed.
+	// **For moving instances:** *runOnInstanceId* must be the OCID of the instance in the region where the
+	// instance is currently present.
+	// **For non-moving instances:** *runOnInstanceId* must be the OCID of the non-moving instance.
+	// Example: `ocid1.instance.oc1..uniqueID`
 	RunOnInstanceId *string `mandatory:"true" json:"runOnInstanceId"`
 
 	// The region of the instance where this script or command should be executed.
-	// Example: `us-phoenix-1`
+	// Example: `us-ashburn-1`
 	RunOnInstanceRegion *string `mandatory:"true" json:"runOnInstanceRegion"`
 
 	ObjectStorageScriptLocation *ObjectStorageScriptLocation `mandatory:"true" json:"objectStorageScriptLocation"`

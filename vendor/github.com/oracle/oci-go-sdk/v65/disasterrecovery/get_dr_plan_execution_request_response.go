@@ -18,8 +18,8 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrPlanExecution.go.html to see an example of how to use GetDrPlanExecutionRequest.
 type GetDrPlanExecutionRequest struct {
 
-	// The OCID of the DR Plan Execution.
-	// Example: `ocid1.drplanexecution.oc1.iad.exampleocid`
+	// The OCID of the DR plan execution.
+	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	DrPlanExecutionId *string `mandatory:"true" contributesTo:"path" name:"drPlanExecutionId"`
 
 	// The client request ID for tracing.

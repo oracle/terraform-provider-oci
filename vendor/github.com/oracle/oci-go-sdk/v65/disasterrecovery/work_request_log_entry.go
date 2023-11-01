@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -21,7 +22,7 @@ import (
 type WorkRequestLogEntry struct {
 
 	// A human-readable log message.
-	// Example: `DR Plan Execution is in progress`
+	// Example: `DR plan execution is in progress`
 	Message *string `mandatory:"true" json:"message"`
 
 	// The time the log message was written. An RFC3339 formatted datetime string.

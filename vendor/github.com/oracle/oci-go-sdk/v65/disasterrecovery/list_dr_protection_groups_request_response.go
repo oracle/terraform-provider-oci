@@ -19,18 +19,18 @@ import (
 type ListDrProtectionGroupsRequest struct {
 
 	// The ID (OCID) of the compartment in which to list resources.
-	// Example: `ocid1.compartment.oc1..exampleocid1`
+	// Example: `ocid1.compartment.oc1..uniqueID`
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only DR Protection Groups that match the given lifecycleState.
+	// A filter to return only DR protection groups that match the given lifecycle state.
 	LifecycleState ListDrProtectionGroupsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The OCID of the DR Protection Group. Optional query param.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group. Optional query param.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"false" contributesTo:"query" name:"drProtectionGroupId"`
 
-	// A filter to return only resources that match the entire display name given.
-	// Example: `MY UNIQUE DISPLAY NAME`
+	// A filter to return only resources that match the given display name.
+	// Example: `MyResourceDisplayName`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// For list pagination. The maximum number of results per page,
@@ -52,14 +52,17 @@ type ListDrProtectionGroupsRequest struct {
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending.
 	// Default order for displayName is ascending. If no value is specified timeCreated is default.
-	// Example: `displayName`
+	// Example: `MyResourceDisplayName`
 	SortBy ListDrProtectionGroupsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The DR Protection Group Role.
+	// The DR protection group Role.
 	Role ListDrProtectionGroupsRoleEnum `mandatory:"false" contributesTo:"query" name:"role" omitEmpty:"true"`
+
+	// A filter to return only DR protection groups that match the given lifecycle sub-state.
+	LifecycleSubState ListDrProtectionGroupsLifecycleSubStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleSubState" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -109,6 +112,9 @@ func (request ListDrProtectionGroupsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListDrProtectionGroupsRoleEnum(string(request.Role)); !ok && request.Role != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Role: %s. Supported values are: %s.", request.Role, strings.Join(GetListDrProtectionGroupsRoleEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListDrProtectionGroupsLifecycleSubStateEnum(string(request.LifecycleSubState)); !ok && request.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", request.LifecycleSubState, strings.Join(GetListDrProtectionGroupsLifecycleSubStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -151,6 +157,7 @@ const (
 	ListDrProtectionGroupsLifecycleStateCreating       ListDrProtectionGroupsLifecycleStateEnum = "CREATING"
 	ListDrProtectionGroupsLifecycleStateActive         ListDrProtectionGroupsLifecycleStateEnum = "ACTIVE"
 	ListDrProtectionGroupsLifecycleStateUpdating       ListDrProtectionGroupsLifecycleStateEnum = "UPDATING"
+	ListDrProtectionGroupsLifecycleStateInactive       ListDrProtectionGroupsLifecycleStateEnum = "INACTIVE"
 	ListDrProtectionGroupsLifecycleStateNeedsAttention ListDrProtectionGroupsLifecycleStateEnum = "NEEDS_ATTENTION"
 	ListDrProtectionGroupsLifecycleStateDeleting       ListDrProtectionGroupsLifecycleStateEnum = "DELETING"
 	ListDrProtectionGroupsLifecycleStateDeleted        ListDrProtectionGroupsLifecycleStateEnum = "DELETED"
@@ -161,6 +168,7 @@ var mappingListDrProtectionGroupsLifecycleStateEnum = map[string]ListDrProtectio
 	"CREATING":        ListDrProtectionGroupsLifecycleStateCreating,
 	"ACTIVE":          ListDrProtectionGroupsLifecycleStateActive,
 	"UPDATING":        ListDrProtectionGroupsLifecycleStateUpdating,
+	"INACTIVE":        ListDrProtectionGroupsLifecycleStateInactive,
 	"NEEDS_ATTENTION": ListDrProtectionGroupsLifecycleStateNeedsAttention,
 	"DELETING":        ListDrProtectionGroupsLifecycleStateDeleting,
 	"DELETED":         ListDrProtectionGroupsLifecycleStateDeleted,
@@ -171,6 +179,7 @@ var mappingListDrProtectionGroupsLifecycleStateEnumLowerCase = map[string]ListDr
 	"creating":        ListDrProtectionGroupsLifecycleStateCreating,
 	"active":          ListDrProtectionGroupsLifecycleStateActive,
 	"updating":        ListDrProtectionGroupsLifecycleStateUpdating,
+	"inactive":        ListDrProtectionGroupsLifecycleStateInactive,
 	"needs_attention": ListDrProtectionGroupsLifecycleStateNeedsAttention,
 	"deleting":        ListDrProtectionGroupsLifecycleStateDeleting,
 	"deleted":         ListDrProtectionGroupsLifecycleStateDeleted,
@@ -192,6 +201,7 @@ func GetListDrProtectionGroupsLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"ACTIVE",
 		"UPDATING",
+		"INACTIVE",
 		"NEEDS_ATTENTION",
 		"DELETING",
 		"DELETED",
@@ -332,5 +342,43 @@ func GetListDrProtectionGroupsRoleEnumStringValues() []string {
 // GetMappingListDrProtectionGroupsRoleEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDrProtectionGroupsRoleEnum(val string) (ListDrProtectionGroupsRoleEnum, bool) {
 	enum, ok := mappingListDrProtectionGroupsRoleEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDrProtectionGroupsLifecycleSubStateEnum Enum with underlying type: string
+type ListDrProtectionGroupsLifecycleSubStateEnum string
+
+// Set of constants representing the allowable values for ListDrProtectionGroupsLifecycleSubStateEnum
+const (
+	ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress ListDrProtectionGroupsLifecycleSubStateEnum = "DR_DRILL_IN_PROGRESS"
+)
+
+var mappingListDrProtectionGroupsLifecycleSubStateEnum = map[string]ListDrProtectionGroupsLifecycleSubStateEnum{
+	"DR_DRILL_IN_PROGRESS": ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress,
+}
+
+var mappingListDrProtectionGroupsLifecycleSubStateEnumLowerCase = map[string]ListDrProtectionGroupsLifecycleSubStateEnum{
+	"dr_drill_in_progress": ListDrProtectionGroupsLifecycleSubStateDrDrillInProgress,
+}
+
+// GetListDrProtectionGroupsLifecycleSubStateEnumValues Enumerates the set of values for ListDrProtectionGroupsLifecycleSubStateEnum
+func GetListDrProtectionGroupsLifecycleSubStateEnumValues() []ListDrProtectionGroupsLifecycleSubStateEnum {
+	values := make([]ListDrProtectionGroupsLifecycleSubStateEnum, 0)
+	for _, v := range mappingListDrProtectionGroupsLifecycleSubStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDrProtectionGroupsLifecycleSubStateEnumStringValues Enumerates the set of values in String for ListDrProtectionGroupsLifecycleSubStateEnum
+func GetListDrProtectionGroupsLifecycleSubStateEnumStringValues() []string {
+	return []string{
+		"DR_DRILL_IN_PROGRESS",
+	}
+}
+
+// GetMappingListDrProtectionGroupsLifecycleSubStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDrProtectionGroupsLifecycleSubStateEnum(val string) (ListDrProtectionGroupsLifecycleSubStateEnum, bool) {
+	enum, ok := mappingListDrProtectionGroupsLifecycleSubStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

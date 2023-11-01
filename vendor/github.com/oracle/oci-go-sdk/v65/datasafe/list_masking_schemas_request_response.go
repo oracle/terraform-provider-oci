@@ -30,7 +30,7 @@ type ListMaskingSchemasRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListMaskingSchemasSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. You can specify only one sort order (sortOrder).
+	// The field to sort by. You can specify only one sorting parameter (sortOrder).
 	// The default order is ascending.
 	SortBy ListMaskingSchemasSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

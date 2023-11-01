@@ -43,7 +43,7 @@ type MaskingColumnSummary struct {
 	// There is no separate displayName attribute for the masking column.
 	ColumnName *string `mandatory:"true" json:"columnName"`
 
-	// Indicates if data masking is enabled for the masking column.
+	// Indicates whether data masking is enabled for the masking column.
 	IsMaskingEnabled *bool `mandatory:"true" json:"isMaskingEnabled"`
 
 	// Details about the current state of the masking column.

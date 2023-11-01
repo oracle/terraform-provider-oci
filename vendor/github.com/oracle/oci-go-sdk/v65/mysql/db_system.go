@@ -131,6 +131,9 @@ type DbSystem struct {
 	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
 
 	PointInTimeRecoveryDetails *PointInTimeRecoveryDetails `mandatory:"false" json:"pointInTimeRecoveryDetails"`
+
+	// Whether to enable monitoring via the Database Management service.
+	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
 }
 
 func (m DbSystem) String() string {
@@ -148,6 +151,9 @@ func (m DbSystem) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCrashRecoveryStatusEnum(string(m.CrashRecovery)); !ok && m.CrashRecovery != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CrashRecovery: %s. Supported values are: %s.", m.CrashRecovery, strings.Join(GetCrashRecoveryStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDatabaseManagementStatusEnum(string(m.DatabaseManagement)); !ok && m.DatabaseManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseManagement: %s. Supported values are: %s.", m.DatabaseManagement, strings.Join(GetDatabaseManagementStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -180,6 +186,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
 		CrashRecovery              CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		PointInTimeRecoveryDetails *PointInTimeRecoveryDetails       `json:"pointInTimeRecoveryDetails"`
+		DatabaseManagement         DatabaseManagementStatusEnum      `json:"databaseManagement"`
 		Id                         *string                           `json:"id"`
 		DisplayName                *string                           `json:"displayName"`
 		CompartmentId              *string                           `json:"compartmentId"`
@@ -249,6 +256,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.CrashRecovery = model.CrashRecovery
 
 	m.PointInTimeRecoveryDetails = model.PointInTimeRecoveryDetails
+
+	m.DatabaseManagement = model.DatabaseManagement
 
 	m.Id = model.Id
 

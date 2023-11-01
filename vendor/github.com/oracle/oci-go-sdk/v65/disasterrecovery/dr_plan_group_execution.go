@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,35 +18,36 @@ import (
 	"strings"
 )
 
-// DrPlanGroupExecution Summary information about a group execution in a DR Plan Execution.
+// DrPlanGroupExecution The details of a group execution in a DR plan execution.
 type DrPlanGroupExecution struct {
 
 	// The unique id of the group. Must not be modified by user.
-	// Example: `sgid1.group..&lt;unique_id&gt;`
+	// Example: `sgid1.group..uniqueID`
 	GroupId *string `mandatory:"true" json:"groupId"`
 
-	// The plan group type.
+	// The group type.
+	// Example: `BUILT_IN`
 	Type DrPlanGroupTypeEnum `mandatory:"true" json:"type"`
 
-	// The display name of group that was executed.
+	// The display name of the group execution.
 	// Example: `DATABASE_SWITCHOVER`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The status of the group execution.
 	Status DrPlanGroupExecutionStatusEnum `mandatory:"true" json:"status"`
 
-	// A list of details of each step executed in this group.
+	// A list of step executions in the group.
 	StepExecutions []DrPlanStepExecution `mandatory:"true" json:"stepExecutions"`
 
-	// Additional details about the group execution status.
-	// Example: `A total of three steps failed in the group`
+	// Additional details on the group execution status.
+	// Example: `A total of [3] steps failed in the group`
 	StatusDetails *string `mandatory:"false" json:"statusDetails"`
 
-	// The time at which group execution began. An RFC3339 formatted datetime string.
+	// The time when group execution began. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The time at which group execution ended. An RFC3339 formatted datetime string.
+	// The time when group execution ended. An RFC3339 formatted datetime string.
 	// Example: `2019-03-29T09:36:42Z`
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 

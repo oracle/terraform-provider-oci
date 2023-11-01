@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -23,6 +24,7 @@ const (
 	DrProtectionGroupLifecycleStateCreating       DrProtectionGroupLifecycleStateEnum = "CREATING"
 	DrProtectionGroupLifecycleStateActive         DrProtectionGroupLifecycleStateEnum = "ACTIVE"
 	DrProtectionGroupLifecycleStateUpdating       DrProtectionGroupLifecycleStateEnum = "UPDATING"
+	DrProtectionGroupLifecycleStateInactive       DrProtectionGroupLifecycleStateEnum = "INACTIVE"
 	DrProtectionGroupLifecycleStateNeedsAttention DrProtectionGroupLifecycleStateEnum = "NEEDS_ATTENTION"
 	DrProtectionGroupLifecycleStateDeleting       DrProtectionGroupLifecycleStateEnum = "DELETING"
 	DrProtectionGroupLifecycleStateDeleted        DrProtectionGroupLifecycleStateEnum = "DELETED"
@@ -33,6 +35,7 @@ var mappingDrProtectionGroupLifecycleStateEnum = map[string]DrProtectionGroupLif
 	"CREATING":        DrProtectionGroupLifecycleStateCreating,
 	"ACTIVE":          DrProtectionGroupLifecycleStateActive,
 	"UPDATING":        DrProtectionGroupLifecycleStateUpdating,
+	"INACTIVE":        DrProtectionGroupLifecycleStateInactive,
 	"NEEDS_ATTENTION": DrProtectionGroupLifecycleStateNeedsAttention,
 	"DELETING":        DrProtectionGroupLifecycleStateDeleting,
 	"DELETED":         DrProtectionGroupLifecycleStateDeleted,
@@ -43,6 +46,7 @@ var mappingDrProtectionGroupLifecycleStateEnumLowerCase = map[string]DrProtectio
 	"creating":        DrProtectionGroupLifecycleStateCreating,
 	"active":          DrProtectionGroupLifecycleStateActive,
 	"updating":        DrProtectionGroupLifecycleStateUpdating,
+	"inactive":        DrProtectionGroupLifecycleStateInactive,
 	"needs_attention": DrProtectionGroupLifecycleStateNeedsAttention,
 	"deleting":        DrProtectionGroupLifecycleStateDeleting,
 	"deleted":         DrProtectionGroupLifecycleStateDeleted,
@@ -64,6 +68,7 @@ func GetDrProtectionGroupLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"ACTIVE",
 		"UPDATING",
+		"INACTIVE",
 		"NEEDS_ATTENTION",
 		"DELETING",
 		"DELETED",

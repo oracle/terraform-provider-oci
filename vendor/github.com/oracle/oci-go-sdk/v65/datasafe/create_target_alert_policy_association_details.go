@@ -27,7 +27,7 @@ type CreateTargetAlertPolicyAssociationDetails struct {
 	// The OCID of the compartment where the target-alert policy association is created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Indicates if the target-alert policy association is enabled or disabled.
+	// Indicates if the target-alert policy association is enabled or disabled by user.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
 	// The display name of the target-alert policy association.

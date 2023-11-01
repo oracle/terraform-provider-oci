@@ -99,6 +99,9 @@ type DbSystemSnapshot struct {
 	// Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled,
 	// and whether to enable or disable syncing of the Binary Logs.
 	CrashRecovery CrashRecoveryStatusEnum `mandatory:"false" json:"crashRecovery,omitempty"`
+
+	// Whether to enable monitoring via the Database Management service.
+	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
 }
 
 func (m DbSystemSnapshot) String() string {
@@ -113,6 +116,9 @@ func (m DbSystemSnapshot) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCrashRecoveryStatusEnum(string(m.CrashRecovery)); !ok && m.CrashRecovery != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CrashRecovery: %s. Supported values are: %s.", m.CrashRecovery, strings.Join(GetCrashRecoveryStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDatabaseManagementStatusEnum(string(m.DatabaseManagement)); !ok && m.DatabaseManagement != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseManagement: %s. Supported values are: %s.", m.DatabaseManagement, strings.Join(GetDatabaseManagementStatusEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

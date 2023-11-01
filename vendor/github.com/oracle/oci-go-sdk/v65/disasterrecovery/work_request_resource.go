@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -31,7 +32,7 @@ type WorkRequestResource struct {
 	ActionType ActionTypeEnum `mandatory:"true" json:"actionType"`
 
 	// The identifier (OCID) of the resource the work request affects.
-	// Example: `ocid1.drplanexecution.oc1.iad.&lt;unique_id&gt;`
+	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The URI path that the user can use to perform a GET on the resource metadata.

@@ -328,5 +328,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "mx-monterrey-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "aga",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-saltlake-2",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

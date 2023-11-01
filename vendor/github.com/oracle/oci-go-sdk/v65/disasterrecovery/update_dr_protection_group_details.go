@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,16 +19,17 @@ import (
 	"strings"
 )
 
-// UpdateDrProtectionGroupDetails The details for updating a DR Protection Group.
+// UpdateDrProtectionGroupDetails The details for updating a DR protection group.
 type UpdateDrProtectionGroupDetails struct {
 
-	// The display name of the DR Protection Group.
-	// Example: `EBS PHX DRPG`
+	// The display name of the DR protection group.
+	// Example: `EBS PHX Group`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	LogLocation *UpdateObjectStorageLogLocationDetails `mandatory:"false" json:"logLocation"`
 
-	// A list of DR Protection Group members.
+	// A list of DR protection group members.  When updating members, this list must contain all members being retained,
+	// including added and updated members. The list must not contain deleted members.
 	Members []UpdateDrProtectionGroupMemberDetails `mandatory:"false" json:"members"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

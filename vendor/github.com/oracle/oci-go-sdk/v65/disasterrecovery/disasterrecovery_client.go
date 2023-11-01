@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -93,8 +94,8 @@ func (client *DisasterRecoveryClient) ConfigurationProvider() *common.Configurat
 	return client.config
 }
 
-// AssociateDrProtectionGroup Create an association between the DR Protection Group identified by *drProtectionGroupId* and
-// another DR Protection Group in a different region.
+// AssociateDrProtectionGroup Create an association between the DR protection group identified by *drProtectionGroupId* and
+// another DR protection group.
 //
 // # See also
 //
@@ -157,7 +158,7 @@ func (client DisasterRecoveryClient) associateDrProtectionGroup(ctx context.Cont
 	return response, err
 }
 
-// CancelDrPlanExecution Cancel the DR Plan Execution indentified by *drPlanExecutionId*.
+// CancelDrPlanExecution Cancel the DR plan execution identified by *drPlanExecutionId*.
 //
 // # See also
 //
@@ -278,7 +279,7 @@ func (client DisasterRecoveryClient) cancelWorkRequest(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeDrProtectionGroupCompartment Move the DR Protection Group identified by *drProtectionGroupId* to a different compartment.
+// ChangeDrProtectionGroupCompartment Move the DR protection group identified by *drProtectionGroupId* to a different compartment.
 //
 // # See also
 //
@@ -341,7 +342,7 @@ func (client DisasterRecoveryClient) changeDrProtectionGroupCompartment(ctx cont
 	return response, err
 }
 
-// CreateDrPlan Creates a new DR Plan of the specified DR Plan type.
+// CreateDrPlan Create a DR plan of the specified DR plan type.
 //
 // # See also
 //
@@ -404,7 +405,7 @@ func (client DisasterRecoveryClient) createDrPlan(ctx context.Context, request c
 	return response, err
 }
 
-// CreateDrPlanExecution Execute a DR Plan for a DR Protection Group.
+// CreateDrPlanExecution Execute a DR plan for a DR protection group.
 //
 // # See also
 //
@@ -467,7 +468,7 @@ func (client DisasterRecoveryClient) createDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// CreateDrProtectionGroup Create a new DR Protection Group.
+// CreateDrProtectionGroup Create a DR protection group.
 //
 // # See also
 //
@@ -530,7 +531,7 @@ func (client DisasterRecoveryClient) createDrProtectionGroup(ctx context.Context
 	return response, err
 }
 
-// DeleteDrPlan Delete the DR Plan identified by *drPlanId*.
+// DeleteDrPlan Delete the DR plan identified by *drPlanId*.
 //
 // # See also
 //
@@ -588,7 +589,7 @@ func (client DisasterRecoveryClient) deleteDrPlan(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteDrPlanExecution Delete the DR Plan Execution identified by *drPlanExecutionId*.
+// DeleteDrPlanExecution Delete the DR plan execution identified by *drPlanExecutionId*.
 //
 // # See also
 //
@@ -646,7 +647,7 @@ func (client DisasterRecoveryClient) deleteDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// DeleteDrProtectionGroup Delete the DR Protection Group identified by *drProtectionGroupId*.
+// DeleteDrProtectionGroup Delete the DR protection group identified by *drProtectionGroupId*.
 //
 // # See also
 //
@@ -704,8 +705,8 @@ func (client DisasterRecoveryClient) deleteDrProtectionGroup(ctx context.Context
 	return response, err
 }
 
-// DisassociateDrProtectionGroup Delete the association between the DR Protection Group identified by *drProtectionGroupId*.
-// and its peer DR Protection Group.
+// DisassociateDrProtectionGroup Delete the association between the DR protection group identified by *drProtectionGroupId*.
+// and its peer DR protection group.
 //
 // # See also
 //
@@ -768,7 +769,7 @@ func (client DisasterRecoveryClient) disassociateDrProtectionGroup(ctx context.C
 	return response, err
 }
 
-// GetDrPlan Get details for the DR Plan identified by *drPlanId*.
+// GetDrPlan Get details for the DR plan identified by *drPlanId*.
 //
 // # See also
 //
@@ -826,7 +827,7 @@ func (client DisasterRecoveryClient) getDrPlan(ctx context.Context, request comm
 	return response, err
 }
 
-// GetDrPlanExecution Get details for the DR Plan Execution identified by *drPlanExecutionId*.
+// GetDrPlanExecution Get details for the DR plan execution identified by *drPlanExecutionId*.
 //
 // # See also
 //
@@ -884,7 +885,7 @@ func (client DisasterRecoveryClient) getDrPlanExecution(ctx context.Context, req
 	return response, err
 }
 
-// GetDrProtectionGroup Get the DR Protection Group identified by *drProtectionGroupId*.
+// GetDrProtectionGroup Get the DR protection group identified by *drProtectionGroupId*.
 //
 // # See also
 //
@@ -1000,7 +1001,7 @@ func (client DisasterRecoveryClient) getWorkRequest(ctx context.Context, request
 	return response, err
 }
 
-// IgnoreDrPlanExecution Ignore failed group or step in DR Plan Execution identified by *drPlanExecutionId* and resume execution.
+// IgnoreDrPlanExecution Ignore the failed group or step in DR plan execution identified by *drPlanExecutionId* and resume execution.
 //
 // # See also
 //
@@ -1063,7 +1064,7 @@ func (client DisasterRecoveryClient) ignoreDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// ListDrPlanExecutions Get a summary list of all DR Plan Executions for a DR Protection Group.
+// ListDrPlanExecutions Get a summary list of all DR plan executions for a DR protection group.
 //
 // # See also
 //
@@ -1121,7 +1122,7 @@ func (client DisasterRecoveryClient) listDrPlanExecutions(ctx context.Context, r
 	return response, err
 }
 
-// ListDrPlans Gets a summary list of all DR Plans for a DR Protection Group.
+// ListDrPlans Get a summary list of all DR plans for a DR protection group.
 //
 // # See also
 //
@@ -1179,7 +1180,7 @@ func (client DisasterRecoveryClient) listDrPlans(ctx context.Context, request co
 	return response, err
 }
 
-// ListDrProtectionGroups Gets a summary list of all DR Protection Groups in a compartment.
+// ListDrProtectionGroups Get a summary list of all DR protection groups in a compartment.
 //
 // # See also
 //
@@ -1237,7 +1238,7 @@ func (client DisasterRecoveryClient) listDrProtectionGroups(ctx context.Context,
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Get a list of work request errors for the work request identified by *workRequestId*.
 //
 // # See also
 //
@@ -1295,7 +1296,7 @@ func (client DisasterRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for the work request identified by *workRequestId*.
+// ListWorkRequestLogs Get a list of logs for the work request identified by *workRequestId*.
 //
 // # See also
 //
@@ -1411,7 +1412,7 @@ func (client DisasterRecoveryClient) listWorkRequests(ctx context.Context, reque
 	return response, err
 }
 
-// PauseDrPlanExecution Pause the DR Plan Execution identified by *drPlanExecutionId*.
+// PauseDrPlanExecution Pause the DR plan execution identified by *drPlanExecutionId*.
 //
 // # See also
 //
@@ -1474,7 +1475,7 @@ func (client DisasterRecoveryClient) pauseDrPlanExecution(ctx context.Context, r
 	return response, err
 }
 
-// ResumeDrPlanExecution Resume the DR Plan Execution identified by *drPlanExecutionId*.
+// ResumeDrPlanExecution Resume the DR plan execution identified by *drPlanExecutionId*.
 //
 // # See also
 //
@@ -1537,7 +1538,7 @@ func (client DisasterRecoveryClient) resumeDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// RetryDrPlanExecution Retry failed group or step in DR Plan Execution identified by *drPlanExecutionId* and resume execution.
+// RetryDrPlanExecution Retry the failed group or step in DR plan execution identified by *drPlanExecutionId* and resume execution.
 //
 // # See also
 //
@@ -1600,7 +1601,7 @@ func (client DisasterRecoveryClient) retryDrPlanExecution(ctx context.Context, r
 	return response, err
 }
 
-// UpdateDrPlan Update the DR Plan identified by *drPlanId*.
+// UpdateDrPlan Update the DR plan identified by *drPlanId*.
 //
 // # See also
 //
@@ -1658,7 +1659,7 @@ func (client DisasterRecoveryClient) updateDrPlan(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateDrPlanExecution Update the DR Plan Execution identified by *drPlanExecutionId*.
+// UpdateDrPlanExecution Update the DR plan execution identified by *drPlanExecutionId*.
 //
 // # See also
 //
@@ -1716,7 +1717,7 @@ func (client DisasterRecoveryClient) updateDrPlanExecution(ctx context.Context, 
 	return response, err
 }
 
-// UpdateDrProtectionGroup Update the DR Protection Group identified by *drProtectionGroupId*.
+// UpdateDrProtectionGroup Update the DR protection group identified by *drProtectionGroupId*.
 //
 // # See also
 //
@@ -1774,7 +1775,7 @@ func (client DisasterRecoveryClient) updateDrProtectionGroup(ctx context.Context
 	return response, err
 }
 
-// UpdateDrProtectionGroupRole Update the role of the DR Protection Group identified by *drProtectionGroupId*.
+// UpdateDrProtectionGroupRole Update the role of the DR protection group identified by *drProtectionGroupId*.
 //
 // # See also
 //
