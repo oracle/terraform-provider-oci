@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ColumnSummary Details of a column in a table fetched from the database.
+// ColumnSummary The details of a column in a table fetched from the database.
 type ColumnSummary struct {
 
 	// Name of the column.

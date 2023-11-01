@@ -97,6 +97,7 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource" {
 	external_id = oci_stack_monitoring_external.test_external.id
 	freeform_tags = {"bar-key"= "value"}
 	host_name = var.monitored_resource_host_name
+	license = var.monitored_resource_license
 	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
 	properties {
 
@@ -167,6 +168,7 @@ The following arguments are supported:
 * `external_id` - (Optional) External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. Currently supports only Oracle Cloud Infrastructure compute instance. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `host_name` - (Optional) (Updatable) Host name of the monitored resource. 
+* `license` - (Optional) (Updatable) License edition of the monitored resource. If not provided  the default license type for the compartment will be used. 
 * `management_agent_id` - (Optional) Management Agent Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `name` - (Required) Monitored Resource Name. 
 * `properties` - (Optional) (Updatable) List of monitored resource properties. 
@@ -218,6 +220,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `host_name` - Monitored resource host name.
 * `id` - Monitored resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+* `license` - License edition of the monitored resource.
 * `management_agent_id` - Management Agent Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `name` - Monitored resource name.
 * `properties` - List of monitored resource properties. 

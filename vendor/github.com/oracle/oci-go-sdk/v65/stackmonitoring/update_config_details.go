@@ -67,8 +67,16 @@ func (m *updateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.ConfigType {
+	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
+		mm := UpdateLicenseEnterpriseExtensibilityConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTO_PROMOTE":
 		mm := UpdateAutoPromoteConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LICENSE_AUTO_ASSIGN":
+		mm := UpdateLicenseAutoAssignConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

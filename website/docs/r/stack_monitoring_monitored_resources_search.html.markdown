@@ -26,6 +26,7 @@ resource "oci_stack_monitoring_monitored_resources_search" "test_monitored_resou
 	fields = var.monitored_resources_search_fields
 	host_name = var.monitored_resources_search_host_name
 	host_name_contains = var.monitored_resources_search_host_name_contains
+	license = var.monitored_resources_search_license
 	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
 	name = var.monitored_resources_search_name
 	name_contains = var.monitored_resources_search_name_contains
@@ -50,6 +51,7 @@ The following arguments are supported:
 * `fields` - (Optional) Partial response refers to an optimization technique offered by the RESTful web APIs, to return only the information (fields) required by the client. In this mechanism, the client sends the required field names as the query parameters for an API to the server, and the server trims down the default response content by removing the fields that are not required by the client. The parameter controls which fields to return and should be a query string parameter called "fields" of an array type, provide the values as enums, and use collectionFormat. 
 * `host_name` - (Optional) A filter to return resources with host name match. 
 * `host_name_contains` - (Optional) A filter to return resources with host name pattern. 
+* `license` - (Optional) License edition of the monitored resource.
 * `management_agent_id` - (Optional) A filter to return resources with matching management agent id.
 * `name` - (Optional) A filter to return resources that match exact resource name. 
 * `name_contains` - (Optional) A filter to return resources that match resource name pattern given. The match is not case sensitive.
@@ -79,12 +81,14 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `items` - List of monitored resources.
+	* `compartment_id` - Compartment Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 	* `display_name` - Monitored resource display name.
 	* `external_id` - External resource is any Oracle Cloud Infrastructure resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) which is not a Stack Monitoring service resource. 
 	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 	* `host_name` - Monitored Resource Host Name. 
 	* `id` - Monitored resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+	* `license` - License edition of the monitored resource.
 	* `management_agent_id` - Management Agent Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	* `name` - Monitored Resource Name. 
 	* `properties` - List of monitored resource properties. 

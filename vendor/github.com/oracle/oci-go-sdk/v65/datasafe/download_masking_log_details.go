@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DownloadMaskingLogDetails Details to download masking log.
+// DownloadMaskingLogDetails Details to download the masking log.
 type DownloadMaskingLogDetails struct {
 
 	// The OCID of the target database for which the masking log is to be downloaded.

@@ -18,7 +18,7 @@ import (
 // ChangeTargetDatabaseCompartmentDetails The details used to change the compartment of a Data Safe target database.
 type ChangeTargetDatabaseCompartmentDetails struct {
 
-	// The OCID of the new compartment to where you want to move the Data Safe target database.
+	// The OCID of the compartment you want to move the Data Safe target database to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

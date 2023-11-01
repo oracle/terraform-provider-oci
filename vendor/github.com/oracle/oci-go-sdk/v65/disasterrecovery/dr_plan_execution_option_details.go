@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -52,12 +53,28 @@ func (m *drplanexecutionoptiondetails) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.PlanExecutionType {
+	case "STOP_DRILL_PRECHECK":
+		mm := StopDrillPrecheckExecutionOptionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "SWITCHOVER_PRECHECK":
 		mm := SwitchoverPrecheckExecutionOptionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "STOP_DRILL":
+		mm := StopDrillExecutionOptionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FAILOVER_PRECHECK":
 		mm := FailoverPrecheckExecutionOptionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "START_DRILL":
+		mm := StartDrillExecutionOptionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "START_DRILL_PRECHECK":
+		mm := StartDrillPrecheckExecutionOptionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SWITCHOVER":
@@ -99,20 +116,32 @@ const (
 	DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchoverPrecheck DrPlanExecutionOptionDetailsPlanExecutionTypeEnum = "SWITCHOVER_PRECHECK"
 	DrPlanExecutionOptionDetailsPlanExecutionTypeFailover           DrPlanExecutionOptionDetailsPlanExecutionTypeEnum = "FAILOVER"
 	DrPlanExecutionOptionDetailsPlanExecutionTypeFailoverPrecheck   DrPlanExecutionOptionDetailsPlanExecutionTypeEnum = "FAILOVER_PRECHECK"
+	DrPlanExecutionOptionDetailsPlanExecutionTypeStartDrill         DrPlanExecutionOptionDetailsPlanExecutionTypeEnum = "START_DRILL"
+	DrPlanExecutionOptionDetailsPlanExecutionTypeStartDrillPrecheck DrPlanExecutionOptionDetailsPlanExecutionTypeEnum = "START_DRILL_PRECHECK"
+	DrPlanExecutionOptionDetailsPlanExecutionTypeStopDrill          DrPlanExecutionOptionDetailsPlanExecutionTypeEnum = "STOP_DRILL"
+	DrPlanExecutionOptionDetailsPlanExecutionTypeStopDrillPrecheck  DrPlanExecutionOptionDetailsPlanExecutionTypeEnum = "STOP_DRILL_PRECHECK"
 )
 
 var mappingDrPlanExecutionOptionDetailsPlanExecutionTypeEnum = map[string]DrPlanExecutionOptionDetailsPlanExecutionTypeEnum{
-	"SWITCHOVER":          DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchover,
-	"SWITCHOVER_PRECHECK": DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchoverPrecheck,
-	"FAILOVER":            DrPlanExecutionOptionDetailsPlanExecutionTypeFailover,
-	"FAILOVER_PRECHECK":   DrPlanExecutionOptionDetailsPlanExecutionTypeFailoverPrecheck,
+	"SWITCHOVER":           DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchover,
+	"SWITCHOVER_PRECHECK":  DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchoverPrecheck,
+	"FAILOVER":             DrPlanExecutionOptionDetailsPlanExecutionTypeFailover,
+	"FAILOVER_PRECHECK":    DrPlanExecutionOptionDetailsPlanExecutionTypeFailoverPrecheck,
+	"START_DRILL":          DrPlanExecutionOptionDetailsPlanExecutionTypeStartDrill,
+	"START_DRILL_PRECHECK": DrPlanExecutionOptionDetailsPlanExecutionTypeStartDrillPrecheck,
+	"STOP_DRILL":           DrPlanExecutionOptionDetailsPlanExecutionTypeStopDrill,
+	"STOP_DRILL_PRECHECK":  DrPlanExecutionOptionDetailsPlanExecutionTypeStopDrillPrecheck,
 }
 
 var mappingDrPlanExecutionOptionDetailsPlanExecutionTypeEnumLowerCase = map[string]DrPlanExecutionOptionDetailsPlanExecutionTypeEnum{
-	"switchover":          DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchover,
-	"switchover_precheck": DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchoverPrecheck,
-	"failover":            DrPlanExecutionOptionDetailsPlanExecutionTypeFailover,
-	"failover_precheck":   DrPlanExecutionOptionDetailsPlanExecutionTypeFailoverPrecheck,
+	"switchover":           DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchover,
+	"switchover_precheck":  DrPlanExecutionOptionDetailsPlanExecutionTypeSwitchoverPrecheck,
+	"failover":             DrPlanExecutionOptionDetailsPlanExecutionTypeFailover,
+	"failover_precheck":    DrPlanExecutionOptionDetailsPlanExecutionTypeFailoverPrecheck,
+	"start_drill":          DrPlanExecutionOptionDetailsPlanExecutionTypeStartDrill,
+	"start_drill_precheck": DrPlanExecutionOptionDetailsPlanExecutionTypeStartDrillPrecheck,
+	"stop_drill":           DrPlanExecutionOptionDetailsPlanExecutionTypeStopDrill,
+	"stop_drill_precheck":  DrPlanExecutionOptionDetailsPlanExecutionTypeStopDrillPrecheck,
 }
 
 // GetDrPlanExecutionOptionDetailsPlanExecutionTypeEnumValues Enumerates the set of values for DrPlanExecutionOptionDetailsPlanExecutionTypeEnum
@@ -131,6 +160,10 @@ func GetDrPlanExecutionOptionDetailsPlanExecutionTypeEnumStringValues() []string
 		"SWITCHOVER_PRECHECK",
 		"FAILOVER",
 		"FAILOVER_PRECHECK",
+		"START_DRILL",
+		"START_DRILL_PRECHECK",
+		"STOP_DRILL",
+		"STOP_DRILL_PRECHECK",
 	}
 }
 

@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,11 +19,11 @@ import (
 	"strings"
 )
 
-// CreateDrProtectionGroupMemberDetails Create properties for a member in a DR Protection Group.
+// CreateDrProtectionGroupMemberDetails Create properties for a member in a DR protection group.
 type CreateDrProtectionGroupMemberDetails interface {
 
 	// The OCID of the member.
-	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
+	// Example: `ocid1.instance.oc1..uniqueID`
 	GetMemberId() *string
 }
 
@@ -78,8 +79,20 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := CreateDrProtectionGroupMemberAutonomousDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "NETWORK_LOAD_BALANCER":
+		mm := CreateDrProtectionGroupMemberNetworkLoadBalancerDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VOLUME_GROUP":
 		mm := CreateDrProtectionGroupMemberVolumeGroupDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "FILE_SYSTEM":
+		mm := CreateDrProtectionGroupMemberFileSystemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOAD_BALANCER":
+		mm := CreateDrProtectionGroupMemberLoadBalancerDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

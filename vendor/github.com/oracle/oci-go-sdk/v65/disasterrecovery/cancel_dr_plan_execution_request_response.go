@@ -18,11 +18,11 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CancelDrPlanExecution.go.html to see an example of how to use CancelDrPlanExecutionRequest.
 type CancelDrPlanExecutionRequest struct {
 
-	// Details for canceling a DR Plan Execution.
+	// Details for canceling the DR plan execution.
 	CancelDrPlanExecutionDetails `contributesTo:"body"`
 
-	// The OCID of the DR Plan Execution.
-	// Example: `ocid1.drplanexecution.oc1.iad.exampleocid`
+	// The OCID of the DR plan execution.
+	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	DrPlanExecutionId *string `mandatory:"true" contributesTo:"path" name:"drPlanExecutionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

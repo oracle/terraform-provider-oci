@@ -225,6 +225,69 @@ func (client StackMonitoringClient) changeConfigCompartment(ctx context.Context,
 	return response, err
 }
 
+// ChangeMetricExtensionCompartment Moves a Metric Extension resource from one compartment identifier to another.
+// When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeMetricExtensionCompartment.go.html to see an example of how to use ChangeMetricExtensionCompartment API.
+func (client StackMonitoringClient) ChangeMetricExtensionCompartment(ctx context.Context, request ChangeMetricExtensionCompartmentRequest) (response ChangeMetricExtensionCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMetricExtensionCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMetricExtensionCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMetricExtensionCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMetricExtensionCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMetricExtensionCompartmentResponse")
+	}
+	return
+}
+
+// changeMetricExtensionCompartment implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) changeMetricExtensionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metricExtensions/{metricExtensionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMetricExtensionCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/ChangeMetricExtensionCompartment"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ChangeMetricExtensionCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeMonitoredResourceCompartment Moves a monitored resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
 //
@@ -281,6 +344,132 @@ func (client StackMonitoringClient) changeMonitoredResourceCompartment(ctx conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/ChangeMonitoredResourceCompartment"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ChangeMonitoredResourceCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeMonitoredResourceTaskCompartment Moves a stack monitoring resource task from one compartment to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeMonitoredResourceTaskCompartment.go.html to see an example of how to use ChangeMonitoredResourceTaskCompartment API.
+// A default retry strategy applies to this operation ChangeMonitoredResourceTaskCompartment()
+func (client StackMonitoringClient) ChangeMonitoredResourceTaskCompartment(ctx context.Context, request ChangeMonitoredResourceTaskCompartmentRequest) (response ChangeMonitoredResourceTaskCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMonitoredResourceTaskCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMonitoredResourceTaskCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMonitoredResourceTaskCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMonitoredResourceTaskCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMonitoredResourceTaskCompartmentResponse")
+	}
+	return
+}
+
+// changeMonitoredResourceTaskCompartment implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) changeMonitoredResourceTaskCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoredResourceTasks/{monitoredResourceTaskId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMonitoredResourceTaskCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/monitoredResourceTask/ChangeMonitoredResourceTaskCompartment"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ChangeMonitoredResourceTaskCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateBaselineableMetric Creates the specified Baseline-able metric
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateBaselineableMetric.go.html to see an example of how to use CreateBaselineableMetric API.
+// A default retry strategy applies to this operation CreateBaselineableMetric()
+func (client StackMonitoringClient) CreateBaselineableMetric(ctx context.Context, request CreateBaselineableMetricRequest) (response CreateBaselineableMetricResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createBaselineableMetric, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateBaselineableMetricResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateBaselineableMetricResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateBaselineableMetricResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateBaselineableMetricResponse")
+	}
+	return
+}
+
+// createBaselineableMetric implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) createBaselineableMetric(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/baselineableMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateBaselineableMetricResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/CreateBaselineableMetricDetails/CreateBaselineableMetric"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
 
@@ -418,6 +607,68 @@ func (client StackMonitoringClient) createDiscoveryJob(ctx context.Context, requ
 	return response, err
 }
 
+// CreateMetricExtension Creates a new metric extension resource for a given compartment
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMetricExtension.go.html to see an example of how to use CreateMetricExtension API.
+func (client StackMonitoringClient) CreateMetricExtension(ctx context.Context, request CreateMetricExtensionRequest) (response CreateMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMetricExtensionResponse")
+	}
+	return
+}
+
+// createMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) createMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metricExtensions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/CreateMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateMonitoredResource Creates a new monitored resource for the given resource type with the details and submits
 // a work request for promoting the resource to agent. Once the resource is successfully
 // added to agent, resource state will be marked active.
@@ -475,6 +726,190 @@ func (client StackMonitoringClient) createMonitoredResource(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/CreateMonitoredResource"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateMonitoredResource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateMonitoredResourceTask Create a new stack monitoring resource task.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResourceTask.go.html to see an example of how to use CreateMonitoredResourceTask API.
+// A default retry strategy applies to this operation CreateMonitoredResourceTask()
+func (client StackMonitoringClient) CreateMonitoredResourceTask(ctx context.Context, request CreateMonitoredResourceTaskRequest) (response CreateMonitoredResourceTaskResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMonitoredResourceTask, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMonitoredResourceTaskResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMonitoredResourceTaskResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMonitoredResourceTaskResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMonitoredResourceTaskResponse")
+	}
+	return
+}
+
+// createMonitoredResourceTask implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) createMonitoredResourceTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoredResourceTasks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMonitoredResourceTaskResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceTask/CreateMonitoredResourceTask"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateMonitoredResourceTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateMonitoredResourceType Creates a new monitored resource type.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResourceType.go.html to see an example of how to use CreateMonitoredResourceType API.
+// A default retry strategy applies to this operation CreateMonitoredResourceType()
+func (client StackMonitoringClient) CreateMonitoredResourceType(ctx context.Context, request CreateMonitoredResourceTypeRequest) (response CreateMonitoredResourceTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMonitoredResourceType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMonitoredResourceTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMonitoredResourceTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMonitoredResourceTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMonitoredResourceTypeResponse")
+	}
+	return
+}
+
+// createMonitoredResourceType implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) createMonitoredResourceType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoredResourceTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMonitoredResourceTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceType/CreateMonitoredResourceType"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateMonitoredResourceType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteBaselineableMetric Deletes the Baseline-able metric for the given id
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteBaselineableMetric.go.html to see an example of how to use DeleteBaselineableMetric API.
+// A default retry strategy applies to this operation DeleteBaselineableMetric()
+func (client StackMonitoringClient) DeleteBaselineableMetric(ctx context.Context, request DeleteBaselineableMetricRequest) (response DeleteBaselineableMetricResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteBaselineableMetric, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteBaselineableMetricResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteBaselineableMetricResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteBaselineableMetricResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteBaselineableMetricResponse")
+	}
+	return
+}
+
+// deleteBaselineableMetric implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) deleteBaselineableMetric(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/baselineableMetrics/{baselineableMetricId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteBaselineableMetricResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/DeleteBaselineableMetric"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
 
@@ -598,6 +1033,63 @@ func (client StackMonitoringClient) deleteDiscoveryJob(ctx context.Context, requ
 	return response, err
 }
 
+// DeleteMetricExtension Deletes a metric extension by identifier
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMetricExtension.go.html to see an example of how to use DeleteMetricExtension API.
+func (client StackMonitoringClient) DeleteMetricExtension(ctx context.Context, request DeleteMetricExtensionRequest) (response DeleteMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMetricExtensionResponse")
+	}
+	return
+}
+
+// deleteMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) deleteMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/metricExtensions/{metricExtensionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/DeleteMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteMonitoredResource Delete monitored resource by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // By default, only the specified resource is deleted. If the parameter 'isDeleteMembers' is set to true,
 // then the member resources will be deleted too. If the operation fails partially, the deleted entries
@@ -651,6 +1143,63 @@ func (client StackMonitoringClient) deleteMonitoredResource(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/DeleteMonitoredResource"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteMonitoredResource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteMonitoredResourceType Deletes a monitored resource type by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMonitoredResourceType.go.html to see an example of how to use DeleteMonitoredResourceType API.
+func (client StackMonitoringClient) DeleteMonitoredResourceType(ctx context.Context, request DeleteMonitoredResourceTypeRequest) (response DeleteMonitoredResourceTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMonitoredResourceType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMonitoredResourceTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMonitoredResourceTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMonitoredResourceTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMonitoredResourceTypeResponse")
+	}
+	return
+}
+
+// deleteMonitoredResourceType implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) deleteMonitoredResourceType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/monitoredResourceTypes/{monitoredResourceTypeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMonitoredResourceTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceType/DeleteMonitoredResourceType"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteMonitoredResourceType", apiReferenceLink)
 		return response, err
 	}
 
@@ -721,6 +1270,68 @@ func (client StackMonitoringClient) disableExternalDatabase(ctx context.Context,
 	return response, err
 }
 
+// DisableMetricExtension Submits a request to disable matching metric extension Id for the given Resource IDs
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DisableMetricExtension.go.html to see an example of how to use DisableMetricExtension API.
+func (client StackMonitoringClient) DisableMetricExtension(ctx context.Context, request DisableMetricExtensionRequest) (response DisableMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableMetricExtensionResponse")
+	}
+	return
+}
+
+// disableMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) disableMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metricExtensions/{metricExtensionId}/actions/disable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/DisableMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "DisableMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisassociateMonitoredResources Removes associations between two monitored resources.
 //
 // # See also
@@ -776,6 +1387,252 @@ func (client StackMonitoringClient) disassociateMonitoredResources(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/DisassociateMonitoredResources"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DisassociateMonitoredResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableMetricExtension Submits a request to enable matching metric extension Id for the given Resource IDs
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/EnableMetricExtension.go.html to see an example of how to use EnableMetricExtension API.
+func (client StackMonitoringClient) EnableMetricExtension(ctx context.Context, request EnableMetricExtensionRequest) (response EnableMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableMetricExtensionResponse")
+	}
+	return
+}
+
+// enableMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) enableMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metricExtensions/{metricExtensionId}/actions/enable", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/EnableMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "EnableMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EvaluateBaselineableMetric Evaluates metric for anomalies for the given data points
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/EvaluateBaselineableMetric.go.html to see an example of how to use EvaluateBaselineableMetric API.
+// A default retry strategy applies to this operation EvaluateBaselineableMetric()
+func (client StackMonitoringClient) EvaluateBaselineableMetric(ctx context.Context, request EvaluateBaselineableMetricRequest) (response EvaluateBaselineableMetricResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.evaluateBaselineableMetric, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EvaluateBaselineableMetricResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EvaluateBaselineableMetricResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EvaluateBaselineableMetricResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EvaluateBaselineableMetricResponse")
+	}
+	return
+}
+
+// evaluateBaselineableMetric implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) evaluateBaselineableMetric(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/baselineableMetrics/{baselineableMetricId}/actions/evaluate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EvaluateBaselineableMetricResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/EvaluateBaselineableMetricResult/EvaluateBaselineableMetric"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "EvaluateBaselineableMetric", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ExportMetricExtension Export generates a template used to create new metric extension resources similar to matching metric extension id.
+// Response is a file that contains metric extension definition with placeholders for fields to be changed.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ExportMetricExtension.go.html to see an example of how to use ExportMetricExtension API.
+// A default retry strategy applies to this operation ExportMetricExtension()
+func (client StackMonitoringClient) ExportMetricExtension(ctx context.Context, request ExportMetricExtensionRequest) (response ExportMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.exportMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ExportMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ExportMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ExportMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ExportMetricExtensionResponse")
+	}
+	return
+}
+
+// exportMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) exportMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metricExtensions/{metricExtensionId}/actions/export", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ExportMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/ExportMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ExportMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetBaselineableMetric Get the Baseline-able metric for the given id
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetBaselineableMetric.go.html to see an example of how to use GetBaselineableMetric API.
+// A default retry strategy applies to this operation GetBaselineableMetric()
+func (client StackMonitoringClient) GetBaselineableMetric(ctx context.Context, request GetBaselineableMetricRequest) (response GetBaselineableMetricResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBaselineableMetric, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBaselineableMetricResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBaselineableMetricResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBaselineableMetricResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBaselineableMetricResponse")
+	}
+	return
+}
+
+// getBaselineableMetric implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) getBaselineableMetric(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/baselineableMetrics/{baselineableMetricId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBaselineableMetricResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/GetBaselineableMetric"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "GetBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
 
@@ -899,6 +1756,64 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 	return response, err
 }
 
+// GetMetricExtension Gets a Metric Extension by identifier
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMetricExtension.go.html to see an example of how to use GetMetricExtension API.
+// A default retry strategy applies to this operation GetMetricExtension()
+func (client StackMonitoringClient) GetMetricExtension(ctx context.Context, request GetMetricExtensionRequest) (response GetMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMetricExtensionResponse")
+	}
+	return
+}
+
+// getMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) getMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/metricExtensions/{metricExtensionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/GetMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "GetMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetMonitoredResource Get monitored resource for the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 //
 // # See also
@@ -957,6 +1872,122 @@ func (client StackMonitoringClient) getMonitoredResource(ctx context.Context, re
 	return response, err
 }
 
+// GetMonitoredResourceTask Gets stack monitoring resource task details by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMonitoredResourceTask.go.html to see an example of how to use GetMonitoredResourceTask API.
+// A default retry strategy applies to this operation GetMonitoredResourceTask()
+func (client StackMonitoringClient) GetMonitoredResourceTask(ctx context.Context, request GetMonitoredResourceTaskRequest) (response GetMonitoredResourceTaskResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMonitoredResourceTask, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMonitoredResourceTaskResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMonitoredResourceTaskResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMonitoredResourceTaskResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMonitoredResourceTaskResponse")
+	}
+	return
+}
+
+// getMonitoredResourceTask implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) getMonitoredResourceTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/monitoredResourceTasks/{monitoredResourceTaskId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMonitoredResourceTaskResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceTask/GetMonitoredResourceTask"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "GetMonitoredResourceTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMonitoredResourceType Gets a monitored resource type by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMonitoredResourceType.go.html to see an example of how to use GetMonitoredResourceType API.
+// A default retry strategy applies to this operation GetMonitoredResourceType()
+func (client StackMonitoringClient) GetMonitoredResourceType(ctx context.Context, request GetMonitoredResourceTypeRequest) (response GetMonitoredResourceTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMonitoredResourceType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMonitoredResourceTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMonitoredResourceTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMonitoredResourceTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMonitoredResourceTypeResponse")
+	}
+	return
+}
+
+// getMonitoredResourceType implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) getMonitoredResourceType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/monitoredResourceTypes/{monitoredResourceTypeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMonitoredResourceTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceType/GetMonitoredResourceType"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "GetMonitoredResourceType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
 // # See also
@@ -1008,6 +2039,64 @@ func (client StackMonitoringClient) getWorkRequest(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListBaselineableMetrics List of summary of baseline-able metrics for a given resource group if specified.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListBaselineableMetrics.go.html to see an example of how to use ListBaselineableMetrics API.
+// A default retry strategy applies to this operation ListBaselineableMetrics()
+func (client StackMonitoringClient) ListBaselineableMetrics(ctx context.Context, request ListBaselineableMetricsRequest) (response ListBaselineableMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listBaselineableMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListBaselineableMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListBaselineableMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListBaselineableMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListBaselineableMetricsResponse")
+	}
+	return
+}
+
+// listBaselineableMetrics implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) listBaselineableMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/baselineableMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListBaselineableMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetricSummary/ListBaselineableMetrics"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ListBaselineableMetrics", apiReferenceLink)
 		return response, err
 	}
 
@@ -1189,6 +2278,243 @@ func (client StackMonitoringClient) listDiscoveryJobs(ctx context.Context, reque
 	return response, err
 }
 
+// ListMetricExtensions Returns a list of metric extensions
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMetricExtensions.go.html to see an example of how to use ListMetricExtensions API.
+// A default retry strategy applies to this operation ListMetricExtensions()
+func (client StackMonitoringClient) ListMetricExtensions(ctx context.Context, request ListMetricExtensionsRequest) (response ListMetricExtensionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMetricExtensions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMetricExtensionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMetricExtensionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMetricExtensionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMetricExtensionsResponse")
+	}
+	return
+}
+
+// listMetricExtensions implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) listMetricExtensions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/metricExtensions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMetricExtensionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/ListMetricExtensions"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ListMetricExtensions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMonitoredResourceTasks Returns a list of stack monitoring resource tasks in the compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResourceTasks.go.html to see an example of how to use ListMonitoredResourceTasks API.
+// A default retry strategy applies to this operation ListMonitoredResourceTasks()
+func (client StackMonitoringClient) ListMonitoredResourceTasks(ctx context.Context, request ListMonitoredResourceTasksRequest) (response ListMonitoredResourceTasksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMonitoredResourceTasks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMonitoredResourceTasksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMonitoredResourceTasksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMonitoredResourceTasksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMonitoredResourceTasksResponse")
+	}
+	return
+}
+
+// listMonitoredResourceTasks implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) listMonitoredResourceTasks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/monitoredResourceTasks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMonitoredResourceTasksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceTask/ListMonitoredResourceTasks"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ListMonitoredResourceTasks", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMonitoredResourceTypes Returns list of resource types accessible to the customer.
+// There are two types of resource types - System resource types and User resource types.
+// System resource types are available out of the box in the stack monitoring resource service
+// and are accessible to all the tenant users. User resource types are created in the context
+// of a tenancy and are visible only for the tenancy. By default, both System resource types
+// and User resource types are returned.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResourceTypes.go.html to see an example of how to use ListMonitoredResourceTypes API.
+// A default retry strategy applies to this operation ListMonitoredResourceTypes()
+func (client StackMonitoringClient) ListMonitoredResourceTypes(ctx context.Context, request ListMonitoredResourceTypesRequest) (response ListMonitoredResourceTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMonitoredResourceTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMonitoredResourceTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMonitoredResourceTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMonitoredResourceTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMonitoredResourceTypesResponse")
+	}
+	return
+}
+
+// listMonitoredResourceTypes implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) listMonitoredResourceTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/monitoredResourceTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMonitoredResourceTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceType/ListMonitoredResourceTypes"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ListMonitoredResourceTypes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMonitoredResources Returns a list of monitored resources.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResources.go.html to see an example of how to use ListMonitoredResources API.
+// A default retry strategy applies to this operation ListMonitoredResources()
+func (client StackMonitoringClient) ListMonitoredResources(ctx context.Context, request ListMonitoredResourcesRequest) (response ListMonitoredResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMonitoredResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMonitoredResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMonitoredResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMonitoredResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMonitoredResourcesResponse")
+	}
+	return
+}
+
+// listMonitoredResources implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) listMonitoredResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/monitoredResources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMonitoredResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/ListMonitoredResources"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ListMonitoredResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
 //
 // # See also
@@ -1356,6 +2682,193 @@ func (client StackMonitoringClient) listWorkRequests(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/WorkRequestSummaryCollection/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ManageLicense Each resource is assigned a license based on which features are enabled for it.
+// User is charged differently based on license.
+// Specify the license type to be updated for the parent resource in the topology.
+// The license type value is propagated to the member resources as well.
+// Member resource is a resource which has "contains" association with the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ManageLicense.go.html to see an example of how to use ManageLicense API.
+// A default retry strategy applies to this operation ManageLicense()
+func (client StackMonitoringClient) ManageLicense(ctx context.Context, request ManageLicenseRequest) (response ManageLicenseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.manageLicense, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ManageLicenseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ManageLicenseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ManageLicenseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ManageLicenseResponse")
+	}
+	return
+}
+
+// manageLicense implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) manageLicense(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoredResources/{monitoredResourceId}/actions/manageLicense", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ManageLicenseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/ManageLicense"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ManageLicense", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PublishMetricExtension Publish the Metric Extension identified by the id
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/PublishMetricExtension.go.html to see an example of how to use PublishMetricExtension API.
+func (client StackMonitoringClient) PublishMetricExtension(ctx context.Context, request PublishMetricExtensionRequest) (response PublishMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.publishMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PublishMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PublishMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PublishMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PublishMetricExtensionResponse")
+	}
+	return
+}
+
+// publishMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) publishMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metricExtensions/{metricExtensionId}/actions/publish", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PublishMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/PublishMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "PublishMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RequestMonitoredResourcesSummarizedCount Gets resource count based on the aggregation criteria specified using "groupBy" parameter.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/RequestMonitoredResourcesSummarizedCount.go.html to see an example of how to use RequestMonitoredResourcesSummarizedCount API.
+// A default retry strategy applies to this operation RequestMonitoredResourcesSummarizedCount()
+func (client StackMonitoringClient) RequestMonitoredResourcesSummarizedCount(ctx context.Context, request RequestMonitoredResourcesSummarizedCountRequest) (response RequestMonitoredResourcesSummarizedCountResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestMonitoredResourcesSummarizedCount, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestMonitoredResourcesSummarizedCountResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestMonitoredResourcesSummarizedCountResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestMonitoredResourcesSummarizedCountResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestMonitoredResourcesSummarizedCountResponse")
+	}
+	return
+}
+
+// requestMonitoredResourcesSummarizedCount implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) requestMonitoredResourcesSummarizedCount(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/monitoredResources/actions/summarizeCount", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestMonitoredResourcesSummarizedCountResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/RequestMonitoredResourcesSummarizedCount"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "RequestMonitoredResourcesSummarizedCount", apiReferenceLink)
 		return response, err
 	}
 
@@ -1616,6 +3129,68 @@ func (client StackMonitoringClient) searchMonitoredResources(ctx context.Context
 	return response, err
 }
 
+// TestMetricExtension Performs test of Metric Extension on a specific resource Id
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/TestMetricExtension.go.html to see an example of how to use TestMetricExtension API.
+func (client StackMonitoringClient) TestMetricExtension(ctx context.Context, request TestMetricExtensionRequest) (response TestMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.testMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TestMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TestMetricExtensionResponse")
+	}
+	return
+}
+
+// testMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) testMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/metricExtensions/{metricExtensionId}/actions/test", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TestMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/TestMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "TestMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAndPropagateTags Provided tags will be added or updated in the existing list of tags for the affected resources.
 // Resources to be updated are identified based on association types specified.
 // If association types not specified, then tags will be updated only for the resource identified by
@@ -1682,6 +3257,64 @@ func (client StackMonitoringClient) updateAndPropagateTags(ctx context.Context, 
 	return response, err
 }
 
+// UpdateBaselineableMetric Updates the Baseline-able metric for the given id
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateBaselineableMetric.go.html to see an example of how to use UpdateBaselineableMetric API.
+// A default retry strategy applies to this operation UpdateBaselineableMetric()
+func (client StackMonitoringClient) UpdateBaselineableMetric(ctx context.Context, request UpdateBaselineableMetricRequest) (response UpdateBaselineableMetricResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateBaselineableMetric, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateBaselineableMetricResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateBaselineableMetricResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateBaselineableMetricResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateBaselineableMetricResponse")
+	}
+	return
+}
+
+// updateBaselineableMetric implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) updateBaselineableMetric(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/baselineableMetrics/{baselineableMetricId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateBaselineableMetricResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/UpdateBaselineableMetricDetails/UpdateBaselineableMetric"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateBaselineableMetric", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateConfig Updates the configuration identified by the id given.
 //
 // # See also
@@ -1740,6 +3373,63 @@ func (client StackMonitoringClient) updateConfig(ctx context.Context, request co
 	return response, err
 }
 
+// UpdateMetricExtension Updates the Metric Extension
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMetricExtension.go.html to see an example of how to use UpdateMetricExtension API.
+func (client StackMonitoringClient) UpdateMetricExtension(ctx context.Context, request UpdateMetricExtensionRequest) (response UpdateMetricExtensionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMetricExtension, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMetricExtensionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMetricExtensionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMetricExtensionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMetricExtensionResponse")
+	}
+	return
+}
+
+// updateMetricExtension implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) updateMetricExtension(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/metricExtensions/{metricExtensionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMetricExtensionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MetricExtension/UpdateMetricExtension"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateMetricExtension", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateMonitoredResource Update monitored resource by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // Note that "properties" object, if specified, will entirely replace the existing object,
 // as part this operation.
@@ -1792,6 +3482,120 @@ func (client StackMonitoringClient) updateMonitoredResource(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/UpdateMonitoredResource"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateMonitoredResource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMonitoredResourceTask Update stack monitoring resource task by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMonitoredResourceTask.go.html to see an example of how to use UpdateMonitoredResourceTask API.
+func (client StackMonitoringClient) UpdateMonitoredResourceTask(ctx context.Context, request UpdateMonitoredResourceTaskRequest) (response UpdateMonitoredResourceTaskResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMonitoredResourceTask, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMonitoredResourceTaskResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMonitoredResourceTaskResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMonitoredResourceTaskResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMonitoredResourceTaskResponse")
+	}
+	return
+}
+
+// updateMonitoredResourceTask implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) updateMonitoredResourceTask(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/monitoredResourceTasks/{monitoredResourceTaskId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMonitoredResourceTaskResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceTask/UpdateMonitoredResourceTask"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateMonitoredResourceTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMonitoredResourceType Update the Monitored Resource Type identified by the identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMonitoredResourceType.go.html to see an example of how to use UpdateMonitoredResourceType API.
+func (client StackMonitoringClient) UpdateMonitoredResourceType(ctx context.Context, request UpdateMonitoredResourceTypeRequest) (response UpdateMonitoredResourceTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMonitoredResourceType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMonitoredResourceTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMonitoredResourceTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMonitoredResourceTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMonitoredResourceTypeResponse")
+	}
+	return
+}
+
+// updateMonitoredResourceType implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) updateMonitoredResourceType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/monitoredResourceTypes/{monitoredResourceTypeId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMonitoredResourceTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceType/UpdateMonitoredResourceType"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateMonitoredResourceType", apiReferenceLink)
 		return response, err
 	}
 

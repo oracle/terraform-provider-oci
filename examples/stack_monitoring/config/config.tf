@@ -22,3 +22,15 @@ resource "oci_stack_monitoring_config" "test_config_autopromote" {
 	resource_type = "HOST"
 	is_enabled = true
 }
+
+resource "oci_stack_monitoring_config" "test_auto_assign_config" {
+  compartment_id = var.compartment_ocid
+  config_type = "LICENSE_AUTO_ASSIGN"
+  license = "STANDARD_EDITION"
+}
+
+resource "oci_stack_monitoring_config" "test_enterprise_extensibility_config" {
+  compartment_id = var.compartment_ocid
+  config_type = "LICENSE_ENTERPRISE_EXTENSIBILITY"
+  is_enabled = true
+}

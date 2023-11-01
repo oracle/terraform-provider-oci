@@ -25,6 +25,7 @@ var (
 	StackMonitoringMonitoredResourcesSearchRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"host_name":           acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_hostname_resource1}`},
+		"license":             acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`},
 		"management_agent_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource1}`},
 		"name":                acctest.Representation{RepType: acctest.Optional, Create: `terraformResource`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -84,6 +85,7 @@ func TestStackMonitoringMonitoredResourcesSearchResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "host_name", hostname1),
+				resource.TestCheckResourceAttr(resourceName, "license", "STANDARD_EDITION"),
 				resource.TestCheckResourceAttrSet(resourceName, "items.#"),
 				resource.TestCheckResourceAttr(resourceName, "management_agent_id", managementAgentId1),
 				resource.TestCheckResourceAttr(resourceName, "name", "terraformResource"),

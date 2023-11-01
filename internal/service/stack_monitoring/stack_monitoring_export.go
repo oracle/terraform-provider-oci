@@ -14,9 +14,12 @@ func init() {
 
 // Hints for discovering and exporting this resource to configuration and state files
 var exportStackMonitoringMonitoredResourceHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_stack_monitoring_monitored_resource",
-	DatasourceClass:      "oci_stack_monitoring_monitored_resource",
-	ResourceAbbreviation: "monitored_resource",
+	ResourceClass:          "oci_stack_monitoring_monitored_resource",
+	DatasourceClass:        "oci_stack_monitoring_monitored_resources",
+	DatasourceItemsAttr:    "monitored_resource_collection",
+	IsDatasourceCollection: true,
+	RequireResourceRefresh: true,
+	ResourceAbbreviation:   "monitored_resource",
 	DiscoverableLifecycleStates: []string{
 		string(oci_stack_monitoring.ResourceLifecycleStateActive),
 	},
@@ -66,17 +69,83 @@ var exportStackMonitoringConfigHints = &tf_export.TerraformResourceHints{
 		string(oci_stack_monitoring.ConfigLifecycleStateActive),
 	},
 }
+var exportStackMonitoringMonitoredResourceTaskHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_monitored_resource_task",
+	DatasourceClass:        "oci_stack_monitoring_monitored_resource_tasks",
+	DatasourceItemsAttr:    "monitored_resource_tasks_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "monitored_resource_task",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.MonitoredResourceTaskLifecycleStateSucceeded),
+		string(oci_stack_monitoring.MonitoredResourceTaskLifecycleStateNeedsAttention),
+	},
+}
+
+var exportStackMonitoringMonitoredResourceTypeHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_monitored_resource_type",
+	DatasourceClass:        "oci_stack_monitoring_monitored_resource_types",
+	DatasourceItemsAttr:    "monitored_resource_types_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "monitored_resource_type",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.ResourceTypeLifecycleStateActive),
+	},
+}
+
+var exportStackMonitoringMetricExtensionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_metric_extension",
+	DatasourceClass:        "oci_stack_monitoring_metric_extensions",
+	DatasourceItemsAttr:    "metric_extension_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "metric_extension",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.MetricExtensionLifeCycleStatesActive),
+	},
+}
+
+var exportStackMonitoringBaselineableMetricHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_baselineable_metric",
+	DatasourceClass:        "oci_stack_monitoring_baselineable_metrics",
+	DatasourceItemsAttr:    "baselineable_metric_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "baselineable_metric",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.LifecycleStateActive),
+	},
+}
 
 var stackMonitoringResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportStackMonitoringDiscoveryJobHints},
 		{TerraformResourceHints: exportStackMonitoringConfigHints},
+		{TerraformResourceHints: exportStackMonitoringMetricExtensionHints},
+		{TerraformResourceHints: exportStackMonitoringBaselineableMetricHints},
 	},
 	"oci_stack_monitoring_monitored_resource": {
 		{
 			TerraformResourceHints: exportStackMonitoringMonitoredResourceHints,
 			DatasourceQueryParams: map[string]string{
 				"monitored_resource_id": "id",
+			},
+		},
+	},
+	"oci_stack_monitoring_monitored_resource_type": {
+		{
+			TerraformResourceHints: exportStackMonitoringMonitoredResourceTypeHints,
+			DatasourceQueryParams: map[string]string{
+				"monitored_resource_type_id": "id",
+			},
+		},
+	},
+	"oci_stack_monitoring_monitored_resource_task": {
+		{
+			TerraformResourceHints: exportStackMonitoringMonitoredResourceTaskHints,
+			DatasourceQueryParams: map[string]string{
+				"monitored_resource_task_id": "id",
 			},
 		},
 	},

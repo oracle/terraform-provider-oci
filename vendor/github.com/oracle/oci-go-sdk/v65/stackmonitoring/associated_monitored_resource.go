@@ -48,6 +48,9 @@ type AssociatedMonitoredResource struct {
 	// The current state of the monitored resource.
 	LifecycleState ResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// License edition of the monitored resource.
+	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
+
 	// Association details of the resource.
 	Association *interface{} `mandatory:"false" json:"association"`
 }
@@ -64,6 +67,9 @@ func (m AssociatedMonitoredResource) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingResourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResourceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

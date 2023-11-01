@@ -44,6 +44,7 @@ The following attributes are exported:
 			* `credential_type` - Name of Credential Type
 			* `properties` - Property Details
 				* `properties_map` - Key/Value pair of Property
+	* `license` - License edition of the monitored resource.
 	* `properties` - Property Details
 		* `properties_map` - Key/Value pair of Property
 	* `resource_name` - The Name of resource type

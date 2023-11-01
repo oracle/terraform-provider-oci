@@ -42,7 +42,7 @@ type TargetDatabaseSummary struct {
 	// The description of the target database in Data Safe.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCIDs of associated resources like Database, Data Safe private endpoint etc.
+	// The OCIDs of associated resources like database, Data Safe private endpoint etc.
 	AssociatedResourceIds []string `mandatory:"false" json:"associatedResourceIds"`
 
 	// Details about the current state of the target database in Data Safe.

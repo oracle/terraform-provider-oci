@@ -62,7 +62,7 @@ type SensitiveDataModel struct {
 	IsAppDefinedRelationDiscoveryEnabled *bool `mandatory:"true" json:"isAppDefinedRelationDiscoveryEnabled"`
 
 	// Indicates if all the schemas in the associated target database should be scanned by data discovery jobs.
-	// If it's set to true, the schemasForDiscovery attribute is ignored and all schemas are used for data discovery.
+	// If it is set to true, sensitive data is discovered in all schemas (except for schemas maintained by Oracle).
 	IsIncludeAllSchemas *bool `mandatory:"true" json:"isIncludeAllSchemas"`
 
 	// Indicates if all the existing sensitive types should be used by data discovery jobs.If it's set to true, the

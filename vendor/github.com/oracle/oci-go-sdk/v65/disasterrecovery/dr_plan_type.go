@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -22,16 +23,22 @@ type DrPlanTypeEnum string
 const (
 	DrPlanTypeSwitchover DrPlanTypeEnum = "SWITCHOVER"
 	DrPlanTypeFailover   DrPlanTypeEnum = "FAILOVER"
+	DrPlanTypeStartDrill DrPlanTypeEnum = "START_DRILL"
+	DrPlanTypeStopDrill  DrPlanTypeEnum = "STOP_DRILL"
 )
 
 var mappingDrPlanTypeEnum = map[string]DrPlanTypeEnum{
-	"SWITCHOVER": DrPlanTypeSwitchover,
-	"FAILOVER":   DrPlanTypeFailover,
+	"SWITCHOVER":  DrPlanTypeSwitchover,
+	"FAILOVER":    DrPlanTypeFailover,
+	"START_DRILL": DrPlanTypeStartDrill,
+	"STOP_DRILL":  DrPlanTypeStopDrill,
 }
 
 var mappingDrPlanTypeEnumLowerCase = map[string]DrPlanTypeEnum{
-	"switchover": DrPlanTypeSwitchover,
-	"failover":   DrPlanTypeFailover,
+	"switchover":  DrPlanTypeSwitchover,
+	"failover":    DrPlanTypeFailover,
+	"start_drill": DrPlanTypeStartDrill,
+	"stop_drill":  DrPlanTypeStopDrill,
 }
 
 // GetDrPlanTypeEnumValues Enumerates the set of values for DrPlanTypeEnum
@@ -48,6 +55,8 @@ func GetDrPlanTypeEnumStringValues() []string {
 	return []string{
 		"SWITCHOVER",
 		"FAILOVER",
+		"START_DRILL",
+		"STOP_DRILL",
 	}
 }
 

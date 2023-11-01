@@ -60,7 +60,7 @@ type DiscoveryJobResult struct {
 	// After specifying the planned action, you can use the ApplyDiscoveryJobResults operation to automatically process the discovery results.
 	PlannedAction DiscoveryJobResultPlannedActionEnum `mandatory:"true" json:"plannedAction"`
 
-	// Indicates if the discovery result has been processed. You can update this attribute using the PatchDiscoveryJobResults
+	// Indicates whether the discovery result has been processed. You can update this attribute using the PatchDiscoveryJobResults
 	// operation to track whether the discovery result has already been processed and applied to the sensitive data model.
 	IsResultApplied *bool `mandatory:"true" json:"isResultApplied"`
 

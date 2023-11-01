@@ -18,11 +18,11 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrPlan.go.html to see an example of how to use UpdateDrPlanRequest.
 type UpdateDrPlanRequest struct {
 
-	// Details of DR Plan to update.
+	// Details for updating the DR plan.
 	UpdateDrPlanDetails `contributesTo:"body"`
 
-	// The OCID of the DR Plan.
-	// Example: `ocid1.drplan.oc1.iad.exampleocid`
+	// The OCID of the DR plan.
+	// Example: `ocid1.drplan.oc1..uniqueID`
 	DrPlanId *string `mandatory:"true" contributesTo:"path" name:"drPlanId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

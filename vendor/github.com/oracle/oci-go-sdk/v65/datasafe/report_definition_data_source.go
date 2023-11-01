@@ -18,18 +18,24 @@ type ReportDefinitionDataSourceEnum string
 
 // Set of constants representing the allowable values for ReportDefinitionDataSourceEnum
 const (
-	ReportDefinitionDataSourceEvents ReportDefinitionDataSourceEnum = "EVENTS"
-	ReportDefinitionDataSourceAlerts ReportDefinitionDataSourceEnum = "ALERTS"
+	ReportDefinitionDataSourceEvents     ReportDefinitionDataSourceEnum = "EVENTS"
+	ReportDefinitionDataSourceAlerts     ReportDefinitionDataSourceEnum = "ALERTS"
+	ReportDefinitionDataSourceViolations ReportDefinitionDataSourceEnum = "VIOLATIONS"
+	ReportDefinitionDataSourceAllowedSql ReportDefinitionDataSourceEnum = "ALLOWED_SQL"
 )
 
 var mappingReportDefinitionDataSourceEnum = map[string]ReportDefinitionDataSourceEnum{
-	"EVENTS": ReportDefinitionDataSourceEvents,
-	"ALERTS": ReportDefinitionDataSourceAlerts,
+	"EVENTS":      ReportDefinitionDataSourceEvents,
+	"ALERTS":      ReportDefinitionDataSourceAlerts,
+	"VIOLATIONS":  ReportDefinitionDataSourceViolations,
+	"ALLOWED_SQL": ReportDefinitionDataSourceAllowedSql,
 }
 
 var mappingReportDefinitionDataSourceEnumLowerCase = map[string]ReportDefinitionDataSourceEnum{
-	"events": ReportDefinitionDataSourceEvents,
-	"alerts": ReportDefinitionDataSourceAlerts,
+	"events":      ReportDefinitionDataSourceEvents,
+	"alerts":      ReportDefinitionDataSourceAlerts,
+	"violations":  ReportDefinitionDataSourceViolations,
+	"allowed_sql": ReportDefinitionDataSourceAllowedSql,
 }
 
 // GetReportDefinitionDataSourceEnumValues Enumerates the set of values for ReportDefinitionDataSourceEnum
@@ -46,6 +52,8 @@ func GetReportDefinitionDataSourceEnumStringValues() []string {
 	return []string{
 		"EVENTS",
 		"ALERTS",
+		"VIOLATIONS",
+		"ALLOWED_SQL",
 	}
 }
 

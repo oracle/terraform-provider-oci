@@ -30,6 +30,9 @@ type MonitoredResourceSummary struct {
 	// Monitored resource display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
 	// Monitored Resource Host Name.
 	HostName *string `mandatory:"false" json:"hostName"`
 
@@ -51,6 +54,9 @@ type MonitoredResourceSummary struct {
 
 	// List of monitored resource properties.
 	Properties []MonitoredResourceProperty `mandatory:"false" json:"properties"`
+
+	// License edition of the monitored resource.
+	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -77,6 +83,9 @@ func (m MonitoredResourceSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingResourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResourceLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

@@ -76,6 +76,10 @@ func StackMonitoringMonitoredResourcesListMemberResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"license": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"parent_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -209,6 +213,8 @@ func MonitoredResourceMemberSummaryToMap(obj oci_stack_monitoring.MonitoredResou
 	if obj.HostName != nil {
 		result["host_name"] = string(*obj.HostName)
 	}
+
+	result["license"] = string(obj.License)
 
 	if obj.ParentId != nil {
 		result["parent_id"] = string(*obj.ParentId)

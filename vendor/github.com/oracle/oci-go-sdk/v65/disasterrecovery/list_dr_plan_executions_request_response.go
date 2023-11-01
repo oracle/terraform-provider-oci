@@ -18,22 +18,22 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ListDrPlanExecutions.go.html to see an example of how to use ListDrPlanExecutionsRequest.
 type ListDrPlanExecutionsRequest struct {
 
-	// The OCID of the DR Protection Group. Mandatory query param.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group. Mandatory query param.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"query" name:"drProtectionGroupId"`
 
-	// A filter to return only DR Plan Executions that match the given lifecycleState.
+	// A filter to return only DR plan executions that match the given lifecycle state.
 	LifecycleState ListDrPlanExecutionsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The OCID of the DR Plan Execution.
-	// Example: `ocid1.drplanexecution.oc1.iad.exampleocid`
+	// The OCID of the DR plan execution.
+	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	DrPlanExecutionId *string `mandatory:"false" contributesTo:"query" name:"drPlanExecutionId"`
 
-	// The DR Plan Execution type.
+	// The DR plan execution type.
 	DrPlanExecutionType ListDrPlanExecutionsDrPlanExecutionTypeEnum `mandatory:"false" contributesTo:"query" name:"drPlanExecutionType" omitEmpty:"true"`
 
-	// A filter to return only resources that match the entire display name given.
-	// Example: `MY UNIQUE DISPLAY NAME`
+	// A filter to return only resources that match the given display name.
+	// Example: `MyResourceDisplayName`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// For list pagination. The maximum number of results per page,
@@ -55,7 +55,7 @@ type ListDrPlanExecutionsRequest struct {
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending.
 	// Default order for displayName is ascending. If no value is specified timeCreated is default.
-	// Example: `displayName`
+	// Example: `MyResourceDisplayName`
 	SortBy ListDrPlanExecutionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.
@@ -234,20 +234,32 @@ const (
 	ListDrPlanExecutionsDrPlanExecutionTypeSwitchoverPrecheck ListDrPlanExecutionsDrPlanExecutionTypeEnum = "SWITCHOVER_PRECHECK"
 	ListDrPlanExecutionsDrPlanExecutionTypeFailover           ListDrPlanExecutionsDrPlanExecutionTypeEnum = "FAILOVER"
 	ListDrPlanExecutionsDrPlanExecutionTypeFailoverPrecheck   ListDrPlanExecutionsDrPlanExecutionTypeEnum = "FAILOVER_PRECHECK"
+	ListDrPlanExecutionsDrPlanExecutionTypeStartDrill         ListDrPlanExecutionsDrPlanExecutionTypeEnum = "START_DRILL"
+	ListDrPlanExecutionsDrPlanExecutionTypeStartDrillPrecheck ListDrPlanExecutionsDrPlanExecutionTypeEnum = "START_DRILL_PRECHECK"
+	ListDrPlanExecutionsDrPlanExecutionTypeStopDrill          ListDrPlanExecutionsDrPlanExecutionTypeEnum = "STOP_DRILL"
+	ListDrPlanExecutionsDrPlanExecutionTypeStopDrillPrecheck  ListDrPlanExecutionsDrPlanExecutionTypeEnum = "STOP_DRILL_PRECHECK"
 )
 
 var mappingListDrPlanExecutionsDrPlanExecutionTypeEnum = map[string]ListDrPlanExecutionsDrPlanExecutionTypeEnum{
-	"SWITCHOVER":          ListDrPlanExecutionsDrPlanExecutionTypeSwitchover,
-	"SWITCHOVER_PRECHECK": ListDrPlanExecutionsDrPlanExecutionTypeSwitchoverPrecheck,
-	"FAILOVER":            ListDrPlanExecutionsDrPlanExecutionTypeFailover,
-	"FAILOVER_PRECHECK":   ListDrPlanExecutionsDrPlanExecutionTypeFailoverPrecheck,
+	"SWITCHOVER":           ListDrPlanExecutionsDrPlanExecutionTypeSwitchover,
+	"SWITCHOVER_PRECHECK":  ListDrPlanExecutionsDrPlanExecutionTypeSwitchoverPrecheck,
+	"FAILOVER":             ListDrPlanExecutionsDrPlanExecutionTypeFailover,
+	"FAILOVER_PRECHECK":    ListDrPlanExecutionsDrPlanExecutionTypeFailoverPrecheck,
+	"START_DRILL":          ListDrPlanExecutionsDrPlanExecutionTypeStartDrill,
+	"START_DRILL_PRECHECK": ListDrPlanExecutionsDrPlanExecutionTypeStartDrillPrecheck,
+	"STOP_DRILL":           ListDrPlanExecutionsDrPlanExecutionTypeStopDrill,
+	"STOP_DRILL_PRECHECK":  ListDrPlanExecutionsDrPlanExecutionTypeStopDrillPrecheck,
 }
 
 var mappingListDrPlanExecutionsDrPlanExecutionTypeEnumLowerCase = map[string]ListDrPlanExecutionsDrPlanExecutionTypeEnum{
-	"switchover":          ListDrPlanExecutionsDrPlanExecutionTypeSwitchover,
-	"switchover_precheck": ListDrPlanExecutionsDrPlanExecutionTypeSwitchoverPrecheck,
-	"failover":            ListDrPlanExecutionsDrPlanExecutionTypeFailover,
-	"failover_precheck":   ListDrPlanExecutionsDrPlanExecutionTypeFailoverPrecheck,
+	"switchover":           ListDrPlanExecutionsDrPlanExecutionTypeSwitchover,
+	"switchover_precheck":  ListDrPlanExecutionsDrPlanExecutionTypeSwitchoverPrecheck,
+	"failover":             ListDrPlanExecutionsDrPlanExecutionTypeFailover,
+	"failover_precheck":    ListDrPlanExecutionsDrPlanExecutionTypeFailoverPrecheck,
+	"start_drill":          ListDrPlanExecutionsDrPlanExecutionTypeStartDrill,
+	"start_drill_precheck": ListDrPlanExecutionsDrPlanExecutionTypeStartDrillPrecheck,
+	"stop_drill":           ListDrPlanExecutionsDrPlanExecutionTypeStopDrill,
+	"stop_drill_precheck":  ListDrPlanExecutionsDrPlanExecutionTypeStopDrillPrecheck,
 }
 
 // GetListDrPlanExecutionsDrPlanExecutionTypeEnumValues Enumerates the set of values for ListDrPlanExecutionsDrPlanExecutionTypeEnum
@@ -266,6 +278,10 @@ func GetListDrPlanExecutionsDrPlanExecutionTypeEnumStringValues() []string {
 		"SWITCHOVER_PRECHECK",
 		"FAILOVER",
 		"FAILOVER_PRECHECK",
+		"START_DRILL",
+		"START_DRILL_PRECHECK",
+		"STOP_DRILL",
+		"STOP_DRILL_PRECHECK",
 	}
 }
 

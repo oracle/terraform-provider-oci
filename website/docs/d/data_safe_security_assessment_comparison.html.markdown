@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_safe_security_assessment_comparison
 This data source provides details about a specific Security Assessment Comparison resource in Oracle Cloud Infrastructure Data Safe service.
 
-Gets the details of the comparison report on the security assessments submitted for comparison.
+Gets the details of the comparison report for the security assessments submitted for comparison.
 
 ## Example Usage
 
@@ -26,7 +26,7 @@ data "oci_data_safe_security_assessment_comparison" "test_security_assessment_co
 
 The following arguments are supported:
 
-* `comparison_security_assessment_id` - (Required) The OCID of the baseline security assessment.
+* `comparison_security_assessment_id` - (Required) The OCID of the security assessment baseline.
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 
 

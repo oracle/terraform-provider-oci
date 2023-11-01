@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,17 +18,18 @@ import (
 	"strings"
 )
 
-// AssociateDrProtectionGroupDetails The details for associating this DR Protection Group with a peer (remote) DR Protection Group.
+// AssociateDrProtectionGroupDetails The details for associating a DR protection group with a peer DR protection group.
 type AssociateDrProtectionGroupDetails struct {
 
-	// The role of this DR Protection Group.
+	// The role of the DR protection group.
+	// Example: `STANDBY`
 	Role DrProtectionGroupRoleEnum `mandatory:"true" json:"role"`
 
-	// The OCID of the peer (remote) DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.iad.&lt;unique_id&gt;`
+	// The OCID of the peer DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	PeerId *string `mandatory:"false" json:"peerId"`
 
-	// The region of the peer (remote) DR Protection Group.
+	// The region of the peer DR protection group.
 	// Example: `us-ashburn-1`
 	PeerRegion *string `mandatory:"false" json:"peerRegion"`
 }

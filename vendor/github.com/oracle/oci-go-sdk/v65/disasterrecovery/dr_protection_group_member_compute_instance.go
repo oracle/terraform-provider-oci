@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,26 +19,28 @@ import (
 	"strings"
 )
 
-// DrProtectionGroupMemberComputeInstance Properties for a Compute Instance member of a DR Protection Group.
+// DrProtectionGroupMemberComputeInstance Deprecated. Properties for a compute instance member of a DR protection group.
 type DrProtectionGroupMemberComputeInstance struct {
 
 	// The OCID of the member.
-	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
+	// Example: `ocid1.instance.oc1..uniqueID`
 	MemberId *string `mandatory:"true" json:"memberId"`
 
-	// A flag indicating if this compute instance should be moved during DR operations.
+	// A flag indicating if the compute instance should be moved during DR operations.
 	// Example: `false`
 	IsMovable *bool `mandatory:"false" json:"isMovable"`
 
 	// A list of compute instance VNIC mappings.
 	VnicMapping []ComputeInstanceVnicMapping `mandatory:"false" json:"vnicMapping"`
 
-	// The OCID of the compartment for this compute instance in the destination region.
-	// Example: `ocid1.compartment.oc1..exampleocid`
+	// The OCID of a compartment in the destination region in which the compute instance
+	// should be launched.
+	// Example: `ocid1.compartment.oc1..uniqueID`
 	DestinationCompartmentId *string `mandatory:"false" json:"destinationCompartmentId"`
 
-	// The OCID of the dedicated VM Host for this compute instance in the destination region.
-	// Example: `ocid1.dedicatedvmhost.oc1.iad.exampleocid`
+	// The OCID of a dedicated VM host in the destination region where the compute instance
+	// should be launched.
+	// Example: `ocid1.dedicatedvmhost.oc1..uniqueID`
 	DestinationDedicatedVmHostId *string `mandatory:"false" json:"destinationDedicatedVmHostId"`
 }
 

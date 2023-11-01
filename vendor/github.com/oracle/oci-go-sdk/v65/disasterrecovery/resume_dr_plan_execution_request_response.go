@@ -18,11 +18,11 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/ResumeDrPlanExecution.go.html to see an example of how to use ResumeDrPlanExecutionRequest.
 type ResumeDrPlanExecutionRequest struct {
 
-	// Details for resuming a DR Plan Execution.
+	// Details for resuming the DR plan execution.
 	ResumeDrPlanExecutionDetails `contributesTo:"body"`
 
-	// The OCID of the DR Plan Execution.
-	// Example: `ocid1.drplanexecution.oc1.iad.exampleocid`
+	// The OCID of the DR plan execution.
+	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	DrPlanExecutionId *string `mandatory:"true" contributesTo:"path" name:"drPlanExecutionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
