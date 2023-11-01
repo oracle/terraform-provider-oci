@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrPlanExecution.go.html to see an example of how to use CreateDrPlanExecutionRequest.
 type CreateDrPlanExecutionRequest struct {
 
-	// Details for the new DR Plan Execution.
+	// Details for creating the DR plan execution.
 	CreateDrPlanExecutionDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -25,9 +25,13 @@ const (
 	OperationTypeEnableExternalDatabase  OperationTypeEnum = "ENABLE_EXTERNAL_DATABASE"
 	OperationTypeDisableExternalDatabase OperationTypeEnum = "DISABLE_EXTERNAL_DATABASE"
 	OperationTypeAddSourcesToAgent       OperationTypeEnum = "ADD_SOURCES_TO_AGENT"
+	OperationTypeEnableMetricExtension   OperationTypeEnum = "ENABLE_METRIC_EXTENSION"
+	OperationTypeDisableMetricExtension  OperationTypeEnum = "DISABLE_METRIC_EXTENSION"
+	OperationTypeTestMetricExtension     OperationTypeEnum = "TEST_METRIC_EXTENSION"
 	OperationTypeBulkAddResources        OperationTypeEnum = "BULK_ADD_RESOURCES"
 	OperationTypeBulkDeleteResources     OperationTypeEnum = "BULK_DELETE_RESOURCES"
 	OperationTypeUpdateAndPropagateTags  OperationTypeEnum = "UPDATE_AND_PROPAGATE_TAGS"
+	OperationTypeImportResources         OperationTypeEnum = "IMPORT_RESOURCES"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -38,9 +42,13 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"ENABLE_EXTERNAL_DATABASE":  OperationTypeEnableExternalDatabase,
 	"DISABLE_EXTERNAL_DATABASE": OperationTypeDisableExternalDatabase,
 	"ADD_SOURCES_TO_AGENT":      OperationTypeAddSourcesToAgent,
+	"ENABLE_METRIC_EXTENSION":   OperationTypeEnableMetricExtension,
+	"DISABLE_METRIC_EXTENSION":  OperationTypeDisableMetricExtension,
+	"TEST_METRIC_EXTENSION":     OperationTypeTestMetricExtension,
 	"BULK_ADD_RESOURCES":        OperationTypeBulkAddResources,
 	"BULK_DELETE_RESOURCES":     OperationTypeBulkDeleteResources,
 	"UPDATE_AND_PROPAGATE_TAGS": OperationTypeUpdateAndPropagateTags,
+	"IMPORT_RESOURCES":          OperationTypeImportResources,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -51,9 +59,13 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"enable_external_database":  OperationTypeEnableExternalDatabase,
 	"disable_external_database": OperationTypeDisableExternalDatabase,
 	"add_sources_to_agent":      OperationTypeAddSourcesToAgent,
+	"enable_metric_extension":   OperationTypeEnableMetricExtension,
+	"disable_metric_extension":  OperationTypeDisableMetricExtension,
+	"test_metric_extension":     OperationTypeTestMetricExtension,
 	"bulk_add_resources":        OperationTypeBulkAddResources,
 	"bulk_delete_resources":     OperationTypeBulkDeleteResources,
 	"update_and_propagate_tags": OperationTypeUpdateAndPropagateTags,
+	"import_resources":          OperationTypeImportResources,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -75,9 +87,13 @@ func GetOperationTypeEnumStringValues() []string {
 		"ENABLE_EXTERNAL_DATABASE",
 		"DISABLE_EXTERNAL_DATABASE",
 		"ADD_SOURCES_TO_AGENT",
+		"ENABLE_METRIC_EXTENSION",
+		"DISABLE_METRIC_EXTENSION",
+		"TEST_METRIC_EXTENSION",
 		"BULK_ADD_RESOURCES",
 		"BULK_DELETE_RESOURCES",
 		"UPDATE_AND_PROPAGATE_TAGS",
+		"IMPORT_RESOURCES",
 	}
 }
 

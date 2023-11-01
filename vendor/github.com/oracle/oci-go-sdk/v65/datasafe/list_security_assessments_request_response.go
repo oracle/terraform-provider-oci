@@ -52,7 +52,7 @@ type ListSecurityAssessmentsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListSecurityAssessmentsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// A filter to return only security assessments that are set as baseline.
+	// A filter to return only the security assessments that are set as a baseline.
 	IsBaseline *bool `mandatory:"false" contributesTo:"query" name:"isBaseline"`
 
 	// The field to sort by. You can specify only one sort order(sortOrder). The default order for timeCreated is descending.

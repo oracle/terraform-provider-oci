@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateDataSafePrivateEndpointDetails The details used to update a Data Safe private endpoint.
+// UpdateDataSafePrivateEndpointDetails The details used to update the Data Safe private endpoint.
 type UpdateDataSafePrivateEndpointDetails struct {
 
 	// The display name of the private endpoint.

@@ -24,11 +24,11 @@ type ListWorkRequestsRequest struct {
 	// A filter to return only work requests that match the specific operation type.
 	OperationType *string `mandatory:"false" contributesTo:"query" name:"operationType"`
 
-	// The field used for sorting. Only one sorting order (sortOrder) can be specified.
+	// The field used for sorting. Only one sorting parameter can be specified.
 	// The default order is descending.
 	SortBy ListWorkRequestsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use, either ascending (ASC) or descending (DESC).
+	// The sorting order for the work requests, either ascending (ASC) or descending (DESC).
 	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// A filter to return only work requests that match the specified resource OCID.
@@ -45,6 +45,16 @@ type ListWorkRequestsRequest struct {
 
 	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
+
+	// Default is false.
+	// When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED.
+	// Setting this to ACCESSIBLE returns only those compartments for which the
+	// user has INSPECT permissions directly or indirectly (permissions can be on a
+	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
+	AccessLevel ListWorkRequestsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -87,6 +97,9 @@ func (request ListWorkRequestsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListWorkRequestsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestsSortOrderEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListWorkRequestsAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListWorkRequestsAccessLevelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -204,5 +217,47 @@ func GetListWorkRequestsSortOrderEnumStringValues() []string {
 // GetMappingListWorkRequestsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListWorkRequestsSortOrderEnum(val string) (ListWorkRequestsSortOrderEnum, bool) {
 	enum, ok := mappingListWorkRequestsSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListWorkRequestsAccessLevelEnum Enum with underlying type: string
+type ListWorkRequestsAccessLevelEnum string
+
+// Set of constants representing the allowable values for ListWorkRequestsAccessLevelEnum
+const (
+	ListWorkRequestsAccessLevelRestricted ListWorkRequestsAccessLevelEnum = "RESTRICTED"
+	ListWorkRequestsAccessLevelAccessible ListWorkRequestsAccessLevelEnum = "ACCESSIBLE"
+)
+
+var mappingListWorkRequestsAccessLevelEnum = map[string]ListWorkRequestsAccessLevelEnum{
+	"RESTRICTED": ListWorkRequestsAccessLevelRestricted,
+	"ACCESSIBLE": ListWorkRequestsAccessLevelAccessible,
+}
+
+var mappingListWorkRequestsAccessLevelEnumLowerCase = map[string]ListWorkRequestsAccessLevelEnum{
+	"restricted": ListWorkRequestsAccessLevelRestricted,
+	"accessible": ListWorkRequestsAccessLevelAccessible,
+}
+
+// GetListWorkRequestsAccessLevelEnumValues Enumerates the set of values for ListWorkRequestsAccessLevelEnum
+func GetListWorkRequestsAccessLevelEnumValues() []ListWorkRequestsAccessLevelEnum {
+	values := make([]ListWorkRequestsAccessLevelEnum, 0)
+	for _, v := range mappingListWorkRequestsAccessLevelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListWorkRequestsAccessLevelEnumStringValues Enumerates the set of values in String for ListWorkRequestsAccessLevelEnum
+func GetListWorkRequestsAccessLevelEnumStringValues() []string {
+	return []string{
+		"RESTRICTED",
+		"ACCESSIBLE",
+	}
+}
+
+// GetMappingListWorkRequestsAccessLevelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListWorkRequestsAccessLevelEnum(val string) (ListWorkRequestsAccessLevelEnum, bool) {
+	enum, ok := mappingListWorkRequestsAccessLevelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

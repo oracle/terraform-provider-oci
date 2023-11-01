@@ -36,7 +36,7 @@ type ListMaskingReportsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListMaskingReportsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. You can specify only one sort order (sortOrder). The default order for timeMaskingFinished is descending.
+	// The field to sort by. You can specify only one sorting parameter (sortOrder). The default order for timeMaskingFinished is descending.
 	SortBy ListMaskingReportsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique identifier for the request.

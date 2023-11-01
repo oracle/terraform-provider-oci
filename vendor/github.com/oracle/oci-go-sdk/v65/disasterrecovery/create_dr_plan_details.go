@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,18 +18,18 @@ import (
 	"strings"
 )
 
-// CreateDrPlanDetails The details for creating a DR Plan.
+// CreateDrPlanDetails The details for creating a DR plan.
 type CreateDrPlanDetails struct {
 
-	// The display name of the DR Plan being created.
+	// The display name of the DR plan being created.
 	// Example: `EBS Switchover PHX to IAD`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The type of DR Plan to be created.
+	// The type of DR plan to be created.
 	Type DrPlanTypeEnum `mandatory:"true" json:"type"`
 
-	// The OCID of the DR Protection Group to which this DR Plan belongs.
-	// Example: `ocid1.drprotectiongroup.oc1.iad.&lt;unique_id&gt;`
+	// The OCID of the DR protection group to which this DR plan belongs.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" json:"drProtectionGroupId"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

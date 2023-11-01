@@ -35,7 +35,7 @@ type ProfileSummary struct {
 	// The number of users having a given profile.
 	UserCount *int `mandatory:"false" json:"userCount"`
 
-	// Maximum times the user is allowed in fail login before the user account is locked.
+	// Maximum times the user is allowed to fail login before the user account is locked.
 	FailedLoginAttempts *string `mandatory:"false" json:"failedLoginAttempts"`
 
 	// PL/SQL that can be used for password verification.

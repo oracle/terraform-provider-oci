@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,12 +19,22 @@ import (
 	"strings"
 )
 
-// CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails Create properties for a Non-Movable Compute Instance member.
+// CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails Create properties for a non-movable compute instance member.
 type CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails struct {
 
 	// The OCID of the member.
-	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
+	// Example: `ocid1.instance.oc1..uniqueID`
 	MemberId *string `mandatory:"true" json:"memberId"`
+
+	// A flag indicating whether the non-movable compute instance should be started and stopped during DR operations.
+	// *Prechecks cannot be executed on stopped instances that are configured to be started.*
+	IsStartStopEnabled *bool `mandatory:"false" json:"isStartStopEnabled"`
+
+	// A list of operations performed on file systems used by the compute instance.
+	FileSystemOperations []CreateComputeInstanceNonMovableFileSystemOperationDetails `mandatory:"false" json:"fileSystemOperations"`
+
+	// A list of operations performed on block volumes used by the compute instance.
+	BlockVolumeOperations []CreateComputeInstanceNonMovableBlockVolumeOperationDetails `mandatory:"false" json:"blockVolumeOperations"`
 }
 
 // GetMemberId returns MemberId

@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,11 +19,11 @@ import (
 	"strings"
 )
 
-// CreateDrProtectionGroupMemberAutonomousDatabaseDetails Create properties for an Autonomous Database member.
+// CreateDrProtectionGroupMemberAutonomousDatabaseDetails Create properties for an Autonomous Database Serverless member.
 type CreateDrProtectionGroupMemberAutonomousDatabaseDetails struct {
 
 	// The OCID of the member.
-	// Example: `ocid1.instance.oc1.phx.&lt;unique_id&gt;`
+	// Example: `ocid1.instance.oc1..uniqueID`
 	MemberId *string `mandatory:"true" json:"memberId"`
 }
 

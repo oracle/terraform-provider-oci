@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -17,19 +18,20 @@ import (
 	"strings"
 )
 
-// ComputeInstanceVnicMapping A compute instance's source and destination VNIC mapping.
+// ComputeInstanceVnicMapping Deprecated. Source VNIC to destination subnet mapping for a compute instance.
 type ComputeInstanceVnicMapping struct {
 
 	// The OCID of the VNIC.
-	// Example: `ocid1.vnic.oc1.phx.exampleocid`
+	// Example: `ocid1.vnic.oc1..uniqueID`
 	SourceVnicId *string `mandatory:"true" json:"sourceVnicId"`
 
-	// The OCID of the destination (remote) subnet to which this VNIC should connect.
-	// Example: `ocid1.subnet.oc1.iad.exampleocid`
+	// The OCID of the destination subnet to which the source VNIC should connect.
+	// Example: `ocid1.subnet.oc1..uniqueID`
 	DestinationSubnetId *string `mandatory:"true" json:"destinationSubnetId"`
 
-	// A list of destination region's network security group (NSG) OCIDs which this VNIC should use.
-	// Example: `[ ocid1.networksecuritygroup.oc1.iad.exampleocid1, ocid1.networksecuritygroup.oc1.iad.exampleocid2 ]`
+	// A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to
+	// the source VNIC.
+	// Example: `[ ocid1.networksecuritygroup.oc1..uniqueID1, ocid1.networksecuritygroup.oc1..uniqueID2 ]`
 	DestinationNsgIdList []string `mandatory:"false" json:"destinationNsgIdList"`
 }
 

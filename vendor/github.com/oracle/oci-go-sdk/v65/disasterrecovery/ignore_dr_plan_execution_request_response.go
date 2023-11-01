@@ -18,11 +18,11 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/IgnoreDrPlanExecution.go.html to see an example of how to use IgnoreDrPlanExecutionRequest.
 type IgnoreDrPlanExecutionRequest struct {
 
-	// Details of the failed group or step to ignore.
+	// Details for ignoring the failed group or step and resuming execution.
 	IgnoreDrPlanExecutionDetails `contributesTo:"body"`
 
-	// The OCID of the DR Plan Execution.
-	// Example: `ocid1.drplanexecution.oc1.iad.exampleocid`
+	// The OCID of the DR plan execution.
+	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	DrPlanExecutionId *string `mandatory:"true" contributesTo:"path" name:"drPlanExecutionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

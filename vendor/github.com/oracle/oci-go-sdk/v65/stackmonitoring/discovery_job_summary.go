@@ -27,6 +27,9 @@ type DiscoveryJobSummary struct {
 	// The name of resource type
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
+	// License edition of the monitored resource.
+	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
+
 	// The OCID of the Compartment
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
@@ -76,6 +79,9 @@ func (m DiscoveryJobSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDiscoveryJobSummaryResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetDiscoveryJobSummaryResourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingDiscoveryJobSummaryDiscoveryTypeEnum(string(m.DiscoveryType)); !ok && m.DiscoveryType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiscoveryType: %s. Supported values are: %s.", m.DiscoveryType, strings.Join(GetDiscoveryJobSummaryDiscoveryTypeEnumStringValues(), ",")))

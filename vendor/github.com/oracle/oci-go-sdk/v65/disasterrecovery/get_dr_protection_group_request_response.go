@@ -18,8 +18,8 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrProtectionGroup.go.html to see an example of how to use GetDrProtectionGroupRequest.
 type GetDrProtectionGroupRequest struct {
 
-	// The OCID of the DR Protection Group.
-	// Example: `ocid1.drprotectiongroup.oc1.phx.exampleocid`
+	// The OCID of the DR protection group.
+	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" contributesTo:"path" name:"drProtectionGroupId"`
 
 	// The client request ID for tracing.

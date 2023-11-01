@@ -24,10 +24,10 @@ type SecurityAssessmentSummary struct {
 	// The current state of the security assessment.
 	LifecycleState SecurityAssessmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time when the security assessment was created. Conforms to the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the security assessment was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time when the security assessment was last updated. Conforms to the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the security assessment was last updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// The OCID of the compartment that contains the security assessment.
@@ -53,7 +53,7 @@ type SecurityAssessmentSummary struct {
 	// Details about the current state of the security assessment.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The date and time when the security assessment was last run. Conforms to the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the security assessment was last executed, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeLastAssessed *common.SDKTime `mandatory:"false" json:"timeLastAssessed"`
 
 	// List containing maps as values.

@@ -20,15 +20,8 @@ import (
 // and how many profiles have password verification function.
 type ProfileAggregation struct {
 
-	// The OCID of the latest user assessment corresponding to the target under consideration. A compartment
-	// type assessment can also be passed to profiles from all the targets from the corresponding compartment.
-	UserAssessmentId *string `mandatory:"true" json:"userAssessmentId"`
-
-	// The OCID of the compartment that contains the user assessment.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
 	// The array of profile aggregation data.
-	Items []map[string]interface{} `mandatory:"false" json:"items"`
+	Items []map[string]interface{} `mandatory:"true" json:"items"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`

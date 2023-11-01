@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// TableSummary Details of a table fetched from the database.
+// TableSummary The details of a table fetched from the database.
 type TableSummary struct {
 
 	// Name of the table.

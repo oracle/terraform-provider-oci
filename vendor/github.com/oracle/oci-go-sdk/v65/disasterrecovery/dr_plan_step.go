@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,21 +19,21 @@ import (
 	"strings"
 )
 
-// DrPlanStep Details of a step in a DR Plan.
+// DrPlanStep Details of a step in a DR plan.
 type DrPlanStep struct {
 
-	// The unique id of this step. Must not be modified by the user.
-	// Example: `sgid1.step..&lt;unique_id&gt;`
+	// The unique id of the step. Must not be modified by the user.
+	// Example: `sgid1.step..uniqueID`
 	Id *string `mandatory:"true" json:"id"`
 
 	// The unique id of the group to which this step belongs. Must not be modified by user.
-	// Example: `sgid1.group..&lt;unique_id&gt;`
+	// Example: `sgid1.group..uniqueID`
 	GroupId *string `mandatory:"true" json:"groupId"`
 
 	// The plan step type.
 	Type DrPlanStepTypeEnum `mandatory:"true" json:"type"`
 
-	// The display name of this DR Plan Group.
+	// The display name of the group.
 	// Example: `DATABASE_SWITCHOVER`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
@@ -48,7 +49,7 @@ type DrPlanStep struct {
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
 	// The OCID of the member associated with this step.
-	// Example: `ocid1.database.oc1.phx.&lt;unique_id&gt;`
+	// Example: `ocid1.database.oc1..uniqueID`
 	MemberId *string `mandatory:"false" json:"memberId"`
 
 	UserDefinedStep DrPlanUserDefinedStep `mandatory:"false" json:"userDefinedStep"`

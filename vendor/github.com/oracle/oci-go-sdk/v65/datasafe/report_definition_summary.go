@@ -108,21 +108,27 @@ type ReportDefinitionSummaryCategoryEnum string
 
 // Set of constants representing the allowable values for ReportDefinitionSummaryCategoryEnum
 const (
-	ReportDefinitionSummaryCategoryCustomReports    ReportDefinitionSummaryCategoryEnum = "CUSTOM_REPORTS"
-	ReportDefinitionSummaryCategorySummary          ReportDefinitionSummaryCategoryEnum = "SUMMARY"
-	ReportDefinitionSummaryCategoryActivityAuditing ReportDefinitionSummaryCategoryEnum = "ACTIVITY_AUDITING"
+	ReportDefinitionSummaryCategoryCustomReports      ReportDefinitionSummaryCategoryEnum = "CUSTOM_REPORTS"
+	ReportDefinitionSummaryCategorySummary            ReportDefinitionSummaryCategoryEnum = "SUMMARY"
+	ReportDefinitionSummaryCategoryActivityAuditing   ReportDefinitionSummaryCategoryEnum = "ACTIVITY_AUDITING"
+	ReportDefinitionSummaryCategoryFirewallViolations ReportDefinitionSummaryCategoryEnum = "FIREWALL_VIOLATIONS"
+	ReportDefinitionSummaryCategoryAllowedSql         ReportDefinitionSummaryCategoryEnum = "ALLOWED_SQL"
 )
 
 var mappingReportDefinitionSummaryCategoryEnum = map[string]ReportDefinitionSummaryCategoryEnum{
-	"CUSTOM_REPORTS":    ReportDefinitionSummaryCategoryCustomReports,
-	"SUMMARY":           ReportDefinitionSummaryCategorySummary,
-	"ACTIVITY_AUDITING": ReportDefinitionSummaryCategoryActivityAuditing,
+	"CUSTOM_REPORTS":      ReportDefinitionSummaryCategoryCustomReports,
+	"SUMMARY":             ReportDefinitionSummaryCategorySummary,
+	"ACTIVITY_AUDITING":   ReportDefinitionSummaryCategoryActivityAuditing,
+	"FIREWALL_VIOLATIONS": ReportDefinitionSummaryCategoryFirewallViolations,
+	"ALLOWED_SQL":         ReportDefinitionSummaryCategoryAllowedSql,
 }
 
 var mappingReportDefinitionSummaryCategoryEnumLowerCase = map[string]ReportDefinitionSummaryCategoryEnum{
-	"custom_reports":    ReportDefinitionSummaryCategoryCustomReports,
-	"summary":           ReportDefinitionSummaryCategorySummary,
-	"activity_auditing": ReportDefinitionSummaryCategoryActivityAuditing,
+	"custom_reports":      ReportDefinitionSummaryCategoryCustomReports,
+	"summary":             ReportDefinitionSummaryCategorySummary,
+	"activity_auditing":   ReportDefinitionSummaryCategoryActivityAuditing,
+	"firewall_violations": ReportDefinitionSummaryCategoryFirewallViolations,
+	"allowed_sql":         ReportDefinitionSummaryCategoryAllowedSql,
 }
 
 // GetReportDefinitionSummaryCategoryEnumValues Enumerates the set of values for ReportDefinitionSummaryCategoryEnum
@@ -140,6 +146,8 @@ func GetReportDefinitionSummaryCategoryEnumStringValues() []string {
 		"CUSTOM_REPORTS",
 		"SUMMARY",
 		"ACTIVITY_AUDITING",
+		"FIREWALL_VIOLATIONS",
+		"ALLOWED_SQL",
 	}
 }
 

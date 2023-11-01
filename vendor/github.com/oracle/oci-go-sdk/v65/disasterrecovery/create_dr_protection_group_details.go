@@ -4,9 +4,10 @@
 
 // Full Stack Disaster Recovery API
 //
-// Use the Full Stack Disaster Recovery (FSDR) API to manage disaster recovery for business applications.
-// FSDR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster recovery
-// capabilities for all layers of an application stack, including infrastructure, middleware, database, and application.
+// Use the Full Stack Disaster Recovery (DR) API to manage disaster recovery for business applications.
+// Full Stack DR is an OCI disaster recovery orchestration and management service that provides comprehensive disaster
+// recovery capabilities for all layers of an application stack, including infrastructure, middleware, database,
+// and application.
 //
 
 package disasterrecovery
@@ -18,22 +19,22 @@ import (
 	"strings"
 )
 
-// CreateDrProtectionGroupDetails The details for creating a DR Protection Group.
+// CreateDrProtectionGroupDetails The details for creating a DR protection group.
 type CreateDrProtectionGroupDetails struct {
 
-	// The OCID of the compartment in which to create the DR Protection Group.
-	// Example: `ocid1.compartment.oc1..&lt;unique_id&gt;`
+	// The OCID of the compartment in which to create the DR protection group.
+	// Example: `ocid1.compartment.oc1..uniqueID`
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The display name of the DR Protection Group.
-	// Example: `EBS PHX DRPG`
+	// The display name of the DR protection group.
+	// Example: `EBS PHX Group`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	LogLocation *CreateObjectStorageLogLocationDetails `mandatory:"true" json:"logLocation"`
 
 	Association *AssociateDrProtectionGroupDetails `mandatory:"false" json:"association"`
 
-	// A list of DR Protection Group members.
+	// A list of DR protection group members.
 	Members []CreateDrProtectionGroupMemberDetails `mandatory:"false" json:"members"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

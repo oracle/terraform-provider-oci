@@ -19,7 +19,7 @@ import (
 type ListWorkRequestLogsRequest struct {
 
 	// The ID (OCID) of the asynchronous request.
-	// Example: `ocid1.workrequest.oc1.phx.exampleocid`
+	// Example: `ocid1.workrequest.oc1..uniqueID`
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// The client request ID for tracing.
