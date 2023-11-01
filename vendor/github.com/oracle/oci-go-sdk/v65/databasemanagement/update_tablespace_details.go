@@ -19,8 +19,11 @@ import (
 )
 
 // UpdateTablespaceDetails The details required to update a tablespace.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type UpdateTablespaceDetails struct {
-	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
+	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// The name of the tablespace. It must be unique within a database.
 	Name *string `mandatory:"false" json:"name"`
@@ -75,6 +78,8 @@ func (m UpdateTablespaceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		CredentialDetails  tablespaceadmincredentialdetails  `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails         `json:"databaseCredential"`
 		Name               *string                           `json:"name"`
 		Type               UpdateTablespaceDetailsTypeEnum   `json:"type"`
 		FileSize           *TablespaceStorageSize            `json:"fileSize"`
@@ -84,7 +89,6 @@ func (m *UpdateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 		AutoExtendMaxSize  *TablespaceStorageSize            `json:"autoExtendMaxSize"`
 		IsMaxSizeUnlimited *bool                             `json:"isMaxSizeUnlimited"`
 		IsDefault          *bool                             `json:"isDefault"`
-		CredentialDetails  tablespaceadmincredentialdetails  `json:"credentialDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -92,6 +96,26 @@ func (m *UpdateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CredentialDetails = nn.(TablespaceAdminCredentialDetails)
+	} else {
+		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
 	m.Name = model.Name
 
 	m.Type = model.Type
@@ -109,16 +133,6 @@ func (m *UpdateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsMaxSizeUnlimited = model.IsMaxSizeUnlimited
 
 	m.IsDefault = model.IsDefault
-
-	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.CredentialDetails = nn.(TablespaceAdminCredentialDetails)
-	} else {
-		m.CredentialDetails = nil
-	}
 
 	return
 }

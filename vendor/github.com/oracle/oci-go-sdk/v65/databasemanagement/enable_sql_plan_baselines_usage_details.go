@@ -19,8 +19,11 @@ import (
 )
 
 // EnableSqlPlanBaselinesUsageDetails The details required to enable SQL plan baseline usage.
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type EnableSqlPlanBaselinesUsageDetails struct {
-	Credentials ManagedDatabaseCredential `mandatory:"true" json:"credentials"`
+	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m EnableSqlPlanBaselinesUsageDetails) String() string {
@@ -42,7 +45,8 @@ func (m EnableSqlPlanBaselinesUsageDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *EnableSqlPlanBaselinesUsageDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Credentials manageddatabasecredential `json:"credentials"`
+		Credentials        manageddatabasecredential `json:"credentials"`
+		DatabaseCredential databasecredentialdetails `json:"databaseCredential"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -58,6 +62,16 @@ func (m *EnableSqlPlanBaselinesUsageDetails) UnmarshalJSON(data []byte) (e error
 		m.Credentials = nn.(ManagedDatabaseCredential)
 	} else {
 		m.Credentials = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
 	}
 
 	return

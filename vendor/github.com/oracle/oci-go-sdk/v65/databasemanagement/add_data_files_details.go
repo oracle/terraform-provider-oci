@@ -19,11 +19,15 @@ import (
 )
 
 // AddDataFilesDetails The details required to add data files or temp files to the tablespace.
+// lease provide either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type AddDataFilesDetails struct {
-	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// Specifies whether the file is a data file or temp file.
 	FileType AddDataFilesDetailsFileTypeEnum `mandatory:"true" json:"fileType"`
+
+	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// The list of data files or temp files added to the tablespace.
 	DataFiles []string `mandatory:"false" json:"dataFiles"`
@@ -72,6 +76,8 @@ func (m AddDataFilesDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *AddDataFilesDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		CredentialDetails  tablespaceadmincredentialdetails `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails        `json:"databaseCredential"`
 		DataFiles          []string                         `json:"dataFiles"`
 		FileCount          *int                             `json:"fileCount"`
 		FileSize           *TablespaceStorageSize           `json:"fileSize"`
@@ -80,7 +86,6 @@ func (m *AddDataFilesDetails) UnmarshalJSON(data []byte) (e error) {
 		AutoExtendNextSize *TablespaceStorageSize           `json:"autoExtendNextSize"`
 		AutoExtendMaxSize  *TablespaceStorageSize           `json:"autoExtendMaxSize"`
 		IsMaxSizeUnlimited *bool                            `json:"isMaxSizeUnlimited"`
-		CredentialDetails  tablespaceadmincredentialdetails `json:"credentialDetails"`
 		FileType           AddDataFilesDetailsFileTypeEnum  `json:"fileType"`
 	}{}
 
@@ -89,6 +94,26 @@ func (m *AddDataFilesDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CredentialDetails = nn.(TablespaceAdminCredentialDetails)
+	} else {
+		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
 	m.DataFiles = make([]string, len(model.DataFiles))
 	copy(m.DataFiles, model.DataFiles)
 	m.FileCount = model.FileCount
@@ -104,16 +129,6 @@ func (m *AddDataFilesDetails) UnmarshalJSON(data []byte) (e error) {
 	m.AutoExtendMaxSize = model.AutoExtendMaxSize
 
 	m.IsMaxSizeUnlimited = model.IsMaxSizeUnlimited
-
-	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.CredentialDetails = nn.(TablespaceAdminCredentialDetails)
-	} else {
-		m.CredentialDetails = nil
-	}
 
 	m.FileType = model.FileType
 

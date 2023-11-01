@@ -19,14 +19,18 @@ import (
 )
 
 // LoadSqlTuningSetDetails The details required to load the Sql statements into the Sql tuning set.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type LoadSqlTuningSetDetails struct {
-	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// The name of the Sql tuning set.
 	Name *string `mandatory:"true" json:"name"`
 
 	// Specifies the loading method into the Sql tuning set.
 	LoadType LoadSqlTuningSetDetailsLoadTypeEnum `mandatory:"true" json:"loadType"`
+
+	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// Flag to indicate whether to create the Sql tuning set or just display the plsql used to create Sql tuning set.
 	ShowSqlOnly *int `mandatory:"false" json:"showSqlOnly"`
@@ -225,32 +229,33 @@ func (m LoadSqlTuningSetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *LoadSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ShowSqlOnly       *int                                       `json:"showSqlOnly"`
-		Owner             *string                                    `json:"owner"`
-		BasicFilter       *string                                    `json:"basicFilter"`
-		RecursiveSql      LoadSqlTuningSetDetailsRecursiveSqlEnum    `json:"recursiveSql"`
-		ResultPercentage  *float64                                   `json:"resultPercentage"`
-		ResultLimit       *int                                       `json:"resultLimit"`
-		RankingMeasure1   RankingMeasureEnum                         `json:"rankingMeasure1"`
-		RankingMeasure2   RankingMeasureEnum                         `json:"rankingMeasure2"`
-		RankingMeasure3   RankingMeasureEnum                         `json:"rankingMeasure3"`
-		TotalTimeLimit    *int                                       `json:"totalTimeLimit"`
-		RepeatInterval    *int                                       `json:"repeatInterval"`
-		CaptureOption     LoadSqlTuningSetDetailsCaptureOptionEnum   `json:"captureOption"`
-		CaptureMode       LoadSqlTuningSetDetailsCaptureModeEnum     `json:"captureMode"`
-		AttributeList     *string                                    `json:"attributeList"`
-		LoadOption        LoadSqlTuningSetDetailsLoadOptionEnum      `json:"loadOption"`
-		UpdateOption      LoadSqlTuningSetDetailsUpdateOptionEnum    `json:"updateOption"`
-		UpdateAttributes  *string                                    `json:"updateAttributes"`
-		UpdateCondition   LoadSqlTuningSetDetailsUpdateConditionEnum `json:"updateCondition"`
-		IsIgnoreNull      *bool                                      `json:"isIgnoreNull"`
-		CommitRows        *int                                       `json:"commitRows"`
-		BeginSnapshot     *int64                                     `json:"beginSnapshot"`
-		EndSnapshot       *int64                                     `json:"endSnapshot"`
-		BaselineName      *string                                    `json:"baselineName"`
-		CredentialDetails sqltuningsetadmincredentialdetails         `json:"credentialDetails"`
-		Name              *string                                    `json:"name"`
-		LoadType          LoadSqlTuningSetDetailsLoadTypeEnum        `json:"loadType"`
+		CredentialDetails  sqltuningsetadmincredentialdetails         `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails                  `json:"databaseCredential"`
+		ShowSqlOnly        *int                                       `json:"showSqlOnly"`
+		Owner              *string                                    `json:"owner"`
+		BasicFilter        *string                                    `json:"basicFilter"`
+		RecursiveSql       LoadSqlTuningSetDetailsRecursiveSqlEnum    `json:"recursiveSql"`
+		ResultPercentage   *float64                                   `json:"resultPercentage"`
+		ResultLimit        *int                                       `json:"resultLimit"`
+		RankingMeasure1    RankingMeasureEnum                         `json:"rankingMeasure1"`
+		RankingMeasure2    RankingMeasureEnum                         `json:"rankingMeasure2"`
+		RankingMeasure3    RankingMeasureEnum                         `json:"rankingMeasure3"`
+		TotalTimeLimit     *int                                       `json:"totalTimeLimit"`
+		RepeatInterval     *int                                       `json:"repeatInterval"`
+		CaptureOption      LoadSqlTuningSetDetailsCaptureOptionEnum   `json:"captureOption"`
+		CaptureMode        LoadSqlTuningSetDetailsCaptureModeEnum     `json:"captureMode"`
+		AttributeList      *string                                    `json:"attributeList"`
+		LoadOption         LoadSqlTuningSetDetailsLoadOptionEnum      `json:"loadOption"`
+		UpdateOption       LoadSqlTuningSetDetailsUpdateOptionEnum    `json:"updateOption"`
+		UpdateAttributes   *string                                    `json:"updateAttributes"`
+		UpdateCondition    LoadSqlTuningSetDetailsUpdateConditionEnum `json:"updateCondition"`
+		IsIgnoreNull       *bool                                      `json:"isIgnoreNull"`
+		CommitRows         *int                                       `json:"commitRows"`
+		BeginSnapshot      *int64                                     `json:"beginSnapshot"`
+		EndSnapshot        *int64                                     `json:"endSnapshot"`
+		BaselineName       *string                                    `json:"baselineName"`
+		Name               *string                                    `json:"name"`
+		LoadType           LoadSqlTuningSetDetailsLoadTypeEnum        `json:"loadType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -258,6 +263,26 @@ func (m *LoadSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CredentialDetails = nn.(SqlTuningSetAdminCredentialDetails)
+	} else {
+		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
 	m.ShowSqlOnly = model.ShowSqlOnly
 
 	m.Owner = model.Owner
@@ -303,16 +328,6 @@ func (m *LoadSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.EndSnapshot = model.EndSnapshot
 
 	m.BaselineName = model.BaselineName
-
-	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.CredentialDetails = nn.(SqlTuningSetAdminCredentialDetails)
-	} else {
-		m.CredentialDetails = nil
-	}
 
 	m.Name = model.Name
 

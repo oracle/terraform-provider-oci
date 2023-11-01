@@ -35,6 +35,8 @@ type ImplementOptimizerStatisticsAdvisorRecommendationsJob struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m ImplementOptimizerStatisticsAdvisorRecommendationsJob) String() string {
@@ -56,11 +58,12 @@ func (m ImplementOptimizerStatisticsAdvisorRecommendationsJob) ValidateEnumValue
 // UnmarshalJSON unmarshals from json
 func (m *ImplementOptimizerStatisticsAdvisorRecommendationsJob) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description    *string                    `json:"description"`
-		Credentials    manageddatabasecredential  `json:"credentials"`
-		Name           *string                    `json:"name"`
-		CompartmentId  *string                    `json:"compartmentId"`
-		ResultLocation jobexecutionresultlocation `json:"resultLocation"`
+		Description        *string                    `json:"description"`
+		Credentials        manageddatabasecredential  `json:"credentials"`
+		DatabaseCredential databasecredentialdetails  `json:"databaseCredential"`
+		Name               *string                    `json:"name"`
+		CompartmentId      *string                    `json:"compartmentId"`
+		ResultLocation     jobexecutionresultlocation `json:"resultLocation"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -78,6 +81,16 @@ func (m *ImplementOptimizerStatisticsAdvisorRecommendationsJob) UnmarshalJSON(da
 		m.Credentials = nn.(ManagedDatabaseCredential)
 	} else {
 		m.Credentials = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
 	}
 
 	m.Name = model.Name

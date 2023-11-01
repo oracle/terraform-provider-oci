@@ -19,14 +19,18 @@ import (
 )
 
 // FetchSqlTuningSetDetails The details required to fetch the Sql tuning set details.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type FetchSqlTuningSetDetails struct {
-	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// The owner of the Sql tuning set.
 	Owner *string `mandatory:"true" json:"owner"`
 
 	// The name of the Sql tuning set.
 	Name *string `mandatory:"true" json:"name"`
+
+	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// Specifies the Sql predicate to filter the Sql from the Sql tuning set defined on attributes of the SQLSET_ROW.
 	// User could use any combination of the following columns with appropriate values as Sql predicate
@@ -84,16 +88,17 @@ func (m FetchSqlTuningSetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *FetchSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BasicFilter       *string                                  `json:"basicFilter"`
-		RecursiveSql      FetchSqlTuningSetDetailsRecursiveSqlEnum `json:"recursiveSql"`
-		ResultPercentage  *float64                                 `json:"resultPercentage"`
-		ResultLimit       *int                                     `json:"resultLimit"`
-		RankingMeasure1   RankingMeasureEnum                       `json:"rankingMeasure1"`
-		RankingMeasure2   RankingMeasureEnum                       `json:"rankingMeasure2"`
-		RankingMeasure3   RankingMeasureEnum                       `json:"rankingMeasure3"`
-		CredentialDetails sqltuningsetadmincredentialdetails       `json:"credentialDetails"`
-		Owner             *string                                  `json:"owner"`
-		Name              *string                                  `json:"name"`
+		CredentialDetails  sqltuningsetadmincredentialdetails       `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails                `json:"databaseCredential"`
+		BasicFilter        *string                                  `json:"basicFilter"`
+		RecursiveSql       FetchSqlTuningSetDetailsRecursiveSqlEnum `json:"recursiveSql"`
+		ResultPercentage   *float64                                 `json:"resultPercentage"`
+		ResultLimit        *int                                     `json:"resultLimit"`
+		RankingMeasure1    RankingMeasureEnum                       `json:"rankingMeasure1"`
+		RankingMeasure2    RankingMeasureEnum                       `json:"rankingMeasure2"`
+		RankingMeasure3    RankingMeasureEnum                       `json:"rankingMeasure3"`
+		Owner              *string                                  `json:"owner"`
+		Name               *string                                  `json:"name"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -101,6 +106,26 @@ func (m *FetchSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CredentialDetails = nn.(SqlTuningSetAdminCredentialDetails)
+	} else {
+		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
 	m.BasicFilter = model.BasicFilter
 
 	m.RecursiveSql = model.RecursiveSql
@@ -114,16 +139,6 @@ func (m *FetchSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	m.RankingMeasure2 = model.RankingMeasure2
 
 	m.RankingMeasure3 = model.RankingMeasure3
-
-	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.CredentialDetails = nn.(SqlTuningSetAdminCredentialDetails)
-	} else {
-		m.CredentialDetails = nil
-	}
 
 	m.Owner = model.Owner
 

@@ -19,12 +19,15 @@ import (
 )
 
 // ConfigureAutomaticCaptureFiltersDetails The details required to configure automatic capture filters.
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type ConfigureAutomaticCaptureFiltersDetails struct {
 
 	// The filters used in automatic initial plan capture.
 	AutoCaptureFilters []AutomaticCaptureFilterDetails `mandatory:"true" json:"autoCaptureFilters"`
 
-	Credentials ManagedDatabaseCredential `mandatory:"true" json:"credentials"`
+	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m ConfigureAutomaticCaptureFiltersDetails) String() string {
@@ -46,8 +49,9 @@ func (m ConfigureAutomaticCaptureFiltersDetails) ValidateEnumValue() (bool, erro
 // UnmarshalJSON unmarshals from json
 func (m *ConfigureAutomaticCaptureFiltersDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AutoCaptureFilters []AutomaticCaptureFilterDetails `json:"autoCaptureFilters"`
 		Credentials        manageddatabasecredential       `json:"credentials"`
+		DatabaseCredential databasecredentialdetails       `json:"databaseCredential"`
+		AutoCaptureFilters []AutomaticCaptureFilterDetails `json:"autoCaptureFilters"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -55,8 +59,6 @@ func (m *ConfigureAutomaticCaptureFiltersDetails) UnmarshalJSON(data []byte) (e 
 		return
 	}
 	var nn interface{}
-	m.AutoCaptureFilters = make([]AutomaticCaptureFilterDetails, len(model.AutoCaptureFilters))
-	copy(m.AutoCaptureFilters, model.AutoCaptureFilters)
 	nn, e = model.Credentials.UnmarshalPolymorphicJSON(model.Credentials.JsonData)
 	if e != nil {
 		return
@@ -67,5 +69,17 @@ func (m *ConfigureAutomaticCaptureFiltersDetails) UnmarshalJSON(data []byte) (e 
 		m.Credentials = nil
 	}
 
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.AutoCaptureFilters = make([]AutomaticCaptureFilterDetails, len(model.AutoCaptureFilters))
+	copy(m.AutoCaptureFilters, model.AutoCaptureFilters)
 	return
 }

@@ -63,6 +63,9 @@ type CreateSqlJobDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	SecretId *string `mandatory:"false" json:"secretId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credentials containing password secret.
+	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -200,6 +203,7 @@ func (m *CreateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 		UserName               *string                           `json:"userName"`
 		Password               *string                           `json:"password"`
 		SecretId               *string                           `json:"secretId"`
+		NamedCredentialId      *string                           `json:"namedCredentialId"`
 		Role                   SqlJobRoleEnum                    `json:"role"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
@@ -249,6 +253,8 @@ func (m *CreateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Password = model.Password
 
 	m.SecretId = model.SecretId
+
+	m.NamedCredentialId = model.NamedCredentialId
 
 	m.Role = model.Role
 

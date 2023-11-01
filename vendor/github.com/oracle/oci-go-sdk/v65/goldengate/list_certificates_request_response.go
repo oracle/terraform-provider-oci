@@ -20,8 +20,11 @@ type ListCertificatesRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to return only the resources that match the entire 'displayName' given.
-	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
+	// Immutable resource name.
+	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
+	// A filter to return only connections having the 'lifecycleState' given.
+	LifecycleState ListCertificatesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -74,6 +77,9 @@ func (request ListCertificatesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListCertificatesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListCertificatesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListCertificatesLifecycleStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListCertificatesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListCertificatesSortOrderEnumStringValues(), ",")))
 	}
@@ -111,6 +117,60 @@ func (response ListCertificatesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListCertificatesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListCertificatesLifecycleStateEnum Enum with underlying type: string
+type ListCertificatesLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListCertificatesLifecycleStateEnum
+const (
+	ListCertificatesLifecycleStateCreating ListCertificatesLifecycleStateEnum = "CREATING"
+	ListCertificatesLifecycleStateActive   ListCertificatesLifecycleStateEnum = "ACTIVE"
+	ListCertificatesLifecycleStateDeleting ListCertificatesLifecycleStateEnum = "DELETING"
+	ListCertificatesLifecycleStateDeleted  ListCertificatesLifecycleStateEnum = "DELETED"
+	ListCertificatesLifecycleStateFailed   ListCertificatesLifecycleStateEnum = "FAILED"
+)
+
+var mappingListCertificatesLifecycleStateEnum = map[string]ListCertificatesLifecycleStateEnum{
+	"CREATING": ListCertificatesLifecycleStateCreating,
+	"ACTIVE":   ListCertificatesLifecycleStateActive,
+	"DELETING": ListCertificatesLifecycleStateDeleting,
+	"DELETED":  ListCertificatesLifecycleStateDeleted,
+	"FAILED":   ListCertificatesLifecycleStateFailed,
+}
+
+var mappingListCertificatesLifecycleStateEnumLowerCase = map[string]ListCertificatesLifecycleStateEnum{
+	"creating": ListCertificatesLifecycleStateCreating,
+	"active":   ListCertificatesLifecycleStateActive,
+	"deleting": ListCertificatesLifecycleStateDeleting,
+	"deleted":  ListCertificatesLifecycleStateDeleted,
+	"failed":   ListCertificatesLifecycleStateFailed,
+}
+
+// GetListCertificatesLifecycleStateEnumValues Enumerates the set of values for ListCertificatesLifecycleStateEnum
+func GetListCertificatesLifecycleStateEnumValues() []ListCertificatesLifecycleStateEnum {
+	values := make([]ListCertificatesLifecycleStateEnum, 0)
+	for _, v := range mappingListCertificatesLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListCertificatesLifecycleStateEnumStringValues Enumerates the set of values in String for ListCertificatesLifecycleStateEnum
+func GetListCertificatesLifecycleStateEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
+}
+
+// GetMappingListCertificatesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListCertificatesLifecycleStateEnum(val string) (ListCertificatesLifecycleStateEnum, bool) {
+	enum, ok := mappingListCertificatesLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListCertificatesSortOrderEnum Enum with underlying type: string

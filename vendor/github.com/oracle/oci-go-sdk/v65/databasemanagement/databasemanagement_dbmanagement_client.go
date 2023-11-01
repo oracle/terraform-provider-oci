@@ -627,6 +627,66 @@ func (client DbManagementClient) changeManagedDatabaseGroupCompartment(ctx conte
 	return response, err
 }
 
+// ChangeNamedCredentialCompartment Moves a Named Credential to a different compartment.
+// The destination compartment must not have a Named Credential
+// with the same name.
+func (client DbManagementClient) ChangeNamedCredentialCompartment(ctx context.Context, request ChangeNamedCredentialCompartmentRequest) (response ChangeNamedCredentialCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeNamedCredentialCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeNamedCredentialCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeNamedCredentialCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeNamedCredentialCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeNamedCredentialCompartmentResponse")
+	}
+	return
+}
+
+// changeNamedCredentialCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) changeNamedCredentialCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namedCredentials/{namedCredentialId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeNamedCredentialCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/NamedCredential/ChangeNamedCredentialCompartment"
+		err = common.PostProcessServiceError(err, "DbManagement", "ChangeNamedCredentialCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangePlanRetention Changes the retention period of unused plans. The period can range
 // between 5 and 523 weeks.
 // The database purges plans that have not been used for longer than
@@ -1497,6 +1557,64 @@ func (client DbManagementClient) createManagedDatabaseGroup(ctx context.Context,
 	return response, err
 }
 
+// CreateNamedCredential Creates a Named Credential.
+func (client DbManagementClient) CreateNamedCredential(ctx context.Context, request CreateNamedCredentialRequest) (response CreateNamedCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createNamedCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateNamedCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateNamedCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateNamedCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateNamedCredentialResponse")
+	}
+	return
+}
+
+// createNamedCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) createNamedCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namedCredentials", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateNamedCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/NamedCredential/CreateNamedCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "CreateNamedCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateTablespace Creates a tablespace within the Managed Database specified by managedDatabaseId.
 func (client DbManagementClient) CreateTablespace(ctx context.Context, request CreateTablespaceRequest) (response CreateTablespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1973,6 +2091,59 @@ func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/DeleteManagedDatabaseGroup"
 		err = common.PostProcessServiceError(err, "DbManagement", "DeleteManagedDatabaseGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteNamedCredential Deletes the Named Credential specified by namedCredentialId.
+func (client DbManagementClient) DeleteNamedCredential(ctx context.Context, request DeleteNamedCredentialRequest) (response DeleteNamedCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteNamedCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteNamedCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteNamedCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteNamedCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteNamedCredentialResponse")
+	}
+	return
+}
+
+// deleteNamedCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) deleteNamedCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/namedCredentials/{namedCredentialId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteNamedCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/NamedCredential/DeleteNamedCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "DeleteNamedCredential", apiReferenceLink)
 		return response, err
 	}
 
@@ -4559,6 +4730,59 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 	return response, err
 }
 
+// GetNamedCredential Gets the details for the Named Credential specified by namedCredentialId.
+func (client DbManagementClient) GetNamedCredential(ctx context.Context, request GetNamedCredentialRequest) (response GetNamedCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getNamedCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetNamedCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetNamedCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetNamedCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetNamedCredentialResponse")
+	}
+	return
+}
+
+// getNamedCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getNamedCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namedCredentials/{namedCredentialId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetNamedCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/NamedCredential/GetNamedCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetNamedCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetOpenAlertHistory Gets the open alerts from the specified Exadata storage server.
 // A default retry strategy applies to this operation GetOpenAlertHistory()
 func (client DbManagementClient) GetOpenAlertHistory(ctx context.Context, request GetOpenAlertHistoryRequest) (response GetOpenAlertHistoryResponse, err error) {
@@ -6940,6 +7164,62 @@ func (client DbManagementClient) listManagedDatabases(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ListManagedDatabases"
 		err = common.PostProcessServiceError(err, "DbManagement", "ListManagedDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListNamedCredentials Gets the Named Credential for a specific ID or the list of Named Credential in
+// a specific compartment. Named Credential can also be filtered based on the name parameter.
+// Only one of the parameters, ID or name should be provided. If none of these parameters is provided,
+// all the Named Credential in the compartment are listed.
+func (client DbManagementClient) ListNamedCredentials(ctx context.Context, request ListNamedCredentialsRequest) (response ListNamedCredentialsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listNamedCredentials, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListNamedCredentialsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListNamedCredentialsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListNamedCredentialsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListNamedCredentialsResponse")
+	}
+	return
+}
+
+// listNamedCredentials implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) listNamedCredentials(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namedCredentials", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListNamedCredentialsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/NamedCredential/ListNamedCredentials"
+		err = common.PostProcessServiceError(err, "DbManagement", "ListNamedCredentials", apiReferenceLink)
 		return response, err
 	}
 
@@ -9343,6 +9623,59 @@ func (client DbManagementClient) summarizeSqlPlanBaselinesByLastExecution(ctx co
 	return response, err
 }
 
+// TestNamedCredential Tests the named credential.
+func (client DbManagementClient) TestNamedCredential(ctx context.Context, request TestNamedCredentialRequest) (response TestNamedCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.testNamedCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestNamedCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestNamedCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TestNamedCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TestNamedCredentialResponse")
+	}
+	return
+}
+
+// testNamedCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) testNamedCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namedCredentials/{namedCredentialId}/actions/test", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TestNamedCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/NamedCredential/TestNamedCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "TestNamedCredential", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // TestPreferredCredential Tests the preferred credential.
 func (client DbManagementClient) TestPreferredCredential(ctx context.Context, request TestPreferredCredentialRequest) (response TestPreferredCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10296,6 +10629,59 @@ func (client DbManagementClient) updateManagedDatabaseGroup(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabaseGroup/UpdateManagedDatabaseGroup"
 		err = common.PostProcessServiceError(err, "DbManagement", "UpdateManagedDatabaseGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateNamedCredential Updates the Named Credential specified by namedCredentialId.
+func (client DbManagementClient) UpdateNamedCredential(ctx context.Context, request UpdateNamedCredentialRequest) (response UpdateNamedCredentialResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateNamedCredential, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateNamedCredentialResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateNamedCredentialResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateNamedCredentialResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateNamedCredentialResponse")
+	}
+	return
+}
+
+// updateNamedCredential implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateNamedCredential(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/namedCredentials/{namedCredentialId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateNamedCredentialResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/NamedCredential/UpdateNamedCredential"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateNamedCredential", apiReferenceLink)
 		return response, err
 	}
 
