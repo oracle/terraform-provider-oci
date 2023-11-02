@@ -4,6 +4,6 @@ resource "oci_kms_vault" "private-vault-kms" {
 
   display_name = var.vault_display_name
   vault_type   = var.vault_type[0]
+
+  schedule_deletion_days = var.schedule_deletion_days
 }
-
-

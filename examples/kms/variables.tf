@@ -107,3 +107,8 @@ variable "key_restore_trigger" {
 variable "vault_restore_trigger" {
   default = false
 }
+
+variable "schedule_deletion_days" {
+  type    = number
+  default = 30
+}

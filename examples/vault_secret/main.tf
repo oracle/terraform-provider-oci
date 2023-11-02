@@ -52,6 +52,7 @@ resource "oci_vault_secret" "test_secret" {
   key_id = var.kms_key_ocid
   secret_name = "TFsample1"
   vault_id    = var.kms_vault_ocid
+  schedule_deletion_days = 30
 }
 
 
