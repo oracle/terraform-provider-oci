@@ -21,10 +21,14 @@ import (
 
 func ContainerengineClusterCompleteCredentialRotationManagementResource() *schema.Resource {
 	return &schema.Resource{
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createContainerengineClusterCompleteCredentialRotationManagement,
-		Read:     readContainerengineClusterCompleteCredentialRotationManagement,
-		Delete:   deleteContainerengineClusterCompleteCredentialRotationManagement,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("1h"),
+			Update: tfresource.GetTimeoutDuration("1h"),
+			Delete: tfresource.GetTimeoutDuration("1h"),
+		},
+		Create: createContainerengineClusterCompleteCredentialRotationManagement,
+		Read:   readContainerengineClusterCompleteCredentialRotationManagement,
+		Delete: deleteContainerengineClusterCompleteCredentialRotationManagement,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"cluster_id": {
@@ -174,16 +178,17 @@ func clusterCompleteCredentialRotationManagementWaitForWorkRequest(wId *string, 
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_containerengine.WorkRequestStatusFailed || response.Status == oci_containerengine.WorkRequestStatusCanceled {
-		return nil, getErrorFromContainerengineClusterCompleteCredentialRotationManagementWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromContainerengineClusterCompleteCredentialRotationManagementWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromContainerengineClusterCompleteCredentialRotationManagementWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
+func getErrorFromContainerengineClusterCompleteCredentialRotationManagementWorkRequest(client *oci_containerengine.ContainerEngineClient, workId *string, compartmentId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_containerengine.WorkRequestResourceActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_containerengine.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
+			CompartmentId: compartmentId,
 			RequestMetadata: oci_common.RequestMetadata{
 				RetryPolicy: retryPolicy,
 			},
