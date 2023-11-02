@@ -69,12 +69,15 @@ func TestJmsJavaReleaseResource_basic(t *testing.T) {
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "release_version"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "artifact_content_types.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "artifacts.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "days_under_security_baseline"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "family_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "family_version", "17"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_details.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "license_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "mos_patches.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "release_date"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "release_notes_url"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "release_type"),

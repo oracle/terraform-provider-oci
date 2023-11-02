@@ -26,6 +26,10 @@ func JmsJavaFamiliesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_supported_version": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"java_family_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -54,6 +58,79 @@ func JmsJavaFamiliesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"family_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_supported_version": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"latest_release_artifacts": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"approximate_file_size_in_bytes": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"architecture": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"artifact_content_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"artifact_description": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"artifact_file_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"artifact_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"download_url": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"os_family": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"package_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"package_type_detail": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"script_checksum_url": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"script_download_url": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"sha256": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"latest_release_version": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -100,6 +177,11 @@ func (s *JmsJavaFamiliesDataSourceCrud) Get() error {
 	if familyVersion, ok := s.D.GetOkExists("family_version"); ok {
 		tmp := familyVersion.(string)
 		request.FamilyVersion = &tmp
+	}
+
+	if isSupportedVersion, ok := s.D.GetOkExists("is_supported_version"); ok {
+		tmp := isSupportedVersion.(bool)
+		request.IsSupportedVersion = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "jms")
@@ -170,6 +252,14 @@ func JavaFamilySummaryToMap(obj oci_jms.JavaFamilySummary) map[string]interface{
 
 	if obj.FamilyVersion != nil {
 		result["family_version"] = string(*obj.FamilyVersion)
+	}
+
+	if obj.IsSupportedVersion != nil {
+		result["is_supported_version"] = bool(*obj.IsSupportedVersion)
+	}
+
+	if obj.LatestReleaseVersion != nil {
+		result["latest_release_version"] = string(*obj.LatestReleaseVersion)
 	}
 
 	result["support_type"] = string(obj.SupportType)
