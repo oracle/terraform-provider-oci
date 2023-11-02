@@ -589,6 +589,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_regional": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"protocol": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -2278,6 +2282,10 @@ func DatabaseConnectionStringProfileToMap(obj oci_database.DatabaseConnectionStr
 	}
 
 	result["host_format"] = string(obj.HostFormat)
+
+	if obj.IsRegional != nil {
+		result["is_regional"] = bool(*obj.IsRegional)
+	}
 
 	result["protocol"] = string(obj.Protocol)
 
