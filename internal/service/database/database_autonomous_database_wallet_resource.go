@@ -50,6 +50,12 @@ func DatabaseAutonomousDatabaseWalletResource() *schema.Resource {
 				ForceNew:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
+			"is_regional": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"content": {
@@ -97,6 +103,11 @@ func (s *DatabaseAutonomousDatabaseWalletResourceCrud) Create() error {
 
 	if generateType, ok := s.D.GetOkExists("generate_type"); ok {
 		request.GenerateType = oci_database.GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum(generateType.(string))
+	}
+
+	if isRegional, ok := s.D.GetOkExists("is_regional"); ok {
+		tmp := isRegional.(bool)
+		request.IsRegional = &tmp
 	}
 
 	if password, ok := s.D.GetOkExists("password"); ok {

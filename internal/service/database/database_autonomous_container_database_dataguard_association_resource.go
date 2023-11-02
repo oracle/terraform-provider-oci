@@ -6,10 +6,7 @@ package database
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/url"
-	"regexp"
-	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -32,18 +29,33 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 		Delete:   deleteDatabaseAutonomousContainerDatabaseDataguardAssociation,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"autonomous_container_database_dataguard_association_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"autonomous_container_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
+			"peer_autonomous_container_database_display_name": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"peer_cloud_autonomous_vm_cluster_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"protection_mode": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 
 			// Optional
+			"autonomous_container_database_dataguard_association_id": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+
 			"fast_start_fail_over_lag_limit_in_seconds": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -54,10 +66,91 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 				Optional: true,
 				Computed: true,
 			},
-			"protection_mode": {
+			"peer_autonomous_container_database_backup_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"backup_destination_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"type": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"dbrs_policy_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"internet_proxy": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"vpc_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										ForceNew:  true,
+										Sensitive: true,
+									},
+									"vpc_user": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"recovery_window_in_days": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"peer_autonomous_container_database_compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
+			},
+			"standby_maintenance_buffer_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -156,7 +249,7 @@ type DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud struct 
 }
 
 func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) ID() string {
-	return GetAutonomousContainerDatabaseDataguardAssociationCompositeId(s.D.Get("autonomous_container_database_dataguard_association_id").(string), s.D.Get("autonomous_container_database_id").(string))
+	return *s.Res.Id
 }
 
 func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) CreatedPending() []string {
@@ -185,12 +278,8 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) De
 }
 
 func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Create() error {
-	request := oci_database.UpdateAutonomousContainerDatabaseDataguardAssociationRequest{}
 
-	if autonomousContainerDatabaseDataguardAssociationId, ok := s.D.GetOkExists("autonomous_container_database_dataguard_association_id"); ok {
-		tmp := autonomousContainerDatabaseDataguardAssociationId.(string)
-		request.AutonomousContainerDatabaseDataguardAssociationId = &tmp
-	}
+	request := oci_database.CreateAutonomousContainerDatabaseDataguardAssociationRequest{}
 
 	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 		tmp := autonomousContainerDatabaseId.(string)
@@ -207,13 +296,44 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Cr
 		request.IsAutomaticFailoverEnabled = &tmp
 	}
 
+	if peerAutonomousContainerDatabaseBackupConfig, ok := s.D.GetOkExists("peer_autonomous_container_database_backup_config"); ok {
+		if tmpList := peerAutonomousContainerDatabaseBackupConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "peer_autonomous_container_database_backup_config", 0)
+			tmp, err := s.mapToPeerAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PeerAutonomousContainerDatabaseBackupConfig = &tmp
+		}
+	}
+
+	if peerAutonomousContainerDatabaseCompartmentId, ok := s.D.GetOkExists("peer_autonomous_container_database_compartment_id"); ok {
+		tmp := peerAutonomousContainerDatabaseCompartmentId.(string)
+		request.PeerAutonomousContainerDatabaseCompartmentId = &tmp
+	}
+
+	if peerAutonomousContainerDatabaseDisplayName, ok := s.D.GetOkExists("peer_autonomous_container_database_display_name"); ok {
+		tmp := peerAutonomousContainerDatabaseDisplayName.(string)
+		request.PeerAutonomousContainerDatabaseDisplayName = &tmp
+	}
+
+	if peerCloudAutonomousVmClusterId, ok := s.D.GetOkExists("peer_cloud_autonomous_vm_cluster_id"); ok {
+		tmp := peerCloudAutonomousVmClusterId.(string)
+		request.PeerCloudAutonomousVmClusterId = &tmp
+	}
+
 	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
-		request.ProtectionMode = oci_database.UpdateAutonomousContainerDatabaseDataGuardAssociationDetailsProtectionModeEnum(protectionMode.(string))
+		request.ProtectionMode = oci_database.CreateAutonomousContainerDatabaseDataguardAssociationDetailsProtectionModeEnum(protectionMode.(string))
+	}
+
+	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
+		tmp := standbyMaintenanceBufferInDays.(int)
+		request.StandbyMaintenanceBufferInDays = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	response, err := s.Client.UpdateAutonomousContainerDatabaseDataguardAssociation(context.Background(), request)
+	response, err := s.Client.CreateAutonomousContainerDatabaseDataguardAssociation(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -221,12 +341,16 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Cr
 	workId := response.OpcWorkRequestId
 	s.Res = &response.AutonomousContainerDatabaseDataguardAssociation
 
+	var dgAssociationId *string
+	dgAssociationId = response.Id
+	s.D.SetId(*dgAssociationId)
+
 	if workId != nil {
 		var identifier *string
 		var err error
 		identifier, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "autonomouscontainerdatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if identifier != nil {
-			s.D.SetId(*identifier)
+			s.D.Set("autonomous_container_database_id", *identifier)
 		}
 		if err != nil {
 		}
@@ -241,19 +365,14 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Ge
 	if autonomousContainerDatabaseDataguardAssociationId, ok := s.D.GetOkExists("autonomous_container_database_dataguard_association_id"); ok {
 		tmp := autonomousContainerDatabaseDataguardAssociationId.(string)
 		request.AutonomousContainerDatabaseDataguardAssociationId = &tmp
+	} else {
+		tmp := s.D.Id()
+		request.AutonomousContainerDatabaseDataguardAssociationId = &tmp
 	}
 
 	if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 		tmp := autonomousContainerDatabaseId.(string)
 		request.AutonomousContainerDatabaseId = &tmp
-	}
-
-	autonomousContainerDatabaseDataguardAssociationId, autonomousContainerDatabaseId, err := parseAutonomousContainerDatabaseDataguardAssociationCompositeId(s.D.Id())
-	if err == nil {
-		request.AutonomousContainerDatabaseDataguardAssociationId = &autonomousContainerDatabaseDataguardAssociationId
-		request.AutonomousContainerDatabaseId = &autonomousContainerDatabaseId
-	} else {
-		log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -272,6 +391,9 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Up
 
 	if autonomousContainerDatabaseDataguardAssociationId, ok := s.D.GetOkExists("autonomous_container_database_dataguard_association_id"); ok {
 		tmp := autonomousContainerDatabaseDataguardAssociationId.(string)
+		request.AutonomousContainerDatabaseDataguardAssociationId = &tmp
+	} else {
+		tmp := s.D.Id()
 		request.AutonomousContainerDatabaseDataguardAssociationId = &tmp
 	}
 
@@ -313,14 +435,6 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Up
 }
 
 func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) SetData() error {
-
-	autonomousContainerDatabaseDataguardAssociationId, autonomousContainerDatabaseId, err := parseAutonomousContainerDatabaseDataguardAssociationCompositeId(s.D.Id())
-	if err == nil {
-		s.D.SetId(autonomousContainerDatabaseDataguardAssociationId)
-		s.D.Set("autonomous_container_database_id", &autonomousContainerDatabaseId)
-	} else {
-		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
-	}
 
 	if s.Res.ApplyLag != nil {
 		s.D.Set("apply_lag", *s.Res.ApplyLag)
@@ -390,15 +504,78 @@ func GetAutonomousContainerDatabaseDataguardAssociationCompositeId(autonomousCon
 	return compositeId
 }
 
-func parseAutonomousContainerDatabaseDataguardAssociationCompositeId(compositeId string) (autonomousContainerDatabaseDataguardAssociationId string, autonomousContainerDatabaseId string, err error) {
-	parts := strings.Split(compositeId, "/")
-	match, _ := regexp.MatchString("autonomousContainerDatabases/.*/autonomousContainerDatabaseDataguardAssociations/.*", compositeId)
-	if !match || len(parts) != 4 {
-		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
-		return
-	}
-	autonomousContainerDatabaseId, _ = url.PathUnescape(parts[1])
-	autonomousContainerDatabaseDataguardAssociationId, _ = url.PathUnescape(parts[3])
+// func parseAutonomousContainerDatabaseDataguardAssociationCompositeId(compositeId string) (autonomousContainerDatabaseDataguardAssociationId string, autonomousContainerDatabaseId string, err error) {
+// 	parts := strings.Split(compositeId, "/")
+// 	match, _ := regexp.MatchString("autonomousContainerDatabases/.*/autonomousContainerDatabaseDataguardAssociations/.*", compositeId)
+// 	if !match || len(parts) != 4 {
+// 		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+// 		return
+// 	}
+// 	autonomousContainerDatabaseId, _ = url.PathUnescape(parts[1])
+// 	autonomousContainerDatabaseDataguardAssociationId, _ = url.PathUnescape(parts[3])
+//
+// 	return
+// }
 
-	return
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
+	result := oci_database.BackupDestinationDetails{}
+
+	if dbrsPolicyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dbrs_policy_id")); ok {
+		tmp := dbrsPolicyId.(string)
+		result.DbrsPolicyId = &tmp
+	}
+
+	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
+		tmp := id.(string)
+		result.Id = &tmp
+	}
+
+	if internetProxy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "internet_proxy")); ok {
+		tmp := internetProxy.(string)
+		result.InternetProxy = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_database.BackupDestinationDetailsTypeEnum(type_.(string))
+	}
+
+	if vpcPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_password")); ok {
+		tmp := vpcPassword.(string)
+		result.VpcPassword = &tmp
+	}
+
+	if vpcUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpc_user")); ok {
+		tmp := vpcUser.(string)
+		result.VpcUser = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) mapToPeerAutonomousContainerDatabaseBackupConfig(fieldKeyFormat string) (oci_database.PeerAutonomousContainerDatabaseBackupConfig, error) {
+	result := oci_database.PeerAutonomousContainerDatabaseBackupConfig{}
+
+	if backupDestinationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")); ok {
+		interfaces := backupDestinationDetails.([]interface{})
+		tmp := make([]oci_database.BackupDestinationDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "backup_destination_details"), stateDataIndex)
+			converted, err := s.mapToBackupDestinationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backup_destination_details")) {
+			result.BackupDestinationDetails = tmp
+		}
+	}
+
+	if recoveryWindowInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "recovery_window_in_days")); ok {
+		tmp := recoveryWindowInDays.(int)
+		result.RecoveryWindowInDays = &tmp
+	}
+
+	return result, nil
 }

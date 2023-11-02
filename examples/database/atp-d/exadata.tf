@@ -63,10 +63,81 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
   storage_count = var.cloud_exadata_infrastructure_storage_count
 }
 
+resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure_primary" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "ATPDPRIMARY"
+  shape               = var.cloud_exadata_infrastructure_shape
+
+  #Optional
+  compute_count = var.cloud_exadata_infrastructure_compute_count
+  storage_count = var.cloud_exadata_infrastructure_storage_count
+}
+
+resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure_standby" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "ATPDSTANDBY"
+  shape               = var.cloud_exadata_infrastructure_shape
+
+  #Optional
+  compute_count = var.cloud_exadata_infrastructure_compute_count
+  storage_count = var.cloud_exadata_infrastructure_storage_count
+}
+
+
 resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster" {
   cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
   compartment_id                  = var.compartment_ocid
   display_name                    = "TestCloudAutonomousVmCluster"
+  freeform_tags                   = var.autonomous_database_freeform_tags
+  license_model                   = "LICENSE_INCLUDED"
+  subnet_id                       = oci_core_subnet.exadata_subnet.id
+  #Optional
+#  autonomous_data_storage_size_in_tbs   = 5
+#  memory_per_oracle_compute_unit_in_gbs = 27
+#  cpu_core_count_per_node               = 50
+#  total_container_databases             = 12
+  compute_model                   = "ECPU"
+
+  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
+  lifecycle {
+    ignore_changes = [
+      autonomous_data_storage_size_in_tbs,
+      db_servers,
+    ]
+  }
+}
+
+resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster_primary" {
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure_primary.id
+  compartment_id                  = var.compartment_ocid
+  display_name                    = "TestCloudAutonomousVmClusterPrimary"
+  freeform_tags                   = var.autonomous_database_freeform_tags
+  license_model                   = "LICENSE_INCLUDED"
+  subnet_id                       = oci_core_subnet.exadata_subnet.id
+  #Optional
+#  autonomous_data_storage_size_in_tbs   = 5
+#  memory_per_oracle_compute_unit_in_gbs = 27
+#  cpu_core_count_per_node               = 50
+#  total_container_databases             = 12
+  compute_model                   = "ECPU"
+
+  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
+  lifecycle {
+    ignore_changes = [
+      autonomous_data_storage_size_in_tbs,
+      db_servers,
+    ]
+  }
+}
+
+resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster_standby" {
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure_standby.id
+  compartment_id                  = var.compartment_ocid
+  display_name                    = "TestCloudAutonomousVmClusterStandby"
   freeform_tags                   = var.autonomous_database_freeform_tags
   license_model                   = "LICENSE_INCLUDED"
   subnet_id                       = oci_core_subnet.exadata_subnet.id
