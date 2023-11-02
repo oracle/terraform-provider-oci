@@ -84,10 +84,17 @@ var (
 
 	EnabledConnectionTests = []oci_golden_gate.ConnectionTypeEnum{
 		oci_golden_gate.ConnectionTypeAmazonS3,
-		oci_golden_gate.ConnectionTypePostgresql,
+		oci_golden_gate.ConnectionTypeAmazonKinesis,
+		oci_golden_gate.ConnectionTypeAmazonRedshift,
 		oci_golden_gate.ConnectionTypeAzureDataLakeStorage,
 		oci_golden_gate.ConnectionTypeAzureSynapseAnalytics,
+		//		oci_golden_gate.ConnectionTypeCassandra, //TODO 2023. 09. 19. lmadaras: to be tested
+		//		oci_golden_gate.ConnectionTypeDb2, //TODO 2023. 09. 19. lmadaras: to be tested
+		oci_golden_gate.ConnectionTypeElasticsearch,
 		oci_golden_gate.ConnectionTypeGoldengate,
+		oci_golden_gate.ConnectionTypeGeneric,
+		oci_golden_gate.ConnectionTypeGoogleBigquery,
+		oci_golden_gate.ConnectionTypeGoogleCloudStorage,
 		oci_golden_gate.ConnectionTypeHdfs,
 		oci_golden_gate.ConnectionTypeJavaMessageService,
 		oci_golden_gate.ConnectionTypeKafka,
@@ -99,11 +106,12 @@ var (
 		oci_golden_gate.ConnectionTypeOracle,
 		oci_golden_gate.ConnectionTypeOracleNosql,
 		oci_golden_gate.ConnectionTypePostgresql,
+		oci_golden_gate.ConnectionTypeRedis,
 		oci_golden_gate.ConnectionTypeSnowflake,
 	}
 
 	CommonConnectionRepresentation = map[string]interface{}{
-		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id}`},
 		"connection_type": acctest.Representation{RepType: acctest.Required, Create: `${var.connection_type}`},
 		"technology_type": acctest.Representation{RepType: acctest.Required, Create: `${var.technology_type}`},
 		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `TF-connection-test`, Update: `TF-connection-test-updated`},
@@ -121,6 +129,26 @@ var (
 				"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id_for_move}`},
 				"access_key_id":     acctest.Representation{RepType: acctest.Required, Create: `AKIAIOSFODNN7EXAMPLE`, Update: `AKIAIOSFODNN7UPDATED`},
 				"secret_access_key": acctest.Representation{RepType: acctest.Required, Create: `mysecret`},
+			},
+		},
+
+		// Amazon Kinesis
+		{connectionType: oci_golden_gate.ConnectionTypeAmazonKinesis, technologyType: oci_golden_gate.TechnologyTypeAmazonKinesis,
+			representation: map[string]interface{}{
+				"access_key_id":     acctest.Representation{RepType: acctest.Required, Create: `AKIAIOSFODNN7EXAMPLE`, Update: `AKIAIOSFODNN7UPDATED`},
+				"secret_access_key": acctest.Representation{RepType: acctest.Required, Create: `mysecret`},
+			},
+		},
+
+		// Amazon Redshift
+		{connectionType: oci_golden_gate.ConnectionTypeAmazonRedshift, technologyType: oci_golden_gate.TechnologyTypeAmazonRedshift,
+			representation: map[string]interface{}{
+				"connection_url": acctest.Representation{RepType: acctest.Required,
+					Create: `jdbc:redshift://aws-redshift-instance.aaaaaaaaaaaa.us-east-2.redshift.amazonaws.com:5439/mydb1`,
+					Update: `jdbc:redshift://aws-redshift-instance.aaaaaaaaaaaa.us-east-2.redshift.amazonaws.com:5438/mydb2`},
+				"username":          acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
+				"secret_access_key": acctest.Representation{RepType: acctest.Required, Create: `mysecret`},
+				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
 			},
 		},
 
@@ -144,6 +172,141 @@ var (
 					Update: `jdbc:sqlserver://ws1.sql.azuresynapse.net:1433;database=db2;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.sql.azuresynapse.net;loginTimeout=300;'`},
 				"username": acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
 				"password": acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
+			},
+		},
+
+		//// Casandra
+		//{connectionType: oci_golden_gate.ConnectionTypeCassandra, technologyType: oci_golden_gate.TechnologyTypeApacheCassandra,
+		//	representation: map[string]interface{}{
+		//		"contact_points": acctest.Representation{RepType: acctest.Required,
+		//			Create: `server1.example.com,server2.example.com`,
+		//			Update: `server3.example.com:9043,server4.example.com:9043`},
+		//		"username": acctest.Representation{RepType: acctest.Required, Create: `user`, Update: `updatedUser`},
+		//		"password": acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
+		//		"config_file": acctest.Representation{RepType: acctest.Required,
+		//			Create: b64.StdEncoding.EncodeToString([]byte(
+		//				"cluster_name: 'MyCluster1'\n" +
+		//					"initial_token: null\n" +
+		//					"listen_address: localhost\n" +
+		//					"rpc_address: localhost\nseed_provider:\n" +
+		//					"  - class_name: org.apache.cassandra.locator.SimpleSeedProvider\n" +
+		//					"    parameters:\n" +
+		//					"      - seeds: \"127.0.0.1\"\n" +
+		//					"data_file_directories:\n" +
+		//					"  - /var/lib/cassandra/data\n" +
+		//					"commitlog_directory: /var/lib/cassandra/commitlog\n" +
+		//					"saved_caches_directory: /var/lib/cassandra/saved_caches\n" +
+		//					"disk_failure_policy: stop\n" +
+		//					"memtable_allocation_type: heap_buffers\nmemtable_flush_writers: 0\n")),
+		//			Update: b64.StdEncoding.EncodeToString([]byte(
+		//				"cluster_name: 'MyCluster2'\n" +
+		//					"initial_token: null\n" +
+		//					"listen_address: localhost\n" +
+		//					"rpc_address: localhost\nseed_provider:\n" +
+		//					"  - class_name: org.apache.cassandra.locator.SimpleSeedProvider\n" +
+		//					"    parameters:\n" +
+		//					"      - seeds: \"127.0.0.1\"\n" +
+		//					"data_file_directories:\n" +
+		//					"  - /var/lib/cassandra/data\n" +
+		//					"commitlog_directory: /var/lib/cassandra/commitlog\n" +
+		//					"saved_caches_directory: /var/lib/cassandra/saved_caches\n" +
+		//					"disk_failure_policy: stop\n" +
+		//					"memtable_allocation_type: heap_buffers\nmemtable_flush_writers: 0\n"))},
+		//	},
+		//},
+		//
+		//// DB2
+		//{connectionType: oci_golden_gate.ConnectionTypeDb2, technologyType: oci_golden_gate.TechnologyTypeDb2Zos,
+		//	representation: map[string]interface{}{
+		//		"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database1`, Update: `database2`},
+		//		"host":              acctest.Representation{RepType: acctest.Required, Create: `whatever1.fqdn.com`, Update: `whatever2.fqdn.com`},
+		//		"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
+		//		"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
+		//		"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
+		//		"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.Db2ConnectionSecurityProtocolPlain)},
+		//		"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
+		//	},
+		//},
+
+		// Elasticsearch
+		{connectionType: oci_golden_gate.ConnectionTypeElasticsearch, technologyType: oci_golden_gate.TechnologyTypeElasticsearch,
+			representation: map[string]interface{}{
+				"servers": acctest.Representation{RepType: acctest.Required,
+					Create: `server1.example.com:9200,server2.example.com:9200`,
+					Update: `server3.example.com:9201,server4.example.com:9202`},
+				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.ElasticsearchConnectionSecurityProtocolPlain)},
+				"authentication_type": acctest.Representation{RepType: acctest.Required,
+					Create: string(oci_golden_gate.ElasticsearchConnectionAuthenticationTypeNone),
+					Update: string(oci_golden_gate.ElasticsearchConnectionAuthenticationTypeBasic)},
+				"username": acctest.Representation{RepType: acctest.Optional, Update: `new_admin`},
+				"password": acctest.Representation{RepType: acctest.Optional, Update: `${var.new_password}`},
+			},
+		},
+
+		// Generic
+		{connectionType: oci_golden_gate.ConnectionTypeGeneric, technologyType: oci_golden_gate.TechnologyTypeGeneric,
+			representation: map[string]interface{}{
+				"host": acctest.Representation{RepType: acctest.Required,
+					Create: `server1.example.com:1111,`,
+					Update: `server2.example.com:2222,server3.example.com:3333`},
+			},
+		},
+
+		// Google BigQuery
+		{connectionType: oci_golden_gate.ConnectionTypeGoogleBigquery, technologyType: oci_golden_gate.TechnologyTypeGoogleBigquery,
+			representation: map[string]interface{}{
+				"service_account_key_file": acctest.Representation{RepType: acctest.Required,
+					Create: b64.StdEncoding.EncodeToString([]byte(
+						"{\n  \"type\": \"service_account\",\n" +
+							"  \"project_id\": \"your-project-id\",\n" +
+							"  \"private_key_id\": \"your-private-key-id\",\n" +
+							"  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nYour_Private_Key_Here\\n-----END PRIVATE KEY-----\",\n" +
+							"  \"client_email\": \"your-service-account-email@your-project-id.iam.gserviceaccount.com\",\n" +
+							"  \"client_id\": \"your-client-id1\",\n" +
+							"  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n" +
+							"  \"token_uri\": \"https://accounts.google.com/o/oauth2/token\",\n" +
+							"  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
+							"  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email%40your-project-id.iam.gserviceaccount.com\"\n}\n")),
+					Update: b64.StdEncoding.EncodeToString([]byte(
+						"{\n  \"type\": \"service_account\",\n" +
+							"  \"project_id\": \"your-project-id2\",\n" +
+							"  \"private_key_id\": \"your-private-key-id2\",\n" +
+							"  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nYour_Private_Key2_Here\\n-----END PRIVATE KEY-----\",\n" +
+							"  \"client_email\": \"your-service-account-email@your-project-id.iam.gserviceaccount.com\",\n" +
+							"  \"client_id\": \"your-client-id2\",\n" +
+							"  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n" +
+							"  \"token_uri\": \"https://accounts.google.com/o/oauth2/token\",\n" +
+							"  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
+							"  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email%40your-project-id.iam.gserviceaccount.com\"\n}\n"))},
+			},
+		},
+
+		// Google Cloud Storage
+		{connectionType: oci_golden_gate.ConnectionTypeGoogleCloudStorage, technologyType: oci_golden_gate.TechnologyTypeGoogleCloudStorage,
+			representation: map[string]interface{}{
+				"service_account_key_file": acctest.Representation{RepType: acctest.Required,
+					Create: b64.StdEncoding.EncodeToString([]byte(
+						"{\n  \"type\": \"service_account\",\n" +
+							"  \"project_id\": \"your-project-id\",\n" +
+							"  \"private_key_id\": \"your-private-key-id\",\n" +
+							"  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nYour_Private_Key_Here\\n-----END PRIVATE KEY-----\",\n" +
+							"  \"client_email\": \"your-service-account-email@your-project-id.iam.gserviceaccount.com\",\n" +
+							"  \"client_id\": \"your-client-id1\",\n" +
+							"  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n" +
+							"  \"token_uri\": \"https://accounts.google.com/o/oauth2/token\",\n" +
+							"  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
+							"  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email%40your-project-id.iam.gserviceaccount.com\"\n}\n")),
+					Update: b64.StdEncoding.EncodeToString([]byte(
+						"{\n  \"type\": \"service_account\",\n" +
+							"  \"project_id\": \"your-project-id\",\n" +
+							"  \"private_key_id\": \"your-private-key-id\",\n" +
+							"  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nYour_Private_Key_Here\\n-----END PRIVATE KEY-----\",\n" +
+							"  \"client_email\": \"your-service-account-email@your-project-id.iam.gserviceaccount.com\",\n" +
+							"  \"client_id\": \"your-client-id2\",\n" +
+							"  \"auth_uri\": \"https://accounts.google.com/o/oauth2/auth\",\n" +
+							"  \"token_uri\": \"https://accounts.google.com/o/oauth2/token\",\n" +
+							"  \"auth_provider_x509_cert_url\": \"https://www.googleapis.com/oauth2/v1/certs\",\n" +
+							"  \"client_x509_cert_url\": \"https://www.googleapis.com/robot/v1/metadata/x509/your-service-account-email%40your-project-id.iam.gserviceaccount.com\"\n}\n"))},
 			},
 		},
 
@@ -292,6 +455,21 @@ var (
 			},
 		},
 
+		// Redis
+		{connectionType: oci_golden_gate.ConnectionTypeRedis, technologyType: oci_golden_gate.TechnologyTypeRedis,
+			representation: map[string]interface{}{
+				"servers": acctest.Representation{RepType: acctest.Required,
+					Create: `server1.example.com:6379,server2.example.com:6379`,
+					Update: `server3.example.com:6372,server4.example.com:6378`},
+				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.RedisConnectionSecurityProtocolPlain)},
+				"authentication_type": acctest.Representation{RepType: acctest.Required,
+					Create: string(oci_golden_gate.RedisConnectionAuthenticationTypeNone),
+					Update: string(oci_golden_gate.RedisConnectionAuthenticationTypeBasic)},
+				"username": acctest.Representation{RepType: acctest.Optional, Update: `new_admin`},
+				"password": acctest.Representation{RepType: acctest.Optional, Update: `${var.new_password}`},
+			},
+		},
+
 		// Snowflake
 		{connectionType: oci_golden_gate.ConnectionTypeSnowflake, technologyType: oci_golden_gate.TechnologyTypeSnowflake,
 			representation: map[string]interface{}{
@@ -326,6 +504,7 @@ var (
 		"wallet",
 		"core_site_xml",
 		"secret_access_key",
+		"service_account_key_file",
 	}
 )
 
@@ -408,15 +587,18 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 			if !ok {
 				continue
 			}
-			expectedPropertyValue := getPropertyValue(propertyRepresentation.(acctest.Representation).Create.(string))
-			log.Printf("Check singular-data / resource: %s, property: %s, expected value: %s ", checkResourceName, propName, expectedPropertyValue)
 
-			checkAttribute := resource.TestCheckResourceAttr(checkResourceName, propName, expectedPropertyValue)
-			resourceCheckFunctions[propName] = checkAttribute
-			updatedResourceCheckFunctions[propName] = checkAttribute
+			if propertyRepresentation.(acctest.Representation).Create != nil {
+				expectedPropertyValue := getPropertyValue(propertyRepresentation.(acctest.Representation).Create.(string))
+				log.Printf("Check singular-data / resource: %s, property: %s, expected value: %s ", checkResourceName, propName, expectedPropertyValue)
 
-			if !contains(connectionTestDescriptor.excludedFieldsFromDataCheck, propName) && !contains(ExcludedFields, propName) {
-				dataValidatorFunctions = append(dataValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourceName, propName, expectedPropertyValue))
+				checkAttribute := resource.TestCheckResourceAttr(checkResourceName, propName, expectedPropertyValue)
+				resourceCheckFunctions[propName] = checkAttribute
+				updatedResourceCheckFunctions[propName] = checkAttribute
+
+				if !contains(connectionTestDescriptor.excludedFieldsFromDataCheck, propName) && !contains(ExcludedFields, propName) {
+					dataValidatorFunctions = append(dataValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourceName, propName, expectedPropertyValue))
+				}
 			}
 
 			if propertyRepresentation.(acctest.Representation).Update != nil {
