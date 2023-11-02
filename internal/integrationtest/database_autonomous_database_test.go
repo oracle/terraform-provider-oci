@@ -276,7 +276,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"open_mode":                   acctest.Representation{RepType: acctest.Optional, Create: `READ_ONLY`, Update: `READ_ONLY`},
 						"permission_level":            acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`, Update: `RESTRICTED`},
 						"database_edition":            acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`, Update: `STANDARD_EDITION`},
-						"db_name":                     acctest.Representation{RepType: acctest.Required, Create: longAdbName1},
+						"db_name":                     acctest.Representation{RepType: acctest.Required, Create: adbName},
 						"is_local_data_guard_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
 						"local_adg_auto_failover_max_data_loss_limit": acctest.Representation{RepType: acctest.Required, Create: `20`},
 					}),
@@ -292,7 +292,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_edition", "STANDARD_EDITION"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", longAdbName1),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -337,7 +337,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"database_management_status": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `ENABLED`},
 						"operations_insights_status": acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`, Update: `NOT_ENABLED`},
 						"database_edition":           acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`, Update: `STANDARD_EDITION`},
-						"db_name":                    acctest.Representation{RepType: acctest.Required, Create: longAdbName1},
+						"db_name":                    acctest.Representation{RepType: acctest.Required, Create: adbName},
 					}),
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -350,7 +350,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_edition", "STANDARD_EDITION"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", longAdbName1),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -385,7 +385,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"open_mode":        acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`, Update: `READ_WRITE`},
 						"permission_level": acctest.Representation{RepType: acctest.Optional, Create: `UNRESTRICTED`, Update: `UNRESTRICTED`},
 						"database_edition": acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_EDITION`, Update: `ENTERPRISE_EDITION`},
-						"db_name":          acctest.Representation{RepType: acctest.Required, Create: longAdbName1},
+						"db_name":          acctest.Representation{RepType: acctest.Required, Create: adbName},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
@@ -398,7 +398,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(resourceName, "db_name", longAdbName1),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
@@ -441,10 +441,10 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"open_mode":        acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`, Update: `READ_WRITE`},
 						"permission_level": acctest.Representation{RepType: acctest.Optional, Create: `UNRESTRICTED`, Update: `UNRESTRICTED`},
 						"database_edition": acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_EDITION`, Update: `ENTERPRISE_EDITION`},
-						"db_name":          acctest.Representation{RepType: acctest.Required, Create: longAdbName2},
+						"db_name":          acctest.Representation{RepType: acctest.Required, Create: adbName},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "db_name", longAdbName2),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -517,25 +517,25 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
-		//11. Verify update to backup retention in days
-		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
-						"backup_retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `20`},
-					})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "backup_retention_period_in_days", "20"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
-		},
+		//11. Verify update to backup retention in days //  Backup Retention Period can only be updated for Autonomous Databases using ECPU compute model
+		// 		{
+		// 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+		// 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+		// 					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
+		// 						"backup_retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `20`},
+		// 					})),
+		// 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+		// 				resource.TestCheckResourceAttr(resourceName, "backup_retention_period_in_days", "20"),
+		//
+		// 				func(s *terraform.State) (err error) {
+		// 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+		// 					if resId != resId2 {
+		// 						return fmt.Errorf("resource recreated when it was supposed to be updated")
+		// 					}
+		// 					return err
+		// 				},
+		// 			),
+		// 		},
 
 		//12. Verify updates to updatable parameters
 		{
