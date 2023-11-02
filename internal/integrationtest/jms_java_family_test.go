@@ -47,7 +47,6 @@ func TestJmsJavaFamilyResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "JDK 11"),
 				resource.TestCheckResourceAttr(datasourceName, "family_version", "11"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "java_family_collection.#"),
 			),
 		},
@@ -66,6 +65,9 @@ func TestJmsJavaFamilyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "JDK 8"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "doc_url"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "end_of_support_life_date"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_supported_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "latest_release_artifacts.#"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "latest_release_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "support_type"),
 			),
 		},
