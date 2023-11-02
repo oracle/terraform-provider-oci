@@ -134,6 +134,10 @@ func JmsFleetResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"is_export_setting_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -560,6 +564,10 @@ func (s *JmsFleetResourceCrud) SetData() error {
 		s.D.Set("is_advanced_features_enabled", *s.Res.IsAdvancedFeaturesEnabled)
 	}
 
+	if s.Res.IsExportSettingEnabled != nil {
+		s.D.Set("is_export_setting_enabled", *s.Res.IsExportSettingEnabled)
+	}
+
 	if s.Res.OperationLog != nil {
 		s.D.Set("operation_log", []interface{}{CustomLogToMap(s.Res.OperationLog)})
 	} else {
@@ -660,6 +668,10 @@ func FleetSummaryToMap(obj oci_jms.FleetSummary) map[string]interface{} {
 
 	if obj.IsAdvancedFeaturesEnabled != nil {
 		result["is_advanced_features_enabled"] = bool(*obj.IsAdvancedFeaturesEnabled)
+	}
+
+	if obj.IsExportSettingEnabled != nil {
+		result["is_export_setting_enabled"] = bool(*obj.IsExportSettingEnabled)
 	}
 
 	if obj.OperationLog != nil {

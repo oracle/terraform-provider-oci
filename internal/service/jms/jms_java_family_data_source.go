@@ -34,6 +34,79 @@ func JmsJavaFamilyDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_supported_version": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"latest_release_artifacts": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"approximate_file_size_in_bytes": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"architecture": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"artifact_content_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"artifact_description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"artifact_file_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"artifact_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"download_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"os_family": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"package_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"package_type_detail": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"script_checksum_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"script_download_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"sha256": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"latest_release_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"support_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -96,6 +169,20 @@ func (s *JmsJavaFamilyDataSourceCrud) SetData() error {
 
 	if s.Res.EndOfSupportLifeDate != nil {
 		s.D.Set("end_of_support_life_date", s.Res.EndOfSupportLifeDate.String())
+	}
+
+	if s.Res.IsSupportedVersion != nil {
+		s.D.Set("is_supported_version", *s.Res.IsSupportedVersion)
+	}
+
+	latestReleaseArtifacts := []interface{}{}
+	for _, item := range s.Res.LatestReleaseArtifacts {
+		latestReleaseArtifacts = append(latestReleaseArtifacts, JavaArtifactToMap(item))
+	}
+	s.D.Set("latest_release_artifacts", latestReleaseArtifacts)
+
+	if s.Res.LatestReleaseVersion != nil {
+		s.D.Set("latest_release_version", *s.Res.LatestReleaseVersion)
 	}
 
 	s.D.Set("support_type", s.Res.SupportType)

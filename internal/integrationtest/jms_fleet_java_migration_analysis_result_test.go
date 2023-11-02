@@ -22,7 +22,7 @@ var (
 	JmsFleetJavaMigrationAnalysisResultOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
 
 	JmsFleetJavaMigrationAnalysisResultResourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetCryptoAnalysisResultCompartmentId},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetJavaMigrationAnalysisResultCompartmentId},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Java Migration Analysis Result`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Created Fleet for Java Migration Analysis Result`},
 		"inventory_log": acctest.RepresentationGroup{

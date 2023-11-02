@@ -30,6 +30,10 @@ func JmsFleetJavaMigrationAnalysisResultDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"application_key": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"application_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -139,6 +143,10 @@ func (s *JmsFleetJavaMigrationAnalysisResultDataSourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("application_execution_type", s.Res.ApplicationExecutionType)
+
+	if s.Res.ApplicationKey != nil {
+		s.D.Set("application_key", *s.Res.ApplicationKey)
+	}
 
 	if s.Res.ApplicationName != nil {
 		s.D.Set("application_name", *s.Res.ApplicationName)
