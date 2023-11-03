@@ -27,6 +27,9 @@ type GenerateAutonomousDatabaseWalletDetails struct {
 	// * `ALL` - used to generate wallet for all databases in the region
 	// **Dedicated Exadata infrastructure usage:** Value must be `NULL` if attribute is used.
 	GenerateType GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum `mandatory:"false" json:"generateType,omitempty"`
+
+	// True when requesting regional connection strings in PDB connect info, applicable to cross-region DG only.
+	IsRegional *bool `mandatory:"false" json:"isRegional"`
 }
 
 func (m GenerateAutonomousDatabaseWalletDetails) String() string {

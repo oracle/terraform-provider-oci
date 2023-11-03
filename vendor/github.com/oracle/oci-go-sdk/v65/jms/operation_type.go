@@ -29,8 +29,15 @@ const (
 	OperationTypeRequestCryptoEventAnalysis       OperationTypeEnum = "REQUEST_CRYPTO_EVENT_ANALYSIS"
 	OperationTypeRequestPerformanceTuningAnalysis OperationTypeEnum = "REQUEST_PERFORMANCE_TUNING_ANALYSIS"
 	OperationTypeRequestJavaMigrationAnalysis     OperationTypeEnum = "REQUEST_JAVA_MIGRATION_ANALYSIS"
+	OperationTypeDeleteJmsReport                  OperationTypeEnum = "DELETE_JMS_REPORT"
 	OperationTypeScanJavaServerUsage              OperationTypeEnum = "SCAN_JAVA_SERVER_USAGE"
 	OperationTypeScanLibraryUsage                 OperationTypeEnum = "SCAN_LIBRARY_USAGE"
+	OperationTypeExportDataCsv                    OperationTypeEnum = "EXPORT_DATA_CSV"
+	OperationTypeCreateDrsFile                    OperationTypeEnum = "CREATE_DRS_FILE"
+	OperationTypeUpdateDrsFile                    OperationTypeEnum = "UPDATE_DRS_FILE"
+	OperationTypeDeleteDrsFile                    OperationTypeEnum = "DELETE_DRS_FILE"
+	OperationTypeEnableDrs                        OperationTypeEnum = "ENABLE_DRS"
+	OperationTypeDisableDrs                       OperationTypeEnum = "DISABLE_DRS"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -45,8 +52,15 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"REQUEST_CRYPTO_EVENT_ANALYSIS":       OperationTypeRequestCryptoEventAnalysis,
 	"REQUEST_PERFORMANCE_TUNING_ANALYSIS": OperationTypeRequestPerformanceTuningAnalysis,
 	"REQUEST_JAVA_MIGRATION_ANALYSIS":     OperationTypeRequestJavaMigrationAnalysis,
+	"DELETE_JMS_REPORT":                   OperationTypeDeleteJmsReport,
 	"SCAN_JAVA_SERVER_USAGE":              OperationTypeScanJavaServerUsage,
 	"SCAN_LIBRARY_USAGE":                  OperationTypeScanLibraryUsage,
+	"EXPORT_DATA_CSV":                     OperationTypeExportDataCsv,
+	"CREATE_DRS_FILE":                     OperationTypeCreateDrsFile,
+	"UPDATE_DRS_FILE":                     OperationTypeUpdateDrsFile,
+	"DELETE_DRS_FILE":                     OperationTypeDeleteDrsFile,
+	"ENABLE_DRS":                          OperationTypeEnableDrs,
+	"DISABLE_DRS":                         OperationTypeDisableDrs,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -61,8 +75,15 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"request_crypto_event_analysis":       OperationTypeRequestCryptoEventAnalysis,
 	"request_performance_tuning_analysis": OperationTypeRequestPerformanceTuningAnalysis,
 	"request_java_migration_analysis":     OperationTypeRequestJavaMigrationAnalysis,
+	"delete_jms_report":                   OperationTypeDeleteJmsReport,
 	"scan_java_server_usage":              OperationTypeScanJavaServerUsage,
 	"scan_library_usage":                  OperationTypeScanLibraryUsage,
+	"export_data_csv":                     OperationTypeExportDataCsv,
+	"create_drs_file":                     OperationTypeCreateDrsFile,
+	"update_drs_file":                     OperationTypeUpdateDrsFile,
+	"delete_drs_file":                     OperationTypeDeleteDrsFile,
+	"enable_drs":                          OperationTypeEnableDrs,
+	"disable_drs":                         OperationTypeDisableDrs,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -88,8 +109,15 @@ func GetOperationTypeEnumStringValues() []string {
 		"REQUEST_CRYPTO_EVENT_ANALYSIS",
 		"REQUEST_PERFORMANCE_TUNING_ANALYSIS",
 		"REQUEST_JAVA_MIGRATION_ANALYSIS",
+		"DELETE_JMS_REPORT",
 		"SCAN_JAVA_SERVER_USAGE",
 		"SCAN_LIBRARY_USAGE",
+		"EXPORT_DATA_CSV",
+		"CREATE_DRS_FILE",
+		"UPDATE_DRS_FILE",
+		"DELETE_DRS_FILE",
+		"ENABLE_DRS",
+		"DISABLE_DRS",
 	}
 }
 

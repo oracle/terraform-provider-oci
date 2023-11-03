@@ -35,6 +35,8 @@ type ManagedInstanceUsage struct {
 
 	OperatingSystem *OperatingSystem `mandatory:"false" json:"operatingSystem"`
 
+	Agent *Agent `mandatory:"false" json:"agent"`
+
 	// The approximate count of applications reported by this managed instance.
 	ApproximateApplicationCount *int `mandatory:"false" json:"approximateApplicationCount"`
 
@@ -43,6 +45,9 @@ type ManagedInstanceUsage struct {
 
 	// The approximate count of Java Runtimes reported by this managed instance.
 	ApproximateJreCount *int `mandatory:"false" json:"approximateJreCount"`
+
+	// DRS file status
+	DrsFileStatus DrsFileStatusEnum `mandatory:"false" json:"drsFileStatus,omitempty"`
 
 	// Lower bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
@@ -76,6 +81,9 @@ func (m ManagedInstanceUsage) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagedInstanceType: %s. Supported values are: %s.", m.ManagedInstanceType, strings.Join(GetManagedInstanceTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDrsFileStatusEnum(string(m.DrsFileStatus)); !ok && m.DrsFileStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DrsFileStatus: %s. Supported values are: %s.", m.DrsFileStatus, strings.Join(GetDrsFileStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

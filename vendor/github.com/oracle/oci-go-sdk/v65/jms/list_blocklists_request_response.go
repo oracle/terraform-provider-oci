@@ -139,8 +139,15 @@ const (
 	ListBlocklistsOperationRequestCryptoEventAnalysis       ListBlocklistsOperationEnum = "REQUEST_CRYPTO_EVENT_ANALYSIS"
 	ListBlocklistsOperationRequestPerformanceTuningAnalysis ListBlocklistsOperationEnum = "REQUEST_PERFORMANCE_TUNING_ANALYSIS"
 	ListBlocklistsOperationRequestJavaMigrationAnalysis     ListBlocklistsOperationEnum = "REQUEST_JAVA_MIGRATION_ANALYSIS"
+	ListBlocklistsOperationDeleteJmsReport                  ListBlocklistsOperationEnum = "DELETE_JMS_REPORT"
 	ListBlocklistsOperationScanJavaServerUsage              ListBlocklistsOperationEnum = "SCAN_JAVA_SERVER_USAGE"
 	ListBlocklistsOperationScanLibraryUsage                 ListBlocklistsOperationEnum = "SCAN_LIBRARY_USAGE"
+	ListBlocklistsOperationExportDataCsv                    ListBlocklistsOperationEnum = "EXPORT_DATA_CSV"
+	ListBlocklistsOperationCreateDrsFile                    ListBlocklistsOperationEnum = "CREATE_DRS_FILE"
+	ListBlocklistsOperationUpdateDrsFile                    ListBlocklistsOperationEnum = "UPDATE_DRS_FILE"
+	ListBlocklistsOperationDeleteDrsFile                    ListBlocklistsOperationEnum = "DELETE_DRS_FILE"
+	ListBlocklistsOperationEnableDrs                        ListBlocklistsOperationEnum = "ENABLE_DRS"
+	ListBlocklistsOperationDisableDrs                       ListBlocklistsOperationEnum = "DISABLE_DRS"
 )
 
 var mappingListBlocklistsOperationEnum = map[string]ListBlocklistsOperationEnum{
@@ -155,8 +162,15 @@ var mappingListBlocklistsOperationEnum = map[string]ListBlocklistsOperationEnum{
 	"REQUEST_CRYPTO_EVENT_ANALYSIS":       ListBlocklistsOperationRequestCryptoEventAnalysis,
 	"REQUEST_PERFORMANCE_TUNING_ANALYSIS": ListBlocklistsOperationRequestPerformanceTuningAnalysis,
 	"REQUEST_JAVA_MIGRATION_ANALYSIS":     ListBlocklistsOperationRequestJavaMigrationAnalysis,
+	"DELETE_JMS_REPORT":                   ListBlocklistsOperationDeleteJmsReport,
 	"SCAN_JAVA_SERVER_USAGE":              ListBlocklistsOperationScanJavaServerUsage,
 	"SCAN_LIBRARY_USAGE":                  ListBlocklistsOperationScanLibraryUsage,
+	"EXPORT_DATA_CSV":                     ListBlocklistsOperationExportDataCsv,
+	"CREATE_DRS_FILE":                     ListBlocklistsOperationCreateDrsFile,
+	"UPDATE_DRS_FILE":                     ListBlocklistsOperationUpdateDrsFile,
+	"DELETE_DRS_FILE":                     ListBlocklistsOperationDeleteDrsFile,
+	"ENABLE_DRS":                          ListBlocklistsOperationEnableDrs,
+	"DISABLE_DRS":                         ListBlocklistsOperationDisableDrs,
 }
 
 var mappingListBlocklistsOperationEnumLowerCase = map[string]ListBlocklistsOperationEnum{
@@ -171,8 +185,15 @@ var mappingListBlocklistsOperationEnumLowerCase = map[string]ListBlocklistsOpera
 	"request_crypto_event_analysis":       ListBlocklistsOperationRequestCryptoEventAnalysis,
 	"request_performance_tuning_analysis": ListBlocklistsOperationRequestPerformanceTuningAnalysis,
 	"request_java_migration_analysis":     ListBlocklistsOperationRequestJavaMigrationAnalysis,
+	"delete_jms_report":                   ListBlocklistsOperationDeleteJmsReport,
 	"scan_java_server_usage":              ListBlocklistsOperationScanJavaServerUsage,
 	"scan_library_usage":                  ListBlocklistsOperationScanLibraryUsage,
+	"export_data_csv":                     ListBlocklistsOperationExportDataCsv,
+	"create_drs_file":                     ListBlocklistsOperationCreateDrsFile,
+	"update_drs_file":                     ListBlocklistsOperationUpdateDrsFile,
+	"delete_drs_file":                     ListBlocklistsOperationDeleteDrsFile,
+	"enable_drs":                          ListBlocklistsOperationEnableDrs,
+	"disable_drs":                         ListBlocklistsOperationDisableDrs,
 }
 
 // GetListBlocklistsOperationEnumValues Enumerates the set of values for ListBlocklistsOperationEnum
@@ -198,8 +219,15 @@ func GetListBlocklistsOperationEnumStringValues() []string {
 		"REQUEST_CRYPTO_EVENT_ANALYSIS",
 		"REQUEST_PERFORMANCE_TUNING_ANALYSIS",
 		"REQUEST_JAVA_MIGRATION_ANALYSIS",
+		"DELETE_JMS_REPORT",
 		"SCAN_JAVA_SERVER_USAGE",
 		"SCAN_LIBRARY_USAGE",
+		"EXPORT_DATA_CSV",
+		"CREATE_DRS_FILE",
+		"UPDATE_DRS_FILE",
+		"DELETE_DRS_FILE",
+		"ENABLE_DRS",
+		"DISABLE_DRS",
 	}
 }
 

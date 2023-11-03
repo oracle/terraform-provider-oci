@@ -24,6 +24,9 @@ type ListJavaFamiliesRequest struct {
 	// The display name for the Java family.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
+	// Filter the Java Release Family versions by support status.
+	IsSupportedVersion *bool `mandatory:"false" contributesTo:"query" name:"isSupportedVersion"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

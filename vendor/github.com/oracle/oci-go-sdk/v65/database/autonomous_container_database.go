@@ -288,51 +288,54 @@ type AutonomousContainerDatabaseLifecycleStateEnum string
 
 // Set of constants representing the allowable values for AutonomousContainerDatabaseLifecycleStateEnum
 const (
-	AutonomousContainerDatabaseLifecycleStateProvisioning          AutonomousContainerDatabaseLifecycleStateEnum = "PROVISIONING"
-	AutonomousContainerDatabaseLifecycleStateAvailable             AutonomousContainerDatabaseLifecycleStateEnum = "AVAILABLE"
-	AutonomousContainerDatabaseLifecycleStateUpdating              AutonomousContainerDatabaseLifecycleStateEnum = "UPDATING"
-	AutonomousContainerDatabaseLifecycleStateTerminating           AutonomousContainerDatabaseLifecycleStateEnum = "TERMINATING"
-	AutonomousContainerDatabaseLifecycleStateTerminated            AutonomousContainerDatabaseLifecycleStateEnum = "TERMINATED"
-	AutonomousContainerDatabaseLifecycleStateFailed                AutonomousContainerDatabaseLifecycleStateEnum = "FAILED"
-	AutonomousContainerDatabaseLifecycleStateBackupInProgress      AutonomousContainerDatabaseLifecycleStateEnum = "BACKUP_IN_PROGRESS"
-	AutonomousContainerDatabaseLifecycleStateRestoring             AutonomousContainerDatabaseLifecycleStateEnum = "RESTORING"
-	AutonomousContainerDatabaseLifecycleStateRestoreFailed         AutonomousContainerDatabaseLifecycleStateEnum = "RESTORE_FAILED"
-	AutonomousContainerDatabaseLifecycleStateRestarting            AutonomousContainerDatabaseLifecycleStateEnum = "RESTARTING"
-	AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress AutonomousContainerDatabaseLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
-	AutonomousContainerDatabaseLifecycleStateRoleChangeInProgress  AutonomousContainerDatabaseLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
-	AutonomousContainerDatabaseLifecycleStateUnavailable           AutonomousContainerDatabaseLifecycleStateEnum = "UNAVAILABLE"
+	AutonomousContainerDatabaseLifecycleStateProvisioning                AutonomousContainerDatabaseLifecycleStateEnum = "PROVISIONING"
+	AutonomousContainerDatabaseLifecycleStateAvailable                   AutonomousContainerDatabaseLifecycleStateEnum = "AVAILABLE"
+	AutonomousContainerDatabaseLifecycleStateUpdating                    AutonomousContainerDatabaseLifecycleStateEnum = "UPDATING"
+	AutonomousContainerDatabaseLifecycleStateTerminating                 AutonomousContainerDatabaseLifecycleStateEnum = "TERMINATING"
+	AutonomousContainerDatabaseLifecycleStateTerminated                  AutonomousContainerDatabaseLifecycleStateEnum = "TERMINATED"
+	AutonomousContainerDatabaseLifecycleStateFailed                      AutonomousContainerDatabaseLifecycleStateEnum = "FAILED"
+	AutonomousContainerDatabaseLifecycleStateBackupInProgress            AutonomousContainerDatabaseLifecycleStateEnum = "BACKUP_IN_PROGRESS"
+	AutonomousContainerDatabaseLifecycleStateRestoring                   AutonomousContainerDatabaseLifecycleStateEnum = "RESTORING"
+	AutonomousContainerDatabaseLifecycleStateRestoreFailed               AutonomousContainerDatabaseLifecycleStateEnum = "RESTORE_FAILED"
+	AutonomousContainerDatabaseLifecycleStateRestarting                  AutonomousContainerDatabaseLifecycleStateEnum = "RESTARTING"
+	AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress       AutonomousContainerDatabaseLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
+	AutonomousContainerDatabaseLifecycleStateRoleChangeInProgress        AutonomousContainerDatabaseLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
+	AutonomousContainerDatabaseLifecycleStateEnablingAutonomousDataGuard AutonomousContainerDatabaseLifecycleStateEnum = "ENABLING_AUTONOMOUS_DATA_GUARD"
+	AutonomousContainerDatabaseLifecycleStateUnavailable                 AutonomousContainerDatabaseLifecycleStateEnum = "UNAVAILABLE"
 )
 
 var mappingAutonomousContainerDatabaseLifecycleStateEnum = map[string]AutonomousContainerDatabaseLifecycleStateEnum{
-	"PROVISIONING":            AutonomousContainerDatabaseLifecycleStateProvisioning,
-	"AVAILABLE":               AutonomousContainerDatabaseLifecycleStateAvailable,
-	"UPDATING":                AutonomousContainerDatabaseLifecycleStateUpdating,
-	"TERMINATING":             AutonomousContainerDatabaseLifecycleStateTerminating,
-	"TERMINATED":              AutonomousContainerDatabaseLifecycleStateTerminated,
-	"FAILED":                  AutonomousContainerDatabaseLifecycleStateFailed,
-	"BACKUP_IN_PROGRESS":      AutonomousContainerDatabaseLifecycleStateBackupInProgress,
-	"RESTORING":               AutonomousContainerDatabaseLifecycleStateRestoring,
-	"RESTORE_FAILED":          AutonomousContainerDatabaseLifecycleStateRestoreFailed,
-	"RESTARTING":              AutonomousContainerDatabaseLifecycleStateRestarting,
-	"MAINTENANCE_IN_PROGRESS": AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress,
-	"ROLE_CHANGE_IN_PROGRESS": AutonomousContainerDatabaseLifecycleStateRoleChangeInProgress,
-	"UNAVAILABLE":             AutonomousContainerDatabaseLifecycleStateUnavailable,
+	"PROVISIONING":                   AutonomousContainerDatabaseLifecycleStateProvisioning,
+	"AVAILABLE":                      AutonomousContainerDatabaseLifecycleStateAvailable,
+	"UPDATING":                       AutonomousContainerDatabaseLifecycleStateUpdating,
+	"TERMINATING":                    AutonomousContainerDatabaseLifecycleStateTerminating,
+	"TERMINATED":                     AutonomousContainerDatabaseLifecycleStateTerminated,
+	"FAILED":                         AutonomousContainerDatabaseLifecycleStateFailed,
+	"BACKUP_IN_PROGRESS":             AutonomousContainerDatabaseLifecycleStateBackupInProgress,
+	"RESTORING":                      AutonomousContainerDatabaseLifecycleStateRestoring,
+	"RESTORE_FAILED":                 AutonomousContainerDatabaseLifecycleStateRestoreFailed,
+	"RESTARTING":                     AutonomousContainerDatabaseLifecycleStateRestarting,
+	"MAINTENANCE_IN_PROGRESS":        AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress,
+	"ROLE_CHANGE_IN_PROGRESS":        AutonomousContainerDatabaseLifecycleStateRoleChangeInProgress,
+	"ENABLING_AUTONOMOUS_DATA_GUARD": AutonomousContainerDatabaseLifecycleStateEnablingAutonomousDataGuard,
+	"UNAVAILABLE":                    AutonomousContainerDatabaseLifecycleStateUnavailable,
 }
 
 var mappingAutonomousContainerDatabaseLifecycleStateEnumLowerCase = map[string]AutonomousContainerDatabaseLifecycleStateEnum{
-	"provisioning":            AutonomousContainerDatabaseLifecycleStateProvisioning,
-	"available":               AutonomousContainerDatabaseLifecycleStateAvailable,
-	"updating":                AutonomousContainerDatabaseLifecycleStateUpdating,
-	"terminating":             AutonomousContainerDatabaseLifecycleStateTerminating,
-	"terminated":              AutonomousContainerDatabaseLifecycleStateTerminated,
-	"failed":                  AutonomousContainerDatabaseLifecycleStateFailed,
-	"backup_in_progress":      AutonomousContainerDatabaseLifecycleStateBackupInProgress,
-	"restoring":               AutonomousContainerDatabaseLifecycleStateRestoring,
-	"restore_failed":          AutonomousContainerDatabaseLifecycleStateRestoreFailed,
-	"restarting":              AutonomousContainerDatabaseLifecycleStateRestarting,
-	"maintenance_in_progress": AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress,
-	"role_change_in_progress": AutonomousContainerDatabaseLifecycleStateRoleChangeInProgress,
-	"unavailable":             AutonomousContainerDatabaseLifecycleStateUnavailable,
+	"provisioning":                   AutonomousContainerDatabaseLifecycleStateProvisioning,
+	"available":                      AutonomousContainerDatabaseLifecycleStateAvailable,
+	"updating":                       AutonomousContainerDatabaseLifecycleStateUpdating,
+	"terminating":                    AutonomousContainerDatabaseLifecycleStateTerminating,
+	"terminated":                     AutonomousContainerDatabaseLifecycleStateTerminated,
+	"failed":                         AutonomousContainerDatabaseLifecycleStateFailed,
+	"backup_in_progress":             AutonomousContainerDatabaseLifecycleStateBackupInProgress,
+	"restoring":                      AutonomousContainerDatabaseLifecycleStateRestoring,
+	"restore_failed":                 AutonomousContainerDatabaseLifecycleStateRestoreFailed,
+	"restarting":                     AutonomousContainerDatabaseLifecycleStateRestarting,
+	"maintenance_in_progress":        AutonomousContainerDatabaseLifecycleStateMaintenanceInProgress,
+	"role_change_in_progress":        AutonomousContainerDatabaseLifecycleStateRoleChangeInProgress,
+	"enabling_autonomous_data_guard": AutonomousContainerDatabaseLifecycleStateEnablingAutonomousDataGuard,
+	"unavailable":                    AutonomousContainerDatabaseLifecycleStateUnavailable,
 }
 
 // GetAutonomousContainerDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousContainerDatabaseLifecycleStateEnum
@@ -359,6 +362,7 @@ func GetAutonomousContainerDatabaseLifecycleStateEnumStringValues() []string {
 		"RESTARTING",
 		"MAINTENANCE_IN_PROGRESS",
 		"ROLE_CHANGE_IN_PROGRESS",
+		"ENABLING_AUTONOMOUS_DATA_GUARD",
 		"UNAVAILABLE",
 	}
 }

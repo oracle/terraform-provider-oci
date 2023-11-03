@@ -57,6 +57,9 @@ type JavaMigrationAnalysisResultSummary struct {
 	// The OCID of the work request of this analysis.
 	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 
+	// The unique key that identifies the application.
+	ApplicationKey *string `mandatory:"false" json:"applicationKey"`
+
 	// The managed instance OCID.
 	ManagedInstanceId *string `mandatory:"false" json:"managedInstanceId"`
 

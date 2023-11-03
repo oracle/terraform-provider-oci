@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// AnnouncementSummary A summary of a announcement on Console Overview page
+// AnnouncementSummary An summary of a announcement on Console Overview page
 type AnnouncementSummary struct {
 
 	// Unique id of the announcement

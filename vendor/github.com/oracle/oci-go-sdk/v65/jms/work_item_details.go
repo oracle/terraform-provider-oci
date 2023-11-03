@@ -55,6 +55,10 @@ func (m *workitemdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 
 	var err error
 	switch m.Kind {
+	case "LCM":
+		mm := LcmWorkItemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BASIC":
 		mm := BasicWorkItemDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -100,16 +104,19 @@ type WorkItemDetailsKindEnum string
 const (
 	WorkItemDetailsKindBasic       WorkItemDetailsKindEnum = "BASIC"
 	WorkItemDetailsKindApplication WorkItemDetailsKindEnum = "APPLICATION"
+	WorkItemDetailsKindLcm         WorkItemDetailsKindEnum = "LCM"
 )
 
 var mappingWorkItemDetailsKindEnum = map[string]WorkItemDetailsKindEnum{
 	"BASIC":       WorkItemDetailsKindBasic,
 	"APPLICATION": WorkItemDetailsKindApplication,
+	"LCM":         WorkItemDetailsKindLcm,
 }
 
 var mappingWorkItemDetailsKindEnumLowerCase = map[string]WorkItemDetailsKindEnum{
 	"basic":       WorkItemDetailsKindBasic,
 	"application": WorkItemDetailsKindApplication,
+	"lcm":         WorkItemDetailsKindLcm,
 }
 
 // GetWorkItemDetailsKindEnumValues Enumerates the set of values for WorkItemDetailsKindEnum
@@ -126,6 +133,7 @@ func GetWorkItemDetailsKindEnumStringValues() []string {
 	return []string{
 		"BASIC",
 		"APPLICATION",
+		"LCM",
 	}
 }
 

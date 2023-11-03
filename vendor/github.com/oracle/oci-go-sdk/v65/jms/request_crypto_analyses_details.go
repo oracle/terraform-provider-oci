@@ -15,8 +15,8 @@ import (
 	"strings"
 )
 
-// RequestCryptoAnalysesDetails Details of the request to start a JFR analysis.
-// When the targets aren't specified, then all managed instances currently in the Fleet are selected.
+// RequestCryptoAnalysesDetails Details of the request to start a JFR crypto event analysis.
+// When the targets aren't specified, then all managed instances currently in the fleet are selected.
 type RequestCryptoAnalysesDetails struct {
 
 	// The attachment targets to start JFR.

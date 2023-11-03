@@ -33,6 +33,8 @@ type UpdateFleetAgentConfigurationDetails struct {
 	LinuxConfiguration *FleetAgentOsConfiguration `mandatory:"false" json:"linuxConfiguration"`
 
 	WindowsConfiguration *FleetAgentOsConfiguration `mandatory:"false" json:"windowsConfiguration"`
+
+	MacOsConfiguration *FleetAgentOsConfiguration `mandatory:"false" json:"macOsConfiguration"`
 }
 
 func (m UpdateFleetAgentConfigurationDetails) String() string {

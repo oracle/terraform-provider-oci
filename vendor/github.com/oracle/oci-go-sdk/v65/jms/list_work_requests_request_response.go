@@ -36,6 +36,9 @@ type ListWorkRequestsRequest struct {
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
+	// The Fleet-unique identifier of the managed instance.
+	ManagedInstanceId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
