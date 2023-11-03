@@ -33,6 +33,17 @@ type JavaFamily struct {
 
 	// Link to access the documentation for the release.
 	DocUrl *string `mandatory:"true" json:"docUrl"`
+
+	// Latest Java release version in the family.
+	LatestReleaseVersion *string `mandatory:"true" json:"latestReleaseVersion"`
+
+	// Whether or not this Java release family is under active support.
+	// Refer Java Support Roadmap (https://www.oracle.com/java/technologies/java-se-support-roadmap.html) for more details.
+	IsSupportedVersion *bool `mandatory:"true" json:"isSupportedVersion"`
+
+	// List of artifacts for the latest Java release version in this family.
+	// The script URLs in the response can be used from a command line, or in scripts and dockerfiles to always get the artifacts corresponding to the latest update release version.
+	LatestReleaseArtifacts []JavaArtifact `mandatory:"false" json:"latestReleaseArtifacts"`
 }
 
 func (m JavaFamily) String() string {
