@@ -49,6 +49,14 @@ resource "oci_adm_vulnerability_audit" "example_vulnerability_audit" {
     #Optional
     application_dependency_node_ids = []
   }
+  #Optional
+  usage_data {
+    namespace   = "id758to84zun"
+    bucket      = "usaga-data-TERSI-2463"
+    object      = "usage-data-with-vulnerable-class-method.json.gz"
+    source_type = "objectStorageTuple"
+  }
+
   source {
     type = "OCI_RESOURCE"
     oci_resource_id = "ocid1.example.ocid"
