@@ -555,6 +555,7 @@ The following attributes are exported:
 			**SCIM++ Properties:**
 			* caseExact: false
 			* required: true
+			* idcsReturnEmptyWhenNull: true
 			* mutability: readWrite
 			* returned: default
 			* type: string
@@ -591,6 +592,7 @@ The following attributes are exported:
 			**SCIM++ Properties:**
 			* caseExact: false
 			* required: true
+			* idcsReturnEmptyWhenNull: true
 			* mutability: readWrite
 			* returned: default
 			* type: string

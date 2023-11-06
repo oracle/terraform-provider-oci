@@ -76,6 +76,51 @@ func IdentityDomainsMyRequestsDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"action": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approval_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"approval_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"approver_display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"approver_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"justification": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"order": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"compartment_ocid": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -85,6 +130,10 @@ func IdentityDomainsMyRequestsDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"domain_ocid": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"expires": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -221,6 +270,10 @@ func IdentityDomainsMyRequestsDataSource() *schema.Resource {
 
 									// Computed
 									"display": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"description": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},

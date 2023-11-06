@@ -77,7 +77,6 @@ resource "oci_identity_domains_my_request" "test_my_request" {
   authorization  = var.my_request_authorization
   #use the latest if not provided
   # resource_type_schema_version = var.my_request_resource_type_schema_version
-  status                       = var.my_request_status
   tags {
     #Required
     key   = var.my_request_tags_key
@@ -96,7 +95,7 @@ data "oci_identity_domains_my_requests" "test_my_requests" {
   #Optional
   my_request_count             = var.my_request_my_request_count
   my_request_filter            = var.my_request_my_request_filter
-  attribute_sets               = ["all"]
+  attribute_sets               = []
   attributes                   = ""
   authorization                = var.my_request_authorization
   #use the latest if not provided

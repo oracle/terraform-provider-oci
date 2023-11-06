@@ -22,7 +22,7 @@ data "oci_identity_domains_my_requests" "test_my_requests" {
 	#Optional
 	my_request_count = var.my_request_my_request_count
 	my_request_filter = var.my_request_my_request_filter
-	attribute_sets = ["all"]
+	attribute_sets = []
 	attributes = ""
 	authorization = var.my_request_authorization
 	resource_type_schema_version = var.my_request_resource_type_schema_version
@@ -55,6 +55,107 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `resources` - A multi-valued list of complex objects containing the requested resources. This MAY be a subset of the full set of resources if pagination is requested. REQUIRED if "totalResults" is non-zero.
+	* `action` - Requestor can set action to CANCEL to cancel the request or to ESCALATE to escalate the request while the request status is IN_PROGRESS. Requestor can't escalate the request if canceling or escalation is in progress.
+
+		**Added In:** 2307071836
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: string
+		* uniqueness: none
+	* `approval_details` - Approvals created for this request.
+
+		**Added In:** 2307071836
+
+		**SCIM++ Properties:**
+		* idcsSearchable: false
+		* multiValued: true
+		* mutability: readOnly
+		* returned: request
+		* type: complex
+		* uniqueness: none
+		* `approval_type` - Approval Type (Escalation or Regular)
+
+			**Added In:** 2307071836
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* returned: default
+			* type: string
+			* uniqueness: none
+			* mutability: readOnly
+		* `approver_display_name` - Approver display name
+
+			**Added In:** 2307071836
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* returned: default
+			* type: string
+			* uniqueness: none
+			* mutability: readOnly
+		* `approver_id` - Approver Id
+
+			**Added In:** 2307071836
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* returned: default
+			* type: string
+			* uniqueness: none
+			* mutability: readOnly
+		* `justification` - Approval Justification
+
+			**Added In:** 2307071836
+
+			**SCIM++ Properties:**
+			* multiValued: false
+			* idcsSearchable: false
+			* returned: default
+			* type: string
+			* uniqueness: none
+			* mutability: readOnly
+		* `order` - Approval Order
+
+			**Added In:** 2307071836
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* returned: default
+			* type: integer
+			* uniqueness: none
+			* mutability: readOnly
+		* `status` - Approval Status
+
+			**Added In:** 2307071836
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* returned: default
+			* type: string
+			* uniqueness: none
+			* mutability: readOnly
+		* `time_updated` - Approval Update Time
+
+			**Added In:** 2307071836
+
+			**SCIM++ Properties:**
+			* multiValued: false
+			* idcsSearchable: false
+			* returned: default
+			* type: dateTime
+			* uniqueness: none
+			* mutability: readOnly
 	* `compartment_ocid` - Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.
 
 		**SCIM++ Properties:**
@@ -87,6 +188,18 @@ The following attributes are exported:
 		* required: false
 		* returned: default
 		* type: string
+		* uniqueness: none
+	* `expires` - Time by when Request expires
+
+		**Added In:** 2307071836
+
+		**SCIM++ Properties:**
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: readOnly
+		* required: false
+		* returned: default
+		* type: dateTime
 		* uniqueness: none
 	* `id` - Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider's entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.
 
@@ -354,7 +467,23 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
+<<<<<<< ours
+		* `description` - Resource description
+
+			**Added In:** 2307071836
+
+			**SCIM++ Properties:**
+			* idcsSearchable: true
+			* multiValued: false
+			* mutability: readOnly
+			* required: false
+			* returned: default
+			* type: string
+			* uniqueness: none
+		* `display` - Resource display name
+=======
 		* `ref` - Resource URI
+>>>>>>> theirs
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
@@ -448,7 +577,7 @@ The following attributes are exported:
 		* caseExact: true
 		* idcsSearchable: true
 		* multiValued: false
-		* mutability: readWrite
+		* mutability: readOnly
 		* required: false
 		* returned: default
 		* type: string
