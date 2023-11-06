@@ -458,8 +458,11 @@ func (s *VaultSecretResourceCrud) Delete() error {
 	request.SecretId = &tmp
 
 	if scheduleDeletionDays, ok := s.D.Get("schedule_deletion_days").(int); ok {
-		tmpTime := time.Now().AddDate(0, 0, scheduleDeletionDays)
-		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
+		// Not setting TimeOfDeletion is the same as specifying 30 days, so skip it on 30 days
+		if scheduleDeletionDays < 30 {
+			tmpTime := time.Now().AddDate(0, 0, scheduleDeletionDays)
+			request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "vault")

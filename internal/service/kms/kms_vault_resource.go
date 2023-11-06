@@ -130,7 +130,6 @@ func KmsVaultResource() *schema.Resource {
 			"schedule_deletion_days": {
 				Type:         schema.TypeInt,
 				Optional:     true,
-				Default:      30,
 				ValidateFunc: validation.IntBetween(7, 30),
 			},
 			"restore_from_object_store": {
@@ -526,8 +525,11 @@ func (s *KmsVaultResourceCrud) Delete() error {
 		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
 	} else {
 		if scheduleDeletionDays, ok := s.D.Get("schedule_deletion_days").(int); ok {
-			tmpTime := time.Now().AddDate(0, 0, scheduleDeletionDays)
-			request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
+			// Not setting TimeOfDeletion is the same as specifying 30 days, so skip it on 30 days
+			if scheduleDeletionDays < 30 {
+				tmpTime := time.Now().AddDate(0, 0, scheduleDeletionDays)
+				request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
+			}
 		}
 	}
 
