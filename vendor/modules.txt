@@ -162,12 +162,12 @@ github.com/hashicorp/hcl2/hclwrite
 # github.com/hashicorp/logutils v1.0.0
 ## explicit
 github.com/hashicorp/logutils
-# github.com/hashicorp/terraform-exec v0.14.0
+# github.com/hashicorp/terraform-exec v0.15.0
 ## explicit; go 1.14
 github.com/hashicorp/terraform-exec/internal/version
 github.com/hashicorp/terraform-exec/tfexec
 github.com/hashicorp/terraform-exec/tfinstall
-# github.com/hashicorp/terraform-json v0.12.0
+# github.com/hashicorp/terraform-json v0.13.0
 ## explicit; go 1.13
 github.com/hashicorp/terraform-json
 # github.com/hashicorp/terraform-plugin-go v0.3.0
@@ -385,7 +385,7 @@ github.com/ulikunitz/xz/lzma
 ## explicit
 github.com/vmihailenco/msgpack
 github.com/vmihailenco/msgpack/codes
-# github.com/zclconf/go-cty v1.8.4
+# github.com/zclconf/go-cty v1.9.1
 ## explicit; go 1.12
 github.com/zclconf/go-cty/cty
 github.com/zclconf/go-cty/cty/convert
