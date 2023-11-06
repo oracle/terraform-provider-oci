@@ -38,6 +38,36 @@ func init() {
 	exportIdentityDomainsAppHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsSecurityQuestionHints.GetIdFn = getGetIdFn("securityQuestions")
 	exportIdentityDomainsSecurityQuestionHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsCloudGateHints.GetIdFn = getGetIdFn("cloudGates")
+	exportIdentityDomainsCloudGateHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsCloudGateServerHints.GetIdFn = getGetIdFn("cloudGateServers")
+	exportIdentityDomainsCloudGateServerHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsCloudGateMappingHints.GetIdFn = getGetIdFn("cloudGateMappings")
+	exportIdentityDomainsCloudGateMappingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsSelfRegistrationProfileHints.GetIdFn = getGetIdFn("selfRegistrationProfiles")
+	exportIdentityDomainsSelfRegistrationProfileHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsPolicyHints.GetIdFn = getGetIdFn("policies")
+	exportIdentityDomainsPolicyHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsConditionHints.GetIdFn = getGetIdFn("conditions")
+	exportIdentityDomainsConditionHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsNotificationSettingHints.GetIdFn = getGetIdFn("notificationSettings")
+	exportIdentityDomainsNotificationSettingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsSettingHints.GetIdFn = getGetIdFn("settings")
+	exportIdentityDomainsSettingHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsOAuthClientCertificateHints.GetIdFn = getGetIdFn("oauthClientCertificates")
+	exportIdentityDomainsOAuthClientCertificateHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsOAuthPartnerCertificateHints.GetIdFn = getGetIdFn("oauthPartnerCertificates")
+	exportIdentityDomainsOAuthPartnerCertificateHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsNetworkPerimeterHints.GetIdFn = getGetIdFn("networkPerimeters")
+	exportIdentityDomainsNetworkPerimeterHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsApprovalWorkflowAssignmentHints.GetIdFn = getGetIdFn("approvalWorkflowAssignments")
+	exportIdentityDomainsApprovalWorkflowAssignmentHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsApprovalWorkflowStepHints.GetIdFn = getGetIdFn("approvalWorkflowSteps")
+	exportIdentityDomainsApprovalWorkflowStepHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsApprovalWorkflowHints.GetIdFn = getGetIdFn("approvalWorkflows")
+	exportIdentityDomainsApprovalWorkflowHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsRuleHints.GetIdFn = getGetIdFn("rules")
+	exportIdentityDomainsRuleHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 
 	//// User sub-resources
 	exportIdentityDomainsApiKeyHints.GetIdFn = getUserSubResourceGetIdFn("apiKeys")
@@ -416,6 +446,111 @@ var exportIdentityDomainHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportIdentityDomainsApprovalWorkflowAssignmentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_approval_workflow_assignment",
+	DatasourceClass:      "oci_identity_domains_approval_workflow_assignments",
+	DatasourceItemsAttr:  "approval_workflow_assignments",
+	ResourceAbbreviation: "approval_workflow_assignment",
+}
+
+var exportIdentityDomainsApprovalWorkflowStepHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_approval_workflow_step",
+	DatasourceClass:      "oci_identity_domains_approval_workflow_steps",
+	DatasourceItemsAttr:  "approval_workflow_steps",
+	ResourceAbbreviation: "approval_workflow_step",
+}
+
+var exportIdentityDomainsApprovalWorkflowHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_approval_workflow",
+	DatasourceClass:      "oci_identity_domains_approval_workflows",
+	DatasourceItemsAttr:  "approval_workflows",
+	ResourceAbbreviation: "approval_workflow",
+}
+
+var exportIdentityDomainsCloudGateMappingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_cloud_gate_mapping",
+	DatasourceClass:      "oci_identity_domains_cloud_gate_mappings",
+	DatasourceItemsAttr:  "cloud_gate_mappings",
+	ResourceAbbreviation: "cloud_gate_mapping",
+}
+
+var exportIdentityDomainsCloudGateServerHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_cloud_gate_server",
+	DatasourceClass:      "oci_identity_domains_cloud_gate_servers",
+	DatasourceItemsAttr:  "cloud_gate_servers",
+	ResourceAbbreviation: "cloud_gate_server",
+}
+
+var exportIdentityDomainsCloudGateHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_cloud_gate",
+	DatasourceClass:      "oci_identity_domains_cloud_gates",
+	DatasourceItemsAttr:  "cloud_gates",
+	ResourceAbbreviation: "cloud_gate",
+}
+
+var exportIdentityDomainsConditionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_condition",
+	DatasourceClass:      "oci_identity_domains_conditions",
+	DatasourceItemsAttr:  "conditions",
+	ResourceAbbreviation: "condition",
+}
+
+var exportIdentityDomainsNetworkPerimeterHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_network_perimeter",
+	DatasourceClass:      "oci_identity_domains_network_perimeters",
+	DatasourceItemsAttr:  "network_perimeters",
+	ResourceAbbreviation: "network_perimeter",
+}
+
+var exportIdentityDomainsPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_policy",
+	DatasourceClass:      "oci_identity_domains_policies",
+	DatasourceItemsAttr:  "policies",
+	ResourceAbbreviation: "policy",
+}
+
+var exportIdentityDomainsSelfRegistrationProfileHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_self_registration_profile",
+	DatasourceClass:      "oci_identity_domains_self_registration_profiles",
+	DatasourceItemsAttr:  "self_registration_profiles",
+	ResourceAbbreviation: "self_registration_profile",
+}
+
+var exportIdentityDomainsNotificationSettingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_notification_setting",
+	DatasourceClass:      "oci_identity_domains_notification_settings",
+	DatasourceItemsAttr:  "notification_settings",
+	ResourceAbbreviation: "notification_setting",
+}
+
+var exportIdentityDomainsSettingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_setting",
+	DatasourceClass:      "oci_identity_domains_settings",
+	DatasourceItemsAttr:  "settings",
+	ResourceAbbreviation: "setting",
+}
+
+var exportIdentityDomainsOAuthClientCertificateHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_oauth_client_certificate",
+	DatasourceClass:      "oci_identity_domains_oauth_client_certificates",
+	DatasourceItemsAttr:  "oauth_client_certificates",
+	ResourceAbbreviation: "oauth_client_certificate",
+}
+
+var exportIdentityDomainsOAuthPartnerCertificateHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_oauth_partner_certificate",
+	DatasourceClass:      "oci_identity_domains_oauth_partner_certificates",
+	DatasourceItemsAttr:  "oauth_partner_certificates",
+	ResourceAbbreviation: "oauth_partner_certificate",
+}
+
+var exportIdentityDomainsRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_rule",
+	DatasourceClass:      "oci_identity_domains_rules",
+	DatasourceItemsAttr:  "rules",
+	ResourceAbbreviation: "rule",
+}
+
 var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportIdentityDomainHints},
@@ -543,6 +678,96 @@ var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportIdentityDomainsAppRoleHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsCloudGateHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsCloudGateServerHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsCloudGateMappingHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsSelfRegistrationProfileHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsPolicyHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsConditionHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsNotificationSettingHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsSettingHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsNetworkPerimeterHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsOAuthClientCertificateHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsOAuthPartnerCertificateHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsApprovalWorkflowAssignmentHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsApprovalWorkflowStepHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsApprovalWorkflowHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsRuleHints,
 			DatasourceQueryParams: map[string]string{
 				"idcs_endpoint": "url",
 			},

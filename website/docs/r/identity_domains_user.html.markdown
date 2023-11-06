@@ -1682,6 +1682,7 @@ The following arguments are supported:
 			**SCIM++ Properties:**
 			* caseExact: false
 			* required: true
+			* idcsReturnEmptyWhenNull: true
 			* mutability: readWrite
 			* returned: default
 			* type: string
@@ -1718,6 +1719,7 @@ The following arguments are supported:
 			**SCIM++ Properties:**
 			* caseExact: false
 			* required: true
+			* idcsReturnEmptyWhenNull: true
 			* mutability: readWrite
 			* returned: default
 			* type: string
@@ -1808,6 +1810,8 @@ The following arguments are supported:
 			* returned: always
 			* type: integer
 			* uniqueness: none
+			* idcsMaxValue: 100
+			* idcsMinValue: 0
 		* `source` - (Optional) (Updatable) Risk Provider Profile Source
 
 			**Added In:** 18.1.6
@@ -5630,6 +5634,7 @@ The following attributes are exported:
 			**SCIM++ Properties:**
 			* caseExact: false
 			* required: true
+			* idcsReturnEmptyWhenNull: true
 			* mutability: readWrite
 			* returned: default
 			* type: string
@@ -5666,6 +5671,7 @@ The following attributes are exported:
 			**SCIM++ Properties:**
 			* caseExact: false
 			* required: true
+			* idcsReturnEmptyWhenNull: true
 			* mutability: readWrite
 			* returned: default
 			* type: string
@@ -5756,6 +5762,8 @@ The following attributes are exported:
 			* returned: always
 			* type: integer
 			* uniqueness: none
+			* idcsMaxValue: 100
+			* idcsMinValue: 0
 		* `source` - Risk Provider Profile Source
 
 			**Added In:** 18.1.6

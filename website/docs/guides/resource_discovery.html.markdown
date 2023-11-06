@@ -801,6 +801,20 @@ identity_domains
 * oci\_identity\_domains\_app\_role
 * oci\_identity\_domains\_app
 * oci\_identity\_domains\_security\_question
+* oci\_identity\_domains\_approval\_workflow\_assignment
+* oci\_identity\_domains\_approval\_workflow\_step
+* oci\_identity\_domains\_approval\_workflow
+* oci\_identity\_domains\_cloud\_gate\_mapping
+* oci\_identity\_domains\_cloud\_gate\_server
+* oci\_identity\_domains\_cloud\_gate
+* oci\_identity\_domains\_condition
+* oci\_identity\_domains\_network\_perimeter
+* oci\_identity\_domains\_policy
+* oci\_identity\_domains\_notification\_setting
+* oci\_identity\_domains\_setting
+* oci\_identity\_domains\_oauth\_client\_certificate
+* oci\_identity\_domains\_oauth\_partner\_certificate
+* oci\_identity\_domains\_rule
 
 integration
 
