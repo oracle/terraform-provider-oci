@@ -56,10 +56,13 @@ func IdentityDomainsMyRequestResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"display": {
 							Type:     schema.TypeString,
 							Computed: true,
-							ForceNew: true,
 						},
 						"ref": {
 							Type:     schema.TypeString,
@@ -78,6 +81,59 @@ func IdentityDomainsMyRequestResource() *schema.Resource {
 			},
 
 			// Optional
+			"action": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			/*
+				approval_details is read-only, but not always has value in response.
+				Keep it optional:true to allow it to be empty.
+			*/
+			"approval_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"approval_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approver_display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approver_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"justification": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"order": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"attribute_sets": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -124,7 +180,6 @@ func IdentityDomainsMyRequestResource() *schema.Resource {
 						"display": {
 							Type:     schema.TypeString,
 							Computed: true,
-							ForceNew: true,
 						},
 						"ref": {
 							Type:     schema.TypeString,
@@ -136,12 +191,6 @@ func IdentityDomainsMyRequestResource() *schema.Resource {
 			"resource_type_schema_version": {
 				Type:     schema.TypeString,
 				Optional: true,
-				ForceNew: true,
-			},
-			"status": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
 				ForceNew: true,
 			},
 			"tags": {
@@ -183,6 +232,10 @@ func IdentityDomainsMyRequestResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"expires": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -217,7 +270,6 @@ func IdentityDomainsMyRequestResource() *schema.Resource {
 						"ocid": {
 							Type:     schema.TypeString,
 							Computed: true,
-							ForceNew: true,
 						},
 						"ref": {
 							Type:     schema.TypeString,
@@ -256,7 +308,6 @@ func IdentityDomainsMyRequestResource() *schema.Resource {
 						"ocid": {
 							Type:     schema.TypeString,
 							Computed: true,
-							ForceNew: true,
 						},
 						"ref": {
 							Type:     schema.TypeString,
@@ -323,6 +374,10 @@ func IdentityDomainsMyRequestResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -365,6 +420,10 @@ func (s *IdentityDomainsMyRequestResourceCrud) ID() string {
 func (s *IdentityDomainsMyRequestResourceCrud) Create() error {
 	request := oci_identity_domains.CreateMyRequestRequest{}
 
+	if action, ok := s.D.GetOkExists("action"); ok {
+		request.Action = oci_identity_domains.MyRequestActionEnum(action.(string))
+	}
+
 	if attributeSets, ok := s.D.GetOkExists("attribute_sets"); ok {
 		interfaces := attributeSets.([]interface{})
 		tmp := make([]oci_identity_domains.AttributeSetsEnum, len(interfaces))
@@ -386,11 +445,6 @@ func (s *IdentityDomainsMyRequestResourceCrud) Create() error {
 	if authorization, ok := s.D.GetOkExists("authorization"); ok {
 		tmp := authorization.(string)
 		request.Authorization = &tmp
-	}
-
-	if id, ok := s.D.GetOkExists("id"); ok {
-		tmp := id.(string)
-		request.Id = &tmp
 	}
 
 	if justification, ok := s.D.GetOkExists("justification"); ok {
@@ -438,11 +492,6 @@ func (s *IdentityDomainsMyRequestResourceCrud) Create() error {
 		}
 	}
 
-	if status, ok := s.D.GetOkExists("status"); ok {
-		tmp := status.(string)
-		request.Status = &tmp
-	}
-
 	if tags, ok := s.D.GetOkExists("tags"); ok {
 		interfaces := tags.([]interface{})
 		tmp := make([]oci_identity_domains.Tags, len(interfaces))
@@ -473,6 +522,14 @@ func (s *IdentityDomainsMyRequestResourceCrud) Create() error {
 
 func (s *IdentityDomainsMyRequestResourceCrud) SetData() error {
 
+	s.D.Set("action", s.Res.Action)
+
+	approvalDetails := []interface{}{}
+	for _, item := range s.Res.ApprovalDetails {
+		approvalDetails = append(approvalDetails, MyRequestApprovalDetailsToMap(item))
+	}
+	s.D.Set("approval_details", approvalDetails)
+
 	if s.Res.CompartmentOcid != nil {
 		s.D.Set("compartment_ocid", *s.Res.CompartmentOcid)
 	}
@@ -483,6 +540,10 @@ func (s *IdentityDomainsMyRequestResourceCrud) SetData() error {
 
 	if s.Res.DomainOcid != nil {
 		s.D.Set("domain_ocid", *s.Res.DomainOcid)
+	}
+
+	if s.Res.Expires != nil {
+		s.D.Set("expires", *s.Res.Expires)
 	}
 
 	if s.Res.IdcsCreatedBy != nil {
@@ -531,9 +592,7 @@ func (s *IdentityDomainsMyRequestResourceCrud) SetData() error {
 
 	s.D.Set("schemas", s.Res.Schemas)
 
-	if s.Res.Status != nil {
-		s.D.Set("status", *s.Res.Status)
-	}
+	s.D.Set("status", s.Res.Status)
 
 	tags := []interface{}{}
 	for _, item := range s.Res.Tags {
@@ -551,6 +610,14 @@ func (s *IdentityDomainsMyRequestResourceCrud) SetData() error {
 func MyRequestToMap(obj oci_identity_domains.MyRequest) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["action"] = string(obj.Action)
+
+	approvalDetails := []interface{}{}
+	for _, item := range obj.ApprovalDetails {
+		approvalDetails = append(approvalDetails, MyRequestApprovalDetailsToMap(item))
+	}
+	result["approval_details"] = approvalDetails
+
 	if obj.CompartmentOcid != nil {
 		result["compartment_ocid"] = string(*obj.CompartmentOcid)
 	}
@@ -561,6 +628,10 @@ func MyRequestToMap(obj oci_identity_domains.MyRequest) map[string]interface{} {
 
 	if obj.DomainOcid != nil {
 		result["domain_ocid"] = string(*obj.DomainOcid)
+	}
+
+	if obj.Expires != nil {
+		result["expires"] = string(*obj.Expires)
 	}
 
 	if obj.Id != nil {
@@ -603,9 +674,7 @@ func MyRequestToMap(obj oci_identity_domains.MyRequest) map[string]interface{} {
 
 	result["schemas"] = obj.Schemas
 
-	if obj.Status != nil {
-		result["status"] = string(*obj.Status)
-	}
+	result["status"] = string(obj.Status)
 
 	tags := []interface{}{}
 	for _, item := range obj.Tags {
@@ -620,8 +689,88 @@ func MyRequestToMap(obj oci_identity_domains.MyRequest) map[string]interface{} {
 	return result
 }
 
+func (s *IdentityDomainsMyRequestResourceCrud) mapToMyRequestApprovalDetails(fieldKeyFormat string) (oci_identity_domains.MyRequestApprovalDetails, error) {
+	result := oci_identity_domains.MyRequestApprovalDetails{}
+
+	if approvalType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "approval_type")); ok {
+		tmp := approvalType.(string)
+		result.ApprovalType = &tmp
+	}
+
+	if approverDisplayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "approver_display_name")); ok {
+		tmp := approverDisplayName.(string)
+		result.ApproverDisplayName = &tmp
+	}
+
+	if approverId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "approver_id")); ok {
+		tmp := approverId.(string)
+		result.ApproverId = &tmp
+	}
+
+	if justification, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "justification")); ok {
+		tmp := justification.(string)
+		result.Justification = &tmp
+	}
+
+	if order, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "order")); ok {
+		tmp := order.(int)
+		result.Order = &tmp
+	}
+
+	if status, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status")); ok {
+		tmp := status.(string)
+		result.Status = &tmp
+	}
+
+	if timeUpdated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_updated")); ok {
+		tmp := timeUpdated.(string)
+		result.TimeUpdated = &tmp
+	}
+
+	return result, nil
+}
+
+func MyRequestApprovalDetailsToMap(obj oci_identity_domains.MyRequestApprovalDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApprovalType != nil {
+		result["approval_type"] = string(*obj.ApprovalType)
+	}
+
+	if obj.ApproverDisplayName != nil {
+		result["approver_display_name"] = string(*obj.ApproverDisplayName)
+	}
+
+	if obj.ApproverId != nil {
+		result["approver_id"] = string(*obj.ApproverId)
+	}
+
+	if obj.Justification != nil {
+		result["justification"] = string(*obj.Justification)
+	}
+
+	if obj.Order != nil {
+		result["order"] = int(*obj.Order)
+	}
+
+	if obj.Status != nil {
+		result["status"] = string(*obj.Status)
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = string(*obj.TimeUpdated)
+	}
+
+	return result
+}
+
 func (s *IdentityDomainsMyRequestResourceCrud) mapToMyRequestRequesting(fieldKeyFormat string) (oci_identity_domains.MyRequestRequesting, error) {
 	result := oci_identity_domains.MyRequestRequesting{}
+
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
 
 	if display, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display")); ok {
 		tmp := display.(string)
@@ -647,6 +796,10 @@ func (s *IdentityDomainsMyRequestResourceCrud) mapToMyRequestRequesting(fieldKey
 
 func MyRequestRequestingToMap(obj *oci_identity_domains.MyRequestRequesting) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
 
 	if obj.Display != nil {
 		result["display"] = string(*obj.Display)
