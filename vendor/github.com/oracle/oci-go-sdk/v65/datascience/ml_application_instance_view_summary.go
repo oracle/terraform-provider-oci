@@ -27,6 +27,9 @@ type MlApplicationInstanceViewSummary struct {
 	// The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
 	MlApplicationId *string `mandatory:"true" json:"mlApplicationId"`
 
+	// The name of ML Application (based on mlApplicationId).
+	MlApplicationName *string `mandatory:"true" json:"mlApplicationName"`
+
 	// The OCID of the MlApplicationInstance (created by the consumer) which this MlApplicationInstanceView is mirroring.
 	MlApplicationInstanceId *string `mandatory:"true" json:"mlApplicationInstanceId"`
 

@@ -51,6 +51,10 @@ type SensitiveType interface {
 	// The OCID of the parent sensitive category.
 	GetParentCategoryId() *string
 
+	// Specifies whether the sensitive type is common. Common sensitive types belong to
+	// library sensitive types which are frequently used to perform sensitive data discovery.
+	GetIsCommon() *bool
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	GetFreeformTags() map[string]string
@@ -69,6 +73,7 @@ type sensitivetype struct {
 	ShortName        *string                           `mandatory:"false" json:"shortName"`
 	Description      *string                           `mandatory:"false" json:"description"`
 	ParentCategoryId *string                           `mandatory:"false" json:"parentCategoryId"`
+	IsCommon         *bool                             `mandatory:"false" json:"isCommon"`
 	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -103,6 +108,7 @@ func (m *sensitivetype) UnmarshalJSON(data []byte) error {
 	m.ShortName = s.Model.ShortName
 	m.Description = s.Model.Description
 	m.ParentCategoryId = s.Model.ParentCategoryId
+	m.IsCommon = s.Model.IsCommon
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -147,6 +153,11 @@ func (m sensitivetype) GetDescription() *string {
 // GetParentCategoryId returns ParentCategoryId
 func (m sensitivetype) GetParentCategoryId() *string {
 	return m.ParentCategoryId
+}
+
+// GetIsCommon returns IsCommon
+func (m sensitivetype) GetIsCommon() *bool {
+	return m.IsCommon
 }
 
 // GetFreeformTags returns FreeformTags

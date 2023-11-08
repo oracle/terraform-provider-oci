@@ -93,6 +93,59 @@ func (client *UsagePlansClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
+// AddUsagePlanLock Adds a lock to a UsagePlan resource.
+func (client UsagePlansClient) AddUsagePlanLock(ctx context.Context, request AddUsagePlanLockRequest) (response AddUsagePlanLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addUsagePlanLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddUsagePlanLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddUsagePlanLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddUsagePlanLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddUsagePlanLockResponse")
+	}
+	return
+}
+
+// addUsagePlanLock implements the OCIOperation interface (enables retrying operations)
+func (client UsagePlansClient) addUsagePlanLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/usagePlans/{usagePlanId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddUsagePlanLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/UsagePlan/AddUsagePlanLock"
+		err = common.PostProcessServiceError(err, "UsagePlans", "AddUsagePlanLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeUsagePlanCompartment Changes the usage plan compartment.
 func (client UsagePlansClient) ChangeUsagePlanCompartment(ctx context.Context, request ChangeUsagePlanCompartmentRequest) (response ChangeUsagePlanCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -364,6 +417,59 @@ func (client UsagePlansClient) listUsagePlans(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/UsagePlan/ListUsagePlans"
 		err = common.PostProcessServiceError(err, "UsagePlans", "ListUsagePlans", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveUsagePlanLock Removes a lock from a UsagePlan resource.
+func (client UsagePlansClient) RemoveUsagePlanLock(ctx context.Context, request RemoveUsagePlanLockRequest) (response RemoveUsagePlanLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeUsagePlanLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveUsagePlanLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveUsagePlanLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveUsagePlanLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveUsagePlanLockResponse")
+	}
+	return
+}
+
+// removeUsagePlanLock implements the OCIOperation interface (enables retrying operations)
+func (client UsagePlansClient) removeUsagePlanLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/usagePlans/{usagePlanId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveUsagePlanLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/UsagePlan/RemoveUsagePlanLock"
+		err = common.PostProcessServiceError(err, "UsagePlans", "RemoveUsagePlanLock", apiReferenceLink)
 		return response, err
 	}
 

@@ -17,7 +17,7 @@ type ListLookupsRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The lookup type.  Valid values are Lookup or Dictionary.
+	// The lookup type.  Valid values are Lookup, Dictionary or Module.
 	Type ListLookupsTypeEnum `mandatory:"true" contributesTo:"query" name:"type" omitEmpty:"true"`
 
 	// The lookup text used for filtering.  Only lookups with the specified name
@@ -149,16 +149,19 @@ type ListLookupsTypeEnum string
 const (
 	ListLookupsTypeLookup     ListLookupsTypeEnum = "Lookup"
 	ListLookupsTypeDictionary ListLookupsTypeEnum = "Dictionary"
+	ListLookupsTypeModule     ListLookupsTypeEnum = "Module"
 )
 
 var mappingListLookupsTypeEnum = map[string]ListLookupsTypeEnum{
 	"Lookup":     ListLookupsTypeLookup,
 	"Dictionary": ListLookupsTypeDictionary,
+	"Module":     ListLookupsTypeModule,
 }
 
 var mappingListLookupsTypeEnumLowerCase = map[string]ListLookupsTypeEnum{
 	"lookup":     ListLookupsTypeLookup,
 	"dictionary": ListLookupsTypeDictionary,
+	"module":     ListLookupsTypeModule,
 }
 
 // GetListLookupsTypeEnumValues Enumerates the set of values for ListLookupsTypeEnum
@@ -175,6 +178,7 @@ func GetListLookupsTypeEnumStringValues() []string {
 	return []string{
 		"Lookup",
 		"Dictionary",
+		"Module",
 	}
 }
 

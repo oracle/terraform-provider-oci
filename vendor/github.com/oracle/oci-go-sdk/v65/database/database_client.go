@@ -617,6 +617,64 @@ func (client DatabaseClient) changeAutonomousDatabaseCompartment(ctx context.Con
 	return response, err
 }
 
+// ChangeAutonomousDatabaseSoftwareImageCompartment Move the Autonomous Database Software Image and its dependent resources to the specified compartment.
+func (client DatabaseClient) ChangeAutonomousDatabaseSoftwareImageCompartment(ctx context.Context, request ChangeAutonomousDatabaseSoftwareImageCompartmentRequest) (response ChangeAutonomousDatabaseSoftwareImageCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAutonomousDatabaseSoftwareImageCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAutonomousDatabaseSoftwareImageCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAutonomousDatabaseSoftwareImageCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAutonomousDatabaseSoftwareImageCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAutonomousDatabaseSoftwareImageCompartmentResponse")
+	}
+	return
+}
+
+// changeAutonomousDatabaseSoftwareImageCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeAutonomousDatabaseSoftwareImageCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabaseSoftwareImages/{autonomousDatabaseSoftwareImageId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAutonomousDatabaseSoftwareImageCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseSoftwareImage/ChangeAutonomousDatabaseSoftwareImageCompartment"
+		err = common.PostProcessServiceError(err, "Database", "ChangeAutonomousDatabaseSoftwareImageCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeAutonomousExadataInfrastructureCompartment **Deprecated.** Use the ChangeCloudExadataInfrastructureCompartment operation to move an Exadata infrastructure resource to a different compartment and  ChangeCloudAutonomousVmClusterCompartment operation to move an Autonomous Exadata VM cluster to a different compartment.
 // For more information, see
 // Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
@@ -2489,6 +2547,64 @@ func (client DatabaseClient) createAutonomousDatabaseBackup(ctx context.Context,
 	return response, err
 }
 
+// CreateAutonomousDatabaseSoftwareImage create Autonomous Database Software Image in the specified compartment.
+func (client DatabaseClient) CreateAutonomousDatabaseSoftwareImage(ctx context.Context, request CreateAutonomousDatabaseSoftwareImageRequest) (response CreateAutonomousDatabaseSoftwareImageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAutonomousDatabaseSoftwareImage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAutonomousDatabaseSoftwareImageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAutonomousDatabaseSoftwareImageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAutonomousDatabaseSoftwareImageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAutonomousDatabaseSoftwareImageResponse")
+	}
+	return
+}
+
+// createAutonomousDatabaseSoftwareImage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createAutonomousDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabaseSoftwareImages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAutonomousDatabaseSoftwareImageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseSoftwareImage/CreateAutonomousDatabaseSoftwareImage"
+		err = common.PostProcessServiceError(err, "Database", "CreateAutonomousDatabaseSoftwareImage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAutonomousVmCluster Creates an Autonomous VM cluster for Exadata Cloud@Customer. To create an Autonomous VM Cluster in the Oracle cloud, see CreateCloudAutonomousVmCluster.
 func (client DatabaseClient) CreateAutonomousVmCluster(ctx context.Context, request CreateAutonomousVmClusterRequest) (response CreateAutonomousVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3719,9 +3835,9 @@ func (client DatabaseClient) createKeyStore(ctx context.Context, request common.
 }
 
 // CreateMaintenanceRun Creates a maintenance run with one of the following:
-// The latest available release update patch (RUP) for the Autonomous Container Database.
-// The latest available RUP and DST time zone (TZ) file updates for the Autonomous Container Database.
-// Creates a maintenance run to update the DST TZ file for the Autonomous Container Database.
+// 1. The latest available release update patch (RUP) for the Autonomous Container Database.
+// 2. The latest available RUP and DST time-zone (TZ) file updates for the Autonomous Container Database.
+// 3. The DST TZ file updates for the Autonomous Container Database.
 func (client DatabaseClient) CreateMaintenanceRun(ctx context.Context, request CreateMaintenanceRunRequest) (response CreateMaintenanceRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4351,6 +4467,59 @@ func (client DatabaseClient) deleteAutonomousDatabaseBackup(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseBackup/DeleteAutonomousDatabaseBackup"
 		err = common.PostProcessServiceError(err, "Database", "DeleteAutonomousDatabaseBackup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAutonomousDatabaseSoftwareImage Delete an Autonomous Database Software Image
+func (client DatabaseClient) DeleteAutonomousDatabaseSoftwareImage(ctx context.Context, request DeleteAutonomousDatabaseSoftwareImageRequest) (response DeleteAutonomousDatabaseSoftwareImageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAutonomousDatabaseSoftwareImage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAutonomousDatabaseSoftwareImageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAutonomousDatabaseSoftwareImageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAutonomousDatabaseSoftwareImageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAutonomousDatabaseSoftwareImageResponse")
+	}
+	return
+}
+
+// deleteAutonomousDatabaseSoftwareImage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deleteAutonomousDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/autonomousDatabaseSoftwareImages/{autonomousDatabaseSoftwareImageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAutonomousDatabaseSoftwareImageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseSoftwareImage/DeleteAutonomousDatabaseSoftwareImage"
+		err = common.PostProcessServiceError(err, "Database", "DeleteAutonomousDatabaseSoftwareImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -8055,6 +8224,59 @@ func (client DatabaseClient) getAutonomousDatabaseRegionalWallet(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseWallet/GetAutonomousDatabaseRegionalWallet"
 		err = common.PostProcessServiceError(err, "Database", "GetAutonomousDatabaseRegionalWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAutonomousDatabaseSoftwareImage Gets information about the specified Autonomous Database Software Image.
+func (client DatabaseClient) GetAutonomousDatabaseSoftwareImage(ctx context.Context, request GetAutonomousDatabaseSoftwareImageRequest) (response GetAutonomousDatabaseSoftwareImageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAutonomousDatabaseSoftwareImage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAutonomousDatabaseSoftwareImageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAutonomousDatabaseSoftwareImageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAutonomousDatabaseSoftwareImageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAutonomousDatabaseSoftwareImageResponse")
+	}
+	return
+}
+
+// getAutonomousDatabaseSoftwareImage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getAutonomousDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseSoftwareImages/{autonomousDatabaseSoftwareImageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAutonomousDatabaseSoftwareImageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseSoftwareImage/GetAutonomousDatabaseSoftwareImage"
+		err = common.PostProcessServiceError(err, "Database", "GetAutonomousDatabaseSoftwareImage", apiReferenceLink)
 		return response, err
 	}
 
@@ -11957,6 +12179,59 @@ func (client DatabaseClient) listAutonomousDatabaseRefreshableClones(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ListAutonomousDatabaseRefreshableClones"
 		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabaseRefreshableClones", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAutonomousDatabaseSoftwareImages Gets a list of the Autonomous Database Software Images in the specified compartment.
+func (client DatabaseClient) ListAutonomousDatabaseSoftwareImages(ctx context.Context, request ListAutonomousDatabaseSoftwareImagesRequest) (response ListAutonomousDatabaseSoftwareImagesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAutonomousDatabaseSoftwareImages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAutonomousDatabaseSoftwareImagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAutonomousDatabaseSoftwareImagesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAutonomousDatabaseSoftwareImagesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAutonomousDatabaseSoftwareImagesResponse")
+	}
+	return
+}
+
+// listAutonomousDatabaseSoftwareImages implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listAutonomousDatabaseSoftwareImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/autonomousDatabaseSoftwareImages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAutonomousDatabaseSoftwareImagesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseSoftwareImage/ListAutonomousDatabaseSoftwareImages"
+		err = common.PostProcessServiceError(err, "Database", "ListAutonomousDatabaseSoftwareImages", apiReferenceLink)
 		return response, err
 	}
 
@@ -18009,6 +18284,59 @@ func (client DatabaseClient) updateAutonomousDatabaseRegionalWallet(ctx context.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseWallet/UpdateAutonomousDatabaseRegionalWallet"
 		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousDatabaseRegionalWallet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAutonomousDatabaseSoftwareImage Updates the properties of an Autonomous Database Software Image, like add tags
+func (client DatabaseClient) UpdateAutonomousDatabaseSoftwareImage(ctx context.Context, request UpdateAutonomousDatabaseSoftwareImageRequest) (response UpdateAutonomousDatabaseSoftwareImageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAutonomousDatabaseSoftwareImage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAutonomousDatabaseSoftwareImageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAutonomousDatabaseSoftwareImageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAutonomousDatabaseSoftwareImageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAutonomousDatabaseSoftwareImageResponse")
+	}
+	return
+}
+
+// updateAutonomousDatabaseSoftwareImage implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateAutonomousDatabaseSoftwareImage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabaseSoftwareImages/{autonomousDatabaseSoftwareImageId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAutonomousDatabaseSoftwareImageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabaseSoftwareImage/UpdateAutonomousDatabaseSoftwareImage"
+		err = common.PostProcessServiceError(err, "Database", "UpdateAutonomousDatabaseSoftwareImage", apiReferenceLink)
 		return response, err
 	}
 

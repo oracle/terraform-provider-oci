@@ -41,6 +41,12 @@ type OverlappingRecallSummary struct {
 
 	// This is the user who initiated the recall request
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
+
+	// This is the id of the associated recalled data collection
+	CollectionId *int64 `mandatory:"true" json:"collectionId"`
+
+	// This is the id for the recall request
+	RecallId *int64 `mandatory:"true" json:"recallId"`
 }
 
 func (m OverlappingRecallSummary) String() string {

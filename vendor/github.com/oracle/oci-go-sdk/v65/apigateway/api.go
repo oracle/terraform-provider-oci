@@ -38,6 +38,9 @@ type Api struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The current state of the API.
 	LifecycleState ApiLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

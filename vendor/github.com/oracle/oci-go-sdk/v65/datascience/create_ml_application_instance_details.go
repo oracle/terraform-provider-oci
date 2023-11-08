@@ -31,7 +31,7 @@ type CreateMlApplicationInstanceDetails struct {
 	// The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application)
 	MlApplicationImplementationId *string `mandatory:"false" json:"mlApplicationImplementationId"`
 
-	AuthConfiguration AuthConfiguration `mandatory:"false" json:"authConfiguration"`
+	AuthConfiguration CreateAuthConfigurationDetails `mandatory:"false" json:"authConfiguration"`
 
 	// Data that are used for provisioning of the given MlApplicationInstance. These are validated against configurationSchema defined in referenced MlApplicationImplementation.
 	Configuration []ConfigurationProperty `mandatory:"false" json:"configuration"`
@@ -69,7 +69,7 @@ func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error
 	model := struct {
 		DisplayName                   *string                           `json:"displayName"`
 		MlApplicationImplementationId *string                           `json:"mlApplicationImplementationId"`
-		AuthConfiguration             authconfiguration                 `json:"authConfiguration"`
+		AuthConfiguration             createauthconfigurationdetails    `json:"authConfiguration"`
 		Configuration                 []ConfigurationProperty           `json:"configuration"`
 		IsEnabled                     *bool                             `json:"isEnabled"`
 		FreeformTags                  map[string]string                 `json:"freeformTags"`
@@ -92,7 +92,7 @@ func (m *CreateMlApplicationInstanceDetails) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	if nn != nil {
-		m.AuthConfiguration = nn.(AuthConfiguration)
+		m.AuthConfiguration = nn.(CreateAuthConfigurationDetails)
 	} else {
 		m.AuthConfiguration = nil
 	}

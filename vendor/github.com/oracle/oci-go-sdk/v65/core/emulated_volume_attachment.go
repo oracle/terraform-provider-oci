@@ -67,6 +67,10 @@ type EmulatedVolumeAttachment struct {
 	// Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 	IsMultipath *bool `mandatory:"false" json:"isMultipath"`
 
+	// Flag indicating if this volume was created for the customer as part of a simplified launch.
+	// Used to determine whether the volume requires deletion on instance termination.
+	IsVolumeCreatedDuringLaunch *bool `mandatory:"false" json:"isVolumeCreatedDuringLaunch"`
+
 	// The current state of the volume attachment.
 	LifecycleState VolumeAttachmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -143,6 +147,11 @@ func (m EmulatedVolumeAttachment) GetIsMultipath() *bool {
 // GetIscsiLoginState returns IscsiLoginState
 func (m EmulatedVolumeAttachment) GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum {
 	return m.IscsiLoginState
+}
+
+// GetIsVolumeCreatedDuringLaunch returns IsVolumeCreatedDuringLaunch
+func (m EmulatedVolumeAttachment) GetIsVolumeCreatedDuringLaunch() *bool {
+	return m.IsVolumeCreatedDuringLaunch
 }
 
 func (m EmulatedVolumeAttachment) String() string {

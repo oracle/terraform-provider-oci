@@ -63,6 +63,9 @@ type Model struct {
 	// The maximum model training time in hours, expressed as a decimal fraction.
 	MaxTrainingTimeInHours *float64 `mandatory:"false" json:"maxTrainingTimeInHours"`
 
+	// The document language for model training, abbreviated according to the BCP 47 syntax.
+	Language *string `mandatory:"false" json:"language"`
+
 	// The total hours actually used for model training.
 	TrainedTimeInHours *float64 `mandatory:"false" json:"trainedTimeInHours"`
 
@@ -132,6 +135,7 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 		Labels                 []string                          `json:"labels"`
 		IsQuickMode            *bool                             `json:"isQuickMode"`
 		MaxTrainingTimeInHours *float64                          `json:"maxTrainingTimeInHours"`
+		Language               *string                           `json:"language"`
 		TrainedTimeInHours     *float64                          `json:"trainedTimeInHours"`
 		TestingDataset         dataset                           `json:"testingDataset"`
 		ValidationDataset      dataset                           `json:"validationDataset"`
@@ -172,6 +176,8 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	m.IsQuickMode = model.IsQuickMode
 
 	m.MaxTrainingTimeInHours = model.MaxTrainingTimeInHours
+
+	m.Language = model.Language
 
 	m.TrainedTimeInHours = model.TrainedTimeInHours
 

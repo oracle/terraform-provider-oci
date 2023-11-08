@@ -51,30 +51,33 @@ type DiscoveryAnalyticsSummaryMetricNameEnum string
 
 // Set of constants representing the allowable values for DiscoveryAnalyticsSummaryMetricNameEnum
 const (
-	DiscoveryAnalyticsSummaryMetricNameDataModel DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_DATA_MODEL"
-	DiscoveryAnalyticsSummaryMetricNameType      DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_TYPE"
-	DiscoveryAnalyticsSummaryMetricNameSchema    DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_SCHEMA"
-	DiscoveryAnalyticsSummaryMetricNameTable     DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_TABLE"
-	DiscoveryAnalyticsSummaryMetricNameColumn    DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_COLUMN"
-	DiscoveryAnalyticsSummaryMetricNameDataValue DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_DATA_VALUE"
+	DiscoveryAnalyticsSummaryMetricNameSensitiveDataModel DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_DATA_MODEL"
+	DiscoveryAnalyticsSummaryMetricNameSensitiveType      DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_TYPE"
+	DiscoveryAnalyticsSummaryMetricNameSensitiveSchema    DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_SCHEMA"
+	DiscoveryAnalyticsSummaryMetricNameSensitiveTable     DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_TABLE"
+	DiscoveryAnalyticsSummaryMetricNameSensitiveColumn    DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_COLUMN"
+	DiscoveryAnalyticsSummaryMetricNameSensitiveDataValue DiscoveryAnalyticsSummaryMetricNameEnum = "SENSITIVE_DATA_VALUE"
+	DiscoveryAnalyticsSummaryMetricNameTargetDatabase     DiscoveryAnalyticsSummaryMetricNameEnum = "TARGET_DATABASE"
 )
 
 var mappingDiscoveryAnalyticsSummaryMetricNameEnum = map[string]DiscoveryAnalyticsSummaryMetricNameEnum{
-	"SENSITIVE_DATA_MODEL": DiscoveryAnalyticsSummaryMetricNameDataModel,
-	"SENSITIVE_TYPE":       DiscoveryAnalyticsSummaryMetricNameType,
-	"SENSITIVE_SCHEMA":     DiscoveryAnalyticsSummaryMetricNameSchema,
-	"SENSITIVE_TABLE":      DiscoveryAnalyticsSummaryMetricNameTable,
-	"SENSITIVE_COLUMN":     DiscoveryAnalyticsSummaryMetricNameColumn,
-	"SENSITIVE_DATA_VALUE": DiscoveryAnalyticsSummaryMetricNameDataValue,
+	"SENSITIVE_DATA_MODEL": DiscoveryAnalyticsSummaryMetricNameSensitiveDataModel,
+	"SENSITIVE_TYPE":       DiscoveryAnalyticsSummaryMetricNameSensitiveType,
+	"SENSITIVE_SCHEMA":     DiscoveryAnalyticsSummaryMetricNameSensitiveSchema,
+	"SENSITIVE_TABLE":      DiscoveryAnalyticsSummaryMetricNameSensitiveTable,
+	"SENSITIVE_COLUMN":     DiscoveryAnalyticsSummaryMetricNameSensitiveColumn,
+	"SENSITIVE_DATA_VALUE": DiscoveryAnalyticsSummaryMetricNameSensitiveDataValue,
+	"TARGET_DATABASE":      DiscoveryAnalyticsSummaryMetricNameTargetDatabase,
 }
 
 var mappingDiscoveryAnalyticsSummaryMetricNameEnumLowerCase = map[string]DiscoveryAnalyticsSummaryMetricNameEnum{
-	"sensitive_data_model": DiscoveryAnalyticsSummaryMetricNameDataModel,
-	"sensitive_type":       DiscoveryAnalyticsSummaryMetricNameType,
-	"sensitive_schema":     DiscoveryAnalyticsSummaryMetricNameSchema,
-	"sensitive_table":      DiscoveryAnalyticsSummaryMetricNameTable,
-	"sensitive_column":     DiscoveryAnalyticsSummaryMetricNameColumn,
-	"sensitive_data_value": DiscoveryAnalyticsSummaryMetricNameDataValue,
+	"sensitive_data_model": DiscoveryAnalyticsSummaryMetricNameSensitiveDataModel,
+	"sensitive_type":       DiscoveryAnalyticsSummaryMetricNameSensitiveType,
+	"sensitive_schema":     DiscoveryAnalyticsSummaryMetricNameSensitiveSchema,
+	"sensitive_table":      DiscoveryAnalyticsSummaryMetricNameSensitiveTable,
+	"sensitive_column":     DiscoveryAnalyticsSummaryMetricNameSensitiveColumn,
+	"sensitive_data_value": DiscoveryAnalyticsSummaryMetricNameSensitiveDataValue,
+	"target_database":      DiscoveryAnalyticsSummaryMetricNameTargetDatabase,
 }
 
 // GetDiscoveryAnalyticsSummaryMetricNameEnumValues Enumerates the set of values for DiscoveryAnalyticsSummaryMetricNameEnum
@@ -95,6 +98,7 @@ func GetDiscoveryAnalyticsSummaryMetricNameEnumStringValues() []string {
 		"SENSITIVE_TABLE",
 		"SENSITIVE_COLUMN",
 		"SENSITIVE_DATA_VALUE",
+		"TARGET_DATABASE",
 	}
 }
 

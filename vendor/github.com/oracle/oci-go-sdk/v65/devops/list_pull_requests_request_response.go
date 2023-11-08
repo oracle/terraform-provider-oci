@@ -38,6 +38,9 @@ type ListPullRequestsRequest struct {
 	// PullRequest Target Branch
 	DestinationBranch *string `mandatory:"false" contributesTo:"query" name:"destinationBranch"`
 
+	// PullRequest Source Branch.
+	SourceBranch *string `mandatory:"false" contributesTo:"query" name:"sourceBranch"`
+
 	// PullRequest Reviewer Id
 	ReviewerPrincipalId *string `mandatory:"false" contributesTo:"query" name:"reviewerPrincipalId"`
 

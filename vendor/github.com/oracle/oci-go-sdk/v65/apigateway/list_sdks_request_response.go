@@ -14,7 +14,7 @@ import (
 // ListSdksRequest wrapper for the ListSdks operation
 type ListSdksRequest struct {
 
-	// The ocid of the SDK.
+	// The ocid of the SDK. This value must be present unless apiId is present.
 	SdkId *string `mandatory:"false" contributesTo:"query" name:"sdkId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -40,7 +40,7 @@ type ListSdksRequest struct {
 	// sensitive.
 	SortBy ListSdksSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The ocid of the API.
+	// The ocid of the API. This value must be present unless sdkId is present.
 	ApiId *string `mandatory:"false" contributesTo:"query" name:"apiId"`
 
 	// The client request id for tracing.

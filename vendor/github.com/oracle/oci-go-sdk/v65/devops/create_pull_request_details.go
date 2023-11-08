@@ -27,7 +27,7 @@ type CreatePullRequestDetails struct {
 	// The OCID of the repository.
 	RepositoryId *string `mandatory:"true" json:"repositoryId"`
 
-	// The destination branch of the pull request.
+	// The destination branch of the pull request. If not provided, default branch will be used as the destination branch.
 	DestinationBranch *string `mandatory:"false" json:"destinationBranch"`
 
 	// The OCID of the forked repository that will act as the source of the changes to be included in the pull request against the parent repository.

@@ -23,7 +23,7 @@ type IdcsAuthConfiguration struct {
 	IdcsStripeUri *string `mandatory:"true" json:"idcsStripeUri"`
 
 	// Unique id of the IDCS application
-	ApplicationId *string `mandatory:"false" json:"applicationId"`
+	ApplicationId *string `mandatory:"true" json:"applicationId"`
 }
 
 func (m IdcsAuthConfiguration) String() string {

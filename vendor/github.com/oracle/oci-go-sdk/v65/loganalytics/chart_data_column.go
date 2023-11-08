@@ -40,6 +40,9 @@ type ChartDataColumn struct {
 	// Identifies if this column can be used as an expression parameter in any command that accepts querylanguage expressions.
 	IsEvaluable *bool `mandatory:"false" json:"isEvaluable"`
 
+	// Identifies if this column should be hidden by default but can be displayed in the UI on demand.
+	IsHidden *bool `mandatory:"false" json:"isHidden"`
+
 	// Same as displayName unless column renamed in which case this will hold the original display name for the column.
 	OriginalDisplayName *string `mandatory:"false" json:"originalDisplayName"`
 
@@ -97,6 +100,11 @@ func (m ChartDataColumn) GetIsGroupable() *bool {
 // GetIsEvaluable returns IsEvaluable
 func (m ChartDataColumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
+}
+
+// GetIsHidden returns IsHidden
+func (m ChartDataColumn) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 // GetValueType returns ValueType

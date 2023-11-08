@@ -45,6 +45,10 @@ type VirtualCircuitDrgAttachmentNetworkCreateDetails struct {
 	// Example: `true`
 	TransportOnlyMode *bool `mandatory:"false" json:"transportOnlyMode"`
 
+	// Determines whether the ingress traffic/routes through this attachment are disintermediated or not.
+	// Example: `true`
+	IsWhitelistedForIngressDisintermediationC3 *bool `mandatory:"false" json:"isWhitelistedForIngressDisintermediationC3"`
+
 	// Determines Throughput capacity of Virtual Circuit.
 	// Example: `400G`
 	Throughput VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum `mandatory:"false" json:"throughput,omitempty"`
@@ -93,15 +97,63 @@ type VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum string
 
 // Set of constants representing the allowable values for VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum
 const (
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput100m VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "100M"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput200m VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "200M"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput500m VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "500M"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput1g   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "1G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput2g   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "2G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput3g   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "3G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput4g   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "4G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput5g   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "5G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput10g  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "10G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput20g  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "20G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput30g  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "30G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput40g  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "40G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput50g  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "50G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput100g VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "100G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput200g VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "200G"
 	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput400g VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "400G"
+	VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput500g VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = "500G"
 )
 
 var mappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum = map[string]VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum{
+	"100M": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput100m,
+	"200M": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput200m,
+	"500M": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput500m,
+	"1G":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput1g,
+	"2G":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput2g,
+	"3G":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput3g,
+	"4G":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput4g,
+	"5G":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput5g,
+	"10G":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput10g,
+	"20G":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput20g,
+	"30G":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput30g,
+	"40G":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput40g,
+	"50G":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput50g,
+	"100G": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput100g,
+	"200G": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput200g,
 	"400G": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput400g,
+	"500G": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput500g,
 }
 
 var mappingVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumLowerCase = map[string]VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum{
+	"100m": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput100m,
+	"200m": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput200m,
+	"500m": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput500m,
+	"1g":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput1g,
+	"2g":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput2g,
+	"3g":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput3g,
+	"4g":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput4g,
+	"5g":   VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput5g,
+	"10g":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput10g,
+	"20g":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput20g,
+	"30g":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput30g,
+	"40g":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput40g,
+	"50g":  VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput50g,
+	"100g": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput100g,
+	"200g": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput200g,
 	"400g": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput400g,
+	"500g": VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughput500g,
 }
 
 // GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumValues Enumerates the set of values for VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum
@@ -116,7 +168,23 @@ func GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumValues() []
 // GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumStringValues Enumerates the set of values in String for VirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnum
 func GetVirtualCircuitDrgAttachmentNetworkCreateDetailsThroughputEnumStringValues() []string {
 	return []string{
+		"100M",
+		"200M",
+		"500M",
+		"1G",
+		"2G",
+		"3G",
+		"4G",
+		"5G",
+		"10G",
+		"20G",
+		"30G",
+		"40G",
+		"50G",
+		"100G",
+		"200G",
 		"400G",
+		"500G",
 	}
 }
 

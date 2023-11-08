@@ -10,16 +10,19 @@
 package devops
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// UpdateProjectRepositorySettingsDetails Information to update custom project repository settings
+// UpdateProjectRepositorySettingsDetails Information to update custom project repository settings.
 type UpdateProjectRepositorySettingsDetails struct {
 	MergeSettings *MergeSettings `mandatory:"false" json:"mergeSettings"`
 
 	ApprovalRules *UpdateApprovalRuleDetailsCollection `mandatory:"false" json:"approvalRules"`
+
+	RepositoryAccessMode RepositoryAccessMode `mandatory:"false" json:"repositoryAccessMode"`
 }
 
 func (m UpdateProjectRepositorySettingsDetails) String() string {
@@ -36,4 +39,34 @@ func (m UpdateProjectRepositorySettingsDetails) ValidateEnumValue() (bool, error
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateProjectRepositorySettingsDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		MergeSettings        *MergeSettings                       `json:"mergeSettings"`
+		ApprovalRules        *UpdateApprovalRuleDetailsCollection `json:"approvalRules"`
+		RepositoryAccessMode repositoryaccessmode                 `json:"repositoryAccessMode"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.MergeSettings = model.MergeSettings
+
+	m.ApprovalRules = model.ApprovalRules
+
+	nn, e = model.RepositoryAccessMode.UnmarshalPolymorphicJSON(model.RepositoryAccessMode.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.RepositoryAccessMode = nn.(RepositoryAccessMode)
+	} else {
+		m.RepositoryAccessMode = nil
+	}
+
+	return
 }

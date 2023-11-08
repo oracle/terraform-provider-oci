@@ -51,6 +51,9 @@ type RuleSummary struct {
 	// The current state of the logging analytics rule.
 	LifecycleState ConfigLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// The target service.
+	TargetService *string `mandatory:"false" json:"targetService"`
+
 	// A flag indicating whether or not the ingest time rule or scheduled task is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 

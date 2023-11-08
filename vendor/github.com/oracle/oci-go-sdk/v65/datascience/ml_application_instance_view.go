@@ -31,6 +31,9 @@ type MlApplicationInstanceView struct {
 	// This field is a copy from MlApplicationInstance created by the consumer. The OCID of ML Application. This resource is an instance of ML Application referenced by this OCID.
 	MlApplicationId *string `mandatory:"true" json:"mlApplicationId"`
 
+	// The name of ML Application (based on mlApplicationId).
+	MlApplicationName *string `mandatory:"true" json:"mlApplicationName"`
+
 	// This field is a copy from MlApplicationInstance created by the consumer. The OCID of ML Application Implementation selected as a certain solution for a given ML problem (ML Application)
 	MlApplicationImplementationId *string `mandatory:"true" json:"mlApplicationImplementationId"`
 
@@ -119,6 +122,7 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                          *string                                        `json:"displayName"`
 		MlApplicationInstanceId              *string                                        `json:"mlApplicationInstanceId"`
 		MlApplicationId                      *string                                        `json:"mlApplicationId"`
+		MlApplicationName                    *string                                        `json:"mlApplicationName"`
 		MlApplicationImplementationId        *string                                        `json:"mlApplicationImplementationId"`
 		MlApplicationImplementationName      *string                                        `json:"mlApplicationImplementationName"`
 		PackageVersion                       *string                                        `json:"packageVersion"`
@@ -173,6 +177,8 @@ func (m *MlApplicationInstanceView) UnmarshalJSON(data []byte) (e error) {
 	m.MlApplicationInstanceId = model.MlApplicationInstanceId
 
 	m.MlApplicationId = model.MlApplicationId
+
+	m.MlApplicationName = model.MlApplicationName
 
 	m.MlApplicationImplementationId = model.MlApplicationImplementationId
 

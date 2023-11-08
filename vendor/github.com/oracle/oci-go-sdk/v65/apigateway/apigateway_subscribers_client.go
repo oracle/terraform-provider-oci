@@ -93,6 +93,59 @@ func (client *SubscribersClient) ConfigurationProvider() *common.ConfigurationPr
 	return client.config
 }
 
+// AddSubscriberLock Adds a lock to a Subscriber resource.
+func (client SubscribersClient) AddSubscriberLock(ctx context.Context, request AddSubscriberLockRequest) (response AddSubscriberLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addSubscriberLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddSubscriberLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddSubscriberLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddSubscriberLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddSubscriberLockResponse")
+	}
+	return
+}
+
+// addSubscriberLock implements the OCIOperation interface (enables retrying operations)
+func (client SubscribersClient) addSubscriberLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscribers/{subscriberId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddSubscriberLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Subscriber/AddSubscriberLock"
+		err = common.PostProcessServiceError(err, "Subscribers", "AddSubscriberLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeSubscriberCompartment Changes the subscriber compartment.
 func (client SubscribersClient) ChangeSubscriberCompartment(ctx context.Context, request ChangeSubscriberCompartmentRequest) (response ChangeSubscriberCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -364,6 +417,59 @@ func (client SubscribersClient) listSubscribers(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Subscriber/ListSubscribers"
 		err = common.PostProcessServiceError(err, "Subscribers", "ListSubscribers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveSubscriberLock Removes a lock from a Subscriber resource.
+func (client SubscribersClient) RemoveSubscriberLock(ctx context.Context, request RemoveSubscriberLockRequest) (response RemoveSubscriberLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeSubscriberLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveSubscriberLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveSubscriberLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveSubscriberLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveSubscriberLockResponse")
+	}
+	return
+}
+
+// removeSubscriberLock implements the OCIOperation interface (enables retrying operations)
+func (client SubscribersClient) removeSubscriberLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/subscribers/{subscriberId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveSubscriberLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Subscriber/RemoveSubscriberLock"
+		err = common.PostProcessServiceError(err, "Subscribers", "RemoveSubscriberLock", apiReferenceLink)
 		return response, err
 	}
 

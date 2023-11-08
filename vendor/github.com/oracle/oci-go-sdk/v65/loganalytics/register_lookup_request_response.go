@@ -18,7 +18,7 @@ type RegisterLookupRequest struct {
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The lookup type.  Valid values are Lookup or Dictionary.
+	// The lookup type.  Valid values are Lookup, Dictionary or Module.
 	Type RegisterLookupTypeEnum `mandatory:"true" contributesTo:"query" name:"type" omitEmpty:"true"`
 
 	// file containing data for lookup creation
@@ -131,16 +131,19 @@ type RegisterLookupTypeEnum string
 const (
 	RegisterLookupTypeLookup     RegisterLookupTypeEnum = "Lookup"
 	RegisterLookupTypeDictionary RegisterLookupTypeEnum = "Dictionary"
+	RegisterLookupTypeModule     RegisterLookupTypeEnum = "Module"
 )
 
 var mappingRegisterLookupTypeEnum = map[string]RegisterLookupTypeEnum{
 	"Lookup":     RegisterLookupTypeLookup,
 	"Dictionary": RegisterLookupTypeDictionary,
+	"Module":     RegisterLookupTypeModule,
 }
 
 var mappingRegisterLookupTypeEnumLowerCase = map[string]RegisterLookupTypeEnum{
 	"lookup":     RegisterLookupTypeLookup,
 	"dictionary": RegisterLookupTypeDictionary,
+	"module":     RegisterLookupTypeModule,
 }
 
 // GetRegisterLookupTypeEnumValues Enumerates the set of values for RegisterLookupTypeEnum
@@ -157,6 +160,7 @@ func GetRegisterLookupTypeEnumStringValues() []string {
 	return []string{
 		"Lookup",
 		"Dictionary",
+		"Module",
 	}
 }
 

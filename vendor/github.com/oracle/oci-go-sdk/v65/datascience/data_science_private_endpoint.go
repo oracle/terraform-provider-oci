@@ -55,6 +55,10 @@ type DataSciencePrivateEndpoint struct {
 	// A user friendly description. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Details of the state of Data Science private endpoint.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 

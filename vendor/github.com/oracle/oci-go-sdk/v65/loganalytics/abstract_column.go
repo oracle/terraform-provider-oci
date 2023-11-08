@@ -43,6 +43,9 @@ type AbstractColumn interface {
 	// Identifies if this column can be used as an expression parameter in any command that accepts querylanguage expressions.
 	GetIsEvaluable() *bool
 
+	// Identifies if this column should be hidden by default but can be displayed in the UI on demand.
+	GetIsHidden() *bool
+
 	// Field denoting column data type.
 	GetValueType() ValueTypeEnum
 
@@ -63,6 +66,7 @@ type abstractcolumn struct {
 	IsCaseSensitive     *bool             `mandatory:"false" json:"isCaseSensitive"`
 	IsGroupable         *bool             `mandatory:"false" json:"isGroupable"`
 	IsEvaluable         *bool             `mandatory:"false" json:"isEvaluable"`
+	IsHidden            *bool             `mandatory:"false" json:"isHidden"`
 	ValueType           ValueTypeEnum     `mandatory:"false" json:"valueType,omitempty"`
 	OriginalDisplayName *string           `mandatory:"false" json:"originalDisplayName"`
 	InternalName        *string           `mandatory:"false" json:"internalName"`
@@ -88,6 +92,7 @@ func (m *abstractcolumn) UnmarshalJSON(data []byte) error {
 	m.IsCaseSensitive = s.Model.IsCaseSensitive
 	m.IsGroupable = s.Model.IsGroupable
 	m.IsEvaluable = s.Model.IsEvaluable
+	m.IsHidden = s.Model.IsHidden
 	m.ValueType = s.Model.ValueType
 	m.OriginalDisplayName = s.Model.OriginalDisplayName
 	m.InternalName = s.Model.InternalName
@@ -193,6 +198,11 @@ func (m abstractcolumn) GetIsGroupable() *bool {
 // GetIsEvaluable returns IsEvaluable
 func (m abstractcolumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
+}
+
+// GetIsHidden returns IsHidden
+func (m abstractcolumn) GetIsHidden() *bool {
+	return m.IsHidden
 }
 
 // GetValueType returns ValueType

@@ -97,6 +97,9 @@ type UpsertLogAnalyticsParserDetails struct {
 	// An array of categories to assign to the parser. Specifying the name attribute for each category would suffice.
 	// Oracle-defined category assignments cannot be removed.
 	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
+
+	// A flag indicating whether the parser is positionally aware.
+	IsPositionAware *bool `mandatory:"false" json:"isPositionAware"`
 }
 
 func (m UpsertLogAnalyticsParserDetails) String() string {

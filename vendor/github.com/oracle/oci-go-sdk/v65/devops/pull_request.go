@@ -33,7 +33,7 @@ type PullRequest struct {
 	// The source branch which contains the changes to be reviewed. Example: "feature/JIRA-123"
 	SourceBranch *string `mandatory:"true" json:"sourceBranch"`
 
-	// The destination branch against which the changes are to be reviewed. Example: "main"
+	// The destination branch against which the changes are to be reviewed. Example: "main".
 	DestinationBranch *string `mandatory:"true" json:"destinationBranch"`
 
 	// The time the PullRequest was created. An RFC3339 formatted datetime string

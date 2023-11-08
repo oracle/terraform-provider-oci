@@ -58,6 +58,10 @@ func (m *instancecomponent) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := MlApplicationInstanceInternalTrigger{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OBJECT_STORAGE_OBJECT":
+		mm := ObjectStorageObjectInstanceComponent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OBJECT_STORAGE_BUCKET":
 		mm := ObjectStorageBucketInstanceComponent{}
 		err = json.Unmarshal(data, &mm)

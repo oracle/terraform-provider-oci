@@ -63,6 +63,10 @@ func (m *applicationcomponent) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := DataSciencePipelineApplicationComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATA_SCIENCE_MODEL":
+		mm := DataScienceModelApplicationComponent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for ApplicationComponent: %s.", m.Type)
 		return *m, nil

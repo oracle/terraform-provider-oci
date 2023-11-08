@@ -16086,6 +16086,59 @@ func (client VirtualNetworkClient) getRemotePeeringConnection(ctx context.Contex
 	return response, err
 }
 
+// GetResourceIpInventory Gets the `IpInventory` resource.
+func (client VirtualNetworkClient) GetResourceIpInventory(ctx context.Context, request GetResourceIpInventoryRequest) (response GetResourceIpInventoryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getResourceIpInventory, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetResourceIpInventoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetResourceIpInventoryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetResourceIpInventoryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetResourceIpInventoryResponse")
+	}
+	return
+}
+
+// getResourceIpInventory implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getResourceIpInventory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ipinventory/DataRequestId/{dataRequestId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetResourceIpInventoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IpInventoryCollection/GetResourceIpInventory"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetResourceIpInventory", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetReverseConnectionNatIp Gets the reverse connection NAT IP address for the specified private endpoint. This is the IP
 // address to use as the destination when initiating reverse connections to the customer's IP address.
 func (client VirtualNetworkClient) GetReverseConnectionNatIp(ctx context.Context, request GetReverseConnectionNatIpRequest) (response GetReverseConnectionNatIpResponse, err error) {
@@ -16451,6 +16504,112 @@ func (client VirtualNetworkClient) getSubnet(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Subnet/GetSubnet"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetSubnet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSubnetCidrUtilization Gets the `SubnetIpInventory` resource. You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+func (client VirtualNetworkClient) GetSubnetCidrUtilization(ctx context.Context, request GetSubnetCidrUtilizationRequest) (response GetSubnetCidrUtilizationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubnetCidrUtilization, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubnetCidrUtilizationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubnetCidrUtilizationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubnetCidrUtilizationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubnetCidrUtilizationResponse")
+	}
+	return
+}
+
+// getSubnetCidrUtilization implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getSubnetCidrUtilization(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ipInventory/subnets/{subnetId}/cidrs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubnetCidrUtilizationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IpInventoryCidrUtilizationCollection/GetSubnetCidrUtilization"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetSubnetCidrUtilization", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSubnetIpInventory Gets the `SubnetIpInventory` resource. You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+func (client VirtualNetworkClient) GetSubnetIpInventory(ctx context.Context, request GetSubnetIpInventoryRequest) (response GetSubnetIpInventoryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSubnetIpInventory, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSubnetIpInventoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSubnetIpInventoryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSubnetIpInventoryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSubnetIpInventoryResponse")
+	}
+	return
+}
+
+// getSubnetIpInventory implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getSubnetIpInventory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/ipInventory/subnets/{subnetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSubnetIpInventoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IpInventorySubnetResourceCollection/GetSubnetIpInventory"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetSubnetIpInventory", apiReferenceLink)
 		return response, err
 	}
 
@@ -17011,6 +17170,64 @@ func (client VirtualNetworkClient) getVcnMappinglessStatus(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/GetVcnMappinglessStatus"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnMappinglessStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetVcnOverlap Lists the `IpInventory` resources in the selected compartments.
+func (client VirtualNetworkClient) GetVcnOverlap(ctx context.Context, request GetVcnOverlapRequest) (response GetVcnOverlapResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getVcnOverlap, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetVcnOverlapResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetVcnOverlapResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetVcnOverlapResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetVcnOverlapResponse")
+	}
+	return
+}
+
+// getVcnOverlap implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getVcnOverlap(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/ipInventory/vcns/{vcnId}/overlaps", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetVcnOverlapResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IpInventoryVcnOverlapCollection/GetVcnOverlap"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetVcnOverlap", apiReferenceLink)
 		return response, err
 	}
 
@@ -20194,6 +20411,59 @@ func (client VirtualNetworkClient) listInternetGateways(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternetGateway/ListInternetGateways"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternetGateways", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListIpInventory Lists the `IpInventory` resources in the selected compartments.
+func (client VirtualNetworkClient) ListIpInventory(ctx context.Context, request ListIpInventoryRequest) (response ListIpInventoryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIpInventory, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIpInventoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIpInventoryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIpInventoryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIpInventoryResponse")
+	}
+	return
+}
+
+// listIpInventory implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listIpInventory(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/ipInventory", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIpInventoryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ListIpInventory"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIpInventory", apiReferenceLink)
 		return response, err
 	}
 

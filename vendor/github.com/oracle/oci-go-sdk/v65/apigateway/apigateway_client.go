@@ -93,6 +93,165 @@ func (client *ApiGatewayClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
+// AddApiLock Adds a lock to a Api resource.
+func (client ApiGatewayClient) AddApiLock(ctx context.Context, request AddApiLockRequest) (response AddApiLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addApiLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddApiLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddApiLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddApiLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddApiLockResponse")
+	}
+	return
+}
+
+// addApiLock implements the OCIOperation interface (enables retrying operations)
+func (client ApiGatewayClient) addApiLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/apis/{apiId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddApiLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/AddApiLock"
+		err = common.PostProcessServiceError(err, "ApiGateway", "AddApiLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddCertificateLock Adds a lock to a Certificate resource.
+func (client ApiGatewayClient) AddCertificateLock(ctx context.Context, request AddCertificateLockRequest) (response AddCertificateLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addCertificateLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddCertificateLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddCertificateLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddCertificateLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddCertificateLockResponse")
+	}
+	return
+}
+
+// addCertificateLock implements the OCIOperation interface (enables retrying operations)
+func (client ApiGatewayClient) addCertificateLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates/{certificateId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddCertificateLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Certificate/AddCertificateLock"
+		err = common.PostProcessServiceError(err, "ApiGateway", "AddCertificateLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddSdkLock Adds a lock to a Sdk resource.
+func (client ApiGatewayClient) AddSdkLock(ctx context.Context, request AddSdkLockRequest) (response AddSdkLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addSdkLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddSdkLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddSdkLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddSdkLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddSdkLockResponse")
+	}
+	return
+}
+
+// addSdkLock implements the OCIOperation interface (enables retrying operations)
+func (client ApiGatewayClient) addSdkLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sdks/{sdkId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddSdkLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Sdk/AddSdkLock"
+		err = common.PostProcessServiceError(err, "ApiGateway", "AddSdkLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeApiCompartment Changes the API compartment.
 func (client ApiGatewayClient) ChangeApiCompartment(ctx context.Context, request ChangeApiCompartmentRequest) (response ChangeApiCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -144,64 +303,6 @@ func (client ApiGatewayClient) changeApiCompartment(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/ChangeApiCompartment"
 		err = common.PostProcessServiceError(err, "ApiGateway", "ChangeApiCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ChangeCatalogCompartment Changes the API Catalog compartment.
-func (client ApiGatewayClient) ChangeCatalogCompartment(ctx context.Context, request ChangeCatalogCompartmentRequest) (response ChangeCatalogCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeCatalogCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeCatalogCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeCatalogCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeCatalogCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeCatalogCompartmentResponse")
-	}
-	return
-}
-
-// changeCatalogCompartment implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) changeCatalogCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeCatalogCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/ChangeCatalogCompartment"
-		err = common.PostProcessServiceError(err, "ApiGateway", "ChangeCatalogCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -319,65 +420,6 @@ func (client ApiGatewayClient) createApi(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ApiGateway", "CreateApi", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateCatalog Creates a new catalog.
-// A default retry strategy applies to this operation CreateCatalog()
-func (client ApiGatewayClient) CreateCatalog(ctx context.Context, request CreateCatalogRequest) (response CreateCatalogResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createCatalog, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateCatalogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateCatalogResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateCatalogResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateCatalogResponse")
-	}
-	return
-}
-
-// createCatalog implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) createCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateCatalogResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/CreateCatalog"
-		err = common.PostProcessServiceError(err, "ApiGateway", "CreateCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -549,59 +591,6 @@ func (client ApiGatewayClient) deleteApi(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/DeleteApi"
 		err = common.PostProcessServiceError(err, "ApiGateway", "DeleteApi", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteCatalog Deletes the API Catalog with the given identifier.
-func (client ApiGatewayClient) DeleteCatalog(ctx context.Context, request DeleteCatalogRequest) (response DeleteCatalogResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteCatalog, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteCatalogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteCatalogResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteCatalogResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteCatalogResponse")
-	}
-	return
-}
-
-// deleteCatalog implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) deleteCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/catalogs/{catalogId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteCatalogResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/DeleteCatalog"
-		err = common.PostProcessServiceError(err, "ApiGateway", "DeleteCatalog", apiReferenceLink)
 		return response, err
 	}
 
@@ -930,60 +919,6 @@ func (client ApiGatewayClient) getApiValidations(ctx context.Context, request co
 	return response, err
 }
 
-// GetCatalog Gets an API Catalog by identifier.
-// A default retry strategy applies to this operation GetCatalog()
-func (client ApiGatewayClient) GetCatalog(ctx context.Context, request GetCatalogRequest) (response GetCatalogResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getCatalog, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetCatalogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetCatalogResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetCatalogResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetCatalogResponse")
-	}
-	return
-}
-
-// getCatalog implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) getCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs/{catalogId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetCatalogResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/GetCatalog"
-		err = common.PostProcessServiceError(err, "ApiGateway", "GetCatalog", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetCertificate Gets a certificate by identifier.
 // A default retry strategy applies to this operation GetCertificate()
 func (client ApiGatewayClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
@@ -1139,60 +1074,6 @@ func (client ApiGatewayClient) listApis(ctx context.Context, request common.OCIR
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/ListApis"
 		err = common.PostProcessServiceError(err, "ApiGateway", "ListApis", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListCatalogs Returns a list of catalogs.
-// A default retry strategy applies to this operation ListCatalogs()
-func (client ApiGatewayClient) ListCatalogs(ctx context.Context, request ListCatalogsRequest) (response ListCatalogsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listCatalogs, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListCatalogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListCatalogsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListCatalogsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListCatalogsResponse")
-	}
-	return
-}
-
-// listCatalogs implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) listCatalogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/catalogs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListCatalogsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/ListCatalogs"
-		err = common.PostProcessServiceError(err, "ApiGateway", "ListCatalogs", apiReferenceLink)
 		return response, err
 	}
 
@@ -1362,6 +1243,165 @@ func (client ApiGatewayClient) listSdks(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// RemoveApiLock Removes a lock from a Api resource.
+func (client ApiGatewayClient) RemoveApiLock(ctx context.Context, request RemoveApiLockRequest) (response RemoveApiLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeApiLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveApiLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveApiLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveApiLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveApiLockResponse")
+	}
+	return
+}
+
+// removeApiLock implements the OCIOperation interface (enables retrying operations)
+func (client ApiGatewayClient) removeApiLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/apis/{apiId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveApiLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/RemoveApiLock"
+		err = common.PostProcessServiceError(err, "ApiGateway", "RemoveApiLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveCertificateLock Removes a lock from a Certificate resource.
+func (client ApiGatewayClient) RemoveCertificateLock(ctx context.Context, request RemoveCertificateLockRequest) (response RemoveCertificateLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeCertificateLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveCertificateLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveCertificateLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveCertificateLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveCertificateLockResponse")
+	}
+	return
+}
+
+// removeCertificateLock implements the OCIOperation interface (enables retrying operations)
+func (client ApiGatewayClient) removeCertificateLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/certificates/{certificateId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveCertificateLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Certificate/RemoveCertificateLock"
+		err = common.PostProcessServiceError(err, "ApiGateway", "RemoveCertificateLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveSdkLock Removes a lock from a Sdk resource.
+func (client ApiGatewayClient) RemoveSdkLock(ctx context.Context, request RemoveSdkLockRequest) (response RemoveSdkLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeSdkLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveSdkLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveSdkLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveSdkLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveSdkLockResponse")
+	}
+	return
+}
+
+// removeSdkLock implements the OCIOperation interface (enables retrying operations)
+func (client ApiGatewayClient) removeSdkLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sdks/{sdkId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveSdkLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Sdk/RemoveSdkLock"
+		err = common.PostProcessServiceError(err, "ApiGateway", "RemoveSdkLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateApi Updates the API with the given identifier.
 func (client ApiGatewayClient) UpdateApi(ctx context.Context, request UpdateApiRequest) (response UpdateApiResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1408,59 +1448,6 @@ func (client ApiGatewayClient) updateApi(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Api/UpdateApi"
 		err = common.PostProcessServiceError(err, "ApiGateway", "UpdateApi", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateCatalog Updates the API Catalog with the given identifier.
-func (client ApiGatewayClient) UpdateCatalog(ctx context.Context, request UpdateCatalogRequest) (response UpdateCatalogResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateCatalog, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateCatalogResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateCatalogResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateCatalogResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateCatalogResponse")
-	}
-	return
-}
-
-// updateCatalog implements the OCIOperation interface (enables retrying operations)
-func (client ApiGatewayClient) updateCatalog(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/catalogs/{catalogId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateCatalogResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Catalog/UpdateCatalog"
-		err = common.PostProcessServiceError(err, "ApiGateway", "UpdateCatalog", apiReferenceLink)
 		return response, err
 	}
 

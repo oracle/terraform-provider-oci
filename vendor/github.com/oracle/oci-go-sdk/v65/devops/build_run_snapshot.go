@@ -41,6 +41,9 @@ type BuildRunSnapshot struct {
 
 	// The time the build run was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The source where the build status is being reported from.
+	BuildRunSource BuildRunSnapshotBuildRunSourceEnum `mandatory:"false" json:"buildRunSource,omitempty"`
 }
 
 func (m BuildRunSnapshot) String() string {
@@ -56,6 +59,9 @@ func (m BuildRunSnapshot) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBuildRunSnapshotLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingBuildRunSnapshotBuildRunSourceEnum(string(m.BuildRunSource)); !ok && m.BuildRunSource != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BuildRunSource: %s. Supported values are: %s.", m.BuildRunSource, strings.Join(GetBuildRunSnapshotBuildRunSourceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -117,5 +123,43 @@ func GetBuildRunSnapshotLifecycleStateEnumStringValues() []string {
 // GetMappingBuildRunSnapshotLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingBuildRunSnapshotLifecycleStateEnum(val string) (BuildRunSnapshotLifecycleStateEnum, bool) {
 	enum, ok := mappingBuildRunSnapshotLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BuildRunSnapshotBuildRunSourceEnum Enum with underlying type: string
+type BuildRunSnapshotBuildRunSourceEnum string
+
+// Set of constants representing the allowable values for BuildRunSnapshotBuildRunSourceEnum
+const (
+	BuildRunSnapshotBuildRunSourceDevopsBuildService BuildRunSnapshotBuildRunSourceEnum = "DEVOPS_BUILD_SERVICE"
+)
+
+var mappingBuildRunSnapshotBuildRunSourceEnum = map[string]BuildRunSnapshotBuildRunSourceEnum{
+	"DEVOPS_BUILD_SERVICE": BuildRunSnapshotBuildRunSourceDevopsBuildService,
+}
+
+var mappingBuildRunSnapshotBuildRunSourceEnumLowerCase = map[string]BuildRunSnapshotBuildRunSourceEnum{
+	"devops_build_service": BuildRunSnapshotBuildRunSourceDevopsBuildService,
+}
+
+// GetBuildRunSnapshotBuildRunSourceEnumValues Enumerates the set of values for BuildRunSnapshotBuildRunSourceEnum
+func GetBuildRunSnapshotBuildRunSourceEnumValues() []BuildRunSnapshotBuildRunSourceEnum {
+	values := make([]BuildRunSnapshotBuildRunSourceEnum, 0)
+	for _, v := range mappingBuildRunSnapshotBuildRunSourceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBuildRunSnapshotBuildRunSourceEnumStringValues Enumerates the set of values in String for BuildRunSnapshotBuildRunSourceEnum
+func GetBuildRunSnapshotBuildRunSourceEnumStringValues() []string {
+	return []string{
+		"DEVOPS_BUILD_SERVICE",
+	}
+}
+
+// GetMappingBuildRunSnapshotBuildRunSourceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBuildRunSnapshotBuildRunSourceEnum(val string) (BuildRunSnapshotBuildRunSourceEnum, bool) {
+	enum, ok := mappingBuildRunSnapshotBuildRunSourceEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

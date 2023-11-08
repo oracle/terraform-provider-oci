@@ -63,6 +63,10 @@ const (
 	OperationTypeDeletePullRequest                       OperationTypeEnum = "DELETE_PULL_REQUEST"
 	OperationTypeMovePullRequest                         OperationTypeEnum = "MOVE_PULL_REQUEST"
 	OperationTypeMergePullRequest                        OperationTypeEnum = "MERGE_PULL_REQUEST"
+	OperationTypeCreateRepositoryPrivateAccess           OperationTypeEnum = "CREATE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeUpdateRepositoryPrivateAccess           OperationTypeEnum = "UPDATE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeDeleteRepositoryPrivateAccess           OperationTypeEnum = "DELETE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeMoveRepositoryPrivateAccess             OperationTypeEnum = "MOVE_REPOSITORY_PRIVATE_ACCESS"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -111,6 +115,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_PULL_REQUEST":                         OperationTypeDeletePullRequest,
 	"MOVE_PULL_REQUEST":                           OperationTypeMovePullRequest,
 	"MERGE_PULL_REQUEST":                          OperationTypeMergePullRequest,
+	"CREATE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeCreateRepositoryPrivateAccess,
+	"UPDATE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeUpdateRepositoryPrivateAccess,
+	"DELETE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeDeleteRepositoryPrivateAccess,
+	"MOVE_REPOSITORY_PRIVATE_ACCESS":              OperationTypeMoveRepositoryPrivateAccess,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -159,6 +167,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_pull_request":                         OperationTypeDeletePullRequest,
 	"move_pull_request":                           OperationTypeMovePullRequest,
 	"merge_pull_request":                          OperationTypeMergePullRequest,
+	"create_repository_private_access":            OperationTypeCreateRepositoryPrivateAccess,
+	"update_repository_private_access":            OperationTypeUpdateRepositoryPrivateAccess,
+	"delete_repository_private_access":            OperationTypeDeleteRepositoryPrivateAccess,
+	"move_repository_private_access":              OperationTypeMoveRepositoryPrivateAccess,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -218,6 +230,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_PULL_REQUEST",
 		"MOVE_PULL_REQUEST",
 		"MERGE_PULL_REQUEST",
+		"CREATE_REPOSITORY_PRIVATE_ACCESS",
+		"UPDATE_REPOSITORY_PRIVATE_ACCESS",
+		"DELETE_REPOSITORY_PRIVATE_ACCESS",
+		"MOVE_REPOSITORY_PRIVATE_ACCESS",
 	}
 }
 

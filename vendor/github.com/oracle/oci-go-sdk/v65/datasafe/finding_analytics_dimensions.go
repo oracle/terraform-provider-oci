@@ -30,7 +30,7 @@ type FindingAnalyticsDimensions struct {
 
 	// The status of the top finding.
 	// All findings will have "severity" to indicate the risk level, but only top findings will have "status".
-	// Possible status: Pass / Risk (Low, Medium, High)/ Evaluate / Advisory / (Ignored/Accepted)
+	// Possible status: Pass / Risk (Low, Medium, High)/ Evaluate / Advisory / Accepted
 	// Instead of having "Low, Medium, High" in severity, "Risk" will include these three situations in status.
 	TopFindingStatus FindingAnalyticsDimensionsTopFindingStatusEnum `mandatory:"false" json:"topFindingStatus,omitempty"`
 
@@ -72,6 +72,7 @@ const (
 	FindingAnalyticsDimensionsTopFindingStatusEvaluate FindingAnalyticsDimensionsTopFindingStatusEnum = "EVALUATE"
 	FindingAnalyticsDimensionsTopFindingStatusAdvisory FindingAnalyticsDimensionsTopFindingStatusEnum = "ADVISORY"
 	FindingAnalyticsDimensionsTopFindingStatusPass     FindingAnalyticsDimensionsTopFindingStatusEnum = "PASS"
+	FindingAnalyticsDimensionsTopFindingStatusAccepted FindingAnalyticsDimensionsTopFindingStatusEnum = "ACCEPTED"
 )
 
 var mappingFindingAnalyticsDimensionsTopFindingStatusEnum = map[string]FindingAnalyticsDimensionsTopFindingStatusEnum{
@@ -79,6 +80,7 @@ var mappingFindingAnalyticsDimensionsTopFindingStatusEnum = map[string]FindingAn
 	"EVALUATE": FindingAnalyticsDimensionsTopFindingStatusEvaluate,
 	"ADVISORY": FindingAnalyticsDimensionsTopFindingStatusAdvisory,
 	"PASS":     FindingAnalyticsDimensionsTopFindingStatusPass,
+	"ACCEPTED": FindingAnalyticsDimensionsTopFindingStatusAccepted,
 }
 
 var mappingFindingAnalyticsDimensionsTopFindingStatusEnumLowerCase = map[string]FindingAnalyticsDimensionsTopFindingStatusEnum{
@@ -86,6 +88,7 @@ var mappingFindingAnalyticsDimensionsTopFindingStatusEnumLowerCase = map[string]
 	"evaluate": FindingAnalyticsDimensionsTopFindingStatusEvaluate,
 	"advisory": FindingAnalyticsDimensionsTopFindingStatusAdvisory,
 	"pass":     FindingAnalyticsDimensionsTopFindingStatusPass,
+	"accepted": FindingAnalyticsDimensionsTopFindingStatusAccepted,
 }
 
 // GetFindingAnalyticsDimensionsTopFindingStatusEnumValues Enumerates the set of values for FindingAnalyticsDimensionsTopFindingStatusEnum
@@ -104,6 +107,7 @@ func GetFindingAnalyticsDimensionsTopFindingStatusEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
+		"ACCEPTED",
 	}
 }
 

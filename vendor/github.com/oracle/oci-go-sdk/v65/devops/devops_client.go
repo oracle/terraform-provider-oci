@@ -386,6 +386,65 @@ func (client DevopsClient) changeProjectCompartment(ctx context.Context, request
 	return response, err
 }
 
+// ChangeRepositoryPrivateAccessCompartment Moves a RepositoryPrivateAccess resource from one compartment to another.
+// A default retry strategy applies to this operation ChangeRepositoryPrivateAccessCompartment()
+func (client DevopsClient) ChangeRepositoryPrivateAccessCompartment(ctx context.Context, request ChangeRepositoryPrivateAccessCompartmentRequest) (response ChangeRepositoryPrivateAccessCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeRepositoryPrivateAccessCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRepositoryPrivateAccessCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRepositoryPrivateAccessCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeRepositoryPrivateAccessCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeRepositoryPrivateAccessCompartmentResponse")
+	}
+	return
+}
+
+// changeRepositoryPrivateAccessCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) changeRepositoryPrivateAccessCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeRepositoryPrivateAccessCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/ChangeRepositoryPrivateAccessCompartment"
+		err = common.PostProcessServiceError(err, "Devops", "ChangeRepositoryPrivateAccessCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateBuildPipeline Creates a new build pipeline.
 // A default retry strategy applies to this operation CreateBuildPipeline()
 func (client DevopsClient) CreateBuildPipeline(ctx context.Context, request CreateBuildPipelineRequest) (response CreateBuildPipelineResponse, err error) {
@@ -1330,6 +1389,65 @@ func (client DevopsClient) createRepository(ctx context.Context, request common.
 	return response, err
 }
 
+// CreateRepositoryPrivateAccess Creates a new RepositoryPrivateAccess.
+// A default retry strategy applies to this operation CreateRepositoryPrivateAccess()
+func (client DevopsClient) CreateRepositoryPrivateAccess(ctx context.Context, request CreateRepositoryPrivateAccessRequest) (response CreateRepositoryPrivateAccessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRepositoryPrivateAccess, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRepositoryPrivateAccessResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRepositoryPrivateAccessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRepositoryPrivateAccessResponse")
+	}
+	return
+}
+
+// createRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) createRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryPrivateAccesses", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRepositoryPrivateAccessResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/CreateRepositoryPrivateAccess"
+		err = common.PostProcessServiceError(err, "Devops", "CreateRepositoryPrivateAccess", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateTrigger Creates a new trigger.
 // A default retry strategy applies to this operation CreateTrigger()
 func (client DevopsClient) CreateTrigger(ctx context.Context, request CreateTriggerRequest) (response CreateTriggerResponse, err error) {
@@ -2214,7 +2332,7 @@ func (client DevopsClient) deletePullRequestComment(ctx context.Context, request
 	return response, err
 }
 
-// DeleteRef Deletes a Repository's Ref by its name. Returns an error if the name is ambiguous. Can be disambiguated by using full names like "heads/<name>" or "tags/<name>". This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/refs"
+// DeleteRef Deletes a Repository's Ref by its name. Returns an error if the name is ambiguous. Can be disambiguated by using full names like "heads/<name>" or "tags/<name>". This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/actions/deleteGitRef".
 // A default retry strategy applies to this operation DeleteRef()
 func (client DevopsClient) DeleteRef(ctx context.Context, request DeleteRefRequest) (response DeleteRefResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2320,6 +2438,60 @@ func (client DevopsClient) deleteRepository(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/DeleteRepository"
 		err = common.PostProcessServiceError(err, "Devops", "DeleteRepository", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteRepositoryPrivateAccess Deletes a repository private access by identifier.
+// A default retry strategy applies to this operation DeleteRepositoryPrivateAccess()
+func (client DevopsClient) DeleteRepositoryPrivateAccess(ctx context.Context, request DeleteRepositoryPrivateAccessRequest) (response DeleteRepositoryPrivateAccessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRepositoryPrivateAccess, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRepositoryPrivateAccessResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRepositoryPrivateAccessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRepositoryPrivateAccessResponse")
+	}
+	return
+}
+
+// deleteRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) deleteRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRepositoryPrivateAccessResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/DeleteRepositoryPrivateAccess"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteRepositoryPrivateAccess", apiReferenceLink)
 		return response, err
 	}
 
@@ -4111,6 +4283,60 @@ func (client DevopsClient) getRepositoryNotificationPreference(ctx context.Conte
 	return response, err
 }
 
+// GetRepositoryPrivateAccess Retrieves a repository private access by identifier.
+// A default retry strategy applies to this operation GetRepositoryPrivateAccess()
+func (client DevopsClient) GetRepositoryPrivateAccess(ctx context.Context, request GetRepositoryPrivateAccessRequest) (response GetRepositoryPrivateAccessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRepositoryPrivateAccess, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRepositoryPrivateAccessResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRepositoryPrivateAccessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRepositoryPrivateAccessResponse")
+	}
+	return
+}
+
+// getRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) getRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRepositoryPrivateAccessResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/GetRepositoryPrivateAccess"
+		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryPrivateAccess", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetRepositorySettings Retrieves a repository's settings details.
 // A default retry strategy applies to this operation GetRepositorySettings()
 func (client DevopsClient) GetRepositorySettings(ctx context.Context, request GetRepositorySettingsRequest) (response GetRepositorySettingsResponse, err error) {
@@ -5245,6 +5471,60 @@ func (client DevopsClient) listPaths(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
+// ListPrivateProjects Retrieves a list of projects associated with a repository private access resource.
+// A default retry strategy applies to this operation ListPrivateProjects()
+func (client DevopsClient) ListPrivateProjects(ctx context.Context, request ListPrivateProjectsRequest) (response ListPrivateProjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPrivateProjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPrivateProjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPrivateProjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPrivateProjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPrivateProjectsResponse")
+	}
+	return
+}
+
+// listPrivateProjects implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listPrivateProjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}/privateProjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPrivateProjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/ListPrivateProjects"
+		err = common.PostProcessServiceError(err, "Devops", "ListPrivateProjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListProjectCommitAnalyticsAuthors Retrieve a list of all the Commit Analytics authors.
 // A default retry strategy applies to this operation ListProjectCommitAnalyticsAuthors()
 func (client DevopsClient) ListProjectCommitAnalyticsAuthors(ctx context.Context, request ListProjectCommitAnalyticsAuthorsRequest) (response ListProjectCommitAnalyticsAuthorsResponse, err error) {
@@ -5893,6 +6173,60 @@ func (client DevopsClient) listRepositories(ctx context.Context, request common.
 	return response, err
 }
 
+// ListRepositoryBuildRunSnapshots Returns a list of build run snapshots for a given commit under the repository.
+// A default retry strategy applies to this operation ListRepositoryBuildRunSnapshots()
+func (client DevopsClient) ListRepositoryBuildRunSnapshots(ctx context.Context, request ListRepositoryBuildRunSnapshotsRequest) (response ListRepositoryBuildRunSnapshotsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRepositoryBuildRunSnapshots, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRepositoryBuildRunSnapshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRepositoryBuildRunSnapshotsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRepositoryBuildRunSnapshotsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryBuildRunSnapshotsResponse")
+	}
+	return
+}
+
+// listRepositoryBuildRunSnapshots implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listRepositoryBuildRunSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/buildRunSnapshots", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRepositoryBuildRunSnapshotsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListRepositoryBuildRunSnapshots"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryBuildRunSnapshots", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListRepositoryCommitAnalyticsAuthors Retrieve a list of all the Commit Analytics authors.
 // A default retry strategy applies to this operation ListRepositoryCommitAnalyticsAuthors()
 func (client DevopsClient) ListRepositoryCommitAnalyticsAuthors(ctx context.Context, request ListRepositoryCommitAnalyticsAuthorsRequest) (response ListRepositoryCommitAnalyticsAuthorsResponse, err error) {
@@ -5940,6 +6274,60 @@ func (client DevopsClient) listRepositoryCommitAnalyticsAuthors(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListRepositoryCommitAnalyticsAuthors"
 		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryCommitAnalyticsAuthors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRepositoryPrivateAccesses Returns a list of RepositoryPrivateAccesses.
+// A default retry strategy applies to this operation ListRepositoryPrivateAccesses()
+func (client DevopsClient) ListRepositoryPrivateAccesses(ctx context.Context, request ListRepositoryPrivateAccessesRequest) (response ListRepositoryPrivateAccessesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRepositoryPrivateAccesses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRepositoryPrivateAccessesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRepositoryPrivateAccessesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRepositoryPrivateAccessesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryPrivateAccessesResponse")
+	}
+	return
+}
+
+// listRepositoryPrivateAccesses implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listRepositoryPrivateAccesses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryPrivateAccesses", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRepositoryPrivateAccessesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/ListRepositoryPrivateAccesses"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryPrivateAccesses", apiReferenceLink)
 		return response, err
 	}
 
@@ -6330,7 +6718,7 @@ func (client DevopsClient) patchPullRequest(ctx context.Context, request common.
 	return response, err
 }
 
-// PutRepositoryRef Creates a new reference or updates an existing one. This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/refs"
+// PutRepositoryRef Creates a new reference or updates an existing one. This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/actions/createOrUpdateGitRef".
 // A default retry strategy applies to this operation PutRepositoryRef()
 func (client DevopsClient) PutRepositoryRef(ctx context.Context, request PutRepositoryRefRequest) (response PutRepositoryRefResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6386,6 +6774,65 @@ func (client DevopsClient) putRepositoryRef(ctx context.Context, request common.
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &repositoryref{})
+	return response, err
+}
+
+// RecoverRepositoryPrivateAccess Recovers a RepositoryPrivateAccess.
+// A default retry strategy applies to this operation RecoverRepositoryPrivateAccess()
+func (client DevopsClient) RecoverRepositoryPrivateAccess(ctx context.Context, request RecoverRepositoryPrivateAccessRequest) (response RecoverRepositoryPrivateAccessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.recoverRepositoryPrivateAccess, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RecoverRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RecoverRepositoryPrivateAccessResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RecoverRepositoryPrivateAccessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RecoverRepositoryPrivateAccessResponse")
+	}
+	return
+}
+
+// recoverRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) recoverRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}/actions/recoverRepositoryPrivateAccess", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RecoverRepositoryPrivateAccessResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/RecoverRepositoryPrivateAccess"
+		err = common.PostProcessServiceError(err, "Devops", "RecoverRepositoryPrivateAccess", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -7751,6 +8198,60 @@ func (client DevopsClient) updateRepositoryNotificationPreference(ctx context.Co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryNotificationPreference/UpdateRepositoryNotificationPreference"
 		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositoryNotificationPreference", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRepositoryPrivateAccess Updates a repository private access by identifier.
+// A default retry strategy applies to this operation UpdateRepositoryPrivateAccess()
+func (client DevopsClient) UpdateRepositoryPrivateAccess(ctx context.Context, request UpdateRepositoryPrivateAccessRequest) (response UpdateRepositoryPrivateAccessResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRepositoryPrivateAccess, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRepositoryPrivateAccessResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRepositoryPrivateAccessResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRepositoryPrivateAccessResponse")
+	}
+	return
+}
+
+// updateRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) updateRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRepositoryPrivateAccessResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositoryPrivateAccess", apiReferenceLink)
 		return response, err
 	}
 

@@ -63,6 +63,11 @@ type LogAnalyticsEntity struct {
 
 	CreationSource *CreationSource `mandatory:"false" json:"creationSource"`
 
+	// The date and time the resource was last discovered, in the format defined by RFC3339.
+	TimeLastDiscovered *common.SDKTime `mandatory:"false" json:"timeLastDiscovered"`
+
+	Metadata *LogAnalyticsMetadataSummary `mandatory:"false" json:"metadata"`
+
 	// The Boolean flag to indicate if logs are collected for an entity for log analytics usage.
 	AreLogsCollected *bool `mandatory:"false" json:"areLogsCollected"`
 

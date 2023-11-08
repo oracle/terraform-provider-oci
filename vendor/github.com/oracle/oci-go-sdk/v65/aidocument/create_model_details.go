@@ -25,6 +25,9 @@ type CreateModelDetails struct {
 	// The compartment identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The document language for model training, abbreviated according to the BCP 47 syntax.
+	Language *string `mandatory:"true" json:"language"`
+
 	TrainingDataset Dataset `mandatory:"true" json:"trainingDataset"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
@@ -99,6 +102,7 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		ModelType              ModelModelTypeEnum                `json:"modelType"`
 		CompartmentId          *string                           `json:"compartmentId"`
+		Language               *string                           `json:"language"`
 		TrainingDataset        dataset                           `json:"trainingDataset"`
 		ProjectId              *string                           `json:"projectId"`
 	}{}
@@ -149,6 +153,8 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ModelType = model.ModelType
 
 	m.CompartmentId = model.CompartmentId
+
+	m.Language = model.Language
 
 	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
 	if e != nil {

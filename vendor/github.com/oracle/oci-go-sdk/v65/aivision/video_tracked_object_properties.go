@@ -18,8 +18,8 @@ import (
 // VideoTrackedObjectProperties Properties of a tracked object in a video.
 type VideoTrackedObjectProperties struct {
 
-	// Time offset (milliseconds) hint for calculating axle count of a tracked vehicle.
-	AxleCountHintTimeOffsetMs *int `mandatory:"false" json:"axleCountHintTimeOffsetMs"`
+	// The axle count value of a tracked vehicle.
+	AxleCount *int `mandatory:"false" json:"axleCount"`
 }
 
 func (m VideoTrackedObjectProperties) String() string {

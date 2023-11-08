@@ -101,7 +101,7 @@ type AutonomousContainerDatabaseSummary struct {
 	// Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
 	IsDstFileUpdateEnabled *bool `mandatory:"false" json:"isDstFileUpdateEnabled"`
 
-	// DST Time Zone File version of the Autonomous Container Database.
+	// DST Time-zone File version of the Autonomous Container Database.
 	DstFileVersion *string `mandatory:"false" json:"dstFileVersion"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -147,6 +147,9 @@ type AutonomousContainerDatabaseSummary struct {
 
 	// An array of CPU values that can be used to successfully provision a single Autonomous Database.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
+
+	// List of One-Off patches that has been successfully applied to Autonomous Container Database
+	ListOneOffPatches []string `mandatory:"false" json:"listOneOffPatches"`
 
 	// The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	ComputeModel AutonomousContainerDatabaseSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`

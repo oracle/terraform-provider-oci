@@ -81,6 +81,12 @@ type DisableMlApplicationInstanceViewTriggerResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
+	// The MlApplicationInstanceView instance
+	MlApplicationInstanceView `presentIn:"body"`
+
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	Etag *string `presentIn:"header" name:"etag"`
+
 	// Unique Oracle assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`

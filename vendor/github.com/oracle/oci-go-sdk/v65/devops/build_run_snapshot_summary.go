@@ -41,6 +41,9 @@ type BuildRunSnapshotSummary struct {
 
 	// The time the build run was updated. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The source where the build status is being reported from.
+	BuildRunSource BuildRunSnapshotBuildRunSourceEnum `mandatory:"false" json:"buildRunSource,omitempty"`
 }
 
 func (m BuildRunSnapshotSummary) String() string {
@@ -56,6 +59,9 @@ func (m BuildRunSnapshotSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetBuildRunSnapshotLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingBuildRunSnapshotBuildRunSourceEnum(string(m.BuildRunSource)); !ok && m.BuildRunSource != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BuildRunSource: %s. Supported values are: %s.", m.BuildRunSource, strings.Join(GetBuildRunSnapshotBuildRunSourceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

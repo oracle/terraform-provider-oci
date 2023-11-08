@@ -29,6 +29,10 @@ type ReleaseRecalledDataDetails struct {
 
 	// This is the type of the recalled data to be released
 	DataType StorageDataTypeEnum `mandatory:"false" json:"dataType,omitempty"`
+
+	// This is the id for the recalled data collection to be released.
+	// If specified, only this collection will be released
+	CollectionId *int64 `mandatory:"false" json:"collectionId"`
 }
 
 func (m ReleaseRecalledDataDetails) String() string {
