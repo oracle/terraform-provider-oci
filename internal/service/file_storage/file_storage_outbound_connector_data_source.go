@@ -105,7 +105,6 @@ func (s *FileStorageOutboundConnectorDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		s.D.Set("state", v.LifecycleState)
 

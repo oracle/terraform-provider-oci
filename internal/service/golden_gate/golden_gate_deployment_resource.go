@@ -1026,7 +1026,7 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+	s.D.Set("nsg_ids", nsgIds)
 
 	if s.Res.OggData != nil {
 		s.D.Set("ogg_data", []interface{}{OggDeploymentToMap(s.Res.OggData, s.D)})

@@ -690,7 +690,6 @@ func (s *IdentityDomainsKmsiSettingResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.KmsiFeatureEnabled != nil {
 		s.D.Set("kmsi_feature_enabled", *s.Res.KmsiFeatureEnabled)
@@ -722,7 +721,6 @@ func (s *IdentityDomainsKmsiSettingResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -803,7 +801,6 @@ func KmsiSettingToMap(obj oci_identity_domains.KmsiSetting) map[string]interface
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.KmsiFeatureEnabled != nil {
 		result["kmsi_feature_enabled"] = bool(*obj.KmsiFeatureEnabled)
@@ -833,7 +830,6 @@ func KmsiSettingToMap(obj oci_identity_domains.KmsiSetting) map[string]interface
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

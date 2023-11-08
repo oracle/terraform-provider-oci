@@ -494,7 +494,6 @@ func (s *DatabaseManagementExternalListenerResourceCrud) Update() error {
 
 func (s *DatabaseManagementExternalListenerResourceCrud) SetData() error {
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.AdrHomeDirectory != nil {
 		s.D.Set("adr_home_directory", *s.Res.AdrHomeDirectory)
@@ -604,7 +603,6 @@ func ExternalListenerEndpointToMap(obj oci_database_management.ExternalListenerE
 		}
 
 		result["services"] = v.Services
-		result["services"] = v.Services
 	case oci_database_management.ExternalListenerTcpEndpoint:
 		result["protocol"] = "TCP"
 
@@ -617,7 +615,6 @@ func ExternalListenerEndpointToMap(obj oci_database_management.ExternalListenerE
 		}
 
 		result["services"] = v.Services
-		result["services"] = v.Services
 	case oci_database_management.ExternalListenerTcpsEndpoint:
 		result["protocol"] = "TCPS"
 
@@ -629,7 +626,6 @@ func ExternalListenerEndpointToMap(obj oci_database_management.ExternalListenerE
 			result["port"] = int(*v.Port)
 		}
 
-		result["services"] = v.Services
 		result["services"] = v.Services
 	default:
 		log.Printf("[WARN] Received 'protocol' of unknown type %v", obj)

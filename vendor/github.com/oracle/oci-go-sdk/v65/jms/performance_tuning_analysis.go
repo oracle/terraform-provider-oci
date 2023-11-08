@@ -18,7 +18,7 @@ import (
 // PerformanceTuningAnalysis Performance tuning analysis configuration
 type PerformanceTuningAnalysis struct {
 
-	// PerformanceTuningAnalysis flag to store enabled or disabled status.
+	// PerformanceTuningAnalysis flag to store enabled or disabled status
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 }
 

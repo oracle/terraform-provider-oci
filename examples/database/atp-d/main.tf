@@ -173,3 +173,76 @@ data "oci_database_cloud_autonomous_vm_cluster_resource_usage" "test_cloud_auton
   #Required
   cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 }
+
+resource "oci_database_autonomous_container_database" "test_autonomous_container_database_primary" {
+  #Required
+  cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster_primary.id
+  display_name                         = "PrimaryACD"
+  patch_model                          = "RELEASE_UPDATES"
+  db_version                           = "19.20.0.1.0"
+  db_name                              = "PRIMARY"
+
+  #Optional
+  backup_config {
+    #Optional
+    recovery_window_in_days = var.autonomous_container_database_backup_config_recovery_window_in_days
+  }
+
+  compartment_id               = var.compartment_ocid
+  freeform_tags                = var.autonomous_database_freeform_tags
+  service_level_agreement_type = "STANDARD"
+
+  maintenance_window_details {
+    preference = "CUSTOM_PREFERENCE"
+
+    days_of_week {
+      name = "MONDAY"
+    }
+
+    hours_of_day = ["4"]
+
+    months {
+      name = "JANUARY"
+    }
+
+    months {
+      name = "APRIL"
+    }
+
+    months {
+      name = "JULY"
+    }
+
+    months {
+      name = "OCTOBER"
+    }
+
+    weeks_of_month = ["2"]
+  }
+  version_preference = "LATEST_RELEASE_UPDATE"
+
+    lifecycle {
+      ignore_changes = [
+          peer_autonomous_container_database_display_name,
+          peer_autonomous_exadata_infrastructure_id,
+          peer_autonomous_vm_cluster_id,
+          peer_cloud_autonomous_vm_cluster_id,
+          peer_db_unique_name,
+          service_level_agreement_type,
+          protection_mode,
+          peer_autonomous_container_database_backup_config,
+      ]
+    }
+
+}
+
+resource "oci_database_autonomous_container_database_dataguard_association" "test_autonomous_container_database_dataguard_association" {
+  #Required
+  autonomous_container_database_id                  = oci_database_autonomous_container_database.test_autonomous_container_database_primary.id
+  is_automatic_failover_enabled                     = false
+  protection_mode                                   = "MAXIMUM_AVAILABILITY"
+  peer_cloud_autonomous_vm_cluster_id               = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster_standby.id
+  peer_autonomous_container_database_display_name   = "StandbyACD"
+  peer_autonomous_container_database_compartment_id = var.compartment_ocid
+}
+

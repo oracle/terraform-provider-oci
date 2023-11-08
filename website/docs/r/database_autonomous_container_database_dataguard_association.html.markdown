@@ -10,7 +10,14 @@ description: |-
 # oci_database_autonomous_container_database_dataguard_association
 This resource provides the Autonomous Container Database Dataguard Association resource in Oracle Cloud Infrastructure Database service.
 
-Update Autonomous Data Guard association.
+Create a new Autonomous Data Guard association. An Autonomous Data Guard association represents the replication relationship between the
+specified Autonomous Container database and a peer Autonomous Container database. For more information, see [Using Oracle Data Guard](https://docs.cloud.oracle.com/iaas/Content/Database/Tasks/usingdataguard.htm).
+
+All Oracle Cloud Infrastructure resources, including Data Guard associations, get an Oracle-assigned, unique ID
+called an Oracle Cloud Identifier (OCID). When you create a resource, you can find its OCID in the response.
+You can also retrieve a resource's OCID by using a List API operation on that resource type, or by viewing the
+resource in the Console. For more information, see
+[Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Example Usage
@@ -18,13 +25,32 @@ Update Autonomous Data Guard association.
 ```hcl
 resource "oci_database_autonomous_container_database_dataguard_association" "test_autonomous_container_database_dataguard_association" {
 	#Required
-	autonomous_container_database_dataguard_association_id = oci_database_autonomous_container_database_dataguard_association.test_autonomous_container_database_dataguard_association.id
 	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+	peer_autonomous_container_database_display_name = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_display_name
+	peer_cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
+	protection_mode = var.autonomous_container_database_dataguard_association_protection_mode
 
 	#Optional
 	fast_start_fail_over_lag_limit_in_seconds = var.autonomous_container_database_dataguard_association_fast_start_fail_over_lag_limit_in_seconds
 	is_automatic_failover_enabled = var.autonomous_container_database_dataguard_association_is_automatic_failover_enabled
-	protection_mode = var.autonomous_container_database_dataguard_association_protection_mode
+	peer_autonomous_container_database_backup_config {
+
+		#Optional
+		backup_destination_details {
+			#Required
+			type = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_type
+
+			#Optional
+			dbrs_policy_id = oci_identity_policy.test_policy.id
+			id = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_id
+			internet_proxy = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_internet_proxy
+			vpc_password = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_password
+			vpc_user = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_backup_destination_details_vpc_user
+		}
+		recovery_window_in_days = var.autonomous_container_database_dataguard_association_peer_autonomous_container_database_backup_config_recovery_window_in_days
+	}
+	peer_autonomous_container_database_compartment_id = oci_identity_compartment.test_compartment.id
+	standby_maintenance_buffer_in_days = var.autonomous_container_database_dataguard_association_standby_maintenance_buffer_in_days
 }
 ```
 
@@ -32,11 +58,24 @@ resource "oci_database_autonomous_container_database_dataguard_association" "tes
 
 The following arguments are supported:
 
-* `autonomous_container_database_dataguard_association_id` - (Required) The Autonomous Container Database-Autonomous Data Guard association [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `autonomous_container_database_id` - (Required) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `fast_start_fail_over_lag_limit_in_seconds` - (Optional) (Updatable) The lag time for my preference based on data loss tolerance in seconds.
+* `peer_autonomous_container_database_backup_config` - (Optional) Backup options for the standby Autonomous Container Database. 
+	* `backup_destination_details` - (Optional) Backup destination details.
+		* `dbrs_policy_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
+		* `id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+		* `internet_proxy` - (Optional) Proxy URL to connect to object store.
+		* `type` - (Required) Type of the database backup destination.
+		* `vpc_password` - (Optional) For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
+		* `vpc_user` - (Optional) For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
+	* `recovery_window_in_days` - (Optional) Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. 
+* `peer_autonomous_container_database_compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where the standby Autonomous Container Database will be created. 
+* `peer_autonomous_container_database_display_name` - (Required) The display name for the peer Autonomous Container Database.
+* `peer_cloud_autonomous_vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer cloud Autonomous Exadata VM Cluster.
+* `standby_maintenance_buffer_in_days` - (Optional) The scheduling detail for the quarterly maintenance window of the standby Autonomous Container Database. This value represents the number of days before scheduled maintenance of the primary database. 
 * `is_automatic_failover_enabled` - (Optional) (Updatable) Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association. Input DataType: boolean. Example : `is_automatic_failover_enabled = true`.  
 * `protection_mode` - (Optional) (Updatable) The protection mode of this Autonomous Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
+
 
 
 ** IMPORTANT **

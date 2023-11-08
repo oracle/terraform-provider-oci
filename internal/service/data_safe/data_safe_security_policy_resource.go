@@ -490,7 +490,6 @@ func SecurityPolicySummaryToMap(obj oci_data_safe.SecurityPolicySummary) map[str
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

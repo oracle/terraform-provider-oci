@@ -80,6 +80,7 @@ The following attributes are exported:
 		* `consumer_group` - Consumer group used by the connection.
 		* `display_name` - A user-friendly name for the connection.
 		* `host_format` - Host format used in connection string.
+		* `is_regional` - True for a regional connection string, applicable to cross-region DG only.
 		* `protocol` - Protocol used by the connection.
 		* `session_mode` - Specifies whether the listener performs a direct hand-off of the session, or redirects the session. In RAC deployments where SCAN is used, sessions are redirected to a Node VIP. Use `DIRECT` for direct hand-offs. Use `REDIRECT` to redirect the session.
 		* `syntax_format` - Specifies whether the connection string is using the long (`LONG`), Easy Connect (`EZCONNECT`), or Easy Connect Plus (`EZCONNECTPLUS`) format. Autonomous Database Serverless instances always use the long format. 

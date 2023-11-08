@@ -411,7 +411,6 @@ func (s *DatabaseManagementExternalAsmResourceCrud) Update() error {
 
 func (s *DatabaseManagementExternalAsmResourceCrud) SetData() error {
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -487,7 +486,6 @@ func ExternalAsmServicedDatabaseToMap(obj oci_database_management.ExternalAsmSer
 		result["db_unique_name"] = string(*obj.DbUniqueName)
 	}
 
-	result["disk_groups"] = obj.DiskGroups
 	result["disk_groups"] = obj.DiskGroups
 
 	if obj.DisplayName != nil {

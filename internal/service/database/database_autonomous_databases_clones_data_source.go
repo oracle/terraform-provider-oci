@@ -190,6 +190,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"is_regional": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
 												"protocol": {
 													Type:     schema.TypeString,
 													Computed: true,

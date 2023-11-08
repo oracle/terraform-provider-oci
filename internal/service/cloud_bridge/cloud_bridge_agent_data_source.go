@@ -93,7 +93,6 @@ func (s *CloudBridgeAgentDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("heart_beat_status", s.Res.HeartBeatStatus)
 

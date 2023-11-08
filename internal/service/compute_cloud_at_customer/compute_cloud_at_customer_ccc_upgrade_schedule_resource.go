@@ -367,9 +367,7 @@ func (s *ComputeCloudAtCustomerCccUpgradeScheduleResourceCrud) SetData() error {
 	s.D.Set("events", events)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	s.D.Set("infrastructure_ids", s.Res.InfrastructureIds)
 	s.D.Set("infrastructure_ids", s.Res.InfrastructureIds)
 
 	if s.Res.LifecycleDetails != nil {
@@ -408,7 +406,6 @@ func CccUpgradeScheduleSummaryToMap(obj oci_compute_cloud_at_customer.CccUpgrade
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

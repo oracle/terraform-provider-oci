@@ -215,7 +215,6 @@ func ApplianceImageSummaryToMap(obj oci_cloud_bridge.ApplianceImageSummary) map[
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

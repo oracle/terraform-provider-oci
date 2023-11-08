@@ -48,11 +48,13 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - Array of DeploymentTypeSummary 
-	* `category` - The deployment category defines the broad separation of the deployment type into categories.  Currently the separation is 'DATA_REPLICATION' and 'STREAM_ANALYTICS'. 
+	* `category` - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'. 
 	* `connection_types` - An array of connectionTypes. 
+	* `default_username` - The default admin username used by deployment. 
 	* `deployment_type` - The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
 	* `display_name` - An object's Display Name. 
 	* `ogg_version` - Version of OGG 
 	* `source_technologies` - List of the supported technologies generally.  The value is a freeform text string generally consisting of a description of the technology and optionally the speific version(s) support.  For example, [ "Oracle Database 19c", "Oracle Exadata", "OCI Streaming" ] 
+	* `supported_technologies_url` - The URL to the webpage listing the supported technologies. 
 	* `target_technologies` - List of the supported technologies generally.  The value is a freeform text string generally consisting of a description of the technology and optionally the speific version(s) support.  For example, [ "Oracle Database 19c", "Oracle Exadata", "OCI Streaming" ] 
 

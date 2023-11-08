@@ -28,6 +28,7 @@ resource "oci_database_autonomous_database_wallet" "test_autonomous_database_wal
 	#Optional
 	base64_encode_content = "false"
 	generate_type = var.autonomous_database_wallet_generate_type
+	is_regional = var.autonomous_database_wallet_is_regional
 }
 ```
 
@@ -44,6 +45,7 @@ The following arguments are supported:
 	* `ALL` - used to generate wallet for all databases in the region
 
 	**Dedicated Exadata infrastructure usage:** Value must be `NULL` if attribute is used. 
+* `is_regional` - (Optional) True when requesting regional connection strings in PDB connect info, applicable to cross-region DG only.
 * `password` - (Required) The password to encrypt the keys inside the wallet. The password must be at least 8 characters long and must include at least 1 letter and either 1 numeric character or 1 special character.
 
 

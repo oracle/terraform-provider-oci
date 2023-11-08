@@ -91,7 +91,6 @@ func (s *OpaOpaInstanceDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IdentityAppDisplayName != nil {
 		s.D.Set("identity_app_display_name", *s.Res.IdentityAppDisplayName)

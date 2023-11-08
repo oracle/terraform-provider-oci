@@ -55,6 +55,10 @@ func JmsFleetJavaMigrationAnalysisResultsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"application_key": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"application_name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -231,6 +235,10 @@ func JavaMigrationAnalysisResultSummaryToMap(obj oci_jms.JavaMigrationAnalysisRe
 
 	result["application_execution_type"] = string(obj.ApplicationExecutionType)
 
+	if obj.ApplicationKey != nil {
+		result["application_key"] = string(*obj.ApplicationKey)
+	}
+
 	if obj.ApplicationName != nil {
 		result["application_name"] = string(*obj.ApplicationName)
 	}
@@ -267,7 +275,6 @@ func JavaMigrationAnalysisResultSummaryToMap(obj oci_jms.JavaMigrationAnalysisRe
 		result["namespace"] = string(*obj.Namespace)
 	}
 
-	result["object_list"] = obj.ObjectList
 	result["object_list"] = obj.ObjectList
 
 	if obj.ObjectStorageUploadDirPath != nil {

@@ -650,7 +650,6 @@ func ExternalExadataDatabaseSystemSummaryToMap(obj oci_database_management.Exter
 	result := map[string]interface{}{}
 
 	result["additional_details"] = obj.AdditionalDetails
-	result["additional_details"] = obj.AdditionalDetails
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -698,7 +697,6 @@ func ExternalExadataDatabaseSystemSummaryToMap(obj oci_database_management.Exter
 func ExternalExadataInfrastructureSummaryToMap(obj oci_database_management.ExternalExadataInfrastructureSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["additional_details"] = obj.AdditionalDetails
 	result["additional_details"] = obj.AdditionalDetails
 
 	if obj.CompartmentId != nil {
@@ -753,7 +751,6 @@ func ExternalExadataInfrastructureSummaryToMap(obj oci_database_management.Exter
 func ExternalExadataStorageGridSummaryToMap(obj *oci_database_management.ExternalExadataStorageGridSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["additional_details"] = obj.AdditionalDetails
 	result["additional_details"] = obj.AdditionalDetails
 
 	if obj.DisplayName != nil {

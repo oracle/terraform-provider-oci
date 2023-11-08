@@ -542,18 +542,15 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 	password := ""
 	if privateKeyPassword, hasPrivateKeyPassword := p.D.GetOkExists(globalvar.PrivateKeyPasswordAttrName); hasPrivateKeyPassword {
 		password = privateKeyPassword.(string)
-		fmt.Printf("password is %s", password)
 	}
 
 	if privateKey, hasPrivateKey := p.D.GetOkExists(globalvar.PrivateKeyAttrName); hasPrivateKey {
-		fmt.Printf("in privateKey section")
 		return oci_common.PrivateKeyFromBytes([]byte(privateKey.(string)), &password)
 	}
 
 	if privateKeyPath, hasPrivateKeyPath := p.D.GetOkExists(globalvar.PrivateKeyPathAttrName); hasPrivateKeyPath {
 		resolvedPath := utils.ExpandPath(privateKeyPath.(string))
 		pemFileContent, readFileErr := ioutil.ReadFile(resolvedPath)
-		fmt.Printf("in privateKeyPath section")
 
 		if readFileErr != nil {
 			return nil, fmt.Errorf("can not read private key from: '%s', Error: %q", privateKeyPath, readFileErr)

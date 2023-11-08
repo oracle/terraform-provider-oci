@@ -3507,9 +3507,7 @@ func AdditionalValidationPolicyToMap(obj *oci_apigateway.AdditionalValidationPol
 	result := map[string]interface{}{}
 
 	result["audiences"] = obj.Audiences
-	result["audiences"] = obj.Audiences
 
-	result["issuers"] = obj.Issuers
 	result["issuers"] = obj.Issuers
 
 	verifyClaims := []interface{}{}
@@ -4000,7 +3998,6 @@ func ApiSpecificationRouteBackendToMap(obj *oci_apigateway.ApiSpecificationRoute
 	case oci_apigateway.OAuth2LogoutBackend:
 		result["type"] = "OAUTH2_LOGOUT_BACKEND"
 
-		result["allowed_post_logout_uris"] = v.AllowedPostLogoutUris
 		result["allowed_post_logout_uris"] = v.AllowedPostLogoutUris
 
 		if v.PostLogoutState != nil {

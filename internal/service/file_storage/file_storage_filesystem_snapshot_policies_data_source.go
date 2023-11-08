@@ -138,7 +138,6 @@ func (s *FileStorageFilesystemSnapshotPoliciesDataSourceCrud) SetData() error {
 		}
 
 		filesystemSnapshotPolicy["freeform_tags"] = r.FreeformTags
-		filesystemSnapshotPolicy["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			filesystemSnapshotPolicy["id"] = *r.Id

@@ -632,7 +632,6 @@ func (s *IdentityDomainsAccountMgmtInfoDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IsAccount != nil {
 		s.D.Set("is_account", *s.Res.IsAccount)
@@ -686,7 +685,6 @@ func (s *IdentityDomainsAccountMgmtInfoDataSourceCrud) SetData() error {
 		s.D.Set("resource_type", nil)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.SyncResponse != nil {

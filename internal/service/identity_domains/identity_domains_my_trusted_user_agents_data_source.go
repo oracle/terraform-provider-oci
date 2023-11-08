@@ -212,7 +212,6 @@ func (s *IdentityDomainsMyTrustedUserAgentsDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartIndex != nil {
 		s.D.Set("start_index", *s.Res.StartIndex)
@@ -261,7 +260,6 @@ func MyTrustedUserAgentToMap(obj oci_identity_domains.MyTrustedUserAgent) map[st
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.LastUsedOn != nil {
 		result["last_used_on"] = string(*obj.LastUsedOn)
@@ -287,7 +285,6 @@ func MyTrustedUserAgentToMap(obj oci_identity_domains.MyTrustedUserAgent) map[st
 		result["platform"] = string(*obj.Platform)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

@@ -148,7 +148,6 @@ func (s *FileStorageReplicationsDataSourceCrud) SetData() error {
 		}
 
 		replication["freeform_tags"] = r.FreeformTags
-		replication["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			replication["id"] = *r.Id

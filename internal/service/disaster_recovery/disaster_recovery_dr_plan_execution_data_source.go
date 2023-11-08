@@ -97,7 +97,6 @@ func (s *DisasterRecoveryDrPlanExecutionDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	groupExecutions := []interface{}{}
 	for _, item := range s.Res.GroupExecutions {

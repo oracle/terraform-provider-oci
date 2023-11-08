@@ -80,6 +80,11 @@ func (s *DatabaseAutonomousDatabaseWalletDataSourceCrud) Get() error {
 		request.GenerateType = oci_database.GenerateAutonomousDatabaseWalletDetailsGenerateTypeEnum(generateType.(string))
 	}
 
+	if isRegional, ok := s.D.GetOkExists("is_regional"); ok {
+		tmp := isRegional.(bool)
+		request.IsRegional = &tmp
+	}
+
 	if password, ok := s.D.GetOkExists("password"); ok {
 		tmp := password.(string)
 		request.Password = &tmp

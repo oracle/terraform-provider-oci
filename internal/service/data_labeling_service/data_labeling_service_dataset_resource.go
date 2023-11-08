@@ -771,7 +771,6 @@ func (s *DataLabelingServiceDatasetResourceCrud) Delete() error {
 
 func (s *DataLabelingServiceDatasetResourceCrud) SetData() error {
 	s.D.Set("additional_properties", s.Res.AdditionalProperties)
-	s.D.Set("additional_properties", s.Res.AdditionalProperties)
 
 	if s.Res.AnnotationFormat != nil {
 		s.D.Set("annotation_format", *s.Res.AnnotationFormat)

@@ -1381,7 +1381,6 @@ func LocationDetailsToMap(obj *oci_ai_language.LocationDetails) map[string]inter
 		}
 
 		result["object_names"] = v.ObjectNames
-		result["object_names"] = v.ObjectNames
 	default:
 		log.Printf("[WARN] Received 'location_type' of unknown type %v", *obj)
 		return nil

@@ -804,7 +804,6 @@ func (s *CloudBridgeAssetResourceCrud) SetData() error {
 		}
 
 		s.D.Set("asset_source_ids", v.AssetSourceIds)
-		s.D.Set("asset_source_ids", v.AssetSourceIds)
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
@@ -822,7 +821,6 @@ func (s *CloudBridgeAssetResourceCrud) SetData() error {
 			s.D.Set("external_asset_key", *v.ExternalAssetKey)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
@@ -878,7 +876,6 @@ func (s *CloudBridgeAssetResourceCrud) SetData() error {
 		}
 
 		s.D.Set("asset_source_ids", v.AssetSourceIds)
-		s.D.Set("asset_source_ids", v.AssetSourceIds)
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
@@ -896,7 +893,6 @@ func (s *CloudBridgeAssetResourceCrud) SetData() error {
 			s.D.Set("external_asset_key", *v.ExternalAssetKey)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
@@ -935,7 +931,6 @@ func AssetSummaryToMap(obj oci_cloud_bridge.AssetSummary) map[string]interface{}
 	result := map[string]interface{}{}
 
 	result["asset_source_ids"] = obj.AssetSourceIds
-	result["asset_source_ids"] = obj.AssetSourceIds
 
 	result["asset_type"] = string(obj.AssetType)
 
@@ -955,7 +950,6 @@ func AssetSummaryToMap(obj oci_cloud_bridge.AssetSummary) map[string]interface{}
 		result["external_asset_key"] = string(*obj.ExternalAssetKey)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
@@ -1558,7 +1552,6 @@ func NicToMap(obj oci_cloud_bridge.Nic) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["ip_addresses"] = obj.IpAddresses
-	result["ip_addresses"] = obj.IpAddresses
 
 	if obj.Label != nil {
 		result["label"] = string(*obj.Label)
@@ -1857,7 +1850,6 @@ func VmwareVmPropertiesToMap(obj *oci_cloud_bridge.VmwareVmProperties) map[strin
 		result["cluster"] = string(*obj.Cluster)
 	}
 
-	result["customer_fields"] = obj.CustomerFields
 	result["customer_fields"] = obj.CustomerFields
 
 	customerTags := []interface{}{}

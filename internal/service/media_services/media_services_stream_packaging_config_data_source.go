@@ -106,7 +106,6 @@ func (s *MediaServicesStreamPackagingConfigDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.SegmentTimeInSeconds != nil {
 			s.D.Set("segment_time_in_seconds", *v.SegmentTimeInSeconds)
@@ -138,7 +137,6 @@ func (s *MediaServicesStreamPackagingConfigDataSourceCrud) SetData() error {
 			s.D.Set("encryption", nil)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.SegmentTimeInSeconds != nil {

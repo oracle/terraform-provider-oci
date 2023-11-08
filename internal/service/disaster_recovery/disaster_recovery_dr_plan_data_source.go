@@ -83,7 +83,6 @@ func (s *DisasterRecoveryDrPlanDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifeCycleDetails != nil {
 		s.D.Set("life_cycle_details", *s.Res.LifeCycleDetails)

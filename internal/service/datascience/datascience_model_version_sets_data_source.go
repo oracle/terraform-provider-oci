@@ -146,7 +146,6 @@ func (s *DatascienceModelVersionSetsDataSourceCrud) SetData() error {
 		}
 
 		modelVersionSet["freeform_tags"] = r.FreeformTags
-		modelVersionSet["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			modelVersionSet["id"] = *r.Id

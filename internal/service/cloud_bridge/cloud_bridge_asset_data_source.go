@@ -83,7 +83,6 @@ func (s *CloudBridgeAssetDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("asset_source_ids", v.AssetSourceIds)
-		s.D.Set("asset_source_ids", v.AssetSourceIds)
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
@@ -101,7 +100,6 @@ func (s *CloudBridgeAssetDataSourceCrud) SetData() error {
 			s.D.Set("external_asset_key", *v.ExternalAssetKey)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.InventoryId != nil {
@@ -153,7 +151,6 @@ func (s *CloudBridgeAssetDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("asset_source_ids", v.AssetSourceIds)
-		s.D.Set("asset_source_ids", v.AssetSourceIds)
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
@@ -171,7 +168,6 @@ func (s *CloudBridgeAssetDataSourceCrud) SetData() error {
 			s.D.Set("external_asset_key", *v.ExternalAssetKey)
 		}
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.InventoryId != nil {

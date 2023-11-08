@@ -622,7 +622,6 @@ func (s *IdentityDomainsMyOAuth2ClientCredentialResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IsResetSecret != nil {
 		s.D.Set("is_reset_secret", *s.Res.IsResetSecret)
@@ -642,7 +641,6 @@ func (s *IdentityDomainsMyOAuth2ClientCredentialResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	scopes := []interface{}{}
@@ -733,7 +731,6 @@ func MyOAuth2ClientCredentialToMap(obj oci_identity_domains.MyOAuth2ClientCreden
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.IsResetSecret != nil {
 		result["is_reset_secret"] = bool(*obj.IsResetSecret)
@@ -751,7 +748,6 @@ func MyOAuth2ClientCredentialToMap(obj oci_identity_domains.MyOAuth2ClientCreden
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	scopes := []interface{}{}
