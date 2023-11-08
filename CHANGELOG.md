@@ -1,4 +1,4 @@
-## 5.20.0 (Unreleased)
+## 5.20.0 (November 08, 2023)
 
 ### Added
 - Support for Java Management Service 8.0 - Java Download Component
