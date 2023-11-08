@@ -256,7 +256,6 @@ func EvaluationResultSummaryToMap(obj oci_ai_language.EvaluationResultSummary) m
 		}
 
 		result["freeform_tags"] = v.FreeformTags
-		result["freeform_tags"] = v.FreeformTags
 	case oci_ai_language.TextClassificationModelEvaluationResult:
 		result["model_type"] = "TEXT_CLASSIFICATION"
 
@@ -265,16 +264,13 @@ func EvaluationResultSummaryToMap(obj oci_ai_language.EvaluationResultSummary) m
 		}
 
 		result["predicted_labels"] = v.PredictedLabels
-		result["predicted_labels"] = v.PredictedLabels
 
-		result["true_labels"] = v.TrueLabels
 		result["true_labels"] = v.TrueLabels
 
 		if v.DefinedTags != nil {
 			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
 		}
 
-		result["freeform_tags"] = v.FreeformTags
 		result["freeform_tags"] = v.FreeformTags
 	default:
 		log.Printf("[WARN] Received 'model_type' of unknown type %v", obj)

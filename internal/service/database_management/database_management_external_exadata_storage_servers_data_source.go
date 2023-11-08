@@ -235,7 +235,6 @@ func ExternalExadataStorageConnectorSummaryToMap1(obj *oci_database_management.E
 	result := map[string]interface{}{}
 
 	result["additional_details"] = obj.AdditionalDetails
-	result["additional_details"] = obj.AdditionalDetails
 
 	if obj.AgentId != nil {
 		result["agent_id"] = string(*obj.AgentId)

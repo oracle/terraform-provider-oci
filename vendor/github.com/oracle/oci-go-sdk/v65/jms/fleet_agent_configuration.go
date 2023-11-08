@@ -28,6 +28,8 @@ type FleetAgentConfiguration struct {
 
 	WindowsConfiguration *FleetAgentOsConfiguration `mandatory:"true" json:"windowsConfiguration"`
 
+	MacOsConfiguration *FleetAgentOsConfiguration `mandatory:"true" json:"macOsConfiguration"`
+
 	// The date and time of the last modification to the Fleet Agent Configuration (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeLastModified *common.SDKTime `mandatory:"true" json:"timeLastModified"`
 

@@ -43,6 +43,10 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"architecture": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"artifact_content_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -51,7 +55,35 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"artifact_file_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"artifact_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"download_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"os_family": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"package_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"package_type_detail": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"script_checksum_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"script_download_url": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -61,6 +93,10 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"days_under_security_baseline": {
+				Type:     schema.TypeInt,
+				Computed: true,
 			},
 			"family_details": {
 				Type:     schema.TypeList,
@@ -85,6 +121,79 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"family_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_supported_version": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"latest_release_artifacts": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"approximate_file_size_in_bytes": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"architecture": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"artifact_content_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"artifact_description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"artifact_file_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"artifact_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"download_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"os_family": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"package_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"package_type_detail": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"script_checksum_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"script_download_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"sha256": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"latest_release_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -127,6 +236,27 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 			"license_type": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"mos_patches": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"patch_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"parent_release_version": {
 				Type:     schema.TypeString,
@@ -197,13 +327,16 @@ func (s *JmsJavaReleaseDataSourceCrud) SetData() error {
 	s.D.SetId(tfresource.GenerateDataSourceHashID("JmsJavaReleaseDataSource-", JmsJavaReleaseDataSource(), s.D))
 
 	s.D.Set("artifact_content_types", s.Res.ArtifactContentTypes)
-	s.D.Set("artifact_content_types", s.Res.ArtifactContentTypes)
 
 	artifacts := []interface{}{}
 	for _, item := range s.Res.Artifacts {
 		artifacts = append(artifacts, JavaArtifactToMap(item))
 	}
 	s.D.Set("artifacts", artifacts)
+
+	if s.Res.DaysUnderSecurityBaseline != nil {
+		s.D.Set("days_under_security_baseline", *s.Res.DaysUnderSecurityBaseline)
+	}
 
 	if s.Res.FamilyDetails != nil {
 		s.D.Set("family_details", []interface{}{JavaFamilyToMap(s.Res.FamilyDetails)})
@@ -222,6 +355,12 @@ func (s *JmsJavaReleaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("license_type", s.Res.LicenseType)
+
+	mosPatches := []interface{}{}
+	for _, item := range s.Res.MosPatches {
+		mosPatches = append(mosPatches, PatchDetailToMap(item))
+	}
+	s.D.Set("mos_patches", mosPatches)
 
 	if s.Res.ParentReleaseVersion != nil {
 		s.D.Set("parent_release_version", *s.Res.ParentReleaseVersion)

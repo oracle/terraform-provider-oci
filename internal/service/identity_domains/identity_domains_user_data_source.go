@@ -194,7 +194,6 @@ func (s *IdentityDomainsUserDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	ims := []interface{}{}
 	for _, item := range s.Res.Ims {
@@ -256,7 +255,6 @@ func (s *IdentityDomainsUserDataSourceCrud) SetData() error {
 	}
 	s.D.Set("roles", roles)
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}

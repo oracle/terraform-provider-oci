@@ -219,7 +219,6 @@ func ResourceSummaryToMap(obj oci_usage_proxy.ResourceSummary) map[string]interf
 	result := map[string]interface{}{}
 
 	result["child_resources"] = obj.ChildResources
-	result["child_resources"] = obj.ChildResources
 
 	if obj.DailyUnitDisplayName != nil {
 		result["daily_unit_display_name"] = string(*obj.DailyUnitDisplayName)

@@ -47,6 +47,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `application_execution_type` - Execution type of the application for an application type, such as WAR and EAR, that is deployed or installed.
+* `application_key` - The unique key that identifies the application.
 * `application_name` - The name of the application for which the Java migration analysis was performed.
 * `application_path` - The installation path of the application for which the Java migration analysis was performed.
 * `bucket` - The name of the object storage bucket that contains the results of the migration analysis.

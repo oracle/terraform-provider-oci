@@ -134,7 +134,6 @@ func (s *BdsBdsInstanceGetOsPatchDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("min_compatible_odh_version_map", s.Res.MinCompatibleOdhVersionMap)
-	s.D.Set("min_compatible_odh_version_map", s.Res.MinCompatibleOdhVersionMap)
 
 	s.D.Set("patch_type", s.Res.PatchType)
 
@@ -158,7 +157,6 @@ func OsPatchPackageSummaryToMap(obj oci_bds.OsPatchPackageSummary) map[string]in
 		result["package_name"] = string(*obj.PackageName)
 	}
 
-	result["related_cv_es"] = obj.RelatedCVEs
 	result["related_cv_es"] = obj.RelatedCVEs
 
 	if obj.TargetVersion != nil {

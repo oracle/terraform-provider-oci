@@ -341,7 +341,6 @@ func ScheduledActivitySummaryToMap(obj oci_fusion_apps.ScheduledActivitySummary)
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.FusionEnvironmentId != nil {
 		result["fusion_environment_id"] = string(*obj.FusionEnvironmentId)

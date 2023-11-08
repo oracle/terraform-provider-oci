@@ -799,7 +799,6 @@ func (s *AdmRemediationRecipeResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsRunTriggeredOnKbChange != nil {
 		s.D.Set("is_run_triggered_on_kb_change", *s.Res.IsRunTriggeredOnKbChange)
@@ -923,7 +922,6 @@ func DetectConfigurationToMap(obj *oci_adm.DetectConfiguration) map[string]inter
 	result := map[string]interface{}{}
 
 	result["exclusions"] = obj.Exclusions
-	result["exclusions"] = obj.Exclusions
 
 	if obj.MaxPermissibleCvssV2Score != nil {
 		result["max_permissible_cvss_v2score"] = float32(*obj.MaxPermissibleCvssV2Score)
@@ -998,7 +996,6 @@ func RemediationRecipeSummaryToMap(obj oci_adm.RemediationRecipeSummary) map[str
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
@@ -1256,7 +1253,6 @@ func VerifyConfigurationToMap(obj *oci_adm.VerifyConfiguration) map[string]inter
 		result["build_service_type"] = "GITHUB_ACTIONS"
 
 		result["additional_parameters"] = v.AdditionalParameters
-		result["additional_parameters"] = v.AdditionalParameters
 
 		if v.PatSecretId != nil {
 			result["pat_secret_id"] = string(*v.PatSecretId)
@@ -1277,7 +1273,6 @@ func VerifyConfigurationToMap(obj *oci_adm.VerifyConfiguration) map[string]inter
 		result["build_service_type"] = "GITLAB_PIPELINE"
 
 		result["additional_parameters"] = v.AdditionalParameters
-		result["additional_parameters"] = v.AdditionalParameters
 
 		if v.PatSecretId != nil {
 			result["pat_secret_id"] = string(*v.PatSecretId)
@@ -1297,7 +1292,6 @@ func VerifyConfigurationToMap(obj *oci_adm.VerifyConfiguration) map[string]inter
 	case oci_adm.JenkinsPipelineConfiguration:
 		result["build_service_type"] = "JENKINS_PIPELINE"
 
-		result["additional_parameters"] = v.AdditionalParameters
 		result["additional_parameters"] = v.AdditionalParameters
 
 		if v.JenkinsUrl != nil {
@@ -1320,7 +1314,6 @@ func VerifyConfigurationToMap(obj *oci_adm.VerifyConfiguration) map[string]inter
 	case oci_adm.OciDevOpsBuildConfiguration:
 		result["build_service_type"] = "OCI_DEVOPS_BUILD"
 
-		result["additional_parameters"] = v.AdditionalParameters
 		result["additional_parameters"] = v.AdditionalParameters
 
 		if v.PipelineId != nil {

@@ -1242,7 +1242,6 @@ func (s *IdentityDomainsGroupResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	members := []interface{}{}
 	for _, item := range s.Res.Members {
@@ -1264,7 +1263,6 @@ func (s *IdentityDomainsGroupResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -1644,7 +1642,6 @@ func GroupToMap(obj oci_identity_domains.Group) map[string]interface{} {
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	members := []interface{}{}
 	for _, item := range obj.Members {
@@ -1664,7 +1661,6 @@ func GroupToMap(obj oci_identity_domains.Group) map[string]interface{} {
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

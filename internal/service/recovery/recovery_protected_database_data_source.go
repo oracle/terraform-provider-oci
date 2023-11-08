@@ -89,7 +89,6 @@ func (s *RecoveryProtectedDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	s.D.Set("health", s.Res.Health)
 

@@ -222,7 +222,6 @@ func (s *DatabaseManagementExternalExadataStorageServerDataSourceCrud) SetData()
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.Connector != nil {
 		s.D.Set("connector", []interface{}{ExternalExadataStorageConnectorSummaryToMap1(s.Res.Connector)})

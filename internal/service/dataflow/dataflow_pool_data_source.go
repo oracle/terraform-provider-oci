@@ -89,7 +89,6 @@ func (s *DataflowPoolDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IdleTimeoutInMinutes != nil {
 		s.D.Set("idle_timeout_in_minutes", *s.Res.IdleTimeoutInMinutes)

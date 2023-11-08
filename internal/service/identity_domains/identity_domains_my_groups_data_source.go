@@ -638,7 +638,6 @@ func (s *IdentityDomainsMyGroupsDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.StartIndex != nil {
 		s.D.Set("start_index", *s.Res.StartIndex)
@@ -691,7 +690,6 @@ func MyGroupToMap(obj oci_identity_domains.MyGroup) map[string]interface{} {
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	members := []interface{}{}
 	for _, item := range obj.Members {
@@ -711,7 +709,6 @@ func MyGroupToMap(obj oci_identity_domains.MyGroup) map[string]interface{} {
 		result["ocid"] = string(*obj.Ocid)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

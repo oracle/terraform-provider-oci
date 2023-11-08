@@ -114,6 +114,10 @@ func (s *JmsFleetDataSourceCrud) SetData() error {
 		s.D.Set("is_advanced_features_enabled", *s.Res.IsAdvancedFeaturesEnabled)
 	}
 
+	if s.Res.IsExportSettingEnabled != nil {
+		s.D.Set("is_export_setting_enabled", *s.Res.IsExportSettingEnabled)
+	}
+
 	if s.Res.OperationLog != nil {
 		s.D.Set("operation_log", []interface{}{CustomLogToMap(s.Res.OperationLog)})
 	} else {

@@ -507,7 +507,6 @@ func (s *FusionAppsFusionEnvironmentFamilyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsSubscriptionUpdateNeeded != nil {
 		s.D.Set("is_subscription_update_needed", *s.Res.IsSubscriptionUpdateNeeded)
@@ -519,7 +518,6 @@ func (s *FusionAppsFusionEnvironmentFamilyResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("subscription_ids", s.Res.SubscriptionIds)
 	s.D.Set("subscription_ids", s.Res.SubscriptionIds)
 
 	if s.Res.SystemName != nil {
@@ -569,8 +567,6 @@ func FusionEnvironmentFamilySummaryToMap(obj oci_fusion_apps.FusionEnvironmentFa
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
-	result["freeform_tags"] = obj.FreeformTags
-
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -585,7 +581,6 @@ func FusionEnvironmentFamilySummaryToMap(obj oci_fusion_apps.FusionEnvironmentFa
 
 	result["state"] = string(obj.LifecycleState)
 
-	result["subscription_ids"] = obj.SubscriptionIds
 	result["subscription_ids"] = obj.SubscriptionIds
 
 	if obj.TimeCreated != nil {

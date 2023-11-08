@@ -10,7 +10,7 @@ description: |-
 # oci_data_safe_masking_policy
 This resource provides the Masking Policy resource in Oracle Cloud Infrastructure Data Safe service.
 
-Creates a new masking policy and associates it with a sensitive data model or a target database.
+Creates a new masking policy and associates it with a sensitive data model or a reference target database.
 
 To use a sensitive data model as the source of masking columns, set the columnSource attribute to 
 SENSITIVE_DATA_MODEL and provide the sensitiveDataModelId attribute. After creating a masking policy,
@@ -78,7 +78,7 @@ The following arguments are supported:
 * `parallel_degree` - (Optional) (Updatable) Specifies options to enable parallel execution when running data masking. Allowed values are 'NONE' (no parallelism), 'DEFAULT' (the Oracle Database computes the optimum degree of parallelism) or an integer value to be used as the degree of parallelism. Parallel execution helps effectively use multiple CPUs and improve masking performance. Refer to the Oracle Database parallel execution framework when choosing an explicit degree of parallelism. 
 * `post_masking_script` - (Optional) (Updatable) A post-masking script, which can contain SQL and PL/SQL statements. It's executed after the core masking script generated using the masking policy. It's usually used to perform additional transformation or cleanup work after masking. 
 * `pre_masking_script` - (Optional) (Updatable) A pre-masking script, which can contain SQL and PL/SQL statements. It's executed before  the core masking script generated using the masking policy. It's usually used to perform any preparation or prerequisite work before masking data. 
-* `recompile` - (Optional) (Updatable) Specifies how to recompile invalid objects post data masking. Allowed values are 'SERIAL' (recompile in serial),  'PARALLEL' (recompile in parallel), 'NONE' (do not recompile). If it's set to PARALLEL, the value of parallelDegree attribute is used. Use the built-in UTL_RECOMP package to recompile any remaining invalid objects after masking completes. 
+* `recompile` - (Optional) (Updatable) Specifies how to recompile invalid objects post data masking. Allowed values are 'SERIAL' (recompile in serial),  'PARALLEL' (recompile in parallel), 'NONE' (do not recompile). If it's set to PARALLEL, the value of parallelDegree attribute is used. Note that few objects may remain invalid even after recompiling once and you may have to further recompile manually using UTL_RECOMP package. 
 * `add_masking_columns_from_sdm_trigger` - (Optional) (Updatable) An optional property when incremented triggers Add Masking Columns From Sdm. Could be set to any integer value.
 
 
@@ -105,7 +105,7 @@ The following attributes are exported:
 * `parallel_degree` - Specifies options to enable parallel execution when running data masking. Allowed values are 'NONE' (no parallelism), 'DEFAULT' (the Oracle Database computes the optimum degree of parallelism) or an integer value to be used as the degree of parallelism. Parallel execution helps effectively use multiple CPUs and improve masking performance. Refer to the Oracle Database parallel execution framework when choosing an explicit degree of parallelism. 
 * `post_masking_script` - A post-masking script, which can contain SQL and PL/SQL statements. It's executed after the core masking script generated using the masking policy. It's usually used to perform additional transformation or cleanup work after masking. 
 * `pre_masking_script` - A pre-masking script, which can contain SQL and PL/SQL statements. It's executed before  the core masking script generated using the masking policy. It's usually used to perform any preparation or prerequisite work before masking data. 
-* `recompile` - Specifies how to recompile invalid objects post data masking. Allowed values are 'SERIAL' (recompile in serial),  'PARALLEL' (recompile in parallel), 'NONE' (do not recompile). If it's set to PARALLEL, the value of parallelDegree attribute is used. Use the built-in UTL_RECOMP package to recompile any remaining invalid objects after masking completes. 
+* `recompile` - Specifies how to recompile invalid objects post data masking. Allowed values are 'SERIAL' (recompile in serial),  'PARALLEL' (recompile in parallel), 'NONE' (do not recompile). If it's set to PARALLEL, the value of parallelDegree attribute is used. Note that few objects may remain invalid even after recompiling once and you may have to further recompile manually using UTL_RECOMP package. 
 * `state` - The current state of the masking policy.
 * `time_created` - The date and time the masking policy was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  
 * `time_updated` - The date and time the masking policy was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339)  

@@ -640,7 +640,6 @@ func ManagementAgentPropertyToMap(obj oci_management_agent.ManagementAgentProper
 	result["units"] = string(obj.Units)
 
 	result["values"] = obj.Values
-	result["values"] = obj.Values
 
 	return result
 }

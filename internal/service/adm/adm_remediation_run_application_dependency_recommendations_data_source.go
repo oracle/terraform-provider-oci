@@ -161,7 +161,6 @@ func ApplicationDependencyRecommendationSummaryToMap(obj oci_adm.ApplicationDepe
 	result := map[string]interface{}{}
 
 	result["application_dependency_node_ids"] = obj.ApplicationDependencyNodeIds
-	result["application_dependency_node_ids"] = obj.ApplicationDependencyNodeIds
 
 	if obj.Gav != nil {
 		result["gav"] = string(*obj.Gav)

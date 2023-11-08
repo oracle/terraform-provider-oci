@@ -89,9 +89,7 @@ func (s *ComputeCloudAtCustomerCccUpgradeScheduleDataSourceCrud) SetData() error
 	s.D.Set("events", events)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	s.D.Set("infrastructure_ids", s.Res.InfrastructureIds)
 	s.D.Set("infrastructure_ids", s.Res.InfrastructureIds)
 
 	if s.Res.LifecycleDetails != nil {

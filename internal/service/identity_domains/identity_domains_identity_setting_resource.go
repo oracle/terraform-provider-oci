@@ -876,7 +876,6 @@ func (s *IdentityDomainsIdentitySettingResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.Meta != nil {
 		s.D.Set("meta", []interface{}{metaToMap(s.Res.Meta)})
@@ -906,7 +905,6 @@ func (s *IdentityDomainsIdentitySettingResourceCrud) SetData() error {
 		s.D.Set("return_inactive_over_locked_message", *s.Res.ReturnInactiveOverLockedMessage)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -1001,7 +999,6 @@ func IdentitySettingToMap(obj oci_identity_domains.IdentitySetting) map[string]i
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.Meta != nil {
 		result["meta"] = []interface{}{metaToMap(obj.Meta)}
@@ -1027,7 +1024,6 @@ func IdentitySettingToMap(obj oci_identity_domains.IdentitySetting) map[string]i
 		result["return_inactive_over_locked_message"] = bool(*obj.ReturnInactiveOverLockedMessage)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

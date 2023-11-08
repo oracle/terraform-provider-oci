@@ -685,7 +685,6 @@ func (s *IdentityDomainsUserDbCredentialResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.LastSetDate != nil {
 		s.D.Set("last_set_date", *s.Res.LastSetDate)
@@ -717,7 +716,6 @@ func (s *IdentityDomainsUserDbCredentialResourceCrud) SetData() error {
 		s.D.Set("salt", *s.Res.Salt)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	s.D.Set("status", s.Res.Status)
@@ -828,7 +826,6 @@ func UserDbCredentialToMap(obj oci_identity_domains.UserDbCredential) map[string
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	if obj.LastSetDate != nil {
 		result["last_set_date"] = string(*obj.LastSetDate)
@@ -858,7 +855,6 @@ func UserDbCredentialToMap(obj oci_identity_domains.UserDbCredential) map[string
 		result["salt"] = string(*obj.Salt)
 	}
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	result["status"] = string(obj.Status)

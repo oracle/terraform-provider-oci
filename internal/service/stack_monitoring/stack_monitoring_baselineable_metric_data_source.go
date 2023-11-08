@@ -83,7 +83,6 @@ func (s *StackMonitoringBaselineableMetricDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsOutOfBox != nil {
 		s.D.Set("is_out_of_box", *s.Res.IsOutOfBox)

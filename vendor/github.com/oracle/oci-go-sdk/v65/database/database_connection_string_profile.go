@@ -42,6 +42,9 @@ type DatabaseConnectionStringProfile struct {
 
 	// Specifies whether the TLS handshake is using one-way (`SERVER`) or mutual (`MUTUAL`) authentication.
 	TlsAuthentication DatabaseConnectionStringProfileTlsAuthenticationEnum `mandatory:"false" json:"tlsAuthentication,omitempty"`
+
+	// True for a regional connection string, applicable to cross-region DG only.
+	IsRegional *bool `mandatory:"false" json:"isRegional"`
 }
 
 func (m DatabaseConnectionStringProfile) String() string {

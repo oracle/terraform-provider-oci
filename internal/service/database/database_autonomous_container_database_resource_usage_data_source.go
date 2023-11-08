@@ -171,13 +171,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceUsageDataSourceCrud) SetData
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LargestProvisionableAutonomousDatabaseInCpus != nil {
 		s.D.Set("largest_provisionable_autonomous_database_in_cpus", *s.Res.LargestProvisionableAutonomousDatabaseInCpus)
 	}
 
-	s.D.Set("provisionable_cpus", s.Res.ProvisionableCpus)
 	s.D.Set("provisionable_cpus", s.Res.ProvisionableCpus)
 
 	if s.Res.ProvisionedCpus != nil {

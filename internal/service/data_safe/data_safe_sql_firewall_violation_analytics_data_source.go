@@ -375,36 +375,25 @@ func SqlFirewallViolationAggregationDimensionsToMap(obj *oci_data_safe.SqlFirewa
 	result := map[string]interface{}{}
 
 	result["client_ip"] = obj.ClientIp
-	result["client_ip"] = obj.ClientIp
 
-	result["client_os_user_name"] = obj.ClientOsUserName
 	result["client_os_user_name"] = obj.ClientOsUserName
 
 	result["client_program"] = obj.ClientProgram
-	result["client_program"] = obj.ClientProgram
 
-	result["db_user_name"] = obj.DbUserName
 	result["db_user_name"] = obj.DbUserName
 
 	result["operation"] = obj.Operation
-	result["operation"] = obj.Operation
 
-	result["operation_time"] = obj.OperationTime
 	result["operation_time"] = obj.OperationTime
 
 	result["sql_level"] = obj.SqlLevel
-	result["sql_level"] = obj.SqlLevel
 
-	result["target_id"] = obj.TargetId
 	result["target_id"] = obj.TargetId
 
 	result["target_name"] = obj.TargetName
-	result["target_name"] = obj.TargetName
 
 	result["violation_action"] = obj.ViolationAction
-	result["violation_action"] = obj.ViolationAction
 
-	result["violation_cause"] = obj.ViolationCause
 	result["violation_cause"] = obj.ViolationCause
 
 	return result

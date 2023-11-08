@@ -142,7 +142,6 @@ func (s *IdentityDomainsAccountRecoverySettingDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("factors", s.Res.Factors)
-	s.D.Set("factors", s.Res.Factors)
 
 	if s.Res.IdcsCreatedBy != nil {
 		s.D.Set("idcs_created_by", []interface{}{idcsCreatedByToMap(s.Res.IdcsCreatedBy)})
@@ -160,7 +159,6 @@ func (s *IdentityDomainsAccountRecoverySettingDataSourceCrud) SetData() error {
 		s.D.Set("idcs_last_upgraded_in_release", *s.Res.IdcsLastUpgradedInRelease)
 	}
 
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.LockoutDuration != nil {
@@ -181,7 +179,6 @@ func (s *IdentityDomainsAccountRecoverySettingDataSourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}

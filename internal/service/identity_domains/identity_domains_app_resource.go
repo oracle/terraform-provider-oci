@@ -4476,9 +4476,7 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 
 	s.D.Set("allowed_grants", s.Res.AllowedGrants)
-	s.D.Set("allowed_grants", s.Res.AllowedGrants)
 
-	s.D.Set("allowed_operations", s.Res.AllowedOperations)
 	s.D.Set("allowed_operations", s.Res.AllowedOperations)
 
 	allowedScopes := []interface{}{}
@@ -4572,7 +4570,6 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 
 	s.D.Set("delegated_service_names", s.Res.DelegatedServiceNames)
-	s.D.Set("delegated_service_names", s.Res.DelegatedServiceNames)
 
 	if s.Res.DeleteInProgress != nil {
 		s.D.Set("delete_in_progress", *s.Res.DeleteInProgress)
@@ -4648,7 +4645,6 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 		s.D.Set("idcs_last_upgraded_in_release", *s.Res.IdcsLastUpgradedInRelease)
 	}
 
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	identityProviders := []interface{}{}
@@ -4780,7 +4776,6 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 
 	s.D.Set("post_logout_redirect_uris", s.Res.PostLogoutRedirectUris)
-	s.D.Set("post_logout_redirect_uris", s.Res.PostLogoutRedirectUris)
 
 	if s.Res.PrivacyPolicyUrl != nil {
 		s.D.Set("privacy_policy_url", *s.Res.PrivacyPolicyUrl)
@@ -4811,7 +4806,6 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 
 	s.D.Set("redirect_uris", s.Res.RedirectUris)
-	s.D.Set("redirect_uris", s.Res.RedirectUris)
 
 	if s.Res.RefreshTokenExpiry != nil {
 		s.D.Set("refresh_token_expiry", *s.Res.RefreshTokenExpiry)
@@ -4824,7 +4818,6 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 
 	s.D.Set("schemas", s.Res.Schemas)
-	s.D.Set("schemas", s.Res.Schemas)
 
 	scopes := []interface{}{}
 	for _, item := range s.Res.Scopes {
@@ -4832,7 +4825,6 @@ func (s *IdentityDomainsAppResourceCrud) SetData() error {
 	}
 	s.D.Set("scopes", scopes)
 
-	s.D.Set("secondary_audiences", s.Res.SecondaryAudiences)
 	s.D.Set("secondary_audiences", s.Res.SecondaryAudiences)
 
 	serviceParams := []interface{}{}
@@ -5037,9 +5029,7 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 
 	result["allowed_grants"] = obj.AllowedGrants
-	result["allowed_grants"] = obj.AllowedGrants
 
-	result["allowed_operations"] = obj.AllowedOperations
 	result["allowed_operations"] = obj.AllowedOperations
 
 	allowedScopes := []interface{}{}
@@ -5127,7 +5117,6 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 
 	result["delegated_service_names"] = obj.DelegatedServiceNames
-	result["delegated_service_names"] = obj.DelegatedServiceNames
 
 	if obj.DeleteInProgress != nil {
 		result["delete_in_progress"] = bool(*obj.DeleteInProgress)
@@ -5203,7 +5192,6 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 		result["idcs_last_upgraded_in_release"] = string(*obj.IdcsLastUpgradedInRelease)
 	}
 
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	identityProviders := []interface{}{}
@@ -5331,7 +5319,6 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 
 	result["post_logout_redirect_uris"] = obj.PostLogoutRedirectUris
-	result["post_logout_redirect_uris"] = obj.PostLogoutRedirectUris
 
 	if obj.PrivacyPolicyUrl != nil {
 		result["privacy_policy_url"] = string(*obj.PrivacyPolicyUrl)
@@ -5360,7 +5347,6 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 
 	result["redirect_uris"] = obj.RedirectUris
-	result["redirect_uris"] = obj.RedirectUris
 
 	if obj.RefreshTokenExpiry != nil {
 		result["refresh_token_expiry"] = int(*obj.RefreshTokenExpiry)
@@ -5371,7 +5357,6 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 
 	result["schemas"] = obj.Schemas
-	result["schemas"] = obj.Schemas
 
 	scopes := []interface{}{}
 	for _, item := range obj.Scopes {
@@ -5379,7 +5364,6 @@ func AppToMap(obj oci_identity_domains.App) map[string]interface{} {
 	}
 	result["scopes"] = scopes
 
-	result["secondary_audiences"] = obj.SecondaryAudiences
 	result["secondary_audiences"] = obj.SecondaryAudiences
 
 	serviceParams := []interface{}{}
@@ -6087,7 +6071,6 @@ func AppBundleConfigurationPropertiesToMap(obj oci_identity_domains.AppBundleCon
 	}
 
 	result["value"] = obj.Value
-	result["value"] = obj.Value
 
 	return result
 }
@@ -6193,7 +6176,6 @@ func AppCloudControlPropertiesToMap(obj oci_identity_domains.AppCloudControlProp
 		result["name"] = string(*obj.Name)
 	}
 
-	result["values"] = obj.Values
 	result["values"] = obj.Values
 
 	return result
@@ -6749,7 +6731,6 @@ func AppExtensionKerberosRealmAppToMap(obj *oci_identity_domains.AppExtensionKer
 		result["realm_name"] = string(*obj.RealmName)
 	}
 
-	result["supported_encryption_salt_types"] = obj.SupportedEncryptionSaltTypes
 	result["supported_encryption_salt_types"] = obj.SupportedEncryptionSaltTypes
 
 	if obj.TicketFlags != nil {
@@ -7730,7 +7711,6 @@ func AppFlatFileBundleConfigurationPropertiesToMap(obj oci_identity_domains.AppF
 		result["required"] = bool(*obj.Required)
 	}
 
-	result["value"] = obj.Value
 	result["value"] = obj.Value
 
 	return result

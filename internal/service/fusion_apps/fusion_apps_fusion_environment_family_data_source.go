@@ -85,7 +85,6 @@ func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsSubscriptionUpdateNeeded != nil {
 		s.D.Set("is_subscription_update_needed", *s.Res.IsSubscriptionUpdateNeeded)
@@ -97,7 +96,6 @@ func (s *FusionAppsFusionEnvironmentFamilyDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("subscription_ids", s.Res.SubscriptionIds)
 	s.D.Set("subscription_ids", s.Res.SubscriptionIds)
 
 	if s.Res.SystemName != nil {

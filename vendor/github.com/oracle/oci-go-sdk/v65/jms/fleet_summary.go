@@ -65,6 +65,9 @@ type FleetSummary struct {
 	// This flag is true if any one of the advanced features is turned on.
 	IsAdvancedFeaturesEnabled *bool `mandatory:"false" json:"isAdvancedFeaturesEnabled"`
 
+	// Whether or not export setting is enabled in this Fleet.
+	IsExportSettingEnabled *bool `mandatory:"false" json:"isExportSettingEnabled"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`

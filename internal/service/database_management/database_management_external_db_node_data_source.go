@@ -67,7 +67,6 @@ func (s *DatabaseManagementExternalDbNodeDataSourceCrud) SetData() error {
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

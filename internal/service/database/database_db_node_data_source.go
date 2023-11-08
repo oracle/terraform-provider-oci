@@ -107,7 +107,6 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HostIpId != nil {
 		s.D.Set("host_ip_id", *s.Res.HostIpId)

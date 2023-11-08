@@ -67,7 +67,6 @@ func (s *DatabaseManagementExternalExadataStorageConnectorDataSourceCrud) SetDat
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.AgentId != nil {
 		s.D.Set("agent_id", *s.Res.AgentId)

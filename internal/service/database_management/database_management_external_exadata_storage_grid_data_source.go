@@ -214,7 +214,6 @@ func (s *DatabaseManagementExternalExadataStorageGridDataSourceCrud) SetData() e
 	s.D.SetId(*s.Res.Id)
 
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
@@ -266,7 +265,6 @@ func (s *DatabaseManagementExternalExadataStorageGridDataSourceCrud) SetData() e
 func ExternalExadataStorageServerSummaryToMap(obj oci_database_management.ExternalExadataStorageServerSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["additional_details"] = obj.AdditionalDetails
 	result["additional_details"] = obj.AdditionalDetails
 
 	if obj.ConnectorId != nil {

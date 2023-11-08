@@ -316,7 +316,6 @@ func (s *DatabaseManagementExternalExadataStorageConnectorResourceCrud) Delete()
 
 func (s *DatabaseManagementExternalExadataStorageConnectorResourceCrud) SetData() error {
 	s.D.Set("additional_details", s.Res.AdditionalDetails)
-	s.D.Set("additional_details", s.Res.AdditionalDetails)
 
 	if s.Res.AgentId != nil {
 		s.D.Set("agent_id", *s.Res.AgentId)
@@ -370,7 +369,6 @@ func (s *DatabaseManagementExternalExadataStorageConnectorResourceCrud) SetData(
 func ExternalExadataStorageConnectorSummaryToMap(obj oci_database_management.ExternalExadataStorageConnectorSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["additional_details"] = obj.AdditionalDetails
 	result["additional_details"] = obj.AdditionalDetails
 
 	if obj.AgentId != nil {

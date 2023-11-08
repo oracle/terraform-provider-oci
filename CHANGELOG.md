@@ -1,3 +1,15 @@
+## 5.20.0 (November 08, 2023)
+
+### Added
+- Support for Java Management Service 8.0 - Java Download Component
+- Support for Reorganize Terraform ExaCC example folder
+- Support for Create _management resources for auto created Auditing resources in Data Safe
+- Support for Add Standby ACDs / Enable AuDG | ADB-D
+- Support for Java Management Service 8.0
+- Support for GoldenGate Additional Connection Types R4
+### Bug Fix
+Update startCredentialRotation and completeCredentialRotation resource for failed scenario to get error msg from workflow
+
 ## 5.19.0 (November 01, 2023)
 
 ### Added

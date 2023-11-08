@@ -83,6 +83,6 @@ The following attributes are exported:
 		* `should_replace_certificates_operating_system` - Restores JDK root certificates with the certificates that are available in the operating system. The following action is supported by the field:
 			* Replace JDK root certificates with a list provided by the operating system. 
 * `performance_tuning_analysis` - Performance tuning analysis configuration
-	* `is_enabled` - PerformanceTuningAnalysis flag to store enabled or disabled status.
+	* `is_enabled` - PerformanceTuningAnalysis flag to store enabled or disabled status
 * `time_last_modified` - The date and time of the last modification to the Fleet Agent Configuration (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 

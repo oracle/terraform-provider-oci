@@ -83,7 +83,6 @@ func (s *RecoveryProtectionPolicyDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsPredefinedPolicy != nil {
 		s.D.Set("is_predefined_policy", *s.Res.IsPredefinedPolicy)

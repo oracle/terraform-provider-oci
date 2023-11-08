@@ -156,7 +156,6 @@ func ExternalAsmUserSummaryToMap(obj oci_database_management.ExternalAsmUserSumm
 	}
 
 	result["privileges"] = obj.Privileges
-	result["privileges"] = obj.Privileges
 
 	return result
 }

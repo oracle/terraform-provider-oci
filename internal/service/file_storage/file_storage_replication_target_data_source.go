@@ -156,7 +156,6 @@ func (s *FileStorageReplicationTargetDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LastSnapshotId != nil {
 		s.D.Set("last_snapshot_id", *s.Res.LastSnapshotId)

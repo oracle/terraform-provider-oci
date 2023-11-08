@@ -162,7 +162,6 @@ func (s *IdentityDomainsOAuth2ClientCredentialDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IsResetSecret != nil {
 		s.D.Set("is_reset_secret", *s.Res.IsResetSecret)
@@ -182,7 +181,6 @@ func (s *IdentityDomainsOAuth2ClientCredentialDataSourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	scopes := []interface{}{}

@@ -90,7 +90,6 @@ func (s *DataintegrationWorkspaceProjectDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("key_map", s.Res.KeyMap)
-	s.D.Set("key_map", s.Res.KeyMap)
 
 	if s.Res.Metadata != nil {
 		s.D.Set("metadata", []interface{}{ObjectMetadataToMap(s.Res.Metadata)})

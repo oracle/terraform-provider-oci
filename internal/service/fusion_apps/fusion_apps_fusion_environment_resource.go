@@ -802,9 +802,7 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) Delete() error {
 
 func (s *FusionAppsFusionEnvironmentResourceCrud) SetData() error {
 	s.D.Set("additional_language_packs", s.Res.AdditionalLanguagePacks)
-	s.D.Set("additional_language_packs", s.Res.AdditionalLanguagePacks)
 
-	s.D.Set("applied_patch_bundles", s.Res.AppliedPatchBundles)
 	s.D.Set("applied_patch_bundles", s.Res.AppliedPatchBundles)
 
 	if s.Res.CompartmentId != nil {
@@ -827,7 +825,6 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) SetData() error {
 		s.D.Set("domain_id", *s.Res.DomainId)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.FusionEnvironmentFamilyId != nil {
@@ -886,7 +883,6 @@ func (s *FusionAppsFusionEnvironmentResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
-	s.D.Set("subscription_ids", s.Res.SubscriptionIds)
 	s.D.Set("subscription_ids", s.Res.SubscriptionIds)
 
 	if s.Res.SystemName != nil {

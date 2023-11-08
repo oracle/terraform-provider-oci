@@ -186,7 +186,6 @@ func (s *IdentityDomainsIdentityProviderDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	if s.Res.IdpSsoUrl != nil {
 		s.D.Set("idp_sso_url", *s.Res.IdpSsoUrl)
@@ -291,7 +290,6 @@ func (s *IdentityDomainsIdentityProviderDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("requested_authentication_context", s.Res.RequestedAuthenticationContext)
-	s.D.Set("requested_authentication_context", s.Res.RequestedAuthenticationContext)
 
 	if s.Res.RequireForceAuthn != nil {
 		s.D.Set("require_force_authn", *s.Res.RequireForceAuthn)
@@ -305,7 +303,6 @@ func (s *IdentityDomainsIdentityProviderDataSourceCrud) SetData() error {
 		s.D.Set("saml_ho_krequired", *s.Res.SamlHoKRequired)
 	}
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	if s.Res.ServiceInstanceIdentifier != nil {

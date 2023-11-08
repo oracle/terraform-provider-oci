@@ -3574,7 +3574,6 @@ func (s *IdentityDomainsUserResourceCrud) SetData() error {
 	}
 
 	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
-	s.D.Set("idcs_prevented_operations", s.Res.IdcsPreventedOperations)
 
 	ims := []interface{}{}
 	for _, item := range s.Res.Ims {
@@ -3636,7 +3635,6 @@ func (s *IdentityDomainsUserResourceCrud) SetData() error {
 	}
 	s.D.Set("roles", roles)
 
-	s.D.Set("schemas", s.Res.Schemas)
 	s.D.Set("schemas", s.Res.Schemas)
 
 	tags := []interface{}{}
@@ -3972,7 +3970,6 @@ func ExtensionDbUserUserToMap(obj *oci_identity_domains.ExtensionDbUserUser) map
 	result := map[string]interface{}{}
 
 	result["db_global_roles"] = obj.DbGlobalRoles
-	result["db_global_roles"] = obj.DbGlobalRoles
 
 	if obj.DomainLevelSchema != nil {
 		result["domain_level_schema"] = string(*obj.DomainLevelSchema)
@@ -4244,7 +4241,6 @@ func ExtensionMfaUserToMap(obj *oci_identity_domains.ExtensionMfaUser) map[strin
 		result["mfa_enabled_on"] = string(*obj.MfaEnabledOn)
 	}
 
-	result["mfa_ignored_apps"] = obj.MfaIgnoredApps
 	result["mfa_ignored_apps"] = obj.MfaIgnoredApps
 
 	result["mfa_status"] = string(obj.MfaStatus)
@@ -5131,7 +5127,6 @@ func UserToMap(obj oci_identity_domains.User) map[string]interface{} {
 	}
 
 	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
-	result["idcs_prevented_operations"] = obj.IdcsPreventedOperations
 
 	ims := []interface{}{}
 	for _, item := range obj.Ims {
@@ -5189,7 +5184,6 @@ func UserToMap(obj oci_identity_domains.User) map[string]interface{} {
 	}
 	result["roles"] = roles
 
-	result["schemas"] = obj.Schemas
 	result["schemas"] = obj.Schemas
 
 	tags := []interface{}{}

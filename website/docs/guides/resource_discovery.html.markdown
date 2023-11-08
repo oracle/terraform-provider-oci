@@ -576,11 +576,6 @@ data_safe
 * oci\_data\_safe\_discovery\_jobs\_result
 * oci\_data\_safe\_discovery\_job
 * oci\_data\_safe\_sdm\_masking\_policy\_difference
-* oci\_data\_safe\_security\_policy\_deployment
-* oci\_data\_safe\_security\_policy
-* oci\_data\_safe\_database\_security\_config
-* oci\_data\_safe\_sql\_firewall\_policy
-* oci\_data\_safe\_sql\_collection
 
 database
 

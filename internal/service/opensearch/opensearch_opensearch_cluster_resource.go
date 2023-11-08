@@ -723,7 +723,6 @@ func (s *OpensearchOpensearchClusterResourceCrud) Delete() error {
 
 func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 	s.D.Set("availability_domains", s.Res.AvailabilityDomains)
-	s.D.Set("availability_domains", s.Res.AvailabilityDomains)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -763,7 +762,6 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 		s.D.Set("fqdn", *s.Res.Fqdn)
 	}
 
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
@@ -967,7 +965,6 @@ func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) 
 	result := map[string]interface{}{}
 
 	result["availability_domains"] = obj.AvailabilityDomains
-	result["availability_domains"] = obj.AvailabilityDomains
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -981,7 +978,6 @@ func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) 
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {

@@ -148,7 +148,6 @@ func (s *FunctionsPbfListingDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

@@ -89,7 +89,6 @@ func (s *DataintegrationWorkspaceExportRequestDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("error_messages", s.Res.ErrorMessages)
-	s.D.Set("error_messages", s.Res.ErrorMessages)
 
 	exportedItems := []interface{}{}
 	for _, item := range s.Res.ExportedItems {
@@ -101,7 +100,6 @@ func (s *DataintegrationWorkspaceExportRequestDataSourceCrud) SetData() error {
 		s.D.Set("file_name", *s.Res.FileName)
 	}
 
-	s.D.Set("filters", s.Res.Filters)
 	s.D.Set("filters", s.Res.Filters)
 
 	if s.Res.IsObjectOverwriteEnabled != nil {
@@ -116,7 +114,6 @@ func (s *DataintegrationWorkspaceExportRequestDataSourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
-	s.D.Set("object_keys", s.Res.ObjectKeys)
 	s.D.Set("object_keys", s.Res.ObjectKeys)
 
 	if s.Res.ObjectStorageRegion != nil {

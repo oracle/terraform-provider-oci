@@ -85,7 +85,6 @@ func (s *AdmRemediationRecipeDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsRunTriggeredOnKbChange != nil {
 		s.D.Set("is_run_triggered_on_kb_change", *s.Res.IsRunTriggeredOnKbChange)

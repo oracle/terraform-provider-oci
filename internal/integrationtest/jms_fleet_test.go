@@ -43,13 +43,17 @@ var (
 		"lifecycle": acctest.RepresentationGroup{
 			RepType: acctest.Required,
 			Group: map[string]interface{}{
-				"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+				"ignore_changes": acctest.Representation{
+					RepType: acctest.Required,
+					Create:  []string{`defined_tags`},
+					Update:  []string{`defined_tags`},
+				},
 			},
 		},
 		"freeform_tags": acctest.Representation{
 			RepType: acctest.Optional,
-			Create:  map[string]string{"bar-key": "value"},
-			Update:  map[string]string{"Department": "Accounting"},
+			Create:  map[string]string{"bar-key": "bar-value"},
+			Update:  map[string]string{"bar-key": "bar-value"},
 		},
 		"inventory_log": acctest.RepresentationGroup{RepType: acctest.Required, Group: map[string]interface{}{
 			"log_group_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetLogGroupId, Update: JmsFleetLogGroupId},
@@ -307,6 +311,9 @@ func TestJmsFleetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_advanced_features_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_export_setting_enabled"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "inventory_log.#", "1"),

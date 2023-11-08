@@ -655,7 +655,6 @@ func (s *DisasterRecoveryDrPlanExecutionResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
-	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	groupExecutions := []interface{}{}
 	for _, item := range s.Res.GroupExecutions {
@@ -899,7 +898,6 @@ func DrPlanExecutionSummaryToMap(obj oci_disaster_recovery.DrPlanExecutionSummar
 		result["execution_duration_in_sec"] = int(*obj.ExecutionDurationInSec)
 	}
 
-	result["freeform_tags"] = obj.FreeformTags
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
