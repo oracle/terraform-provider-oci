@@ -34,7 +34,8 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 			},
 			"routing": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				ValidateFunc: validation.StringInSlice([]string{
 					string(oci_core.UpdateIpSecConnectionTunnelDetailsRoutingBgp),
 					string(oci_core.UpdateIpSecConnectionTunnelDetailsRoutingStatic),
@@ -46,6 +47,8 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -66,6 +69,16 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"customer_interface_ipv6": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"oracle_interface_ipv6": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 						"bgp_state": {
@@ -77,6 +90,11 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 							Computed: true,
 						},
 						"bgp_ipv6state": {
+							Type:       schema.TypeString,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("bgp_session_info.0.bgp_ipv6state", "bgp_session_info.0.bgp_ipv6_state"),
+						},
+						"bgp_ipv6_state": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -127,6 +145,10 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 						"dpd_mode": {
 							Type:     schema.TypeString,
 							Optional: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								string(oci_core.DpdConfigDpdModeInitiateAndRespond),
+								string(oci_core.DpdConfigDpdModeRespondOnly),
+							}, true),
 						},
 						"dpd_timeout_in_sec": {
 							Type:     schema.TypeInt,
@@ -163,44 +185,81 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 			},
 			"nat_translation_enabled": {
 				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsNatTranslationEnabledEnabled),
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsNatTranslationEnabledDisabled),
+					string(oci_core.UpdateIpSecConnectionTunnelDetailsNatTranslationEnabledAuto),
+				}, true),
 			},
 			"oracle_can_initiate": {
 				Type:     schema.TypeString,
+				Optional: true,
 				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_core.IpSecConnectionTunnelOracleCanInitiateInitiatorOrResponder),
+					string(oci_core.IpSecConnectionTunnelOracleCanInitiateResponderOnly),
+				}, true),
 			},
 			"phase_one_details": {
 				Type:     schema.TypeList,
+				Optional: true,
 				Computed: true,
+				MinItems: 1,
+				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 
 						// Optional
-
-						// Computed
 						"custom_authentication_algorithm": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								string(oci_core.PhaseOneConfigDetailsAuthenticationAlgorithmSha2384),
+								string(oci_core.PhaseOneConfigDetailsAuthenticationAlgorithmSha2256),
+								string(oci_core.PhaseOneConfigDetailsAuthenticationAlgorithmSha196),
+							}, true),
 						},
 						"custom_dh_group": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								string(oci_core.PhaseOneConfigDetailsDiffieHelmanGroupGroup2),
+								string(oci_core.PhaseOneConfigDetailsDiffieHelmanGroupGroup5),
+								string(oci_core.PhaseOneConfigDetailsDiffieHelmanGroupGroup14),
+								string(oci_core.PhaseOneConfigDetailsDiffieHelmanGroupGroup19),
+								string(oci_core.PhaseOneConfigDetailsDiffieHelmanGroupGroup20),
+								string(oci_core.PhaseOneConfigDetailsDiffieHelmanGroupGroup24),
+							}, true),
 						},
 						"custom_encryption_algorithm": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								string(oci_core.PhaseOneConfigDetailsEncryptionAlgorithm256Cbc),
+								string(oci_core.PhaseOneConfigDetailsEncryptionAlgorithm192Cbc),
+								string(oci_core.PhaseOneConfigDetailsEncryptionAlgorithm128Cbc),
+							}, true),
 						},
 						"is_custom_phase_one_config": {
 							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"is_ike_established": {
-							Type:     schema.TypeBool,
+							Optional: true,
 							Computed: true,
 						},
 						"lifetime": {
 							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"is_ike_established": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"negotiated_authentication_algorithm": {
@@ -216,7 +275,12 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 							Computed: true,
 						},
 						"remaining_lifetime": {
-							Type:     schema.TypeString,
+							Type:       schema.TypeString,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("phase_one_details.0.remaining_lifetime", "phase_one_details.0.remaining_lifetime_int"),
+						},
+						"remaining_lifetime_int": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"remaining_lifetime_last_retrieved": {
@@ -228,40 +292,69 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 			},
 			"phase_two_details": {
 				Type:     schema.TypeList,
+				Optional: true,
 				Computed: true,
+				MinItems: 1,
+				MaxItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 
 						// Optional
-
-						// Computed
 						"custom_authentication_algorithm": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								string(oci_core.PhaseTwoConfigDetailsAuthenticationAlgorithmSha2256128),
+								string(oci_core.PhaseTwoConfigDetailsAuthenticationAlgorithmSha1128),
+							}, true),
 						},
 						"custom_encryption_algorithm": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								string(oci_core.PhaseTwoConfigDetailsEncryptionAlgorithm256Gcm),
+								string(oci_core.PhaseTwoConfigDetailsEncryptionAlgorithm192Gcm),
+								string(oci_core.PhaseTwoConfigDetailsEncryptionAlgorithm128Gcm),
+								string(oci_core.PhaseTwoConfigDetailsEncryptionAlgorithm256Cbc),
+								string(oci_core.PhaseTwoConfigDetailsEncryptionAlgorithm192Cbc),
+								string(oci_core.PhaseTwoConfigDetailsEncryptionAlgorithm128Cbc),
+							}, true),
 						},
 						"dh_group": {
 							Type:     schema.TypeString,
+							Optional: true,
 							Computed: true,
+							ValidateFunc: validation.StringInSlice([]string{
+								string(oci_core.PhaseTwoConfigDetailsPfsDhGroupGroup2),
+								string(oci_core.PhaseTwoConfigDetailsPfsDhGroupGroup5),
+								string(oci_core.PhaseTwoConfigDetailsPfsDhGroupGroup14),
+								string(oci_core.PhaseTwoConfigDetailsPfsDhGroupGroup19),
+								string(oci_core.PhaseTwoConfigDetailsPfsDhGroupGroup20),
+								string(oci_core.PhaseTwoConfigDetailsPfsDhGroupGroup24),
+							}, true),
 						},
 						"is_custom_phase_two_config": {
 							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"is_esp_established": {
-							Type:     schema.TypeBool,
+							Optional: true,
 							Computed: true,
 						},
 						"is_pfs_enabled": {
 							Type:     schema.TypeBool,
+							Optional: true,
 							Computed: true,
 						},
 						"lifetime": {
 							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"is_esp_established": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"negotiated_authentication_algorithm": {
@@ -277,7 +370,12 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 							Computed: true,
 						},
 						"remaining_lifetime": {
-							Type:     schema.TypeString,
+							Type:       schema.TypeString,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("phase_two_details.0.remaining_lifetime", "phase_two_details.0.remaining_lifetime_int"),
+						},
+						"remaining_lifetime_int": {
+							Type:     schema.TypeInt,
 							Computed: true,
 						},
 						"remaining_lifetime_last_retrieved": {
@@ -291,6 +389,7 @@ func CoreIpSecConnectionTunnelManagementResource() *schema.Resource {
 				Type:         schema.TypeString,
 				Optional:     true,
 				Computed:     true,
+				Sensitive:    true,
 				ValidateFunc: tfresource.ValidateNotEmptyString(),
 			},
 			// Computed
@@ -569,61 +668,70 @@ func (s *CoreIpSecConnectionTunnelManagementResourceCrud) Update() error {
 		request.PhaseTwoConfig = phaseTwoDetails
 	}
 
-	if request.Routing == oci_core.UpdateIpSecConnectionTunnelDetailsRoutingBgp {
-		if _, ok := s.D.GetOkExists("bgp_session_info"); ok {
-			BgpSessionDeatails := &oci_core.UpdateIpSecTunnelBgpSessionDetails{}
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "bgp_session_info", 0)
-			if customerBgpAsn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_bgp_asn")); ok {
-				tmp := customerBgpAsn.(string)
-				BgpSessionDeatails.CustomerBgpAsn = &tmp
-			}
+	if _, ok := s.D.GetOkExists("bgp_session_info"); ok {
+		BgpSessionDetails := &oci_core.UpdateIpSecTunnelBgpSessionDetails{}
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "bgp_session_info", 0)
 
-			if customerInterfaceIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_interface_ip")); ok {
-				tmp := customerInterfaceIp.(string)
-				BgpSessionDeatails.CustomerInterfaceIp = &tmp
+		if customerBgpAsn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_bgp_asn")); ok {
+			tmp := customerBgpAsn.(string)
+			if tmp != "" && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "customer_bgp_asn")) { // empty string is not valid when routing != bgp, can't set to empty string for no change
+				BgpSessionDetails.CustomerBgpAsn = &tmp
 			}
-
-			if oracleInterfaceIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_interface_ip")); ok {
-				tmp := oracleInterfaceIp.(string)
-				BgpSessionDeatails.OracleInterfaceIp = &tmp
-			}
-
-			request.BgpSessionConfig = BgpSessionDeatails
 		}
+
+		if customerInterfaceIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_interface_ip")); ok {
+			tmp := customerInterfaceIp.(string)
+			BgpSessionDetails.CustomerInterfaceIp = &tmp
+		}
+
+		if oracleInterfaceIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_interface_ip")); ok {
+			tmp := oracleInterfaceIp.(string)
+			BgpSessionDetails.OracleInterfaceIp = &tmp
+		}
+
+		if customerInterfaceIpv6, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_interface_ipv6")); ok {
+			tmp := customerInterfaceIpv6.(string)
+			BgpSessionDetails.CustomerInterfaceIpv6 = &tmp
+		}
+
+		if oracleInterfaceIpv6, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_interface_ipv6")); ok {
+			tmp := oracleInterfaceIpv6.(string)
+			BgpSessionDetails.OracleInterfaceIpv6 = &tmp
+		}
+
+		request.BgpSessionConfig = BgpSessionDetails
 	}
 
-	if request.Routing == oci_core.UpdateIpSecConnectionTunnelDetailsRoutingPolicy {
-		if _, ok := s.D.GetOkExists("encryption_domain_config"); ok {
-			EncryptionDomainDetails := &oci_core.UpdateIpSecTunnelEncryptionDomainDetails{}
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encryption_domain_config", 0)
-			if oracleTrafficSelector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_traffic_selector")); ok {
-				interfaces := oracleTrafficSelector.([]interface{})
-				tmp := make([]string, len(interfaces))
-				for i := range interfaces {
-					if interfaces[i] != nil {
-						tmp[i] = interfaces[i].(string)
-					}
-				}
-				if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "oracle_traffic_selector")) {
-					EncryptionDomainDetails.OracleTrafficSelector = tmp
+	if _, ok := s.D.GetOkExists("encryption_domain_config"); ok {
+		EncryptionDomainDetails := &oci_core.UpdateIpSecTunnelEncryptionDomainDetails{}
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "encryption_domain_config", 0)
+		if oracleTrafficSelector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "oracle_traffic_selector")); ok {
+			interfaces := oracleTrafficSelector.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
 				}
 			}
-
-			if cpeTrafficSelector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cpe_traffic_selector")); ok {
-				interfaces := cpeTrafficSelector.([]interface{})
-				tmp := make([]string, len(interfaces))
-				for i := range interfaces {
-					if interfaces[i] != nil {
-						tmp[i] = interfaces[i].(string)
-					}
-				}
-				if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cpe_traffic_selector")) {
-					EncryptionDomainDetails.CpeTrafficSelector = tmp
-				}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "oracle_traffic_selector")) {
+				EncryptionDomainDetails.OracleTrafficSelector = tmp
 			}
-
-			request.EncryptionDomainConfig = EncryptionDomainDetails
 		}
+
+		if cpeTrafficSelector, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cpe_traffic_selector")); ok {
+			interfaces := cpeTrafficSelector.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cpe_traffic_selector")) {
+				EncryptionDomainDetails.CpeTrafficSelector = tmp
+			}
+		}
+
+		request.EncryptionDomainConfig = EncryptionDomainDetails
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
