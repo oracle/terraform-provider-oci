@@ -200,6 +200,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
+    * `psql` - Discovers psql resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
     * `redis` - Discovers redis resources within the specified compartment
@@ -1018,6 +1019,12 @@ osp_gateway
 
 * oci\_osp\_gateway\_subscription
 * oci\_osp\_gateway\_address\_action\_verification
+
+psql
+    
+* oci\_psql\_configuration
+* oci\_psql\_db\_system
+* oci\_psql\_backup
 
 queue
 
