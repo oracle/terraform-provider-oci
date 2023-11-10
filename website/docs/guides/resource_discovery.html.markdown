@@ -548,6 +548,7 @@ core
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
 * oci\_core\_compute\_capacity\_report
+* oci\_core\_compute\_capacity\_topology
 
 data_labeling_service
 
