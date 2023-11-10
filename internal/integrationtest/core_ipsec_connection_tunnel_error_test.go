@@ -5,7 +5,11 @@ package integrationtest
 
 import (
 	"fmt"
+	"log"
 	"testing"
+	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
@@ -56,10 +60,19 @@ func TestCoreIpsecConnectionTunnelErrorResource_basic(t *testing.T) {
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// Create Dependencies
+		{
+			Config: config + compartmentIdVariableStr + CoreIpsecConnectionTunnelErrorResourceConfig,
+			Check: func(s *terraform.State) (err error) {
+				log.Printf("Wait for ipsec tunnel to provision, for status to recognize down, and tunnel error to be set")
+				time.Sleep(30 * time.Second)
+				return nil
+			},
+		},
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + CoreIpsecConnectionTunnelErrorResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelGroupDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_error", "test_ipsec_connection_tunnel_error", acctest.Required, acctest.Create, CoreCoreIpsecConnectionTunnelErrorSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ipsec_id"),

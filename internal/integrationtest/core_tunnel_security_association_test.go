@@ -5,7 +5,11 @@ package integrationtest
 
 import (
 	"fmt"
+	"log"
 	"testing"
+	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 
@@ -41,10 +45,19 @@ func TestCoreTunnelSecurityAssociationResource_basic(t *testing.T) {
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// Create Dependencies
+		{
+			Config: config + compartmentIdVariableStr + CoreTunnelSecurityAssociationResourceConfig,
+			Check: func(s *terraform.State) (err error) {
+				log.Printf("Wait for ipsec tunnel to create security associations")
+				time.Sleep(1 * time.Minute)
+				return nil
+			},
+		},
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + CoreTunnelSecurityAssociationResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelGroupDataSourceRepresentation) +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_tunnel_security_associations", "test_tunnel_security_associations", acctest.Required, acctest.Create, CoreCoreTunnelSecurityAssociationDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "ipsec_id"),
