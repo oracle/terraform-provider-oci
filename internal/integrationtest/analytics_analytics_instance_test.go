@@ -70,6 +70,21 @@ var (
 		"state":                    acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `ACTIVE`},
 	}
 
+	analyticsPublicInstanceRepresentation = map[string]interface{}{
+		"capacity":           acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsInstanceCapacityRepresentation},
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"feature_set":        acctest.Representation{RepType: acctest.Required, Create: `ENTERPRISE_ANALYTICS`},
+		"license_type":       acctest.Representation{RepType: acctest.Required, Create: `LICENSE_INCLUDED`, Update: `BRING_YOUR_OWN_LICENSE`},
+		"name":               acctest.Representation{RepType: acctest.Required, Create: analyticsinstanceOptionalName},
+		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]string{"Oracle-Tags": {"CreatedBy": "rbm"}}, Update: map[string]map[string]string{"Oracle-Tags": {"CreatedBy": "dave"}}},
+		"description":        acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"email_notification": acctest.Representation{RepType: acctest.Optional, Create: `emailNotification`, Update: `emailNotification2`},
+		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance", "profileId": "oac76"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, Update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"idcs_access_token":  acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
+		"state":              acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `ACTIVE`},
+	}
+
 	analyticsInstanceCapacityRepresentation = map[string]interface{}{
 		"capacity_type":  acctest.Representation{RepType: acctest.Required, Create: `OLPU_COUNT`},
 		"capacity_value": acctest.Representation{RepType: acctest.Required, Create: `2`},
@@ -79,6 +94,24 @@ var (
 		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+	}
+
+	analyticsInstanceNetworkEndpointDetailsUpdateRepresentation = map[string]interface{}{
+		"network_endpoint_type":      acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.nsg_update_id}`}},
+		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_update_id}`},
+		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${var.vcn_update_id}`},
+	}
+
+	analyticsPublicInstanceNetworkEndpointDetailsUpdateRepresentation = map[string]interface{}{
+		"network_endpoint_type": acctest.Representation{RepType: acctest.Required, Create: `PUBLIC`},
+		"whitelisted_ips":       acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.whitelisted_ip}`}},
+		"whitelisted_vcns":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: whiteListedVCNUpdateRepresentation},
+	}
+
+	whiteListedVCNUpdateRepresentation = map[string]interface{}{
+		"id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.vcn_whitelist_id}`},
+		"whitelisted_ips": acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.whitelisted_ip}`}},
 	}
 
 	analyticsInstanceCapacityUpdateRepresentation = map[string]interface{}{
@@ -153,20 +186,84 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies,
 		},
 
-		// verify Create with optionals
+		//create public instance
 		{
 			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create, analyticsInstanceRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create, analyticsPublicInstanceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
+				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		//update network-endpoint details for public instance
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(analyticsPublicInstanceRepresentation, map[string]interface{}{
+						"network_endpoint_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsPublicInstanceNetworkEndpointDetailsUpdateRepresentation},
+					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
 				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		//delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies,
+		},
+
+		//verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create, analyticsInstanceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "email_notification", "emailNotification"),
 				resource.TestCheckResourceAttr(resourceName, "feature_set", "ENTERPRISE_ANALYTICS"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_access_token"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
@@ -191,7 +288,34 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		//verify change network endpoint
+		{
+			Config: config + compartmentIdVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(analyticsInstanceRepresentation, map[string]interface{}{
+						"network_endpoint_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: analyticsInstanceNetworkEndpointDetailsUpdateRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "capacity.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_type", "OLPU_COUNT"),
+				resource.TestCheckResourceAttr(resourceName, "capacity.0.capacity_value", "2"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		//verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr + AnalyticsAnalyticsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_analytics_analytics_instance", "test_analytics_instance", acctest.Optional, acctest.Create,
