@@ -918,6 +918,18 @@ var exportCoreComputeCapacityReportHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "compute_capacity_report",
 }
 
+var exportCoreComputeCapacityTopologyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_compute_capacity_topology",
+	DatasourceClass:        "oci_core_compute_capacity_topologies",
+	DatasourceItemsAttr:    "compute_capacity_topology_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "compute_capacity_topology",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ComputeCapacityTopologyLifecycleStateActive),
+	},
+}
+
 var coreResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
@@ -967,6 +979,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreCaptureFilterHints},
 		{TerraformResourceHints: exportCoreVtapHints},
 		{TerraformResourceHints: exportCoreComputeClusterHints},
+		{TerraformResourceHints: exportCoreComputeCapacityTopologyHints},
 	},
 	"oci_core_boot_volume": {
 		{
