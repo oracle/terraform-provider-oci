@@ -10,14 +10,8 @@ description: |-
 # oci_core_ipsec
 This resource provides the Ip Sec Connection resource in Oracle Cloud Infrastructure Core service.
 
-Creates a new IPSec connection between the specified DRG and CPE. For more information, see
+Creates a new IPSec connection between the specified DRG and CPE with two default static tunnels. For more information, see
 [Site-to-Site VPN Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
-
-If you configure at least one tunnel to use static routing, then in the request you must provide
-at least one valid static route (you're allowed a maximum of 10). For example: 10.0.0.0/16.
-If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for
-the static routes. For more information, see the important note in
-[IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnection/).
 
 For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the
 IPSec connection to reside. Notice that the IPSec connection doesn't have to be in the same compartment
@@ -34,6 +28,13 @@ with tunnel-specific information. For tunnel status and the required configurati
 
   * [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnel/)
   * [IPSecConnectionTunnelSharedSecret](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnelSharedSecret/)
+
+To configure tunnel-specific information, use `oci_core_ipsec_connection_tunnel_management` to update the tunnels. If 
+you configure at least one tunnel to use static routing, then in the oci_core_ipsec request you must provide
+at least one valid static route (you're allowed a maximum of 10). For example: 10.0.0.0/16.
+If you configure both tunnels to use BGP dynamic routing, the static routes will be ignored. However, you must provide a
+static route in `oci_core_ipsec` even if you plan to use BGP routing because it defaults to two static tunnels.  For more 
+information, see the important note in [IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnection/).
 
 For each tunnel, you need the IP address of Oracle's VPN headend and the shared secret
 (that is, the pre-shared key). For more information, see
@@ -81,7 +82,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `static_routes` - (Required) (Updatable) Static routes to the CPE. A static route's CIDR must not be a multicast address or class E address.
 
-	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes. For more information, see the important note in [IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnection/).
+	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes on update. For more information, see the important note in [IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnection/).
 
 	 Example: `10.0.1.0/24` 
 
@@ -113,7 +114,7 @@ The following attributes are exported:
 * `state` - The IPSec connection's current state.
 * `static_routes` - Static routes to the CPE. The CIDR must not be a multicast address or class E address.
 
-	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
+	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, the static routes will be ignored.
 
 	 Example: `10.0.1.0/24` 
 * `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 

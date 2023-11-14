@@ -47,9 +47,9 @@ var (
 	}
 
 	BdsbdsInstanceRepresentation = map[string]interface{}{
-		"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTE=`},
+		"cluster_admin_password": acctest.Representation{RepType: acctest.Required, Create: `QWRtaW5AMTIz`},
 		"cluster_public_key":     acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpUa4zUZKyU3AkW9yoJTBDO550wpWZOXdHswfRq75gbJ2ZYlMtifvwiO3qUL/RIZSC6e1wA5OL2LQ97UaHrLLPXgjvKGVIDRHqPkzTOayjJ4ZA7NPNhcu6f/OxhKkCYF3TAQObhMJmUSMrWSUeufaRIujDz1HHqazxOgFk09fj4i2dcGnfPcm32t8a9MzlsHSmgexYCUwxGisuuWTsnMgxbqsj6DaY51l+SEPi5tf10iFmUWqziF0eKDDQ/jHkwLJ8wgBJef9FSOmwJReHcBY+NviwFTatGj7Cwtnks6CVomsFD+rAMJ9uzM8SCv5agYunx07hnEXbR9r/TXqgXGfN bdsclusterkey@oracleoci.com`},
-		"cluster_version":        acctest.Representation{RepType: acctest.Required, Create: `CDH6`},
+		"cluster_version":        acctest.Representation{RepType: acctest.Required, Create: `ODH2_0`},
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"is_high_availability":   acctest.Representation{RepType: acctest.Required, Create: `false`},
@@ -134,9 +134,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + BdsBdsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, BdsbdsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "QWRtaW5AMTIz"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_secure", "false"),
@@ -161,9 +161,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + BdsBdsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Create, BdsbdsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "QWRtaW5AMTIz"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -206,9 +206,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "QWRtaW5AMTIz"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -247,9 +247,9 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + BdsBdsInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Optional, acctest.Update, BdsbdsInstanceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "QWRtaW5AMTIz"),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
-				resource.TestCheckResourceAttr(resourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -297,7 +297,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_instances.0.freeform_tags.%", "1"),
@@ -320,7 +320,7 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_sql_details.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_version", "CDH6"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_version", "ODH2_0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bd_cell_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.bds_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_details.0.csql_cell_version"),

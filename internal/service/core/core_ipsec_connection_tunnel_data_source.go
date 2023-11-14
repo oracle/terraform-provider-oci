@@ -14,124 +14,16 @@ import (
 )
 
 func CoreIpSecConnectionTunnelDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCoreIpSecConnectionTunnel,
-		Schema: map[string]*schema.Schema{
-			"ipsec_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"tunnel_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"bgp_session_info": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"bgp_ipv6state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"bgp_state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"customer_bgp_asn": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"customer_interface_ip": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"oracle_bgp_asn": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"oracle_interface_ip": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"cpe_ip": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"encryption_domain_config": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"cpe_traffic_selector": {
-							Type:     schema.TypeList,
-							Computed: true,
-							Elem: &schema.Schema{
-								Type: schema.TypeString,
-							},
-						},
-						"oracle_traffic_selector": {
-							Type:     schema.TypeList,
-							Computed: true,
-							Elem: &schema.Schema{
-								Type: schema.TypeString,
-							},
-						},
-					},
-				},
-			},
-			"ike_version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"routing": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"status": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_status_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"vpn_ip": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["tunnel_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["ipsec_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return tfresource.GetSingularDataSourceItemSchema(CoreIpSecConnectionTunnelManagementResource(), fieldMap, readSingularCoreIpSecConnectionTunnel)
 }
 
 func readSingularCoreIpSecConnectionTunnel(d *schema.ResourceData, m interface{}) error {
@@ -226,6 +118,32 @@ func (s *CoreIpSecConnectionTunnelDataSourceCrud) SetData() error {
 		s.D.Set("vpn_ip", *s.Res.VpnIp)
 	}
 
+	s.D.Set("dpd_mode", s.Res.DpdMode)
+
+	if s.Res.DpdTimeoutInSec != nil {
+		s.D.Set("dpd_timeout_in_sec", s.Res.DpdTimeoutInSec)
+	}
+
+	s.D.Set("nat_translation_enabled", s.Res.NatTranslationEnabled)
+
+	s.D.Set("oracle_can_initiate", s.Res.OracleCanInitiate)
+
+	if s.Res.PhaseOneDetails != nil {
+		s.D.Set("phase_one_details", []interface{}{TunnelPhaseOneDetailsToMap(s.Res.PhaseOneDetails)})
+	} else {
+		if _, ok := s.D.GetOkExists("phase_one_details"); !ok {
+			s.D.Set("phase_one_details", nil)
+		}
+	}
+
+	if s.Res.PhaseTwoDetails != nil {
+		s.D.Set("phase_two_details", []interface{}{TunnelPhaseTwoDetailsToMap(s.Res.PhaseTwoDetails)})
+	} else {
+		if _, ok := s.D.GetOkExists("phase_two_details"); !ok {
+			s.D.Set("phase_two_details", nil)
+		}
+	}
+
 	return nil
 }
 
@@ -233,8 +151,13 @@ func BgpSessionInfoToMap(obj *oci_core.BgpSessionInfo) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["bgp_ipv6state"] = string(obj.BgpIpv6State)
+	result["bgp_ipv6_state"] = string(obj.BgpIpv6State)
 
 	result["bgp_state"] = string(obj.BgpState)
+
+	if obj.CustomerBgpAsn != nil { // nil when static routing but still pass bgp ips
+		result["oracle_bgp_asn"] = string(*obj.OracleBgpAsn)
+	}
 
 	if obj.CustomerBgpAsn != nil {
 		result["customer_bgp_asn"] = string(*obj.CustomerBgpAsn)
@@ -258,24 +181,6 @@ func BgpSessionInfoToMap(obj *oci_core.BgpSessionInfo) map[string]interface{} {
 
 	if obj.OracleInterfaceIpv6 != nil {
 		result["oracle_interface_ipv6"] = string(*obj.OracleInterfaceIpv6)
-	}
-
-	return result
-}
-
-func UpdateIPSecTunnelBgpSessionDetailsToMap(obj *oci_core.UpdateIpSecTunnelBgpSessionDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CustomerBgpAsn != nil {
-		result["customer_bgp_asn"] = string(*obj.CustomerBgpAsn)
-	}
-
-	if obj.CustomerInterfaceIp != nil {
-		result["customer_interface_ip"] = string(*obj.CustomerInterfaceIp)
-	}
-
-	if obj.OracleInterfaceIp != nil {
-		result["oracle_interface_ip"] = string(*obj.OracleInterfaceIp)
 	}
 
 	return result

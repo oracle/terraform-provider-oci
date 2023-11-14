@@ -33,7 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `ip_sec_connection_tunnels` - The list of ip_sec_connection_tunnels.
+* `ip_sec_connection_tunnels` - The list of two ip_sec_connection_tunnels.
 
 ### IpSecConnectionTunnel Reference
 
@@ -41,7 +41,7 @@ The following attributes are exported:
 
 * `associated_virtual_circuits` - The list of virtual circuit [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s over which your network can reach this tunnel. 
 * `bgp_session_info` - Information for establishing a BGP session for the IPSec tunnel.
-	* `bgp_ipv6state` - The state of the BGP IPv6 session. 
+	* `bgp_ipv6_state` - The state of the BGP IPv6 session. 
 	* `bgp_state` - The state of the BGP session. 
 	* `customer_bgp_asn` - If the tunnel's `routing` attribute is set to `BGP` (see [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnel/)), this ASN is required and used for the tunnel's BGP session. This is the ASN of the network on the CPE end of the BGP session. Can be a 2-byte or 4-byte ASN. Uses "asplain" format.
 
@@ -101,7 +101,6 @@ The following attributes are exported:
 
 	The `DISABLED` option directs IKE to completely refuse to negotiate NAT-T even if it senses there may be a NAT device in use.
 
-	 . 
 * `oracle_can_initiate` - Indicates whether Oracle can only respond to a request to start an IPSec tunnel from the CPE device, or both respond to and initiate requests. 
 * `phase_one_details` - IPSec tunnel details specific to ISAKMP phase one.
 	* `custom_authentication_algorithm` - The proposed custom authentication algorithm.
@@ -113,7 +112,7 @@ The following attributes are exported:
 	* `negotiated_authentication_algorithm` - The negotiated authentication algorithm.
 	* `negotiated_dh_group` - The negotiated Diffie-Hellman group.
 	* `negotiated_encryption_algorithm` - The negotiated encryption algorithm.
-	* `remaining_lifetime` - The remaining lifetime before the key is refreshed.
+	* `remaining_lifetime_int` - The remaining lifetime before the key is refreshed.
 	* `remaining_lifetime_last_retrieved` - The date and time we retrieved the remaining lifetime, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `phase_two_details` - IPsec tunnel detail information specific to phase two.
 	* `custom_authentication_algorithm` - Phase two authentication algorithm proposed during tunnel negotiation. 
@@ -126,7 +125,7 @@ The following attributes are exported:
 	* `negotiated_authentication_algorithm` - The negotiated phase two authentication algorithm.
 	* `negotiated_dh_group` - The negotiated Diffie-Hellman group.
 	* `negotiated_encryption_algorithm` - The negotiated encryption algorithm.
-	* `remaining_lifetime` - The remaining lifetime before the key is refreshed.
+	* `remaining_lifetime_int` - The remaining lifetime before the key is refreshed.
 	* `remaining_lifetime_last_retrieved` - The date and time the remaining lifetime was last retrieved, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `routing` - The type of routing used for this tunnel (BGP dynamic routing, static routing, or policy-based routing). 
 * `state` - The tunnel's lifecycle state.

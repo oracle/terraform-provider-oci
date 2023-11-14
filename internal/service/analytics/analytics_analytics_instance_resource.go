@@ -119,7 +119,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -141,7 +140,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -151,19 +149,16 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"vcn_id": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"whitelisted_ips": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -172,7 +167,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -181,7 +175,6 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
@@ -191,13 +184,11 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"whitelisted_ips": {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
@@ -652,6 +643,31 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 		request.Description = &tmp
 	}
 
+	if networkEndpointDetails, ok := s.D.GetOkExists("network_endpoint_details"); ok && s.D.HasChange("network_endpoint_details") {
+		oldNetworkEndpoint, newNetworkEndpoint := s.D.GetChange("network_endpoint_details")
+		if oldNetworkEndpoint != nil && newNetworkEndpoint != nil {
+
+			if tmpList := networkEndpointDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_endpoint_details", 0)
+				//check if the new network endpoint details and old are different
+				hasNpChanged, err := s.hasNEPChanged(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				if hasNpChanged {
+					tmp, err := s.mapToNetworkEndpointDetails(fieldKeyFormat)
+					if err != nil {
+						return err
+					}
+					err = s.updateNetworkEndpoint(tmp)
+					if err != nil {
+						return err
+					}
+				}
+			}
+		}
+	}
+
 	if emailNotification, ok := s.D.GetOkExists("email_notification"); ok {
 		tmp := emailNotification.(string)
 		request.EmailNotification = &tmp
@@ -850,6 +866,43 @@ func AnalyticsCapacityToMap(obj *oci_analytics.Capacity) map[string]interface{} 
 	return result
 }
 
+// check if the new network endpoint details and old are different
+func (s *AnalyticsAnalyticsInstanceResourceCrud) hasNEPChanged(fieldKeyFormat string) (bool, error) {
+	var hasChange bool
+	networkEndpointTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_endpoint_type"))
+	var networkEndpointType string
+	if ok {
+		networkEndpointType = networkEndpointTypeRaw.(string)
+	} else {
+		networkEndpointType = "" // default value
+	}
+	switch strings.ToLower(networkEndpointType) {
+	case strings.ToLower("PRIVATE"):
+		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")) {
+			hasChange = true
+		}
+		if !hasChange && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "subnet_id")) {
+			hasChange = true
+		}
+		if !hasChange && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "vcn_id")) {
+			hasChange = true
+		}
+	case strings.ToLower("PUBLIC"):
+		if s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_ips")) {
+			hasChange = true
+		}
+		if !hasChange && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_services")) {
+			hasChange = true
+		}
+		if !hasChange && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "whitelisted_vcns")) {
+			hasChange = true
+		}
+	default:
+		return false, fmt.Errorf("unknown network_endpoint_type '%v' was specified", networkEndpointType)
+	}
+	return hasChange, nil
+}
+
 func (s *AnalyticsAnalyticsInstanceResourceCrud) mapToNetworkEndpointDetails(fieldKeyFormat string) (oci_analytics.NetworkEndpointDetails, error) {
 	var baseObject oci_analytics.NetworkEndpointDetails
 	//discriminator
@@ -1031,4 +1084,20 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) updateCompartment(compartment i
 
 	workId := response.OpcWorkRequestId
 	return s.getAnalyticsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultCompartmentChanged, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *AnalyticsAnalyticsInstanceResourceCrud) updateNetworkEndpoint(networkEndpointDetails oci_analytics.NetworkEndpointDetails) error {
+
+	idTmp := s.D.Id()
+	changeEndPointRequest := oci_analytics.ChangeAnalyticsInstanceNetworkEndpointRequest{}
+	changeEndPointRequest.NetworkEndpointDetails = networkEndpointDetails
+	changeEndPointRequest.AnalyticsInstanceId = &idTmp
+	changeEndPointRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
+	response, err := s.Client.ChangeAnalyticsInstanceNetworkEndpoint(context.Background(), changeEndPointRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getAnalyticsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics"), oci_analytics.WorkRequestActionResultNetworkEndpointChanged, s.D.Timeout(schema.TimeoutUpdate))
 }

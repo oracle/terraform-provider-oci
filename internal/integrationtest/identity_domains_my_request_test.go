@@ -9,10 +9,10 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
@@ -26,8 +26,9 @@ var (
 		"idcs_endpoint":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_domain.test_domain.url}`},
 		"my_request_count":  acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"my_request_filter": acctest.Representation{RepType: acctest.Optional, Create: ``},
-		"attribute_sets":    acctest.Representation{RepType: acctest.Optional, Create: []string{`all`}},
-		"start_index":       acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		// Not using `all` because 'approvalDetails' is not requestable when ListMyRequests
+		"attribute_sets": acctest.Representation{RepType: acctest.Optional, Create: []string{``}},
+		"start_index":    acctest.Representation{RepType: acctest.Optional, Create: `1`},
 	}
 
 	IdentityDomainsMyRequestRepresentation = map[string]interface{}{
@@ -36,7 +37,6 @@ var (
 		"requesting":     acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsMyRequestRequestingRepresentation},
 		"schemas":        acctest.Representation{RepType: acctest.Required, Create: []string{`urn:ietf:params:scim:schemas:oracle:idcs:Request`}},
 		"attribute_sets": acctest.Representation{RepType: acctest.Optional, Create: []string{`all`}},
-		"status":         acctest.Representation{RepType: acctest.Optional, Create: `status`},
 		"tags":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsMyRequestTagsRepresentation},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangeForIdentityDomainsMyRequest},
 	}
@@ -101,14 +101,13 @@ func TestIdentityDomainsMyRequestResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_identity_domains_my_request", "test_my_request", acctest.Optional, acctest.Create, IdentityDomainsMyRequestRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "attribute_sets.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "justification", "justification"),
 				resource.TestCheckResourceAttr(resourceName, "requesting.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "requesting.0.type", "Group"),
 				resource.TestCheckResourceAttrSet(resourceName, "requesting.0.value"),
 				resource.TestCheckResourceAttr(resourceName, "schemas.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "status", "status"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")

@@ -156,6 +156,17 @@ type AuthenticationFactorsRemover struct {
 	//  - uniqueness: none
 	//  - idcsSearchable: false
 	Type AuthenticationFactorsRemoverTypeEnum `mandatory:"false" json:"type,omitempty"`
+
+	// Specifies the token to be removed
+	// **SCIM++ Properties:**
+	//  - type: string
+	//  - multiValued: false
+	//  - required: false
+	//  - mutability: readWrite
+	//  - returned: request
+	//  - uniqueness: none
+	//  - idcsSearchable: false
+	Token *string `mandatory:"false" json:"token"`
 }
 
 func (m AuthenticationFactorsRemover) String() string {
