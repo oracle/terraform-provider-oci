@@ -1,6 +1,11 @@
 ## 5.21.0 (Unreleased)
 
 ### Added
+- Support for BM Capacity API for customers with dedicated capacity
+
+## 5.21.0 (Unreleased)
+
+### Added
 test improvements for postgresql service
 - Support for BDS Certificate Management - API ONLY Changes
 - Support for IdentityDomains/IDCS API - Phase 3
