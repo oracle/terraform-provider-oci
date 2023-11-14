@@ -75,6 +75,18 @@ type MyRequestRequesting struct {
 	//  - type: string
 	//  - uniqueness: none
 	Display *string `mandatory:"false" json:"display"`
+
+	// Resource description
+	// **Added In:** 2307071836
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: true
+	//  - multiValued: false
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m MyRequestRequesting) String() string {

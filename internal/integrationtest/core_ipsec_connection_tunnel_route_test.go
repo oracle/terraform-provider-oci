@@ -55,7 +55,7 @@ func TestCoreIpsecConnectionTunnelRouteResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + CoreIpsecConnectionTunnelRouteResourceConfig +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_ipsec_connection_tunnels", "test_ip_sec_connection_tunnels", acctest.Required, acctest.Create, CoreIpSecConnectionTunnelGroupDataSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_ipsec_connection_tunnel_management", "test_ip_sec_connection_tunnel_management", acctest.Optional, acctest.Create, CoreIpSecConnectionTunnelRepresentationCopy) +
 				`data "oci_core_ipsec_connection_tunnel_routes" "test_ipsec_connection_tunnel_routes" {
 					advertiser = "ORACLE"

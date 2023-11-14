@@ -200,6 +200,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
     * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
+    * `psql` - Discovers psql resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
     * `redis` - Discovers redis resources within the specified compartment
@@ -547,6 +548,7 @@ core
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
 * oci\_core\_compute\_capacity\_report
+* oci\_core\_compute\_capacity\_topology
 
 data_labeling_service
 
@@ -801,6 +803,20 @@ identity_domains
 * oci\_identity\_domains\_app\_role
 * oci\_identity\_domains\_app
 * oci\_identity\_domains\_security\_question
+* oci\_identity\_domains\_approval\_workflow\_assignment
+* oci\_identity\_domains\_approval\_workflow\_step
+* oci\_identity\_domains\_approval\_workflow
+* oci\_identity\_domains\_cloud\_gate\_mapping
+* oci\_identity\_domains\_cloud\_gate\_server
+* oci\_identity\_domains\_cloud\_gate
+* oci\_identity\_domains\_condition
+* oci\_identity\_domains\_network\_perimeter
+* oci\_identity\_domains\_policy
+* oci\_identity\_domains\_notification\_setting
+* oci\_identity\_domains\_setting
+* oci\_identity\_domains\_oauth\_client\_certificate
+* oci\_identity\_domains\_oauth\_partner\_certificate
+* oci\_identity\_domains\_rule
 
 integration
 
@@ -1004,6 +1020,12 @@ osp_gateway
 
 * oci\_osp\_gateway\_subscription
 * oci\_osp\_gateway\_address\_action\_verification
+
+psql
+    
+* oci\_psql\_configuration
+* oci\_psql\_db\_system
+* oci\_psql\_backup
 
 queue
 

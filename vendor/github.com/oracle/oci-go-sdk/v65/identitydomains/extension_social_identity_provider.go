@@ -124,6 +124,19 @@ type ExtensionSocialIdentityProvider struct {
 	//  - uniqueness: none
 	AccessTokenUrl *string `mandatory:"false" json:"accessTokenUrl"`
 
+	// Relay Param variable for Social IDP
+	// **Added In:** 2305190132
+	// **SCIM++ Properties:**
+	//  - idcsCompositeKey: [relayParamKey]
+	//  - idcsSearchable: true
+	//  - multiValued: true
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: complex
+	//  - uniqueness: none
+	RelayIdpParamMappings []IdentityProviderRelayIdpParamMappings `mandatory:"false" json:"relayIdpParamMappings"`
+
 	// Social IDP User profile URL
 	// **Added In:** 20.1.3
 	// **SCIM++ Properties:**
