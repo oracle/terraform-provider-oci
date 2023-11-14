@@ -1,4 +1,4 @@
-## 5.21.0 (Unreleased)
+## 5.21.0 (November 14, 2023)
 
 ### Added
 - Support for BM Capacity API for customers with dedicated capacity
@@ -9,7 +9,7 @@ test improvements for postgresql service
 - core ipsec tunnels
 - Analytics - fix for AOAC-60112 change on network_security_group_ids attribute for oci_analytics_analytics_instance resource forces replacement
 
-## 5.21.0 (Unreleased)
+## 5.21.0 (November 14, 2023)
 
 ### Added
 test improvements for postgresql service
