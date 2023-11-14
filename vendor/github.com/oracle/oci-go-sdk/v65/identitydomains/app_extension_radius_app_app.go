@@ -67,6 +67,19 @@ type AppExtensionRadiusAppApp struct {
 	//  - type: boolean
 	IncludeGroupInResponse *bool `mandatory:"true" json:"includeGroupInResponse"`
 
+	// Secret key used to secure communication between RADIUS Proxy and RADIUS client. This will be available only for few releases for an internal migration requirement. Use secretKey attribute instead of this attribute for all other requirements.
+	// **Added In:** 2306131901
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - idcsSearchable: false
+	//  - idcsSensitive: encrypt
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: never
+	//  - type: string
+	SecretKeyTemporary *string `mandatory:"false" json:"secretKeyTemporary"`
+
 	// If true, capture the client IP address from the RADIUS request packet. IP Address is used for auditing, policy-evaluation and country-code calculation.
 	// **Added In:** 2205120021
 	// **SCIM++ Properties:**

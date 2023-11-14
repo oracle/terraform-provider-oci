@@ -31,7 +31,7 @@ type MePasswordChanger struct {
 	//  - uniqueness: none
 	Schemas []string `mandatory:"true" json:"schemas"`
 
-	// Password attribute. Max length for password is controlled via Password Policy.
+	// Password attribute. The maximum length for a password is controlled by a password policy.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
