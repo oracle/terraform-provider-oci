@@ -18,19 +18,19 @@ import (
 	"strings"
 )
 
-// UpdateNamedCredentialDetails The details required to update a Named Credential.
+// UpdateNamedCredentialDetails The details required to update a named credential.
 type UpdateNamedCredentialDetails struct {
 
-	// The information specified by the user about the Named Credential.
+	// The information specified by the user about the named credential.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The scope of the Named Credential.
-	Scope CredentialScopeEnum `mandatory:"false" json:"scope,omitempty"`
+	// The scope of the named credential.
+	Scope NamedCredentialScopeEnum `mandatory:"false" json:"scope,omitempty"`
 
 	Content NamedCredentialContent `mandatory:"false" json:"content"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that
-	// is associated to the Named Credential.
+	// is associated to the named credential.
 	AssociatedResource *string `mandatory:"false" json:"associatedResource"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -54,8 +54,8 @@ func (m UpdateNamedCredentialDetails) String() string {
 func (m UpdateNamedCredentialDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingCredentialScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetCredentialScopeEnumStringValues(), ",")))
+	if _, ok := GetMappingNamedCredentialScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetNamedCredentialScopeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -67,7 +67,7 @@ func (m UpdateNamedCredentialDetails) ValidateEnumValue() (bool, error) {
 func (m *UpdateNamedCredentialDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description        *string                           `json:"description"`
-		Scope              CredentialScopeEnum               `json:"scope"`
+		Scope              NamedCredentialScopeEnum          `json:"scope"`
 		Content            namedcredentialcontent            `json:"content"`
 		AssociatedResource *string                           `json:"associatedResource"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`

@@ -141,7 +141,7 @@ func (client PostgresqlClient) changeBackupCompartment(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Backup/ChangeBackupCompartment"
 		err = common.PostProcessServiceError(err, "Postgresql", "ChangeBackupCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -200,7 +200,7 @@ func (client PostgresqlClient) changeConfigurationCompartment(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Configuration/ChangeConfigurationCompartment"
 		err = common.PostProcessServiceError(err, "Postgresql", "ChangeConfigurationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -259,7 +259,7 @@ func (client PostgresqlClient) changeDbSystemCompartment(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/ChangeDbSystemCompartment"
 		err = common.PostProcessServiceError(err, "Postgresql", "ChangeDbSystemCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -318,7 +318,7 @@ func (client PostgresqlClient) createBackup(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Backup/CreateBackup"
 		err = common.PostProcessServiceError(err, "Postgresql", "CreateBackup", apiReferenceLink)
 		return response, err
 	}
@@ -377,7 +377,7 @@ func (client PostgresqlClient) createConfiguration(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Configuration/CreateConfiguration"
 		err = common.PostProcessServiceError(err, "Postgresql", "CreateConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -436,7 +436,7 @@ func (client PostgresqlClient) createDbSystem(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/CreateDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "CreateDbSystem", apiReferenceLink)
 		return response, err
 	}
@@ -490,7 +490,7 @@ func (client PostgresqlClient) deleteBackup(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Backup/DeleteBackup"
 		err = common.PostProcessServiceError(err, "Postgresql", "DeleteBackup", apiReferenceLink)
 		return response, err
 	}
@@ -544,7 +544,7 @@ func (client PostgresqlClient) deleteConfiguration(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Configuration/DeleteConfiguration"
 		err = common.PostProcessServiceError(err, "Postgresql", "DeleteConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -598,7 +598,7 @@ func (client PostgresqlClient) deleteDbSystem(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/DeleteDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "DeleteDbSystem", apiReferenceLink)
 		return response, err
 	}
@@ -657,7 +657,7 @@ func (client PostgresqlClient) failoverDbSystem(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/FailoverDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "FailoverDbSystem", apiReferenceLink)
 		return response, err
 	}
@@ -711,7 +711,7 @@ func (client PostgresqlClient) getBackup(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Backup/GetBackup"
 		err = common.PostProcessServiceError(err, "Postgresql", "GetBackup", apiReferenceLink)
 		return response, err
 	}
@@ -765,7 +765,7 @@ func (client PostgresqlClient) getConfiguration(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Configuration/GetConfiguration"
 		err = common.PostProcessServiceError(err, "Postgresql", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -819,7 +819,7 @@ func (client PostgresqlClient) getConnectionDetails(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/ConnectionDetails/GetConnectionDetails"
 		err = common.PostProcessServiceError(err, "Postgresql", "GetConnectionDetails", apiReferenceLink)
 		return response, err
 	}
@@ -873,7 +873,7 @@ func (client PostgresqlClient) getDbSystem(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/GetDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "GetDbSystem", apiReferenceLink)
 		return response, err
 	}
@@ -927,7 +927,7 @@ func (client PostgresqlClient) getDefaultConfiguration(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DefaultConfiguration/GetDefaultConfiguration"
 		err = common.PostProcessServiceError(err, "Postgresql", "GetDefaultConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -981,7 +981,7 @@ func (client PostgresqlClient) getPrimaryDbInstance(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/GetPrimaryDbInstance"
 		err = common.PostProcessServiceError(err, "Postgresql", "GetPrimaryDbInstance", apiReferenceLink)
 		return response, err
 	}
@@ -1035,7 +1035,7 @@ func (client PostgresqlClient) getWorkRequest(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "Postgresql", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -1089,7 +1089,7 @@ func (client PostgresqlClient) listBackups(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/BackupCollection/ListBackups"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListBackups", apiReferenceLink)
 		return response, err
 	}
@@ -1143,7 +1143,7 @@ func (client PostgresqlClient) listConfigurations(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/ConfigurationCollection/ListConfigurations"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListConfigurations", apiReferenceLink)
 		return response, err
 	}
@@ -1197,7 +1197,7 @@ func (client PostgresqlClient) listDbSystems(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystemCollection/ListDbSystems"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListDbSystems", apiReferenceLink)
 		return response, err
 	}
@@ -1251,7 +1251,7 @@ func (client PostgresqlClient) listDefaultConfigurations(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DefaultConfigurationCollection/ListDefaultConfigurations"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListDefaultConfigurations", apiReferenceLink)
 		return response, err
 	}
@@ -1305,7 +1305,7 @@ func (client PostgresqlClient) listShapes(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/ShapeSummary/ListShapes"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListShapes", apiReferenceLink)
 		return response, err
 	}
@@ -1359,7 +1359,7 @@ func (client PostgresqlClient) listWorkRequestErrors(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1413,7 +1413,7 @@ func (client PostgresqlClient) listWorkRequestLogs(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1467,7 +1467,7 @@ func (client PostgresqlClient) listWorkRequests(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "Postgresql", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1521,7 +1521,7 @@ func (client PostgresqlClient) patchDbSystem(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/PatchDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "PatchDbSystem", apiReferenceLink)
 		return response, err
 	}
@@ -1580,7 +1580,7 @@ func (client PostgresqlClient) resetMasterUserPassword(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/ResetMasterUserPassword"
 		err = common.PostProcessServiceError(err, "Postgresql", "ResetMasterUserPassword", apiReferenceLink)
 		return response, err
 	}
@@ -1639,7 +1639,7 @@ func (client PostgresqlClient) restartDbInstanceInDbSystem(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/RestartDbInstanceInDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "RestartDbInstanceInDbSystem", apiReferenceLink)
 		return response, err
 	}
@@ -1698,7 +1698,7 @@ func (client PostgresqlClient) restoreDbSystem(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/RestoreDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "RestoreDbSystem", apiReferenceLink)
 		return response, err
 	}
@@ -1752,7 +1752,7 @@ func (client PostgresqlClient) updateBackup(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Backup/UpdateBackup"
 		err = common.PostProcessServiceError(err, "Postgresql", "UpdateBackup", apiReferenceLink)
 		return response, err
 	}
@@ -1811,7 +1811,7 @@ func (client PostgresqlClient) updateConfiguration(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/Configuration/UpdateConfiguration"
 		err = common.PostProcessServiceError(err, "Postgresql", "UpdateConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1870,7 +1870,7 @@ func (client PostgresqlClient) updateDbSystem(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/UpdateDbSystem"
 		err = common.PostProcessServiceError(err, "Postgresql", "UpdateDbSystem", apiReferenceLink)
 		return response, err
 	}
@@ -1929,7 +1929,7 @@ func (client PostgresqlClient) updateDbSystemDbInstance(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/postgresql/20220915/DbSystem/UpdateDbSystemDbInstance"
 		err = common.PostProcessServiceError(err, "Postgresql", "UpdateDbSystemDbInstance", apiReferenceLink)
 		return response, err
 	}

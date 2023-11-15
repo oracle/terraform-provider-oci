@@ -45,22 +45,24 @@ type Zone struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
 	// The state of DNSSEC on the zone.
-	// In order to benefit from utilizing DNSSEC, every parent zone in the DNS tree, up to the TLD or an
-	// independent trust anchor, must also have DNSSEC correctly set up. After enabling DNSSEC, a DS record must be
-	// added to this zone's parent zone containing data corresponding to the KskDnssecKeyVersion that gets created,
-	// and then the KskDnssecKeyVersion must be promoted via the PromoteZoneDnssecKeyVersion operation.
-	// New KskDnssecKeyVersions are generated annually, a week before the existing KskDnssecKeyVersion's expiration.
-	// KskDnssecKeyVersion rollover requires replacing the parent zone's DS record, corresponding to the current
-	// KskDnssecKeyVersion, using the data from its successor KskDnssecKeyVersion. To prevent service disruption
-	// from resolver caches including signatures using only the old KSK version, that DS record should not be
-	// replaced until the new version has been active for at least the DNSKEY TTL. After the DS replacement has been
-	// completed then the PromoteZoneDnssecKeyVersion operation must be called. Metrics are emitted in the oci_dns
-	// namespace daily for each KskDnssecKeyVersion indicating how many days are left until expiration. Alarms and
-	// notifications should be set up in order to be notified of the KskDnssecKeyVersion expiration so that the
-	// necessary parent zone updates can be made and the PromoteZoneDnssecKeyVersion operation can be called.
-	// Enabling DNSSEC will result in additional records in DNS responses which will increase their size and can
+	// For DNSSEC to function, every parent zone in the DNS tree up to the top-level domain (or an independent
+	// trust anchor) must also have DNSSEC correctly set up.
+	// After enabling DNSSEC, you must add a DS record to the zone's parent zone containing the
+	// `KskDnssecKeyVersion` data. You can find the DS data in the `dsData` attribute of the `KskDnssecKeyVersion`.
+	// Then, use the `PromoteZoneDnssecKeyVersion` operation to promote the `KskDnssecKeyVersion`.
+	// New `KskDnssecKeyVersion`s are generated annually, a week before the existing `KskDnssecKeyVersion`'s expiration.
+	// To rollover a `KskDnssecKeyVersion`, you must replace the parent zone's DS record containing the old
+	// `KskDnssecKeyVersion` data with the data from the new `KskDnssecKeyVersion`.
+	// To remove the old DS record without causing service disruption, wait until the old DS record's TTL has
+	// expired, and the new DS record has propagated. After the DS replacement has been completed, then the
+	// `PromoteZoneDnssecKeyVersion` operation must be called.
+	// Metrics are emitted in the `oci_dns` namespace daily for each `KskDnssecKeyVersion` indicating how many
+	// days are left until expiration.
+	// We recommend that you set up alarms and notifications for KskDnssecKeyVersion expiration so that the
+	// necessary parent zone updates can be made and the `PromoteZoneDnssecKeyVersion` operation can be called.
+	// Enabling DNSSEC results in additional records in DNS responses which increases their size and can
 	// cause higher response latency.
-	// For more information, see the DNS docs (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
+	// For more information, see DNSSEC (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm).
 	DnssecState ZoneDnssecStateEnum `mandatory:"true" json:"dnssecState"`
 
 	// External master servers for the zone. `externalMasters` becomes a

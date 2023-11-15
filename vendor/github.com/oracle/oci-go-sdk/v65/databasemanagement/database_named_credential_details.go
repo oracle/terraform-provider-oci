@@ -21,7 +21,7 @@ import (
 // DatabaseNamedCredentialDetails User provides a named credential OCID, which will be used to retrieve the password to connect to the database.
 type DatabaseNamedCredentialDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credential
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential
 	// where the database password metadata is stored.
 	NamedCredentialId *string `mandatory:"true" json:"namedCredentialId"`
 }

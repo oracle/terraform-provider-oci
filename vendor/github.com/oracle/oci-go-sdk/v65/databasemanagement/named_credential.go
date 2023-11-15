@@ -18,43 +18,43 @@ import (
 	"strings"
 )
 
-// NamedCredential The details of a Named Credential.
+// NamedCredential The details of a named credential.
 type NamedCredential struct {
 
-	// The name of the Named Credential.
+	// The name of the named credential.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credential.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The current lifecycle state of the Named Credential.
+	// The current lifecycle state of the named credential.
 	LifecycleState LifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The date and time the Named Credential was created.
+	// The date and time the named credential was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The information specified by the user about the Named Credential.
+	// The information specified by the user about the named credential.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The details of the lifecycle state
+	// The details of the lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The scope of the Named Credential.
-	Scope CredentialScopeEnum `mandatory:"false" json:"scope,omitempty"`
+	// The scope of the named credential.
+	Scope NamedCredentialScopeEnum `mandatory:"false" json:"scope,omitempty"`
 
-	// The type of database that the Named Credential is associated to.
-	Type CredentialTypeEnum `mandatory:"false" json:"type,omitempty"`
+	// The type of resource associated with the named credential.
+	Type ResourceTypeEnum `mandatory:"false" json:"type,omitempty"`
 
 	Content NamedCredentialContent `mandatory:"false" json:"content"`
 
-	// The date and time the Named Credential was last updated.
+	// The date and time the named credential was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that
-	// is associated to the Named Credential.
+	// is associated to the named credential.
 	AssociatedResource *string `mandatory:"false" json:"associatedResource"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -81,11 +81,11 @@ func (m NamedCredential) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingCredentialScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetCredentialScopeEnumStringValues(), ",")))
+	if _, ok := GetMappingNamedCredentialScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetNamedCredentialScopeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingCredentialTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCredentialTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingResourceTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetResourceTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -98,8 +98,8 @@ func (m *NamedCredential) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description        *string                           `json:"description"`
 		LifecycleDetails   *string                           `json:"lifecycleDetails"`
-		Scope              CredentialScopeEnum               `json:"scope"`
-		Type               CredentialTypeEnum                `json:"type"`
+		Scope              NamedCredentialScopeEnum          `json:"scope"`
+		Type               ResourceTypeEnum                  `json:"type"`
 		Content            namedcredentialcontent            `json:"content"`
 		TimeUpdated        *common.SDKTime                   `json:"timeUpdated"`
 		AssociatedResource *string                           `json:"associatedResource"`

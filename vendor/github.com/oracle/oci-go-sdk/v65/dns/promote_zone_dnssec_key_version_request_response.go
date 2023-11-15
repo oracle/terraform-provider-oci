@@ -17,7 +17,7 @@ type PromoteZoneDnssecKeyVersionRequest struct {
 	// The OCID of the target zone.
 	ZoneId *string `mandatory:"true" contributesTo:"path" name:"zoneId"`
 
-	// Details for promoting a DnssecKeyVersion.
+	// Details for promoting a `DnssecKeyVersion`.
 	PromoteZoneDnssecKeyVersionDetails `contributesTo:"body"`
 
 	// The `If-Match` header field makes the request method conditional on the

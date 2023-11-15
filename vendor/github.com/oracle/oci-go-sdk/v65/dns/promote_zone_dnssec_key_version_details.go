@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// PromoteZoneDnssecKeyVersionDetails Details for promoting a DnssecKeyVersion on a zone.
+// PromoteZoneDnssecKeyVersionDetails Details for promoting a `DnssecKeyVersion` on a zone.
 type PromoteZoneDnssecKeyVersionDetails struct {
 
-	// The UUID of the DnssecKeyVersion that is being promoted.
+	// The UUID of the `DnssecKeyVersion` that is being promoted.
 	DnssecKeyVersionUuid *string `mandatory:"true" json:"dnssecKeyVersionUuid"`
 }
 

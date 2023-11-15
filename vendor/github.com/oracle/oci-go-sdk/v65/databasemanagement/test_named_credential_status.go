@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// TestNamedCredentialStatus The status of the named credential test. The status is 'SUCCEEDED' if the named credential is working else the status is 'FAILED'.
+// TestNamedCredentialStatus The status of the named credential test. The status is 'SUCCEEDED' if the named credential is working or else the status is 'FAILED'.
 type TestNamedCredentialStatus struct {
 
-	// The status of the named credential test. The status is 'SUCCEEDED' if the named credential is working else the status is 'FAILED'.
+	// The status of the named credential test. The status is 'SUCCEEDED' if the named credential is working or else the status is 'FAILED'.
 	Status TestNamedCredentialStatusStatusEnum `mandatory:"true" json:"status"`
 
 	// An error code that defines the failure of the named credential test. The response is 'null' if the named credential test was successful.

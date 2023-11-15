@@ -17,13 +17,13 @@ import (
 )
 
 // DnssecConfig DNSSEC configuration data.
-// A zone may have a maximum total of 10 DnssecKeyVersions, regardless of signing key type.
+// A zone may have a maximum of 10 `DnssecKeyVersions`, regardless of signing key type.
 type DnssecConfig struct {
 
-	// A read only array of KSK DnssecKeyVersions.
+	// A read-only array of key signing key (KSK) versions.
 	KskDnssecKeyVersions []KskDnssecKeyVersion `mandatory:"false" json:"kskDnssecKeyVersions"`
 
-	// A read only array of ZSK DnssecKeyVersions.
+	// A read-only array of zone signing key (ZSK) versions.
 	ZskDnssecKeyVersions []ZskDnssecKeyVersion `mandatory:"false" json:"zskDnssecKeyVersions"`
 }
 

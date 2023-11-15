@@ -69,6 +69,9 @@ type SqlJob struct {
 	// then the user name should exist on all the databases in the group with the same password.
 	UserName *string `mandatory:"false" json:"userName"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credentials containing password secret.
+	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -244,6 +247,7 @@ func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 		OutBinds                *JobOutBindsDetails               `json:"outBinds"`
 		UserName                *string                           `json:"userName"`
 		Role                    SqlJobRoleEnum                    `json:"role"`
+		NamedCredentialId       *string                           `json:"namedCredentialId"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		Id                      *string                           `json:"id"`
@@ -298,6 +302,8 @@ func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 	m.UserName = model.UserName
 
 	m.Role = model.Role
+
+	m.NamedCredentialId = model.NamedCredentialId
 
 	m.FreeformTags = model.FreeformTags
 

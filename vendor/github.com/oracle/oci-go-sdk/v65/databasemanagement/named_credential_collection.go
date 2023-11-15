@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// NamedCredentialCollection A collection of Named Credential resources.
+// NamedCredentialCollection A collection of named credential summary.
 type NamedCredentialCollection struct {
 
-	// An array of Named Credential resources.
+	// An array of named credential resources.
 	Items []NamedCredentialSummary `mandatory:"true" json:"items"`
 }
 

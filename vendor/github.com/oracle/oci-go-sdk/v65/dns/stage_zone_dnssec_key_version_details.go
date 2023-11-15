@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// StageZoneDnssecKeyVersionDetails Details for staging a DnssecKeyVersion on a zone.
+// StageZoneDnssecKeyVersionDetails Details for staging a `DnssecKeyVersion` on a zone.
 type StageZoneDnssecKeyVersionDetails struct {
 
-	// The UUID of the DnssecKeyVersion for which a new successor should be generated.
+	// The UUID of the `DnssecKeyVersion` for which a new successor should be generated.
 	PredecessorDnssecKeyVersionUuid *string `mandatory:"true" json:"predecessorDnssecKeyVersionUuid"`
 }
 

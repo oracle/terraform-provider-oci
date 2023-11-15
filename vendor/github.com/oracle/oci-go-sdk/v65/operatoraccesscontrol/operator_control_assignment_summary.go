@@ -35,6 +35,12 @@ type OperatorControlAssignmentSummary struct {
 	// resourceType for which the OperatorControlAssignment is applicable
 	ResourceType ResourceTypesEnum `mandatory:"false" json:"resourceType,omitempty"`
 
+	// Name of the target resource.
+	ResourceName *string `mandatory:"false" json:"resourceName"`
+
+	// Name of the operator control name associated.
+	OpControlName *string `mandatory:"false" json:"opControlName"`
+
 	// The time at which the target resource will be brought under the governance of the operator control in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format. Example: '2020-05-22T21:10:29.600Z'
 	TimeAssignmentFrom *common.SDKTime `mandatory:"false" json:"timeAssignmentFrom"`
 
@@ -61,6 +67,9 @@ type OperatorControlAssignmentSummary struct {
 
 	// The listening port of the remote syslog server. The port range is 0 - 65535.
 	RemoteSyslogServerPort *int `mandatory:"false" json:"remoteSyslogServerPort"`
+
+	// If set, then the hypervisor audit logs will be forwarded to the relevant remote syslog server
+	IsHypervisorLogForwarded *bool `mandatory:"false" json:"isHypervisorLogForwarded"`
 
 	// The current lifcycle state of the OperatorControl.
 	LifecycleState OperatorControlAssignmentLifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`

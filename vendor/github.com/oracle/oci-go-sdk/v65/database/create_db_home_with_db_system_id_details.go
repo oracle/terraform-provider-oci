@@ -46,6 +46,9 @@ type CreateDbHomeWithDbSystemIdDetails struct {
 	// If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
 	IsDesupportedVersion *bool `mandatory:"false" json:"isDesupportedVersion"`
 
+	// Indicates whether unified autiding is enabled or not. Set to True to enable unified auditing on respective DBHome.
+	IsUnifiedAuditingEnabled *bool `mandatory:"false" json:"isUnifiedAuditingEnabled"`
+
 	// A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
@@ -86,6 +89,11 @@ func (m CreateDbHomeWithDbSystemIdDetails) GetDefinedTags() map[string]map[strin
 // GetIsDesupportedVersion returns IsDesupportedVersion
 func (m CreateDbHomeWithDbSystemIdDetails) GetIsDesupportedVersion() *bool {
 	return m.IsDesupportedVersion
+}
+
+// GetIsUnifiedAuditingEnabled returns IsUnifiedAuditingEnabled
+func (m CreateDbHomeWithDbSystemIdDetails) GetIsUnifiedAuditingEnabled() *bool {
+	return m.IsUnifiedAuditingEnabled
 }
 
 func (m CreateDbHomeWithDbSystemIdDetails) String() string {

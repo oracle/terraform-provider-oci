@@ -14,7 +14,7 @@ import (
 // TestNamedCredentialRequest wrapper for the TestNamedCredential operation
 type TestNamedCredentialRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credential.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.
 	NamedCredentialId *string `mandatory:"true" contributesTo:"path" name:"namedCredentialId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database against which the credential is to be tested.

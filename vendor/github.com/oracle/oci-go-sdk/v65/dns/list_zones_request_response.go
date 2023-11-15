@@ -66,7 +66,7 @@ type ListZonesRequest struct {
 	// Search for zones that are associated with a TSIG key.
 	TsigKeyId *string `mandatory:"false" contributesTo:"query" name:"tsigKeyId"`
 
-	// Search for zones that have the given DnssecState.
+	// Search for zones that have the given `DnssecState`.
 	DnssecState ListZonesDnssecStateEnum `mandatory:"false" contributesTo:"query" name:"dnssecState" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

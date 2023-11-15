@@ -18,32 +18,32 @@ import (
 	"strings"
 )
 
-// CreateNamedCredentialDetails The details required to create a Named Credential.
+// CreateNamedCredentialDetails The details required to create a named credential.
 type CreateNamedCredentialDetails struct {
 
-	// The name of the Named Credential. Valid characters are uppercase or
-	// lowercase letters, numbers, and "_". The name of the Named Credential
+	// The name of the named credential. Valid characters are uppercase or
+	// lowercase letters, numbers, and "_". The name of the named credential
 	// cannot be modified. It must be unique in the compartment and must begin with
 	// an alphabetic character.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The scope of the Named Credential.
-	Scope CredentialScopeEnum `mandatory:"true" json:"scope"`
+	// The scope of the named credential.
+	Scope NamedCredentialScopeEnum `mandatory:"true" json:"scope"`
 
-	// The type of database that the Named Credential is associated to.
-	Type CredentialTypeEnum `mandatory:"true" json:"type"`
+	// The type of resource associated with the named credential.
+	Type ResourceTypeEnum `mandatory:"true" json:"type"`
 
 	Content NamedCredentialContent `mandatory:"true" json:"content"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
-	// in which the Named Credential resides.
+	// in which the named credential resides.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The information specified by the user about the Named Credential.
+	// The information specified by the user about the named credential.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that
-	// is associated to the Named Credential.
+	// is associated to the named credential.
 	AssociatedResource *string `mandatory:"false" json:"associatedResource"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -66,11 +66,11 @@ func (m CreateNamedCredentialDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateNamedCredentialDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingCredentialScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetCredentialScopeEnumStringValues(), ",")))
+	if _, ok := GetMappingNamedCredentialScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetNamedCredentialScopeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingCredentialTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCredentialTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingResourceTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetResourceTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -87,8 +87,8 @@ func (m *CreateNamedCredentialDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		Name               *string                           `json:"name"`
-		Scope              CredentialScopeEnum               `json:"scope"`
-		Type               CredentialTypeEnum                `json:"type"`
+		Scope              NamedCredentialScopeEnum          `json:"scope"`
+		Type               ResourceTypeEnum                  `json:"type"`
 		Content            namedcredentialcontent            `json:"content"`
 		CompartmentId      *string                           `json:"compartmentId"`
 	}{}

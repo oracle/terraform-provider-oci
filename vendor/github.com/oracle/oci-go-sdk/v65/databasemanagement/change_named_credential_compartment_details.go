@@ -17,11 +17,11 @@ import (
 	"strings"
 )
 
-// ChangeNamedCredentialCompartmentDetails The details required to change the compartment of a Named Credential.
+// ChangeNamedCredentialCompartmentDetails The details required to change the compartment of a named credential.
 type ChangeNamedCredentialCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the
-	// compartment to which the MNamed Credential should be moved.
+	// compartment to which the named credential should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

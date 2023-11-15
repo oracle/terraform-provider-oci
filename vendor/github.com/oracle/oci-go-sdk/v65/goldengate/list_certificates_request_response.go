@@ -20,9 +20,6 @@ type ListCertificatesRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Immutable resource name.
-	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
-
 	// A filter to return only connections having the 'lifecycleState' given.
 	LifecycleState ListCertificatesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

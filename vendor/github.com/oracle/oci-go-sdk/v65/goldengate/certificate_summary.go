@@ -18,12 +18,9 @@ import (
 // CertificateSummary Summary of the Certificates.
 type CertificateSummary struct {
 
-	// The identifier key of the certificate being referenced.
+	// The identifier key (unique name in the scope of the deployment) of the certificate being referenced.
+	// It must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
 	Key *string `mandatory:"true" json:"key"`
-
-	// The Certificate name.
-	// The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
-	Name *string `mandatory:"true" json:"name"`
 
 	// Possible certificate lifecycle states.
 	LifecycleState CertificateLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`

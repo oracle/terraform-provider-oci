@@ -17,41 +17,41 @@ import (
 	"strings"
 )
 
-// NamedCredentialSummary Details of a Named Credential.
+// NamedCredentialSummary A summary of the named credential.
 type NamedCredentialSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credential.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment
-	// in which the Named Credential resides.
+	// in which the named credential resides.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name of the Named Credential. Valid characters are uppercase or
-	// lowercase letters, numbers, and "_". The name of the Named Credential
+	// The name of the named credential. Valid characters are uppercase or
+	// lowercase letters, numbers, and "_". The name of the named credential
 	// cannot be modified. It must be unique in the compartment and must begin with
 	// an alphabetic character.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The information specified by the user about the Named Credential.
+	// The information specified by the user about the named credential.
 	Description *string `mandatory:"true" json:"description"`
 
-	// The scope of the Named Credential.
-	Scope CredentialScopeEnum `mandatory:"true" json:"scope"`
+	// The scope of the named credential.
+	Scope NamedCredentialScopeEnum `mandatory:"true" json:"scope"`
 
-	// The type of database that the Named Credential is associated to.
-	Type CredentialTypeEnum `mandatory:"true" json:"type"`
+	// The type of resource associated with the named credential.
+	Type ResourceTypeEnum `mandatory:"true" json:"type"`
 
-	// The current lifecycle state of the Named Credential.
+	// The current lifecycle state of the named credential.
 	LifecycleState LifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The details of the lifecycle state
+	// The details of the lifecycle state.
 	LifecycleDetails *string `mandatory:"true" json:"lifecycleDetails"`
 
-	// The date and time the Named Credential was created.
+	// The date and time the named credential was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time the Named Credential was last updated.
+	// The date and time the named credential was last updated.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -74,11 +74,11 @@ func (m NamedCredentialSummary) String() string {
 // Not recommended for calling this function directly
 func (m NamedCredentialSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingCredentialScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetCredentialScopeEnumStringValues(), ",")))
+	if _, ok := GetMappingNamedCredentialScopeEnum(string(m.Scope)); !ok && m.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", m.Scope, strings.Join(GetNamedCredentialScopeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingCredentialTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetCredentialTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingResourceTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetResourceTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))

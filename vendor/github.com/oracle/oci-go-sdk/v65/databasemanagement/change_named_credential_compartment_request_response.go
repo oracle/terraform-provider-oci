@@ -14,10 +14,10 @@ import (
 // ChangeNamedCredentialCompartmentRequest wrapper for the ChangeNamedCredentialCompartment operation
 type ChangeNamedCredentialCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credential.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.
 	NamedCredentialId *string `mandatory:"true" contributesTo:"path" name:"namedCredentialId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the Named Credential to.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to which the named credential should be moved.
 	ChangeNamedCredentialCompartmentDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

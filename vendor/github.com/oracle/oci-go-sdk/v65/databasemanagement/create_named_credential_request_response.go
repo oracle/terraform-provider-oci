@@ -14,7 +14,7 @@ import (
 // CreateNamedCredentialRequest wrapper for the CreateNamedCredential operation
 type CreateNamedCredentialRequest struct {
 
-	// The details required to create a Named Credential.
+	// The details required to create a named credential.
 	CreateNamedCredentialDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

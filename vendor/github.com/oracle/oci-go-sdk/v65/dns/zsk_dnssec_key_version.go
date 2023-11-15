@@ -16,14 +16,14 @@ import (
 	"strings"
 )
 
-// ZskDnssecKeyVersion A ZSK DnssecKeyVersion. This contains timing and configuration data corresponding to the ZSK that is used to
+// ZskDnssecKeyVersion A zone signing key (ZSK) version. The version information contains timing and configuration data for the ZSK that is used to
 // apply DNSSEC on the zone.
 type ZskDnssecKeyVersion struct {
 
-	// The UUID of the DnssecKeyVersion.
+	// The UUID of the `DnssecKeyVersion`.
 	Uuid *string `mandatory:"false" json:"uuid"`
 
-	// The signing algorithm that will be utilized.
+	// The signing algorithm used for the key.
 	Algorithm DnssecSigningAlgorithmEnum `mandatory:"false" json:"algorithm,omitempty"`
 
 	// The length of the corresponding private key in bytes, expressed as an integer.
@@ -44,22 +44,22 @@ type ZskDnssecKeyVersion struct {
 	TimeActivated *common.SDKTime `mandatory:"false" json:"timeActivated"`
 
 	// The date and time the key version went, or will go, inactive, expressed in RFC 3339 timestamp format. This
-	// is when the key material will no longer be used to generate RRSIGs. For a KSK DnssecKeyVersion, this will be
-	// populated after PromoteZoneDnssecKeyVersion has been called on its successor DnssecKeyVersion.
+	// is when the key material will no longer be used to generate RRSIGs. For a key signing key (KSK) `DnssecKeyVersion`, this is
+	// populated after `PromoteZoneDnssecKeyVersion` has been called on its successor `DnssecKeyVersion`.
 	// **Example:** `2016-07-22T17:23:59:00Z`
 	TimeInactivated *common.SDKTime `mandatory:"false" json:"timeInactivated"`
 
 	// The date and time the key version was, or will be, unpublished, expressed in RFC 3339 timestamp format. This
-	// is when the corresponding DNSKEY will be removed from zone contents. For a KSK DnssecKeyVersion, this will be
-	// populated after PromoteZoneDnssecKeyVersion has been called on its successor DnssecKeyVersion.
+	// is when the corresponding DNSKEY will be removed from zone contents. For a key signing key (KSK) `DnssecKeyVersion`, this is
+	// populated after `PromoteZoneDnssecKeyVersion` has been called on its successor `DnssecKeyVersion`.
 	// **Example:** `2016-07-22T17:23:59:00Z`
 	TimeUnpublished *common.SDKTime `mandatory:"false" json:"timeUnpublished"`
 
 	// The date and time at which the recommended key version publication/activation lifetime ends, expressed in RFC
 	// 3339 timestamp format. This is when the corresponding DNSKEY should no longer exist in zone contents and no
-	// longer be used to generate RRSIGs. For KSK, if PromoteZoneDnssecKeyVersion has not been called on this
-	// DnssecKeyVersion's successor then it will remain active for arbitrarily long past its recommended lifetime
-	// (preventing service disruption at the potential increased risk of key compromise).
+	// longer be used to generate RRSIGs. For a key sigining key (KSK), if `PromoteZoneDnssecKeyVersion` has not been called on this
+	// `DnssecKeyVersion`'s successor then it will remain active for arbitrarily long past its recommended lifetime.
+	// This prevents service disruption at the potential increased risk of key compromise.
 	// **Example:** `2016-07-22T17:23:59:00Z`
 	TimeExpired *common.SDKTime `mandatory:"false" json:"timeExpired"`
 
@@ -67,16 +67,16 @@ type ZskDnssecKeyVersion struct {
 	// **Example:** `2016-07-22T17:23:59:00Z`
 	TimePromoted *common.SDKTime `mandatory:"false" json:"timePromoted"`
 
-	// When populated, this is the UUID of the DnssecKeyVersion that this DnssecKeyVersion will replace or has
+	// When populated, this is the UUID of the `DnssecKeyVersion` that this `DnssecKeyVersion` will replace or has
 	// replaced.
 	PredecessorDnssecKeyVersionUuid *string `mandatory:"false" json:"predecessorDnssecKeyVersionUuid"`
 
-	// When populated, this is the UUID of the DnssecKeyVersion that will replace, or has replaced, this
-	// DnssecKeyVersion.
+	// When populated, this is the UUID of the `DnssecKeyVersion` that will replace, or has replaced, this
+	// `DnssecKeyVersion`.
 	SuccessorDnssecKeyVersionUuid *string `mandatory:"false" json:"successorDnssecKeyVersionUuid"`
 
-	// The key tag associated with the DnssecKeyVersion. This key tag will be present in the RRSIG and DS records
-	// associated with the key material for this DnssecKeyVersion. For more information about key tags, see
+	// The key tag associated with the `DnssecKeyVersion`. This key tag will be present in the RRSIG and DS records
+	// associated with the key material for this `DnssecKeyVersion`. For more information about key tags, see
 	// RFC 4034 (https://tools.ietf.org/html/rfc4034).
 	KeyTag *int `mandatory:"false" json:"keyTag"`
 }

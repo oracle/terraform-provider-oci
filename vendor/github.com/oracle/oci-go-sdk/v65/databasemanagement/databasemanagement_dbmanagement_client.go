@@ -627,8 +627,8 @@ func (client DbManagementClient) changeManagedDatabaseGroupCompartment(ctx conte
 	return response, err
 }
 
-// ChangeNamedCredentialCompartment Moves a Named Credential to a different compartment.
-// The destination compartment must not have a Named Credential
+// ChangeNamedCredentialCompartment Moves a named credential to a different compartment.
+// The destination compartment must not have a named credential
 // with the same name.
 func (client DbManagementClient) ChangeNamedCredentialCompartment(ctx context.Context, request ChangeNamedCredentialCompartmentRequest) (response ChangeNamedCredentialCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1557,7 +1557,7 @@ func (client DbManagementClient) createManagedDatabaseGroup(ctx context.Context,
 	return response, err
 }
 
-// CreateNamedCredential Creates a Named Credential.
+// CreateNamedCredential Creates a named credential.
 func (client DbManagementClient) CreateNamedCredential(ctx context.Context, request CreateNamedCredentialRequest) (response CreateNamedCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2098,7 +2098,7 @@ func (client DbManagementClient) deleteManagedDatabaseGroup(ctx context.Context,
 	return response, err
 }
 
-// DeleteNamedCredential Deletes the Named Credential specified by namedCredentialId.
+// DeleteNamedCredential Deletes the named credential specified by namedCredentialId.
 func (client DbManagementClient) DeleteNamedCredential(ctx context.Context, request DeleteNamedCredentialRequest) (response DeleteNamedCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4730,7 +4730,7 @@ func (client DbManagementClient) getManagedDatabaseGroup(ctx context.Context, re
 	return response, err
 }
 
-// GetNamedCredential Gets the details for the Named Credential specified by namedCredentialId.
+// GetNamedCredential Gets the details for the named credential specified by namedCredentialId.
 func (client DbManagementClient) GetNamedCredential(ctx context.Context, request GetNamedCredentialRequest) (response GetNamedCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7171,10 +7171,7 @@ func (client DbManagementClient) listManagedDatabases(ctx context.Context, reque
 	return response, err
 }
 
-// ListNamedCredentials Gets the Named Credential for a specific ID or the list of Named Credential in
-// a specific compartment. Named Credential can also be filtered based on the name parameter.
-// Only one of the parameters, ID or name should be provided. If none of these parameters is provided,
-// all the Named Credential in the compartment are listed.
+// ListNamedCredentials Gets a single named credential specified by the name or all the named credentials in a specific compartment.
 func (client DbManagementClient) ListNamedCredentials(ctx context.Context, request ListNamedCredentialsRequest) (response ListNamedCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10636,7 +10633,7 @@ func (client DbManagementClient) updateManagedDatabaseGroup(ctx context.Context,
 	return response, err
 }
 
-// UpdateNamedCredential Updates the Named Credential specified by namedCredentialId.
+// UpdateNamedCredential Updates the named credential specified by namedCredentialId.
 func (client DbManagementClient) UpdateNamedCredential(ctx context.Context, request UpdateNamedCredentialRequest) (response UpdateNamedCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

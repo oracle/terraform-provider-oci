@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DnssecKeyVersionDsData Data for a parent-zone DS record corresponding to this key-signing key.
+// DnssecKeyVersionDsData Data for a parent zone DS record corresponding to this key-signing key (KSK).
 type DnssecKeyVersionDsData struct {
 
 	// Presentation-format DS record data that must be added to the parent zone. For more information about RDATA,

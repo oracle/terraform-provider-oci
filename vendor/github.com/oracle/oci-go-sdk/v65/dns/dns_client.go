@@ -2489,12 +2489,13 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// PromoteZoneDnssecKeyVersion Promotes a specified DnssecKeyVersion on the zone. Promoting a key version activates it for generating
-// signatures and schedules removal of its predecessor key version.
-// If the DnssecKeyVersion identified in the request body is replacing another DnssecKeyVersion, then that
-// DnssecKeyVersion will be scheduled for removal from the zone.
-// For KSK, this should be called after the parent zone's DS records have been updated.
-// For more information, see the DNS docs (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
+// PromoteZoneDnssecKeyVersion Promotes a specified `DnssecKeyVersion` on the zone.
+// If the `DnssecKeyVersion` identified in the request body is a key signing key (KSK) that is replacing
+// another `DnssecKeyVersion`, then the old `DnssecKeyVersion` is scheduled for removal from the zone.
+// For key signing keys (KSKs), you must create the DS record with the new key information **before** promoting
+// the new key to establish a chain of trust. To avoid a service disruption, remove the old DS record as soon
+// as its TTL (time to live) expires.
+// For more information, see DNSSEC (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm).
 // A default retry strategy applies to this operation PromoteZoneDnssecKeyVersion()
 func (client DnsClient) PromoteZoneDnssecKeyVersion(ctx context.Context, request PromoteZoneDnssecKeyVersionRequest) (response PromoteZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2553,11 +2554,10 @@ func (client DnsClient) promoteZoneDnssecKeyVersion(ctx context.Context, request
 	return response, err
 }
 
-// StageZoneDnssecKeyVersion Stages a new DnssecKeyVersion on the zone. Staging is a process that generates a new "successor" key version
-// that will replace an existing "predecessor".
-// This allows generating and activating a successor DnssecKeyVersion before normal automated rollover would do so.
-// Note that a new key-signing key version is inert until parent-zone DS records have been updated.
-// For more information, see the DNS docs (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnszonemanagement.htm).
+// StageZoneDnssecKeyVersion Stages a new `DnssecKeyVersion` on the zone. Staging is a process that generates a new "successor" key version
+// that replaces an existing "predecessor" key version.
+// **Note:** A new key-signing key (KSK) version is inert until you update the parent zone DS records.
+// For more information, see the DNSSEC (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm) documentation.
 // A default retry strategy applies to this operation StageZoneDnssecKeyVersion()
 func (client DnsClient) StageZoneDnssecKeyVersion(ctx context.Context, request StageZoneDnssecKeyVersionRequest) (response StageZoneDnssecKeyVersionResponse, err error) {
 	var ociResponse common.OCIResponse

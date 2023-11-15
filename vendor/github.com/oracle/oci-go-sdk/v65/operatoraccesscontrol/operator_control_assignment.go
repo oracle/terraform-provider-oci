@@ -89,6 +89,12 @@ type OperatorControlAssignment struct {
 	// The CA certificate of the remote syslog server.
 	RemoteSyslogServerCACert *string `mandatory:"false" json:"remoteSyslogServerCACert"`
 
+	// If set, then the hypervisor audit logs will be forwarded to the relevant remote syslog server
+	IsHypervisorLogForwarded *bool `mandatory:"false" json:"isHypervisorLogForwarded"`
+
+	// Name of the operator control name associated.
+	OpControlName *string `mandatory:"false" json:"opControlName"`
+
 	// The boolean if true would autoApprove during maintenance.
 	IsAutoApproveDuringMaintenance *bool `mandatory:"false" json:"isAutoApproveDuringMaintenance"`
 

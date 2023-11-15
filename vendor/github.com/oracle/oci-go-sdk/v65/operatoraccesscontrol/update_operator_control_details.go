@@ -43,6 +43,9 @@ type UpdateOperatorControlDetails struct {
 	// List of emailId.
 	EmailIdList []string `mandatory:"false" json:"emailIdList"`
 
+	// Number of approvers required to approve an access request.
+	NumberOfApprovers *int `mandatory:"false" json:"numberOfApprovers"`
+
 	// System message that would be displayed to the operator users on accessing the target resource under the governance of this operator control.
 	SystemMessage *string `mandatory:"false" json:"systemMessage"`
 

@@ -265,6 +265,60 @@ func (client OperatorControlAssignmentClient) deleteOperatorControlAssignment(ct
 	return response, err
 }
 
+// GetAssignmentValidationStatus Returns the status of assignment validation associated with the assignmentId and the executionId.
+// A default retry strategy applies to this operation GetAssignmentValidationStatus()
+func (client OperatorControlAssignmentClient) GetAssignmentValidationStatus(ctx context.Context, request GetAssignmentValidationStatusRequest) (response GetAssignmentValidationStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAssignmentValidationStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAssignmentValidationStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAssignmentValidationStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAssignmentValidationStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAssignmentValidationStatusResponse")
+	}
+	return
+}
+
+// getAssignmentValidationStatus implements the OCIOperation interface (enables retrying operations)
+func (client OperatorControlAssignmentClient) getAssignmentValidationStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/operatorControlAssignments/{operatorControlAssignmentId}/actions/getAssignmentValidationStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAssignmentValidationStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/GetAssignmentValidationStatus"
+		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "GetAssignmentValidationStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetOperatorControlAssignment Gets the details of an Operator Control Assignment of the specified ID.
 // A default retry strategy applies to this operation GetOperatorControlAssignment()
 func (client OperatorControlAssignmentClient) GetOperatorControlAssignment(ctx context.Context, request GetOperatorControlAssignmentRequest) (response GetOperatorControlAssignmentResponse, err error) {
@@ -420,6 +474,65 @@ func (client OperatorControlAssignmentClient) updateOperatorControlAssignment(ct
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/UpdateOperatorControlAssignment"
 		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "UpdateOperatorControlAssignment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateOperatorAssignment Validates the assignment for the specified Operator Control Assignment ID.
+// A default retry strategy applies to this operation ValidateOperatorAssignment()
+func (client OperatorControlAssignmentClient) ValidateOperatorAssignment(ctx context.Context, request ValidateOperatorAssignmentRequest) (response ValidateOperatorAssignmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.validateOperatorAssignment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateOperatorAssignmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateOperatorAssignmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateOperatorAssignmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateOperatorAssignmentResponse")
+	}
+	return
+}
+
+// validateOperatorAssignment implements the OCIOperation interface (enables retrying operations)
+func (client OperatorControlAssignmentClient) validateOperatorAssignment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/operatorControlAssignments/{operatorControlAssignmentId}/actions/validateAssignment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateOperatorAssignmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/OperatorControlAssignment/ValidateOperatorAssignment"
+		err = common.PostProcessServiceError(err, "OperatorControlAssignment", "ValidateOperatorAssignment", apiReferenceLink)
 		return response, err
 	}
 
