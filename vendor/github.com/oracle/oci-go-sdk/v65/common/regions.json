@@ -424,5 +424,11 @@
         "realmKey": "oc28",
         "regionIdentifier": "us-dcc-swjordan-2",
         "realmDomainComponent": "oraclecloud28.com"
+    },
+    {
+        "regionKey": "ahu",
+        "realmKey": "oc26",
+        "regionIdentifier": "me-abudhabi-3",
+        "realmDomainComponent": "oraclecloud26.com"
     }
 ]
