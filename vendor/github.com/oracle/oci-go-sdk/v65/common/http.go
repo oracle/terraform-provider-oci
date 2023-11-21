@@ -334,9 +334,13 @@ func getNormalBinaryBodyLength(request *http.Request) (contentLen int64, err err
 	// If binary body is seekable
 	seeker := getSeeker(request.Body)
 	if seeker != nil {
-		if contentLen, err := seeker.Seek(0, io.SeekEnd); err == nil {
-			if _, err = seeker.Seek(0, io.SeekStart); err == nil {
-				return contentLen, nil
+		// save the current position, calculate the unread body length and seek it back to current position
+		if curPos, err := seeker.Seek(0, io.SeekCurrent); err == nil {
+			if endPos, err := seeker.Seek(0, io.SeekEnd); err == nil {
+				contentLen = endPos - curPos
+				if _, err = seeker.Seek(curPos, io.SeekStart); err == nil {
+					return contentLen, nil
+				}
 			}
 		}
 	}
