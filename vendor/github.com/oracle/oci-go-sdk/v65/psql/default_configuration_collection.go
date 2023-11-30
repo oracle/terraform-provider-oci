@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -18,7 +19,7 @@ import (
 // DefaultConfigurationCollection Results of a configuration search. Contains the ConfigurationSummary items and other information, such as metadata.
 type DefaultConfigurationCollection struct {
 
-	// List of Configurations.
+	// List of configurations.
 	Items []DefaultConfigurationSummary `mandatory:"true" json:"items"`
 }
 

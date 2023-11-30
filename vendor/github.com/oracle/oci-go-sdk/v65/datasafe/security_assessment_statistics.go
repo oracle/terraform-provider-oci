@@ -37,7 +37,7 @@ type SecurityAssessmentStatistics struct {
 
 	Pass *SectionStatistics `mandatory:"false" json:"pass"`
 
-	Accepted *SectionStatistics `mandatory:"false" json:"accepted"`
+	Deferred *SectionStatistics `mandatory:"false" json:"deferred"`
 }
 
 func (m SecurityAssessmentStatistics) String() string {

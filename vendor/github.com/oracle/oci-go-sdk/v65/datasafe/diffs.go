@@ -64,7 +64,7 @@ const (
 	DiffsSeverityEvaluate DiffsSeverityEnum = "EVALUATE"
 	DiffsSeverityAdvisory DiffsSeverityEnum = "ADVISORY"
 	DiffsSeverityPass     DiffsSeverityEnum = "PASS"
-	DiffsSeverityAccepted DiffsSeverityEnum = "ACCEPTED"
+	DiffsSeverityDeferred DiffsSeverityEnum = "DEFERRED"
 )
 
 var mappingDiffsSeverityEnum = map[string]DiffsSeverityEnum{
@@ -74,7 +74,7 @@ var mappingDiffsSeverityEnum = map[string]DiffsSeverityEnum{
 	"EVALUATE": DiffsSeverityEvaluate,
 	"ADVISORY": DiffsSeverityAdvisory,
 	"PASS":     DiffsSeverityPass,
-	"ACCEPTED": DiffsSeverityAccepted,
+	"DEFERRED": DiffsSeverityDeferred,
 }
 
 var mappingDiffsSeverityEnumLowerCase = map[string]DiffsSeverityEnum{
@@ -84,7 +84,7 @@ var mappingDiffsSeverityEnumLowerCase = map[string]DiffsSeverityEnum{
 	"evaluate": DiffsSeverityEvaluate,
 	"advisory": DiffsSeverityAdvisory,
 	"pass":     DiffsSeverityPass,
-	"accepted": DiffsSeverityAccepted,
+	"deferred": DiffsSeverityDeferred,
 }
 
 // GetDiffsSeverityEnumValues Enumerates the set of values for DiffsSeverityEnum
@@ -105,7 +105,7 @@ func GetDiffsSeverityEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
-		"ACCEPTED",
+		"DEFERRED",
 	}
 }
 

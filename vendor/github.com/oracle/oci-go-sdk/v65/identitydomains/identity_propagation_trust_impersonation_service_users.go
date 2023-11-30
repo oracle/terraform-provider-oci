@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// IdentityPropagationTrustImpersonationServiceUsers Impersonating Principal
+// IdentityPropagationTrustImpersonationServiceUsers The Impersonating Principal.
 type IdentityPropagationTrustImpersonationServiceUsers struct {
 
-	// The ID of the service user
+	// The ID of the Service User.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -31,7 +31,7 @@ type IdentityPropagationTrustImpersonationServiceUsers struct {
 	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// Rule expression to be used for matching inbound token for impersonation.
+	// The rule expression to be used for matching the inbound token for impersonation.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: false

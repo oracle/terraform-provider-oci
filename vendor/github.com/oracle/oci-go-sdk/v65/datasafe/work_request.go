@@ -199,6 +199,7 @@ const (
 	WorkRequestOperationTypeAbortMasking                              WorkRequestOperationTypeEnum = "ABORT_MASKING"
 	WorkRequestOperationTypeCreateSecurityPolicyReport                WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
 	WorkRequestOperationTypeRefreshSecurityPolicyCache                WorkRequestOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
+	WorkRequestOperationTypeDeleteSecurityPolicyCache                 WorkRequestOperationTypeEnum = "DELETE_SECURITY_POLICY_CACHE"
 	WorkRequestOperationTypeCreateSchedule                            WorkRequestOperationTypeEnum = "CREATE_SCHEDULE"
 	WorkRequestOperationTypeRemoveScheduleReport                      WorkRequestOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestOperationTypeUpdateAllAlert                            WorkRequestOperationTypeEnum = "UPDATE_ALL_ALERT"
@@ -339,6 +340,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"ABORT_MASKING":                                 WorkRequestOperationTypeAbortMasking,
 	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
 	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
+	"DELETE_SECURITY_POLICY_CACHE":                  WorkRequestOperationTypeDeleteSecurityPolicyCache,
 	"CREATE_SCHEDULE":                               WorkRequestOperationTypeCreateSchedule,
 	"REMOVE_SCHEDULE_REPORT":                        WorkRequestOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                              WorkRequestOperationTypeUpdateAllAlert,
@@ -479,6 +481,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"abort_masking":                                 WorkRequestOperationTypeAbortMasking,
 	"create_security_policy_report":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
 	"refresh_security_policy_cache":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
+	"delete_security_policy_cache":                  WorkRequestOperationTypeDeleteSecurityPolicyCache,
 	"create_schedule":                               WorkRequestOperationTypeCreateSchedule,
 	"remove_schedule_report":                        WorkRequestOperationTypeRemoveScheduleReport,
 	"update_all_alert":                              WorkRequestOperationTypeUpdateAllAlert,
@@ -630,6 +633,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"ABORT_MASKING",
 		"CREATE_SECURITY_POLICY_REPORT",
 		"REFRESH_SECURITY_POLICY_CACHE",
+		"DELETE_SECURITY_POLICY_CACHE",
 		"CREATE_SCHEDULE",
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",

@@ -71,6 +71,9 @@ type OkeHelmChartDeployStage struct {
 	// List of values.yaml file artifact OCIDs.
 	ValuesArtifactIds []string `mandatory:"false" json:"valuesArtifactIds"`
 
+	// Uninstall the Helm chart release on deleting the stage.
+	IsUninstallOnStageDelete *bool `mandatory:"false" json:"isUninstallOnStageDelete"`
+
 	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
@@ -236,6 +239,7 @@ func (m *OkeHelmChartDeployStage) UnmarshalJSON(data []byte) (e error) {
 		OkeClusterDeployEnvironmentId    *string                           `json:"okeClusterDeployEnvironmentId"`
 		OkeEnvironmentDetails            okeenvironmentdetails             `json:"okeEnvironmentDetails"`
 		ValuesArtifactIds                []string                          `json:"valuesArtifactIds"`
+		IsUninstallOnStageDelete         *bool                             `json:"isUninstallOnStageDelete"`
 		Namespace                        *string                           `json:"namespace"`
 		TimeoutInSeconds                 *int                              `json:"timeoutInSeconds"`
 		RollbackPolicy                   deploystagerollbackpolicy         `json:"rollbackPolicy"`
@@ -298,6 +302,8 @@ func (m *OkeHelmChartDeployStage) UnmarshalJSON(data []byte) (e error) {
 
 	m.ValuesArtifactIds = make([]string, len(model.ValuesArtifactIds))
 	copy(m.ValuesArtifactIds, model.ValuesArtifactIds)
+	m.IsUninstallOnStageDelete = model.IsUninstallOnStageDelete
+
 	m.Namespace = model.Namespace
 
 	m.TimeoutInSeconds = model.TimeoutInSeconds

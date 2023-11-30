@@ -17,14 +17,20 @@ type ListGiVersionMinorVersionsRequest struct {
 	// The Oracle Grid Infrastructure major version.
 	Version *string `mandatory:"true" contributesTo:"path" name:"version"`
 
-	// Filters the results to the set of versions which are supported for the given shape family.
-	ShapeFamily ListGiVersionMinorVersionsShapeFamilyEnum `mandatory:"true" contributesTo:"query" name:"shapeFamily" omitEmpty:"true"`
-
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// If provided, filters the results to the set of database versions which are supported for the given shape family.
+	ShapeFamily ListGiVersionMinorVersionsShapeFamilyEnum `mandatory:"false" contributesTo:"query" name:"shapeFamily" omitEmpty:"true"`
+
+	// If true, returns the Grid Infrastructure versions that can be used for provisioning a cluster
+	IsGiVersionForProvisioning *bool `mandatory:"false" contributesTo:"query" name:"isGiVersionForProvisioning"`
+
+	// If provided, filters the results for the given shape.
+	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
 
 	// Sort by VERSION.  Default order for VERSION is descending.
 	SortBy ListGiVersionMinorVersionsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`

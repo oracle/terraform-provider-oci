@@ -20,16 +20,16 @@ import (
 // PrometheusEmitterDataSourceSummary A Prometheus emitter data source summary.
 type PrometheusEmitterDataSourceSummary struct {
 
-	// ID for DataSource.
-	Id *string `mandatory:"true" json:"id"`
+	// Data source type and name identifier.
+	Key *string `mandatory:"true" json:"key"`
 
 	// Unique name of the dataSource.
 	Name *string `mandatory:"true" json:"name"`
 }
 
-// GetId returns Id
-func (m PrometheusEmitterDataSourceSummary) GetId() *string {
-	return m.Id
+// GetKey returns Key
+func (m PrometheusEmitterDataSourceSummary) GetKey() *string {
+	return m.Key
 }
 
 // GetName returns Name

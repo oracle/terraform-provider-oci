@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,8 +17,8 @@ import (
 	"strings"
 )
 
-// PasswordDetails Details for the DbSystem password.
-// Password can be passed as `VaultSecretPasswordDetails`(Vault) or `PlainTextPasswordDetails`.
+// PasswordDetails Details for the database system password.
+// Password can be passed as `VaultSecretPasswordDetails` or `PlainTextPasswordDetails`.
 type PasswordDetails interface {
 }
 

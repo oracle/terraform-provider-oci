@@ -28,7 +28,7 @@ type FileStorageClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewFileStorageClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client FileStorageClient, err error) {
 	if enabled := common.CheckForEnabledServices("filestorage"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -3017,59 +3017,6 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/SnapshotSummary/ListSnapshots"
 		err = common.PostProcessServiceError(err, "FileStorage", "ListSnapshots", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ModifyRootdirAttributes Allows the administrator to alter the attributes of the file system root directory.
-func (client FileStorageClient) ModifyRootdirAttributes(ctx context.Context, request ModifyRootdirAttributesRequest) (response ModifyRootdirAttributesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.modifyRootdirAttributes, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ModifyRootdirAttributesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ModifyRootdirAttributesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ModifyRootdirAttributesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ModifyRootdirAttributesResponse")
-	}
-	return
-}
-
-// modifyRootdirAttributes implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) modifyRootdirAttributes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/modifyRootDirectoryAttributes", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ModifyRootdirAttributesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ModifyRootdirAttributes"
-		err = common.PostProcessServiceError(err, "FileStorage", "ModifyRootdirAttributes", apiReferenceLink)
 		return response, err
 	}
 

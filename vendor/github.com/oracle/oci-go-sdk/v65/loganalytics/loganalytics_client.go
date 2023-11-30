@@ -27,7 +27,7 @@ type LogAnalyticsClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewLogAnalyticsClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client LogAnalyticsClient, err error) {
 	if enabled := common.CheckForEnabledServices("loganalytics"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -3098,65 +3098,6 @@ func (client LogAnalyticsClient) extractStructuredLogHeaderPaths(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsParser/ExtractStructuredLogHeaderPaths"
 		err = common.PostProcessServiceError(err, "LogAnalytics", "ExtractStructuredLogHeaderPaths", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// FeatureCheck Check to see if current user has the specified permission.
-// A default retry strategy applies to this operation FeatureCheck()
-func (client LogAnalyticsClient) FeatureCheck(ctx context.Context, request FeatureCheckRequest) (response FeatureCheckResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.featureCheck, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = FeatureCheckResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = FeatureCheckResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(FeatureCheckResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into FeatureCheckResponse")
-	}
-	return
-}
-
-// featureCheck implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) featureCheck(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/features/check", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response FeatureCheckResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/Permission/FeatureCheck"
-		err = common.PostProcessServiceError(err, "LogAnalytics", "FeatureCheck", apiReferenceLink)
 		return response, err
 	}
 
@@ -8361,65 +8302,6 @@ func (client LogAnalyticsClient) pauseScheduledTask(ctx context.Context, request
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &scheduledtask{})
-	return response, err
-}
-
-// PermissionList Check to see if current user has the specified permission.
-// A default retry strategy applies to this operation PermissionList()
-func (client LogAnalyticsClient) PermissionList(ctx context.Context, request PermissionListRequest) (response PermissionListResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.permissionList, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = PermissionListResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = PermissionListResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(PermissionListResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into PermissionListResponse")
-	}
-	return
-}
-
-// permissionList implements the OCIOperation interface (enables retrying operations)
-func (client LogAnalyticsClient) permissionList(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/namespaces/{namespaceName}/features/permissions", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response PermissionListResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/PermissionCollection/PermissionList"
-		err = common.PostProcessServiceError(err, "LogAnalytics", "PermissionList", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

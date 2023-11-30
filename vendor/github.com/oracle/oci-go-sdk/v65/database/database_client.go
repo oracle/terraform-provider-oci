@@ -27,7 +27,7 @@ type DatabaseClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDatabaseClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DatabaseClient, err error) {
 	if enabled := common.CheckForEnabledServices("database"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -7524,7 +7524,12 @@ func (client DatabaseClient) enablePluggableDatabaseManagement(ctx context.Conte
 	return response, err
 }
 
-// FailOverAutonomousDatabase Initiates a failover the specified Autonomous Database to a standby. To perform a failover to a standby located in a remote region, specify the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the remote standby using the `peerDbId` parameter.
+// FailOverAutonomousDatabase Initiates a failover of the specified Autonomous Database to the associated peer database. Applicable only to databases with Disaster Recovery enabled.
+// This API should be called in the remote region where the peer database resides.
+// Below parameter is optional:
+//   - `peerDbId`
+//     Use this parameter to specify the database OCID of the Disaster Recovery peer, which is located in a different (remote) region from the current peer database.
+//     If this parameter is not provided, the failover will happen in the same region.
 func (client DatabaseClient) FailOverAutonomousDatabase(ctx context.Context, request FailOverAutonomousDatabaseRequest) (response FailOverAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17752,7 +17757,12 @@ func (client DatabaseClient) switchoverAutonomousContainerDatabaseDataguardAssoc
 	return response, err
 }
 
-// SwitchoverAutonomousDatabase Initiates a switchover of the specified Autonomous Database to the associated standby database. Applicable only to databases with Autonomous Data Guard enabled. To perform a switchover to a standby located in a remote region, specify the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the remote standby using the `peerDbId` parameter.
+// SwitchoverAutonomousDatabase Initiates a switchover of the specified Autonomous Database to the associated peer database. Applicable only to databases with Disaster Recovery enabled.
+// This API should be called in the remote region where the peer database resides.
+// Below parameter is optional:
+//   - `peerDbId`
+//     Use this parameter to specify the database OCID of the Disaster Recovery peer, which is located in a different (remote) region from the current peer database.
+//     If this parameter is not provided, the switchover will happen in the same region.
 func (client DatabaseClient) SwitchoverAutonomousDatabase(ctx context.Context, request SwitchoverAutonomousDatabaseRequest) (response SwitchoverAutonomousDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

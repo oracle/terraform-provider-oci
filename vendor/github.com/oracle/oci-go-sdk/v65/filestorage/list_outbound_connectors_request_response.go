@@ -150,6 +150,7 @@ type ListOutboundConnectorsLifecycleStateEnum string
 const (
 	ListOutboundConnectorsLifecycleStateCreating ListOutboundConnectorsLifecycleStateEnum = "CREATING"
 	ListOutboundConnectorsLifecycleStateActive   ListOutboundConnectorsLifecycleStateEnum = "ACTIVE"
+	ListOutboundConnectorsLifecycleStateUpdating ListOutboundConnectorsLifecycleStateEnum = "UPDATING"
 	ListOutboundConnectorsLifecycleStateDeleting ListOutboundConnectorsLifecycleStateEnum = "DELETING"
 	ListOutboundConnectorsLifecycleStateDeleted  ListOutboundConnectorsLifecycleStateEnum = "DELETED"
 	ListOutboundConnectorsLifecycleStateFailed   ListOutboundConnectorsLifecycleStateEnum = "FAILED"
@@ -158,6 +159,7 @@ const (
 var mappingListOutboundConnectorsLifecycleStateEnum = map[string]ListOutboundConnectorsLifecycleStateEnum{
 	"CREATING": ListOutboundConnectorsLifecycleStateCreating,
 	"ACTIVE":   ListOutboundConnectorsLifecycleStateActive,
+	"UPDATING": ListOutboundConnectorsLifecycleStateUpdating,
 	"DELETING": ListOutboundConnectorsLifecycleStateDeleting,
 	"DELETED":  ListOutboundConnectorsLifecycleStateDeleted,
 	"FAILED":   ListOutboundConnectorsLifecycleStateFailed,
@@ -166,6 +168,7 @@ var mappingListOutboundConnectorsLifecycleStateEnum = map[string]ListOutboundCon
 var mappingListOutboundConnectorsLifecycleStateEnumLowerCase = map[string]ListOutboundConnectorsLifecycleStateEnum{
 	"creating": ListOutboundConnectorsLifecycleStateCreating,
 	"active":   ListOutboundConnectorsLifecycleStateActive,
+	"updating": ListOutboundConnectorsLifecycleStateUpdating,
 	"deleting": ListOutboundConnectorsLifecycleStateDeleting,
 	"deleted":  ListOutboundConnectorsLifecycleStateDeleted,
 	"failed":   ListOutboundConnectorsLifecycleStateFailed,
@@ -185,6 +188,7 @@ func GetListOutboundConnectorsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

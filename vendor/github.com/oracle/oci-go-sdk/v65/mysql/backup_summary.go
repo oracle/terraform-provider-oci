@@ -71,6 +71,17 @@ type BackupSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID of the immediate source DB system backup from which this DB system backup was copied.
+	ImmediateSourceBackupId *string `mandatory:"false" json:"immediateSourceBackupId"`
+
+	// The OCID of the original source DB system backup from which this DB system backup was copied.
+	OriginalSourceBackupId *string `mandatory:"false" json:"originalSourceBackupId"`
+
+	// The date and time the DB system backup copy was created, as described by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	TimeCopyCreated *common.SDKTime `mandatory:"false" json:"timeCopyCreated"`
+
+	DbSystemSnapshotSummary *DbSystemSnapshotSummary `mandatory:"false" json:"dbSystemSnapshotSummary"`
 }
 
 func (m BackupSummary) String() string {

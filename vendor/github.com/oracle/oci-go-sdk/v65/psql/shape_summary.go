@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,19 +16,20 @@ import (
 	"strings"
 )
 
-// ShapeSummary Summary of the DbSystem shape.
+// ShapeSummary Summary of the database system shape.
 type ShapeSummary struct {
 
-	// The Compute Shape Name like VM.Standard.E4.Flex
+	// The name of the Compute VM shape.
+	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// The number of OCPUs
+	// The number of OCPUs.
 	OcpuCount *int `mandatory:"true" json:"ocpuCount"`
 
-	// The amount of memory in GB
+	// The amount of memory in gigabytes.
 	MemorySizeInGBs *int `mandatory:"true" json:"memorySizeInGBs"`
 
-	// Unique identifier for the shape
+	// A unique identifier for the shape.
 	Id *string `mandatory:"false" json:"id"`
 }
 

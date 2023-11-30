@@ -20,8 +20,8 @@ import (
 // KubernetesClusterDataSourceSummary A Kubernetes collection data source summary.
 type KubernetesClusterDataSourceSummary struct {
 
-	// ID for DataSource.
-	Id *string `mandatory:"true" json:"id"`
+	// Data source type and name identifier.
+	Key *string `mandatory:"true" json:"key"`
 
 	// Unique name of the dataSource.
 	Name *string `mandatory:"true" json:"name"`
@@ -30,9 +30,9 @@ type KubernetesClusterDataSourceSummary struct {
 	IsDaemonSet *bool `mandatory:"false" json:"isDaemonSet"`
 }
 
-// GetId returns Id
-func (m KubernetesClusterDataSourceSummary) GetId() *string {
-	return m.Id
+// GetKey returns Key
+func (m KubernetesClusterDataSourceSummary) GetKey() *string {
+	return m.Key
 }
 
 // GetName returns Name

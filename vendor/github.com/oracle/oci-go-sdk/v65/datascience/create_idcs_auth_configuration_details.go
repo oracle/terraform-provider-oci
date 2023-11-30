@@ -19,8 +19,8 @@ import (
 // CreateIdcsAuthConfigurationDetails Configuration of IDCS AuthN/Z for online prediction
 type CreateIdcsAuthConfigurationDetails struct {
 
-	// Proof of Stripe Ownership Access Token. The token validity is checked by the service.
-	AccessToken *string `mandatory:"true" json:"accessToken"`
+	// Identity Domain OCID
+	DomainId *string `mandatory:"true" json:"domainId"`
 }
 
 func (m CreateIdcsAuthConfigurationDetails) String() string {

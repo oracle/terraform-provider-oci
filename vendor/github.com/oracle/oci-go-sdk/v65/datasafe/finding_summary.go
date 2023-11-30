@@ -60,7 +60,7 @@ type FindingSummary struct {
 	// User provided reason for accepting or modifying this finding if they choose to do so.
 	Justification *string `mandatory:"false" json:"justification"`
 
-	// The time until which the change in severity(accepted / modified) of this finding is valid.
+	// The time until which the change in severity(deferred / modified) of this finding is valid.
 	TimeValidUntil *common.SDKTime `mandatory:"false" json:"timeValidUntil"`
 
 	// The date and time the risk level of finding was last updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -109,7 +109,7 @@ const (
 	FindingSummarySeverityEvaluate FindingSummarySeverityEnum = "EVALUATE"
 	FindingSummarySeverityAdvisory FindingSummarySeverityEnum = "ADVISORY"
 	FindingSummarySeverityPass     FindingSummarySeverityEnum = "PASS"
-	FindingSummarySeverityAccepted FindingSummarySeverityEnum = "ACCEPTED"
+	FindingSummarySeverityDeferred FindingSummarySeverityEnum = "DEFERRED"
 )
 
 var mappingFindingSummarySeverityEnum = map[string]FindingSummarySeverityEnum{
@@ -119,7 +119,7 @@ var mappingFindingSummarySeverityEnum = map[string]FindingSummarySeverityEnum{
 	"EVALUATE": FindingSummarySeverityEvaluate,
 	"ADVISORY": FindingSummarySeverityAdvisory,
 	"PASS":     FindingSummarySeverityPass,
-	"ACCEPTED": FindingSummarySeverityAccepted,
+	"DEFERRED": FindingSummarySeverityDeferred,
 }
 
 var mappingFindingSummarySeverityEnumLowerCase = map[string]FindingSummarySeverityEnum{
@@ -129,7 +129,7 @@ var mappingFindingSummarySeverityEnumLowerCase = map[string]FindingSummarySeveri
 	"evaluate": FindingSummarySeverityEvaluate,
 	"advisory": FindingSummarySeverityAdvisory,
 	"pass":     FindingSummarySeverityPass,
-	"accepted": FindingSummarySeverityAccepted,
+	"deferred": FindingSummarySeverityDeferred,
 }
 
 // GetFindingSummarySeverityEnumValues Enumerates the set of values for FindingSummarySeverityEnum
@@ -150,7 +150,7 @@ func GetFindingSummarySeverityEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
-		"ACCEPTED",
+		"DEFERRED",
 	}
 }
 

@@ -20,8 +20,8 @@ import (
 // KubernetesClusterDataSource A Kubernetes cluster data source.
 type KubernetesClusterDataSource struct {
 
-	// ID for DataSource.
-	Id *string `mandatory:"true" json:"id"`
+	// Identifier for DataSource. This represents the type and name for the data source associated with the Management Agent.
+	Key *string `mandatory:"true" json:"key"`
 
 	// Unique name of the DataSource.
 	Name *string `mandatory:"true" json:"name"`
@@ -45,9 +45,9 @@ type KubernetesClusterDataSource struct {
 	State LifecycleStatesEnum `mandatory:"true" json:"state"`
 }
 
-// GetId returns Id
-func (m KubernetesClusterDataSource) GetId() *string {
-	return m.Id
+// GetKey returns Key
+func (m KubernetesClusterDataSource) GetKey() *string {
+	return m.Key
 }
 
 // GetName returns Name

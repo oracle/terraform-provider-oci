@@ -28,7 +28,7 @@ type ManagementAgentClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewManagementAgentClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client ManagementAgentClient, err error) {
 	if enabled := common.CheckForEnabledServices("managementagent"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -241,7 +241,7 @@ func (client ManagementAgentClient) DeleteDataSource(ctx context.Context, reques
 // deleteDataSource implements the OCIOperation interface (enables retrying operations)
 func (client ManagementAgentClient) deleteDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managementAgents/{managementAgentId}/dataSources/{dataSourceId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managementAgents/{managementAgentId}/dataSources/{dataSourceKey}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -570,7 +570,7 @@ func (client ManagementAgentClient) GetDataSource(ctx context.Context, request G
 // getDataSource implements the OCIOperation interface (enables retrying operations)
 func (client ManagementAgentClient) getDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}/dataSources/{dataSourceId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managementAgents/{managementAgentId}/dataSources/{dataSourceKey}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -1506,7 +1506,7 @@ func (client ManagementAgentClient) UpdateDataSource(ctx context.Context, reques
 // updateDataSource implements the OCIOperation interface (enables retrying operations)
 func (client ManagementAgentClient) updateDataSource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managementAgents/{managementAgentId}/dataSources/{dataSourceId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managementAgents/{managementAgentId}/dataSources/{dataSourceKey}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

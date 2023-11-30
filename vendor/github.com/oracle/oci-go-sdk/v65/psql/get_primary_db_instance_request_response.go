@@ -14,7 +14,7 @@ import (
 // GetPrimaryDbInstanceRequest wrapper for the GetPrimaryDbInstance operation
 type GetPrimaryDbInstanceRequest struct {
 
-	// unique DbSystem identifier
+	// A unique identifier for the database system.
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// The client request ID for tracing.

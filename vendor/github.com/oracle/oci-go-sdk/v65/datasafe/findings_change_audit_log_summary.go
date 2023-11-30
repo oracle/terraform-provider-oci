@@ -42,9 +42,9 @@ type FindingsChangeAuditLogSummary struct {
 	// The severity of the finding as determined by security assessment by Oracle.
 	OracleDefinedSeverity FindingSeverityEnum `mandatory:"true" json:"oracleDefinedSeverity"`
 
-	// Determines if the user has accepted the risk level of this finding when he is ok with it
+	// Determines if the user has deferred the risk level of this finding when he is ok with it
 	// and does not plan to do anything about it.
-	IsRiskAccepted *bool `mandatory:"true" json:"isRiskAccepted"`
+	IsRiskDeferred *bool `mandatory:"true" json:"isRiskDeferred"`
 
 	// If the risk level is changed more than once, the previous modified value.
 	PreviousSeverity FindingSeverityEnum `mandatory:"true" json:"previousSeverity"`

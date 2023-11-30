@@ -20,8 +20,8 @@ import (
 // PrometheusEmitterDataSource A Prometheus data source.
 type PrometheusEmitterDataSource struct {
 
-	// ID for DataSource.
-	Id *string `mandatory:"true" json:"id"`
+	// Identifier for DataSource. This represents the type and name for the data source associated with the Management Agent.
+	Key *string `mandatory:"true" json:"key"`
 
 	// Unique name of the DataSource.
 	Name *string `mandatory:"true" json:"name"`
@@ -48,16 +48,16 @@ type PrometheusEmitterDataSource struct {
 	ProxyUrl *string `mandatory:"false" json:"proxyUrl"`
 
 	// Number in milliseconds. The timeout for connecting to the Prometheus Exporter's endpoint.
-	ConnectionTimeout *float64 `mandatory:"false" json:"connectionTimeout"`
+	ConnectionTimeout *int `mandatory:"false" json:"connectionTimeout"`
 
 	// Number in milliseconds. The timeout for reading the response from the Prometheus Exporter's endpoint.
-	ReadTimeout *float64 `mandatory:"false" json:"readTimeout"`
+	ReadTimeout *int `mandatory:"false" json:"readTimeout"`
 
 	// Number in kilobytes. The limit on the data being sent, not to exceed the agent's fixed limit of 400 (KB).
-	ReadDataLimit *float64 `mandatory:"false" json:"readDataLimit"`
+	ReadDataLimit *int `mandatory:"false" json:"readDataLimit"`
 
 	// Number in minutes. The scraping occurs at the specified interval.
-	ScheduleMins *float64 `mandatory:"false" json:"scheduleMins"`
+	ScheduleMins *int `mandatory:"false" json:"scheduleMins"`
 
 	// OCI monitoring resource group to assign the metric to.
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
@@ -69,9 +69,9 @@ type PrometheusEmitterDataSource struct {
 	State LifecycleStatesEnum `mandatory:"true" json:"state"`
 }
 
-// GetId returns Id
-func (m PrometheusEmitterDataSource) GetId() *string {
-	return m.Id
+// GetKey returns Key
+func (m PrometheusEmitterDataSource) GetKey() *string {
+	return m.Key
 }
 
 // GetName returns Name

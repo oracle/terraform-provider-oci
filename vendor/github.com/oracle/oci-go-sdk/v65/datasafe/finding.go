@@ -57,7 +57,7 @@ type Finding struct {
 	// User provided reason for accepting or modifying this finding if they choose to do so.
 	Justification *string `mandatory:"false" json:"justification"`
 
-	// The time until which the change in severity(accepted/modified) of this finding is valid.
+	// The time until which the change in severity(deferred/modified) of this finding is valid.
 	TimeValidUntil *common.SDKTime `mandatory:"false" json:"timeValidUntil"`
 
 	// The date and time the risk level of finding was last updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -106,7 +106,7 @@ const (
 	FindingSeverityEvaluate FindingSeverityEnum = "EVALUATE"
 	FindingSeverityAdvisory FindingSeverityEnum = "ADVISORY"
 	FindingSeverityPass     FindingSeverityEnum = "PASS"
-	FindingSeverityAccepted FindingSeverityEnum = "ACCEPTED"
+	FindingSeverityDeferred FindingSeverityEnum = "DEFERRED"
 )
 
 var mappingFindingSeverityEnum = map[string]FindingSeverityEnum{
@@ -116,7 +116,7 @@ var mappingFindingSeverityEnum = map[string]FindingSeverityEnum{
 	"EVALUATE": FindingSeverityEvaluate,
 	"ADVISORY": FindingSeverityAdvisory,
 	"PASS":     FindingSeverityPass,
-	"ACCEPTED": FindingSeverityAccepted,
+	"DEFERRED": FindingSeverityDeferred,
 }
 
 var mappingFindingSeverityEnumLowerCase = map[string]FindingSeverityEnum{
@@ -126,7 +126,7 @@ var mappingFindingSeverityEnumLowerCase = map[string]FindingSeverityEnum{
 	"evaluate": FindingSeverityEvaluate,
 	"advisory": FindingSeverityAdvisory,
 	"pass":     FindingSeverityPass,
-	"accepted": FindingSeverityAccepted,
+	"deferred": FindingSeverityDeferred,
 }
 
 // GetFindingSeverityEnumValues Enumerates the set of values for FindingSeverityEnum
@@ -147,7 +147,7 @@ func GetFindingSeverityEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
-		"ACCEPTED",
+		"DEFERRED",
 	}
 }
 

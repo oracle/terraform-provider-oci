@@ -14,7 +14,7 @@ import (
 // GetBackupRequest wrapper for the GetBackup operation
 type GetBackupRequest struct {
 
-	// unique Backup identifier
+	// A unique identifier for the backup.
 	BackupId *string `mandatory:"true" contributesTo:"path" name:"backupId"`
 
 	// The client request ID for tracing.

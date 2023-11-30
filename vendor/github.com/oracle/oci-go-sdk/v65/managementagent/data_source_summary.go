@@ -20,8 +20,8 @@ import (
 // DataSourceSummary The information about the dataSources that agent is associated to.
 type DataSourceSummary interface {
 
-	// ID for DataSource.
-	GetId() *string
+	// Data source type and name identifier.
+	GetKey() *string
 
 	// Unique name of the dataSource.
 	GetName() *string
@@ -29,7 +29,7 @@ type DataSourceSummary interface {
 
 type datasourcesummary struct {
 	JsonData []byte
-	Id       *string `mandatory:"true" json:"id"`
+	Key      *string `mandatory:"true" json:"key"`
 	Name     *string `mandatory:"true" json:"name"`
 	Type     string  `json:"type"`
 }
@@ -45,7 +45,7 @@ func (m *datasourcesummary) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.Id = s.Model.Id
+	m.Key = s.Model.Key
 	m.Name = s.Model.Name
 	m.Type = s.Model.Type
 
@@ -75,9 +75,9 @@ func (m *datasourcesummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 	}
 }
 
-// GetId returns Id
-func (m datasourcesummary) GetId() *string {
-	return m.Id
+// GetKey returns Key
+func (m datasourcesummary) GetKey() *string {
+	return m.Key
 }
 
 // GetName returns Name

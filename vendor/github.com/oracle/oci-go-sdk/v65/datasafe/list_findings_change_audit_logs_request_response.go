@@ -26,8 +26,8 @@ type ListFindingsChangeAuditLogsRequest struct {
 	// The unique title that identifies the finding. It is a string and unique within a security assessment.
 	FindingTitle *string `mandatory:"false" contributesTo:"query" name:"findingTitle"`
 
-	// A filter to check findings whose risks were accepted by the user.
-	IsRiskAccepted *bool `mandatory:"false" contributesTo:"query" name:"isRiskAccepted"`
+	// A filter to check findings whose risks were deferred by the user.
+	IsRiskDeferred *bool `mandatory:"false" contributesTo:"query" name:"isRiskDeferred"`
 
 	// A filter to check which user modified the risk level of the finding.
 	ModifiedBy *string `mandatory:"false" contributesTo:"query" name:"modifiedBy"`
@@ -167,7 +167,7 @@ const (
 	ListFindingsChangeAuditLogsSeverityEvaluate ListFindingsChangeAuditLogsSeverityEnum = "EVALUATE"
 	ListFindingsChangeAuditLogsSeverityAdvisory ListFindingsChangeAuditLogsSeverityEnum = "ADVISORY"
 	ListFindingsChangeAuditLogsSeverityPass     ListFindingsChangeAuditLogsSeverityEnum = "PASS"
-	ListFindingsChangeAuditLogsSeverityAccepted ListFindingsChangeAuditLogsSeverityEnum = "ACCEPTED"
+	ListFindingsChangeAuditLogsSeverityDeferred ListFindingsChangeAuditLogsSeverityEnum = "DEFERRED"
 )
 
 var mappingListFindingsChangeAuditLogsSeverityEnum = map[string]ListFindingsChangeAuditLogsSeverityEnum{
@@ -177,7 +177,7 @@ var mappingListFindingsChangeAuditLogsSeverityEnum = map[string]ListFindingsChan
 	"EVALUATE": ListFindingsChangeAuditLogsSeverityEvaluate,
 	"ADVISORY": ListFindingsChangeAuditLogsSeverityAdvisory,
 	"PASS":     ListFindingsChangeAuditLogsSeverityPass,
-	"ACCEPTED": ListFindingsChangeAuditLogsSeverityAccepted,
+	"DEFERRED": ListFindingsChangeAuditLogsSeverityDeferred,
 }
 
 var mappingListFindingsChangeAuditLogsSeverityEnumLowerCase = map[string]ListFindingsChangeAuditLogsSeverityEnum{
@@ -187,7 +187,7 @@ var mappingListFindingsChangeAuditLogsSeverityEnumLowerCase = map[string]ListFin
 	"evaluate": ListFindingsChangeAuditLogsSeverityEvaluate,
 	"advisory": ListFindingsChangeAuditLogsSeverityAdvisory,
 	"pass":     ListFindingsChangeAuditLogsSeverityPass,
-	"accepted": ListFindingsChangeAuditLogsSeverityAccepted,
+	"deferred": ListFindingsChangeAuditLogsSeverityDeferred,
 }
 
 // GetListFindingsChangeAuditLogsSeverityEnumValues Enumerates the set of values for ListFindingsChangeAuditLogsSeverityEnum
@@ -208,7 +208,7 @@ func GetListFindingsChangeAuditLogsSeverityEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
-		"ACCEPTED",
+		"DEFERRED",
 	}
 }
 
@@ -267,21 +267,21 @@ type ListFindingsChangeAuditLogsSortByEnum string
 const (
 	ListFindingsChangeAuditLogsSortByTimeupdated    ListFindingsChangeAuditLogsSortByEnum = "timeUpdated"
 	ListFindingsChangeAuditLogsSortByModifiedby     ListFindingsChangeAuditLogsSortByEnum = "modifiedBy"
-	ListFindingsChangeAuditLogsSortByIsriskaccepted ListFindingsChangeAuditLogsSortByEnum = "isRiskAccepted"
+	ListFindingsChangeAuditLogsSortByIsriskdeferred ListFindingsChangeAuditLogsSortByEnum = "isRiskDeferred"
 	ListFindingsChangeAuditLogsSortByTimevaliduntil ListFindingsChangeAuditLogsSortByEnum = "timeValidUntil"
 )
 
 var mappingListFindingsChangeAuditLogsSortByEnum = map[string]ListFindingsChangeAuditLogsSortByEnum{
 	"timeUpdated":    ListFindingsChangeAuditLogsSortByTimeupdated,
 	"modifiedBy":     ListFindingsChangeAuditLogsSortByModifiedby,
-	"isRiskAccepted": ListFindingsChangeAuditLogsSortByIsriskaccepted,
+	"isRiskDeferred": ListFindingsChangeAuditLogsSortByIsriskdeferred,
 	"timeValidUntil": ListFindingsChangeAuditLogsSortByTimevaliduntil,
 }
 
 var mappingListFindingsChangeAuditLogsSortByEnumLowerCase = map[string]ListFindingsChangeAuditLogsSortByEnum{
 	"timeupdated":    ListFindingsChangeAuditLogsSortByTimeupdated,
 	"modifiedby":     ListFindingsChangeAuditLogsSortByModifiedby,
-	"isriskaccepted": ListFindingsChangeAuditLogsSortByIsriskaccepted,
+	"isriskdeferred": ListFindingsChangeAuditLogsSortByIsriskdeferred,
 	"timevaliduntil": ListFindingsChangeAuditLogsSortByTimevaliduntil,
 }
 
@@ -299,7 +299,7 @@ func GetListFindingsChangeAuditLogsSortByEnumStringValues() []string {
 	return []string{
 		"timeUpdated",
 		"modifiedBy",
-		"isRiskAccepted",
+		"isRiskDeferred",
 		"timeValidUntil",
 	}
 }

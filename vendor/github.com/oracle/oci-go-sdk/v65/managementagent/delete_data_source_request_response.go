@@ -18,7 +18,7 @@ type DeleteDataSourceRequest struct {
 	ManagementAgentId *string `mandatory:"true" contributesTo:"path" name:"managementAgentId"`
 
 	// Data source type and name identifier.
-	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
+	DataSourceKey *string `mandatory:"true" contributesTo:"path" name:"dataSourceKey"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// IdentityPropagationTrust Schema for Identity Propagation Trust
+// IdentityPropagationTrust Schema used for Identity Propagation Trust.
 type IdentityPropagationTrust struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
@@ -31,7 +31,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	Schemas []string `mandatory:"true" json:"schemas"`
 
-	// Name of the Identity Propagation Trust
+	// The name of the the Identity Propagation Trust.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - caseExact: false
@@ -43,7 +43,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	Name *string `mandatory:"true" json:"name"`
 
-	// Type of the inbound token from Identity Cloud Provider
+	// The type of the inbound token from the Identity cloud provider.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: false
@@ -55,7 +55,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	Type IdentityPropagationTrustTypeEnum `mandatory:"true" json:"type"`
 
-	// The issuer claim of the Identity provider
+	// The issuer claim of the Identity provider.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -180,7 +180,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	TenancyOcid *string `mandatory:"false" json:"tenancyOcid"`
 
-	// Description of the Identity Propagation Trust
+	// The description of the Identity Propagation Trust.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -192,7 +192,7 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: false
 	Description *string `mandatory:"false" json:"description"`
 
-	// Identity Cloud Provider service id such as Azure Tenancy ID / AWS Account ID / GCP Project ID
+	// The Identity cloud provider service identifier, for example, the Azure Tenancy ID, AWS Account ID, or GCP Project ID.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -204,7 +204,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	AccountId *string `mandatory:"false" json:"accountId"`
 
-	// Used for locating subject claim from the incoming token
+	// Used for locating the subject claim from the incoming token.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -216,7 +216,7 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: false
 	SubjectClaimName *string `mandatory:"false" json:"subjectClaimName"`
 
-	// Subject Mapping Attribute to which the value from subject claim name value would be used for identity lookup
+	// Subject Mapping Attribute to which the value from subject claim name value would be used for identity lookup.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -227,7 +227,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	SubjectMappingAttribute *string `mandatory:"false" json:"subjectMappingAttribute"`
 
-	// Type of the resource against which lookup will be made in the IAM Domain for the incoming subject claim value
+	// The type of the resource against which lookup will be made in the identity domain in IAM for the incoming subject claim value.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: false
@@ -238,7 +238,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	SubjectType IdentityPropagationTrustSubjectTypeEnum `mandatory:"false" json:"subjectType,omitempty"`
 
-	// Claim name to identify to whom the JWT/SAML token is issued. If AWS then \"aud\" or \"client_id\", if Azure then \"appid\", if GCP then \"aud\"
+	// The claim name that identifies to whom the JWT/SAML token is issued. If AWS, then \"aud\" or \"client_id\". If Azure, then \"appid\". If GCP, then \"aud\".
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -249,7 +249,7 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: false
 	ClientClaimName *string `mandatory:"false" json:"clientClaimName"`
 
-	// Value corresponding to Client Claim Name used to identify to whom the token is issued.
+	// The value that corresponds to the client claim name used to identify to whom the token is issued.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: true
@@ -261,7 +261,7 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: false
 	ClientClaimValues []string `mandatory:"false" json:"clientClaimValues"`
 
-	// If true, this Identity Propagation Trust considered to be enabled state. Default value is false
+	// If true, specifies that this Identity Propagation Trust is in an enabled state. The default value is false.
 	// **SCIM++ Properties:**
 	//  - type: boolean
 	//  - multiValued: false
@@ -272,7 +272,7 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: true
 	Active *bool `mandatory:"false" json:"active"`
 
-	// Cloud Provider's Public Key API of SAML and OIDC providers for signature validation.
+	// The cloud provider's public key API of SAML and OIDC providers for signature validation.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -284,7 +284,7 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: false
 	PublicKeyEndpoint *string `mandatory:"false" json:"publicKeyEndpoint"`
 
-	// Store the public key if public key cert
+	// Store the public key if public key cert.
 	// **SCIM++ Properties:**
 	//  - type: string
 	//  - multiValued: false
@@ -295,7 +295,7 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: false
 	PublicCertificate *string `mandatory:"false" json:"publicCertificate"`
 
-	// The value of all the authorized OAuth Clients
+	// The value of all the authorized OAuth Clients.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: true
@@ -306,7 +306,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	OauthClients []string `mandatory:"false" json:"oauthClients"`
 
-	// The value of all the authorized OCI Service Principals
+	// The value of all the authorized OCI Service Principals.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: true
@@ -317,7 +317,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	ServicePrincipals []string `mandatory:"false" json:"servicePrincipals"`
 
-	// Allow customers to define if the resulting token should contain the authenticated user as the subject or if it should impersonate another Application Principal in IAM
+	// Allow customers to define whether the resulting token should contain the authenticated user as the subject or whether the token should impersonate another Application Principal in IAM.
 	// **SCIM++ Properties:**
 	//  - type: boolean
 	//  - multiValued: false
@@ -328,7 +328,7 @@ type IdentityPropagationTrust struct {
 	//  - idcsSearchable: false
 	AllowImpersonation *bool `mandatory:"false" json:"allowImpersonation"`
 
-	// Clock Skew (in secs) that is allowed for the token issue and expiry time
+	// The clock skew (in secs) that's allowed for the token issue and expiry time.
 	// **Added In:** 2308181911
 	// **SCIM++ Properties:**
 	//  - caseExact: false
@@ -341,19 +341,7 @@ type IdentityPropagationTrust struct {
 	//  - uniqueness: none
 	ClockSkewSeconds *int `mandatory:"false" json:"clockSkewSeconds"`
 
-	// To restrict token exchange to certain roles only if provider is AWS
-	// **SCIM++ Properties:**
-	//  - type: string
-	//  - multiValued: false
-	//  - required: false
-	//  - mutability: readWrite
-	//  - returned: default
-	//  - uniqueness: none
-	//  - caseExact: true
-	//  - idcsSearchable: false
-	AWSRoleARN *string `mandatory:"false" json:"AWSRoleARN"`
-
-	// Impersonating Principal
+	// The Impersonating Principal.
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [rule, value]
 	//  - idcsSearchable: false

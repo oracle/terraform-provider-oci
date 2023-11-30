@@ -19,11 +19,11 @@ import (
 // IdcsAuthConfiguration Configuration of IDCS AuthN/Z for online prediction
 type IdcsAuthConfiguration struct {
 
-	// URI of IDCS Stripe
-	IdcsStripeUri *string `mandatory:"true" json:"idcsStripeUri"`
+	// Identity Domain OCID
+	DomainId *string `mandatory:"true" json:"domainId"`
 
-	// Unique id of the IDCS application
-	ApplicationId *string `mandatory:"true" json:"applicationId"`
+	// Name of the IDCS application
+	ApplicationName *string `mandatory:"false" json:"applicationName"`
 }
 
 func (m IdcsAuthConfiguration) String() string {

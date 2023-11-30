@@ -18,8 +18,6 @@ type OperationTypesEnum string
 
 // Set of constants representing the allowable values for OperationTypesEnum
 const (
-	OperationTypesCreateAgent       OperationTypesEnum = "CREATE_AGENT"
-	OperationTypesDeleteAgent       OperationTypesEnum = "DELETE_AGENT"
 	OperationTypesCreateMigration   OperationTypesEnum = "CREATE_MIGRATION"
 	OperationTypesCloneMigration    OperationTypesEnum = "CLONE_MIGRATION"
 	OperationTypesDeleteMigration   OperationTypesEnum = "DELETE_MIGRATION"
@@ -32,8 +30,6 @@ const (
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
-	"CREATE_AGENT":       OperationTypesCreateAgent,
-	"DELETE_AGENT":       OperationTypesDeleteAgent,
 	"CREATE_MIGRATION":   OperationTypesCreateMigration,
 	"CLONE_MIGRATION":    OperationTypesCloneMigration,
 	"DELETE_MIGRATION":   OperationTypesDeleteMigration,
@@ -46,8 +42,6 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
-	"create_agent":       OperationTypesCreateAgent,
-	"delete_agent":       OperationTypesDeleteAgent,
 	"create_migration":   OperationTypesCreateMigration,
 	"clone_migration":    OperationTypesCloneMigration,
 	"delete_migration":   OperationTypesDeleteMigration,
@@ -71,8 +65,6 @@ func GetOperationTypesEnumValues() []OperationTypesEnum {
 // GetOperationTypesEnumStringValues Enumerates the set of values in String for OperationTypesEnum
 func GetOperationTypesEnumStringValues() []string {
 	return []string{
-		"CREATE_AGENT",
-		"DELETE_AGENT",
 		"CREATE_MIGRATION",
 		"CLONE_MIGRATION",
 		"DELETE_MIGRATION",

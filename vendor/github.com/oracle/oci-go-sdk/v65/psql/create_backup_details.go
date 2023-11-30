@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,19 +16,19 @@ import (
 	"strings"
 )
 
-// CreateBackupDetails The information to create a new Backup.
+// CreateBackupDetails The information to create a new backup.
 type CreateBackupDetails struct {
 
-	// Backup display name.
+	// A user-friendly display name for the backup. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment identifier
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the backup.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Posgresql DbSystem identifier
+	// The ID of the database system.
 	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
 
-	// Backup description
+	// A description for the backup.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Backup retention period in days.

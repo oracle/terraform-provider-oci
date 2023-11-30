@@ -16,8 +16,8 @@ import (
 )
 
 // ListenerSummary The configuration of the listener.
-// For more information about backend set configuration, see
-// Managing Load Balancer Listeners (https://docs.cloud.oracle.com/Content/Balance/Tasks/managinglisteners.htm).
+// For more information about listener configuration, see
+// Managing Load Balancer Listeners (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/Listeners/listener-management.htm).
 type ListenerSummary struct {
 
 	// A friendly name for the listener. It must be unique and it cannot be changed.

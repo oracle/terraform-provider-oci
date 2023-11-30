@@ -14,7 +14,7 @@ import (
 // UpdateConnectionRequest wrapper for the UpdateConnection operation
 type UpdateConnectionRequest struct {
 
-	// The OCID of the database connection
+	// The OCID of the database connection.
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// Database Connection properties.

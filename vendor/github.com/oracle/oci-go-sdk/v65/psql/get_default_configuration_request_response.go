@@ -14,7 +14,7 @@ import (
 // GetDefaultConfigurationRequest wrapper for the GetDefaultConfiguration operation
 type GetDefaultConfigurationRequest struct {
 
-	// unique Configuration identifier
+	// A unique identifier for the configuration.
 	DefaultConfigurationId *string `mandatory:"true" contributesTo:"path" name:"defaultConfigurationId"`
 
 	// The client request ID for tracing.

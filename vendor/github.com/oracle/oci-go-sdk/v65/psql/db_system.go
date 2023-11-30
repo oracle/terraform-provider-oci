@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,37 +17,40 @@ import (
 	"strings"
 )
 
-// DbSystem Description of DbSystem resource.
+// DbSystem Information about a database system.
 type DbSystem struct {
 
-	// Unique identifier that is immutable on creation
+	// A unique identifier for the database system. Immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// DbSystem display name
+	// A user-friendly display name for the database system. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment identifier
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the database system.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The time the the DbSystem was created. An RFC3339 formatted datetime string
+	// The date and time that the database system was created, expressed in
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The current state of the DbSystem.
+	// The current state of the database system.
 	LifecycleState DbSystemLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Type of the DbSystem.
+	// Type of the database system.
 	SystemType DbSystemSystemTypeEnum `mandatory:"true" json:"systemType"`
 
-	// The major and minor versions of the DbSystem software.
+	// The major and minor versions of the database system software.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
-	// Shape of dbInstance.
+	// The name of the shape for the database instance.
+	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// The total number of OCPUs available to each DbInstance.
+	// The total number of OCPUs available to each database instance node.
 	InstanceOcpuCount *int `mandatory:"true" json:"instanceOcpuCount"`
 
-	// The total amount of memory available to each DbInstance, in gigabytes.
+	// The total amount of memory available to each database instance node, in gigabytes.
 	InstanceMemorySizeInGBs *int `mandatory:"true" json:"instanceMemorySizeInGBs"`
 
 	StorageDetails StorageDetails `mandatory:"true" json:"storageDetails"`
@@ -55,16 +59,18 @@ type DbSystem struct {
 
 	ManagementPolicy *ManagementPolicy `mandatory:"true" json:"managementPolicy"`
 
-	// Description of the DbSystem.
+	// A description of the database system.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The time the DbSystem was updated. An RFC3339 formatted datetime string
+	// The date and time that the database system was updated, expressed in
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The DB system username.
+	// The database system administrator username.
 	AdminUsername *string `mandatory:"false" json:"adminUsername"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -79,13 +85,13 @@ type DbSystem struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Configuration identifier
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration associated with the database system.
 	ConfigId *string `mandatory:"false" json:"configId"`
 
-	// Count of DbInstances in the DbSystem.
+	// Count of instances, or nodes, in the database system.
 	InstanceCount *int `mandatory:"false" json:"instanceCount"`
 
-	// The list of DbInstances in the DbSystem.
+	// The list of instances, or nodes, in the database system.
 	Instances []DbInstance `mandatory:"false" json:"instances"`
 
 	Source SourceDetails `mandatory:"false" json:"source"`

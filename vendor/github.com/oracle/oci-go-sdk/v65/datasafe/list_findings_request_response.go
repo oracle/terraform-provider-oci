@@ -147,7 +147,7 @@ const (
 	ListFindingsSeverityEvaluate ListFindingsSeverityEnum = "EVALUATE"
 	ListFindingsSeverityAdvisory ListFindingsSeverityEnum = "ADVISORY"
 	ListFindingsSeverityPass     ListFindingsSeverityEnum = "PASS"
-	ListFindingsSeverityAccepted ListFindingsSeverityEnum = "ACCEPTED"
+	ListFindingsSeverityDeferred ListFindingsSeverityEnum = "DEFERRED"
 )
 
 var mappingListFindingsSeverityEnum = map[string]ListFindingsSeverityEnum{
@@ -157,7 +157,7 @@ var mappingListFindingsSeverityEnum = map[string]ListFindingsSeverityEnum{
 	"EVALUATE": ListFindingsSeverityEvaluate,
 	"ADVISORY": ListFindingsSeverityAdvisory,
 	"PASS":     ListFindingsSeverityPass,
-	"ACCEPTED": ListFindingsSeverityAccepted,
+	"DEFERRED": ListFindingsSeverityDeferred,
 }
 
 var mappingListFindingsSeverityEnumLowerCase = map[string]ListFindingsSeverityEnum{
@@ -167,7 +167,7 @@ var mappingListFindingsSeverityEnumLowerCase = map[string]ListFindingsSeverityEn
 	"evaluate": ListFindingsSeverityEvaluate,
 	"advisory": ListFindingsSeverityAdvisory,
 	"pass":     ListFindingsSeverityPass,
-	"accepted": ListFindingsSeverityAccepted,
+	"deferred": ListFindingsSeverityDeferred,
 }
 
 // GetListFindingsSeverityEnumValues Enumerates the set of values for ListFindingsSeverityEnum
@@ -188,7 +188,7 @@ func GetListFindingsSeverityEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
-		"ACCEPTED",
+		"DEFERRED",
 	}
 }
 

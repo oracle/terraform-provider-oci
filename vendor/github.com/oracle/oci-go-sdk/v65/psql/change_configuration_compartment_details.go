@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,11 +16,10 @@ import (
 	"strings"
 )
 
-// ChangeConfigurationCompartmentDetails The Configuration information to move it a different compartment.
+// ChangeConfigurationCompartmentDetails The information to move a configuration to a different compartment.
 type ChangeConfigurationCompartmentDetails struct {
 
-	// The identifier of the compartment
-	// into which the resource should be moved.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment into which the configuration will be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

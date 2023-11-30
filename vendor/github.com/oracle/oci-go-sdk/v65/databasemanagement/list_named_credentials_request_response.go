@@ -24,10 +24,10 @@ type ListNamedCredentialsRequest struct {
 	AssociatedResource *string `mandatory:"false" contributesTo:"query" name:"associatedResource"`
 
 	// The type of database that is associated to the named credential.
-	Type *string `mandatory:"false" contributesTo:"query" name:"type"`
+	Type ListNamedCredentialsTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
 
 	// The scope of named credential.
-	Scope *string `mandatory:"false" contributesTo:"query" name:"scope"`
+	Scope ListNamedCredentialsScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
 
 	// The name of the named credential.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
@@ -83,6 +83,12 @@ func (request ListNamedCredentialsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListNamedCredentialsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListNamedCredentialsTypeEnum(string(request.Type)); !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetListNamedCredentialsTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListNamedCredentialsScopeEnum(string(request.Scope)); !ok && request.Scope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListNamedCredentialsScopeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListNamedCredentialsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListNamedCredentialsSortByEnumStringValues(), ",")))
 	}
@@ -121,6 +127,86 @@ func (response ListNamedCredentialsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListNamedCredentialsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListNamedCredentialsTypeEnum Enum with underlying type: string
+type ListNamedCredentialsTypeEnum string
+
+// Set of constants representing the allowable values for ListNamedCredentialsTypeEnum
+const (
+	ListNamedCredentialsTypeOracleDb ListNamedCredentialsTypeEnum = "ORACLE_DB"
+)
+
+var mappingListNamedCredentialsTypeEnum = map[string]ListNamedCredentialsTypeEnum{
+	"ORACLE_DB": ListNamedCredentialsTypeOracleDb,
+}
+
+var mappingListNamedCredentialsTypeEnumLowerCase = map[string]ListNamedCredentialsTypeEnum{
+	"oracle_db": ListNamedCredentialsTypeOracleDb,
+}
+
+// GetListNamedCredentialsTypeEnumValues Enumerates the set of values for ListNamedCredentialsTypeEnum
+func GetListNamedCredentialsTypeEnumValues() []ListNamedCredentialsTypeEnum {
+	values := make([]ListNamedCredentialsTypeEnum, 0)
+	for _, v := range mappingListNamedCredentialsTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListNamedCredentialsTypeEnumStringValues Enumerates the set of values in String for ListNamedCredentialsTypeEnum
+func GetListNamedCredentialsTypeEnumStringValues() []string {
+	return []string{
+		"ORACLE_DB",
+	}
+}
+
+// GetMappingListNamedCredentialsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListNamedCredentialsTypeEnum(val string) (ListNamedCredentialsTypeEnum, bool) {
+	enum, ok := mappingListNamedCredentialsTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListNamedCredentialsScopeEnum Enum with underlying type: string
+type ListNamedCredentialsScopeEnum string
+
+// Set of constants representing the allowable values for ListNamedCredentialsScopeEnum
+const (
+	ListNamedCredentialsScopeResource ListNamedCredentialsScopeEnum = "RESOURCE"
+	ListNamedCredentialsScopeGlobal   ListNamedCredentialsScopeEnum = "GLOBAL"
+)
+
+var mappingListNamedCredentialsScopeEnum = map[string]ListNamedCredentialsScopeEnum{
+	"RESOURCE": ListNamedCredentialsScopeResource,
+	"GLOBAL":   ListNamedCredentialsScopeGlobal,
+}
+
+var mappingListNamedCredentialsScopeEnumLowerCase = map[string]ListNamedCredentialsScopeEnum{
+	"resource": ListNamedCredentialsScopeResource,
+	"global":   ListNamedCredentialsScopeGlobal,
+}
+
+// GetListNamedCredentialsScopeEnumValues Enumerates the set of values for ListNamedCredentialsScopeEnum
+func GetListNamedCredentialsScopeEnumValues() []ListNamedCredentialsScopeEnum {
+	values := make([]ListNamedCredentialsScopeEnum, 0)
+	for _, v := range mappingListNamedCredentialsScopeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListNamedCredentialsScopeEnumStringValues Enumerates the set of values in String for ListNamedCredentialsScopeEnum
+func GetListNamedCredentialsScopeEnumStringValues() []string {
+	return []string{
+		"RESOURCE",
+		"GLOBAL",
+	}
+}
+
+// GetMappingListNamedCredentialsScopeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListNamedCredentialsScopeEnum(val string) (ListNamedCredentialsScopeEnum, bool) {
+	enum, ok := mappingListNamedCredentialsScopeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListNamedCredentialsSortByEnum Enum with underlying type: string

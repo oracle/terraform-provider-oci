@@ -24,7 +24,7 @@ type UpdateFindingDetails struct {
 	// User provided reason for accepting or modifying this finding if they choose to do so.
 	Justification *string `mandatory:"false" json:"justification"`
 
-	// The time until which the change in severity (accepted / modified) got the given finding is valid.
+	// The time until which the change in severity (deferred / modified) got the given finding is valid.
 	TimeValidUntil *common.SDKTime `mandatory:"false" json:"timeValidUntil"`
 }
 

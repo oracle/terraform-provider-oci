@@ -27,7 +27,7 @@ type HealthCheckServiceInfraDpHostClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewHealthCheckServiceInfraDpHostClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client HealthCheckServiceInfraDpHostClient, err error) {
 	if enabled := common.CheckForEnabledServices("networkloadbalancer"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -54,6 +54,8 @@ func NewHealthCheckServiceInfraDpHostClientWithOboToken(configProvider common.Co
 }
 
 func newHealthCheckServiceInfraDpHostClientFromBaseClient(baseClient common.BaseClient, configProvider common.ConfigurationProvider) (client HealthCheckServiceInfraDpHostClient, err error) {
+	// HealthCheckServiceInfraDpHost service default circuit breaker is enabled
+	baseClient.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultCircuitBreakerSettingWithServiceName("HealthCheckServiceInfraDpHost"))
 	common.ConfigCircuitBreakerFromEnvVar(&baseClient)
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 

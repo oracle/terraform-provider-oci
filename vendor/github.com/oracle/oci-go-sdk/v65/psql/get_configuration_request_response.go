@@ -14,7 +14,7 @@ import (
 // GetConfigurationRequest wrapper for the GetConfiguration operation
 type GetConfigurationRequest struct {
 
-	// unique Configuration identifier
+	// A unique identifier for the configuration.
 	ConfigurationId *string `mandatory:"true" contributesTo:"path" name:"configurationId"`
 
 	// The client request ID for tracing.

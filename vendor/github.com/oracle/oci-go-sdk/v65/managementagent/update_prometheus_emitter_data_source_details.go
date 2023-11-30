@@ -30,16 +30,16 @@ type UpdatePrometheusEmitterDataSourceDetails struct {
 	ProxyUrl *string `mandatory:"false" json:"proxyUrl"`
 
 	// Number in milliseconds. The timeout for connecting to the Prometheus Exporter's endpoint.
-	ConnectionTimeout *float64 `mandatory:"false" json:"connectionTimeout"`
+	ConnectionTimeout *int `mandatory:"false" json:"connectionTimeout"`
 
 	// Number in milliseconds. The timeout for reading the response from the Prometheus Exporter's endpoint.
-	ReadTimeout *float64 `mandatory:"false" json:"readTimeout"`
+	ReadTimeout *int `mandatory:"false" json:"readTimeout"`
 
 	// Number in kilobytes. The limit on the data being sent, not to exceed the agent's fixed limit of 400 (KB).
-	ReadDataLimitInKilobytes *float64 `mandatory:"false" json:"readDataLimitInKilobytes"`
+	ReadDataLimitInKilobytes *int `mandatory:"false" json:"readDataLimitInKilobytes"`
 
 	// Number in minutes. The scraping occurs at the specified interval.
-	ScheduleMins *float64 `mandatory:"false" json:"scheduleMins"`
+	ScheduleMins *int `mandatory:"false" json:"scheduleMins"`
 
 	// OCI monitoring resource group to assign the metric to.
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`

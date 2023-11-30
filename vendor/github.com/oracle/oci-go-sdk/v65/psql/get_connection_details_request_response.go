@@ -14,7 +14,7 @@ import (
 // GetConnectionDetailsRequest wrapper for the GetConnectionDetails operation
 type GetConnectionDetailsRequest struct {
 
-	// unique DbSystem identifier
+	// A unique identifier for the database system.
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// The client request ID for tracing.

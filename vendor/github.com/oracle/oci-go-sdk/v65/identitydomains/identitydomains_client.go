@@ -28,7 +28,7 @@ type IdentityDomainsClient struct {
 // the configuration provider will be used for the default signer
 func NewIdentityDomainsClientWithConfigurationProvider(configProvider common.ConfigurationProvider, endpoint string) (client IdentityDomainsClient, err error) {
 	if enabled := common.CheckForEnabledServices("identitydomains"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -1008,7 +1008,7 @@ func (client IdentityDomainsClient) createGroup(ctx context.Context, request com
 	return response, err
 }
 
-// CreateIdentityPropagationTrust Register a new Identity Propagation Trust configuration
+// CreateIdentityPropagationTrust Register a new Identity Propagation Trust configuration.
 func (client IdentityDomainsClient) CreateIdentityPropagationTrust(ctx context.Context, request CreateIdentityPropagationTrustRequest) (response CreateIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3386,7 +3386,7 @@ func (client IdentityDomainsClient) deleteGroup(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteIdentityPropagationTrust Delete an existing Identity Propagation Trust
+// DeleteIdentityPropagationTrust Delete an existing Identity Propagation Trust configuration.
 func (client IdentityDomainsClient) DeleteIdentityPropagationTrust(ctx context.Context, request DeleteIdentityPropagationTrustRequest) (response DeleteIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5822,7 +5822,7 @@ func (client IdentityDomainsClient) getGroup(ctx context.Context, request common
 	return response, err
 }
 
-// GetIdentityPropagationTrust Get an existing Identity Propagation Trust configuration
+// GetIdentityPropagationTrust Get an existing Identity Propagation Trust configuration.
 func (client IdentityDomainsClient) GetIdentityPropagationTrust(ctx context.Context, request GetIdentityPropagationTrustRequest) (response GetIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8896,7 +8896,7 @@ func (client IdentityDomainsClient) listGroups(ctx context.Context, request comm
 	return response, err
 }
 
-// ListIdentityPropagationTrusts Search if an Identity Propagation Trust Configuration exists
+// ListIdentityPropagationTrusts List the Identity Propagation Trust configurations.
 func (client IdentityDomainsClient) ListIdentityPropagationTrusts(ctx context.Context, request ListIdentityPropagationTrustsRequest) (response ListIdentityPropagationTrustsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11912,7 +11912,7 @@ func (client IdentityDomainsClient) patchGroup(ctx context.Context, request comm
 	return response, err
 }
 
-// PatchIdentityPropagationTrust Update an existing Identity Propagation Trust Configuration
+// PatchIdentityPropagationTrust Update an existing Identity Propagation Trust configuration.
 func (client IdentityDomainsClient) PatchIdentityPropagationTrust(ctx context.Context, request PatchIdentityPropagationTrustRequest) (response PatchIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14058,7 +14058,7 @@ func (client IdentityDomainsClient) putGroup(ctx context.Context, request common
 	return response, err
 }
 
-// PutIdentityPropagationTrust Replace an existing Identity Propagation Trust Configuration
+// PutIdentityPropagationTrust Replace an existing Identity Propagation Trust configuration.
 func (client IdentityDomainsClient) PutIdentityPropagationTrust(ctx context.Context, request PutIdentityPropagationTrustRequest) (response PutIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

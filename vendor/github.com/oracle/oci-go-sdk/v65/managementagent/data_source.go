@@ -20,8 +20,8 @@ import (
 // DataSource A representation of a source configuration setup in the Management Agent.
 type DataSource interface {
 
-	// ID for DataSource.
-	GetId() *string
+	// Identifier for DataSource. This represents the type and name for the data source associated with the Management Agent.
+	GetKey() *string
 
 	// Unique name of the DataSource.
 	GetName() *string
@@ -41,7 +41,7 @@ type DataSource interface {
 
 type datasource struct {
 	JsonData      []byte
-	Id            *string             `mandatory:"true" json:"id"`
+	Key           *string             `mandatory:"true" json:"key"`
 	Name          *string             `mandatory:"true" json:"name"`
 	CompartmentId *string             `mandatory:"true" json:"compartmentId"`
 	State         LifecycleStatesEnum `mandatory:"true" json:"state"`
@@ -61,7 +61,7 @@ func (m *datasource) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.Id = s.Model.Id
+	m.Key = s.Model.Key
 	m.Name = s.Model.Name
 	m.CompartmentId = s.Model.CompartmentId
 	m.State = s.Model.State
@@ -95,9 +95,9 @@ func (m *datasource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 	}
 }
 
-// GetId returns Id
-func (m datasource) GetId() *string {
-	return m.Id
+// GetKey returns Key
+func (m datasource) GetKey() *string {
+	return m.Key
 }
 
 // GetName returns Name

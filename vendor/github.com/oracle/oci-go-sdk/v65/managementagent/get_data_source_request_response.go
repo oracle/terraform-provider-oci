@@ -18,7 +18,7 @@ type GetDataSourceRequest struct {
 	ManagementAgentId *string `mandatory:"true" contributesTo:"path" name:"managementAgentId"`
 
 	// Data source type and name identifier.
-	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
+	DataSourceKey *string `mandatory:"true" contributesTo:"path" name:"dataSourceKey"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24

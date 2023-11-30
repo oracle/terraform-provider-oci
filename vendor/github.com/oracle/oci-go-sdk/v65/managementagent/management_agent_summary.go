@@ -88,7 +88,7 @@ type ManagementAgentSummary struct {
 	InstallType InstallTypesEnum `mandatory:"false" json:"installType,omitempty"`
 
 	// list of dataSources summaries associated with the agent
-	DataSourceSummaryList []DataSourceSummary `mandatory:"false" json:"dataSourceSummaryList"`
+	DataSourceSummaryList []DataSourceSummaryItem `mandatory:"false" json:"dataSourceSummaryList"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -148,7 +148,7 @@ func (m *ManagementAgentSummary) UnmarshalJSON(data []byte) (e error) {
 		LifecycleDetails        *string                           `json:"lifecycleDetails"`
 		IsCustomerDeployed      *bool                             `json:"isCustomerDeployed"`
 		InstallType             InstallTypesEnum                  `json:"installType"`
-		DataSourceSummaryList   []datasourcesummary               `json:"dataSourceSummaryList"`
+		DataSourceSummaryList   []datasourcesummaryitem           `json:"dataSourceSummaryList"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 		Id                      *string                           `json:"id"`
@@ -197,14 +197,14 @@ func (m *ManagementAgentSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.InstallType = model.InstallType
 
-	m.DataSourceSummaryList = make([]DataSourceSummary, len(model.DataSourceSummaryList))
+	m.DataSourceSummaryList = make([]DataSourceSummaryItem, len(model.DataSourceSummaryList))
 	for i, n := range model.DataSourceSummaryList {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
 		if e != nil {
 			return e
 		}
 		if nn != nil {
-			m.DataSourceSummaryList[i] = nn.(DataSourceSummary)
+			m.DataSourceSummaryList[i] = nn.(DataSourceSummaryItem)
 		} else {
 			m.DataSourceSummaryList[i] = nil
 		}

@@ -47,6 +47,9 @@ type UpdateOkeHelmChartDeployStageDetails struct {
 	// Name of the Helm chart release.
 	ReleaseName *string `mandatory:"false" json:"releaseName"`
 
+	// Uninstall the Helm chart release on deleting the stage.
+	IsUninstallOnStageDelete *bool `mandatory:"false" json:"isUninstallOnStageDelete"`
+
 	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
@@ -158,6 +161,7 @@ func (m *UpdateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 		HelmChartDeployArtifactId        *string                           `json:"helmChartDeployArtifactId"`
 		ValuesArtifactIds                []string                          `json:"valuesArtifactIds"`
 		ReleaseName                      *string                           `json:"releaseName"`
+		IsUninstallOnStageDelete         *bool                             `json:"isUninstallOnStageDelete"`
 		Namespace                        *string                           `json:"namespace"`
 		TimeoutInSeconds                 *int                              `json:"timeoutInSeconds"`
 		RollbackPolicy                   deploystagerollbackpolicy         `json:"rollbackPolicy"`
@@ -207,6 +211,8 @@ func (m *UpdateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 	m.ValuesArtifactIds = make([]string, len(model.ValuesArtifactIds))
 	copy(m.ValuesArtifactIds, model.ValuesArtifactIds)
 	m.ReleaseName = model.ReleaseName
+
+	m.IsUninstallOnStageDelete = model.IsUninstallOnStageDelete
 
 	m.Namespace = model.Namespace
 

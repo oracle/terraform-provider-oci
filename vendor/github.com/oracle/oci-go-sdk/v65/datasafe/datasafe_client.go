@@ -27,7 +27,7 @@ type DataSafeClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDataSafeClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DataSafeClient, err error) {
 	if enabled := common.CheckForEnabledServices("datasafe"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -9590,7 +9590,7 @@ func (client DataSafeClient) listDiscoveryJobs(ctx context.Context, request comm
 // and as well as get the list of the targets that match the condition.
 // This data is especially useful content for the statistic chart or to support analytics.
 // When you perform the ListFindingAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
-// parameter accessLevel is set to ACCESSIBLE, then the operation returns statistics from the compartments in which the requestor has READ
+// parameter accessLevel is set to ACCESSIBLE, then the operation returns statistics from the compartments in which the requestor has INSPECT
 // permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
 // root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 // compartmentId, then "Not Authorized" is returned.
@@ -10884,7 +10884,7 @@ func (client DataSafeClient) listSecurityAssessments(ctx context.Context, reques
 // ListSecurityFeatureAnalytics Gets a list of Database security feature usage aggregated details in the specified compartment. This provides information about the
 // overall security controls, by returning the counting number of the target databases using the security features.
 // When you perform the ListSecurityFeatureAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
-// parameter accessLevel is set to ACCESSIBLE, then the operation returns statistics from the compartments in which the requestor has READ
+// parameter accessLevel is set to ACCESSIBLE, then the operation returns statistics from the compartments in which the requestor has INSPECT
 // permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
 // root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 // compartmentId, then "Not Authorized" is returned.

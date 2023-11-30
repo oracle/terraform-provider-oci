@@ -27,6 +27,9 @@ type ListSecurityFeatureAnalyticsRequest struct {
 	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
 	AccessLevel ListSecurityFeatureAnalyticsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
+	// A filter to return only items related to a specific target OCID.
+	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,7 +17,7 @@ import (
 	"strings"
 )
 
-// NoneSourceDetails This is used to create new DB system or update without restore from backup. The DbSystem details that are part of the CreateDbSystem request are not required, but if present will override the backup's DbSystem details snapshot.
+// NoneSourceDetails This is used to create new database system or update without restoring from backup.
 type NoneSourceDetails struct {
 }
 

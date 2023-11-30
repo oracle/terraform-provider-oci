@@ -30,7 +30,7 @@ type FindingAnalyticsDimensions struct {
 
 	// The status of the top finding.
 	// All findings will have "severity" to indicate the risk level, but only top findings will have "status".
-	// Possible status: Pass / Risk (Low, Medium, High)/ Evaluate / Advisory / Accepted
+	// Possible status: Pass / Risk (Low, Medium, High)/ Evaluate / Advisory / Deferred
 	// Instead of having "Low, Medium, High" in severity, "Risk" will include these three situations in status.
 	TopFindingStatus FindingAnalyticsDimensionsTopFindingStatusEnum `mandatory:"false" json:"topFindingStatus,omitempty"`
 
@@ -72,7 +72,7 @@ const (
 	FindingAnalyticsDimensionsTopFindingStatusEvaluate FindingAnalyticsDimensionsTopFindingStatusEnum = "EVALUATE"
 	FindingAnalyticsDimensionsTopFindingStatusAdvisory FindingAnalyticsDimensionsTopFindingStatusEnum = "ADVISORY"
 	FindingAnalyticsDimensionsTopFindingStatusPass     FindingAnalyticsDimensionsTopFindingStatusEnum = "PASS"
-	FindingAnalyticsDimensionsTopFindingStatusAccepted FindingAnalyticsDimensionsTopFindingStatusEnum = "ACCEPTED"
+	FindingAnalyticsDimensionsTopFindingStatusDeferred FindingAnalyticsDimensionsTopFindingStatusEnum = "DEFERRED"
 )
 
 var mappingFindingAnalyticsDimensionsTopFindingStatusEnum = map[string]FindingAnalyticsDimensionsTopFindingStatusEnum{
@@ -80,7 +80,7 @@ var mappingFindingAnalyticsDimensionsTopFindingStatusEnum = map[string]FindingAn
 	"EVALUATE": FindingAnalyticsDimensionsTopFindingStatusEvaluate,
 	"ADVISORY": FindingAnalyticsDimensionsTopFindingStatusAdvisory,
 	"PASS":     FindingAnalyticsDimensionsTopFindingStatusPass,
-	"ACCEPTED": FindingAnalyticsDimensionsTopFindingStatusAccepted,
+	"DEFERRED": FindingAnalyticsDimensionsTopFindingStatusDeferred,
 }
 
 var mappingFindingAnalyticsDimensionsTopFindingStatusEnumLowerCase = map[string]FindingAnalyticsDimensionsTopFindingStatusEnum{
@@ -88,7 +88,7 @@ var mappingFindingAnalyticsDimensionsTopFindingStatusEnumLowerCase = map[string]
 	"evaluate": FindingAnalyticsDimensionsTopFindingStatusEvaluate,
 	"advisory": FindingAnalyticsDimensionsTopFindingStatusAdvisory,
 	"pass":     FindingAnalyticsDimensionsTopFindingStatusPass,
-	"accepted": FindingAnalyticsDimensionsTopFindingStatusAccepted,
+	"deferred": FindingAnalyticsDimensionsTopFindingStatusDeferred,
 }
 
 // GetFindingAnalyticsDimensionsTopFindingStatusEnumValues Enumerates the set of values for FindingAnalyticsDimensionsTopFindingStatusEnum
@@ -107,7 +107,7 @@ func GetFindingAnalyticsDimensionsTopFindingStatusEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
-		"ACCEPTED",
+		"DEFERRED",
 	}
 }
 
@@ -128,7 +128,7 @@ const (
 	FindingAnalyticsDimensionsSeverityEvaluate FindingAnalyticsDimensionsSeverityEnum = "EVALUATE"
 	FindingAnalyticsDimensionsSeverityAdvisory FindingAnalyticsDimensionsSeverityEnum = "ADVISORY"
 	FindingAnalyticsDimensionsSeverityPass     FindingAnalyticsDimensionsSeverityEnum = "PASS"
-	FindingAnalyticsDimensionsSeverityAccepted FindingAnalyticsDimensionsSeverityEnum = "ACCEPTED"
+	FindingAnalyticsDimensionsSeverityDeferred FindingAnalyticsDimensionsSeverityEnum = "DEFERRED"
 )
 
 var mappingFindingAnalyticsDimensionsSeverityEnum = map[string]FindingAnalyticsDimensionsSeverityEnum{
@@ -138,7 +138,7 @@ var mappingFindingAnalyticsDimensionsSeverityEnum = map[string]FindingAnalyticsD
 	"EVALUATE": FindingAnalyticsDimensionsSeverityEvaluate,
 	"ADVISORY": FindingAnalyticsDimensionsSeverityAdvisory,
 	"PASS":     FindingAnalyticsDimensionsSeverityPass,
-	"ACCEPTED": FindingAnalyticsDimensionsSeverityAccepted,
+	"DEFERRED": FindingAnalyticsDimensionsSeverityDeferred,
 }
 
 var mappingFindingAnalyticsDimensionsSeverityEnumLowerCase = map[string]FindingAnalyticsDimensionsSeverityEnum{
@@ -148,7 +148,7 @@ var mappingFindingAnalyticsDimensionsSeverityEnumLowerCase = map[string]FindingA
 	"evaluate": FindingAnalyticsDimensionsSeverityEvaluate,
 	"advisory": FindingAnalyticsDimensionsSeverityAdvisory,
 	"pass":     FindingAnalyticsDimensionsSeverityPass,
-	"accepted": FindingAnalyticsDimensionsSeverityAccepted,
+	"deferred": FindingAnalyticsDimensionsSeverityDeferred,
 }
 
 // GetFindingAnalyticsDimensionsSeverityEnumValues Enumerates the set of values for FindingAnalyticsDimensionsSeverityEnum
@@ -169,7 +169,7 @@ func GetFindingAnalyticsDimensionsSeverityEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
-		"ACCEPTED",
+		"DEFERRED",
 	}
 }
 

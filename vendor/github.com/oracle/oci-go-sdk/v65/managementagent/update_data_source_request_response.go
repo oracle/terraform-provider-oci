@@ -18,7 +18,7 @@ type UpdateDataSourceRequest struct {
 	ManagementAgentId *string `mandatory:"true" contributesTo:"path" name:"managementAgentId"`
 
 	// Data source type and name identifier.
-	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
+	DataSourceKey *string `mandatory:"true" contributesTo:"path" name:"dataSourceKey"`
 
 	// Details of DataSource to be update for the given Management Agent.
 	UpdateDataSourceDetails `contributesTo:"body"`
