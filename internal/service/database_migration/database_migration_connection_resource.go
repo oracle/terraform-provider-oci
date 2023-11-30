@@ -3,8 +3,6 @@
 
 package database_migration
 
-import oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigration"
-
 // import (
 //
 //	"context"
@@ -1355,23 +1353,23 @@ import oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigratio
 //
 //		return result, nil
 //	}
-func VaultDetailsToMap(obj *oci_database_migration.VaultDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.KeyId != nil {
-		result["key_id"] = string(*obj.KeyId)
-	}
-
-	if obj.VaultId != nil {
-		result["vault_id"] = string(*obj.VaultId)
-	}
-
-	return result
-}
+//func VaultDetailsToMap(obj *oci_database_migration.VaultDetails) map[string]interface{} {
+//	result := map[string]interface{}{}
+//
+//	if obj.CompartmentId != nil {
+//		result["compartment_id"] = string(*obj.CompartmentId)
+//	}
+//
+//	if obj.KeyId != nil {
+//		result["key_id"] = string(*obj.KeyId)
+//	}
+//
+//	if obj.VaultId != nil {
+//		result["vault_id"] = string(*obj.VaultId)
+//	}
+//
+//	return result
+//}
 
 //
 //func (s *DatabaseMigrationConnectionResourceCrud) updateCompartment(compartment interface{}) error {

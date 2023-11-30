@@ -3,11 +3,6 @@
 
 package database_migration
 
-import (
-	oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigration"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-)
-
 // import (
 //
 //	"bytes"
@@ -3494,75 +3489,75 @@ import (
 //
 //		return result
 //	}
-func MigrationSummaryToMap(obj oci_database_migration.MigrationSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.AgentId != nil {
-		result["agent_id"] = string(*obj.AgentId)
-	}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.ExecutingJobId != nil {
-		result["executing_job_id"] = string(*obj.ExecutingJobId)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	result["lifecycle_details"] = string(obj.LifecycleDetails)
-
-	if obj.SourceContainerDatabaseConnectionId != nil {
-		result["source_container_database_connection_id"] = string(*obj.SourceContainerDatabaseConnectionId)
-	}
-
-	if obj.SourceDatabaseConnectionId != nil {
-		result["source_database_connection_id"] = string(*obj.SourceDatabaseConnectionId)
-	}
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.SystemTags != nil {
-		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
-	}
-
-	if obj.TargetDatabaseConnectionId != nil {
-		result["target_database_connection_id"] = string(*obj.TargetDatabaseConnectionId)
-	}
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeLastMigration != nil {
-		result["time_last_migration"] = obj.TimeLastMigration.String()
-	}
-
-	if obj.TimeUpdated != nil {
-		result["time_updated"] = obj.TimeUpdated.String()
-	}
-
-	result["type"] = string(obj.Type)
-
-	if obj.VaultDetails != nil {
-		result["vault_details"] = []interface{}{VaultDetailsToMap(obj.VaultDetails)}
-	}
-
-	return result
-}
+//func MigrationSummaryToMap(obj oci_database_migration.MigrationSummary) map[string]interface{} {
+//	result := map[string]interface{}{}
+//
+//	if obj.AgentId != nil {
+//		result["agent_id"] = string(*obj.AgentId)
+//	}
+//
+//	if obj.CompartmentId != nil {
+//		result["compartment_id"] = string(*obj.CompartmentId)
+//	}
+//
+//	if obj.DefinedTags != nil {
+//		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+//	}
+//
+//	if obj.DisplayName != nil {
+//		result["display_name"] = string(*obj.DisplayName)
+//	}
+//
+//	if obj.ExecutingJobId != nil {
+//		result["executing_job_id"] = string(*obj.ExecutingJobId)
+//	}
+//
+//	result["freeform_tags"] = obj.FreeformTags
+//
+//	if obj.Id != nil {
+//		result["id"] = string(*obj.Id)
+//	}
+//
+//	result["lifecycle_details"] = string(obj.LifecycleDetails)
+//
+//	if obj.SourceContainerDatabaseConnectionId != nil {
+//		result["source_container_database_connection_id"] = string(*obj.SourceContainerDatabaseConnectionId)
+//	}
+//
+//	if obj.SourceDatabaseConnectionId != nil {
+//		result["source_database_connection_id"] = string(*obj.SourceDatabaseConnectionId)
+//	}
+//
+//	result["state"] = string(obj.LifecycleState)
+//
+//	if obj.SystemTags != nil {
+//		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+//	}
+//
+//	if obj.TargetDatabaseConnectionId != nil {
+//		result["target_database_connection_id"] = string(*obj.TargetDatabaseConnectionId)
+//	}
+//
+//	if obj.TimeCreated != nil {
+//		result["time_created"] = obj.TimeCreated.String()
+//	}
+//
+//	if obj.TimeLastMigration != nil {
+//		result["time_last_migration"] = obj.TimeLastMigration.String()
+//	}
+//
+//	if obj.TimeUpdated != nil {
+//		result["time_updated"] = obj.TimeUpdated.String()
+//	}
+//
+//	result["type"] = string(obj.Type)
+//
+//	if obj.VaultDetails != nil {
+//		result["vault_details"] = []interface{}{VaultDetailsToMap(obj.VaultDetails)}
+//	}
+//
+//	return result
+//}
 
 //
 //func (s *DatabaseMigrationMigrationResourceCrud) mapToObjectStoreBucket(fieldKeyFormat string) (oci_database_migration.ObjectStoreBucket, error) {
