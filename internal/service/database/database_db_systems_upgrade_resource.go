@@ -47,6 +47,12 @@ func DatabaseDbSystemsUpgradeResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"new_os_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"snapshot_retention_period_in_days": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -454,6 +460,11 @@ func (s *DatabaseDbSystemsUpgradeResourceCrud) Create() error {
 	if newGiVersion, ok := s.D.GetOkExists("new_gi_version"); ok {
 		tmp := newGiVersion.(string)
 		request.NewGiVersion = &tmp
+	}
+
+	if newOsVersion, ok := s.D.GetOkExists("new_os_version"); ok {
+		tmp := newOsVersion.(string)
+		request.NewOsVersion = &tmp
 	}
 
 	if snapshotRetentionPeriodInDays, ok := s.D.GetOkExists("snapshot_retention_period_in_days"); ok {
