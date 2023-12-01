@@ -13,9 +13,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func OcvpSupportedSkusDataSource() *schema.Resource {
+func OcvpSupportedCommitmentsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readOcvpSupportedSkus,
+		Read: readOcvpSupportedCommitments,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -44,29 +44,28 @@ func OcvpSupportedSkusDataSource() *schema.Resource {
 				},
 			},
 		},
-		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_ocvp_supported_skus", "oci_ocvp_supported_commitments"),
 	}
 }
 
-func readOcvpSupportedSkus(d *schema.ResourceData, m interface{}) error {
-	sync := &OcvpSupportedSkusDataSourceCrud{}
+func readOcvpSupportedCommitments(d *schema.ResourceData, m interface{}) error {
+	sync := &OcvpSupportedCommitmentsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SddcClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type OcvpSupportedSkusDataSourceCrud struct {
+type OcvpSupportedCommitmentsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_ocvp.SddcClient
 	Res    *oci_ocvp.ListSupportedCommitmentsResponse
 }
 
-func (s *OcvpSupportedSkusDataSourceCrud) VoidState() {
+func (s *OcvpSupportedCommitmentsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *OcvpSupportedSkusDataSourceCrud) Get() error {
+func (s *OcvpSupportedCommitmentsDataSourceCrud) Get() error {
 	request := oci_ocvp.ListSupportedCommitmentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -102,16 +101,20 @@ func (s *OcvpSupportedSkusDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *OcvpSupportedSkusDataSourceCrud) SetData() error {
+func (s *OcvpSupportedCommitmentsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("OcvpSupportedSkusDataSource-", OcvpSupportedSkusDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("OcvpSupportedCommitmentsDataSource-", OcvpSupportedCommitmentsDataSource(), s.D))
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, SupportedCommitmentSummaryToSkuMap(item))
+		items = append(items, SupportedCommitmentSummaryToMap(item))
+	}
+
+	if f, fOk := s.D.GetOkExists("filter"); fOk {
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, OcvpSupportedCommitmentsDataSource().Schema["items"].Elem.(*schema.Resource).Schema)
 	}
 
 	if err := s.D.Set("items", items); err != nil {
@@ -121,7 +124,7 @@ func (s *OcvpSupportedSkusDataSourceCrud) SetData() error {
 	return nil
 }
 
-func SupportedCommitmentSummaryToSkuMap(obj oci_ocvp.SupportedCommitmentSummary) map[string]interface{} {
+func SupportedCommitmentSummaryToMap(obj oci_ocvp.SupportedCommitmentSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["name"] = string(obj.Name)

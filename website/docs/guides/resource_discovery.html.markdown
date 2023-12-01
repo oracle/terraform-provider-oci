@@ -959,6 +959,7 @@ ocvp
 
 * oci\_ocvp\_sddc
 * oci\_ocvp\_esxi\_host
+* oci\_ocvp\_cluster
 
 oda
 
