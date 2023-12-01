@@ -609,6 +609,7 @@ database
 * oci\_database\_cloud\_autonomous\_vm\_cluster
 * oci\_database\_application\_vip
 * oci\_database\_oneoff\_patch
+* oci\_database\_db\_node\_console\_history
 
 database_migration
 
