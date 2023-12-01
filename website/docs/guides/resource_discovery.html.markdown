@@ -740,6 +740,7 @@ golden_gate
 * oci\_golden\_gate\_deployment\_backup
 * oci\_golden\_gate\_connection\_assignment
 * oci\_golden\_gate\_connection
+* oci\_golden\_gate\_deployment\_certificate
 
 health_checks
 
