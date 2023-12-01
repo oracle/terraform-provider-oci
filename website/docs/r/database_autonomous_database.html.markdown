@@ -43,6 +43,16 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	data_storage_size_in_gb = var.autonomous_database_data_storage_size_in_gb
 	data_storage_size_in_tbs = var.autonomous_database_data_storage_size_in_tbs
 	database_edition = var.autonomous_database_database_edition
+	db_name = var.autonomous_database_db_name
+	db_tools_details {
+		#Required
+		name = var.autonomous_database_db_tools_details_name
+
+		#Optional
+		compute_count = var.autonomous_database_db_tools_details_compute_count
+		is_enabled = var.autonomous_database_db_tools_details_is_enabled
+		max_idle_time_in_minutes = var.autonomous_database_db_tools_details_max_idle_time_in_minutes
+	}
 	db_version = var.autonomous_database_db_version
 	db_workload = var.autonomous_database_db_workload
 	defined_tags = var.autonomous_database_defined_tags
@@ -135,9 +145,16 @@ The following arguments are supported:
 	* This parameter cannot be used with the `dataStorageSizeInTBs` parameter. 
 * `data_storage_size_in_tbs` - (Optional) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. For Autonomous Databases on dedicated Exadata infrastructure, the maximum storage value is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.  A full Exadata service is allocated when the Autonomous Database size is set to the upper limit (384 TB).
 
-  **Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter. This input is ignored for Always Free resources.
-* `database_edition` - (Optional) (Updatable) The Oracle Database Edition that applies to the Autonomous databases.
-* `db_name` - (Required) (Updatable) Specify the database name; it must consist of letters and numbers only. The maximum length is 30 characters. The same database name cannot be used for multiple Autonomous Databases in the same tenancy in the same region.
+	**Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter. This input is ignored for Always Free resources.
+* `database_edition` - (Optional) (Updatable) The Oracle Database Edition that applies to the Autonomous databases. 
+* `db_name` - (Optional) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy. It is required in all cases except when creating a cross-region Autonomous Data Guard standby instance or a cross-region disaster recovery standby instance.
+* `db_tools_details` - (Optional) (Updatable) The list of database tools details.
+
+	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier. 
+	* `compute_count` - (Optional) (Updatable) Compute used by database tools.
+	* `is_enabled` - (Optional) (Updatable) Indicates whether tool is enabled.
+	* `max_idle_time_in_minutes` - (Optional) (Updatable) The max idle time, in minutes, after which the VM used by database tools will be terminated.
+	* `name` - (Required) (Updatable) Name of database tool.
 * `db_version` - (Optional) (Updatable) A valid Oracle Database version for Autonomous Database.`db_workload` AJD and APEX are only supported for `db_version` `19c` and above.
 * `db_workload` - (Optional) (Updatable) The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
@@ -283,11 +300,12 @@ The following attributes are exported:
     * `apex_url` - Oracle Application Express (APEX) URL.
     * `database_transforms_url` - The URL of the Database Transforms for the Autonomous Database.
     * `graph_studio_url` - The URL of the Graph Studio for the Autonomous Database.
+    * `machine_learning_notebook_url` - The URL of the Oracle Machine Learning (OML) Notebook for the Autonomous Database.
     * `machine_learning_user_management_url` - Oracle Machine Learning user management URL.
     * `mongo_db_url` - The URL of the MongoDB API for the Autonomous Database.
     * `ords_url` - The Oracle REST Data Services (ORDS) URL of the Web Access for the Autonomous Database.
     * `sql_dev_web_url` - Oracle SQL Developer Web URL.
-* `cpu_core_count` - The number of OCPU cores to be made available to the database. 
+* `cpu_core_count` - The number of OCPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 
     **Note:** This parameter cannot be used with the `ocpuCount` parameter.
     * The data type must be an *integer*.
@@ -304,6 +322,13 @@ The following attributes are exported:
 * `database_management_status` - Status of Database Management for this Autonomous Database.
 * `dataguard_region_type` - The Autonomous Data Guard region type of the Autonomous Database. For Autonomous Databases on shared Exadata infrastructure, Data Guard associations have designated primary and standby regions, and these region types do not change when the database changes roles. The standby regions in Data Guard associations can be the same region designated as the primary region, or they can be remote regions. Certain database administrative operations may be available only in the primary region of the Data Guard association, and cannot be performed when the database using the "primary" role is operating in a remote Data Guard standby region.
 * `db_name` - The database name.
+* `db_tools_details` - The list of database tools details.
+
+	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier. 
+	* `compute_count` - Compute used by database tools.
+	* `is_enabled` - Indicates whether tool is enabled.
+	* `max_idle_time_in_minutes` - The max idle time, in minutes, after which the VM used by database tools will be terminated.
+	* `name` - Name of database tool.
 * `db_version` - A valid Oracle Database version for Autonomous Database.
 * `db_workload` - The Autonomous Database workload type. The following values are valid:
 	* OLTP - indicates an Autonomous Transaction Processing database
