@@ -41,7 +41,7 @@ var (
 	managedInstanceGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: managedGroupDisplayName, Update: managedGroupUpdateDisplayName},
-		"os_family":      acctest.Representation{RepType: acctest.Optional, Create: `WINDOWS`},
+		"os_family":      acctest.Representation{RepType: acctest.Optional, Create: `LINUX`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsmanagementManagedInstanceGroupDataSourceFilterRepresentation}}
 	OsmanagementManagedInstanceGroupDataSourceFilterRepresentation = map[string]interface{}{
@@ -50,12 +50,14 @@ var (
 	}
 
 	OsmanagementManagedInstanceGroupRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: managedGroupDisplayName, Update: managedGroupUpdateDisplayName},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"os_family":      acctest.Representation{RepType: acctest.Optional, Create: `WINDOWS`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: managedGroupDisplayName, Update: managedGroupUpdateDisplayName},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"os_family":            acctest.Representation{RepType: acctest.Optional, Create: `LINUX`},
+		"managed_instance_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{managedInstanceOCID}},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: OsmanagementIgnoreDefinedTagsChangesRepresentation},
 	}
 
 	OsmanagementManagedInstanceGroupResourceDependencies = DefinedTagsDependencies
@@ -113,7 +115,9 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "os_family", "WINDOWS"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "LINUX"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instances.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instance_ids.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -140,7 +144,9 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "os_family", "WINDOWS"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "LINUX"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instances.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instance_ids.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -162,7 +168,9 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", managedGroupUpdateDisplayName),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "os_family", "WINDOWS"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "LINUX"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instances.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instance_ids.#", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -182,7 +190,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", managedGroupUpdateDisplayName),
-				resource.TestCheckResourceAttr(datasourceName, "os_family", "WINDOWS"),
+				resource.TestCheckResourceAttr(datasourceName, "os_family", "LINUX"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.#", "1"),
@@ -191,7 +199,7 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.display_name", managedGroupUpdateDisplayName),
 				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_groups.0.id"),
-				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.os_family", "WINDOWS"),
+				resource.TestCheckResourceAttr(datasourceName, "managed_instance_groups.0.os_family", "LINUX"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_groups.0.state"),
 			),
 		},
@@ -208,8 +216,8 @@ func TestOsmanagementManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", managedGroupUpdateDisplayName),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "managed_instances.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "WINDOWS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "managed_instances.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "LINUX"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 			),
 		},

@@ -1,29 +1,14 @@
 // Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
-variable "tenancy_ocid" {
-}
-
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
-variable "compartment_ocid" {
-}
-
-variable "region" {
-}
-
-variable "ssh_public_key" {
-}
-
-variable "ssh_private_key" {
-}
+variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
+variable "region" {}
+variable "compartment_id" {}
+variable "ssh_public_key" {}
+variable "instance_image_ocid" {}
 
 variable "tag_namespace_description" {
   default = "Just a test"
@@ -39,19 +24,6 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
-}
-
-variable "instance_image_ocid" {
-  type = map(string)
-
-  default = {
-    # See https://docs.us-phoenix-1.oraclecloud.com/images/
-    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaarjbcsqt4pg2hmuspw7rhpvjvua32yfjiajakehcd2nxskdnxrcia"
-    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaa6bftra47564ph2uowoooiexeyfmyxokcu7bxaenldni3t7frm3ia"
-    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
-  }
 }
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {
@@ -77,7 +49,7 @@ resource "oci_identity_tag" "tag2" {
 
 resource "oci_core_instance" "test_instance" {
   availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
+  compartment_id      = var.compartment_id
   display_name        = "TestInstance"
   shape               = "VM.Standard2.1"
 
@@ -90,7 +62,7 @@ resource "oci_core_instance" "test_instance" {
 
   source_details {
     source_type = "image"
-    source_id   = var.instance_image_ocid[var.region]
+    source_id   = var.instance_image_ocid
     # Apply this to set the size of the boot volume that's created for this instance.
     # Otherwise, the default boot volume size of the image is used.
     # This should only be specified when source_type is set to "image".
@@ -109,40 +81,31 @@ resource "oci_core_instance" "test_instance" {
   timeouts {
     create = "60m"
   }
-}
 
-resource "null_resource" "remote-exec" {
-  depends_on = [oci_core_instance.test_instance]
-
-  provisioner "remote-exec" {
-    connection {
-      agent       = false
-      timeout     = "60m"
-      host        = oci_core_instance.test_instance.public_ip
-      user        = "opc"
-      private_key = var.ssh_private_key
-    }
-
-    # https://blogs.oracle.com/linux/oracle-instant-client-rpms-now-available-on-oracle-linux-yum-servers-in-oci
-    inline = [
-      "sudo -E wget http://yum-${var.region}.oracle.com/yum-${var.region}-ol7.repo",
-      "sudo yum-config-manager --enable ol7_oci_included",
-      "sudo yum -y --enablerepo ol7_oci_included install osms-agent",
-    ]
+  lifecycle {
+    ignore_changes = ["defined_tags"]
   }
 }
 
 resource "oci_core_vcn" "test_vcn" {
   cidr_block     = "10.1.0.0/16"
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
   display_name   = "TestVcn"
   dns_label      = "testvcn"
+
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
 }
 
 resource "oci_core_internet_gateway" "test_internet_gateway" {
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
   display_name   = "TestInternetGateway"
   vcn_id         = oci_core_vcn.test_vcn.id
+
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
 }
 
 resource "oci_core_default_route_table" "default_route_table" {
@@ -154,6 +117,10 @@ resource "oci_core_default_route_table" "default_route_table" {
     destination_type  = "CIDR_BLOCK"
     network_entity_id = oci_core_internet_gateway.test_internet_gateway.id
   }
+
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
 }
 
 resource "oci_core_subnet" "test_subnet" {
@@ -162,18 +129,31 @@ resource "oci_core_subnet" "test_subnet" {
   display_name        = "TestSubnet"
   dns_label           = "testsubnet"
   security_list_ids   = [oci_core_vcn.test_vcn.default_security_list_id]
-  compartment_id      = var.compartment_ocid
+  compartment_id      = var.compartment_id
   vcn_id              = oci_core_vcn.test_vcn.id
   route_table_id      = oci_core_vcn.test_vcn.default_route_table_id
   dhcp_options_id     = oci_core_vcn.test_vcn.default_dhcp_options_id
+
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
+}
+
+resource "time_sleep" "wait_3_minutes" {
+  depends_on = [oci_core_instance.test_instance]
+
+  create_duration = "3m"
 }
 
 resource "oci_osmanagement_managed_instance_group" "test_managed_instance_group" {
+  depends_on = [time_sleep.wait_3_minutes]
+
   #Required
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
   display_name   = "TF-managed-instance-group"
 
   #Optional
+  managed_instance_ids = [oci_core_instance.test_instance.id]
   defined_tags = {
     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "awesome-app-server"
   }
@@ -181,14 +161,21 @@ resource "oci_osmanagement_managed_instance_group" "test_managed_instance_group"
   freeform_tags = {
     "freeformkey" = "freeformvalue"
   }
+
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
 }
 
 resource "oci_osmanagement_managed_instance_group" "test_managed_instance_group2" {
+  depends_on = [time_sleep.wait_3_minutes]
+
   #Required
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
   display_name   = "TF-managed-instance-group2"
 
   #Optional
+  managed_instance_ids = [oci_core_instance.test_instance.id]
   defined_tags = {
     "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "awesome-app-server"
   }
@@ -196,12 +183,16 @@ resource "oci_osmanagement_managed_instance_group" "test_managed_instance_group2
   freeform_tags = {
     "freeformkey" = "freeformvalue"
   }
+
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
 }
 
 resource "oci_osmanagement_software_source" "test_software_source" {
   #Required
   arch_type      = "X86_64"
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
   display_name   = "TF-software-source"
 
   #Optional
@@ -213,12 +204,16 @@ resource "oci_osmanagement_software_source" "test_software_source" {
   freeform_tags = {
     "freeformkey" = "freeformvalue"
   }
+
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
 }
 
 resource "oci_osmanagement_software_source" "test_software_source2" {
   #Required
   arch_type      = "X86_64"
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
   display_name   = "TF-software-source2"
 
   #Optional
@@ -230,6 +225,10 @@ resource "oci_osmanagement_software_source" "test_software_source2" {
   freeform_tags = {
     "freeformkey" = "freeformvalue"
   }
+
+  lifecycle {
+    ignore_changes = ["defined_tags"]
+  }
 }
 
 # attach/detach parent and child software sources, managed instance groups from/to managed instance
@@ -237,7 +236,6 @@ resource "oci_osmanagement_software_source" "test_software_source2" {
 # This resource on CREATE will detach any already attached parent software source, child software sources, managed instance
 # groups to the managed instance.
 resource "oci_osmanagement_managed_instance_management" "test_managed_instance_management" {
-  depends_on          = [null_resource.remote-exec]
   managed_instance_id = oci_core_instance.test_instance.id
 
   parent_software_source {
@@ -258,7 +256,7 @@ resource "oci_osmanagement_managed_instance_management" "test_managed_instance_m
 
 data "oci_osmanagement_managed_instance_groups" "test_managed_instance_groups" {
   #Required
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
 
   #Optional
   display_name = oci_osmanagement_managed_instance_group.test_managed_instance_group.display_name
@@ -267,7 +265,7 @@ data "oci_osmanagement_managed_instance_groups" "test_managed_instance_groups" {
 
 data "oci_osmanagement_software_sources" "test_software_sources" {
   #Required
-  compartment_id = var.compartment_ocid
+  compartment_id = var.compartment_id
 
   #Optional
   display_name = oci_osmanagement_software_source.test_software_source.display_name
