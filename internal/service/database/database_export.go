@@ -12,6 +12,8 @@ import (
 func init() {
 	exportDatabaseAutonomousContainerDatabaseDataguardAssociationHints.GetIdFn = getDatabaseAutonomousContainerDatabaseDataguardAssociationId
 	exportDatabaseVmClusterNetworkHints.GetIdFn = getDatabaseVmClusterNetworkId
+	exportDatabaseDbNodeConsoleHistoryHints.GetIdFn = getDatabaseDbNodeConsoleHistoryId
+	exportDatabaseDbNodeConsoleHistoryHints.ProcessDiscoveredResourcesFn = processDatabaseDbNodeConsoleHistory
 	exportDatabaseAutonomousContainerDatabaseHints.RequireResourceRefresh = true
 	exportDatabaseAutonomousContainerDatabaseHints.FindResourcesOverrideFn = findAllAutonomousContainerDatabases
 	exportDatabaseAutonomousDatabaseHints.RequireResourceRefresh = true
@@ -72,6 +74,18 @@ func processDatabases(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_e
 				}
 			}
 		}
+	}
+	return resources, nil
+}
+
+func processDatabaseDbNodeConsoleHistory(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+	for _, resource := range resources {
+		if resource.Parent == nil {
+			continue
+		}
+		consoleHistoryId := resource.Id
+		dbNodeId := resource.Parent.Id
+		resource.ImportId = GetDbNodeConsoleHistoryCompositeId(dbNodeId, consoleHistoryId)
 	}
 	return resources, nil
 }
@@ -181,6 +195,16 @@ func getDatabaseVmClusterNetworkId(resource *tf_export.OCIResource) (string, err
 		return "", fmt.Errorf("[ERROR] unable to find vmClusterNetworkId for Database VmClusterNetwork")
 	}
 	return GetVmClusterNetworkCompositeId(exadataInfrastructureId, vmClusterNetworkId), nil
+}
+
+func getDatabaseDbNodeConsoleHistoryId(resource *tf_export.OCIResource) (string, error) {
+
+	consoleHistoryId, ok := resource.SourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find consoleHistoryId for Database DbNodeConsoleHistory")
+	}
+	dbNodeId := resource.Parent.Id
+	return GetDbNodeConsoleHistoryCompositeId(dbNodeId, consoleHistoryId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -441,6 +465,18 @@ var exportDatabaseOneoffPatchHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatabaseDbNodeConsoleHistoryHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_db_node_console_history",
+	DatasourceClass:        "oci_database_db_node_console_histories",
+	DatasourceItemsAttr:    "console_history_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "db_node_console_history",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ConsoleHistoryLifecycleStateSucceeded),
+	},
+}
+
 var exportDatabasePluggableDatabaseHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_database_pluggable_database",
 	DatasourceClass:      "oci_database_pluggable_databases",
@@ -491,6 +527,14 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 			TerraformResourceHints: exportDatabaseDatabaseHints,
 			DatasourceQueryParams: map[string]string{
 				"db_home_id": "id",
+			},
+		},
+	},
+	"oci_database_db_node": {
+		{
+			TerraformResourceHints: exportDatabaseDbNodeConsoleHistoryHints,
+			DatasourceQueryParams: map[string]string{
+				"db_node_id": "id",
 			},
 		},
 	},
