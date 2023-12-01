@@ -237,6 +237,10 @@ func (s *DatabaseAutonomousVmClustersDataSourceCrud) SetData() error {
 			autonomousVmCluster["ocpus_enabled"] = *r.OcpusEnabled
 		}
 
+		if r.ProvisionableAutonomousContainerDatabases != nil {
+			autonomousVmCluster["provisionable_autonomous_container_databases"] = *r.ProvisionableAutonomousContainerDatabases
+		}
+
 		if r.ProvisionedAutonomousContainerDatabases != nil {
 			autonomousVmCluster["provisioned_autonomous_container_databases"] = *r.ProvisionedAutonomousContainerDatabases
 		}
