@@ -234,11 +234,27 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"database_transforms_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"graph_studio_url": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"machine_learning_notebook_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"machine_learning_user_management_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"mongo_db_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ords_url": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -297,6 +313,35 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 						"db_name": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"db_tools_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"compute_count": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"max_idle_time_in_minutes": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"db_version": {
 							Type:     schema.TypeString,
@@ -994,6 +1039,12 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["db_name"] = *r.DbName
 		}
 
+		dbToolsDetails := []interface{}{}
+		for _, item := range r.DbToolsDetails {
+			dbToolsDetails = append(dbToolsDetails, DatabaseToolToMap(item))
+		}
+
+		autonomousDatabasesClone["db_tools_details"] = dbToolsDetails
 		if r.DbVersion != nil {
 			autonomousDatabasesClone["db_version"] = *r.DbVersion
 		}
