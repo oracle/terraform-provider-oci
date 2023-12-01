@@ -77,6 +77,14 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
 
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
+	if s.Res.ClusterId != nil {
+		s.D.Set("cluster_id", *s.Res.ClusterId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -89,7 +97,8 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
 
-	s.D.Set("current_sku", s.Res.CurrentSku)
+	s.D.Set("current_commitment", s.Res.CurrentCommitment)
+	s.D.Set("current_sku", s.Res.CurrentCommitment)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -97,6 +106,10 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EsxiSoftwareVersion != nil {
+		s.D.Set("esxi_software_version", *s.Res.EsxiSoftwareVersion)
 	}
 
 	if s.Res.FailedEsxiHostId != nil {
@@ -125,7 +138,8 @@ func (s *OcvpEsxiHostDataSourceCrud) SetData() error {
 		s.D.Set("is_billing_swapping_in_progress", *s.Res.IsBillingSwappingInProgress)
 	}
 
-	s.D.Set("next_sku", s.Res.NextSku)
+	s.D.Set("next_commitment", s.Res.NextCommitment)
+	s.D.Set("next_sku", s.Res.NextCommitment)
 
 	if s.Res.NonUpgradedEsxiHostId != nil {
 		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)
