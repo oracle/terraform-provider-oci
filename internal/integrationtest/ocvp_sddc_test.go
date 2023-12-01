@@ -11,6 +11,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+
+	"github.com/oracle/terraform-provider-oci/internal/service/ocvp"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -20,8 +24,6 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/oracle/terraform-provider-oci/internal/service/ocvp"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -30,10 +32,10 @@ var (
 	OcvpSddcRequiredOnlyResource = OcvpSddcResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpSddcRepresentation)
 
-	OcvpSddcResourceConfig = OcvpSddcResourceDependencies +
+	OcvpSddcResourceConfig = OcvpSddcOptionalResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, OcvpSddcRepresentation)
 
-	SddcV7ResourceConfig = OcvpSddcResourceDependencies +
+	SddcV7ResourceConfig = OcvpSddcOptionalResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, sddcV7Representation)
 
 	OcvpSddcUpgradeResource = OcvpSddcResourceDependencies +
@@ -49,7 +51,7 @@ var (
 
 	OcvpOcvpSddcDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"compute_availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}`},
+		"compute_availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: sddcDisplayName1, Update: sddcDisplayName2},
 		"state":                       acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcDataSourceFilterRepresentation}}
@@ -58,39 +60,95 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_ocvp_sddc.test_sddc.id}`}},
 	}
 
+	noInstanceVmwareVersionV6 = "test-no-instance-no-grace-period"
+	noInstanceVmwareVersionV7 = "7.0 test-no-instance-no-grace-period"
+
+	sshKey        = `ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAH1y0s/y8/nd6qsDcwrga3x7W6MlMK7u6Mx+iy9sI7GVpzuVeFj+6xxCnf6vsI+4p6wsYDktYfyggMsGMvHNcpuzwFQ2tb4HDxLFDNUsUUBuItns9GBU0sWOBgmP2s5M82ueKf6vTPky5M4mGMPDD4wvjK5hIe6SqdisKiJgP6AGg19iw==`
+	sshKeyUpdated = `ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBACS6C+rdwWTs/j/Yn1XAS7+U0HdAAFHIua9Y+2vbe5kwY6WaHycxp4ntTNHPeeOC3QEX+3guiUY0j26LStWf2moewGH2q3i9MQGdrk0ojH0hy/ToAntFQcB8Ghh3RjCS+Dy8pIRtnb79am58ykaKq6pf9qM/f0rqYT0rly8DjW1uM5G6g==`
+
+	esxiSoftwareVersion        = `esxi6.7-19195723-2`
+	esxiSoftwareVersionUpdated = `esxi7u3k-21313628-1`
+
 	OcvpSddcRepresentation = map[string]interface{}{
-		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"compute_availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"initial_configuration":   acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationRepresentation},
+		"ssh_authorized_keys":     acctest.Representation{RepType: acctest.Required, Create: sshKey, Update: sshKeyUpdated},
+		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: noInstanceVmwareVersionV6, Update: noInstanceVmwareVersionV7},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: sddcDisplayName1, Update: sddcDisplayName2},
+		"esxi_software_version":   acctest.Representation{RepType: acctest.Optional, Create: esxiSoftwareVersion, Update: esxiSoftwareVersionUpdated},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_single_host_sddc":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_hcx_enabled":          acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"hcx_action":              acctest.Representation{RepType: acctest.Optional, Create: ocvp.UpgradeHcxAction},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
+	}
+	OcvpSddcInitialConfigurationRepresentation = map[string]interface{}{
+		"initial_cluster_configurations": acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsRepresentation},
+	}
+
+	OcvpSddcInitialConfigurationUpdateRepresentation = map[string]interface{}{
+		"initial_cluster_configurations": acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsUpdateRepresentation},
+	}
+
+	OcvpSddcInitialConfigurationInitialClusterConfigurationsRepresentation = map[string]interface{}{
+		"compute_availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
 		"esxi_hosts_count":             acctest.Representation{RepType: acctest.Required, Create: `3`},
-		"nsx_edge_uplink1vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_uplink1_vlan.id}`},
-		"nsx_edge_uplink2vlan_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_uplink2_vlan.id}`},
-		"nsx_edge_vtep_vlan_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_vtep_vlan.id}`},
-		"nsx_vtep_vlan_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_vtep_vlan.id}`},
-		"provisioning_subnet_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_provisioning_subnet.id}`},
-		"ssh_authorized_keys":          acctest.Representation{RepType: acctest.Required, Create: `ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`},
-		"vmotion_vlan_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
-		"vmware_software_version":      acctest.Representation{RepType: acctest.Required, Create: `test-L2`, Update: `7.0 test-L2`},
-		"vsan_vlan_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
-		"vsphere_vlan_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
-		"capacity_reservation_id":      acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_compute_capacity_reservations.test_sddc_compute_capacity_reservations.compute_capacity_reservations.0.id}`},
+		"network_configuration":        acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationRepresentation},
+		"vsphere_type":                 acctest.Representation{RepType: acctest.Required, Create: `MANAGEMENT`},
+		"capacity_reservation_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
 		"datastores":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
-		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: sddcDisplayName1, Update: sddcDisplayName2},
-		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"initial_sku":                  acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
-		"is_shielded_instance_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"hcx_action":                   acctest.Representation{RepType: acctest.Optional, Create: ocvp.UpgradeHcxAction},
-		"hcx_vlan_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_hcx_vlan.id}`},
-		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `52`},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: "displayName"},
+		"initial_commitment":           acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
+		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `12`},
 		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.Standard2.52`},
-		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `njki`},
-		"is_hcx_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"is_single_host_sddc":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
+		"is_shielded_instance_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"workload_network_cidr":        acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
-		"provisioning_vlan_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_provisioning_vlan.id}`},
-		"replication_vlan_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_replication_vlan.id}`},
-		"refresh_hcx_license_status":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
+	}
+
+	OcvpSddcInitialConfigurationInitialClusterConfigurationsUpdateRepresentation = map[string]interface{}{
+		"network_configuration":        acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationUpdateRepresentation},
+		"compute_availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}`},
+		"esxi_hosts_count":             acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"vsphere_type":                 acctest.Representation{RepType: acctest.Required, Create: `MANAGEMENT`},
+		"capacity_reservation_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_compute_capacity_reservation.test_compute_capacity_reservation.id}`},
+		"datastores":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: OcvpSddcDatastoresRepresentation},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: "displayName"},
+		"initial_commitment":           acctest.Representation{RepType: acctest.Optional, Create: `HOUR`},
+		"initial_host_ocpu_count":      acctest.Representation{RepType: acctest.Optional, Create: `12`},
+		"initial_host_shape_name":      acctest.Representation{RepType: acctest.Optional, Create: `BM.Standard2.52`},
+		"instance_display_name_prefix": acctest.Representation{RepType: acctest.Optional, Create: `tf-test-`},
+		"is_shielded_instance_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"workload_network_cidr":        acctest.Representation{RepType: acctest.Optional, Create: `172.20.0.0/24`},
+	}
+
+	OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationRepresentation = map[string]interface{}{
+		"nsx_edge_vtep_vlan_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_vtep_vlan.id}`},
+		"nsx_vtep_vlan_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_vtep_vlan.id}`},
+		"provisioning_subnet_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_provisioning_subnet.id}`},
+		"vmotion_vlan_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
+		"vsan_vlan_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
+		"hcx_vlan_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_hcx_vlan.id}`},
+		"nsx_edge_uplink1vlan_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_uplink1_vlan.id}`},
+		"nsx_edge_uplink2vlan_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_uplink2_vlan.id}`},
+		"provisioning_vlan_id":    acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_provisioning_vlan.id}`},
+		"replication_vlan_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_replication_vlan.id}`},
+		"vsphere_vlan_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
+	}
+
+	OcvpSddcInitialConfigurationInitialClusterConfigurationsNetworkConfigurationUpdateRepresentation = map[string]interface{}{
+		"provisioning_vlan_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_provisioning_vlan.id}`},
+		"replication_vlan_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_replication_vlan.id}`},
+		"nsx_edge_vtep_vlan_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_vtep_vlan.id}`},
+		"nsx_vtep_vlan_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_vtep_vlan.id}`},
+		"provisioning_subnet_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_provisioning_subnet.id}`},
+		"vmotion_vlan_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vmotion_net_vlan.id}`},
+		"vsan_vlan_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsan_net_vlan.id}`},
+		"hcx_vlan_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vlan.test_hcx_vlan.id}`},
+		"nsx_edge_uplink1vlan_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_uplink1_vlan.id}`},
+		"nsx_edge_uplink2vlan_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_nsx_edge_uplink2_vlan.id}`},
+		"vsphere_vlan_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_vsphere_net_vlan.id}`},
 	}
 
 	ignoreDefinedTagsChangesRepresentation = map[string]interface{}{
@@ -102,30 +160,16 @@ var (
 	}
 
 	sddcV7Representation = acctest.RepresentationCopyWithNewProperties(OcvpSddcRepresentation, map[string]interface{}{
-		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: `7.0 test-L2`},
+		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: noInstanceVmwareVersionV7},
+		"esxi_software_version":   acctest.Representation{RepType: acctest.Required, Create: esxiSoftwareVersionUpdated},
 	})
 
 	sddcUpgradedRepresentation = acctest.RepresentationCopyWithNewProperties(OcvpSddcRepresentation, map[string]interface{}{
-		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: `7.0 test-L2`},
-		"provisioning_vlan_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_provisioning_vlan.id}`},
-		"replication_vlan_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vlan.test_replication_vlan.id}`},
+		"vmware_software_version": acctest.Representation{RepType: acctest.Required, Create: noInstanceVmwareVersionV7},
+		"initial_configuration":   acctest.RepresentationGroup{RepType: acctest.Required, Group: OcvpSddcInitialConfigurationUpdateRepresentation},
 	})
 
-	ocvpSddcCapacityReservationDataSource = `
-data "oci_core_compute_capacity_reservations" "test_sddc_compute_capacity_reservations" {
-    compartment_id = var.compartment_id
-    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
-    state = "ACTIVE"
-
-	filter {
-		name   = "display_name"
-		values = ["tf-sddc-test-capacity-reservation"]
-	}
-}
-`
-
-	OcvpSddcResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_vmware_software_versions", "test_supported_vmware_software_versions", acctest.Required, acctest.Create, OcvpOcvpSupportedVmwareSoftwareVersionDataSourceRepresentation) + `
+	OcvpSddcResourceDependencies = DefinedTagsDependencies + `
 
 data "oci_core_services" "test_services" {}
 
@@ -329,7 +373,7 @@ resource "oci_core_subnet" "test_provisioning_subnet" {
 
 resource "oci_core_vlan" "test_nsx_edge_uplink2_vlan" {
     display_name = "NSX-Edge-UP2"
-    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
     cidr_block = "10.0.103.0/25"
     compartment_id = "${var.compartment_id}"
     vcn_id = "${oci_core_vcn.test_vcn_ocvp.id}"
@@ -339,7 +383,7 @@ resource "oci_core_vlan" "test_nsx_edge_uplink2_vlan" {
 
 resource "oci_core_vlan" "test_nsx_edge_uplink1_vlan" {
     display_name = "NSX-Edge-UP1"
-    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
     cidr_block = "10.0.100.0/25"
     compartment_id = "${var.compartment_id}"
     vcn_id = "${oci_core_vcn.test_vcn_ocvp.id}"
@@ -349,7 +393,7 @@ resource "oci_core_vlan" "test_nsx_edge_uplink1_vlan" {
 
 resource "oci_core_vlan" "test_nsx_vtep_vlan" {
     display_name = "NSX-vTep"
-    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
     cidr_block = "10.0.101.0/25"
     compartment_id = "${var.compartment_id}"
     vcn_id = "${oci_core_vcn.test_vcn_ocvp.id}"
@@ -359,7 +403,7 @@ resource "oci_core_vlan" "test_nsx_vtep_vlan" {
 
 resource "oci_core_vlan" "test_nsx_edge_vtep_vlan" {
     display_name = "NSX Edge-vTep"
-    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
     cidr_block = "10.0.102.0/25"
     compartment_id = "${var.compartment_id}"
     vcn_id = "${oci_core_vcn.test_vcn_ocvp.id}"
@@ -369,7 +413,7 @@ resource "oci_core_vlan" "test_nsx_edge_vtep_vlan" {
 
 resource "oci_core_vlan" "test_vsan_net_vlan" {
     display_name = "vSAN-Net"
-    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
     cidr_block = "10.0.101.128/25"
     compartment_id = "${var.compartment_id}"
     vcn_id = "${oci_core_vcn.test_vcn_ocvp.id}"
@@ -379,7 +423,7 @@ resource "oci_core_vlan" "test_vsan_net_vlan" {
 
 resource "oci_core_vlan" "test_vmotion_net_vlan" {
     display_name = "vMotion-Net"
-    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+    availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
     cidr_block = "10.0.102.128/25"
     compartment_id = "${var.compartment_id}"
     vcn_id = "${oci_core_vcn.test_vcn_ocvp.id}"
@@ -389,7 +433,7 @@ resource "oci_core_vlan" "test_vmotion_net_vlan" {
 
 resource "oci_core_vlan" "test_vsphere_net_vlan" {
   display_name        = "vSphere-Net"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block          = "10.0.100.128/26"
   compartment_id      = var.compartment_id
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -399,7 +443,7 @@ resource "oci_core_vlan" "test_vsphere_net_vlan" {
 
 resource "oci_core_vlan" "test_hcx_vlan" {
   display_name        = "hcx"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block          = "10.0.100.192/26"
   compartment_id      = var.compartment_id
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -409,7 +453,7 @@ resource "oci_core_vlan" "test_hcx_vlan" {
 
 resource "oci_core_vlan" "test_provisioning_vlan" {
   display_name        = "provisioning-vlan"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block          = "10.0.104.128/25"
   compartment_id      = var.compartment_id
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -419,7 +463,7 @@ resource "oci_core_vlan" "test_provisioning_vlan" {
 
 resource "oci_core_vlan" "test_replication_vlan" {
   display_name        = "replication-vlan"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   cidr_block          = "10.0.104.0/25"
   compartment_id      = var.compartment_id
   vcn_id              = oci_core_vcn.test_vcn_ocvp.id
@@ -429,13 +473,36 @@ resource "oci_core_vlan" "test_replication_vlan" {
 
 resource "oci_core_volume" "test_volume" {
   display_name		  = "test_volume_management"
-  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[1],"name")}"
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
   compartment_id      = var.compartment_id
   vpus_per_gb		  = 10
   size_in_gbs         = 4096
 }
-
 `
+	OcvpSddcCapacityReservationResource = `
+resource "oci_core_compute_capacity_reservation" "test_compute_capacity_reservation" {
+  compartment_id = var.compartment_id
+  availability_domain = "${lookup(data.oci_identity_availability_domains.ADs.availability_domains[0],"name")}"
+  display_name   = "tf-esxi-host-test-capacity-reservation"
+  instance_reservation_configs {
+    instance_shape = "BM.Standard2.52"
+    reserved_count = 1
+    fault_domain = "FAULT-DOMAIN-1"
+  }
+  instance_reservation_configs {
+    instance_shape = "BM.Standard2.52"
+    reserved_count = 1
+    fault_domain = "FAULT-DOMAIN-2"
+  }
+  instance_reservation_configs {
+    instance_shape = "BM.Standard2.52"
+    reserved_count = 1
+    fault_domain = "FAULT-DOMAIN-3"
+  }
+}
+`
+
+	OcvpSddcOptionalResourceDependencies = OcvpSddcResourceDependencies + OcvpSddcCapacityReservationResource
 )
 
 // issue-routing-tag: ocvp/default
@@ -457,7 +524,7 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OcvpSddcResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OcvpSddcResourceDependencies+OcvpSddcCapacityReservationResource+
 		acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, OcvpSddcRepresentation), "ocvp", "sddc", t)
 
 	acctest.ResourceTest(t, testAccCheckOcvpSddcDestroy, []resource.TestStep{
@@ -467,21 +534,25 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpSddcRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "test-L2"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV6),
+				resource.TestCheckResourceAttr(resourceName, "ssh_authorized_keys", sshKey),
+				resource.TestCheckResourceAttr(resourceName, "hcx_mode", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.vsphere_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsphere_vlan_id"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
-
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
@@ -495,23 +566,23 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Update, sddcUpgradedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
-				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 test-L2"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsphere_upgrade_guide"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttr(resourceName, "ssh_authorized_keys", sshKeyUpdated),
+				resource.TestCheckResourceAttr(resourceName, "hcx_mode", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.vsphere_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsphere_vlan_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -528,17 +599,15 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 test-L2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.vmware_software_version"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.initial_host_ocpu_count"),
-				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.initial_host_shape_name"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.clusters_count", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.freeform_tags.%"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.defined_tags.%"),
 			),
 		},
 
@@ -549,34 +618,39 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 				compartmentIdVariableStr + OcvpSddcUpgradeResource,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_licenses.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "initial_host_ocpu_count"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "initial_host_shape_name"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "initial_sku"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hcx_pending_downgrade"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_edge_uplink_ip_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_fqdn"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_initial_password"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_private_ip_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_username"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_overlay_segment_name"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "ssh_authorized_keys"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_hcx_license_status_updated"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttr(resourceName, "ssh_authorized_keys", sshKeyUpdated),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "clusters_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_fqdn"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_fqdn"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_private_ip_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_edge_uplink_ip_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 test-L2"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "vsphere_upgrade_guide"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_username"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_mode"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hcx_pending_downgrade"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_single_host_sddc"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.vsphere_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsphere_vlan_id"),
 			),
 		},
 
@@ -584,55 +658,59 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies,
 		},
-		//  verify Create with optionals
+		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies + ocvpSddcCapacityReservationDataSource +
+			Config: config + compartmentIdVariableStr + OcvpSddcOptionalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create, sddcV7Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "clusters_count"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.0.block_volume_ids.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "datastores.0.capacity"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
-				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
-				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttr(resourceName, "ssh_authorized_keys", sshKey),
+				resource.TestCheckResourceAttr(resourceName, "esxi_software_version", esxiSoftwareVersionUpdated),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_mode", "ENTERPRISE"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.Standard2.52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
-				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.block_volume_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.datastore_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.vsphere_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.workload_network_cidr", "172.20.0.0/24"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.actual_esxi_hosts_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "is_single_host_sddc", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 test-L2"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
-				resource.TestCheckResourceAttr(resourceName, "hcx_action", ocvp.UpgradeHcxAction),
-				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
-				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "false"),
-
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_action", ocvp.UpgradeHcxAction),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
@@ -647,55 +725,59 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OcvpSddcResourceDependencies + ocvpSddcCapacityReservationDataSource +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OcvpSddcOptionalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(sddcV7Representation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "clusters_count"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.0.block_volume_ids.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "datastores.0.capacity"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName1),
-				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
-				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttr(resourceName, "ssh_authorized_keys", sshKey),
+				resource.TestCheckResourceAttr(resourceName, "esxi_software_version", esxiSoftwareVersionUpdated),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_mode", "ENTERPRISE"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.Standard2.52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
-				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
-				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.block_volume_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.datastore_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.vsphere_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.workload_network_cidr", "172.20.0.0/24"),
 				resource.TestCheckResourceAttr(resourceName, "is_single_host_sddc", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 test-L2"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
+				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
-				resource.TestCheckResourceAttr(resourceName, "hcx_action", ocvp.UpgradeHcxAction),
-				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
-				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_action", ocvp.UpgradeHcxAction),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -710,53 +792,54 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		// Cannot Update VMware version here because some of the optional arguments are not applicable to VMware version less than 7.0
 		{
-			Config: config + compartmentIdVariableStr + OcvpSddcResourceDependencies + ocvpSddcCapacityReservationDataSource +
+			Config: config + compartmentIdVariableStr + OcvpSddcOptionalResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Optional, acctest.Update, sddcV7Representation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "clusters_count"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(resourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.0.block_volume_ids.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "datastores.0.capacity"),
-				resource.TestCheckResourceAttr(resourceName, "datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", sddcDisplayName2),
-				resource.TestCheckResourceAttr(resourceName, "esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(resourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
-				resource.TestCheckResourceAttrSet(resourceName, "hcx_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttr(resourceName, "ssh_authorized_keys", sshKeyUpdated),
+				resource.TestCheckResourceAttr(resourceName, "esxi_software_version", esxiSoftwareVersionUpdated),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_mode", "ENTERPRISE"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_host_shape_name", "BM.Standard2.52"),
-				resource.TestCheckResourceAttr(resourceName, "initial_sku", "HOUR"),
-				resource.TestCheckResourceAttr(resourceName, "is_shielded_instance_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "instance_display_name_prefix", "njki"),
-				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.block_volume_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.datastore_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.hcx_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink1vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_uplink2vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.nsx_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.provisioning_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.replication_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vmotion_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsan_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.0.vsphere_vlan_id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.vsphere_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "initial_configuration.0.initial_cluster_configurations.0.workload_network_cidr", "172.20.0.0/24"),
 				resource.TestCheckResourceAttr(resourceName, "is_single_host_sddc", "false"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink1vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_uplink2vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_edge_vtep_vlan_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "nsx_manager_private_ip_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "nsx_vtep_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_subnet_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "provisioning_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "replication_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "ssh_authorized_keys"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(resourceName, "vcenter_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcenter_private_ip_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vmotion_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", "7.0 test-L2"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsan_vlan_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "vsphere_vlan_id"),
-				resource.TestCheckResourceAttr(resourceName, "workload_network_cidr", "172.20.0.0/24"),
-				resource.TestCheckResourceAttrSet(resourceName, "hcx_on_prem_licenses.#"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_hcx_license_status_updated"),
-				resource.TestCheckResourceAttr(resourceName, "hcx_action", ocvp.UpgradeHcxAction),
-				resource.TestCheckResourceAttr(resourceName, "is_hcx_enterprise_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_hcx_pending_downgrade", "false"),
-				resource.TestCheckResourceAttr(resourceName, "refresh_hcx_license_status", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_hcx_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "hcx_action", ocvp.UpgradeHcxAction),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -770,80 +853,62 @@ func TestOcvpSddcResource_basic(t *testing.T) {
 
 		// verify datasource
 		{
-			Config: config + ocvpSddcCapacityReservationDataSource +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", acctest.Optional, acctest.Update, OcvpOcvpSddcDataSourceRepresentation) +
-				compartmentIdVariableStr + SddcV7ResourceConfig,
+			Config: config + compartmentIdVariableStr + SddcV7ResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddcs", "test_sddcs", acctest.Optional, acctest.Update, OcvpOcvpSddcDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.compute_availability_domain"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.display_name", sddcDisplayName2),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.is_shielded_instance_enabled", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.vmware_software_version", "7.0 test-L2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.vmware_software_version"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.initial_host_shape_name", "BM.Standard2.52"),
+				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.clusters_count", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.time_updated"),
 				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.freeform_tags.%"),
-				resource.TestCheckResourceAttr(datasourceName, "sddc_collection.0.is_single_host_sddc", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "sddc_collection.0.defined_tags.%"),
 			),
 		},
 
 		// verify singular datasource
 		{
-			Config: config + ocvpSddcCapacityReservationDataSource +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpOcvpSddcSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + SddcV7ResourceConfig,
+			Config: config + compartmentIdVariableStr + SddcV7ResourceConfig +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_sddc", "test_sddc", acctest.Required, acctest.Create, OcvpOcvpSddcSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sddc_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "capacity_reservation_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "clusters_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "compute_availability_domain"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.0.block_volume_ids.#", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "datastores.0.capacity"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datastores.0.datastore_type", "MANAGEMENT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", sddcDisplayName2),
-				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "actual_esxi_hosts_count", "3"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_fqdn"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_initial_password"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_key"),
+				resource.TestCheckResourceAttr(resourceName, "vmware_software_version", noInstanceVmwareVersionV7),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ssh_authorized_keys", sshKeyUpdated),
+				resource.TestCheckResourceAttr(singularDatasourceName, "esxi_software_version", esxiSoftwareVersionUpdated),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "hcx_mode", "ENTERPRISE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_on_prem_licenses.#"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_private_ip_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "hcx_vlan_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_ocpu_count", "52"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_host_shape_name", "BM.Standard2.52"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_sku", "HOUR"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "instance_display_name_prefix", "njki"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enabled", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_hcx_enterprise_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.compute_availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.block_volume_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.datastores.0.datastore_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.esxi_hosts_count", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_commitment", "HOUR"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.initial_host_ocpu_count", "12"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.instance_display_name_prefix", "tf-test-"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.is_shielded_instance_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.vsphere_type", "MANAGEMENT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_configuration.0.initial_cluster_configurations.0.workload_network_cidr", "172.20.0.0/24"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hcx_pending_downgrade"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_shielded_instance_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_single_host_sddc", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_edge_uplink_ip_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_fqdn"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_initial_password"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_private_ip_id"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_manager_username"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nsx_overlay_segment_name"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "ssh_authorized_keys"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_hcx_license_status_updated"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_fqdn"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_initial_password"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_private_ip_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcenter_username"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "vmware_software_version", "7.0 test-L2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "workload_network_cidr", "172.20.0.0/24"),
 			),
 		},
 		//  verify resource import

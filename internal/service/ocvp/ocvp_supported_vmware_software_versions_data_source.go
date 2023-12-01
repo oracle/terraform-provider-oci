@@ -22,7 +22,14 @@ func OcvpSupportedVmwareSoftwareVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			// Computed
+			"host_shape_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"version": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"items": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -36,6 +43,34 @@ func OcvpSupportedVmwareSoftwareVersionsDataSource() *schema.Resource {
 						"description": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"esxi_software_versions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"supported_host_shape_names": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 						"version": {
 							Type:     schema.TypeString,
@@ -74,6 +109,16 @@ func (s *OcvpSupportedVmwareSoftwareVersionsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if hostShapeName, ok := s.D.GetOkExists("host_shape_name"); ok {
+		tmp := hostShapeName.(string)
+		request.HostShapeName = &tmp
+	}
+
+	if version, ok := s.D.GetOkExists("version"); ok {
+		tmp := version.(string)
+		request.Version = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
 	response, err := s.Client.ListSupportedVmwareSoftwareVersions(context.Background(), request)
@@ -101,12 +146,34 @@ func (s *OcvpSupportedVmwareSoftwareVersionsDataSourceCrud) SetData() error {
 	return nil
 }
 
+func SupportedEsxiSoftwareVersionSummaryToMap(obj oci_ocvp.SupportedEsxiSoftwareVersionSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	result["supported_host_shape_names"] = obj.SupportedHostShapeNames
+
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
+	}
+
+	return result
+}
+
 func SupportedVmwareSoftwareVersionSummaryToMap(obj oci_ocvp.SupportedVmwareSoftwareVersionSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
 	}
+
+	esxiSoftwareVersions := []interface{}{}
+	for _, item := range obj.EsxiSoftwareVersions {
+		esxiSoftwareVersions = append(esxiSoftwareVersions, SupportedEsxiSoftwareVersionSummaryToMap(item))
+	}
+	result["esxi_software_versions"] = esxiSoftwareVersions
 
 	if obj.Version != nil {
 		result["version"] = string(*obj.Version)
