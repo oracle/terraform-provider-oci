@@ -33,6 +33,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_db_home", DatabaseDbHomeResource())
 	tfresource.RegisterResource("oci_database_db_node", DatabaseDbNodeResource())
 	tfresource.RegisterResource("oci_database_db_node_console_connection", DatabaseDbNodeConsoleConnectionResource())
+	tfresource.RegisterResource("oci_database_db_node_console_history", DatabaseDbNodeConsoleHistoryResource())
 	tfresource.RegisterResource("oci_database_db_system", DatabaseDbSystemResource())
 	tfresource.RegisterResource("oci_database_exadata_infrastructure", DatabaseExadataInfrastructureResource())
 	tfresource.RegisterResource("oci_database_exadata_iorm_config", DatabaseExadataIormConfigResource())
