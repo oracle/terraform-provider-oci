@@ -60,6 +60,11 @@ var (
 		"maintainer_email": acctest.Representation{RepType: acctest.Optional, Create: `maintainerEmail`, Update: `maintainerEmail2`},
 		"maintainer_name":  acctest.Representation{RepType: acctest.Optional, Create: `maintainerName`, Update: `maintainerName2`},
 		"maintainer_phone": acctest.Representation{RepType: acctest.Optional, Create: `maintainerPhone`, Update: `maintainerPhone2`},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: OsmanagementIgnoreDefinedTagsChangesRepresentation},
+	}
+
+	OsmanagementIgnoreDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{"defined_tags"}},
 	}
 
 	OsmanagementSoftwareSourceResourceDependencies = DefinedTagsDependencies

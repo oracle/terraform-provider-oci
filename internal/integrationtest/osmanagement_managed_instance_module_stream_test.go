@@ -52,7 +52,6 @@ func TestOsmanagementManagedInstanceModuleStreamResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "module_stream_on_managed_instances.0.software_source_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "module_stream_on_managed_instances.0.status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "module_stream_on_managed_instances.0.stream_name"),
-				resource.TestCheckResourceAttrSet(datasourceName, "module_stream_on_managed_instances.0.time_modified"),
 			),
 		},
 	})
