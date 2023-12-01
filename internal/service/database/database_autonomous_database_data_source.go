@@ -158,6 +158,12 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
 
+	dbToolsDetails := []interface{}{}
+	for _, item := range s.Res.DbToolsDetails {
+		dbToolsDetails = append(dbToolsDetails, DatabaseToolToMap(item))
+	}
+	s.D.Set("db_tools_details", dbToolsDetails)
+
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
@@ -179,6 +185,14 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.InMemoryAreaInGBs != nil {
+		s.D.Set("in_memory_area_in_gbs", *s.Res.InMemoryAreaInGBs)
+	}
+
+	if s.Res.InMemoryPercentage != nil {
+		s.D.Set("in_memory_percentage", *s.Res.InMemoryPercentage)
+	}
 
 	if s.Res.InMemoryAreaInGBs != nil {
 		s.D.Set("in_memory_area_in_gbs", *s.Res.InMemoryAreaInGBs)
