@@ -14,10 +14,10 @@ variable "managed_instance_id" {
 variable "managed_instance_module_name" {
 }
 
-variable "managed_instance_stream_name" {
+variable "managed_instance_module_stream_name" {
 }
 
-variable "managed_instance_stream_status" {
+variable "managed_instance_module_stream_status" {
   default = "ENABLED"
 }
 
@@ -37,8 +37,8 @@ data "oci_osmanagement_managed_instance_module_streams" "test_managed_instance_m
   #Optional
   compartment_id = var.compartment_id
   module_name    = var.managed_instance_module_name
-  stream_name    = var.managed_instance_stream_name
-  stream_status  = var.managed_instance_stream_status
+  stream_name    = var.managed_instance_module_stream_name
+  stream_status  = var.managed_instance_module_stream_status
 }
 
 output "test_managed_instance_module_streams" {
