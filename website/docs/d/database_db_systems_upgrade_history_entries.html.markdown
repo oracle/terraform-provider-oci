@@ -49,7 +49,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the upgrade history entry.
 * `lifecycle_details` - A descriptive text associated with the lifecycleState. Typically contains additional displayable text. 
 * `new_gi_version` - A valid Oracle Grid Infrastructure (GI) software version.
+* `new_os_version` - A valid Oracle Software (OS) version eg. Oracle Linux Server release 8
 * `old_gi_version` - A valid Oracle Grid Infrastructure (GI) software version.
+* `old_os_version` - A valid Oracle Software (OS) version eg. Oracle Linux Server release 8
 * `snapshot_retention_period_in_days` - The retention period, in days, for the snapshot that allows you to perform a rollback of the upgrade operation. After this number of days passes, you cannot roll back the upgrade.
 * `state` - The current state of the action.
 * `time_ended` - The date and time when the upgrade action completed
