@@ -21,11 +21,13 @@ func DatabaseVmClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseVmCluster,
-		Read:     readDatabaseVmCluster,
-		Update:   updateDatabaseVmCluster,
-		Delete:   deleteDatabaseVmCluster,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("30m"),
+		},
+		Create: createDatabaseVmCluster,
+		Read:   readDatabaseVmCluster,
+		Update: updateDatabaseVmCluster,
+		Delete: deleteDatabaseVmCluster,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {
