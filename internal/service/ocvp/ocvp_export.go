@@ -37,9 +37,23 @@ var exportOcvpEsxiHostHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportOcvpClusterHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_ocvp_cluster",
+	DatasourceClass:        "oci_ocvp_clusters",
+	DatasourceItemsAttr:    "cluster_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "cluster",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_ocvp.LifecycleStatesActive),
+		string(oci_ocvp.LifecycleStatesFailed),
+	},
+}
+
 var ocvpResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOcvpSddcHints},
+		{TerraformResourceHints: exportOcvpClusterHints},
 	},
 	"oci_ocvp_sddc": {
 		{

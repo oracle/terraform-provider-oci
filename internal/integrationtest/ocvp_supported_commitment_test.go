@@ -11,21 +11,22 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
+
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
-	OcvpOcvpSupportedSkuDataSourceRepresentation = map[string]interface{}{
+	OcvpSupportedCommitmentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"host_shape_name": acctest.Representation{RepType: acctest.Optional, Create: `BM.Standard2.52`},
+		"host_shape_name": acctest.Representation{RepType: acctest.Optional, Create: "BM.Standard2.52"},
 	}
 
-	OcvpSupportedSkuResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, OcvpOcvpSupportedSkuDataSourceRepresentation)
+	OcvpSupportedCommitmentResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_core_shapes", "test_shapes", acctest.Required, acctest.Create, CoreCoreShapeDataSourceRepresentation)
 )
 
 // issue-routing-tag: ocvp/default
-func TestOcvpSupportedSkuResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestOcvpSupportedSkuResource_basic")
+func TestOcvpSupportedCommitmentResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestOcvpSupportedCommitmentResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -33,28 +34,32 @@ func TestOcvpSupportedSkuResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	datasourceName := "data.oci_ocvp_supported_skus.test_supported_skus"
+	datasourceName := "data.oci_ocvp_supported_commitments.test_supported_commitments"
 
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		//  verify datasource
+		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_skus", "test_supported_skus", acctest.Required, acctest.Create, OcvpOcvpSupportedSkuDataSourceRepresentation) +
-				compartmentIdVariableStr + OcvpSupportedSkuResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_commitments", "test_supported_commitments", acctest.Required, acctest.Create, OcvpSupportedCommitmentDataSourceRepresentation) +
+				compartmentIdVariableStr + OcvpSupportedCommitmentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "items.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "items.0.name"),
 			),
 		},
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_skus", "test_supported_skus", acctest.Optional, acctest.Create, OcvpOcvpSupportedSkuDataSourceRepresentation) +
-				compartmentIdVariableStr + OcvpSupportedSkuResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_commitments", "test_supported_commitments", acctest.Optional, acctest.Create, OcvpSupportedCommitmentDataSourceRepresentation) +
+				compartmentIdVariableStr + OcvpSupportedCommitmentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(datasourceName, "host_shape_name"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "host_shape_name"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "items.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "items.0.name"),
 			),
 		},
