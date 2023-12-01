@@ -215,6 +215,8 @@ The following arguments are supported:
 	* `scheduled_start_time` - (Optional) (Updatable) auto start time. value must be of ISO-8601 format "HH:mm"
 	* `scheduled_stop_time` - (Optional) (Updatable) auto stop time. value must be of ISO-8601 format "HH:mm"
 * `secret_id` - (Optional) (Updatable) The Oracle Cloud Infrastructure vault secret [/Content/General/Concepts/identifiers.htm]OCID.
+
+	This cannot be used in conjunction with adminPassword. 
 * `secret_version_number` - (Optional) (Updatable) The version of the vault secret. If no version is specified, the latest version will be used.
 * `source` - (Optional) The source of the database: Use `NONE` for creating a new Autonomous Database. Use `DATABASE` for creating a new Autonomous Database by cloning an existing Autonomous Database. Use `CROSS_REGION_DATAGUARD` to create a standby Data Guard database in another region.
 

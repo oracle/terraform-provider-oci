@@ -619,6 +619,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_of_last_backup": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_snapshot_standby_revert": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1200,6 +1204,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeOfLastBackup != nil {
+		s.D.Set("time_of_last_backup", s.Res.TimeOfLastBackup.String())
 	}
 
 	if s.Res.TimeSnapshotStandbyRevert != nil {
