@@ -212,6 +212,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeOfLastBackup != nil {
+		s.D.Set("time_of_last_backup", s.Res.TimeOfLastBackup.String())
+	}
+
 	if s.Res.TimeSnapshotStandbyRevert != nil {
 		s.D.Set("time_snapshot_standby_revert", s.Res.TimeSnapshotStandbyRevert.String())
 	}
