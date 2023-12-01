@@ -28,6 +28,7 @@ resource "oci_osmanagement_managed_instance_group" "test_managed_instance_group"
 	description = var.managed_instance_group_description
 	freeform_tags = {"bar-key"= "value"}
 	os_family = var.managed_instance_group_os_family
+	managed_instance_ids = var.managed_instance_group_managed_instance_ids
 }
 ```
 
@@ -41,6 +42,7 @@ The following arguments are supported:
 * `display_name` - (Required) (Updatable) Managed Instance Group identifier
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `os_family` - (Optional) The Operating System type of the managed instance(s) on which this scheduled job will operate. If not specified, this defaults to Linux. 
+* `managed_instance_ids` - (Optional) The list of managed instance OCIDs to be added to the managed instance group.
 
 
 ** IMPORTANT **
@@ -56,6 +58,7 @@ The following attributes are exported:
 * `display_name` - Managed Instance Group identifier
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - OCID for the managed instance group
+* `managed_instance_ids` - The list of managed instances OCIDs attached to the managed instance group.
 * `managed_instances` - list of Managed Instances in the group
 	* `display_name` - User friendly name
 	* `id` - unique identifier that is immutable on creation
