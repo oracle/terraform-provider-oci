@@ -398,6 +398,10 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"provisionable_autonomous_container_databases": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"provisioned_autonomous_container_databases": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -869,6 +873,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.OcpusEnabled != nil {
 		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
+	}
+
+	if s.Res.ProvisionableAutonomousContainerDatabases != nil {
+		s.D.Set("provisionable_autonomous_container_databases", *s.Res.ProvisionableAutonomousContainerDatabases)
 	}
 
 	if s.Res.ProvisionedAutonomousContainerDatabases != nil {

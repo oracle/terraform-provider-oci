@@ -19,6 +19,7 @@ data "oci_database_autonomous_database_character_sets" "test_autonomous_database
 
 	#Optional
 	character_set_type = var.autonomous_database_character_set_character_set_type
+	is_dedicated = var.autonomous_database_character_set_is_dedicated
 	is_shared = var.autonomous_database_character_set_is_shared
 }
 ```

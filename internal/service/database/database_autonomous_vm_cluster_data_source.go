@@ -196,6 +196,10 @@ func (s *DatabaseAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
 	}
 
+	if s.Res.ProvisionableAutonomousContainerDatabases != nil {
+		s.D.Set("provisionable_autonomous_container_databases", *s.Res.ProvisionableAutonomousContainerDatabases)
+	}
+
 	if s.Res.ProvisionedAutonomousContainerDatabases != nil {
 		s.D.Set("provisioned_autonomous_container_databases", *s.Res.ProvisionedAutonomousContainerDatabases)
 	}
