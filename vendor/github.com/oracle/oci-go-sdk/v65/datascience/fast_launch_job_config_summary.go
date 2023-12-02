@@ -68,7 +68,6 @@ const (
 	FastLaunchJobConfigSummaryShapeSeriesIntelSkylake FastLaunchJobConfigSummaryShapeSeriesEnum = "INTEL_SKYLAKE"
 	FastLaunchJobConfigSummaryShapeSeriesNvidiaGpu    FastLaunchJobConfigSummaryShapeSeriesEnum = "NVIDIA_GPU"
 	FastLaunchJobConfigSummaryShapeSeriesLegacy       FastLaunchJobConfigSummaryShapeSeriesEnum = "LEGACY"
-	FastLaunchJobConfigSummaryShapeSeriesArm          FastLaunchJobConfigSummaryShapeSeriesEnum = "ARM"
 )
 
 var mappingFastLaunchJobConfigSummaryShapeSeriesEnum = map[string]FastLaunchJobConfigSummaryShapeSeriesEnum{
@@ -76,7 +75,6 @@ var mappingFastLaunchJobConfigSummaryShapeSeriesEnum = map[string]FastLaunchJobC
 	"INTEL_SKYLAKE": FastLaunchJobConfigSummaryShapeSeriesIntelSkylake,
 	"NVIDIA_GPU":    FastLaunchJobConfigSummaryShapeSeriesNvidiaGpu,
 	"LEGACY":        FastLaunchJobConfigSummaryShapeSeriesLegacy,
-	"ARM":           FastLaunchJobConfigSummaryShapeSeriesArm,
 }
 
 var mappingFastLaunchJobConfigSummaryShapeSeriesEnumLowerCase = map[string]FastLaunchJobConfigSummaryShapeSeriesEnum{
@@ -84,7 +82,6 @@ var mappingFastLaunchJobConfigSummaryShapeSeriesEnumLowerCase = map[string]FastL
 	"intel_skylake": FastLaunchJobConfigSummaryShapeSeriesIntelSkylake,
 	"nvidia_gpu":    FastLaunchJobConfigSummaryShapeSeriesNvidiaGpu,
 	"legacy":        FastLaunchJobConfigSummaryShapeSeriesLegacy,
-	"arm":           FastLaunchJobConfigSummaryShapeSeriesArm,
 }
 
 // GetFastLaunchJobConfigSummaryShapeSeriesEnumValues Enumerates the set of values for FastLaunchJobConfigSummaryShapeSeriesEnum
@@ -103,7 +100,6 @@ func GetFastLaunchJobConfigSummaryShapeSeriesEnumStringValues() []string {
 		"INTEL_SKYLAKE",
 		"NVIDIA_GPU",
 		"LEGACY",
-		"ARM",
 	}
 }
 

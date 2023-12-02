@@ -11,12 +11,12 @@ import (
 	"strings"
 )
 
-// ListSupportedCommitmentsRequest wrapper for the ListSupportedCommitments operation
+// ListSupportedSkusRequest wrapper for the ListSupportedSkus operation
 //
 // # See also
 //
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedCommitments.go.html to see an example of how to use ListSupportedCommitmentsRequest.
-type ListSupportedCommitmentsRequest struct {
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedSkus.go.html to see an example of how to use ListSupportedSkusRequest.
+type ListSupportedSkusRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
@@ -43,12 +43,12 @@ type ListSupportedCommitmentsRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request ListSupportedCommitmentsRequest) String() string {
+func (request ListSupportedSkusRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request ListSupportedCommitmentsRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request ListSupportedSkusRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -58,21 +58,21 @@ func (request ListSupportedCommitmentsRequest) HTTPRequest(method, path string, 
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request ListSupportedCommitmentsRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request ListSupportedSkusRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request ListSupportedCommitmentsRequest) RetryPolicy() *common.RetryPolicy {
+func (request ListSupportedSkusRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request ListSupportedCommitmentsRequest) ValidateEnumValue() (bool, error) {
+func (request ListSupportedSkusRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -80,14 +80,14 @@ func (request ListSupportedCommitmentsRequest) ValidateEnumValue() (bool, error)
 	return false, nil
 }
 
-// ListSupportedCommitmentsResponse wrapper for the ListSupportedCommitments operation
-type ListSupportedCommitmentsResponse struct {
+// ListSupportedSkusResponse wrapper for the ListSupportedSkus operation
+type ListSupportedSkusResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of SupportedCommitmentSummaryCollection instances
-	SupportedCommitmentSummaryCollection `presentIn:"body"`
+	// A list of SupportedSkuSummaryCollection instances
+	SupportedSkuSummaryCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
@@ -99,11 +99,11 @@ type ListSupportedCommitmentsResponse struct {
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
 }
 
-func (response ListSupportedCommitmentsResponse) String() string {
+func (response ListSupportedSkusResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response ListSupportedCommitmentsResponse) HTTPResponse() *http.Response {
+func (response ListSupportedSkusResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
