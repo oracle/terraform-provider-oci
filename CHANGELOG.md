@@ -1,3 +1,21 @@
+## 5.22.0 (Unreleased)
+
+### Added
+- Support for VM Cluster Vertical scaling | ADB-D + ADB-C@C
+- terraform test for reduce false positive
+- Support for ARM Shapes in Data Science
+- Support for Support OL8 and upgrade to OL8 | Base DB
+- Support for Manage Certificates of Target Servers
+- Support for Backup/Recovery Enhancements | ADB-D
+support for Database Tools service connections without runtime support
+- Support for Enable Multiple Clusters in an SDDC
+- Support for ExaDB-C@C (EXACC) Serial Console Access to VM - History Files
+- Support for ADB-S: Ability to Switch DB Tools On/Off
+- Support for Update documentation for SQL firewall management resources
+- Support for Increase Creation Time for VM Cluster in Terraform
+- Support adding managed instances to a group
+- Support for BM Capacity API for customers with dedicated capacity
+
 ## 5.21.0 (Unreleased)
 
 ### Added
