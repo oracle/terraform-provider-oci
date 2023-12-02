@@ -1,13 +1,21 @@
-## 5.21.0 (November 14, 2023)
+## 5.22.0 (December 06, 2023)
 
 ### Added
-- Support for BM Capacity API for customers with dedicated capacity
-test improvements for postgresql service
-- Support for BDS Certificate Management - API ONLY Changes
-- Support for IdentityDomains/IDCS API - Phase 3
-### Bug Fix
-- core ipsec tunnels
-- Analytics - fix for AOAC-60112 change on network_security_group_ids attribute for oci_analytics_analytics_instance resource forces replacement
+- Support for VM Cluster Vertical scaling | ADB-D + ADB-C@C
+- Support for Enable Multiple Clusters in an SDDC
+support for Database Tools service connections without runtime support
+- Support for Backup/Recovery Enhancements | ADB-D
+- Support for Manage Certificates of Target Servers
+- Support for Support OL8 and upgrade to OL8 | Base DB
+- Support for ARM Shapes in Data Science
+- terraform test for reduce false positive
+- Support for VM Cluster Vertical scaling | ADB-D + ADB-C@C
+- Support for ExaDB-C@C (EXACC) Serial Console Access to VM - History Files
+- Support for ADB-S: Ability to Switch DB Tools On/Off
+- Support for Update documentation for SQL firewall management resources
+- Support for Increase Creation Time for VM Cluster in Terraform
+- Support adding managed instances to a group
+- git module configuration to resolve TC job failure issue
 
 ## 5.21.0 (November 14, 2023)
 
