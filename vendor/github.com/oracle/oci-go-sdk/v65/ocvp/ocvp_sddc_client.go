@@ -61,7 +61,7 @@ func newSddcClientFromBaseClient(baseClient common.BaseClient, configProvider co
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
 	client = SddcClient{BaseClient: baseClient}
-	client.BasePath = "20200501"
+	client.BasePath = "20230701"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
@@ -146,7 +146,7 @@ func (client SddcClient) cancelDowngradeHcx(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/CancelDowngradeHcx"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/CancelDowngradeHcx"
 		err = common.PostProcessServiceError(err, "Sddc", "CancelDowngradeHcx", apiReferenceLink)
 		return response, err
 	}
@@ -211,7 +211,7 @@ func (client SddcClient) changeSddcCompartment(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/ChangeSddcCompartment"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/ChangeSddcCompartment"
 		err = common.PostProcessServiceError(err, "Sddc", "ChangeSddcCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -277,7 +277,7 @@ func (client SddcClient) createSddc(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/CreateSddc"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/CreateSddc"
 		err = common.PostProcessServiceError(err, "Sddc", "CreateSddc", apiReferenceLink)
 		return response, err
 	}
@@ -339,7 +339,7 @@ func (client SddcClient) deleteSddc(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/DeleteSddc"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/DeleteSddc"
 		err = common.PostProcessServiceError(err, "Sddc", "DeleteSddc", apiReferenceLink)
 		return response, err
 	}
@@ -406,7 +406,7 @@ func (client SddcClient) downgradeHcx(ctx context.Context, request common.OCIReq
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/DowngradeHcx"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/DowngradeHcx"
 		err = common.PostProcessServiceError(err, "Sddc", "DowngradeHcx", apiReferenceLink)
 		return response, err
 	}
@@ -464,7 +464,7 @@ func (client SddcClient) getSddc(ctx context.Context, request common.OCIRequest,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/GetSddc"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/GetSddc"
 		err = common.PostProcessServiceError(err, "Sddc", "GetSddc", apiReferenceLink)
 		return response, err
 	}
@@ -523,8 +523,66 @@ func (client SddcClient) listSddcs(ctx context.Context, request common.OCIReques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/SddcSummary/ListSddcs"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/SddcSummary/ListSddcs"
 		err = common.PostProcessServiceError(err, "Sddc", "ListSddcs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSupportedCommitments Lists supported Commitments.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedCommitments.go.html to see an example of how to use ListSupportedCommitments API.
+// A default retry strategy applies to this operation ListSupportedCommitments()
+func (client SddcClient) ListSupportedCommitments(ctx context.Context, request ListSupportedCommitmentsRequest) (response ListSupportedCommitmentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSupportedCommitments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSupportedCommitmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSupportedCommitmentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSupportedCommitmentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSupportedCommitmentsResponse")
+	}
+	return
+}
+
+// listSupportedCommitments implements the OCIOperation interface (enables retrying operations)
+func (client SddcClient) listSupportedCommitments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedCommitments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSupportedCommitmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/SupportedCommitmentSummary/ListSupportedCommitments"
+		err = common.PostProcessServiceError(err, "Sddc", "ListSupportedCommitments", apiReferenceLink)
 		return response, err
 	}
 
@@ -581,66 +639,8 @@ func (client SddcClient) listSupportedHostShapes(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/SupportedHostShapeSummary/ListSupportedHostShapes"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/SupportedHostShapeSummary/ListSupportedHostShapes"
 		err = common.PostProcessServiceError(err, "Sddc", "ListSupportedHostShapes", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListSupportedSkus Lists supported SKUs.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedSkus.go.html to see an example of how to use ListSupportedSkus API.
-// A default retry strategy applies to this operation ListSupportedSkus()
-func (client SddcClient) ListSupportedSkus(ctx context.Context, request ListSupportedSkusRequest) (response ListSupportedSkusResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listSupportedSkus, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListSupportedSkusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListSupportedSkusResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListSupportedSkusResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListSupportedSkusResponse")
-	}
-	return
-}
-
-// listSupportedSkus implements the OCIOperation interface (enables retrying operations)
-func (client SddcClient) listSupportedSkus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/supportedSkus", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListSupportedSkusResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/SupportedSkuSummary/ListSupportedSkus"
-		err = common.PostProcessServiceError(err, "Sddc", "ListSupportedSkus", apiReferenceLink)
 		return response, err
 	}
 
@@ -698,7 +698,7 @@ func (client SddcClient) listSupportedVmwareSoftwareVersions(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/SupportedVmwareSoftwareVersionSummary/ListSupportedVmwareSoftwareVersions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/SupportedVmwareSoftwareVersionSummary/ListSupportedVmwareSoftwareVersions"
 		err = common.PostProcessServiceError(err, "Sddc", "ListSupportedVmwareSoftwareVersions", apiReferenceLink)
 		return response, err
 	}
@@ -761,8 +761,71 @@ func (client SddcClient) refreshHcxLicenseStatus(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/RefreshHcxLicenseStatus"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/RefreshHcxLicenseStatus"
 		err = common.PostProcessServiceError(err, "Sddc", "RefreshHcxLicenseStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RetrievePassword Retrieve the SDDC password.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/RetrievePassword.go.html to see an example of how to use RetrievePassword API.
+// A default retry strategy applies to this operation RetrievePassword()
+func (client SddcClient) RetrievePassword(ctx context.Context, request RetrievePasswordRequest) (response RetrievePasswordResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.retrievePassword, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetrievePasswordResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetrievePasswordResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetrievePasswordResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetrievePasswordResponse")
+	}
+	return
+}
+
+// retrievePassword implements the OCIOperation interface (enables retrying operations)
+func (client SddcClient) retrievePassword(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sddcs/{sddcId}/actions/retrievePassword", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetrievePasswordResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/RetrievePassword"
+		err = common.PostProcessServiceError(err, "Sddc", "RetrievePassword", apiReferenceLink)
 		return response, err
 	}
 
@@ -823,7 +886,7 @@ func (client SddcClient) updateSddc(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpdateSddc"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/UpdateSddc"
 		err = common.PostProcessServiceError(err, "Sddc", "UpdateSddc", apiReferenceLink)
 		return response, err
 	}
@@ -886,7 +949,7 @@ func (client SddcClient) upgradeHcx(ctx context.Context, request common.OCIReque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/Sddc/UpgradeHcx"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/Sddc/UpgradeHcx"
 		err = common.PostProcessServiceError(err, "Sddc", "UpgradeHcx", apiReferenceLink)
 		return response, err
 	}

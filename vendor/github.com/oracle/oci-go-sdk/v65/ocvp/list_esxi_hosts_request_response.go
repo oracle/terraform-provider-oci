@@ -21,6 +21,9 @@ type ListEsxiHostsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.
 	SddcId *string `mandatory:"false" contributesTo:"query" name:"sddcId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cluster.
+	ClusterId *string `mandatory:"false" contributesTo:"query" name:"clusterId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Compute instance.
 	ComputeInstanceId *string `mandatory:"false" contributesTo:"query" name:"computeInstanceId"`
 
