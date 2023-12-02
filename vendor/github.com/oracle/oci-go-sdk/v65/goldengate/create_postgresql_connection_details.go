@@ -75,16 +75,15 @@ type CreatePostgresqlConnectionDetails struct {
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
 
 	// The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL.
-	// The supported file formats are .pem and .crt.
 	SslCa *string `mandatory:"false" json:"sslCa"`
 
-	// The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA).
+	// The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA) for PostgreSQL.
 	SslCrl *string `mandatory:"false" json:"sslCrl"`
 
-	// The base64 encoded certificate of the PostgreSQL server. The supported file formats are .pem and .crt.
+	// The base64 encoded certificate of the PostgreSQL server.
 	SslCert *string `mandatory:"false" json:"sslCert"`
 
-	// The base64 encoded private key of the PostgreSQL server. The supported file formats are .pem and .crt.
+	// The base64 encoded private key of the PostgreSQL server.
 	SslKey *string `mandatory:"false" json:"sslKey"`
 
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a

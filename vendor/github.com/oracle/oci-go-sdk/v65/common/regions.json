@@ -334,17 +334,5 @@
         "realmKey": "oc1",
         "regionIdentifier": "us-saltlake-2",
         "realmDomainComponent": "oraclecloud.com"
-    },
-    {
-        "regionKey": "avz",
-        "realmKey": "oc24",
-        "regionIdentifier": "eu-dcc-zurich-1",
-        "realmDomainComponent": "oraclecloud24.com"
-    },
-    {
-        "regionKey": "bog",
-        "realmKey": "oc1",
-        "regionIdentifier": "sa-bogota-1",
-        "realmDomainComponent": "oraclecloud.com"
     }
 ]
