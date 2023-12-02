@@ -10694,6 +10694,81 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 	return response, err
 }
 
+// UploadDiscoveryData Accepts discovery data for processing by Logging Analytics.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadDiscoveryData.go.html to see an example of how to use UploadDiscoveryData API.
+// A default retry strategy applies to this operation UploadDiscoveryData()
+func (client LogAnalyticsClient) UploadDiscoveryData(ctx context.Context, request UploadDiscoveryDataRequest) (response UploadDiscoveryDataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.uploadDiscoveryData, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UploadDiscoveryDataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UploadDiscoveryDataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UploadDiscoveryDataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UploadDiscoveryDataResponse")
+	}
+	return
+}
+
+// uploadDiscoveryData implements the OCIOperation interface (enables retrying operations)
+func (client LogAnalyticsClient) uploadDiscoveryData(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+	if !common.IsEnvVarFalse(common.UsingExpectHeaderEnvVar) {
+		extraHeaders["Expect"] = "100-continue"
+	}
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/namespaces/{namespaceName}/actions/uploadDiscoveryData", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UploadDiscoveryDataResponse
+	var httpResponse *http.Response
+	var customSigner common.HTTPRequestSigner
+	excludeBodySigningPredicate := func(r *http.Request) bool { return false }
+	customSigner, err = common.NewSignerFromOCIRequestSigner(client.Signer, excludeBodySigningPredicate)
+
+	//if there was an error overriding the signer, then use the signer from the client itself
+	if err != nil {
+		customSigner = client.Signer
+	}
+
+	//Execute the request with a custom signer
+	httpResponse, err = client.CallWithDetails(ctx, &httpRequest, common.ClientCallDetails{Signer: customSigner})
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/logan-api-spec/20200601/LogAnalyticsEntity/UploadDiscoveryData"
+		err = common.PostProcessServiceError(err, "LogAnalytics", "UploadDiscoveryData", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UploadLogEventsFile Accepts log events for processing by Logging Analytics.
 //
 // # See also

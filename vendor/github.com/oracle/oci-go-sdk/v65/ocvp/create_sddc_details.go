@@ -19,9 +19,6 @@ import (
 // CreateSddcDetails Details of the SDDC.
 type CreateSddcDetails struct {
 
-	// The availability domain to create the SDDC's ESXi hosts in. For multi-AD SDDC deployment, set to `multi-AD`.
-	ComputeAvailabilityDomain *string `mandatory:"true" json:"computeAvailabilityDomain"`
-
 	// The VMware software bundle to install on the ESXi hosts in the SDDC. To get a
 	// list of the available versions, use
 	// ListSupportedVmwareSoftwareVersions.
@@ -30,110 +27,29 @@ type CreateSddcDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the SDDC.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The number of ESXi hosts to create in the SDDC. You can add more hosts later
-	// (see CreateEsxiHost). Creating
-	// a SDDC with a ESXi host count of 1 will be considered a single ESXi host SDDC.
-	// **Note:** If you later delete EXSi hosts from a production SDDC to total less
-	// than 3, you are still billed for the 3 minimum recommended ESXi hosts. Also,
-	// you cannot add more VMware workloads to the SDDC until it again has at least
-	// 3 ESXi hosts.
-	EsxiHostsCount *int `mandatory:"true" json:"esxiHostsCount"`
+	// HCX configuration of the SDDC.
+	HcxMode HcxModesEnum `mandatory:"true" json:"hcxMode"`
+
+	InitialConfiguration *InitialConfiguration `mandatory:"true" json:"initialConfiguration"`
 
 	// One or more public SSH keys to be included in the `~/.ssh/authorized_keys` file for
 	// the default user on each ESXi host. Use a newline character to separate multiple keys.
 	// The SSH keys must be in the format required for the `authorized_keys` file
 	SshAuthorizedKeys *string `mandatory:"true" json:"sshAuthorizedKeys"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the management subnet to use
-	// for provisioning the SDDC.
-	ProvisioningSubnetId *string `mandatory:"true" json:"provisioningSubnetId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the vSphere
-	// component of the VMware environment.
-	VsphereVlanId *string `mandatory:"true" json:"vsphereVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the vMotion
-	// component of the VMware environment.
-	VmotionVlanId *string `mandatory:"true" json:"vmotionVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the vSAN
-	// component of the VMware environment.
-	VsanVlanId *string `mandatory:"true" json:"vsanVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the NSX VTEP
-	// component of the VMware environment.
-	NsxVTepVlanId *string `mandatory:"true" json:"nsxVTepVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the NSX Edge VTEP
-	// component of the VMware environment.
-	NsxEdgeVTepVlanId *string `mandatory:"true" json:"nsxEdgeVTepVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the NSX Edge
-	// Uplink 1 component of the VMware environment.
-	NsxEdgeUplink1VlanId *string `mandatory:"true" json:"nsxEdgeUplink1VlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the NSX Edge
-	// Uplink 2 component of the VMware environment.
-	// **Note:** This VLAN is reserved for future use to deploy public-facing applications on the VMware SDDC.
-	NsxEdgeUplink2VlanId *string `mandatory:"true" json:"nsxEdgeUplink2VlanId"`
-
 	// A descriptive name for the SDDC.
 	// SDDC name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the region.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A prefix used in the name of each ESXi host and Compute instance in the SDDC.
-	// If this isn't set, the SDDC's `displayName` is used as the prefix.
-	// For example, if the value is `mySDDC`, the ESXi hosts are named `mySDDC-1`,
-	// `mySDDC-2`, and so on.
-	InstanceDisplayNamePrefix *string `mandatory:"false" json:"instanceDisplayNamePrefix"`
-
-	// The billing option selected during SDDC creation.
-	// ListSupportedSkus.
-	InitialSku SkuEnum `mandatory:"false" json:"initialSku,omitempty"`
-
-	// For SDDC with dense compute shapes, this parameter indicates whether to enable HCX Advanced for this SDDC.
-	// For SDDC with standard compute shapes, this parameter is equivalent to `isHcxEnterpriseEnabled`.
-	IsHcxEnabled *bool `mandatory:"false" json:"isHcxEnabled"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the HCX
-	// component of the VMware environment. This value is required only when `isHcxEnabled` is true.
-	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
-
-	// Indicates whether to enable HCX Enterprise for this SDDC.
-	IsHcxEnterpriseEnabled *bool `mandatory:"false" json:"isHcxEnterpriseEnabled"`
+	// The ESXi software bundle to install on the ESXi hosts in the SDDC.
+	// Only versions under the same vmwareSoftwareVersion and have been validate by Oracle Cloud VMware Solution will be accepted.
+	// To get a list of the available versions, use
+	// ListSupportedVmwareSoftwareVersions.
+	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
 
 	// Indicates whether this SDDC is designated for only single ESXi host.
 	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
-
-	// The CIDR block for the IP addresses that VMware VMs in the SDDC use to run application
-	// workloads.
-	WorkloadNetworkCidr *string `mandatory:"false" json:"workloadNetworkCidr"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
-	// for the vSphere Replication component of the VMware environment.
-	ReplicationVlanId *string `mandatory:"false" json:"replicationVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
-	// for the Provisioning component of the VMware environment.
-	ProvisioningVlanId *string `mandatory:"false" json:"provisioningVlanId"`
-
-	// The initial compute shape of the SDDC's ESXi hosts.
-	// ListSupportedHostShapes.
-	InitialHostShapeName *string `mandatory:"false" json:"initialHostShapeName"`
-
-	// The initial OCPU count of the SDDC's ESXi hosts.
-	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
-
-	// Indicates whether shielded instance is enabled for this SDDC.
-	IsShieldedInstanceEnabled *bool `mandatory:"false" json:"isShieldedInstanceEnabled"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
-	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
-
-	// A list of datastore info for the SDDC.
-	// This value is required only when `initialHostShapeName` is a standard shape.
-	Datastores []DatastoreInfo `mandatory:"false" json:"datastores"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -155,10 +71,10 @@ func (m CreateSddcDetails) String() string {
 // Not recommended for calling this function directly
 func (m CreateSddcDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
-	if _, ok := GetMappingSkuEnum(string(m.InitialSku)); !ok && m.InitialSku != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InitialSku: %s. Supported values are: %s.", m.InitialSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	if _, ok := GetMappingHcxModesEnum(string(m.HcxMode)); !ok && m.HcxMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HcxMode: %s. Supported values are: %s.", m.HcxMode, strings.Join(GetHcxModesEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

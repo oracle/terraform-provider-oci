@@ -46,6 +46,8 @@ const (
 	OperationTypeGoldengateDeploymentUpgradeUpgrade    OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE"
 	OperationTypeGoldengateDeploymentUpgradeRollback   OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK"
 	OperationTypeGoldengateDeploymentUpgradeSnooze     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE"
+	OperationTypeGoldengateDeploymentCertificateCreate OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE"
+	OperationTypeGoldengateDeploymentCertificateDelete OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -77,6 +79,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE":    OperationTypeGoldengateDeploymentUpgradeUpgrade,
 	"GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK":   OperationTypeGoldengateDeploymentUpgradeRollback,
 	"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE":     OperationTypeGoldengateDeploymentUpgradeSnooze,
+	"GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE": OperationTypeGoldengateDeploymentCertificateCreate,
+	"GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE": OperationTypeGoldengateDeploymentCertificateDelete,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -108,6 +112,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_deployment_upgrade_upgrade":    OperationTypeGoldengateDeploymentUpgradeUpgrade,
 	"goldengate_deployment_upgrade_rollback":   OperationTypeGoldengateDeploymentUpgradeRollback,
 	"goldengate_deployment_upgrade_snooze":     OperationTypeGoldengateDeploymentUpgradeSnooze,
+	"goldengate_deployment_certificate_create": OperationTypeGoldengateDeploymentCertificateCreate,
+	"goldengate_deployment_certificate_delete": OperationTypeGoldengateDeploymentCertificateDelete,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -150,6 +156,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_DEPLOYMENT_UPGRADE_UPGRADE",
 		"GOLDENGATE_DEPLOYMENT_UPGRADE_ROLLBACK",
 		"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE",
+		"GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE",
+		"GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE",
 	}
 }
 
