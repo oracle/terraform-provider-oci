@@ -22,7 +22,6 @@ const (
 	NotebookSessionShapeSeriesIntelSkylake NotebookSessionShapeSeriesEnum = "INTEL_SKYLAKE"
 	NotebookSessionShapeSeriesNvidiaGpu    NotebookSessionShapeSeriesEnum = "NVIDIA_GPU"
 	NotebookSessionShapeSeriesLegacy       NotebookSessionShapeSeriesEnum = "LEGACY"
-	NotebookSessionShapeSeriesArm          NotebookSessionShapeSeriesEnum = "ARM"
 )
 
 var mappingNotebookSessionShapeSeriesEnum = map[string]NotebookSessionShapeSeriesEnum{
@@ -30,7 +29,6 @@ var mappingNotebookSessionShapeSeriesEnum = map[string]NotebookSessionShapeSerie
 	"INTEL_SKYLAKE": NotebookSessionShapeSeriesIntelSkylake,
 	"NVIDIA_GPU":    NotebookSessionShapeSeriesNvidiaGpu,
 	"LEGACY":        NotebookSessionShapeSeriesLegacy,
-	"ARM":           NotebookSessionShapeSeriesArm,
 }
 
 var mappingNotebookSessionShapeSeriesEnumLowerCase = map[string]NotebookSessionShapeSeriesEnum{
@@ -38,7 +36,6 @@ var mappingNotebookSessionShapeSeriesEnumLowerCase = map[string]NotebookSessionS
 	"intel_skylake": NotebookSessionShapeSeriesIntelSkylake,
 	"nvidia_gpu":    NotebookSessionShapeSeriesNvidiaGpu,
 	"legacy":        NotebookSessionShapeSeriesLegacy,
-	"arm":           NotebookSessionShapeSeriesArm,
 }
 
 // GetNotebookSessionShapeSeriesEnumValues Enumerates the set of values for NotebookSessionShapeSeriesEnum
@@ -57,7 +54,6 @@ func GetNotebookSessionShapeSeriesEnumStringValues() []string {
 		"INTEL_SKYLAKE",
 		"NVIDIA_GPU",
 		"LEGACY",
-		"ARM",
 	}
 }
 
