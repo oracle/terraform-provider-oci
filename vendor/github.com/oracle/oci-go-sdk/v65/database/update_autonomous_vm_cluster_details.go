@@ -30,6 +30,15 @@ type UpdateAutonomousVmClusterDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The new scaled up/down value for autonomous data storage in TBs for Autonomous VM cluster.
+	AutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"autonomousDataStorageSizeInTBs"`
+
+	// The new scaled up/down value for cpus per Autonomous VM cluster per node.
+	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
+
+	// The new scaled up/down value for maxACD count for Autonomous VM cluster.
+	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
 }
 
 func (m UpdateAutonomousVmClusterDetails) String() string {

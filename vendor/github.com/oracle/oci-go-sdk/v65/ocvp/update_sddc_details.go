@@ -29,57 +29,22 @@ type UpdateSddcDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The version of bundled VMware software that the Oracle Cloud VMware Solution will
-	// install on any new ESXi hosts that you add to this SDDC in the future.
+	// install on any new ESXi hosts that you add to this SDDC in the future unless a specific version is configured on the Cluster level.
 	// For the list of versions supported by the Oracle Cloud VMware Solution, see
 	// ListSupportedVmwareSoftwareVersions).
 	VmwareSoftwareVersion *string `mandatory:"false" json:"vmwareSoftwareVersion"`
+
+	// The version of bundled ESXi software that the Oracle Cloud VMware Solution will
+	// install on any new ESXi hosts that you add to this SDDC in the future unless a specific version is configured on the Cluster level.
+	// For the list of versions supported by the Oracle Cloud VMware Solution, see
+	// ListSupportedVmwareSoftwareVersions).
+	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
 
 	// One or more public SSH keys to be included in the `~/.ssh/authorized_keys` file for
 	// the default user on each ESXi host, only when adding new ESXi hosts to this SDDC.
 	// Use a newline character to separate multiple keys.
 	// The SSH keys must be in the format required for the `authorized_keys` file.
 	SshAuthorizedKeys *string `mandatory:"false" json:"sshAuthorizedKeys"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
-	// the vSphere component of the VMware environment when adding new ESXi hosts to the SDDC.
-	VsphereVlanId *string `mandatory:"false" json:"vsphereVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
-	// the vMotion component of the VMware environment when adding new ESXi hosts to the SDDC.
-	VmotionVlanId *string `mandatory:"false" json:"vmotionVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
-	// the vSAN component of the VMware environment when adding new ESXi hosts to the SDDC.
-	VsanVlanId *string `mandatory:"false" json:"vsanVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
-	// the NSX VTEP component of the VMware environment when adding new ESXi hosts to the SDDC.
-	NsxVTepVlanId *string `mandatory:"false" json:"nsxVTepVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
-	// the NSX Edge VTEP component of the VMware environment when adding new ESXi hosts to the SDDC.
-	NsxEdgeVTepVlanId *string `mandatory:"false" json:"nsxEdgeVTepVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
-	// the NSX Edge Uplink 1 component of the VMware environment when adding new ESXi hosts to the SDDC.
-	NsxEdgeUplink1VlanId *string `mandatory:"false" json:"nsxEdgeUplink1VlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for
-	// the NSX Edge Uplink 2 component of the VMware environment when adding new ESXi hosts to the SDDC.
-	// **Note:** This VLAN is reserved for future use to deploy public-facing applications on the VMware SDDC.
-	NsxEdgeUplink2VlanId *string `mandatory:"false" json:"nsxEdgeUplink2VlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
-	// for the vSphere Replication component of the VMware environment.
-	ReplicationVlanId *string `mandatory:"false" json:"replicationVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN used by the SDDC
-	// for the Provisioning component of the VMware environment.
-	ProvisioningVlanId *string `mandatory:"false" json:"provisioningVlanId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VLAN to use for the HCX
-	// component of the VMware environment when adding new ESXi hosts to the SDDC. This value can be updated only when `isHcxEnabled` is true.
-	HcxVlanId *string `mandatory:"false" json:"hcxVlanId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

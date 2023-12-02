@@ -33,13 +33,13 @@ type ExportDetails struct {
 	// List of filters to be applied when the query executes. More than one filter per field is not permitted.
 	ScopeFilters []ScopeFilter `mandatory:"false" json:"scopeFilters"`
 
-	// Maximum number of results retrieved from data source.  Note a maximum value will be enforced; if the export results can be streamed, the maximum will be 50000000, otherwise 10000; that is, if not streamed, actualMaxTotalCountUsed = Math.min(maxTotalCount, 10000).
-	//
-	// Export will incrementally stream results depending on the queryString.
-	// Some commands including head/tail are not compatible with streaming result delivery and therefore enforce a reduced limit on overall maxtotalcount.
-	//  no sort command or sort by id, e.g. ' | sort id ' - is streaming compatible
-	//  sort by time and id, e.g. ' | sort -time, id ' - is streaming compatible
-	// all other cases, e.g. ' | sort -time, id, mtgtguid ' - is not streaming compatible due to the additional sort field
+	// Maximum number of results retrieved from data source is determined by the specific query used and the maxTotalCount input field.
+	// If the export results can be streamed, the maximum will be 1,000,000.
+	// If the results cannot be streamed, the maximum limit is 500 for queries that include the link command
+	// and 10,000 for the queries that does not include the link command.
+	// Queries that include certain commands such as head, tail or stats cannot be streamed and are subject to a maximum of 10,000 results.
+	// Queries that include the sort command cannot be streamed unless the sort fields are restricted to id and/or time.
+	// The maximum number of results retrieved is the lesser of the maxTotalCount input provided and the applicable limit described above.
 	MaxTotalCount *int `mandatory:"false" json:"maxTotalCount"`
 
 	TimeFilter *TimeRange `mandatory:"false" json:"timeFilter"`
