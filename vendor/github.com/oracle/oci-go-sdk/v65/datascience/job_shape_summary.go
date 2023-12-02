@@ -59,6 +59,7 @@ const (
 	JobShapeSummaryShapeSeriesIntelSkylake JobShapeSummaryShapeSeriesEnum = "INTEL_SKYLAKE"
 	JobShapeSummaryShapeSeriesNvidiaGpu    JobShapeSummaryShapeSeriesEnum = "NVIDIA_GPU"
 	JobShapeSummaryShapeSeriesLegacy       JobShapeSummaryShapeSeriesEnum = "LEGACY"
+	JobShapeSummaryShapeSeriesArm          JobShapeSummaryShapeSeriesEnum = "ARM"
 )
 
 var mappingJobShapeSummaryShapeSeriesEnum = map[string]JobShapeSummaryShapeSeriesEnum{
@@ -66,6 +67,7 @@ var mappingJobShapeSummaryShapeSeriesEnum = map[string]JobShapeSummaryShapeSerie
 	"INTEL_SKYLAKE": JobShapeSummaryShapeSeriesIntelSkylake,
 	"NVIDIA_GPU":    JobShapeSummaryShapeSeriesNvidiaGpu,
 	"LEGACY":        JobShapeSummaryShapeSeriesLegacy,
+	"ARM":           JobShapeSummaryShapeSeriesArm,
 }
 
 var mappingJobShapeSummaryShapeSeriesEnumLowerCase = map[string]JobShapeSummaryShapeSeriesEnum{
@@ -73,6 +75,7 @@ var mappingJobShapeSummaryShapeSeriesEnumLowerCase = map[string]JobShapeSummaryS
 	"intel_skylake": JobShapeSummaryShapeSeriesIntelSkylake,
 	"nvidia_gpu":    JobShapeSummaryShapeSeriesNvidiaGpu,
 	"legacy":        JobShapeSummaryShapeSeriesLegacy,
+	"arm":           JobShapeSummaryShapeSeriesArm,
 }
 
 // GetJobShapeSummaryShapeSeriesEnumValues Enumerates the set of values for JobShapeSummaryShapeSeriesEnum
@@ -91,6 +94,7 @@ func GetJobShapeSummaryShapeSeriesEnumStringValues() []string {
 		"INTEL_SKYLAKE",
 		"NVIDIA_GPU",
 		"LEGACY",
+		"ARM",
 	}
 }
 

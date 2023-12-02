@@ -66,7 +66,7 @@ type UpdateMicrosoftSqlserverConnectionDetails struct {
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
 
-	// Database Certificate - The base64 encoded content of pem file
+	// Database Certificate - The base64 encoded content of a .pem or .crt file.
 	// containing the server public key (for 1-way SSL).
 	SslCa *string `mandatory:"false" json:"sslCa"`
 
