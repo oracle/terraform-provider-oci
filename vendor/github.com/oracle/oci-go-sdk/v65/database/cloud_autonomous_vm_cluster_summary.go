@@ -194,6 +194,15 @@ type CloudAutonomousVmClusterSummary struct {
 
 	// The number of non-provisionable Autonomous Container Databases in an Autonomous VM Cluster.
 	NonProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"nonProvisionableAutonomousContainerDatabases"`
+
+	// The lowest value to which exadataStorage in TBs can be scaled down.
+	ExadataStorageInTBsLowestScaledValue *float64 `mandatory:"false" json:"exadataStorageInTBsLowestScaledValue"`
+
+	// The lowest value to which ocpus can be scaled down.
+	OcpusLowestScaledValue *int `mandatory:"false" json:"ocpusLowestScaledValue"`
+
+	// The lowest value to which ACDs can be scaled down.
+	MaxAcdsLowestScaledValue *int `mandatory:"false" json:"maxAcdsLowestScaledValue"`
 }
 
 func (m CloudAutonomousVmClusterSummary) String() string {

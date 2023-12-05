@@ -61,7 +61,7 @@ func newEsxiHostClientFromBaseClient(baseClient common.BaseClient, configProvide
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
 	client = EsxiHostClient{BaseClient: baseClient}
-	client.BasePath = "20200501"
+	client.BasePath = "20230701"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
@@ -150,7 +150,7 @@ func (client EsxiHostClient) createEsxiHost(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/CreateEsxiHost"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/CreateEsxiHost"
 		err = common.PostProcessServiceError(err, "EsxiHost", "CreateEsxiHost", apiReferenceLink)
 		return response, err
 	}
@@ -218,7 +218,7 @@ func (client EsxiHostClient) deleteEsxiHost(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/DeleteEsxiHost"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/DeleteEsxiHost"
 		err = common.PostProcessServiceError(err, "EsxiHost", "DeleteEsxiHost", apiReferenceLink)
 		return response, err
 	}
@@ -276,8 +276,71 @@ func (client EsxiHostClient) getEsxiHost(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/GetEsxiHost"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/GetEsxiHost"
 		err = common.PostProcessServiceError(err, "EsxiHost", "GetEsxiHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InplaceUpgrade In-place upgrade a ESXi host.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/InplaceUpgrade.go.html to see an example of how to use InplaceUpgrade API.
+// A default retry strategy applies to this operation InplaceUpgrade()
+func (client EsxiHostClient) InplaceUpgrade(ctx context.Context, request InplaceUpgradeRequest) (response InplaceUpgradeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.inplaceUpgrade, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InplaceUpgradeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InplaceUpgradeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InplaceUpgradeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InplaceUpgradeResponse")
+	}
+	return
+}
+
+// inplaceUpgrade implements the OCIOperation interface (enables retrying operations)
+func (client EsxiHostClient) inplaceUpgrade(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/esxiHosts/{esxiHostId}/actions/inplaceUpgrade", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InplaceUpgradeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/InplaceUpgrade"
+		err = common.PostProcessServiceError(err, "EsxiHost", "InplaceUpgrade", apiReferenceLink)
 		return response, err
 	}
 
@@ -341,8 +404,71 @@ func (client EsxiHostClient) listEsxiHosts(ctx context.Context, request common.O
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHostSummary/ListEsxiHosts"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHostSummary/ListEsxiHosts"
 		err = common.PostProcessServiceError(err, "EsxiHost", "ListEsxiHosts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReplaceHost Replace a faulty ESXi host whose underlying bare metal is broken
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ReplaceHost.go.html to see an example of how to use ReplaceHost API.
+// A default retry strategy applies to this operation ReplaceHost()
+func (client EsxiHostClient) ReplaceHost(ctx context.Context, request ReplaceHostRequest) (response ReplaceHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.replaceHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReplaceHostResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReplaceHostResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReplaceHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReplaceHostResponse")
+	}
+	return
+}
+
+// replaceHost implements the OCIOperation interface (enables retrying operations)
+func (client EsxiHostClient) replaceHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/esxiHosts/{esxiHostId}/actions/replaceHost", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReplaceHostResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/ReplaceHost"
+		err = common.PostProcessServiceError(err, "EsxiHost", "ReplaceHost", apiReferenceLink)
 		return response, err
 	}
 
@@ -404,7 +530,7 @@ func (client EsxiHostClient) swapBilling(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/SwapBilling"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/SwapBilling"
 		err = common.PostProcessServiceError(err, "EsxiHost", "SwapBilling", apiReferenceLink)
 		return response, err
 	}
@@ -462,7 +588,7 @@ func (client EsxiHostClient) updateEsxiHost(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20200501/EsxiHost/UpdateEsxiHost"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vmware/20230701/EsxiHost/UpdateEsxiHost"
 		err = common.PostProcessServiceError(err, "EsxiHost", "UpdateEsxiHost", apiReferenceLink)
 		return response, err
 	}

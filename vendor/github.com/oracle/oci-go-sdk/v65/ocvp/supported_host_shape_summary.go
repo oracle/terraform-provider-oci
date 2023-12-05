@@ -34,8 +34,8 @@ type SupportedHostShapeSummary struct {
 	// Support OCPU count of the shape.
 	SupportedOcpuCount []float32 `mandatory:"false" json:"supportedOcpuCount"`
 
-	// The supported SDDC types for the shape.
-	SupportedSddcTypes []SddcTypesEnum `mandatory:"false" json:"supportedSddcTypes,omitempty"`
+	// Indicates whether the shape supports single host SDDCs.
+	IsSingleHostSddcSupported *bool `mandatory:"false" json:"isSingleHostSddcSupported"`
 
 	// The VMware software versions supported by the shape.
 	SupportedVmwareSoftwareVersions []string `mandatory:"false" json:"supportedVmwareSoftwareVersions"`
@@ -46,8 +46,8 @@ type SupportedHostShapeSummary struct {
 	// Indicates whether the shape supports shielded instances.
 	IsSupportShieldedInstances *bool `mandatory:"false" json:"isSupportShieldedInstances"`
 
-	// Whether the shape supports "MONTH" SKU.
-	IsSupportMonthlySku *bool `mandatory:"false" json:"isSupportMonthlySku"`
+	// Whether the shape supports "MONTH" Commitment.
+	IsSupportMonthlyCommitment *bool `mandatory:"false" json:"isSupportMonthlyCommitment"`
 }
 
 func (m SupportedHostShapeSummary) String() string {
@@ -62,12 +62,6 @@ func (m SupportedHostShapeSummary) ValidateEnumValue() (bool, error) {
 	for _, val := range m.SupportedOperations {
 		if _, ok := GetMappingOperationTypesEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SupportedOperations: %s. Supported values are: %s.", val, strings.Join(GetOperationTypesEnumStringValues(), ",")))
-		}
-	}
-
-	for _, val := range m.SupportedSddcTypes {
-		if _, ok := GetMappingSddcTypesEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SupportedSddcTypes: %s. Supported values are: %s.", val, strings.Join(GetSddcTypesEnumStringValues(), ",")))
 		}
 	}
 

@@ -30,7 +30,7 @@ type CreateAwrHubDetails struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Object Storage Bucket Name
-	ObjectStorageBucketName *string `mandatory:"true" json:"objectStorageBucketName"`
+	ObjectStorageBucketName *string `mandatory:"false" json:"objectStorageBucketName"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

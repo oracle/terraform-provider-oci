@@ -27,6 +27,9 @@ type UpgradeDbSystemDetails struct {
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	NewGiVersion *string `mandatory:"false" json:"newGiVersion"`
 
+	// A valid Oracle Software (OS) version eg. Oracle Linux Server release 8
+	NewOsVersion *string `mandatory:"false" json:"newOsVersion"`
+
 	// If true, rollback time is updated even if operating system upgrade history contains errors.
 	IsSnapshotRetentionDaysForceUpdated *bool `mandatory:"false" json:"isSnapshotRetentionDaysForceUpdated"`
 }
