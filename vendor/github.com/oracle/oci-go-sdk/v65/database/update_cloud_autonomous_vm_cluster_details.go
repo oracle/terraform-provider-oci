@@ -26,6 +26,15 @@ type UpdateCloudAutonomousVmClusterDetails struct {
 
 	MaintenanceWindowDetails *MaintenanceWindow `mandatory:"false" json:"maintenanceWindowDetails"`
 
+	// The new scaled up/down value for exadata storage in TBs for cloud autonomous VM cluster.
+	AutonomousDataStorageSizeInTBs *float64 `mandatory:"false" json:"autonomousDataStorageSizeInTBs"`
+
+	// The new scaled up/down value for ocpus for cloud autonomous VM cluster per node.
+	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
+
+	// The new scaled up/down value for maxACD count for cloud autonomous VM cluster.
+	TotalContainerDatabases *int `mandatory:"false" json:"totalContainerDatabases"`
+
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the

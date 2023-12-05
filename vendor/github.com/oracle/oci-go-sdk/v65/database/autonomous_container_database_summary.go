@@ -156,6 +156,9 @@ type AutonomousContainerDatabaseSummary struct {
 
 	// The largest Autonomous Database (CPU) that can be created in a new Autonomous Container Database.
 	LargestProvisionableAutonomousDatabaseInCpus *float32 `mandatory:"false" json:"largestProvisionableAutonomousDatabaseInCpus"`
+
+	// The timestamp of last successful backup. Here NULL value represents either there are no successful backups or backups are not configured for this Autonomous Container Database.
+	TimeOfLastBackup *common.SDKTime `mandatory:"false" json:"timeOfLastBackup"`
 }
 
 func (m AutonomousContainerDatabaseSummary) String() string {

@@ -2,13 +2,14 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud VMware Solution API
+// Operations Insights API
 //
-// Use the Oracle Cloud VMware API to create SDDCs and manage ESXi hosts and software.
-// For more information, see Oracle Cloud VMware Solution (https://docs.cloud.oracle.com/iaas/Content/VMware/Concepts/ocvsoverview.htm).
+// Use the Operations Insights API to perform data extraction operations to obtain database
+// resource utilization, performance statistics, and reference information. For more information,
+// see About Oracle Cloud Infrastructure Operations Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
-package ocvp
+package opsi
 
 import (
 	"fmt"
@@ -16,21 +17,21 @@ import (
 	"strings"
 )
 
-// SupportedSkuSummaryCollection A specific SKU.
-type SupportedSkuSummaryCollection struct {
+// AwrHubObjects Logical grouping used for Awr Hub Object operations.
+type AwrHubObjects struct {
 
-	// A list of the supported SKUs.
-	Items []SupportedSkuSummary `mandatory:"true" json:"items"`
+	// Awr Hub Object.
+	AwrSnapshots *interface{} `mandatory:"false" json:"awrSnapshots"`
 }
 
-func (m SupportedSkuSummaryCollection) String() string {
+func (m AwrHubObjects) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SupportedSkuSummaryCollection) ValidateEnumValue() (bool, error) {
+func (m AwrHubObjects) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
