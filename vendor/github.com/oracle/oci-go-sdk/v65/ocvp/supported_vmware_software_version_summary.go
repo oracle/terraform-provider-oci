@@ -25,6 +25,9 @@ type SupportedVmwareSoftwareVersionSummary struct {
 
 	// A description of the software in the bundle.
 	Description *string `mandatory:"true" json:"description"`
+
+	// A list of supported ESXi software versions.
+	EsxiSoftwareVersions []SupportedEsxiSoftwareVersionSummary `mandatory:"false" json:"esxiSoftwareVersions"`
 }
 
 func (m SupportedVmwareSoftwareVersionSummary) String() string {
