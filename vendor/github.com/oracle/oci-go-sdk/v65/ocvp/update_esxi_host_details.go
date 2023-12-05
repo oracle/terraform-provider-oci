@@ -20,14 +20,14 @@ import (
 type UpdateEsxiHostDetails struct {
 
 	// A descriptive name for the ESXi host. It's changeable.
-	// Esxi Host name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the SDDC.
+	// Esxi Host name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the Cluster.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The billing option to switch to after the existing billing cycle ends.
-	// If `nextSku` is null or empty, `currentSku` continues to the next billing cycle.
-	// ListSupportedSkus.
-	NextSku SkuEnum `mandatory:"false" json:"nextSku,omitempty"`
+	// If `nextCommitment` is null or empty, `currentCommitment` continues to the next billing cycle.
+	// ListSupportedCommitments.
+	NextCommitment CommitmentEnum `mandatory:"false" json:"nextCommitment,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deleted ESXi Host with LeftOver billing cycle.
 	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
@@ -53,8 +53,8 @@ func (m UpdateEsxiHostDetails) String() string {
 func (m UpdateEsxiHostDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingSkuEnum(string(m.NextSku)); !ok && m.NextSku != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextSku: %s. Supported values are: %s.", m.NextSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	if _, ok := GetMappingCommitmentEnum(string(m.NextCommitment)); !ok && m.NextCommitment != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextCommitment: %s. Supported values are: %s.", m.NextCommitment, strings.Join(GetCommitmentEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

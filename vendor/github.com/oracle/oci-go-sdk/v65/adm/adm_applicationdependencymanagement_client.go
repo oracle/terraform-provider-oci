@@ -1461,7 +1461,7 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyRec
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/ApplicationDependencyRecommendationCollection/ListApplicationDependencyRecommendations"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/RemediationRun/ListApplicationDependencyRecommendations"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListApplicationDependencyRecommendations", apiReferenceLink)
 		return response, err
 	}
@@ -1637,7 +1637,7 @@ func (client ApplicationDependencyManagementClient) listRemediationRecipes(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/RemediationRecipeCollection/ListRemediationRecipes"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/RemediationRecipe/ListRemediationRecipes"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListRemediationRecipes", apiReferenceLink)
 		return response, err
 	}
@@ -1696,7 +1696,7 @@ func (client ApplicationDependencyManagementClient) listRemediationRuns(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/RemediationRunCollection/ListRemediationRuns"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/RemediationRun/ListRemediationRuns"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListRemediationRuns", apiReferenceLink)
 		return response, err
 	}
@@ -1754,7 +1754,7 @@ func (client ApplicationDependencyManagementClient) listStages(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/RemediationRunStageCollection/ListStages"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/adm/20220421/RemediationRunStage/ListStages"
 		err = common.PostProcessServiceError(err, "ApplicationDependencyManagement", "ListStages", apiReferenceLink)
 		return response, err
 	}
@@ -1764,7 +1764,7 @@ func (client ApplicationDependencyManagementClient) listStages(ctx context.Conte
 }
 
 // ListVulnerabilityAudits Returns a list of Vulnerability Audits based on the specified query parameters.
-// At least one of id, compartmentId or knowledgeBaseId query parameter must be provided.
+// At least one of id, compartmentId query parameter must be provided.
 //
 // # See also
 //

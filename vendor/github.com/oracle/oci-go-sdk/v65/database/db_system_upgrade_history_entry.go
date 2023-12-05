@@ -25,12 +25,6 @@ type DbSystemUpgradeHistoryEntry struct {
 	// The operating system upgrade action.
 	Action DbSystemUpgradeHistoryEntryActionEnum `mandatory:"true" json:"action"`
 
-	// A valid Oracle Grid Infrastructure (GI) software version.
-	NewGiVersion *string `mandatory:"true" json:"newGiVersion"`
-
-	// A valid Oracle Grid Infrastructure (GI) software version.
-	OldGiVersion *string `mandatory:"true" json:"oldGiVersion"`
-
 	// The retention period, in days, for the snapshot that allows you to perform a rollback of the upgrade operation. After this number of days passes, you cannot roll back the upgrade.
 	SnapshotRetentionPeriodInDays *int `mandatory:"true" json:"snapshotRetentionPeriodInDays"`
 
@@ -39,6 +33,18 @@ type DbSystemUpgradeHistoryEntry struct {
 
 	// The date and time when the upgrade action started.
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
+
+	// A valid Oracle Grid Infrastructure (GI) software version.
+	NewGiVersion *string `mandatory:"false" json:"newGiVersion"`
+
+	// A valid Oracle Grid Infrastructure (GI) software version.
+	OldGiVersion *string `mandatory:"false" json:"oldGiVersion"`
+
+	// A valid Oracle Software (OS) version eg. Oracle Linux Server release 8
+	OldOsVersion *string `mandatory:"false" json:"oldOsVersion"`
+
+	// A valid Oracle Software (OS) version eg. Oracle Linux Server release 8
+	NewOsVersion *string `mandatory:"false" json:"newOsVersion"`
 
 	// A descriptive text associated with the lifecycleState.
 	// Typically contains additional displayable text.
