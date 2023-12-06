@@ -80,6 +80,9 @@ type CreateVmClusterDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
+	// Operating system version of the image.
+	SystemVersion *string `mandatory:"false" json:"systemVersion"`
 }
 
 func (m CreateVmClusterDetails) String() string {

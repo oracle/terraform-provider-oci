@@ -59,7 +59,7 @@ func readOcvpSupportedSkus(d *schema.ResourceData, m interface{}) error {
 type OcvpSupportedSkusDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_ocvp.SddcClient
-	Res    *oci_ocvp.ListSupportedSkusResponse
+	Res    *oci_ocvp.ListSupportedCommitmentsResponse
 }
 
 func (s *OcvpSupportedSkusDataSourceCrud) VoidState() {
@@ -67,7 +67,7 @@ func (s *OcvpSupportedSkusDataSourceCrud) VoidState() {
 }
 
 func (s *OcvpSupportedSkusDataSourceCrud) Get() error {
-	request := oci_ocvp.ListSupportedSkusRequest{}
+	request := oci_ocvp.ListSupportedCommitmentsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -81,7 +81,7 @@ func (s *OcvpSupportedSkusDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
 
-	response, err := s.Client.ListSupportedSkus(context.Background(), request)
+	response, err := s.Client.ListSupportedCommitments(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -90,7 +90,7 @@ func (s *OcvpSupportedSkusDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSupportedSkus(context.Background(), request)
+		listResponse, err := s.Client.ListSupportedCommitments(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -111,7 +111,7 @@ func (s *OcvpSupportedSkusDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, SupportedSkuSummaryToMap(item))
+		items = append(items, SupportedCommitmentSummaryToSkuMap(item))
 	}
 
 	if err := s.D.Set("items", items); err != nil {
@@ -121,7 +121,7 @@ func (s *OcvpSupportedSkusDataSourceCrud) SetData() error {
 	return nil
 }
 
-func SupportedSkuSummaryToMap(obj oci_ocvp.SupportedSkuSummary) map[string]interface{} {
+func SupportedCommitmentSummaryToSkuMap(obj oci_ocvp.SupportedCommitmentSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["name"] = string(obj.Name)

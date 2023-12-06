@@ -63,10 +63,10 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 
 The following arguments are supported:
 
-* `autonomous_data_storage_size_in_tbs` - (Optional) The data disk group size to be allocated for Autonomous Databases, in TBs.
+* `autonomous_data_storage_size_in_tbs` - (Optional) (Updatable) The data disk group size to be allocated for Autonomous Databases, in TBs.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_model` - (Optional) The compute model of the Autonomous VM Cluster.  
-* `cpu_core_count_per_node` - (Optional) The number of CPU cores to enable per VM cluster node.
+* `cpu_core_count_per_node` - (Optional) (Updatable) The number of CPU cores to enable per VM cluster node.
 * `db_servers` - (Optional) The list of [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Db servers.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
@@ -93,7 +93,7 @@ The following arguments are supported:
 * `scan_listener_port_non_tls` - (Optional) The SCAN Listener Non TLS port number. Default value is 1521.
 * `scan_listener_port_tls` - (Optional) The SCAN Listener TLS port number. Default value is 2484.
 * `time_zone` - (Optional) The time zone to use for the Autonomous VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
-* `total_container_databases` - (Optional) The total number of Autonomous Container Databases that can be created.
+* `total_container_databases` - (Optional) (Updatable) The total number of Autonomous Container Databases that can be created.
 * `vm_cluster_network_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 
 
@@ -119,6 +119,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+* `exadata_storage_in_tbs_lowest_scaled_value` - The lowest value to which exadataStorage in TBs can be scaled down.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM cluster.
 * `is_local_backup_enabled` - If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster. 
@@ -136,6 +137,7 @@ The following attributes are exported:
 		* `name` - Name of the month of the year.
 	* `preference` - The maintenance window scheduling preference.
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
+* `max_acds_lowest_scaled_value` - The lowest value to which ACDs can be scaled down.
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) to be enabled per OCPU or ECPU.  
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.

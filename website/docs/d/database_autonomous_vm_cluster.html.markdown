@@ -42,6 +42,7 @@ The following attributes are exported:
 * `compute_model` - The compute model of the Autonomous VM Cluster.  
 * `cpu_core_count_per_node` - The number of CPU cores enabled per VM cluster node.
 * `cpus_enabled` - The number of enabled CPU cores.
+* `cpus_lowest_scaled_value` - The lowest value to which cpus can be scaled down.
 * `data_storage_size_in_gb` - The total data storage allocated in GBs.
 * `data_storage_size_in_tbs` - The total data storage allocated in TBs
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
@@ -49,6 +50,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Autonomous VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+* `exadata_storage_in_tbs_lowest_scaled_value` - The lowest value to which exadataStorage in TBs can be scaled down.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous VM cluster.
 * `is_local_backup_enabled` - If true, database backup on local Exadata storage is configured for the Autonomous VM cluster. If false, database backup on local Exadata storage is not available in the Autonomous VM cluster. 
@@ -66,6 +68,7 @@ The following attributes are exported:
 		* `name` - Name of the month of the year.
 	* `preference` - The maintenance window scheduling preference.
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
+* `max_acds_lowest_scaled_value` - The lowest value to which ACDs can be scaled down.
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) to be enabled per OCPU or ECPU.  
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.

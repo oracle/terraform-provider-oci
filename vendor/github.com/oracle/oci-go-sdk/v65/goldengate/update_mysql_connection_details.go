@@ -64,20 +64,19 @@ type UpdateMysqlConnectionDetails struct {
 	// The name of the database.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 
-	// Database Certificate - The base64 encoded content of mysql.pem file
+	// Database Certificate - The base64 encoded content of a .pem or .crt file.
 	// containing the server public key (for 1 and 2-way SSL).
 	SslCa *string `mandatory:"false" json:"sslCa"`
 
-	// Certificates revoked by certificate authorities (CA).
-	// Server certificate must not be on this list (for 1 and 2-way SSL).
-	// Note: This is an optional and that too only applicable if TLS/MTLS option is selected.
+	// The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA).
+	// Note: This is an optional property and only applicable if TLS/MTLS option is selected.
 	SslCrl *string `mandatory:"false" json:"sslCrl"`
 
-	// Client Certificate - The base64 encoded content of client-cert.pem file
+	// Client Certificate - The base64 encoded content of a .pem or .crt file.
 	// containing the client public key (for 2-way SSL).
 	SslCert *string `mandatory:"false" json:"sslCert"`
 
-	// Client Key - The client-key.pem containing the client private key (for 2-way SSL).
+	// Client Key – The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL).
 	SslKey *string `mandatory:"false" json:"sslKey"`
 
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a

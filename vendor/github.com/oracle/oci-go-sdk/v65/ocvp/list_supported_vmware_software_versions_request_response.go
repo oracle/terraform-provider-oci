@@ -35,6 +35,12 @@ type ListSupportedVmwareSoftwareVersionsRequest struct {
 	// request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only resources that match the given VMware software version exactly.
+	Version *string `mandatory:"false" contributesTo:"query" name:"version"`
+
+	// A filter to return only resources that match or support the given ESXi host shape.
+	HostShapeName *string `mandatory:"false" contributesTo:"query" name:"hostShapeName"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

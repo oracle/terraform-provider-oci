@@ -75,6 +75,12 @@ const (
 	OperationTypeUpdateNewsReport                        OperationTypeEnum = "UPDATE_NEWS_REPORT"
 	OperationTypeMoveNewsReport                          OperationTypeEnum = "MOVE_NEWS_REPORT"
 	OperationTypeDeleteNewsReport                        OperationTypeEnum = "DELETE_NEWS_REPORT"
+	OperationTypeCreateAwrhubSource                      OperationTypeEnum = "CREATE_AWRHUB_SOURCE"
+	OperationTypeDeleteAwrhubSource                      OperationTypeEnum = "DELETE_AWRHUB_SOURCE"
+	OperationTypeUpdateAwrhubSource                      OperationTypeEnum = "UPDATE_AWRHUB_SOURCE"
+	OperationTypeMoveAwrhubSource                        OperationTypeEnum = "MOVE_AWRHUB_SOURCE"
+	OperationTypeEnableAwrhubSource                      OperationTypeEnum = "ENABLE_AWRHUB_SOURCE"
+	OperationTypeDisableAwrhubSource                     OperationTypeEnum = "DISABLE_AWRHUB_SOURCE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -133,6 +139,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_NEWS_REPORT":                           OperationTypeUpdateNewsReport,
 	"MOVE_NEWS_REPORT":                             OperationTypeMoveNewsReport,
 	"DELETE_NEWS_REPORT":                           OperationTypeDeleteNewsReport,
+	"CREATE_AWRHUB_SOURCE":                         OperationTypeCreateAwrhubSource,
+	"DELETE_AWRHUB_SOURCE":                         OperationTypeDeleteAwrhubSource,
+	"UPDATE_AWRHUB_SOURCE":                         OperationTypeUpdateAwrhubSource,
+	"MOVE_AWRHUB_SOURCE":                           OperationTypeMoveAwrhubSource,
+	"ENABLE_AWRHUB_SOURCE":                         OperationTypeEnableAwrhubSource,
+	"DISABLE_AWRHUB_SOURCE":                        OperationTypeDisableAwrhubSource,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -191,6 +203,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_news_report":                           OperationTypeUpdateNewsReport,
 	"move_news_report":                             OperationTypeMoveNewsReport,
 	"delete_news_report":                           OperationTypeDeleteNewsReport,
+	"create_awrhub_source":                         OperationTypeCreateAwrhubSource,
+	"delete_awrhub_source":                         OperationTypeDeleteAwrhubSource,
+	"update_awrhub_source":                         OperationTypeUpdateAwrhubSource,
+	"move_awrhub_source":                           OperationTypeMoveAwrhubSource,
+	"enable_awrhub_source":                         OperationTypeEnableAwrhubSource,
+	"disable_awrhub_source":                        OperationTypeDisableAwrhubSource,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -260,6 +278,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_NEWS_REPORT",
 		"MOVE_NEWS_REPORT",
 		"DELETE_NEWS_REPORT",
+		"CREATE_AWRHUB_SOURCE",
+		"DELETE_AWRHUB_SOURCE",
+		"UPDATE_AWRHUB_SOURCE",
+		"MOVE_AWRHUB_SOURCE",
+		"ENABLE_AWRHUB_SOURCE",
+		"DISABLE_AWRHUB_SOURCE",
 	}
 }
 

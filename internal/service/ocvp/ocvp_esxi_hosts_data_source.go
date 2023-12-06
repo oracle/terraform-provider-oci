@@ -18,6 +18,10 @@ func OcvpEsxiHostsDataSource() *schema.Resource {
 		Read: readOcvpEsxiHosts,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -75,6 +79,11 @@ func (s *OcvpEsxiHostsDataSourceCrud) VoidState() {
 
 func (s *OcvpEsxiHostsDataSourceCrud) Get() error {
 	request := oci_ocvp.ListEsxiHostsRequest{}
+
+	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
+		tmp := clusterId.(string)
+		request.ClusterId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)

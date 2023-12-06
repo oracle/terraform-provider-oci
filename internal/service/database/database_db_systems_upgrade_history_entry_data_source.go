@@ -38,7 +38,15 @@ func DatabaseDbSystemsUpgradeHistoryEntryDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"new_os_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"old_gi_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"old_os_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -121,8 +129,16 @@ func (s *DatabaseDbSystemsUpgradeHistoryEntryDataSourceCrud) SetData() error {
 		s.D.Set("new_gi_version", *s.Res.NewGiVersion)
 	}
 
+	if s.Res.NewOsVersion != nil {
+		s.D.Set("new_os_version", *s.Res.NewOsVersion)
+	}
+
 	if s.Res.OldGiVersion != nil {
 		s.D.Set("old_gi_version", *s.Res.OldGiVersion)
+	}
+
+	if s.Res.OldOsVersion != nil {
+		s.D.Set("old_os_version", *s.Res.OldOsVersion)
 	}
 
 	if s.Res.SnapshotRetentionPeriodInDays != nil {

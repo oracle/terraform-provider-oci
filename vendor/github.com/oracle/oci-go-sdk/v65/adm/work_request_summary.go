@@ -57,6 +57,10 @@ type WorkRequestSummary struct {
 
 	// The date and time the object was finished, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m WorkRequestSummary) String() string {
