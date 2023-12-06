@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -52,3 +52,25 @@ variable "autonomous_database_is_dedicated" {
 variable "autonomous_database_autonomous_maintenance_schedule_type" {
   default = "EARLY"
 }
+
+variable "autonomous_database_character_set" {
+  default = "AL32UTF8"
+}
+
+variable "autonomous_database_ncharacter_set" {
+  default = "AL16UTF16"
+}
+
+variable "autonomous_database_character_set_character_set_type" {
+  default = "DATABASE"
+}
+
+variable "autonomous_database_character_set_is_shared" {
+  default = true
+
+}
+
+variable "autonomous_database_character_set_is_dedicated" {
+  default = false
+}
+

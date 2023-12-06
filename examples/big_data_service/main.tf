@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -19,8 +19,17 @@ variable "region" {
 variable "compartment_id" {
 }
 
+variable "subnet_id" {
+}
+
 variable "bds_instance_cluster_admin_password" {
-  default = "V2VsY29tZTE="
+  default = "T3JhY2xlVGVhbVVTQSExMjM="
+}
+
+variable "kms_key_id" {
+}
+
+variable "cluster_profile" {
 }
 
 variable "bds_instance_cluster_public_key" {
@@ -74,20 +83,49 @@ variable "bds_instance_nodes_shape" {
 }
 
 variable "bds_instance_worker_node_shape" {
-  default = "VM.Standard2.1"
+  default = "VM.Standard2.4"
+}
+
+variable "bds_instance_compute_only_worker_node_shape" {
+  default = "VM.Standard.E4.Flex"
+}
+
+variable "bds_instance_compute_only_worker_memory_per_node" {
+  default = 32
+}
+
+variable "bds_instance_compute_only_worker_ocpu_per_node" {
+  default = 3
+}
+
+variable "bds_instance_edge_node_shape" {
+  default = "VM.Standard.E4.Flex"
+}
+
+variable "bds_instance_edge_memory_per_node" {
+  default = 32
+}
+
+variable "bds_instance_edge_ocpu_per_node" {
+  default = 3
 }
 
 variable "bds_instance_state" {
   default = "ACTIVE"
 }
 
-variable "tag_namespace_description" {
-  default = "Just a test"
+data "oci_core_services" "test_bds_services" {
 }
 
-variable "tag_namespace_name" {
-  default = "testexamples-tag-namespace"
-}
+#Uncomment this when running in home region (PHX)
+#variable "tag_namespace_description" {
+#  default = "Just a test"
+#}
+
+#Uncomment this when running in home region (PHX)
+#variable "tag_namespace_name" {
+#  default = "testexamples-tag-namespace"
+#}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -97,25 +135,51 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_identity_tag_namespace" "tag-namespace1" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  description    = var.tag_namespace_description
-  name           = var.tag_namespace_name
-}
+#Uncomment this when running in home region (PHX)
+#resource "oci_identity_tag_namespace" "tag-namespace1" {
+#  #Required
+#  compartment_id = var.tenancy_ocid
+#  description    = var.tag_namespace_description
+#  name           = var.tag_namespace_name
+#}
 
-resource "oci_identity_tag" "tag1" {
-  #Required
-  description      = "tf example tag"
-  name             = "tf-example-tag"
-  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
-}
+#Uncomment this when running in home region (PHX)
+#resource "oci_identity_tag" "tag1" {
+#  #Required
+#  description      = "tf example tag"
+#  name             = "tf-example-tag"
+#  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
+#}
 
 resource "oci_core_vcn" "vcn_bds" {
   cidr_block     = "111.111.0.0/16"
   compartment_id = var.compartment_id
   display_name   = "BDS_VCN"
   dns_label      = "bdsvcn"
+}
+
+resource "oci_core_service_gateway" "export_sgw" {
+  compartment_id = var.compartment_id
+  display_name   = "sgw"
+
+  services {
+    service_id = data.oci_core_services.test_bds_services.services[0]["id"]
+  }
+
+  vcn_id = oci_core_vcn.vcn_bds.id
+}
+
+resource "oci_core_route_table" "private_rt" {
+  compartment_id = var.compartment_id
+  display_name   = "private-rt"
+
+  route_rules {
+    destination       = data.oci_core_services.test_bds_services.services[0]["cidr_block"]
+    destination_type  = "SERVICE_CIDR_BLOCK"
+    network_entity_id = oci_core_service_gateway.export_sgw.id
+  }
+
+  vcn_id = oci_core_vcn.vcn_bds.id
 }
 
 resource "oci_core_subnet" "regional_subnet_bds" {
@@ -138,12 +202,15 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   display_name           = var.bds_instance_display_name
   is_high_availability   = var.bds_instance_is_high_availability
   is_secure              = var.bds_instance_is_secure
+  kms_key_id             = var.kms_key_id
+  cluster_profile        = var.cluster_profile
+  bootstrap_script_url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/1hWiiE-2GVzGiKhaBX1zyXVa_jTIu_cU5kDdKTyYS74Wk5xmEA2WKht9NTA2y935/n/oraclebigdatadb/b/bootstrap-script-sdk-test/o/bootstrapScriptTemplate1bootstrapScript1.sh"
 
   master_node {
     #Required
     shape = var.bds_instance_nodes_shape
 
-    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
   }
@@ -152,7 +219,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
     #Required
     shape = var.bds_instance_nodes_shape
 
-    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
   }
@@ -161,10 +228,39 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
     #Required
     shape = var.bds_instance_worker_node_shape
 
-    subnet_id                = oci_core_subnet.regional_subnet_bds.id
+    subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
     number_of_nodes          = 4
   }
+
+  edge_node {
+    #Required
+    shape = var.bds_instance_edge_node_shape
+
+    subnet_id                = var.subnet_id
+    block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
+    number_of_nodes          = 1
+    shape_config {
+      memory_in_gbs = var.bds_instance_edge_memory_per_node
+      ocpus         = var.bds_instance_edge_ocpu_per_node
+    }
+  }
+
+  compute_only_worker_node {
+    #Required
+    shape = var.bds_instance_compute_only_worker_node_shape
+
+    subnet_id                = var.subnet_id
+    block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
+    number_of_nodes          = 1
+    shape_config {
+      memory_in_gbs = var.bds_instance_compute_only_worker_memory_per_node
+      ocpus         = var.bds_instance_compute_only_worker_ocpu_per_node
+    }
+  }
+
+
+
 
   #   cloud_sql_details {
   #     shape                    = "VM.Standard2.4"
@@ -173,10 +269,29 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 
   is_cloud_sql_configured = false
 
+
+  #Change value to true for use of Kafka cluster
+  is_kafka_configured = false
+
+  #Uncomment kafka_broker_node block for use of Kafka cluster
+  #kafka_broker_node {
+    #Required
+  #  shape = var.bds_instance_compute_only_worker_node_shape
+
+  #  subnet_id                = var.subnet_id
+  #  block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
+  #  number_of_nodes          = 1
+  #  shape_config {
+  #    memory_in_gbs = var.bds_instance_compute_only_worker_memory_per_node
+  #    ocpus         = var.bds_instance_compute_only_worker_ocpu_per_node
+  #  }
+  #}
+
   #Optional
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.bds_instance_defined_tags_value
-  }
+#Uncomment this when running in home region (PHX)
+#  defined_tags = {
+#    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = var.bds_instance_defined_tags_value
+#  }
   freeform_tags = var.bds_instance_freeform_tags
   network_config {
     #Optional

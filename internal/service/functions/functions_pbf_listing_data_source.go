@@ -1,0 +1,183 @@
+// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package functions
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_functions "github.com/oracle/oci-go-sdk/v65/functions"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+)
+
+func FunctionsPbfListingDataSource() *schema.Resource {
+	return &schema.Resource{
+		Read: readSingularFunctionsPbfListing,
+		Schema: map[string]*schema.Schema{
+			"pbf_listing_id": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			// Computed
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"description": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"publisher_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
+			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"triggers": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+		},
+	}
+}
+
+func readSingularFunctionsPbfListing(d *schema.ResourceData, m interface{}) error {
+	sync := &FunctionsPbfListingDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).FunctionsManagementClient()
+
+	return tfresource.ReadResource(sync)
+}
+
+type FunctionsPbfListingDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_functions.FunctionsManagementClient
+	Res    *oci_functions.GetPbfListingResponse
+}
+
+func (s *FunctionsPbfListingDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func (s *FunctionsPbfListingDataSourceCrud) Get() error {
+	request := oci_functions.GetPbfListingRequest{}
+
+	if pbfListingId, ok := s.D.GetOkExists("pbf_listing_id"); ok {
+		tmp := pbfListingId.(string)
+		request.PbfListingId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "functions")
+
+	response, err := s.Client.GetPbfListing(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *FunctionsPbfListingDataSourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
+	s.D.SetId(*s.Res.Id)
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.Name != nil {
+		s.D.Set("name", *s.Res.Name)
+	}
+
+	if s.Res.PublisherDetails != nil {
+		s.D.Set("publisher_details", []interface{}{PublisherDetailsToMap(s.Res.PublisherDetails)})
+	} else {
+		s.D.Set("publisher_details", nil)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	triggers := []interface{}{}
+	for _, item := range s.Res.Triggers {
+		triggers = append(triggers, TriggerToMap(item))
+	}
+	s.D.Set("triggers", triggers)
+
+	return nil
+}

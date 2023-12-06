@@ -59,10 +59,12 @@ The following attributes are exported:
 	**Exports without defined `ClientOptions` are invisible to all clients.**
 
 	If one export is invisible to a particular client, associated file systems may still be accessible through other exports on the same or different mount targets. To completely deny client access to a file system, be sure that the client source IP address is not included in any export for any mount target associated with the file system. 
-	* `access` - Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_ONLY`. 
+	* `access` - Type of access to grant clients using the file system through this export. If unspecified defaults to `READ_WRITE`. 
+	* `allowed_auth` - Array of allowed NFS authentication types.
 	* `anonymous_gid` - GID value to remap to when squashing a client GID (see identitySquash for more details.) If unspecified defaults to `65534`. 
 	* `anonymous_uid` - UID value to remap to when squashing a client UID (see identitySquash for more details.) If unspecified, defaults to `65534`. 
 	* `identity_squash` - Used when clients accessing the file system through this export have their UID and GID remapped to 'anonymousUid' and 'anonymousGid'. If `ALL`, all users and groups are remapped; if `ROOT`, only the root user and group (UID/GID 0) are remapped; if `NONE`, no remapping is done. If unspecified, defaults to `ROOT`. 
+	* `is_anonymous_access_allowed` - Whether or not to enable anonymous access to the file system through this export in cases where a user isn't found in the LDAP server used for ID mapping. If true, and the user is not found in the LDAP directory, the operation uses the Squash UID and Squash GID. 
 	* `require_privileged_source_port` - If `true`, clients accessing the file system through this export must connect from a privileged source port. If unspecified, defaults to `true`. 
 	* `source` - Clients these options should apply to. Must be a either single IPv4 address or single IPv4 CIDR block.
 
@@ -70,6 +72,7 @@ The following attributes are exported:
 * `export_set_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export's export set.
 * `file_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export's file system.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this export.
+* `is_idmap_groups_for_sys_auth` - Whether or not the export should use ID mapping for Unix groups rather than the group list provided within an NFS request's RPC header. When this flag is true the Unix UID from the RPC header is used to retrieve the list of secondary groups from a the ID mapping subsystem. The primary GID is always taken from the RPC header. If ID mapping is not configured, incorrectly configured, unavailable, or cannot be used to determine a list of secondary groups then an empty secondary group list is used for authorization. If the number of groups exceeds the limit of 256 groups, the list retrieved from LDAP is truncated to the first 256 groups read.
 * `path` - Path used to access the associated file system.
 
 	Avoid entering confidential information.

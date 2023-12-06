@@ -27,8 +27,16 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 	vm_cluster_network_id = oci_database_vm_cluster_network.test_vm_cluster_network.id
 
 	#Optional
+	data_collection_options {
+
+		#Optional
+		is_diagnostics_events_enabled = var.vm_cluster_data_collection_options_is_diagnostics_events_enabled
+		is_health_monitoring_enabled = var.vm_cluster_data_collection_options_is_health_monitoring_enabled
+		is_incident_logs_enabled = var.vm_cluster_data_collection_options_is_incident_logs_enabled
+	}
 	data_storage_size_in_tbs = var.vm_cluster_data_storage_size_in_tbs
 	db_node_storage_size_in_gbs = var.vm_cluster_db_node_storage_size_in_gbs
+	db_servers = var.vm_cluster_db_servers
 	defined_tags = var.vm_cluster_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 	is_local_backup_enabled = var.vm_cluster_is_local_backup_enabled
@@ -45,8 +53,14 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpu_core_count` - (Required) (Updatable) The number of CPU cores to enable for the VM cluster. *Note:* If `cpu_core_count` is modified in `DISCONNECTED` state, the provider could experience a drift in Terraform state. To remediate this, refresh your Terraform state and update the configuration file when the Oracle Cloud Infrastructure connection is established.
+* `data_collection_options` - (Optional) (Updatable) Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 
+	* `is_diagnostics_events_enabled` - (Optional) (Updatable) Indicates whether diagnostic collection is enabled for the VM cluster/Cloud VM cluster/VMBM DBCS. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster/Cloud VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` or `updateCloudVmCluster` API. 
+	* `is_health_monitoring_enabled` - (Optional) (Updatable) Indicates whether health monitoring is enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel. You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster`, `UpdateCloudVmCluster` or `updateDbsystem` API. 
+	* `is_incident_logs_enabled` - (Optional) (Updatable) Indicates whether incident logs and trace collection are enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster`, `updateCloudVmCluster` or `updateDbsystem` API. 
+* `data_storage_size_in_gb` - (Optional) (Updatable) The data disk group size to be allocated in GBs.
 * `data_storage_size_in_tbs` - (Optional) (Updatable) The data disk group size to be allocated in TBs.
 * `db_node_storage_size_in_gbs` - (Optional) (Updatable) The local node storage to be allocated in GBs.
+* `db_servers` - (Optional) The list of Db server.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
@@ -68,10 +82,17 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `availability_domain` - The name of the availability domain that the VM cluster is located in.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpus_enabled` - The number of enabled CPU cores.
+* `data_collection_options` - Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 
+	* `is_diagnostics_events_enabled` - Indicates whether diagnostic collection is enabled for the VM cluster/Cloud VM cluster/VMBM DBCS. Enabling diagnostic collection allows you to receive Events service notifications for guest VM issues. Diagnostic collection also allows Oracle to provide enhanced service and proactive support for your Exadata system. You can enable diagnostic collection during VM cluster/Cloud VM cluster provisioning. You can also disable or enable it at any time using the `UpdateVmCluster` or `updateCloudVmCluster` API. 
+	* `is_health_monitoring_enabled` - Indicates whether health monitoring is enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling health monitoring allows Oracle to collect diagnostic data and share it with its operations and support personnel. You may also receive notifications for some events. Collecting health diagnostics enables Oracle to provide proactive support and enhanced service for your system. Optionally enable health monitoring while provisioning a system. You can also disable or enable health monitoring anytime using the `UpdateVmCluster`, `UpdateCloudVmCluster` or `updateDbsystem` API. 
+	* `is_incident_logs_enabled` - Indicates whether incident logs and trace collection are enabled for the VM cluster / Cloud VM cluster / VMBM DBCS. Enabling incident logs collection allows Oracle to receive Events service notifications for guest VM issues, collect incident logs and traces, and use them to diagnose issues and resolve them. Optionally enable incident logs collection while provisioning a system. You can also disable or enable incident logs collection anytime using the `UpdateVmCluster`, `updateCloudVmCluster` or `updateDbsystem` API. 
+* `data_storage_size_in_gb` - Size of the DATA disk group in GBs.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
+* `db_servers` - The list of Db server.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Exadata Cloud@Customer VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
@@ -94,7 +115,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Vm Cluster
 	* `update` - (Defaults to 20 minutes), when updating the Vm Cluster
 	* `delete` - (Defaults to 20 minutes), when destroying the Vm Cluster

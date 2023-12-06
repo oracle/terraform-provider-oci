@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -47,6 +47,10 @@ variable "alarm_freeform_tags" {
 
 variable "alarm_is_enabled" {
   default = false
+}
+
+variable "alarm_message_format" {
+  default = "ONS_OPTIMIZED"
 }
 
 variable "alarm_metric_compartment_id_in_subtree" {
@@ -125,6 +129,10 @@ variable "tag_namespace_name" {
   default = "testexamples-tag-namespace"
 }
 
+variable "is_notifications_per_metric_dimension_enabled" {
+  default = false
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -157,11 +165,13 @@ resource "oci_monitoring_alarm" "test_alarm" {
 
   #Optional
   body                             = var.alarm_body
+  message_format                   = var.alarm_message_format
   metric_compartment_id_in_subtree = var.alarm_metric_compartment_id_in_subtree
   pending_duration                 = var.alarm_pending_duration
   repeat_notification_duration     = var.alarm_repeat_notification_duration
   resolution                       = var.alarm_resolution
   resource_group                   = var.alarm_resource_group
+  is_notifications_per_metric_dimension_enabled = var.is_notifications_per_metric_dimension_enabled
 
   suppression {
     #Required

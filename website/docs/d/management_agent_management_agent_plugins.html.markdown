@@ -21,7 +21,9 @@ data "oci_management_agent_management_agent_plugins" "test_management_agent_plug
 	compartment_id = var.compartment_id
 
 	#Optional
+	agent_id = var.management_agent_id
 	display_name = var.management_agent_plugin_display_name
+	platform_type = var.management_agent_plugin_platform_type
 	state = var.management_agent_plugin_state
 }
 ```
@@ -30,8 +32,10 @@ data "oci_management_agent_management_agent_plugins" "test_management_agent_plug
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment from which the Management Agents to be listed.
+* `agent_id` - (Optional) The ManagementAgentID of the agent from which the Management Agents to be filtered.
+* `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
 * `display_name` - (Optional) Filter to return only Management Agent Plugins having the particular display name.
+* `platform_type` - (Optional) Array of PlatformTypes to return only results having the particular platform types. Example: ["LINUX"]
 * `state` - (Optional) Filter to return only Management Agents in the particular lifecycle state.
 
 

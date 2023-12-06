@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -41,3 +41,14 @@ variable "autonomous_container_database_backup_config_recovery_window_in_days" {
   default = 10
 }
 
+variable "cloud_exadata_infrastructure_shape" {
+  default = "Exadata.X8M"
+}
+
+variable "cloud_exadata_infrastructure_compute_count" {
+  default = "2"
+}
+
+variable "cloud_exadata_infrastructure_storage_count" {
+  default = "3"
+}

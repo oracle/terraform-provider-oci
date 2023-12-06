@@ -10,7 +10,12 @@ description: |-
 # oci_core_instance_pool
 This resource provides the Instance Pool resource in Oracle Cloud Infrastructure Core service.
 
-Create an instance pool.
+Creates an instance pool.
+
+To determine whether capacity is available for a specific shape before you create an instance pool,
+use the [CreateComputeCapacityReport](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ComputeCapacityReport/CreateComputeCapacityReport)
+operation.
+
 
 ## Example Usage
 
@@ -22,16 +27,34 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 	placement_configurations {
 		#Required
 		availability_domain = var.instance_pool_placement_configurations_availability_domain
-		primary_subnet_id = oci_core_subnet.test_subnet.id
 
 		#Optional
 		fault_domains = var.instance_pool_placement_configurations_fault_domains
+		primary_subnet_id = oci_core_subnet.test_subnet.id
+		primary_vnic_subnets {
+			#Required
+			subnet_id = oci_core_subnet.test_subnet.id
+
+			#Optional
+			ipv6address_ipv6subnet_cidr_pair_details {
+
+				#Optional
+				ipv6subnet_cidr = var.instance_pool_placement_configurations_primary_vnic_subnets_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+			}
+			is_assign_ipv6ip = var.instance_pool_placement_configurations_primary_vnic_subnets_is_assign_ipv6ip
+		}
 		secondary_vnic_subnets {
 			#Required
 			subnet_id = oci_core_subnet.test_subnet.id
 
 			#Optional
 			display_name = var.instance_pool_placement_configurations_secondary_vnic_subnets_display_name
+			ipv6address_ipv6subnet_cidr_pair_details {
+
+				#Optional
+				ipv6subnet_cidr = var.instance_pool_placement_configurations_secondary_vnic_subnets_ipv6address_ipv6subnet_cidr_pair_details_ipv6subnet_cidr
+			}
+			is_assign_ipv6ip = var.instance_pool_placement_configurations_secondary_vnic_subnets_is_assign_ipv6ip
 		}
 	}
 	size = var.instance_pool_size
@@ -40,6 +63,8 @@ resource "oci_core_instance_pool" "test_instance_pool" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.instance_pool_display_name
 	freeform_tags = {"Department"= "Finance"}
+	instance_display_name_formatter = var.instance_pool_instance_display_name_formatter
+	instance_hostname_formatter = var.instance_pool_instance_hostname_formatter
 	load_balancers {
 		#Required
 		backend_set_name = oci_load_balancer_backend_set.test_backend_set.name
@@ -56,9 +81,11 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance pool. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name for the instance pool. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `instance_configuration_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
+* `instance_display_name_formatter` - (Optional) (Updatable) A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
+* `instance_hostname_formatter` - (Optional) (Updatable) A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
 * `load_balancers` - (Optional) The load balancers to attach to the instance pool. 
 	* `backend_set_name` - (Required) The name of the backend set on the load balancer to add instances to.
 	* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer to attach to the instance pool. 
@@ -76,12 +103,20 @@ The following arguments are supported:
 
 		To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
 
-		Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]` 
-	* `primary_subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
-	* `secondary_vnic_subnets` - (Optional) (Updatable) The set of secondary VNIC data for instances in the pool.
-		* `display_name` - (Optional) (Updatable) The display name of the VNIC. This is also use to match against the instance configuration defined secondary VNIC. 
+		Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]`
+	* `primary_subnet_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. This field is deprecated. Use `primaryVnicSubnets` instead to set VNIC data for instances in the pool. 
+	* `primary_vnic_subnets` - (Optional) (Updatable) Details about the IPv6 primary subnet.
+		* `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) (Updatable) A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range. 
+			* `ipv6subnet_cidr` - (Optional) (Updatable) Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation. 
+		* `is_assign_ipv6ip` - (Optional) (Updatable) Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you. 
 		* `subnet_id` - (Required) (Updatable) The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
-* `size` - (Required) (Updatable) The number of instances that should be in the instance pool. Modifying this value will override the size of the instance pool. If the instance pool is linked with autoscaling configuration, autoscaling configuration could resize the instance pool at a later point. The instance pool's actual size may differ from the configured size if it is associated with an autoscaling configuration. For the actual size of the instance pool, refer to the `actual_size` attribute.
+	* `secondary_vnic_subnets` - (Optional) (Updatable) The set of secondary VNIC data for instances in the pool.
+		* `display_name` - (Optional) (Updatable) The display name of the VNIC. This is also used to match against the instance configuration defined secondary VNIC.
+		* `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) (Updatable) A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range. 
+			* `ipv6subnet_cidr` - (Optional) (Updatable) Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation. 
+		* `is_assign_ipv6ip` - (Optional) (Updatable) Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you. 
+		* `subnet_id` - (Required) (Updatable) The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
+* `size` - (Required) (Updatable) The number of instances that should be in the instance pool. Modifying this value will override the size of the instance pool. If the instance pool is linked with autoscaling configuration, autoscaling configuration could resize the instance pool at a later point. The instance pool's actual size may differ from the configured size if it is associated with an autoscaling configuration, instance pool's actual size will be reflected in this size attribute. 
 * `state` - (Optional) (Updatable) The target state for the instance pool update operation (ignored at create time and should not be set). Could be set to RUNNING or STOPPED.
 
 
@@ -94,10 +129,12 @@ The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the instance pool. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - The user-friendly name. Does not have to be unique.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.
 * `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
+* `instance_display_name_formatter` - A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
+* `instance_hostname_formatter` - A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
 * `load_balancers` - The load balancers attached to the instance pool. 
 	* `backend_set_name` - The name of the backend set on the load balancer.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer attachment.
@@ -116,10 +153,18 @@ The following attributes are exported:
 
 		To get a list of fault domains, use the [ListFaultDomains](https://docs.cloud.oracle.com/iaas/api/#/en/identity/20160918/FaultDomain/ListFaultDomains) operation in the Identity and Access Management Service API.
 
-		Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]` 
-	* `primary_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. 
+		Example: `[FAULT-DOMAIN-1, FAULT-DOMAIN-2, FAULT-DOMAIN-3]`
+	* `primary_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the primary subnet to place instances. This field is deprecated. Use `primaryVnicSubnets` instead to set VNIC data for instances in the pool. 
+	* `primary_vnic_subnets` - Details about the IPv6 primary subnet.
+		* `ipv6address_ipv6subnet_cidr_pair_details` - A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range. 
+			* `ipv6subnet_cidr` - Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation. 
+		* `is_assign_ipv6ip` - Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you. 
+		* `subnet_id` - The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 	* `secondary_vnic_subnets` - The set of secondary VNIC data for instances in the pool.
-		* `display_name` - The display name of the VNIC. This is also use to match against the instance configuration defined secondary VNIC. 
+		* `display_name` - The display name of the VNIC. This is also used to match against the instance configuration defined secondary VNIC.
+		* `ipv6address_ipv6subnet_cidr_pair_details` - A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges and Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range. 
+			* `ipv6subnet_cidr` - Optional. Used to disambiguate which subnet prefix should be used to create an IPv6 allocation. 
+		* `is_assign_ipv6ip` - Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you. 
 		* `subnet_id` - The subnet [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the secondary VNIC.
 * `size` - The number of instances that should be in the instance pool.
 * `actual_size` - The number of actual instances in the instance pool on the cloud. This attribute will be different when instance pool is used along with autoScaling Configuration.
@@ -128,7 +173,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 1 hours), when creating the Instance Pool
 	* `update` - (Defaults to 1 hours), when updating the Instance Pool
 	* `delete` - (Defaults to 1 hours), when destroying the Instance Pool

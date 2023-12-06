@@ -20,12 +20,17 @@ resource "oci_opsi_host_insight" "test_host_insight" {
 	#Required
 	compartment_id = var.compartment_id
 	entity_source = var.host_insight_entity_source
-	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
 
 	#Optional
+	compute_id = oci_opsi_compute.test_compute.id
 	defined_tags = {"foo-namespace.bar-key"= "value"}
+	enterprise_manager_bridge_id = oci_opsi_enterprise_manager_bridge.test_enterprise_manager_bridge.id
+	enterprise_manager_entity_identifier = var.host_insight_enterprise_manager_entity_identifier
+	enterprise_manager_identifier = var.host_insight_enterprise_manager_identifier
+	exadata_insight_id = oci_opsi_exadata_insight.test_exadata_insight.id
 	freeform_tags = {"bar-key"= "value"}
-	status = 'DISABLED'
+	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
+	status = "DISABLED"
 }
 ```
 
@@ -34,11 +39,16 @@ resource "oci_opsi_host_insight" "test_host_insight" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) Compartment Identifier of host
+* `compute_id` - (Required when entity_source=MACS_MANAGED_CLOUD_HOST) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `enterprise_manager_bridge_id` - (Required when entity_source=EM_MANAGED_EXTERNAL_HOST) OPSI Enterprise Manager Bridge OCID
+* `enterprise_manager_entity_identifier` - (Required when entity_source=EM_MANAGED_EXTERNAL_HOST) Enterprise Manager Entity Unique Identifier
+* `enterprise_manager_identifier` - (Required when entity_source=EM_MANAGED_EXTERNAL_HOST) Enterprise Manager Unique Identifier
 * `entity_source` - (Required) (Updatable) Source of the host entity.
+* `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_HOST) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `status` - (Optional) (Updatable) Status of the resource. Example: "ENABLED", "DISABLED". Resource can be either enabled or disabled by updating the value of status field to either "ENABLED" or "DISABLED"
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `management_agent_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
+* `management_agent_id` - (Required when entity_source=MACS_MANAGED_CLOUD_HOST | MACS_MANAGED_EXTERNAL_HOST) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 
 
 ** IMPORTANT **
@@ -49,8 +59,16 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compute_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `enterprise_manager_bridge_id` - OPSI Enterprise Manager Bridge OCID
+* `enterprise_manager_entity_display_name` - Enterprise Manager Entity Display Name
+* `enterprise_manager_entity_identifier` - Enterprise Manager Entity Unique Identifier
+* `enterprise_manager_entity_name` - Enterprise Manager Entity Name
+* `enterprise_manager_entity_type` - Enterprise Manager Entity Type
+* `enterprise_manager_identifier` - Enterprise Manager Unique Identifier
 * `entity_source` - Source of the host entity.
+* `exadata_insight_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `host_display_name` - The user-friendly name for the host. The name does not have to be unique.
 * `host_name` - The host name. The host name is unique amongst the hosts managed by the same management agent.
@@ -59,7 +77,7 @@ The following attributes are exported:
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `management_agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 * `platform_name` - Platform name.
-* `platform_type` - Platform type.
+* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS]. Supported platformType(s) for MACS-managed cloud host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX]. 
 * `platform_version` - Platform version.
 * `processor_count` - Processor count.
 * `state` - The current state of the host.
@@ -70,7 +88,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Host Insight
 	* `update` - (Defaults to 20 minutes), when updating the Host Insight
 	* `delete` - (Defaults to 20 minutes), when destroying the Host Insight

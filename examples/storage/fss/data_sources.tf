@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 data "oci_identity_availability_domain" "ad" {
@@ -84,3 +84,51 @@ data "oci_core_private_ips" "ip_mount_target1" {
   }
 }
 
+# Gets a list of replications in a compartment and availability domain
+data "oci_file_storage_replications" "test_replications" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  #display_name   = var.replication_display_name
+  #file_system_id = oci_file_storage_file_system.test_file_system.id
+  #id             = var.replication_id
+  #state          = var.replication_state
+}
+
+data "oci_file_storage_replication_targets" "test_replication_targets" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  #display_name = var.replication_target_display_name
+  #id           = var.replication_target_id
+  #state        = var.replication_target_state
+}
+
+# Gets a list of filesystem snapshot policies in a compartment and availability domain
+data "oci_file_storage_filesystem_snapshot_policies" "filesystem_snapshot_policies" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  #display_name = var.filesystem_snapshot_policy_display_name
+  #id           = var.filesystem_snapshot_policy_id
+  #state        = var.filesystem_snapshot_policy_state
+}
+
+
+# Gets a list of outbound connectors in a compartment and availability domain
+data "oci_file_storage_outbound_connectors" "outbound_connectors" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  #Optional
+  #display_name = var.outbound_connector_display_name
+  #id           = var.outbound_connector_id
+  #state        = var.outbound_connector_state
+}

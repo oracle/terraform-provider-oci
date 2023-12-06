@@ -10,7 +10,7 @@ description: |-
 # oci_dns_view
 This resource provides the View resource in Oracle Cloud Infrastructure DNS service.
 
-Creates a new view in the specified compartment. Requires a `PRIVATE` scope query parameter.
+Creates a new view in the specified compartment.
 
 
 ## Example Usage
@@ -19,9 +19,9 @@ Creates a new view in the specified compartment. Requires a `PRIVATE` scope quer
 resource "oci_dns_view" "test_view" {
 	#Required
 	compartment_id = var.compartment_id
-	scope = "PRIVATE"
 
 	#Optional
+	scope = "PRIVATE"
 	defined_tags = var.view_defined_tags
 	display_name = var.view_display_name
 	freeform_tags = var.view_freeform_tags
@@ -40,7 +40,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 
 	 **Example:** `{"Department": "Finance"}` 
-* `scope` - (Required) Value must be `PRIVATE` when creating a view for private zones.
+* `scope` - (Optional) If specified, must be `PRIVATE` when creating a view for private zones.
 
 
 ** IMPORTANT **
@@ -71,7 +71,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the View
 	* `update` - (Defaults to 20 minutes), when updating the View
 	* `delete` - (Defaults to 20 minutes), when destroying the View
@@ -79,15 +79,8 @@ The `timeouts` block allows you to specify [timeouts](https://registry.terraform
 
 ## Import
 
-For legacy Views that were created without using `scope`, these Views can be imported using the `id`, e.g.
+Views can be imported using their OCID, e.g.
 
 ```
 $ terraform import oci_dns_view.test_view "id"
 ```
-
-For Views created using `scope`, these Views can be imported using the `id`, e.g.
-
-```
-$ terraform import oci_dns_view.test_view "viewId/{viewId}/scope/{scope}"
-```
-

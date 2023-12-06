@@ -1,8 +1,9 @@
-# Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 
 TEST?=./...
 GOFMT_FILES?=$(if $(SERVICE), $$(find . -name '$(SERVICE)*.go' |grep -v vendor), $$(find . -name '*.go' |grep -v vendor))
 PKG_NAME=oci
+TEST_PKG_NAME=internal/integrationtest
 WEBSITE_REPO=github.com/hashicorp/terraform-website
 release_date=$(shell date -v +5d +%F)
 
@@ -23,6 +24,9 @@ default: build
 ## IMPORTANT: Do not modify the following `build` target. The following steps are a requirement of the provider release process.
 build: fmtcheck gomodenv
 	go install
+
+buildnovcs: fmtcheck errcheck gomodenv
+	go install -buildvcs=false
 
 ### TODO: Fix this so that only unit tests are running
 test: fmtcheck
@@ -50,7 +54,7 @@ vet:
 
 fmt:
 	gofmt -w $(GOFMT_FILES)
-	goimports -w -local github.com/terraform-providers/terraform-provider-oci $(GOFMT_FILES)
+	goimports -w -local terraform-provider-oci $(GOFMT_FILES)
 	@if [ -x "$$(command -v terraform)" ]; then \
 		terraform fmt; \
 	else \
@@ -77,7 +81,7 @@ errcheck:
 test-compile:
 	@if [ "$(TEST)" = "./..." ]; then \
 		echo "ERROR: Set TEST to a specific package. For example,"; \
-		echo "  make test-compile TEST=./$(PKG_NAME)"; \
+		echo "  make test-compile TEST=./$(TEST_PKG_NAME)"; \
 		exit 1; \
 	fi
 	go test -c $(TEST) $(TESTARGS)
@@ -105,8 +109,8 @@ get: ;go get golang.org/x/tools/cmd/goimports; go get github.com/mitchellh/gox
 ### `make update-version version=2.0.1`
 update-version:
 ifdef version
-	sed -i -e 's/ReleaseDate = ".*"/ReleaseDate = "$(release_date)"/g' oci/version.go
-	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
+	sed -i -e 's/ReleaseDate = ".*"/ReleaseDate = "$(release_date)"/g' internal/globalvar/version.go
+	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' internal/globalvar/version.go && rm -f internal/globalvar/version.go-e
 else
 	@echo Err! `make update-version` requires a version argument
 endif
@@ -114,7 +118,7 @@ endif
 ### `make release version=2.0.1`
 release: clean
 ifdef version
-	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' oci/version.go && rm -f oci/version.go-e
+	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' internal/globalvar/version.go && rm -f internal/globalvar/version.go-e
 ifdef platform
 	gox -output ./bin/{{.OS}}_{{.Arch}}/terraform-provider-oci_v$(version) -osarch=$(platform)
 else
@@ -151,3 +155,9 @@ ifdef version
 else
 	@echo Error! replace_sdk_version requires a version argument
 endif
+
+check-untagged-tests:
+	@sh -c "'$(CURDIR)/scripts/check-untagged-tests.sh' -s ''$(SERVICE)"
+
+check-module-name:
+	@sh -c "'$(CURDIR)/scripts/gomodnamecheck.sh'"

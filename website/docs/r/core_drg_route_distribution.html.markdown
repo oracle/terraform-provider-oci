@@ -10,7 +10,7 @@ description: |-
 # oci_core_drg_route_distribution
 This resource provides the Drg Route Distribution resource in Oracle Cloud Infrastructure Core service.
 
-Creates a new route distribution for the specified DRG. 
+Creates a new route distribution for the specified DRG.
 Assign the route distribution as an import distribution to a DRG route table using the `UpdateDrgRouteTable` or `CreateDrgRouteTable` operations.
 Assign the route distribution as an export distribution to a DRG attachment
 using the `UpdateDrgAttachment` or `CreateDrgAttachment` operations.
@@ -61,7 +61,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Drg Route Distribution
 	* `update` - (Defaults to 20 minutes), when updating the Drg Route Distribution
 	* `delete` - (Defaults to 20 minutes), when destroying the Drg Route Distribution

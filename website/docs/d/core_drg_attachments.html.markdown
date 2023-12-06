@@ -15,7 +15,7 @@ results by DRG, attached network, attachment type, DRG route table or
 VCN route table.
 
 The LIST API lists DRG attachments by attachment type. It will default to list VCN attachments,
-but you may request to list ALL attachments of ALL types. 
+but you may request to list ALL attachments of ALL types.
 
 
 ## Example Usage
@@ -73,18 +73,24 @@ The following attributes are exported:
 * `is_cross_tenancy` - Indicates whether the DRG attachment and attached network live in a different tenancy than the DRG.  Example: `false` 
 * `network_details` - 
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG. 
+	* `ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target IPSec tunnel attachment.
 	* `ipsec_connection_id` - The IPSec connection that contains the attached IPSec tunnel.
 	* `route_table_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the DRG attachment is using.
 
 		For information about why you would associate a route table with a DRG attachment, see:
 		* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
 		* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm) 
-	* `type` - The type can be one of these values: `IPSEC_TUNNEL`, `REMOTE_PEERING_CONNECTION`, `VCN`, `VIRTUAL_CIRCUIT`
-* `route_table_id` - The OCID of the route table the DRG attachment is using.
+	* `transport_attachment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit's DRG attachment.
+	* `transport_only_mode` - Boolean flag that determines wether all traffic over the virtual circuits is encrypted.  Example: `true` 
+	* `type` - The type can be one of these values: `IPSEC_TUNNEL`, `LOOPBACK`, `REMOTE_PEERING_CONNECTION`, `VCN`, `VIRTUAL_CIRCUIT`
+	* `vcn_route_type` - Indicates whether the VCN CIDRs or the individual subnet CIDRs are imported from the attachment. Routes from the VCN ingress route table are always imported. 
+* `route_table_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the DRG attachment is using.
 
 	For information about why you would associate a route table with a DRG attachment, see:
 	* [Transit Routing: Access to Multiple VCNs in Same Region](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitrouting.htm)
-	* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm) This field is deprecated. Instead, use the `networkDetails` field to view the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource. 
+	* [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm)
+
+	This field is deprecated. Instead, use the `networkDetails` field to view the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource. 
 * `state` - The DRG attachment's current state.
 * `time_created` - The date and time the DRG attachment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN. This field is deprecated. Instead, use the `networkDetails` field to view the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource. 

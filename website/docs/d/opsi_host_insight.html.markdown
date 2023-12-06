@@ -33,15 +33,27 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `compute_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Compute Instance
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
+* `enterprise_manager_bridge_id` - OPSI Enterprise Manager Bridge OCID
+* `enterprise_manager_entity_display_name` - Enterprise Manager Entity Display Name
+* `enterprise_manager_entity_identifier` - Enterprise Manager Entity Unique Identifier
+* `enterprise_manager_entity_name` - Enterprise Manager Entity Name
+* `enterprise_manager_entity_type` - Enterprise Manager Entity Type
+* `enterprise_manager_identifier` - Enterprise Manager Unique Identifier
+* `management_agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 * `entity_source` - Source of the host entity.
+* `exadata_insight_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `host_display_name` - The user-friendly name for the host. The name does not have to be unique.
 * `host_name` - The host name. The host name is unique amongst the hosts managed by the same management agent.
 * `host_type` - Operations Insights internal representation of the host type. Possible value is EXTERNAL-HOST.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `processor_count` - Processor count.
+* `platform_name` - Platform name.
+* `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS]. Supported platformType(s) for MACS-managed cloud host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX]. 
+* `platform_version` - Platform version.
+* `processor_count` - Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 * `state` - The current state of the host.
 * `status` - Indicates the status of a host insight in Operations Insights
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

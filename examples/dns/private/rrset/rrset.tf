@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 /*
@@ -65,3 +65,10 @@ data "oci_dns_rrset" "test_rrset" {
   view_id         = oci_dns_view.test_view.id
 }
 
+data "oci_dns_rrsets" "test_rrsets" {
+  domain          = "el.${oci_dns_zone.zone3.name}"
+  rtype           = "CNAME"
+  zone_name_or_id = oci_dns_zone.zone3.id
+  scope           = "PRIVATE"
+  view_id         = oci_dns_view.test_view.id
+}

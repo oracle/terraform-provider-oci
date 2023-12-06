@@ -13,7 +13,6 @@ This resource provides the Connection resource in Oracle Cloud Infrastructure Da
 Create a Database Connection resource that contains the details to connect to either a Source or Target Database
 in the migration.
 
-
 ## Example Usage
 
 ```hcl
@@ -47,11 +46,17 @@ resource "oci_database_migration_connection" "test_connection" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	display_name = var.connection_display_name
 	freeform_tags = {"bar-key"= "value"}
+	nsg_ids = var.connection_nsg_ids
 	private_endpoint {
 		#Required
 		compartment_id = var.compartment_id
 		subnet_id = oci_core_subnet.test_subnet.id
 		vcn_id = oci_core_vcn.test_vcn.id
+	}
+	replication_credentials {
+		#Required
+		password = var.connection_replication_credentials_password
+		username = var.connection_replication_credentials_username
 	}
 	ssh_details {
 		#Required
@@ -71,9 +76,9 @@ resource "oci_database_migration_connection" "test_connection" {
 
 The following arguments are supported:
 
-* `admin_credentials` - (Required) (Updatable) Database Admin Credentials details. 
-	* `password` - (Required) (Updatable) Admin password 
-	* `username` - (Required) (Updatable) Admin username 
+* `admin_credentials` - (Required) (Updatable) Database Administrator Credentials details. 
+	* `password` - (Required) (Updatable) Administrator password 
+	* `username` - (Required) (Updatable) Administrator username 
 * `certificate_tdn` - (Optional) (Updatable) This name is the distinguished name used while creating the certificate on target database. Requires a TLS wallet to be specified. Not required for source container database connections. 
 * `compartment_id` - (Required) (Updatable) OCID of the compartment 
 * `connect_descriptor` - (Optional) (Updatable) Connect Descriptor details. Required for Manual and UserManagerOci connection types. If a Private Endpoint was specified for the Connection, the host should contain a valid IP address. 
@@ -86,13 +91,17 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Optional) (Updatable) Database Connection display name identifier. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `nsg_ids` - (Optional) (Updatable) An array of Network Security Group OCIDs used to define network access for Connections. 
 * `private_endpoint` - (Optional) (Updatable) Oracle Cloud Infrastructure Private Endpoint configuration details. Not required for source container database connections, it will default to the specified Source Database Connection Private Endpoint. 
-	* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. Required if the id was not specified. 
-	* `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside.  Required if the id was not specified. 
-	* `vcn_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. Required if the id was not specified. 
-* `ssh_details` - (Optional) (Updatable) Details of the ssh key that will be used. Required for source database Manual and UserManagerOci connection types. Not required for source container database connections. 
-	* `host` - (Required) (Updatable) Name of the host the sshkey is valid for. 
-	* `sshkey` - (Required) (Updatable) Private ssh key string. 
+	* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. 
+	* `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
+	* `vcn_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
+* `replication_credentials` - (Optional) (Updatable) Database Administrator Credentials details. 
+	* `password` - (Required) (Updatable) Administrator password 
+	* `username` - (Required) (Updatable) Administrator username 
+* `ssh_details` - (Optional) (Updatable) Details of the SSH key that will be used. Required for source database Manual and UserManagerOci connection types. Not required for source container database connections. 
+	* `host` - (Required) (Updatable) Name of the host the SSH key is valid for. 
+	* `sshkey` - (Required) (Updatable) Private SSH key string. 
 	* `sudo_location` - (Optional) (Updatable) Sudo location 
 	* `user` - (Required) (Updatable) SSH user 
 * `tls_keystore` - (Optional) (Updatable) keystore.jks file contents; base64 encoded String. Requires a TLS wallet to be specified. Not required for source container database connections. 
@@ -110,8 +119,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `admin_credentials` - Database Admin Credentials details. 
-	* `username` - Admin username 
+* `admin_credentials` - Database Administrator Credentials details. 
+	* `username` - Administrator username 
 * `certificate_tdn` - This name is the distinguished name used while creating the certificate on target database. 
 * `compartment_id` - OCID of the compartment 
 * `connect_descriptor` - Connect Descriptor details. 
@@ -127,13 +136,16 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the resource 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
+* `nsg_ids` - An array of Network Security Group OCIDs used to define network access for Connections. 
 * `private_endpoint` - Oracle Cloud Infrastructure Private Endpoint configuration details. 
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. 
 	* `id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a previously created Private Endpoint. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
 	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
-* `ssh_details` - Details of the ssh key that will be used. 
-	* `host` - Name of the host the sshkey is valid for. 
+* `replication_credentials` - Database Administrator Credentials details. 
+	* `username` - Administrator username 
+* `ssh_details` - Details of the SSH key that will be used. 
+	* `host` - Name of the host the SSH key is valid for. 
 	* `sudo_location` - Sudo location 
 	* `user` - SSH user 
 * `state` - The current state of the Connection resource. 
@@ -144,6 +156,14 @@ The following attributes are exported:
 	* `compartment_id` - OCID of the compartment where the secret containing the credentials will be created. 
 	* `key_id` - OCID of the vault encryption key 
 	* `vault_id` - OCID of the vault 
+	
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Connection
+	* `update` - (Defaults to 20 minutes), when updating the Connection
+	* `delete` - (Defaults to 20 minutes), when destroying the Connection
+
 
 ## Import
 

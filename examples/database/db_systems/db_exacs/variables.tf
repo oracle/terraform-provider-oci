@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -8,7 +8,10 @@ variable "private_key_path" {}
 variable "region" {}
 
 variable "compartment_ocid" {}
-variable "ssh_public_key" {}
+
+variable "ssh_public_key" {
+  default = "ssh-rsa"
+}
 variable "ssh_private_key" {}
 
 variable "cloud_exadata_infrastructure_shape" {
@@ -27,12 +30,24 @@ variable "cloud_vm_cluster_cpu_core_count" {
   default = "8"
 }
 
+variable "cloud_vm_cluster_ocpu_count" {
+  default = "8.0"
+}
+
 variable "cloud_vm_cluster_gi_version" {
   default = "19.0.0.0"
 }
 
 variable "cloud_vm_cluster_hostname" {
   default = "myoracledb"
+}
+
+variable "cloud_vm_cluster_scan_listener_port_tcp" {
+  default = "1521"
+}
+
+variable "cloud_vm_cluster_scan_listener_port_tcp_ssl" {
+  default = "2484"
 }
 
 # DBSystem specific
@@ -110,4 +125,20 @@ variable "data_storage_percentage" {
 
 variable "time_zone" {
   default = "US/Pacific"
+}
+
+variable "cloud_vm_cluster_memory_size_in_gbs" {
+  default = 60
+}
+
+variable "cloud_vm_cluster_data_storage_size_in_tbs" {
+  default = 2.0
+}
+
+variable "cloud_vm_cluster_db_node_storage_size_in_gbs" {
+  default = 120
+}
+
+variable "cloud_vm_cluster_db_servers" {
+  default = []
 }

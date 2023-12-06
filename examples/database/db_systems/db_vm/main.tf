@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 variable "tenancy_ocid" {
 }
@@ -15,6 +15,15 @@ variable "private_key_path" {
 variable "region" {
 }
 
+variable "kms_key_id" {
+}
+
+variable "kms_key_version_id" {
+}
+
+variable "vault_id" {
+}
+
 variable "compartment_ocid" {
 }
 
@@ -24,7 +33,7 @@ variable "ssh_public_key" {
 variable "ssh_private_key" {
 }
 
-# DBSystem specific 
+# DBSystem specific
 variable "db_system_shape" {
   default = "VM.Standard2.1"
 }
@@ -82,7 +91,11 @@ variable "license_model" {
 }
 
 variable "node_count" {
-  default = "2"
+  default = "1"
+}
+
+variable "test_database_software_image_ocid" {
+
 }
 
 provider "oci" {
@@ -95,7 +108,7 @@ provider "oci" {
 
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
-  ad_number      = 3
+  ad_number      = 1
 }
 
 # Get DB node list
@@ -127,6 +140,11 @@ data "oci_database_databases" "databases" {
 data "oci_database_db_versions" "test_db_versions_by_db_system_id" {
   compartment_id = var.compartment_ocid
   db_system_id   = oci_database_db_system.test_db_system.id
+}
+
+resource "oci_database_backup" "test_backup" {
+  database_id = "${data.oci_database_databases.databases.databases.0.id}"
+  display_name = "Monthly Backup"
 }
 
 data "oci_database_db_system_shapes" "test_db_system_shapes" {
@@ -268,6 +286,9 @@ resource "oci_database_db_system" "test_db_system" {
   db_home {
     database {
       admin_password = var.db_admin_password
+      kms_key_version_id    = var.kms_key_version_id
+      kms_key_id     = var.kms_key_id
+      vault_id       = var.vault_id
       db_name        = "aTFdbVm"
       character_set  = var.character_set
       ncharacter_set = var.n_character_set
@@ -306,3 +327,29 @@ resource "oci_database_db_system" "test_db_system" {
   }
 }
 
+resource "oci_database_db_system" "db_system_bkup" {
+  source = "DB_BACKUP"
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id = var.compartment_ocid
+  subnet_id = oci_core_subnet.subnet.id
+  database_edition = var.db_edition
+  disk_redundancy = var.db_disk_redundancy
+  shape = var.db_system_shape
+  ssh_public_keys         = [var.ssh_public_key]
+  hostname = var.hostname
+  data_storage_size_in_gb = var.data_storage_size_in_gb
+  license_model = var.license_model
+  node_count = data.oci_database_db_system_shapes.test_db_system_shapes.db_system_shapes[0]["minimum_node_count"]
+  display_name = "tfDbSystemFromBackupWithCustImg"
+
+  db_home {
+    db_version = "12.1.0.2"
+    database_software_image_id = var.test_database_software_image_ocid
+    database {
+      admin_password = "BEstrO0ng_#11"
+      backup_tde_password = "BEstrO0ng_#11"
+      backup_id = "${oci_database_backup.test_backup.id}"
+      db_name = "dbback"
+    }
+  }
+}

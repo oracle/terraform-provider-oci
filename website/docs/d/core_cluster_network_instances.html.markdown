@@ -10,7 +10,8 @@ description: |-
 # Data Source: oci_core_cluster_network_instances
 This data source provides the list of Cluster Network Instances in Oracle Cloud Infrastructure Core service.
 
-Lists the instances in the specified cluster network.
+Lists the instances in a [cluster network with instance pools](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/managingclusternetworks.htm).
+
 
 ## Example Usage
 
@@ -46,7 +47,7 @@ The following attributes are exported:
 
 * `availability_domain` - The availability domain the instance is running in.
 * `compartment_id` - The OCID of the compartment that contains the instance.
-* `display_name` - The user-friendly name. Does not have to be unique.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `fault_domain` - The fault domain the instance is running in.
 * `id` - The OCID of the instance.
 * `instance_configuration_id` - The OCID of the instance confgiuration used to create the instance.

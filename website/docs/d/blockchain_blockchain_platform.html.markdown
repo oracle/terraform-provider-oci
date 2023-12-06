@@ -65,6 +65,7 @@ The following attributes are exported:
 * `load_balancer_shape` - Type of Load Balancer shape - LB_100_MBPS or LB_400_MBPS. Default is LB_100_MBPS.
 * `platform_role` - Role of platform - FOUNDER or PARTICIPANT
 * `platform_shape_type` - Type of Platform shape - DEFAULT or CUSTOM
+* `platform_version` - Platform Version
 * `replicas` - Number of replicas of service components like Rest Proxy, CA and Console
 	* `ca_count` - Number of CA replicas
 	* `console_count` - Number of console replicas

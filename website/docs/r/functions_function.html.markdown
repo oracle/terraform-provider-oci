@@ -19,14 +19,26 @@ resource "oci_functions_function" "test_function" {
 	#Required
 	application_id = oci_functions_application.test_application.id
 	display_name = var.function_display_name
-	image = var.function_image
 	memory_in_mbs = var.function_memory_in_mbs
 
 	#Optional
 	config = var.function_config
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
+	image = var.function_image
 	image_digest = var.function_image_digest
+	provisioned_concurrency_config {
+		#Required
+		strategy = var.function_provisioned_concurrency_config_strategy
+
+		#Optional
+		count = var.function_provisioned_concurrency_config_count
+	}
+	source_details {
+		#Required
+		pbf_listing_id = oci_functions_pbf_listing.test_pbf_listing.id
+		source_type = var.function_source_details_source_type
+	}
 	timeout_in_seconds = var.function_timeout_in_seconds
 	trace_config {
 
@@ -47,9 +59,15 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Required) The display name of the function. The display name must be unique within the application containing the function. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `image` - (Required) (Updatable) The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: `phx.ocir.io/ten/functions/function:0.0.1`
+* `image` - (Optional) (Updatable) The qualified name of the Docker image to use in the function, including the image tag. The image should be in the Oracle Cloud Infrastructure Registry that is in the same region as the function itself. This field must be updated if image_digest is updated. Example: `phx.ocir.io/ten/functions/function:0.0.1`
 * `image_digest` - (Optional) (Updatable) The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
 * `memory_in_mbs` - (Required) (Updatable) Maximum usable memory for the function (MiB).
+* `provisioned_concurrency_config` - (Optional) (Updatable) Define the strategy for provisioned concurrency for the function.
+	* `count` - (Required when strategy=CONSTANT) (Updatable) Configuration specifying a constant amount of provisioned concurrency.
+	* `strategy` - (Required) (Updatable) The strategy for provisioned concurrency to be used. 
+* `source_details` - (Optional) The source details for the Function. The function can be created from various sources. 
+	* `pbf_listing_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this function is sourced from. 
+	* `source_type` - (Required) Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS. 
 * `timeout_in_seconds` - (Optional) (Updatable) Timeout for executions of the function. Value in seconds.
 * `trace_config` - (Optional) (Updatable) Define the tracing configuration for a function. 
 	* `is_enabled` - (Optional) (Updatable) Define if tracing is enabled for the resource. 
@@ -75,6 +93,13 @@ The following attributes are exported:
 * `image_digest` - The image digest for the version of the image that will be pulled when invoking this function. If no value is specified, the digest currently associated with the image in the Oracle Cloud Infrastructure Registry will be used. This field must be updated if image is updated. Example: `sha256:ca0eeb6fb05351dfc8759c20733c91def84cb8007aa89a5bf606bc8b315b9fc7`
 * `invoke_endpoint` - The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached. 
 * `memory_in_mbs` - Maximum usable memory for the function (MiB).
+* `provisioned_concurrency_config` - Define the strategy for provisioned concurrency for the function.
+	* `count` - Configuration specifying a constant amount of provisioned concurrency.
+	* `strategy` - The strategy for provisioned concurrency to be used. 
+* `shape` - The processor shape (`GENERIC_X86`/`GENERIC_ARM`) on which to run functions in the application, extracted from the image manifest. 
+* `source_details` - The source details for the Function. The function can be created from various sources. 
+	* `pbf_listing_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the PbfListing this function is sourced from. 
+	* `source_type` - Type of the Function Source. Possible values: PRE_BUILT_FUNCTIONS. 
 * `state` - The current state of the function. 
 * `time_created` - The time the function was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
 * `time_updated` - The time the function was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-09-12T22:47:12.613Z` 
@@ -84,7 +109,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Function
 	* `update` - (Defaults to 20 minutes), when updating the Function
 	* `delete` - (Defaults to 20 minutes), when destroying the Function

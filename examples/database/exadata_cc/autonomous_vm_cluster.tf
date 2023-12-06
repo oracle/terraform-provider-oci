@@ -1,12 +1,15 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 
 resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
   #Required
-  compartment_id            = var.compartment_id
+  compartment_id            = var.compartment_ocid
   display_name              = "autonomousVmCluster"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
-
+  cpu_core_count_per_node   = "10"
+  autonomous_data_storage_size_in_tbs = "2.0"
+  memory_per_oracle_compute_unit_in_gbs = "12"
+  total_container_databases             = "2"
   #Optional
   is_local_backup_enabled = "false"
   license_model           = "LICENSE_INCLUDED"
@@ -22,7 +25,7 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
 
 data "oci_database_autonomous_vm_clusters" "test_autonomous_vm_clusters" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
 
   #Optional
   display_name              = "autonomousVmCluster"
@@ -37,7 +40,7 @@ variable "okv_secret" {
 }
 
 resource "oci_database_key_store" "test_key_store" {
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   display_name = "Key Store"
   type_details {
     admin_username = "username1"

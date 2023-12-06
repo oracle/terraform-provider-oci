@@ -34,20 +34,20 @@ The following attributes are exported:
 
 * `compartment_id` - Compartment Identifier
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - ResponderRecipe Description
-* `display_name` - ResponderRecipe Display Name
+* `description` - ResponderRecipe description.
+* `display_name` - ResponderRecipe display name.
 * `effective_responder_rules` - List of responder rules associated with the recipe
 	* `compartment_id` - Compartment Identifier
-	* `description` - ResponderRule Description
+	* `description` - ResponderRule description.
 	* `details` - Details of ResponderRule.
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
 			* `name` - configuration name
 			* `value` - configuration value
 		* `is_enabled` - Identifies state for ResponderRule
 		* `mode` - Execution Mode for ResponderRule
-	* `display_name` - ResponderRule Display Name
+	* `display_name` - ResponderRule display name.
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `policies` - List of Policy
 	* `responder_rule_id` - Identifier for ResponderRule.
@@ -56,22 +56,24 @@ The following attributes are exported:
 	* `time_created` - The date and time the responder recipe rule was created. Format defined by RFC3339.
 	* `time_updated` - The date and time the responder recipe rule was updated. Format defined by RFC3339.
 	* `type` - Type of Responder
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+
+	Avoid entering confidential information. 
 * `id` - Identifier for ResponderRecipe.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `owner` - Owner of ResponderRecipe
 * `responder_rules` - List of responder rules associated with the recipe
 	* `compartment_id` - Compartment Identifier
-	* `description` - ResponderRule Description
+	* `description` - ResponderRule description.
 	* `details` - Details of ResponderRule.
-		* `condition` - 
+		* `condition` - Base condition object
 		* `configurations` - ResponderRule configurations
 			* `config_key` - Unique name of the configuration
 			* `name` - configuration name
 			* `value` - configuration value
 		* `is_enabled` - Identifies state for ResponderRule
 		* `mode` - Execution Mode for ResponderRule
-	* `display_name` - ResponderRule Display Name
+	* `display_name` - ResponderRule display name.
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	* `policies` - List of Policy
 	* `responder_rule_id` - Identifier for ResponderRule.

@@ -12,7 +12,6 @@ This data source provides details about a specific Connection resource in Oracle
 
 Display Database Connection details.
 
-
 ## Example Usage
 
 ```hcl
@@ -26,15 +25,15 @@ data "oci_database_migration_connection" "test_connection" {
 
 The following arguments are supported:
 
-* `connection_id` - (Required) The OCID of the job 
+* `connection_id` - (Required) The OCID of the database connection 
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `admin_credentials` - Database Admin Credentials details. 
-	* `username` - Admin username 
+* `admin_credentials` - Database Administrator Credentials details. 
+	* `username` - Administrator username 
 * `certificate_tdn` - This name is the distinguished name used while creating the certificate on target database. 
 * `compartment_id` - OCID of the compartment 
 * `connect_descriptor` - Connect Descriptor details. 
@@ -50,13 +49,16 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the resource 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
+* `nsg_ids` - An array of Network Security Group OCIDs used to define network access for Connections. 
 * `private_endpoint` - Oracle Cloud Infrastructure Private Endpoint configuration details. 
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. 
 	* `id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a previously created Private Endpoint. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
 	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
-* `ssh_details` - Details of the ssh key that will be used. 
-	* `host` - Name of the host the sshkey is valid for. 
+* `replication_credentials` - Database Administrator Credentials details. 
+	* `username` - Administrator username 
+* `ssh_details` - Details of the SSH key that will be used. 
+	* `host` - Name of the host the SSH key is valid for. 
 	* `sudo_location` - Sudo location 
 	* `user` - SSH user 
 * `state` - The current state of the Connection resource. 

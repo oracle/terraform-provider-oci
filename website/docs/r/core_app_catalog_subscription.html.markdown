@@ -51,7 +51,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The compartmentID of the subscription.
-* `display_name` - The display name of the listing.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `listing_id` - The ocid of the listing resource.
 * `listing_resource_id` - Listing resource id.
 * `listing_resource_version` - Listing resource version.
@@ -61,7 +61,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the App Catalog Subscription
 	* `update` - (Defaults to 20 minutes), when updating the App Catalog Subscription
 	* `delete` - (Defaults to 20 minutes), when destroying the App Catalog Subscription

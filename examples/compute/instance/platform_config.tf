@@ -26,15 +26,15 @@ resource "oci_core_instance" "test_instance_with_platform_config" {
   shape               = var.platform_config_instance_shape
 
   platform_config {
-    type = "${var.instance_platform_config_type}"
-    numa_nodes_per_socket = "${var.instance_platform_config_numa_nodes_per_socket}"
+    type = var.instance_platform_config_type
+    numa_nodes_per_socket = var.instance_platform_config_numa_nodes_per_socket
   }
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.test_subnet.id
     display_name     = "Primaryvnic"
     assign_public_ip = true
-    hostname_label   = "tfexampleinstance${count.index}"
+    hostname_label   = "tfexampleinstancepc${count.index}"
   }
 
   source_details {

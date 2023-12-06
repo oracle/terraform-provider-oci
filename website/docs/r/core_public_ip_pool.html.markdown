@@ -44,7 +44,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `cidr_blocks` - The CIDR blocks added to this pool. This could be all or a portion of a BYOIP CIDR block.
+* `cidr_blocks` - The CIDR blocks added to this pool. This could be all or a portion of a BYOIP CIDR block. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing this pool. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -55,7 +55,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Public Ip Pool
 	* `update` - (Defaults to 20 minutes), when updating the Public Ip Pool
 	* `delete` - (Defaults to 20 minutes), when destroying the Public Ip Pool

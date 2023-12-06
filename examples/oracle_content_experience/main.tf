@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -55,6 +55,12 @@ resource "oci_oce_oce_instance" "test_oce_instance" {
   instance_license_type = "BYOL"
   upgrade_schedule      = "UPGRADE_IMMEDIATELY"
   waf_primary_domain    = "oracle.com"
+  
+  timeouts {
+    create = "2h"
+    update = "60m"
+    delete = "1h"
+  }
 }
 
 data "oci_oce_oce_instances" "test_oce_instances" {

@@ -50,6 +50,10 @@ Then, call [CreateAppCatalogSubscription](https://docs.cloud.oracle.com/iaas/api
 with the signature. To get the image ID for the LaunchInstance operation, call
 [GetAppCatalogListingResourceVersion](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion).
 
+To determine whether capacity is available for a specific shape before you create an instance,
+use the [CreateComputeCapacityReport](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ComputeCapacityReport/CreateComputeCapacityReport)
+operation.
+
 
 ## Example Usage
 
@@ -79,15 +83,18 @@ resource "oci_core_instance" "test_instance" {
 		is_live_migration_preferred = var.instance_availability_config_is_live_migration_preferred
 		recovery_action = var.instance_availability_config_recovery_action
 	}
+	compute_cluster_id = oci_core_compute_cluster.test_compute_cluster.id
 	create_vnic_details {
 
 		#Optional
+		assign_ipv6ip = var.instance_create_vnic_details_assign_ipv6ip
 		assign_private_dns_record = var.instance_create_vnic_details_assign_private_dns_record
 		assign_public_ip = var.instance_create_vnic_details_assign_public_ip
 		defined_tags = {"Operations.CostCenter"= "42"}
 		display_name = var.instance_create_vnic_details_display_name
 		freeform_tags = {"Department"= "Finance"}
 		hostname_label = var.instance_create_vnic_details_hostname_label
+		ipv6address_ipv6subnet_cidr_pair_details = var.instance_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details
 		nsg_ids = var.instance_create_vnic_details_nsg_ids
 		private_ip = var.instance_create_vnic_details_private_ip
 		skip_source_dest_check = var.instance_create_vnic_details_skip_source_dest_check
@@ -104,6 +111,7 @@ resource "oci_core_instance" "test_instance" {
 	fault_domain = var.instance_fault_domain
 	freeform_tags = {"Department"= "Finance"}
 	hostname_label = var.instance_hostname_label
+	instance_configuration_id = oci_core_instance_configuration.test_instance_configuration.id
 	instance_options {
 
 		#Optional
@@ -127,7 +135,17 @@ resource "oci_core_instance" "test_instance" {
 		type = var.instance_platform_config_type
 
 		#Optional
+		are_virtual_instructions_enabled = var.instance_platform_config_are_virtual_instructions_enabled
+		config_map = var.instance_platform_config_config_map
+		is_access_control_service_enabled = var.instance_platform_config_is_access_control_service_enabled
+		is_input_output_memory_management_unit_enabled = var.instance_platform_config_is_input_output_memory_management_unit_enabled
+		is_measured_boot_enabled = var.instance_platform_config_is_measured_boot_enabled
+		is_memory_encryption_enabled = var.instance_platform_config_is_memory_encryption_enabled
+		is_secure_boot_enabled = var.instance_platform_config_is_secure_boot_enabled
+		is_symmetric_multi_threading_enabled = var.instance_platform_config_is_symmetric_multi_threading_enabled
+		is_trusted_platform_module_enabled = var.instance_platform_config_is_trusted_platform_module_enabled
 		numa_nodes_per_socket = var.instance_platform_config_numa_nodes_per_socket
+		percentage_of_cores_enabled = var.instance_platform_config_percentage_of_cores_enabled
 	}
 	preemptible_instance_config {
 		#Required
@@ -139,12 +157,15 @@ resource "oci_core_instance" "test_instance" {
 			preserve_boot_volume = var.instance_preemptible_instance_config_preemption_action_preserve_boot_volume
 		}
 	}
+	shape = var.instance_shape
 	shape_config {
 
 		#Optional
 		baseline_ocpu_utilization = var.instance_shape_config_baseline_ocpu_utilization
 		memory_in_gbs = var.instance_shape_config_memory_in_gbs
+		nvmes = var.instance_shape_config_nvmes
 		ocpus = var.instance_shape_config_ocpus
+		vcpus = var.instance_shape_config_vcpus
 	}
 	source_details {
 		#Required
@@ -153,6 +174,16 @@ resource "oci_core_instance" "test_instance" {
 
 		#Optional
 		boot_volume_size_in_gbs = var.instance_source_details_boot_volume_size_in_gbs
+		boot_volume_vpus_per_gb = var.instance_source_details_boot_volume_vpus_per_gb
+		instance_source_image_filter_details {
+			#Required
+			compartment_id = var.compartment_id
+
+			#Optional
+			defined_tags_filter = var.instance_source_details_instance_source_image_filter_details_defined_tags_filter
+			operating_system = var.instance_source_details_instance_source_image_filter_details_operating_system
+			operating_system_version = var.instance_source_details_instance_source_image_filter_details_operating_system_version
+		}
 		kms_key_id = oci_kms_key.test_key.id
 	}
 	preserve_boot_volume = false
@@ -162,6 +193,12 @@ resource "oci_core_instance" "test_instance" {
 ## Argument Reference
 
 The following arguments are supported:
+
+* `async` - (Optional) Whether Terraform creates and destroys the resource asynchronously. The default value is false.
+	* If `async` is true, all the creation and deletion of instances are asynchronous
+	* If `async` is false, all the creation and deletion of instances are synchronous as normal behavior
+
+-> Please follow this guideline [Terraform support asynchronous operation](https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/terraform-async.htm) for more detail of this advanced option.
 
 * `agent_config` - (Optional) (Updatable) Configuration options for the Oracle Cloud Agent software running on the instance.
 	* `are_all_plugins_disabled` - (Optional) (Updatable) Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
@@ -186,17 +223,18 @@ The following arguments are supported:
 
 			To enable the monitoring and management plugins, the `isMonitoringDisabled` and `isManagementDisabled` attributes must also be set to false. 
 		* `name` - (Required) (Updatable) The plugin name. To get a list of available plugins, use the [ListInstanceagentAvailablePlugins](https://docs.cloud.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceagentAvailablePlugins) operation in the Oracle Cloud Agent API. For more information about the available plugins, see [Managing Plugins with Oracle Cloud Agent](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/manage-plugins.htm). 
-* `availability_config` - (Optional) (Updatable) Options for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware.  This also includes live migration preference for infrastructure maintenance. 
-	* `is_live_migration_preferred` - (Optional) (Updatable) Whether live migration is preferred for infrastructure maintenance.  If null preference is specified, live migration will be preferred for infrastructure maintenance for applicable instances. 
+* `availability_config` - (Optional) (Updatable) Options for VM migration during infrastructure maintenance events and for defining the availability of a VM instance after a maintenance event that impacts the underlying hardware. 
+	* `is_live_migration_preferred` - (Optional) (Updatable) Whether to live migrate supported VM instances to a healthy physical VM host without disrupting running instances during infrastructure maintenance events. If null, Oracle chooses the best option for migrating the VM during infrastructure maintenance events. 
 	* `recovery_action` - (Optional) (Updatable) The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 		* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
 		* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
 * `availability_domain` - (Required) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 * `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation this instance is launched under. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment.
+* `compute_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 
 * `create_vnic_details` - (Optional) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
-	* `assign_private_dns_record` - (Optional) Whether the VNIC should be assigned a DNS record. If set to false, no DNS record registion for the VNIC; if set to true, DNS record will be registered. The default value is true.  Example: `true`
-
+	* `assign_ipv6ip` - (Optional) Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you. 
+	* `assign_private_dns_record` - (Optional) Whether the VNIC should be assigned a DNS record. If set to false, there will be no DNS record registration for the VNIC. If set to true, the DNS record will be registered. The default value is true.
 		If you specify a `hostnameLabel`, the `assignPrivateDnsRecord` is require to be set to true. 
 	* `assign_public_ip` - (Optional) (Updatable) Whether the VNIC should be assigned a public IP address. Defaults to whether the subnet is public or private. If not set and the VNIC is being created in a private subnet (that is, where `prohibitPublicIpOnVnic` = true in the [Subnet](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Subnet/)), then no public IP address is assigned. If not set and the subnet is public (`prohibitPublicIpOnVnic` = false), then a public IP address is assigned. If set to true and `prohibitPublicIpOnVnic` = true, an error is returned.
 
@@ -208,17 +246,18 @@ The following arguments are supported:
 
 		If you specify a `vlanId`, then `assignPublicIp` must be set to false. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
 	* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-	* `display_name` - (Optional) (Updatable) A user-friendly name for the VNIC. Does not have to be unique. Avoid entering confidential information. 
+	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 	* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-	* `hostname_label` - (Optional) (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, `bminstance-1` in FQDN `bminstance-1.subnet123.vcn1.oraclevcn.com`). Must be unique across all VNICs in the subnet and comply with [RFC 952](https://tools.ietf.org/html/rfc952) and [RFC 1123](https://tools.ietf.org/html/rfc1123). The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/GetPrivateIp).
+	* `hostname_label` - (Optional) (Updatable) The hostname for the VNIC's primary private IP. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, `bminstance1` in FQDN `bminstance1.subnet123.vcn1.oraclevcn.com`). Must be unique across all VNICs in the subnet and comply with [RFC 952](https://tools.ietf.org/html/rfc952) and [RFC 1123](https://tools.ietf.org/html/rfc1123). The value appears in the [Vnic](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vnic/) object and also the [PrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/) object returned by [ListPrivateIps](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/ListPrivateIps) and [GetPrivateIp](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/PrivateIp/GetPrivateIp).
 
 		For more information, see [DNS in Your Virtual Cloud Network](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 
 		When launching an instance, use this `hostnameLabel` instead of the deprecated `hostnameLabel` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/LaunchInstanceDetails). If you provide both, the values must match.
 
-		Example: `bminstance-1`
+		Example: `bminstance1`
 
 		If you specify a `vlanId`, the `hostnameLabel` cannot be specified. VNICs on a VLAN can not be assigned a hostname. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
+	* `ipv6address_ipv6subnet_cidr_pair_details` - (Optional) A list of IPv6 prefix ranges from which the VNIC should be assigned an IPv6 address. You can provide only the prefix ranges from which Oracle Cloud Infrastructure will select an available address from the range. You can optionally choose to leave the prefix range empty and instead provide the specific IPv6 address that should be used from within that range. 
 	* `nsg_ids` - (Optional) (Updatable) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/).
 
 		If a `vlanId` is specified, the `nsgIds` cannot be specified. The `vlanId` indicates that the VNIC will belong to a VLAN instead of a subnet. With VLANs, all VNICs in the VLAN belong to the NSGs that are associated with the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan). 
@@ -232,15 +271,15 @@ The following arguments are supported:
 		 If you specify a `vlanId`, the `skipSourceDestCheck` cannot be specified because the source/destination check is always disabled for VNICs in a VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 		Example: `true` 
-	* `subnet_id` - (Optional) The OCID of the subnet to create the VNIC in. When launching an instance, use this `subnetId` instead of the deprecated `subnetId` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/LaunchInstanceDetails). At least one of them is required; if you provide both, the values must match.
+	* `subnet_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create the VNIC in. When launching an instance, use this `subnetId` instead of the deprecated `subnetId` in [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/LaunchInstanceDetails). At least one of them is required; if you provide both, the values must match.
 
 		If you are an Oracle Cloud VMware Solution customer and creating a secondary VNIC in a VLAN instead of a subnet, provide a `vlanId` instead of a `subnetId`. If you provide both a `vlanId` and `subnetId`, the request fails. 
-	* `vlan_id` - (Optional) Provide this attribute only if you are an Oracle Cloud VMware Solution customer and creating a secondary VNIC in a VLAN. The value is the OCID of the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
+	* `vlan_id` - (Optional) Provide this attribute only if you are an Oracle Cloud VMware Solution customer and creating a secondary VNIC in a VLAN. The value is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 		Provide a `vlanId` instead of a `subnetId`. If you provide both a `vlanId` and `subnetId`, the request fails. 
-* `dedicated_vm_host_id` - (Optional) The OCID of dedicated VM host. 
+* `dedicated_vm_host_id` - (Optional) The OCID of the dedicated virtual machine host to place the instance on. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
+* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `extended_metadata` - (Optional) (Updatable) Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the `metadata` object.
 
 	They are distinguished from `metadata` fields in that these can be nested JSON objects (whereas `metadata` fields are string/string maps only).
@@ -258,15 +297,18 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname_label` - (Optional) Deprecated. Instead use `hostnameLabel` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). If you provide both, the values must match. 
 * `image` - (Optional) Deprecated. Use `sourceDetails` with [InstanceSourceViaImageDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/requests/InstanceSourceViaImageDetails) source type instead. If you specify values for both, the values must match. 
+* `instance_configuration_id` - (Optional) The OCID of the Instance Configuration containing instance launch details. Any other fields supplied in this instance launch request will override the details stored in the Instance Configuration for this instance launch.
 * `instance_options` - (Optional) (Updatable) Optional mutable instance options
 	* `are_legacy_imds_endpoints_disabled` - (Optional) (Updatable) Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false. 
 * `ipxe_script` - (Optional) This is an advanced option.
 
 	When a bare metal or virtual machine instance boots, the iPXE firmware that runs on the instance is configured to run an iPXE script to continue the boot process.
 
-	If you want more control over the boot process, you can provide your own custom iPXE script that will run when the instance boots; however, you should be aware that the same iPXE script will run every time an instance boots; not only after the initial LaunchInstance call.
+	If you want more control over the boot process, you can provide your own custom iPXE script that will run when the instance boots. Be aware that the same iPXE script will run every time an instance boots, not only after the initial LaunchInstance call.
 
-	The default iPXE script connects to the instance's local boot volume over iSCSI and performs a network boot. If you use a custom iPXE script and want to network-boot from the instance's local boot volume over iSCSI the same way as the default iPXE script, you should use the following iSCSI IP address: 169.254.0.2, and boot volume IQN: iqn.2015-02.oracle.boot.
+	The default iPXE script connects to the instance's local boot volume over iSCSI and performs a network boot. If you use a custom iPXE script and want to network-boot from the instance's local boot volume over iSCSI the same way as the default iPXE script, use the following iSCSI IP address: 169.254.0.2, and boot volume IQN: iqn.2015-02.oracle.boot.
+
+	If your instance boot volume attachment type is paravirtualized, the boot volume is attached to the instance through virtio-scsi and no iPXE script is used. If your instance boot volume attachment type is paravirtualized and you use custom iPXE to network boot into your instance, the primary boot volume is attached as a data volume through virtio-scsi drive.
 
 	For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
@@ -333,9 +375,27 @@ The following arguments are supported:
 
 	If you provide the parameter, the instance is created with the platform configuration that you specify. For any values that you omit, the instance uses the default configuration values for the `shape` that you specify. If you don't provide the parameter, the default values for the `shape` are used.
 
-	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned. 
-	* `numa_nodes_per_socket` - (Optional) The number of NUMA nodes per socket (NPS). 
-	* `type` - (Required) The type of platform being configured. The only supported `type` is `AMD_MILAN_BM` 
+	Each shape only supports certain configurable values. If the values that you provide are not valid for the specified `shape`, an error is returned.
+
+	For more information about shielded instances, see [Shielded Instances](https://docs.cloud.oracle. com/iaas/Content/Compute/References/shielded-instances.htm).
+
+	For more information about BIOS settings for bare metal instances, see [BIOS Settings for Bare Metal Instances](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bios-settings.htm). 
+	* `are_virtual_instructions_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
+	* `config_map` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Instance Platform Configuration Configuration Map for flexible setting input. 
+	* `is_access_control_service_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM) Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through. 
+	* `is_input_output_memory_management_unit_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Whether the input-output memory management unit is enabled. 
+	* `is_measured_boot_enabled` - (Optional) Whether the Measured Boot feature is enabled on the instance. 
+	* `is_memory_encryption_enabled` - (Optional) Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`. 
+	* `is_secure_boot_enabled` - (Optional) Whether Secure Boot is enabled on the instance. 
+	* `is_symmetric_multi_threading_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+
+		Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple independent threads of execution, to better use the resources and increase the efficiency of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which can provide higher or more predictable performance for some workloads. 
+	* `is_trusted_platform_module_enabled` - (Optional) Whether the Trusted Platform Module (TPM) is enabled on the instance. 
+	* `numa_nodes_per_socket` - (Applicable when type=AMD_MILAN_BM | AMD_MILAN_BM_GPU | AMD_ROME_BM | AMD_ROME_BM_GPU | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The number of NUMA nodes per socket (NPS). 
+	* `percentage_of_cores_enabled` - (Applicable when type=AMD_MILAN_BM | AMD_ROME_BM | GENERIC_BM | INTEL_ICELAKE_BM | INTEL_SKYLAKE_BM) The percentage of cores enabled. Value must be a multiple of 25%. If the requested percentage results in a fractional number of cores, the system rounds up the number of cores across processors and provisions an instance with a whole number of cores.
+
+		If the applications that you run on the instance use a core-based licensing model and need fewer cores than the full size of the shape, you can disable cores to reduce your licensing costs. The instance itself is billed for the full shape, regardless of whether all cores are enabled. 
+	* `type` - (Required) The type of platform being configured. 
 * `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
@@ -356,10 +416,25 @@ The following arguments are supported:
 		* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 		* `BASELINE_1_1` - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 	* `memory_in_gbs` - (Optional) (Updatable) The total amount of memory available to the instance, in gigabytes. 
+	* `nvmes` - (Optional) (Updatable) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available. 
 	* `ocpus` - (Optional) (Updatable) The total number of OCPUs available to the instance. 
+	* `vcpus` - (Optional) (Updatable) The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 * `source_details` - (Optional) (Updatable) 
 	* `boot_volume_size_in_gbs` - (Applicable when source_type=image) (Updatable) The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
-	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+	* `boot_volume_vpus_per_gb` - (Applicable when source_type=image) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+
+		Allowed values:
+		* `10`: Represents Balanced option.
+		* `20`: Represents Higher Performance option.
+		* `30`-`120`: Represents the Ultra High Performance option.
+
+		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB. 
+	* `instance_source_image_filter_details` - (Applicable when source_type=image) These are the criteria for selecting an image. This is required if imageId is not specified.
+		* `compartment_id` - (Required when source_type=image) (Updatable) The OCID of the compartment containing images to search
+		* `defined_tags_filter` - (Applicable when source_type=image) Filter based on these defined tags. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+		* `operating_system` - (Applicable when source_type=image) The image's operating system.  Example: `Oracle Linux` 
+		* `operating_system_version` - (Applicable when source_type=image) The image's operating system version.  Example: `7.2` 
+	* `kms_key_id` - (Applicable when source_type=image) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
 	* `source_id` - (Required) The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - (Required) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
@@ -396,7 +471,7 @@ The following attributes are exported:
 			To enable the monitoring and management plugins, the `isMonitoringDisabled` and `isManagementDisabled` attributes must also be set to false. 
 		* `name` - The plugin name. To get a list of available plugins, use the [ListInstanceagentAvailablePlugins](https://docs.cloud.oracle.com/iaas/api/#/en/instanceagent/20180530/Plugin/ListInstanceagentAvailablePlugins) operation in the Oracle Cloud Agent API. For more information about the available plugins, see [Managing Plugins with Oracle Cloud Agent](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/manage-plugins.htm). 
 * `availability_config` - Options for defining the availabiity of a VM instance after a maintenance event that impacts the underlying hardware. 
-	* `is_live_migration_preferred` - Whether live migration is preferred for infrastructure maintenance.  If null preference is specified, live migration will be preferred for infrastructure maintenance for applicable instances. 
+	* `is_live_migration_preferred` - Whether to live migrate supported VM instances to a healthy physical VM host without disrupting running instances during infrastructure maintenance events. If null, Oracle chooses the best option for migrating the VM during infrastructure maintenance events. 
 	* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 		* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
 		* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
@@ -404,9 +479,9 @@ The following attributes are exported:
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
 * `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under. When this field contains an empty string or is null, the instance is not currently in a capacity reservation. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 * `compartment_id` - The OCID of the compartment that contains the instance.
-* `dedicated_vm_host_id` - The OCID of dedicated VM host. 
+* `dedicated_vm_host_id` - The OCID of the dedicated virtual machine host that the instance is placed on. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My bare metal instance` 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `extended_metadata` - Additional metadata key/value pairs that you provide. They serve the same purpose and functionality as fields in the `metadata` object.
 
 	They are distinguished from `metadata` fields in that these can be nested JSON objects (whereas `metadata` fields are string/string maps only). 
@@ -422,17 +497,21 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the instance.
 * `image` - Deprecated. Use `sourceDetails` instead. 
+* `instance_configuration_id` - The OCID of the Instance Configuration used to source launch details for this instance. Any other fields supplied in the instance launch request override the details stored in the Instance Configuration for this instance launch.
 * `instance_options` - Optional mutable instance options
 	* `are_legacy_imds_endpoints_disabled` - Whether to disable the legacy (/v1) instance metadata service endpoints. Customers who have migrated to /v2 should set this to true for added security. Default is false. 
 * `ipxe_script` - When a bare metal or virtual machine instance boots, the iPXE firmware that runs on the instance is configured to run an iPXE script to continue the boot process.
 
-	If you want more control over the boot process, you can provide your own custom iPXE script that will run when the instance boots; however, you should be aware that the same iPXE script will run every time an instance boots; not only after the initial LaunchInstance call.
+	If you want more control over the boot process, you can provide your own custom iPXE script that will run when the instance boots. Be aware that the same iPXE script will run every time an instance boots, not only after the initial LaunchInstance call.
 
-	The default iPXE script connects to the instance's local boot volume over iSCSI and performs a network boot. If you use a custom iPXE script and want to network-boot from the instance's local boot volume over iSCSI the same way as the default iPXE script, you should use the following iSCSI IP address: 169.254.0.2, and boot volume IQN: iqn.2015-02.oracle.boot.
+	The default iPXE script connects to the instance's local boot volume over iSCSI and performs a network boot. If you use a custom iPXE script and want to network-boot from the instance's local boot volume over iSCSI the same way as the default iPXE script, use the following iSCSI IP address: 169.254.0.2, and boot volume IQN: iqn.2015-02.oracle.boot.
+
+	If your instance boot volume attachment type is paravirtualized, the boot volume is attached to the instance through virtio-scsi and no iPXE script is used. If your instance boot volume attachment type is paravirtualized and you use custom iPXE to network boot into your instance, the primary boot volume is attached as a data volume through virtio-scsi drive.
 
 	For more information about the Bring Your Own Image feature of Oracle Cloud Infrastructure, see [Bring Your Own Image](https://docs.cloud.oracle.com/iaas/Content/Compute/References/bringyourownimage.htm).
 
 	For more information about iPXE, see http://ipxe.org. 
+* `is_cross_numa_node` - Whether the instance’s OCPUs and memory are distributed across multiple NUMA nodes. 
 * `launch_mode` - Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
@@ -461,9 +540,31 @@ The following attributes are exported:
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
 * `metadata` - Custom metadata that you provide.
+
 * `platform_config` - The platform configuration for the instance. 
+	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available. For example, Secure Virtual Machine for AMD shapes or VT-x for Intel shapes. 
+	* `config_map` - Instance Platform Configuration Configuration Map for flexible setting input. 
+	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device pass-through. 
+	* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled. 
+	* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance. 
+	* `is_memory_encryption_enabled` - Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`. 
+	* `is_secure_boot_enabled` - Whether Secure Boot is enabled on the instance. 
+	* `is_symmetric_multi_threading_enabled` - Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also called simultaneous multithreading (SMT) or Intel Hyper-Threading.
+
+		Intel and AMD processors have two hardware execution threads per core (OCPU). SMT permits multiple independent threads of execution, to better use the resources and increase the efficiency of the CPU. When multithreading is disabled, only one thread is permitted to run on each core, which can provide higher or more predictable performance for some workloads. 
+	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is enabled on the instance. 
+
+* `platform_config` - The platform configuration for the instance.
+	* `are_virtual_instructions_enabled` - Whether virtualization instructions are available.
+	* `is_access_control_service_enabled` - Whether the Access Control Service is enabled on the instance. When enabled, the platform can enforce PCIe device isolation, required for VFIO device passthrough.
+	* `is_input_output_memory_management_unit_enabled` - Whether the input-output memory management unit is enabled.
+	* `is_measured_boot_enabled` - Whether the Measured Boot feature is enabled on the instance.
+	* `is_secure_boot_enabled` - Whether Secure Boot is enabled on the instance.
+	* `is_symmetric_multi_threading_enabled` - Whether symmetric multi-threading is enabled on the instance.
+	* `is_trusted_platform_module_enabled` - Whether the Trusted Platform Module (TPM) is enabled on the instance.
 	* `numa_nodes_per_socket` - The number of NUMA nodes per socket (NPS). 
-	* `type` - The type of platform being configured. The only supported `type` is `AMD_MILAN_BM`. 
+	* `percentage_of_cores_enabled` - The percentage of cores enabled.
+	* `type` - The type of platform being configured. (Supported types=[INTEL_VM, AMD_MILAN_BM, AMD_ROME_BM, AMD_ROME_BM_GPU, INTEL_ICELAKE_BM, INTEL_SKYLAKE_BM])
 * `preemptible_instance_config` - (Optional) Configuration options for preemptible instances. 
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
@@ -499,9 +600,23 @@ The following attributes are exported:
 	* `networking_bandwidth_in_gbps` - The networking bandwidth available to the instance, in gigabits per second. 
 	* `ocpus` - The total number of OCPUs available to the instance. 
 	* `processor_description` - A short description of the instance's processor (CPU). 
+	* `vcpus` - The total number of VCPUs available to the instance. This can be used instead of OCPUs, in which case the actual number of OCPUs will be calculated based on this value and the actual hardware. This must be a multiple of 2.
 * `source_details` - 
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB and maximum value is 32,768 GB (32 TB). 
-	* `kms_key_id` - The OCID of the Key Management key to assign as the master encryption key for the boot volume.
+	* `boot_volume_vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+
+		Allowed values:
+		* `10`: Represents Balanced option.
+		* `20`: Represents Higher Performance option.
+		* `30`-`120`: Represents the Ultra High Performance option.
+
+		For volumes with the auto-tuned performance feature enabled, this is set to the default (minimum) VPUs/GB. 
+	* `instance_source_image_filter_details` - These are the criteria for selecting an image. This is required if imageId is not specified.
+		* `compartment_id` - The OCID of the compartment containing images to search
+		* `defined_tags_filter` - Filter based on these defined tags. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+		* `operating_system` - The image's operating system.  Example: `Oracle Linux` 
+		* `operating_system_version` - The image's operating system version.  Example: `7.2` 
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the boot volume.
 	* `source_id` - The OCID of an image or a boot volume to use, depending on the value of `source_type`.
 	* `source_type` - The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID. 
 * `state` - The current state of the instance.
@@ -511,7 +626,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 45 minutes), when creating the Instance
 	* `update` - (Defaults to 45 minutes), when updating the Instance
 	* `delete` - (Defaults to 75 minutes), when destroying the Instance

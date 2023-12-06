@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -20,8 +20,9 @@ variable "compartment_ocid" {
 }
 
 variable "config" {
+  type = map(string) 
   default = {
-    "MY_FUNCTION_CONFIG" = "ConfVal"
+    "MEDIA_WORKFLOW_ID" = "someworkflowid"
   }
 }
 
@@ -38,11 +39,17 @@ variable "application_trace_config" {
     is_enabled = bool
   })
   default = {
-    is_enabled = true
+    domain_id = ""
+    is_enabled = false
   }
 }
 
 variable "syslog_url" {
+  default = ""
+}
+
+variable "application_image_policy_config_is_policy_enabled" {
+  default = false
 }
 
 ##### Docker image ######
@@ -53,7 +60,7 @@ variable "syslog_url" {
 #
 
 variable "application_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
 
 variable "function_image" {
@@ -67,7 +74,7 @@ variable "function_trace_config" {
     is_enabled = bool
   })
   default = {
-    is_enabled = true
+    is_enabled = false
   }
 }
 
@@ -79,9 +86,21 @@ variable "function_timeout_in_seconds" {
   default = 30
 }
 
-variable "invoke_function_body" {
+variable "kms_key_ocid" {
 }
 
-variable "invoke_function_body_source_path" {
+variable "pbf_listing_name" {
 }
 
+variable "pbf_listing_id" {
+}
+
+variable "pbf_listing_version_id" {
+}
+
+variable "pbf_trigger_name" {
+}
+
+variable "application_shape" {
+  default = "GENERIC_X86"
+}

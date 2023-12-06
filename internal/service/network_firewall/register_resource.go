@@ -1,0 +1,21 @@
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package network_firewall
+
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+func RegisterResource() {
+	tfresource.RegisterResource("oci_network_firewall_network_firewall", NetworkFirewallNetworkFirewallResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy", NetworkFirewallNetworkFirewallPolicyResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_address_list", NetworkFirewallNetworkFirewallPolicyAddressListResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_application", NetworkFirewallNetworkFirewallPolicyApplicationResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_application_group", NetworkFirewallNetworkFirewallPolicyApplicationGroupResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_decryption_profile", NetworkFirewallNetworkFirewallPolicyDecryptionProfileResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_decryption_rule", NetworkFirewallNetworkFirewallPolicyDecryptionRuleResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_mapped_secret", NetworkFirewallNetworkFirewallPolicyMappedSecretResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_security_rule", NetworkFirewallNetworkFirewallPolicySecurityRuleResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_service", NetworkFirewallNetworkFirewallPolicyServiceResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_service_list", NetworkFirewallNetworkFirewallPolicyServiceListResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_url_list", NetworkFirewallNetworkFirewallPolicyUrlListResource())
+}

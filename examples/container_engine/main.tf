@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -26,7 +26,46 @@ variable "node_pool_ssh_public_key" {
 }
 
 variable "kms_vault_id" {
+}
 
+variable "node_pool_node_eviction_node_pool_settings_eviction_grace_duration" {
+  default = "PT50M"
+}
+
+variable "node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration" {
+  default = false
+}
+
+variable "node_pool_cycling_details_is_node_cycling_enabled" {
+  default = true
+}
+
+variable "node_pool_cycling_details_maximum_surge" {
+  default = "1"
+}
+
+variable "node_pool_cycling_details_maximum_unavailable" {
+  default = "0"
+}
+
+variable "node_pool_state" {
+  default = []
+}
+
+variable "cluster_workload_mapping_namespace" {
+  default = "namespace"
+}
+
+variable "cluster_workload_mapping_defined_tags_value" {
+  default = "value"
+}
+
+variable "cluster_workload_mapping_freeform_tags" {
+  default = { "Department" = "Finance" }
+}
+
+variable defined_tag_namespace_name {
+  default = "test"
 }
 
 provider "oci" {
@@ -35,6 +74,24 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
+}
+
+resource "oci_identity_tag_namespace" "tag-namespace1" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  description = "example tag namespace"
+  name = var.defined_tag_namespace_name != "" ? var.defined_tag_namespace_name : "example-tag-namespace-all"
+
+  is_retired = false
+}
+
+resource "oci_identity_tag" "tag1" {
+  #Required
+  description = "example tag"
+  name = "example-tag"
+  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
+
+  is_retired = false
 }
 
 data "oci_identity_availability_domain" "ad1" {
@@ -143,7 +200,7 @@ resource "oci_core_subnet" "nodePool_Subnet_2" {
 resource "oci_containerengine_cluster" "test_cluster" {
   #Required
   compartment_id     = var.compartment_ocid
-  kubernetes_version = data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[0]
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "tfTestCluster"
   vcn_id             = oci_core_vcn.test_vcn.id
 
@@ -168,7 +225,7 @@ resource "oci_containerengine_cluster" "test_cluster" {
 
     admission_controller_options {
       #Optional
-      is_pod_security_policy_enabled = true
+      is_pod_security_policy_enabled = false
     }
 
     kubernetes_network_config {
@@ -183,7 +240,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
   #Required
   cluster_id         = oci_containerengine_cluster.test_cluster.id
   compartment_id     = var.compartment_ocid
-  kubernetes_version = data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions[0]
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "tfPool"
   node_shape         = "VM.Standard2.1"
   subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id, oci_core_subnet.nodePool_Subnet_2.id]
@@ -195,6 +252,19 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
     value = "value"
   }
 
+  node_eviction_node_pool_settings {
+    #Optional
+    eviction_grace_duration              = var.node_pool_node_eviction_node_pool_settings_eviction_grace_duration
+    is_force_delete_after_grace_duration = var.node_pool_node_eviction_node_pool_settings_is_force_delete_after_grace_duration
+  }
+
+  node_pool_cycling_details {
+    #Optional
+    is_node_cycling_enabled = var.node_pool_cycling_details_is_node_cycling_enabled
+    maximum_surge           = var.node_pool_cycling_details_maximum_surge
+    maximum_unavailable     = var.node_pool_cycling_details_maximum_unavailable
+  }
+
   node_source_details {
     #Required
     image_id    = local.image_id
@@ -204,7 +274,7 @@ resource "oci_containerengine_node_pool" "test_node_pool" {
     boot_volume_size_in_gbs = "60"
   }
 
-  quantity_per_subnet = 2
+  quantity_per_subnet = 1
   ssh_public_key      = var.node_pool_ssh_public_key
 }
 
@@ -212,14 +282,14 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
   #Required
   cluster_id         = oci_containerengine_cluster.test_cluster.id
   compartment_id     = var.compartment_ocid
-  kubernetes_version = data.oci_containerengine_node_pool_option.test_node_pool_option.kubernetes_versions[0]
+  kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "flexShapePool"
   node_shape         = "VM.Standard.E3.Flex"
   subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id, oci_core_subnet.nodePool_Subnet_2.id]
 
   node_source_details {
     #Required
-    image_id    = local.oracle_linux_images.0
+    image_id    = local.image_id
     source_type = "IMAGE"
   }
 
@@ -228,8 +298,19 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
     memory_in_gbs = 40
   }
 
-  quantity_per_subnet = 2
+  quantity_per_subnet = 1
   ssh_public_key      = var.node_pool_ssh_public_key
+}
+
+resource "oci_containerengine_cluster_workload_mapping" "test_cluster_workload_mapping" {
+  #Required"
+  cluster_id            = oci_containerengine_cluster.test_cluster.id
+  mapped_compartment_id = var.compartment_ocid
+  namespace             = var.cluster_workload_mapping_namespace
+
+  #Optional
+  defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "${var.cluster_workload_mapping_defined_tags_value}"}
+  freeform_tags = var.cluster_workload_mapping_freeform_tags
 }
 
 output "cluster" {
@@ -306,6 +387,14 @@ resource "local_file" "test_cluster_kube_config_file" {
 
 data "oci_identity_availability_domains" "test_availability_domains" {
   compartment_id = var.tenancy_ocid
+}
+
+data "oci_containerengine_node_pools" "test_node_pools" {
+  #Required
+  compartment_id = var.compartment_ocid
+
+  #Optional
+  state      = var.node_pool_state
 }
 
 variable "InstanceImageOCID" {

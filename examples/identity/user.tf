@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 /*
@@ -7,6 +7,7 @@
 
 resource "oci_identity_user" "user1" {
   name           = "tf-example-user"
+  email          = "tf-example-user@oracle.com"
   description    = "user created by terraform"
   compartment_id = var.tenancy_ocid
 }
@@ -14,6 +15,7 @@ resource "oci_identity_user" "user1" {
 // Use the "user2" to have non-default values of capabilities without corresponding authentication resources being actually created
 resource "oci_identity_user" "user2" {
   name           = "tf-example-user2"
+  email          = "tf-example-user2@oracle.com"
   description    = "user2 created by terraform"
   compartment_id = var.tenancy_ocid
 }

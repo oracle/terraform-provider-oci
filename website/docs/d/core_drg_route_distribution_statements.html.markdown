@@ -40,9 +40,9 @@ The following attributes are exported:
 
 * `action` - `ACCEPT` indicates the route should be imported or exported as-is. 
 * `id` - The Oracle-assigned ID of the route distribution statement. 
-* `match_criteria` - The action is applied only if all of the match criteria is met. If there are no match criteria in a statement, any input is considered a match and the action is applied. 
+* `match_criteria` - The action is applied only if all of the match criteria is met. If match type is MATCH_ALL, any input is considered a match. 
 	* `attachment_type` - The type of the network resource to be included in this match. A match for a network type implies that all DRG attachments of that type insert routes into the table. 
 	* `drg_attachment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment. 
-	* `match_type` - The type of the match criteria for a route distribution statement. 
+	* `match_type` - The type of the match criteria for a route distribution statement.
 * `priority` - This field specifies the priority of each statement in a route distribution. Priorities must be unique within a particular route distribution. The priority will be represented as a number between 0 and 65535 where a lower number indicates a higher priority. When a route is processed, statements are applied in the order defined by their priority. The first matching rule dictates the action that will be taken on the route. 
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -68,6 +68,10 @@ variable "enterprise_manager_bridge_state" {
   default = ["ACTIVE"]
 }
 
+variable "compartment_id_in_subtree" {
+  default = true
+}
+
 // To Create a Enterprise Manager Bridge
 resource "oci_opsi_enterprise_manager_bridge" "test_enterprise_manager_bridge" {
   #Required
@@ -89,6 +93,13 @@ output "enterprise_manager_bridge_id" {
 data "oci_opsi_enterprise_manager_bridges" "test_enterprise_manager_bridges" {
   compartment_id = var.compartment_ocid
   state          = var.enterprise_manager_bridge_state
+}
+
+// List EM Bridge present under a compartment having state ACTIVE in current and all subcompartments
+data "oci_opsi_enterprise_manager_bridges" "test_enterprise_manager_bridges2" {
+  compartment_id            = var.compartment_ocid
+  compartment_id_in_subtree = var.compartment_id_in_subtree
+  state                     = var.enterprise_manager_bridge_state
 }
 
 // Get EM Bridge for a particular id 

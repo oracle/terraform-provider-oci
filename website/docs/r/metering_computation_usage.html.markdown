@@ -52,7 +52,7 @@ resource "oci_metering_computation_usage" "test_usage" {
 The following arguments are supported:
 
 * `compartment_depth` - (Optional) The compartment depth level.
-* `filter` - (Optional) 
+* `filter` - (Optional) The filter object for query usage.
 * `forecast` - (Optional) Forecast configuration of usage/cost.
 	* `forecast_type` - (Optional) BASIC uses the exponential smoothing (ETS) model to project future usage/costs based on history data. The basis for projections is a periodic set of equivalent historical days for which the projection is being made.
 	* `time_forecast_ended` - (Required) The forecast end time.
@@ -114,7 +114,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Usage
 	* `update` - (Defaults to 20 minutes), when updating the Usage
 	* `delete` - (Defaults to 20 minutes), when destroying the Usage

@@ -53,6 +53,11 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the tenancy. The tenancy is the root compartment.
 * `description` - Text describing the recommendation.
 * `estimated_cost_saving` - The estimated cost savings, in dollars, for the recommendation.
+* `extended_metadata` - Additional metadata key/value pairs for the recommendation.
+
+	For example:
+
+	`{"EstimatedSaving": "200"}` 
 * `id` - The unique OCID associated with the recommendation.
 * `importance` - The level of importance assigned to the recommendation.
 * `name` - The name assigned to the recommendation.
@@ -75,7 +80,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Recommendation
 	* `update` - (Defaults to 20 minutes), when updating the Recommendation
 	* `delete` - (Defaults to 20 minutes), when destroying the Recommendation

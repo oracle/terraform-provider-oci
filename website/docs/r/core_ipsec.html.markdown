@@ -10,14 +10,8 @@ description: |-
 # oci_core_ipsec
 This resource provides the Ip Sec Connection resource in Oracle Cloud Infrastructure Core service.
 
-Creates a new IPSec connection between the specified DRG and CPE. For more information, see
-[IPSec VPNs](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIPsec.htm).
-
-If you configure at least one tunnel to use static routing, then in the request you must provide
-at least one valid static route (you're allowed a maximum of 10). For example: 10.0.0.0/16.
-If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for
-the static routes. For more information, see the important note in
-[IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnection/).
+Creates a new IPSec connection between the specified DRG and CPE with two default static tunnels. For more information, see
+[Site-to-Site VPN Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/overviewIPsec.htm).
 
 For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the
 IPSec connection to reside. Notice that the IPSec connection doesn't have to be in the same compartment
@@ -35,9 +29,16 @@ with tunnel-specific information. For tunnel status and the required configurati
   * [IPSecConnectionTunnel](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnel/)
   * [IPSecConnectionTunnelSharedSecret](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnectionTunnelSharedSecret/)
 
+To configure tunnel-specific information, use `oci_core_ipsec_connection_tunnel_management` to update the tunnels. If 
+you configure at least one tunnel to use static routing, then in the oci_core_ipsec request you must provide
+at least one valid static route (you're allowed a maximum of 10). For example: 10.0.0.0/16.
+If you configure both tunnels to use BGP dynamic routing, the static routes will be ignored. However, you must provide a
+static route in `oci_core_ipsec` even if you plan to use BGP routing because it defaults to two static tunnels.  For more 
+information, see the important note in [IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnection/).
+
 For each tunnel, you need the IP address of Oracle's VPN headend and the shared secret
 (that is, the pre-shared key). For more information, see
-[Configuring Your On-Premises Router for an IPSec VPN](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
+[CPE Configuration](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/configuringCPE.htm).
 
 
 ## Example Usage
@@ -63,8 +64,8 @@ resource "oci_core_ipsec" "test_ip_sec_connection" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) (Updatable) The OCID of the compartment to contain the IPSec connection.
-* `cpe_id` - (Required) The OCID of the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/) object.
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the IPSec connection.
+* `cpe_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/) object.
 * `cpe_local_identifier` - (Optional) (Updatable) Your identifier for your CPE device. Can be either an IP address or a hostname (specifically, the fully qualified domain name (FQDN)). The type of identifier you provide here must correspond to the value for `cpeLocalIdentifierType`.
 
 	If you don't provide a value, the `ipAddress` attribute for the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/) object specified by `cpeId` is used as the `cpeLocalIdentifier`.
@@ -81,7 +82,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `static_routes` - (Required) (Updatable) Static routes to the CPE. A static route's CIDR must not be a multicast address or class E address.
 
-	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes. For more information, see the important note in [IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnection/).
+	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes on update. For more information, see the important note in [IPSecConnection](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/IPSecConnection/).
 
 	 Example: `10.0.1.0/24` 
 
@@ -93,8 +94,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment containing the IPSec connection.
-* `cpe_id` - The OCID of the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/) object.
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the IPSec connection.
+* `cpe_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/) object.
 * `cpe_local_identifier` - Your identifier for your CPE device. Can be either an IP address or a hostname (specifically, the fully qualified domain name (FQDN)). The type of identifier here must correspond to the value for `cpeLocalIdentifierType`.
 
 	If you don't provide a value when creating the IPSec connection, the `ipAddress` attribute for the [Cpe](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Cpe/) object specified by `cpeId` is used as the `cpeLocalIdentifier`.
@@ -113,14 +114,15 @@ The following attributes are exported:
 * `state` - The IPSec connection's current state.
 * `static_routes` - Static routes to the CPE. The CIDR must not be a multicast address or class E address.
 
-	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, you can provide an empty list for the static routes.
+	Used for routing a given IPSec tunnel's traffic only if the tunnel is using static routing. If you configure at least one tunnel to use static routing, then you must provide at least one valid static route. If you configure both tunnels to use BGP dynamic routing, the static routes will be ignored.
 
 	 Example: `10.0.1.0/24` 
 * `time_created` - The date and time the IPSec connection was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
+* `transport_type` - The transport type used for the IPSec connection. 
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Ip Sec Connection
 	* `update` - (Defaults to 20 minutes), when updating the Ip Sec Connection
 	* `delete` - (Defaults to 20 minutes), when destroying the Ip Sec Connection

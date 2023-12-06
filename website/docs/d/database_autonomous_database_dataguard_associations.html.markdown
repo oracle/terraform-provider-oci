@@ -43,12 +43,13 @@ The following attributes are exported:
 * `apply_rate` - The rate at which redo logs are synced between the associated databases.  Example: `180 Mb per second` 
 * `autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database that has a relationship with the peer Autonomous Database. 
 * `id` - The OCID of the Autonomous Dataguard created for Autonomous Container Database where given Autonomous Database resides in.
+* `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association. Output DataType: boolean. Example : `is_automatic_failover_enabled = true`. 
 * `lifecycle_details` - Additional information about the current lifecycleState, if available. 
 * `peer_autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous Database. 
 * `peer_autonomous_database_life_cycle_state` - The current state of Autonomous Data Guard.
-* `peer_role` - The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled. 
-* `protection_mode` - The protection mode of this Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
-* `role` - The Data Guard role of the Autonomous Container Database, if Autonomous Data Guard is enabled. 
+* `peer_role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
+* `protection_mode` - The protection mode of this Autonomous Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
+* `role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
 * `state` - The current state of Autonomous Data Guard.
 * `time_created` - The date and time the Data Guard association was created.
 * `time_last_role_changed` - The date and time when the last role change action happened.

@@ -11,10 +11,13 @@ description: |-
 This data source provides details about a specific Alarm History Collection resource in Oracle Cloud Infrastructure Monitoring service.
 
 Get the history of the specified alarm.
-For important limits information, see [Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#Limits).
+For more information, see
+[Getting History of an Alarm](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/get-alarm-history.htm).
+For important limits information, see
+[Limits on Monitoring](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#limits).
 
-This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations. 
-Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests, 
+This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
+Monitoring might throttle this call to reject an otherwise valid request when the total rate of alarm operations exceeds 10 requests,
 or transactions, per second (TPS) for a given tenancy.
 
 
@@ -46,9 +49,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `alarm_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm for which to retrieve history. 
+* `alarm_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm to retrieve history for. 
 * `entries` - The set of history entries retrieved for the alarm. 
-	* `summary` - Description for this alarm history entry. Avoid entering confidential information.
+	* `summary` - Description for this alarm history entry.
 
 		Example 1 - alarm state history entry: `The alarm state is FIRING`
 

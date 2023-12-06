@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 provider "oci" {
@@ -45,7 +45,19 @@ resource "oci_database_db_system" "test_db_system" {
     lead_time_in_weeks = 2
 
     months {
+      name = "JANUARY"
+    }
+
+    months {
       name = "APRIL"
+    }
+
+    months {
+      name = "JULY"
+    }
+
+    months {
+      name = "OCTOBER"
     }
 
     weeks_of_month = ["2"]
@@ -112,7 +124,19 @@ resource "oci_database_db_system" "test_db_system_2" {
     lead_time_in_weeks = 2
 
     months {
+      name = "JANUARY"
+    }
+
+    months {
       name = "APRIL"
+    }
+
+    months {
+      name = "JULY"
+    }
+
+    months {
+      name = "OCTOBER"
     }
 
     weeks_of_month = ["2"]

@@ -10,6 +10,8 @@ description: |-
 # oci_identity_identity_provider
 This resource provides the Identity Provider resource in Oracle Cloud Infrastructure Identity service.
 
+**Deprecated.** For more information, see [Deprecated IAM Service APIs](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/deprecatediamapis.htm).
+
 Creates a new identity provider in your tenancy. For more information, see
 [Identity Providers and Federation](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/federation.htm).
 
@@ -94,7 +96,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Identity Provider
 	* `update` - (Defaults to 20 minutes), when updating the Identity Provider
 	* `delete` - (Defaults to 20 minutes), when destroying the Identity Provider

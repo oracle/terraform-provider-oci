@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 // These variables would commonly be defined as environment variables or sourced in a .env file
@@ -36,6 +36,7 @@ resource "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
   compartment_id = var.compartment_ocid
   compute_shape  = "ENTERPRISE_MEDIUM"
   display_name   = "displayname3"
+  platform_version   = "Hyperledger Fabric v2.2.4"
   platform_role  = "FOUNDER"
   idcs_access_token = var.idcs_access_token
 }
@@ -57,7 +58,7 @@ resource "oci_blockchain_osn" "test_osn" {
 
   ocpu_allocation_param {
     #Required
-    ocpu_allocation_number = "0.4"
+    ocpu_allocation_number = "0.0"
   }
 }
 
@@ -78,6 +79,9 @@ resource "oci_blockchain_peer" "test_peer" {
   }
 
   role = "MEMBER"
+  
+  # This depends on is added to make the peer and osn creation sequential to avoid conflicts
+  depends_on = [oci_blockchain_osn.test_osn]
 }
 
 data "oci_blockchain_peer" "test_peer" {

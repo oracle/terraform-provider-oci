@@ -39,6 +39,7 @@ resource "oci_objectstorage_object" "test_object" {
 	delete_all_object_versions = var.object_delete_all_object_versions
 	metadata = var.object_metadata
 	storage_tier = var.object_storage_tier
+    opc_sse_kms_key_id = var.object_opc_sse_kms_key_id
 }
 ```
 
@@ -62,6 +63,7 @@ The following arguments are supported:
 Note: All specified keys must be in lower case.
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) (Updatable) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `opc_sse_kms_key_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 * `storage_tier` - (Optional) (Updatable) The storage tier that the object should be stored in. If not specified, the object will be stored in the same storage tier as the bucket. 
 * `source` - (Optional) An absolute path to a file on the local system. Cannot be defined if `content` or `source_uri_details` is defined.
 * `source_uri_details` - (Optional) Details of the source URI of the object in the cloud. Cannot be defined if `content` or `source` is defined. 
@@ -105,7 +107,7 @@ Note: Metadata keys are case-insensitive and all returned keys will be lower cas
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Object
 	* `update` - (Defaults to 20 minutes), when updating the Object
 	* `delete` - (Defaults to 20 minutes), when destroying the Object

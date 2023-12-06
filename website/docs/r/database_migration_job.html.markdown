@@ -10,8 +10,7 @@ description: |-
 # oci_database_migration_job
 This resource provides the Job resource in Oracle Cloud Infrastructure Database Migration service.
 
-Update a Migration Job resource details.
-
+Update Migration Job resource details.
 
 ## Example Usage
 
@@ -54,19 +53,37 @@ The following attributes are exported:
 	* `current_phase` - Current phase of the job. 
 	* `current_status` - Current status of the job. 
 	* `phases` - List of phase status for the job. 
+		* `action` - The text describing the action required to fix the issue 
 		* `duration_in_ms` - Duration of the phase in milliseconds 
+		* `extract` - Summary of phase status results. 
+			* `message` - Message in entry. 
+			* `type` - Type of extract. 
+		* `is_advisor_report_available` - True if a Pre-Migration Advisor report is available for this phase. False or null if no report is available. 
+		* `issue` - The text describing the root cause of the reported issue 
+		* `log_location` - Details to access log file in the specified Object Storage bucket, if any. 
+			* `bucket` - Name of the bucket containing the log file. 
+			* `namespace` - Object Storage namespace. 
+			* `object` - Log object name. 
 		* `name` - Phase name 
 		* `progress` - Percent progress of job phase. 
 		* `status` - Phase status 
 * `state` - The current state of the migration job. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The time the DB Migration Job was created. An RFC3339 formatted datetime string 
-* `time_updated` - The time the DB Migration Job was last updated. An RFC3339 formatted datetime string 
+* `time_created` - The time the Migration Job was created. An RFC3339 formatted datetime string 
+* `time_updated` - The time the Migration Job was last updated. An RFC3339 formatted datetime string 
 * `type` - The job type. 
 * `unsupported_objects` - Database objects not supported. 
 	* `object` - Name of the object (regular expression is allowed) 
 	* `owner` - Owner of the object (regular expression is allowed) 
 	* `type` - Type of unsupported object 
+	
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Job
+	* `update` - (Defaults to 20 minutes), when updating the Job
+	* `delete` - (Defaults to 20 minutes), when destroying the Job
+
 
 ## Import
 

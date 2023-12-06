@@ -12,7 +12,6 @@ This data source provides the list of Agents in Oracle Cloud Infrastructure Data
 
 Display the name of all the existing ODMS Agents in the server.
 
-
 ## Example Usage
 
 ```hcl
@@ -52,7 +51,7 @@ The following attributes are exported:
 * `id` - The OCID of the resource 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
 * `public_key` - ODMS Agent public key. 
-* `state` - The current state of the ODMS On Prem Agent. 
+* `state` - The current state of the ODMS on-premises Agent. 
 * `stream_id` - The OCID of the Stream 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the Agent was created. An RFC3339 formatted datetime string. 

@@ -27,6 +27,7 @@ resource "oci_load_balancer_backend_set" "test_backend_set" {
 
 		#Optional
 		interval_ms = var.backend_set_health_checker_interval_ms
+		is_force_plain_text = var.backend_set_health_checker_is_force_plain_text
 		port = var.backend_set_health_checker_port
 		response_body_regex = var.backend_set_health_checker_response_body_regex
 		retries = var.backend_set_health_checker_retries
@@ -60,10 +61,12 @@ resource "oci_load_balancer_backend_set" "test_backend_set" {
 	ssl_configuration {
 
 		#Optional
+		certificate_ids = var.backend_set_ssl_configuration_certificate_ids
 		certificate_name = oci_load_balancer_certificate.test_certificate.name
 		cipher_suite_name = var.backend_set_ssl_configuration_cipher_suite_name
 		protocols = var.backend_set_ssl_configuration_protocols
 		server_order_preference = var.backend_set_ssl_configuration_server_order_preference
+		trusted_certificate_authority_ids = var.backend_set_ssl_configuration_trusted_certificate_authority_ids
 		verify_depth = var.backend_set_ssl_configuration_verify_depth
 		verify_peer_certificate = var.backend_set_ssl_configuration_verify_peer_certificate
 	}
@@ -79,6 +82,13 @@ The following arguments are supported:
 
 * `health_checker` - (Required) (Updatable) The health check policy's configuration details.
 	* `interval_ms` - (Optional) (Updatable) The interval between health checks, in milliseconds.  Example: `10000` 
+	* `is_force_plain_text` - (Optional) (Updatable) Specifies if health checks should always be done using plain text instead of depending on whether or not the associated backend set is using SSL.
+
+		If "true", health checks will be done using plain text even if the associated backend set is configured to use SSL.
+
+		If "false", health checks will be done using SSL encryption if the associated backend set is configured to use SSL. If the backend set is not so configured the health checks will be done using plain text.
+
+		Example: `false` 
 	* `port` - (Optional) (Updatable) The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the `Backend` object.  Example: `8080` 
 	* `protocol` - (Required) (Updatable) The protocol the health check must use; either HTTP or TCP.  Example: `HTTP` 
 	* `response_body_regex` - (Optional) (Updatable) A regular expression for parsing the response body from the backend server.  Example: `^((?!false).|\s)*$` 
@@ -161,6 +171,7 @@ The following arguments are supported:
 * `ssl_configuration` - (Optional) (Updatable) The load balancer's SSL handling configuration details.
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
+	* `certificate_ids` - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]` 
 	* `certificate_name` - (Optional) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `cipher_suite_name` - (Optional) (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
 
@@ -198,7 +209,7 @@ The following arguments are supported:
 	* `server_order_preference` - (Optional) (Updatable) When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
 
 		**Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the `SSLConfiguration` object is associated with a backend set. 
-
+	* `trusted_certificate_authority_ids` - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]` 
 	* `verify_depth` - (Optional) (Updatable) The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - (Optional) (Updatable) Whether the load balancer listener should verify peer certificates.  Example: `true` 
 
@@ -220,9 +231,16 @@ The following attributes are exported:
 	* `name` - A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080` 
 	* `offline` - Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
 	* `port` - The communication port for the backend server.  Example: `8080` 
-	* `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
-* `health_checker` - The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm). 
-	* `interval_ms` - The interval between health checks, in milliseconds. The default is 30000 (30 seconds).  Example: `30000` 
+	* `weight` - The load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives 3 times the number of new connections as a server weighted '1'. For more information on load balancing policies, see [How Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3`
+* `health_checker` - The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm).
+	* `interval_ms` - The interval between health checks, in milliseconds. The default is 10000 (10 seconds).  Example: `10000` 
+	* `is_force_plain_text` - Specifies if health checks should always be done using plain text instead of depending on whether or not the associated backend set is using SSL.
+
+		If "true", health checks will be done using plain text even if the associated backend set is configured to use SSL.
+
+		If "false", health checks will be done using SSL encryption if the associated backend set is configured to use SSL. If the backend set is not so configured the health checks will be done using plain text.
+
+		Example: `false`
 	* `port` - The backend server port against which to run the health check. If the port is not specified, the load balancer uses the port information from the `Backend` object.  Example: `8080` 
 	* `protocol` - The protocol the health check must use; either HTTP or TCP.  Example: `HTTP` 
 	* `response_body_regex` - A regular expression for parsing the response body from the backend server.  Example: `^((?!false).|\s)*$` 
@@ -306,6 +324,7 @@ The following attributes are exported:
 	To use SSL, a listener must be associated with a [certificate bundle](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/Certificate/).
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
+	* `certificate_ids` - Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]` 
 	* `certificate_name` - A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `cipher_suite_name` - The name of the cipher suite to use for HTTPS or SSL connections.
 
@@ -343,12 +362,13 @@ The following attributes are exported:
 	* `server_order_preference` - When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
 
 		**Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the `SSLConfiguration` object is associated with a backend set. 
+	* `trusted_certificate_authority_ids` - Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]` 
 	* `verify_depth` - The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - Whether the load balancer listener should verify peer certificates.  Example: `true` 
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Backend Set
 	* `update` - (Defaults to 20 minutes), when updating the Backend Set
 	* `delete` - (Defaults to 20 minutes), when destroying the Backend Set

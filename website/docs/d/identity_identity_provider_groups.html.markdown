@@ -10,7 +10,10 @@ description: |-
 # Data Source: oci_identity_identity_provider_groups
 This data source provides the list of Identity Provider Groups in Oracle Cloud Infrastructure Identity service.
 
+**Deprecated.** For more information, see [Deprecated IAM Service APIs](https://docs.cloud.oracle.com/iaas/Content/Identity/Reference/deprecatediamapis.htm).
+
 Lists the identity provider groups.
+
 
 ## Example Usage
 

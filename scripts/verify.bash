@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 # This is called from pre-push.bash to do some verification checks on
 # the Go code. The script will exit non-zero if any of these tests fail.
 
@@ -48,10 +48,10 @@ fi
 
 check_make_target 2 'vet'
 check_make_target 3 'errcheck'
-check_make_target 5 'test-compile' 'TEST=./oci'
+check_make_target 5 'test-compile' 'TEST=./internal/integrationtest'
 check_make_target 6 'ocicheck'
-#check_make_target 7 'website-test'
 check_make_target 7 'test-docscheck'
+check_make_target 8 'check-module-name'
 
 
 echo "checking: make build ..."

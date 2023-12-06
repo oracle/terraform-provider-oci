@@ -36,13 +36,13 @@ resource "oci_load_balancer_listener" "test_listener" {
 	routing_policy_name = oci_load_balancer_load_balancer_routing_policy.test_load_balancer_routing_policy.name
 	rule_set_names = [oci_load_balancer_rule_set.test_rule_set.name]
 	ssl_configuration {
-        #Required
+        #Optional
 		certificate_name = oci_load_balancer_certificate.test_certificate.name
-
-		#Optional
+		certificate_ids = var.listener_ssl_configuration_certificate_ids
 		cipher_suite_name = var.listener_ssl_configuration_cipher_suite_name
 		protocols = var.listener_ssl_configuration_protocols
 		server_order_preference = var.listener_ssl_configuration_server_order_preference
+		trusted_certificate_authority_ids = var.listener_ssl_configuration_trusted_certificate_authority_ids
 		verify_depth = var.listener_ssl_configuration_verify_depth
 		verify_peer_certificate = var.listener_ssl_configuration_verify_peer_certificate
 	}
@@ -76,6 +76,7 @@ The following arguments are supported:
 * `ssl_configuration` - (Optional) (Updatable) The load balancer's SSL handling configuration details.
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
+	* `certificate_ids` - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]` 
 	* `certificate_name` - (Optional) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
 	* `cipher_suite_name` - (Optional) (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
 
@@ -113,6 +114,7 @@ The following arguments are supported:
 	* `server_order_preference` - (Optional) (Updatable) When this attribute is set to ENABLED, the system gives preference to the server ciphers over the client ciphers.
 
 		**Note:** This configuration is applicable only when the load balancer is acting as an SSL/HTTPS server. This field is ignored when the `SSLConfiguration` object is associated with a backend set. 
+	* `trusted_certificate_authority_ids` - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service CA or CA bundles for the load balancer to trust.  Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]` 
 	* `verify_depth` - (Optional) (Updatable) The maximum depth for peer certificate chain verification.  Example: `3` 
 	* `verify_peer_certificate` - (Optional) (Updatable) Whether the load balancer listener should verify peer certificates.  Example: `true` 
 
@@ -140,7 +142,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Listener
 	* `update` - (Defaults to 20 minutes), when updating the Listener
 	* `delete` - (Defaults to 20 minutes), when destroying the Listener

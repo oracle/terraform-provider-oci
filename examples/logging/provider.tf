@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 /*
@@ -22,7 +22,7 @@ variable "compartment_ocid" {
 }
 
 variable "region" {
-  default = "us-ashburn-1"
+  default = "us-phoenix-1"
 }
 
 provider "oci" {
@@ -31,5 +31,6 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
+#  version = "5.13.0"
 }
 

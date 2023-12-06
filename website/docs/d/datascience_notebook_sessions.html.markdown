@@ -57,13 +57,36 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the notebook session.
 * `lifecycle_details` - Details about the state of the notebook session.
+* `notebook_session_config_details` - Details for the notebook session configuration.
+	* `block_storage_size_in_gbs` - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
+	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
+		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
+		* `ocpus` - The total number of OCPUs available to the notebook session instance. 
+	* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
+	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
+	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
 * `notebook_session_configuration_details` - Details for the notebook session configuration.
 	* `block_storage_size_in_gbs` - A notebook session instance is provided with a block storage volume. This specifies the size of the volume in GBs. 
 	* `notebook_session_shape_config_details` - Details for the notebook session shape configuration.
-		* `memory_in_gbs` - A notebook session instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-		* `ocpus` - A notebook session instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `memory_in_gbs` - The total amount of memory available to the notebook session instance, in gigabytes. 
+		* `ocpus` - The total number of OCPUs available to the notebook session instance. 
+	* `private_endpoint_id` - The OCID of a Data Science private endpoint. 
 	* `shape` - The shape used to launch the notebook session compute instance.  The list of available shapes in a given compartment can be retrieved using the `ListNotebookSessionShapes` endpoint. 
 	* `subnet_id` - A notebook session instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT gateway for egress to the internet. 
+* `notebook_session_runtime_config_details` - Notebook Session runtime configuration details.
+	* `custom_environment_variables` - Custom environment variables for Notebook Session. These key-value pairs will be available for customers in Notebook Sessions.
+	* `notebook_session_git_config_details` - Git configuration Details.
+		* `notebook_session_git_repo_config_collection` - A collection of Git repository configurations.
+			* `url` - The repository URL
+* `notebook_session_storage_mount_configuration_details_list` - Collection of NotebookSessionStorageMountConfigurationDetails.
+	* `bucket` - The object storage bucket
+	* `destination_directory_name` - The local directory name to be mounted
+	* `destination_path` - The local path of the mounted directory, excluding directory name.
+	* `export_id` - OCID of the export
+	* `mount_target_id` - OCID of the mount target
+	* `namespace` - The object storage namespace
+	* `prefix` - Prefix in the bucket to mount
+	* `storage_type` - The type of storage.
 * `notebook_session_url` - The URL to interact with the notebook session.
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the notebook session.
 * `state` - The state of the notebook session.

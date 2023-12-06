@@ -37,7 +37,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `replica_details` - 
+* `replica_details` - Replica Details.
 	* `region` - The replica region 
 	* `status` - Replication status associated with a replicationId
 

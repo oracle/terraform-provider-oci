@@ -48,11 +48,11 @@ The following attributes are exported:
 * `compute_global_image_capability_schema_id` - The ocid of the compute global image capability schema 
 * `compute_global_image_capability_schema_version_name` - The name of the compute global image capability schema version 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `display_name` - A user-friendly name for the compute global image capability schema 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The compute image capability schema [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `image_id` - The OCID of the image associated with this compute image capability schema 
-* `schema_data` - The map of each capability name to its ImageCapabilityDescriptor.
+* `schema_data` - A mapping of each capability name to its ImageCapabilityDescriptor.
 	* `default_value` - the default value
 	* `descriptor_type` - The image capability schema descriptor type for the capability 
 	* `source` - 

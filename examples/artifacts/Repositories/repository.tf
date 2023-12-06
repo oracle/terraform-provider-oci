@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -6,7 +6,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
+variable "compartment_ocid" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -18,7 +18,7 @@ provider "oci" {
 
 resource "oci_artifacts_repository" "test_repository" {
   #Required
-  compartment_id  = var.compartment_id
+  compartment_id  = var.compartment_ocid
   is_immutable    = false
   repository_type = "GENERIC"
 }
@@ -30,14 +30,25 @@ resource "oci_generic_artifacts_content_artifact_by_path" "test_artifact" {
   version = "1.0"
   content = "<a1>content</a1>"
 }
-
-resource "oci_artifacts_generic_artifact" "test_generic_artifact" {
+resource "oci_artifacts_generic_artifact" "test_artifact" {
   artifact_id = oci_generic_artifacts_content_artifact_by_path.test_artifact.id
+}
+
+
+resource "oci_generic_artifacts_content_artifact_by_path" "test_artifact_by_source" {
+  #Required
+  artifact_path  = "artifact_path"
+  repository_id    = oci_artifacts_repository.test_repository.id
+  version = "2.0"
+  source = "index.html"
+}
+resource "oci_artifacts_generic_artifact" "test_artifact_by_source" {
+  artifact_id = oci_generic_artifacts_content_artifact_by_path.test_artifact_by_source.id
 }
 
 data "oci_artifacts_repositories" "test_repositories" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = var.compartment_ocid
   state = "AVAILABLE"
 }
 

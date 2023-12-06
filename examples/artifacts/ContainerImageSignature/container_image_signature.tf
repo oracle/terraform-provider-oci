@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -16,29 +16,53 @@ provider "oci" {
   region           = var.region
 }
 
-variable "container_image_signature_compartment_id_in_subtree" {}
+variable "container_image_signature_compartment_id_in_subtree" {
+  default = false
+}
+
+variable "container_image_signature_defined_tags_value" {
+  default = "value"
+}
+
+variable "container_image_signature_freeform_tags" {
+  default = { "Department" = "Finance" }
+}
 
 // specify the container image to upload to
-variable "container_image_id" {}
+variable "container_image_id" {
+  default = "container_image_id"
+}
 
-// specify the management endpoint for the key
-variable "crypto_endpoint" {}
+// specify the crypto endpoint for the key
+variable "crypto_endpoint" {
+  default = "https://xxxxx-crypto.kms.us-phoenix-1.oraclecloud.com"
+}
 
 // specify the kms key to sign the message
-variable "kms_rsa_key_id" {}
+variable "kms_rsa_key_id" {
+  default = "kms_rsa_key_id"
+}
 
 // specify the kms key version to sign the message
-variable "kms_rsa_key_version_id" {}
+variable "kms_rsa_key_version_id" {
+  default = "kms_rsa_key_version_id"
+}
 
 // the algorithm to sign with the key
-variable "kms_signing_algorithm" {}
+variable "kms_signing_algorithm" {
+  default = "SHA_224_RSA_PKCS_PSS"
+}
 
 // user inputted description to include in the signature
-variable "description" {}
+variable "description" {
+  default = "test"
+}
 
 // user defined a json string to include in the signature (eg. use escape character for the key/value string)
 // ex. "{\\\"buildNumber\\\":\\\"123\\\"}"
-variable "metadata" {}
+variable "metadata" {
+  default = ""
+}
 
 data "oci_artifacts_container_image" "test_container_image" {
   image_id = var.container_image_id
@@ -80,6 +104,10 @@ resource "oci_artifacts_container_image_signature" "test_container_image_signatu
   message = base64encode(local.message)
   signature = oci_kms_sign.test_sign.signature
   signing_algorithm = var.kms_signing_algorithm
+
+  #Optional
+  defined_tags  = { "example-tag-namespace-all.example-tag" = var.container_image_signature_defined_tags_value }
+  freeform_tags = var.container_image_signature_freeform_tags
 }
 
 data "oci_artifacts_container_image_signatures" "test_container_image_signatures" {

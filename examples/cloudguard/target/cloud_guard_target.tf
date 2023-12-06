@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -97,6 +97,8 @@ data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
   compartment_id = "${var.tenancy_ocid}"
   #Optional
   state          = "ACTIVE"
+  //Adding this to make sure the detector rule id is compatible with the returned detector recipes
+  display_name   = "OCI Configuration Detector Recipe"
 }
 
 data "oci_cloud_guard_responder_recipes" "test_responder_recipes" {

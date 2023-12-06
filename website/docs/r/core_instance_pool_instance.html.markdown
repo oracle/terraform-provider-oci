@@ -43,7 +43,7 @@ The following attributes are exported:
 
 * `availability_domain` - The availability domain the instance is running in.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the instance. 
-* `display_name` - The user-friendly name. Does not have to be unique.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `fault_domain` - The fault domain the instance is running in.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
 * `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration used to create the instance. 
@@ -62,7 +62,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Instance Pool Instance
 	* `update` - (Defaults to 20 minutes), when updating the Instance Pool Instance
 	* `delete` - (Defaults to 20 minutes), when destroying the Instance Pool Instance

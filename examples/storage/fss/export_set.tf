@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 resource "oci_file_storage_export_set" "my_export_set_1" {
@@ -21,3 +21,7 @@ resource "oci_file_storage_export_set" "my_export_set_2" {
   max_fs_stat_files = var.max_files
 }
 
+resource "oci_file_storage_export_set" "my_krb_export_set" {
+  # Required
+  mount_target_id = oci_file_storage_mount_target.my_krb_mount_target.id
+}

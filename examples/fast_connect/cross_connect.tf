@@ -1,11 +1,11 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 resource "oci_core_cross_connect" "cross_connect" {
   #Required
   compartment_id        = var.compartment_ocid
   location_name         = data.oci_core_cross_connect_locations.cross_connect_locations.cross_connect_locations[0].name
-  port_speed_shape_name = data.oci_core_cross_connect_port_speed_shapes.cross_connect_port_speed_shapes.cross_connect_port_speed_shapes[0].name
+  port_speed_shape_name = data.oci_core_cross_connect_port_speed_shapes.cross_connect_port_speed_shapes.cross_connect_port_speed_shapes[1].name
 
   #Optional
   cross_connect_group_id = oci_core_cross_connect_group.cross_connect_group.id
@@ -32,4 +32,6 @@ data "oci_core_cross_connects" "cross_connects" {
 output "cross_connects" {
   value = data.oci_core_cross_connects.cross_connects.cross_connects
 }
+
+
 

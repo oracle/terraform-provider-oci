@@ -35,7 +35,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of a compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `deploy_artifact_override_arguments` - Specifies the list of artifact override arguments at the time of deployment.
-	* `items` - List of artifact override arguments at the time of deployment.
+	* `items` - List of stage override arguments at the time of deployment.
 		* `deploy_artifact_id` - The OCID of the artifact to which this parameter applies.
 		* `name` - Name of the parameter (case-sensitive).
 		* `value` - Value of the parameter.
@@ -56,7 +56,12 @@ The following attributes are exported:
 				* `display_name` - Display name of the stage. Avoid entering confidential information.
 		* `display_name` - Display name of the environment. Avoid entering confidential information.
 * `deploy_pipeline_id` - The OCID of a pipeline.
-* `deploy_stage_id` - Specifies the OCID of the stage to be deployed.
+* `deploy_stage_id` - Specifies the OCID of the stage to be redeployed.
+* `deploy_stage_override_arguments` - Specifies the list of arguments to be overriden per Stage at the time of deployment.
+	* `items` - List of stage override arguments at the time of deployment.
+		* `deploy_stage_id` - The OCID of the stage.
+		* `name` - Name of the parameter (case-sensitive).
+		* `value` - Value of the parameter.
 * `deployment_arguments` - Specifies list of arguments passed along with the deployment.
 	* `items` - List of arguments provided at the time of deployment.
 		* `name` - Name of the parameter (case-sensitive).
@@ -65,7 +70,9 @@ The following attributes are exported:
 	* `deploy_stage_execution_progress` - Map of stage OCIDs to deploy stage execution progress model.
 		* `approval_actions` - 
 			* `action` - The action of the user on the DevOps deployment stage.
+			* `reason` - The reason for approving or rejecting the deployment.
 			* `subject_id` - The subject ID of the user who approves or disapproves a DevOps deployment stage.
+		* `chart_url` - The URL of an OCIR repository. 
 		* `deploy_stage_display_name` - Stage display name. Avoid entering confidential information.
 		* `deploy_stage_execution_progress_details` - Details about stage execution for all the target environments.
 			* `rollback_steps` - Details about all the rollback steps for one target environment.
@@ -85,9 +92,15 @@ The following attributes are exported:
 			* `items` - A list of stage predecessors for a stage.
 				* `id` - The OCID of the predecessor stage. If a stage is the first stage in the pipeline, then the ID is the pipeline's OCID.
 		* `deploy_stage_type` - Deployment stage type.
+		* `environment_id` - The OCID of the environment where the artifacts were deployed.
+		* `helm_diff` - Helm Diff output Example: Helm diff was successful data:
+			* greeting: Version 1.0 + greeting: Version 1.1 
+		* `namespace` - Default namespace to be used for Kubernetes deployment when not specified in the manifest.
+		* `release_name` - Release name of the Helm chart.
 		* `status` - The current state of the stage.
 		* `time_finished` - Time the stage finished executing. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 		* `time_started` - Time the stage started executing. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+		* `version` - The version of the helm chart stored in OCIR repository.
 	* `time_finished` - Time the deployment is finished. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 	* `time_started` - Time the deployment is started. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `deployment_type` - Specifies type of Deployment

@@ -48,10 +48,11 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment to contain the console connection.
 * `connection_string` - The SSH connection string for the console connection.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `fingerprint` - The SSH public key fingerprint for the console connection.
+* `fingerprint` - The SSH public key's fingerprint for client authentication to the console connection.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the console connection.
 * `instance_id` - The OCID of the instance the console connection connects to.
+* `service_host_key_fingerprint` - The SSH public key's fingerprint for the console connection service host.
 * `state` - The current state of the console connection.
 * `vnc_connection_string` - The SSH connection string for the SSH tunnel used to connect to the console connection over VNC. 
 

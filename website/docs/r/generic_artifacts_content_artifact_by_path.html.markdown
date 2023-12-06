@@ -22,7 +22,7 @@ resource "oci_generic_artifacts_content_artifact_by_path" "test_artifact_by_path
   artifact_path  = var.artifact_path
   repository_id    = oci_artifacts_repository.test_repository.id
   version = var.version
-  content = var.content
+  source = var.source
 }
 ```
 
@@ -33,7 +33,8 @@ The following arguments are supported:
 * `artifact_path` - (Required) A user-defined path to describe the location of an artifact. You can use slashes to organize the repository, but slashes do not create a directory structure. An artifact path does not include an artifact version.
 * `version` - (Required) A user-defined string to describe the artifact version. Example: `1.1.0` or `1.2-beta-2` 
 * `repository_id` - (Required) The [OCID](/iaas/Content/General/Concepts/identifiers.htm) of the repository.
-* `content` - (Required) The content of the artifact
+* `source` - (Optional) A path to a file on the local system to be uploaded as the artifact. Cannot be defined if `content` is defined.
+* `content` - (Optional) Content to be uploaded as the artifact. Cannot be defined if `source` is defined.
 
 
 ** IMPORTANT **

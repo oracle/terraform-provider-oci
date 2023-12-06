@@ -28,7 +28,7 @@ data "oci_database_database_upgrade_history_entry" "test_database_upgrade_histor
 The following arguments are supported:
 
 * `database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-* `upgrade_history_entry_id` - (Required) The database upgrade History [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `upgrade_history_entry_id` - (Required) The database/db system upgrade History [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 
 
 ## Attributes Reference
@@ -44,7 +44,9 @@ The following attributes are exported:
 	* Use `DB_SOFTWARE_IMAGE` to specify a [database software image](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/databasesoftwareimage.htm) to upgrade the database. 
 * `source_db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `state` - Status of database upgrade history SUCCEEDED|IN_PROGRESS|FAILED.
-* `target_db_version` - A valid Oracle Database version. To get a list of supported versions, use the [ListDbVersions](https://docs.cloud.oracle.com/iaas/api/#/en/database/latest/DbVersionSummary/ListDbVersions) operation.
+* `target_db_version` - A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
+
+	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
 * `target_database_software_image_id` - the database software image used for upgrading database.
 * `target_db_home_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
 * `time_ended` - The date and time when the database upgrade ended.

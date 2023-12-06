@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -40,6 +40,14 @@ variable "availability_domain" {
   default = 3
 }
 
+
+locals {
+  ######################################################################################################################
+  # IPV6 Constants
+  ######################################################################################################################
+  ipv6_cidr_block = oci_core_vcn.vcn1.ipv6cidr_blocks[0] // this ends in 0::/56
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -60,6 +68,7 @@ resource "oci_core_vcn" "vcn1" {
   compartment_id = var.compartment_ocid
   display_name   = "vcn1"
   dns_label      = "vcn1"
+  is_ipv6enabled =  true
 }
 
 resource "oci_core_subnet" "subnet1" {
@@ -74,6 +83,42 @@ resource "oci_core_subnet" "subnet1" {
 
   provisioner "local-exec" {
     command = "sleep 5"
+  }
+}
+
+resource "oci_core_ipv6" "nlb-ipv6-addr" {
+  #Required
+  vnic_id = oci_core_vnic_attachment.vnic-ipv6.vnic_id
+  depends_on = [oci_core_vcn.vcn1]
+}
+
+resource "oci_core_subnet" "subnet-ipv6" {
+  cidr_block          = "10.1.21.0/24"
+  ipv6cidr_block      = "${substr(local.ipv6_cidr_block,0,length(local.ipv6_cidr_block)-6)}1::/64"
+  display_name        = "subnet-ipv6"
+  dns_label           = "subnetipv6"
+  security_list_ids   = [oci_core_security_list.securitylist1.id]
+  compartment_id      = var.compartment_ocid
+  vcn_id              = oci_core_vcn.vcn1.id
+  route_table_id      = oci_core_route_table.routetable-ipv6.id
+  dhcp_options_id     = oci_core_vcn.vcn1.default_dhcp_options_id
+
+  provisioner "local-exec" {
+    command = "sleep 5"
+  }
+}
+
+resource "oci_core_vnic_attachment" "vnic-ipv6" {
+  #Required
+  create_vnic_details {
+    #Optional
+    assign_public_ip = false
+    display_name = "vnic-ipv6"
+    subnet_id = oci_core_subnet.subnet-ipv6.id
+  }
+  instance_id = oci_core_instance.instance1.id
+  lifecycle {
+    ignore_changes = all
   }
 }
 
@@ -229,6 +274,23 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes2" {
   }
 }
 
+resource "oci_network_load_balancer_backend_set" "nlb-bes3" {
+  name                     = "nlb-bes3"
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
+  policy                   = "THREE_TUPLE"
+
+  health_checker {
+    port                = "443"
+    protocol            = "HTTPS"
+    url_path            = "/testPath"
+    return_code         = 200
+    response_body_regex = "^(?i)(true)$"
+    timeout_in_millis   = 10000
+    interval_in_millis  = 10000
+    retries             = 3
+  }
+}
+
 resource "oci_network_load_balancer_listener" "nlb-listener1" {
   network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
   name                        = "tcp_listener"
@@ -243,6 +305,14 @@ resource "oci_network_load_balancer_listener" "nlb-listener2" {
   default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes2.name
   port                        = 80
   protocol                    = "UDP"
+}
+
+resource "oci_network_load_balancer_listener" "nlb-listener3" {
+  network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
+  name                        = "tcp_and_udp_listener"
+  default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes3.name
+  port                        = 80
+  protocol                    = "TCP_AND_UDP"
 }
 
 resource "oci_network_load_balancer_backend" "nlb-be1" {
@@ -261,6 +331,67 @@ resource "oci_network_load_balancer_backend" "nlb-be2" {
   backend_set_name         = oci_network_load_balancer_backend_set.nlb-bes2.name
   target_id                = oci_core_instance.instance1.id
   port                     = 20
+  is_backup                = false
+  is_drain                 = false
+  is_offline               = false
+  weight                   = 1
+}
+
+
+/* Network Load Balancer IPv6*/
+
+resource "oci_core_route_table" "routetable-ipv6" {
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.vcn1.id
+  display_name   = "routetable-ipv6"
+
+  route_rules {
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
+    network_entity_id = oci_core_internet_gateway.internetgateway1.id
+  }
+}
+
+resource "oci_network_load_balancer_network_load_balancer" "nlb-ipv6" {
+  compartment_id = var.compartment_ocid
+
+  subnet_id = oci_core_subnet.subnet-ipv6.id
+  is_private = false
+  display_name = "nlb-ipv6"
+  nlb_ip_version = "IPV4_AND_IPV6"
+}
+
+resource "oci_network_load_balancer_backend_set" "nlb-bes-ipv6" {
+  name                     = "nlb-bes-ipv6"
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb-ipv6.id
+  policy                   = "TWO_TUPLE"
+  ip_version                  = "IPV6"
+
+  health_checker {
+    port                = "80"
+    protocol            = "TCP"
+    request_data        = "SGVsbG9Xb3JsZA=="
+    response_data       = "SGVsbG9Xb3JsZA=="
+    timeout_in_millis   = 10000
+    interval_in_millis  = 10000
+    retries             = 3
+  }
+}
+
+resource "oci_network_load_balancer_listener" "nlb-listener-ipv6" {
+  network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb-ipv6.id
+  name                        = "tcp_listener-ipv6"
+  default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes-ipv6.name
+  port                        = 80
+  protocol                    = "TCP"
+  ip_version                  = "IPV6"
+}
+
+resource "oci_network_load_balancer_backend" "nlb-be-ipv6" {
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb-ipv6.id
+  backend_set_name         = oci_network_load_balancer_backend_set.nlb-bes-ipv6.name
+  ip_address               = "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"
+  port                     = 80
   is_backup                = false
   is_drain                 = false
   is_offline               = false

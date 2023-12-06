@@ -24,9 +24,18 @@ resource "oci_apigateway_gateway" "test_gateway" {
 
 	#Optional
 	certificate_id = "${oci_apigateway_certificate.test_certificate.id}"
+	ca_bundles {
+		#Required
+		type = var.gateway_ca_bundles_type
+
+		#Optional
+		ca_bundle_id = oci_apigateway_ca_bundle.test_ca_bundle.id
+		certificate_authority_id = oci_apigateway_certificate_authority.test_certificate_authority.id
+	}
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.gateway_display_name
 	freeform_tags = {"Department"= "Finance"}
+	network_security_group_ids = var.gateway_network_security_group_ids
 	response_cache_details {
 		#Required
 		type = var.gateway_response_cache_details_type
@@ -53,12 +62,17 @@ resource "oci_apigateway_gateway" "test_gateway" {
 
 The following arguments are supported:
 
+* `ca_bundles` - (Optional) (Updatable) An array of CA bundles that should be used on the Gateway for TLS validation.
+	* `ca_bundle_id` - (Applicable when type=CA_BUNDLE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+	* `certificate_authority_id` - (Applicable when type=CERTIFICATE_AUTHORITY) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+	* `type` - (Required) (Updatable) Type of the CA bundle
 * `certificate_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the resource is created. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `endpoint_type` - (Required) Gateway endpoint type. `PUBLIC` will have a public ip address assigned to it, while `PRIVATE` will only be accessible on a private IP address on the subnet.  Example: `PUBLIC` or `PRIVATE` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `network_security_group_ids` - (Optional) (Updatable) An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - (Optional) (Updatable) Base Gateway response cache. 
 	* `authentication_secret_id` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
 	* `authentication_secret_version_number` - (Required when type=EXTERNAL_RESP_CACHE) (Updatable) The version number of the authentication secret to use. 
@@ -81,6 +95,10 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `ca_bundles` - An array of CA bundles that should be used on the Gateway for TLS validation.
+	* `ca_bundle_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+	* `certificate_authority_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
+	* `type` - Type of the CA bundle
 * `certificate_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the resource is created. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -92,6 +110,7 @@ The following attributes are exported:
 * `ip_addresses` - An array of IP addresses associated with the gateway.
 	* `ip_address` - An IP address.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed state. 
+* `network_security_group_ids` - An array of Network Security Groups OCIDs associated with this API Gateway. 
 * `response_cache_details` - Base Gateway response cache. 
 	* `authentication_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Vault Service secret resource. 
 	* `authentication_secret_version_number` - The version number of the authentication secret to use. 
@@ -111,7 +130,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Gateway
 	* `update` - (Defaults to 20 minutes), when updating the Gateway
 	* `delete` - (Defaults to 20 minutes), when destroying the Gateway

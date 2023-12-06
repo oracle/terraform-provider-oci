@@ -32,6 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `bootstrap_script_url` - pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.
 * `cloud_sql_details` - The information about added Cloud SQL capability
 	* `block_volume_size_in_gbs` - The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 
 	* `ip_address` - IP address of the Cloud SQL node.
@@ -51,9 +52,12 @@ The following attributes are exported:
 	* `csql_cell_version` - Big Data SQL version.
 	* `db_version` - Cloud SQL query server database version.
 	* `hue_server_url` - The URL of the Hue server.
+	* `jupyter_hub_url` - The URL of the Jupyterhub.
+	* `odh_version` - Version of the ODH (Oracle Distribution including Apache Hadoop) installed on the cluster.
 	* `os_version` - Oracle Linux version installed in the cluster.
 	* `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 	* `time_refreshed` - The time the cluster was automatically or manually refreshed, shown as an RFC 3339 formatted datetime string. 
+* `cluster_profile` - Profile of the Big Data Service cluster.
 * `cluster_version` - Version of the Hadoop distribution.
 * `compartment_id` - The OCID of the compartment.
 * `created_by` - The user who created the cluster.
@@ -63,7 +67,9 @@ The following attributes are exported:
 * `id` - The OCID of the Big Data Service resource.
 * `is_cloud_sql_configured` - Boolean flag specifying whether or not Cloud SQL should be configured.
 * `is_high_availability` - Boolean flag specifying whether or not the cluster is highly available (HA)
+* `is_kafka_configured` - Boolean flag specifying whether or not Kafka should be configured.
 * `is_secure` - Boolean flag specifying whether or not the cluster should be set up as secure.
+* `kms_key_id` - The OCID of the Key Management master encryption key.
 * `network_config` - Additional configuration of the user's network.
 	* `cidr_block` - The CIDR IP address block of the VCN.
 	* `is_nat_gateway_required` - A boolean flag whether to configure a NAT gateway.
@@ -78,14 +84,20 @@ The following attributes are exported:
 	* `image_id` - The OCID of the image from which the node was created.
 	* `instance_id` - The OCID of the underlying Oracle Cloud Infrastructure Compute instance.
 	* `ip_address` - IP address of the node.
+	* `local_disks_total_size_in_gbs` - The aggregate size of all local disks, in gigabytes. If the instance does not have any local disks, this field is null.
+	* `memory_in_gbs` - The total amount of memory available to the node, in gigabytes.
 	* `node_type` - Cluster node type.
+	* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
+	* `ocpus` - The total number of OCPUs available to the node.
 	* `shape` - Shape of the node.
 	* `ssh_fingerprint` - The fingerprint of the SSH key used for node access.
 	* `state` - The state of the node.
 	* `subnet_id` - The OCID of the subnet in which the node is to be created.
 	* `time_created` - The time the node was created, shown as an RFC 3339 formatted datetime string.
+	* `time_maintenance_reboot_due` - The date and time the instance is expected to be stopped / started, in the format defined by RFC3339.
 	* `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
 * `number_of_nodes` - The number of nodes that form the cluster.
+* `number_of_nodes_requiring_maintenance_reboot` - Number of nodes that require a maintenance reboot
 * `state` - The state of the cluster.
 * `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.

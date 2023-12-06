@@ -12,7 +12,6 @@ This data source provides the list of Agent Images in Oracle Cloud Infrastructur
 
 Get details of the ODMS Agent Images available to install on-premises.
 
-
 ## Example Usage
 
 ```hcl

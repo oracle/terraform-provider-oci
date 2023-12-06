@@ -21,6 +21,7 @@ data "oci_management_agent_management_agent_images" "test_management_agent_image
 	compartment_id = var.compartment_id
 
 	#Optional
+	install_type = var.management_agent_image_install_type
 	name = var.management_agent_image_name
 	state = var.management_agent_image_state
 }
@@ -30,7 +31,8 @@ data "oci_management_agent_management_agent_images" "test_management_agent_image
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The ID of the compartment from which the Management Agents to be listed.
+* `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
+* `install_type` - (Optional) A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
 * `name` - (Optional) A filter to return only resources that match the entire platform name given.
 * `state` - (Optional) Filter to return only Management Agents in the particular lifecycle state.
 
@@ -47,7 +49,15 @@ The following attributes are exported:
 
 * `checksum` - Agent image content SHA256 Hash
 * `id` - Agent image resource id
+* `image_object_storage_details` - Details of the Objectstorage object
+	* `checksum` - Object content SHA256 Hash
+	* `object` - Objectstorage object name reference providing the original location of this object
+	* `object_bucket` - Objectstorage bucket reference providing the original location of this object
+	* `object_namespace` - Objectstorage namespace reference providing the original location of this object
+	* `object_url` - Object storage URL for download
 * `object_url` - Object storage URL for download
+* `package_architecture_type` - The installation package target architecture type
+* `package_type` - The installation package type
 * `platform_name` - Agent image platform display name
 * `platform_type` - Agent image platform type
 * `size` - Agent image size in bytes

@@ -45,7 +45,7 @@ The following arguments are supported:
 * `include_plaintext_key` - (Required) If true, the generated key is also returned unencrypted.
 * `key_id` - (Required) The OCID of the master encryption key to encrypt the generated data encryption key with.
 * `key_shape` - (Required) The cryptographic properties of a key.
-	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt.
+	* `algorithm` - (Required) The algorithm used by a key's key versions to encrypt or decrypt. Only AES algorithm is supported for `External` keys.
 	* `curve_id` - (Optional) Supported curve IDs for ECDSA keys.
 	* `length` - (Required) The length of the key in bytes, expressed as an integer. Supported values include the following:
 		* AES: 16, 24, or 32
@@ -67,7 +67,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Generated Key
 	* `update` - (Defaults to 20 minutes), when updating the Generated Key
 	* `delete` - (Defaults to 20 minutes), when destroying the Generated Key

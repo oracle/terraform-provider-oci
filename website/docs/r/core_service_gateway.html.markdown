@@ -12,7 +12,7 @@ This resource provides the Service Gateway resource in Oracle Cloud Infrastructu
 
 Creates a new service gateway in the specified compartment.
 
-For the purposes of access control, you must provide the OCID of the compartment where you want
+For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 the service gateway to reside. For more information about compartments and access control, see
 [Overview of the IAM Service](https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
 For information about OCIDs, see [Resource Identifiers](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -49,7 +49,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `route_table_id` - (Optional) (Updatable) The OCID of the route table the service gateway will use.
+* `route_table_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the service gateway will use.
 
 	If you don't specify a route table here, the service gateway is created without an associated route table. The Networking service does NOT automatically associate the attached VCN's default route table with the service gateway.
 
@@ -74,7 +74,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service gateway. 
-* `route_table_id` - The OCID of the route table the service gateway is using. For information about why you would associate a route table with a service gateway, see [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm). 
+* `route_table_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the service gateway is using. For information about why you would associate a route table with a service gateway, see [Transit Routing: Private Access to Oracle Services](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/transitroutingoracleservices.htm). 
 * `services` - List of the [Service](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Service/) objects enabled for this service gateway. The list can be empty. You can enable a particular `Service` by using [AttachServiceId](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ServiceGateway/AttachServiceId) or [UpdateServiceGateway](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ServiceGateway/UpdateServiceGateway). 
 	* `service_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service. 
 	* `service_name` - The name of the service.
@@ -84,7 +84,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Service Gateway
 	* `update` - (Defaults to 20 minutes), when updating the Service Gateway
 	* `delete` - (Defaults to 20 minutes), when destroying the Service Gateway

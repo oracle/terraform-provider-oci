@@ -53,11 +53,13 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database Group.
 * `managed_databases` - A list of Managed Databases in the Managed Database Group.
 	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the Managed Database resides.
-	* `database_sub_type` - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, or a Non-container Database.
+	* `database_sub_type` - The subtype of the Oracle Database. Indicates whether the database is a Container Database, Pluggable Database, Non-container Database, Autonomous Database, or Autonomous Container Database. 
 	* `database_type` - The type of Oracle Database installation.
+	* `deployment_type` - The infrastructure used to deploy the Oracle Database.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	* `name` - The name of the Managed Database.
 	* `time_added` - The date and time the Managed Database was added to the group.
+	* `workload_type` - The workload type of the Autonomous Database.
 * `name` - The name of the Managed Database Group.
 * `state` - The current lifecycle state of the Managed Database Group.
 * `time_created` - The date and time the Managed Database Group was created.
@@ -65,7 +67,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Managed Database Group
 	* `update` - (Defaults to 20 minutes), when updating the Managed Database Group
 	* `delete` - (Defaults to 20 minutes), when destroying the Managed Database Group

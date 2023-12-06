@@ -43,7 +43,7 @@ data "oci_marketplace_listing" "test_listing" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The unique identifier for the compartment.
+* `compartment_id` - (Optional) The unique identifier for the compartment. It is mandatory when used in non-commercial realms.
 * `listing_id` - (Required) The unique identifier for the listing.
 
 
@@ -57,6 +57,7 @@ The following attributes are exported:
 	* `mime_type` - The MIME type of the upload data.
 	* `name` - The name used to refer to the upload data.
 * `categories` - Product categories that the listing belongs to.
+* `compatible_architectures` - The list of compatible architectures supported by the listing
 * `default_package_version` - The default package version.
 * `documentation_links` - Links to additional documentation provided by the publisher specifically for the listing.
 	* `document_category` - The category that the document belongs to.
@@ -77,7 +78,7 @@ The following attributes are exported:
 * `links` - Links to reference material.
 	* `href` - The anchor tag.
 	* `rel` - Reference links to the previous page, next page, and other pages.
-* `listing_type` - In which catalog the listing should exist.
+* `listing_type` - The publisher category to which the listing belongs. The publisher category informs where the listing appears for use.
 * `long_description` - A long description of the listing.
 * `name` - The name of the listing.
 * `package_type` - The listing's package type.
@@ -86,7 +87,7 @@ The following attributes are exported:
 	* `contact_phone` - The phone number of the publisher.
 	* `description` - A description of the publisher.
 	* `hq_address` - The address of the publisher's headquarters.
-	* `id` - Unique identifier for the publisher.
+	* `id` - The unique identifier for the publisher.
 	* `links` - Reference links.
 		* `href` - The anchor tag.
 		* `rel` - Reference links to the previous page, next page, and other pages.
@@ -120,8 +121,8 @@ The following attributes are exported:
 * `support_links` - Links to support resources for the listing.
 	* `name` - Text that describes the resource.
 	* `url` - The URL of the resource.
-* `supported_operating_systems` - List of operating systems supported.
-	* `name` - name of the operating system
+* `supported_operating_systems` - The list of operating systems supported by the listing.
+	* `name` - The name of the operating system.
 * `system_requirements` - System requirements for the listing.
 * `tagline` - The tagline of the listing.
 * `time_released` - The release date of the listing.

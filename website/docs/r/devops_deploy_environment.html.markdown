@@ -40,6 +40,14 @@ resource "oci_devops_deploy_environment" "test_deploy_environment" {
 	display_name = var.deploy_environment_display_name
 	freeform_tags = {"bar-key"= "value"}
 	function_id = oci_functions_function.test_function.id
+	network_channel {
+		#Required
+		network_channel_type = var.deploy_environment_network_channel_network_channel_type
+		subnet_id = oci_core_subnet.test_subnet.id
+
+		#Optional
+		nsg_ids = var.deploy_environment_network_channel_nsg_ids
+	}
 }
 ```
 
@@ -60,6 +68,10 @@ The following arguments are supported:
 * `display_name` - (Optional) (Updatable) Deployment environment display name. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 * `function_id` - (Required when deploy_environment_type=FUNCTION) (Updatable) The OCID of the Function.
+* `network_channel` - (Applicable when deploy_environment_type=OKE_CLUSTER) (Updatable) Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+	* `network_channel_type` - (Required) (Updatable) Network channel type.
+	* `nsg_ids` - (Optional) (Updatable) An array of network security group OCIDs.
+	* `subnet_id` - (Required) (Updatable) The OCID of the subnet where VNIC resources will be created for private endpoint.
 * `project_id` - (Required) The OCID of a project.
 
 
@@ -79,18 +91,30 @@ The following attributes are exported:
 		* `region` - Region identifier referred by the deployment environment. Region identifiers are listed at https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
 		* `selector_type` - Defines the type of the instance selector for the group.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
-* `deploy_environment_type` - Deployment environment type.
+* `deploy_environment_type` - Deployment environment type. 
 * `description` - Optional description about the deployment environment.
 * `display_name` - Deployment environment display name, which can be renamed and is not necessarily unique. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 * `function_id` - The OCID of the Function.
 * `id` - Unique identifier that is immutable on creation.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `network_channel` - Specifies the configuration needed when the target Oracle Cloud Infrastructure resource, i.e., OKE cluster, resides in customer's private network. 
+	* `network_channel_type` - Network channel type.
+	* `nsg_ids` - An array of network security group OCIDs.
+	* `subnet_id` - The OCID of the subnet where VNIC resources will be created for private endpoint.
 * `project_id` - The OCID of a project.
 * `state` - The current state of the deployment environment.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `time_created` - Time the deployment environment was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - Time the deployment environment was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Deploy Environment
+	* `update` - (Defaults to 20 minutes), when updating the Deploy Environment
+	* `delete` - (Defaults to 20 minutes), when destroying the Deploy Environment
+
 
 ## Import
 

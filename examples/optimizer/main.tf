@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -31,6 +31,11 @@ provider "oci" {
 data "oci_optimizer_categories" "test_categories" {
   compartment_id = "${var.tenancy_ocid}"
   compartment_id_in_subtree = "true"
+  include_organization = true
+  filter {
+    name   = "name"
+    values = ["cost-management-name"]
+  }
 }
 
 data "oci_optimizer_category" "test_category" {
@@ -42,6 +47,7 @@ data "oci_optimizer_recommendations" "test_recommendations" {
   category_id = "${lookup(data.oci_optimizer_categories.test_categories.category_collection.0.items[0], "id")}"
   compartment_id = "${var.tenancy_ocid}"
   compartment_id_in_subtree = "true"
+  include_organization = true
   filter {
     name   = "name"
     values = ["cost-management-compute-host-underutilized-name"]
@@ -62,6 +68,7 @@ data "oci_optimizer_resource_actions" "test_resource_actions" {
   compartment_id = "${var.tenancy_ocid}"
   compartment_id_in_subtree = "true"
   recommendation_id = "${oci_optimizer_recommendation.test_recommendation.recommendation_id}"
+  include_organization = true
   filter {
     name   = "status"
     values = ["PENDING", "DISMISSED", "POSTPONED"]
@@ -163,4 +170,13 @@ data "oci_optimizer_recommendation_strategies" "test_recommendation_strategies" 
   #Required
   compartment_id            = "${var.tenancy_ocid}"
   compartment_id_in_subtree = "true"
+}
+
+// profile level
+data "oci_optimizer_profile_levels" "test_profile_levels" {
+  #Required
+  compartment_id            = "${var.tenancy_ocid}"
+  compartment_id_in_subtree = "true"
+  #optional
+  recommendation_name = "cost-management-compute-host-underutilized-name"
 }

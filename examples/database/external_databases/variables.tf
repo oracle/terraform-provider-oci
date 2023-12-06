@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 variable "tenancy_ocid" {
 }
@@ -73,7 +73,7 @@ variable "service" {
 }
 
 variable "connector_agent_id" {
-    default = "ocid1.managementagent.oc1.phx.amaaaaaajobtc3iaes4ijczgekzqigoji25xocsny7yundummydummydummy"
+
 }
 
 variable "external_database_connector_display_name" {

@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {
@@ -23,6 +23,9 @@ variable "ssh_public_key" {
 }
 
 variable "ssh_private_key" {
+}
+
+variable "kms_key_ocid" {
 }
 
 provider "oci" {
@@ -55,6 +58,10 @@ variable "instance_shape" {
 
 variable "instance_ocpus" {
   default = 1
+}
+
+variable "instance_vcpus" {
+  default = 2
 }
 
 variable "instance_shape_config_memory_in_gbs" {
@@ -123,6 +130,7 @@ resource "oci_core_instance" "test_instance" {
     # Otherwise, the default boot volume size of the image is used.
     # This should only be specified when source_type is set to "image".
     #boot_volume_size_in_gbs = "60"
+    kms_key_id = var.kms_key_ocid
   }
 
   # Apply the following flag only if you wish to preserve the attached boot volume upon destroying this instance

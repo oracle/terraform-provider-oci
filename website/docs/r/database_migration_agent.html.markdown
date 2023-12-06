@@ -10,8 +10,7 @@ description: |-
 # oci_database_migration_agent
 This resource provides the Agent resource in Oracle Cloud Infrastructure Database Migration service.
 
-Modifies the ODMS Agent represented by the given ODMS agent Id.
-
+Modifies the ODMS Agent represented by the given ODMS Agent ID.
 
 ## Example Usage
 
@@ -21,7 +20,6 @@ resource "oci_database_migration_agent" "test_agent" {
 	agent_id = oci_database_migration_agent.test_agent.id
 
 	#Optional
-	compartment_id = var.compartment_id
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	display_name = var.agent_display_name
 	freeform_tags = {"bar-key"= "value"}
@@ -36,7 +34,7 @@ resource "oci_database_migration_agent" "test_agent" {
 The following arguments are supported:
 
 * `agent_id` - (Required) The OCID of the agent 
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment. 
+* `compartment_id` - (Optional) (Updatable) OCID of the compartment 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Optional) (Updatable) ODMS Agent name 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
@@ -59,12 +57,20 @@ The following attributes are exported:
 * `id` - The OCID of the resource 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
 * `public_key` - ODMS Agent public key. 
-* `state` - The current state of the ODMS On Prem Agent. 
+* `state` - The current state of the ODMS on-premises Agent. 
 * `stream_id` - The OCID of the Stream 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the Agent was created. An RFC3339 formatted datetime string. 
 * `time_updated` - The time of the last Agent details update. An RFC3339 formatted datetime string. 
 * `version` - ODMS Agent version 
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Agent
+	* `update` - (Defaults to 20 minutes), when updating the Agent
+	* `delete` - (Defaults to 20 minutes), when destroying the Agent
+
 
 ## Import
 

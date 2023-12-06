@@ -31,7 +31,7 @@ resource "oci_core_drg_attachments_list" "test_drg_attachments_list" {
 The following arguments are supported:
 
 * `attachment_type` - (Optional) The type for the network resource attached to the DRG.
-* `drg_id` - (Required) The [[OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
+* `drg_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.
 * `is_cross_tenancy` - (Optional) Whether the DRG attachment lives in a different tenancy than the DRG.
 
 
@@ -52,7 +52,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Drg Attachments List
 	* `update` - (Defaults to 20 minutes), when updating the Drg Attachments List
 	* `delete` - (Defaults to 20 minutes), when destroying the Drg Attachments List

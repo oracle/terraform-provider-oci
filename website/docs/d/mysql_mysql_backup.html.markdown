@@ -34,8 +34,8 @@ The following attributes are exported:
 
 * `backup_size_in_gbs` - The size of the backup in base-2 (IEC) gibibytes. (GiB).
 * `backup_type` - The type of backup.
-* `compartment_id` - The OCID of the compartment.
-* `creation_type` - If the backup was created automatically, or by a manual request.
+* `compartment_id` - The OCID of the compartment the backup exists in.
+* `creation_type` - Indicates how the backup was created: manually, automatic, or by an Operator. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs. 
 * `db_system_id` - The OCID of the DB System the backup is associated with.
 * `db_system_snapshot` - Snapshot of the DbSystem details at the time of the backup 
@@ -53,6 +53,8 @@ The following attributes are exported:
 
 			Example: `{"bar-key": "value"}` 
 		* `is_enabled` - If automated backups are enabled or disabled.
+		* `pitr_policy` - The PITR policy for the DB System.
+			* `is_enabled` - Specifies if PITR is enabled or disabled.
 		* `retention_in_days` - The number of days automated backups are retained. 
 		* `window_start_time` - The start of a 30-minute window of time in which daily, automated backups occur.
 
@@ -68,8 +70,14 @@ The following attributes are exported:
 			* us-phoenix-1: 06:00 - 14:00 
 	* `compartment_id` - The OCID of the compartment the DB System belongs in.
 	* `configuration_id` - The OCID of the Configuration to be used for Instances in this DB System.
+	* `crash_recovery` - Whether to run the DB System with InnoDB Redo Logs and the Double Write Buffer enabled or disabled, and whether to enable or disable syncing of the Binary Logs. 
 	* `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
+	* `database_management` - Whether to enable monitoring via the Database Management service. 
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+	* `deletion_policy` - The Deletion policy for the DB System.
+		* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
+		* `final_backup` - Specifies whether or not a backup is taken when the DB System is deleted. REQUIRE_FINAL_BACKUP: a backup is taken if the DB System is deleted. SKIP_FINAL_BACKUP: a backup is not taken if the DB System is deleted. 
+		* `is_delete_protected` - Specifies whether the DB System can be deleted. Set to true to prevent deletion, false (default) to allow. 
 	* `description` - User-provided data about the DB System.
 	* `display_name` - The user-friendly name for the DB System. It does not have to be unique.
 	* `endpoints` - The network endpoints available for this DB System. 
@@ -78,6 +86,8 @@ The following attributes are exported:
 		* `modes` - The access modes from the client that this endpoint supports.
 		* `port` - The port the MySQL instance listens on.
 		* `port_x` - The network port where to connect to use this endpoint using the X protocol.
+		* `resource_id` - The OCID of the resource that this endpoint is attached to.
+		* `resource_type` - The type of endpoint that clients and connectors can connect to.
 		* `status` - The state of the endpoints, as far as it can seen from the DB System. There may be some inconsistency with the actual state of the MySQL service. 
 		* `status_details` - Additional information about the current endpoint status.
 	* `fault_domain` - The name of the Fault Domain the DB System is located in. 
@@ -85,15 +95,17 @@ The following attributes are exported:
 	* `hostname_label` - The hostname for the primary endpoint of the DB System. Used for DNS. The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com"). Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
 	* `id` - The OCID of the DB System.
 	* `ip_address` - The IP address the DB System is configured to listen on. A private IP address of the primary endpoint of the DB System. Must be an available IP address within the subnet's CIDR. This will be a "dotted-quad" style IPv4 address. 
-	* `is_highly_available` - If the policy is to enable high availability of the instance, by maintaining secondary/failover capacity as necessary. 
-	* `maintenance` - The Maintenance Policy for the DB System. 
+	* `is_highly_available` - Specifies if the DB System is highly available. 
+	* `maintenance` - The Maintenance Policy for the DB System or Read Replica that this model is included in. 
 		* `window_start_time` - The start time of the maintenance window.
 
 			This string is of the format: "{day-of-week} {time-of-day}".
 
 			"{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
 
-			"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
+			"{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
+
+			If you set the read replica maintenance window to "" or if not specified, the read replica is set same as the DB system maintenance window. 
 	* `mysql_version` - Name of the MySQL Version in use for the DB System.
 	* `port` - The port for primary endpoint of the DB System to listen on.
 	* `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 

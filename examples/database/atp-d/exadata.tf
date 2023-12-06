@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 resource "oci_core_vcn" "test_vcn" {
@@ -51,45 +51,110 @@ resource "oci_core_subnet" "exadata_subnet" {
   dns_label           = "subnetexadata"
 }
 
-resource "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exadata_infrastructure" {
+resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure" {
+  #Required
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
-  display_name        = "TestExadata11"
-  domain              = var.autonomous_exadata_infrastructure_domain
-  freeform_tags       = var.autonomous_database_freeform_tags
-  license_model       = "LICENSE_INCLUDED"
+  display_name        = "TFATPD"
+  shape               = var.cloud_exadata_infrastructure_shape
 
-  maintenance_window_details {
-    preference = "CUSTOM_PREFERENCE"
+  #Optional
+  compute_count = var.cloud_exadata_infrastructure_compute_count
+  storage_count = var.cloud_exadata_infrastructure_storage_count
+}
 
-    days_of_week {
-      name = "MONDAY"
-    }
+resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure_primary" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "ATPDPRIMARY"
+  shape               = var.cloud_exadata_infrastructure_shape
 
-    hours_of_day = ["4"]
+  #Optional
+  compute_count = var.cloud_exadata_infrastructure_compute_count
+  storage_count = var.cloud_exadata_infrastructure_storage_count
+}
 
-    months {
-      name = "JANUARY"
-    }
+resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrastructure_standby" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "ATPDSTANDBY"
+  shape               = var.cloud_exadata_infrastructure_shape
 
-    months {
-      name = "APRIL"
-    }
+  #Optional
+  compute_count = var.cloud_exadata_infrastructure_compute_count
+  storage_count = var.cloud_exadata_infrastructure_storage_count
+}
 
-    months {
-      name = "JULY"
-    }
 
-    months {
-      name = "OCTOBER"
-    }
+resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster" {
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
+  compartment_id                  = var.compartment_ocid
+  display_name                    = "TestCloudAutonomousVmCluster"
+  freeform_tags                   = var.autonomous_database_freeform_tags
+  license_model                   = "LICENSE_INCLUDED"
+  subnet_id                       = oci_core_subnet.exadata_subnet.id
+  #Optional
+#  autonomous_data_storage_size_in_tbs   = 5
+#  memory_per_oracle_compute_unit_in_gbs = 27
+#  cpu_core_count_per_node               = 50
+#  total_container_databases             = 12
+  compute_model                   = "ECPU"
 
-    weeks_of_month = ["2"]
+  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
+  lifecycle {
+    ignore_changes = [
+      autonomous_data_storage_size_in_tbs,
+      db_servers,
+    ]
   }
+}
 
-  nsg_ids   = [oci_core_network_security_group.test_network_security_group.id]
-  shape     = "Exadata.Quarter2.92"
-  subnet_id = oci_core_subnet.exadata_subnet.id
+resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster_primary" {
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure_primary.id
+  compartment_id                  = var.compartment_ocid
+  display_name                    = "TestCloudAutonomousVmClusterPrimary"
+  freeform_tags                   = var.autonomous_database_freeform_tags
+  license_model                   = "LICENSE_INCLUDED"
+  subnet_id                       = oci_core_subnet.exadata_subnet.id
+  #Optional
+#  autonomous_data_storage_size_in_tbs   = 5
+#  memory_per_oracle_compute_unit_in_gbs = 27
+#  cpu_core_count_per_node               = 50
+#  total_container_databases             = 12
+  compute_model                   = "ECPU"
+
+  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
+  lifecycle {
+    ignore_changes = [
+      autonomous_data_storage_size_in_tbs,
+      db_servers,
+    ]
+  }
+}
+
+resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster_standby" {
+  cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure_standby.id
+  compartment_id                  = var.compartment_ocid
+  display_name                    = "TestCloudAutonomousVmClusterStandby"
+  freeform_tags                   = var.autonomous_database_freeform_tags
+  license_model                   = "LICENSE_INCLUDED"
+  subnet_id                       = oci_core_subnet.exadata_subnet.id
+  #Optional
+#  autonomous_data_storage_size_in_tbs   = 5
+#  memory_per_oracle_compute_unit_in_gbs = 27
+#  cpu_core_count_per_node               = 50
+#  total_container_databases             = 12
+  compute_model                   = "ECPU"
+
+  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
+  lifecycle {
+    ignore_changes = [
+      autonomous_data_storage_size_in_tbs,
+      db_servers,
+    ]
+  }
 }
 
 resource "oci_core_network_security_group" "test_network_security_group" {
@@ -98,18 +163,6 @@ resource "oci_core_network_security_group" "test_network_security_group" {
   vcn_id         = oci_core_vcn.test_vcn.id
 }
 
-data "oci_database_autonomous_exadata_infrastructures" "test_autonomous_exadata_infrastructures" {
-  availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
-  display_name        = "TestExadata"
-  state               = "AVAILABLE"
+data "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cluster" {
+  cloud_autonomous_vm_cluster_id = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
 }
-
-data "oci_database_autonomous_exadata_infrastructure" "test_autonomous_exadata_infrastructure" {
-  autonomous_exadata_infrastructure_id = oci_database_autonomous_exadata_infrastructure.test_autonomous_exadata_infrastructure.id
-}
-
-output "test_autonomous_exadata_infrastructures" {
-  value = [data.oci_database_autonomous_exadata_infrastructures.test_autonomous_exadata_infrastructures.autonomous_exadata_infrastructures]
-}
-

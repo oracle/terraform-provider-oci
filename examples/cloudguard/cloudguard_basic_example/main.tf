@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 /**
@@ -6,20 +6,20 @@
  */
 
 //Common Variables required
-variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
-variable "region" {}
-variable "compartment_ocid" {}
+#variable "tenancy_ocid" {}
+#variable "user_ocid" {}
+#variable "fingerprint" {}
+#variable "private_key_path" {}
+#variable "region" {}
+#variable "compartment_ocid" {}
 
-provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
-}
+#provider "oci" {
+#  tenancy_ocid     = var.tenancy_ocid
+#  user_ocid        = var.user_ocid
+#  fingerprint      = var.fingerprint
+#  private_key_path = var.private_key_path
+#  region           = var.region
+#}
 
 //******  CG Enable ******
 variable "cloud_guard_configuration_reporting_region" {
@@ -126,10 +126,10 @@ variable "detector_recipe_detector_rules_details_configurations_config_key" {
   default = "lbCertificateExpiringSoonConfig"
 }
 variable "detector_recipe_detector_rules_details_configurations_data_type" {
-  default = "multiList"
+  default = "int"
 }
 variable "detector_recipe_detector_rules_details_configurations_name" {
-  default = "Days before expiring - Checkpoint 1"
+  default = "Days before expiring"
 }
 variable "detector_recipe_detector_rules_details_configurations_value" {
   default = "30"

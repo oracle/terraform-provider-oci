@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 provider "oci" {
@@ -153,16 +153,6 @@ resource "oci_core_instance" "test_instance" {
   fault_domain = "FAULT-DOMAIN-1"
 }
 
-resource "oci_core_image" "custom_image" {
-  compartment_id = var.compartment_ocid
-  instance_id    = oci_core_instance.test_instance.id
-  launch_mode    = "NATIVE"
-
-  timeouts {
-    create = "30m"
-  }
-}
-
 resource "oci_core_instance_configuration" "test_instance_configuration" {
   compartment_id = var.compartment_ocid
   display_name   = "TestInstanceConfiguration"
@@ -175,19 +165,22 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
     */
     block_volumes {
       create_details {
-        compartment_id      = var.compartment_ocid
-        display_name        = "TestCreateVolumeDetails-1"
-        availability_domain = data.oci_identity_availability_domain.ad.name
-        size_in_gbs         = 50
-        vpus_per_gb         = 2
+        compartment_id       = var.compartment_ocid
+        display_name         = "TestCreateVolumeDetails-1"
+        availability_domain  = data.oci_identity_availability_domain.ad.name
+        size_in_gbs          = 50
+        vpus_per_gb          = 20 // min vpus
+        is_auto_tune_enabled = false
+        block_volume_replicas {
+          display_name        = "TestCreateVolumeDetails-1"
+          availability_domain = data.oci_identity_availability_domain.ad.name
+        }
       }
 
       attach_details {
         type                                = "paravirtualized"
         display_name                        = "TestAttachVolumeDetails-1"
         is_read_only                        = true
-        device                              = "TestDeviceName-1"
-        is_pv_encryption_in_transit_enabled = true
         is_shareable                        = true
       }
     }
@@ -198,15 +191,13 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
         display_name        = "TestCreateVolumeDetails-2"
         availability_domain = data.oci_identity_availability_domain.ad.name
         size_in_gbs         = 50
-        vpus_per_gb         = 2
+        vpus_per_gb         = 20 // min vpus
       }
 
       attach_details {
         type                                = "paravirtualized"
         display_name                        = "TestAttachVolumeDetails-2"
         is_read_only                        = true
-        device                              = "TestDeviceName-2"
-        is_pv_encryption_in_transit_enabled = true
         is_shareable                        = true
       }
     }
@@ -225,6 +216,11 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
         is_monitoring_disabled = false
       }
 
+      availability_config {
+        recovery_action             = "RESTORE_INSTANCE"
+        is_live_migration_preferred = false
+      }
+
       launch_options {
         network_type = "PARAVIRTUALIZED"
       }
@@ -239,7 +235,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
       }
 
       create_vnic_details {
-        assign_private_dns_record = false
+        assign_private_dns_record = true
         assign_public_ip       = true
         display_name           = "TestInstanceConfigurationVNIC"
         skip_source_dest_check = false
@@ -252,7 +248,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 
       source_details {
         source_type = "image"
-        image_id    = oci_core_image.custom_image.id
+        image_id    = var.flex_instance_image_ocid[var.region]
       }
     }
   }
@@ -264,6 +260,8 @@ resource "oci_core_instance_pool" "test_instance_pool" {
   size = 2
   state = "RUNNING"
   display_name = "TestInstancePool"
+  instance_display_name_formatter = "host-$${launchCount}"
+  instance_hostname_formatter = "host-$${launchCount}"
 
   placement_configurations {
     availability_domain = data.oci_identity_availability_domain.ad.name
@@ -327,7 +325,6 @@ data "oci_core_instance_pools" "test_instance_pools_datasource" {
 data "oci_core_instance_pool_instances" "test_instance_pool_instances_datasource" {
   compartment_id   = var.compartment_ocid
   instance_pool_id = oci_core_instance_pool.test_instance_pool.id
-  display_name     = "TestInstancePool"
 }
 
 # Usage of singular instance datasources to show the public_ips, private_ips, and hostname_labels for the instances in the pool

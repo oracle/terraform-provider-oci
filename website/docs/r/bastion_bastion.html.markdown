@@ -25,6 +25,7 @@ resource "oci_bastion_bastion" "test_bastion" {
 	#Optional
 	client_cidr_block_allow_list = var.bastion_client_cidr_block_allow_list
 	defined_tags = {"foo-namespace.bar-key"= "value"}
+	dns_proxy_status = var.bastion_dns_proxy_status
 	freeform_tags = {"bar-key"= "value"}
 	max_session_ttl_in_seconds = var.bastion_max_session_ttl_in_seconds
 	name = var.bastion_name
@@ -37,10 +38,11 @@ resource "oci_bastion_bastion" "test_bastion" {
 
 The following arguments are supported:
 
-* `bastion_type` - (Required) The type of bastion. Use `standard`.  
+* `bastion_type` - (Required) The type of bastion. Use `standard`. 
 * `client_cidr_block_allow_list` - (Optional) (Updatable) A list of address ranges in CIDR notation that you want to allow to connect to sessions hosted by this bastion.
 * `compartment_id` - (Required) (Updatable) The unique identifier (OCID) of the compartment where the bastion is located.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `dns_proxy_status` - (Optional) Flag to enable FQDN and SOCKS5 Proxy Support. Example: `ENABLED`, `DISABLED`
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `max_session_ttl_in_seconds` - (Optional) (Updatable) The maximum amount of time that any session on the bastion can remain active.
 * `name` - (Optional) The name of the bastion, which can't be changed after creation.
@@ -60,6 +62,7 @@ The following attributes are exported:
 * `client_cidr_block_allow_list` - A list of address ranges in CIDR notation that you want to allow to connect to sessions hosted by this bastion.
 * `compartment_id` - The unique identifier (OCID) of the compartment where the bastion is located.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `dns_proxy_status` - Flag to enable FQDN and SOCKS5 Proxy Support. Example: `ENABLED`, `DISABLED`
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The unique identifier (OCID) of the bastion, which can't be changed after creation.
 * `lifecycle_details` - A message describing the current state in more detail.
@@ -78,7 +81,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Bastion
 	* `update` - (Defaults to 20 minutes), when updating the Bastion
 	* `delete` - (Defaults to 20 minutes), when destroying the Bastion

@@ -31,6 +31,7 @@ resource "oci_blockchain_blockchain_platform" "test_blockchain_platform" {
 	federated_user_id = oci_identity_user.test_user.id
 	freeform_tags = {"bar-key"= "value"}
 	is_byol = var.blockchain_platform_is_byol
+	platform_version = var.blockchain_platform_platform_version
 }
 ```
 
@@ -49,6 +50,7 @@ The following arguments are supported:
 * `idcs_access_token` - (Required) IDCS access token with Identity Domain Administrator role
 * `is_byol` - (Optional) Bring your own license
 * `platform_role` - (Required) Role of platform - founder or participant
+* `platform_version` - (Optional) Platform version
 * `load_balancer_shape` - (Optional) (Updatable) Type of Load Balancer shape - LB_100_MBPS or LB_400_MBPS. Default is LB_100_MBPS.
 
 
@@ -92,6 +94,7 @@ The following attributes are exported:
 * `load_balancer_shape` - Type of Load Balancer shape - LB_100_MBPS or LB_400_MBPS. Default is LB_100_MBPS.
 * `platform_role` - Role of platform - FOUNDER or PARTICIPANT
 * `platform_shape_type` - Type of Platform shape - DEFAULT or CUSTOM
+* `platform_version` - Platform Version
 * `replicas` - Number of replicas of service components like Rest Proxy, CA and Console
 	* `ca_count` - Number of CA replicas
 	* `console_count` - Number of console replicas
@@ -107,7 +110,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 30 minutes), when creating the Blockchain Platform
 	* `update` - (Defaults to 30 minutes), when updating the Blockchain Platform
 	* `delete` - (Defaults to 30 minutes), when destroying the Blockchain Platform

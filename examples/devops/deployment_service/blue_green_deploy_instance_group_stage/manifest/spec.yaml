@@ -1,0 +1,18 @@
+version: 1.0
+component: deployment
+runAs: root
+env:
+  variables:
+    version: "v1.0"
+files:
+  # This section is to define how the files in the artifact shall
+  # be put on the compute instance
+  - source: /
+    destination: /tmp/genericArtifactDemo
+steps:
+  # This section is to define the scripts that each step shall run on the instance after file copy.
+  - stepType: Command
+    name: Install Apache Web Server
+    command: ./script.sh
+    runAs: root
+    timeoutInSeconds: 800

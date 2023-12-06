@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2021, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 data "oci_identity_availability_domains" "ADsClone" {
@@ -65,7 +65,7 @@ resource "oci_database_db_system" "tClone" {
     database_edition = "ENTERPRISE_EDITION"
     availability_domain = "${data.oci_identity_availability_domains.ADsClone.availability_domains.0.name}"
     disk_redundancy = "NORMAL"
-    shape = "VM.Standard1.1"
+    shape = "VM.Standard2.1"
     ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
     display_name = "-tf-dbSystem-clone-001"
     domain = "${oci_core_subnet.tClone.dns_label}.${oci_core_virtual_network.tClone.dns_label}.oraclevcn.com"
@@ -73,9 +73,10 @@ resource "oci_database_db_system" "tClone" {
     data_storage_size_in_gb = "256"
     license_model = "LICENSE_INCLUDED"
     node_count = "1"
+    cpu_core_count =  "${var.cpu_core_count}"
     fault_domains = ["FAULT-DOMAIN-1"]
     db_home {
-        db_version = "12.2.0.1"
+        db_version = "21.8.0.0"
         display_name = "-tf-db-home-clone"
         database {
             admin_password = "BEstrO0ng_#11"
@@ -132,11 +133,17 @@ data "oci_database_database" "tClone" {
       database_id = "${data.oci_database_databases.tClone.databases.0.id}"
 }
 
-resource "oci_database_pluggable_databases_remote_clone" "test_pluggable_databases_remote_clone" {
-    cloned_pdb_name = "NewSalesPdb"
+resource "oci_database_pluggable_database" "test_pluggable_databases_remote_clone" {
+    pdb_name = "pdbRemoteClone"
+    container_database_id = "${data.oci_database_database.tClone.id}"
+    tde_wallet_password = "BEstrO0ng_#11"
     pdb_admin_password = "BEstrO0ng_#11"
-    pluggable_database_id = "${oci_database_pluggable_database.test_pluggable_database.id}"
-    source_container_db_admin_password = "BEstrO0ng_#11"
-    target_container_database_id = "${data.oci_database_database.tClone.id}"
-    target_tde_wallet_password = "BEstrO0ng_#11"
+    pdb_creation_type_details {
+        creation_type = "REMOTE_CLONE_PDB"
+        refreshable_clone_details { is_refreshable_clone = true }
+        dblink_username = "DBLINKUSER"
+        dblink_user_password = "DBLINKPWD"
+        source_pluggable_database_id = "${oci_database_pluggable_database.test_pluggable_database.id}"
+        source_container_database_admin_password = "BEstrO0ng_#11"
+    }
 }

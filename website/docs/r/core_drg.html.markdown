@@ -13,7 +13,7 @@ This resource provides the Drg resource in Oracle Cloud Infrastructure Core serv
 Creates a new dynamic routing gateway (DRG) in the specified compartment. For more information,
 see [Dynamic Routing Gateways (DRGs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingDRGs.htm).
 
-For the purposes of access control, you must provide the OCID of the compartment where you want
+For the purposes of access control, you must provide the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want
 the DRG to reside. Notice that the DRG doesn't have to be in the same compartment as the VCN,
 the DRG attachment, or other Networking Service components. If you're not sure which compartment
 to use, put the DRG in the same compartment as the VCN. For more information about compartments
@@ -62,7 +62,7 @@ The following attributes are exported:
 	* `ipsec_tunnel` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the default DRG route table assigned to DRG attachments of type IPSEC_TUNNEL on creation. 
 	* `remote_peering_connection` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the default DRG route table to be assigned to DRG attachments of type REMOTE_PEERING_CONNECTION on creation. 
 	* `vcn` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the default DRG route table to be assigned to DRG attachments of type VCN on creation. 
-	* `virtual_circuit` - The OCID of the default DRG route table to be assigned to DRG attachments of type VIRTUAL_CIRCUIT on creation. 
+	* `virtual_circuit` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the default DRG route table to be assigned to DRG attachments of type VIRTUAL_CIRCUIT on creation. 
 * `default_export_drg_route_distribution_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this DRG's default export route distribution for the DRG attachments. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -74,7 +74,7 @@ The following attributes are exported:
 
 ## Timeouts
 
-The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/guides/changing_timeouts) for certain operations:
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
 	* `create` - (Defaults to 20 minutes), when creating the Drg
 	* `update` - (Defaults to 20 minutes), when updating the Drg
 	* `delete` - (Defaults to 20 minutes), when destroying the Drg
