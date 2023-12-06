@@ -49,7 +49,6 @@ func TestOsmanagementManagedInstanceStreamProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "module_stream_profile_on_managed_instances.0.profile_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "module_stream_profile_on_managed_instances.0.status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "module_stream_profile_on_managed_instances.0.stream_name"),
-				resource.TestCheckResourceAttrSet(datasourceName, "module_stream_profile_on_managed_instances.0.time_modified"),
 			),
 		},
 	})

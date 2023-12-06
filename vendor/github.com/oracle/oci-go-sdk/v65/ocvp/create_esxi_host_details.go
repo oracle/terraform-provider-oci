@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// CreateEsxiHostDetails Details of the ESXi host to add to the SDDC.
+// CreateEsxiHostDetails Details of the ESXi host to add to the Cluster.
 type CreateEsxiHostDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC to add the
-	// ESXi host to.
-	SddcId *string `mandatory:"true" json:"sddcId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cluster to add the ESXi host to.
+	ClusterId *string `mandatory:"true" json:"clusterId"`
 
 	// A descriptive name for the ESXi host. It's changeable.
-	// Esxi Host name requirements are 1-16 character length limit, Must start with a letter, Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the SDDC.
-	// If this attribute is not specified, the SDDC's `instanceDisplayNamePrefix` attribute is used
+	// Esxi Host name requirements are 1-16 character length limit, Must start with a letter,
+	// Must be English letters, numbers, - only, No repeating hyphens, Must be unique within the Cluster.
+	// If this attribute is not specified, the Cluster's `instanceDisplayNamePrefix` attribute is used
 	// to name and incrementally number the ESXi host. For example, if you're creating the fourth
-	// ESXi host in the SDDC, and `instanceDisplayNamePrefix` is `MySDDC`, the host's display
-	// name is `MySDDC-4`.
+	// ESXi host in the Cluster, and `instanceDisplayNamePrefix` is `MyCluster`, the host's display
+	// name is `MyCluster-4`.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -36,24 +36,18 @@ type CreateEsxiHostDetails struct {
 	BillingDonorHostId *string `mandatory:"false" json:"billingDonorHostId"`
 
 	// The billing option currently used by the ESXi host.
-	// ListSupportedSkus.
-	CurrentSku SkuEnum `mandatory:"false" json:"currentSku,omitempty"`
+	// ListSupportedCommitments.
+	CurrentCommitment CommitmentEnum `mandatory:"false" json:"currentCommitment,omitempty"`
 
 	// The billing option to switch to after the existing billing cycle ends.
-	// If `nextSku` is null or empty, `currentSku` continues to the next billing cycle.
-	// ListSupportedSkus.
-	NextSku SkuEnum `mandatory:"false" json:"nextSku,omitempty"`
+	// If `nextCommitment` is null or empty, `currentCommitment` continues to the next billing cycle.
+	// ListSupportedCommitments.
+	NextCommitment CommitmentEnum `mandatory:"false" json:"nextCommitment,omitempty"`
 
 	// The availability domain to create the ESXi host in.
-	// If keep empty, for AD-specific SDDC, new ESXi host will be created in the same availability domain;
-	// for multi-AD SDDC, new ESXi host will be auto assigned to the next availability domain following evenly distribution strategy.
+	// If keep empty, for AD-specific Cluster, new ESXi host will be created in the same availability domain;
+	// for multi-AD Cluster, new ESXi host will be auto assigned to the next availability domain following evenly distribution strategy.
 	ComputeAvailabilityDomain *string `mandatory:"false" json:"computeAvailabilityDomain"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
-	// is failed. This is an optional parameter. If this parameter is specified, a new ESXi
-	// host will be created to replace the failed one, and the `failedEsxiHostId` field
-	// will be updated in the newly created Esxi host.
-	FailedEsxiHostId *string `mandatory:"false" json:"failedEsxiHostId"`
 
 	// The compute shape name of the ESXi host.
 	// ListSupportedHostShapes.
@@ -65,12 +59,11 @@ type CreateEsxiHostDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host that
-	// will be upgraded. This is an optional parameter. If this parameter
-	// is specified, an ESXi host with the new software version is created to replace the
-	// original one, and the `nonUpgradedEsxiHostId` field is updated in the newly
-	// created Esxi host. See Upgrading VMware Software (https://docs.cloud.oracle.com/Content/VMware/Concepts/upgrade.htm) for more information.
-	NonUpgradedEsxiHostId *string `mandatory:"false" json:"nonUpgradedEsxiHostId"`
+	// The ESXi software bundle to install on the ESXi host.
+	// Only versions under the same vmwareSoftwareVersion and have been validate by Oracle Cloud VMware Solution will be accepted.
+	// To get a list of the available versions, use
+	// ListSupportedVmwareSoftwareVersions.
+	EsxiSoftwareVersion *string `mandatory:"false" json:"esxiSoftwareVersion"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -93,11 +86,11 @@ func (m CreateEsxiHostDetails) String() string {
 func (m CreateEsxiHostDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingSkuEnum(string(m.CurrentSku)); !ok && m.CurrentSku != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrentSku: %s. Supported values are: %s.", m.CurrentSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	if _, ok := GetMappingCommitmentEnum(string(m.CurrentCommitment)); !ok && m.CurrentCommitment != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrentCommitment: %s. Supported values are: %s.", m.CurrentCommitment, strings.Join(GetCommitmentEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingSkuEnum(string(m.NextSku)); !ok && m.NextSku != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextSku: %s. Supported values are: %s.", m.NextSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	if _, ok := GetMappingCommitmentEnum(string(m.NextCommitment)); !ok && m.NextCommitment != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextCommitment: %s. Supported values are: %s.", m.NextCommitment, strings.Join(GetCommitmentEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

@@ -69,14 +69,14 @@ func TestDataSafeSqlFirewallPolicyManagementResource_basic(t *testing.T) {
 	dbUserNameVariableStr := fmt.Sprintf("variable \"sql_firewall_policy_dbUserName\" { default = \"%s\" }\n", dbUserName)
 	fmt.Println("dbUserNameVariableStr", dbUserNameVariableStr)
 
-	resourceName := "oci_data_safe_sql_firewall_policy_management.test_sql_firewall_policy"
+	resourceName := "oci_data_safe_sql_firewall_policy_management.test_sql_firewall_policy_management"
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + policyIdVariableStr + dbUserNameVariableStr + targetIdVariableStr + DataSafeSqlFirewallPolicyManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sql_firewall_policy_management", "test_sql_firewall_policy", acctest.Optional, acctest.Update,
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sql_firewall_policy_management", "test_sql_firewall_policy_management", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(DataSafeSqlFirewallPolicyManagementRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 					})),

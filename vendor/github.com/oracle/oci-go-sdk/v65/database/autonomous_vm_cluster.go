@@ -162,6 +162,15 @@ type AutonomousVmCluster struct {
 
 	// The date and time of the ORDS certificate expiration.
 	TimeOrdsCertificateExpires *common.SDKTime `mandatory:"false" json:"timeOrdsCertificateExpires"`
+
+	// The lowest value to which exadataStorage in TBs can be scaled down.
+	ExadataStorageInTBsLowestScaledValue *float64 `mandatory:"false" json:"exadataStorageInTBsLowestScaledValue"`
+
+	// The lowest value to which cpus can be scaled down.
+	CpusLowestScaledValue *int `mandatory:"false" json:"cpusLowestScaledValue"`
+
+	// The lowest value to which ACDs can be scaled down.
+	MaxAcdsLowestScaledValue *int `mandatory:"false" json:"maxAcdsLowestScaledValue"`
 }
 
 func (m AutonomousVmCluster) String() string {

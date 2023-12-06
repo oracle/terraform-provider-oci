@@ -609,6 +609,7 @@ database
 * oci\_database\_cloud\_autonomous\_vm\_cluster
 * oci\_database\_application\_vip
 * oci\_database\_oneoff\_patch
+* oci\_database\_db\_node\_console\_history
 
 database_migration
 
@@ -739,6 +740,7 @@ golden_gate
 * oci\_golden\_gate\_deployment\_backup
 * oci\_golden\_gate\_connection\_assignment
 * oci\_golden\_gate\_connection
+* oci\_golden\_gate\_deployment\_certificate
 
 health_checks
 
@@ -957,6 +959,7 @@ ocvp
 
 * oci\_ocvp\_sddc
 * oci\_ocvp\_esxi\_host
+* oci\_ocvp\_cluster
 
 oda
 

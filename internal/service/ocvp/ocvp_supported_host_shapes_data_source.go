@@ -22,14 +22,25 @@ func OcvpSupportedHostShapesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"initial_host_shape_name": {
+				Type:          schema.TypeString,
+				ConflictsWith: []string{"sddc_type"},
+				Optional:      true,
+			},
+			"is_single_host_sddc_supported": {
+				Type:          schema.TypeBool,
+				Optional:      true,
+				ConflictsWith: []string{"sddc_type"},
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"sddc_type": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Deprecated: tfresource.FieldDeprecatedForAnother("sddc_type", "is_single_host_sddc_supported"),
+				Type:          schema.TypeString,
+				Optional:      true,
+				ConflictsWith: []string{"is_single_host_sddc_supported", "initial_host_shape_name"},
+				Deprecated:    tfresource.FieldDeprecatedForAnother("sddc_type", "is_single_host_sddc_supported"),
 			},
 			"items": {
 				Type:     schema.TypeList,
@@ -49,9 +60,18 @@ func OcvpSupportedHostShapesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"is_support_monthly_sku": {
+						"is_single_host_sddc_supported": {
 							Type:     schema.TypeBool,
 							Computed: true,
+						},
+						"is_support_monthly_commitment": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_support_monthly_sku": {
+							Type:       schema.TypeBool,
+							Computed:   true,
+							Deprecated: tfresource.FieldDeprecatedForAnother("is_support_monthly_sku", "is_support_monthly_commitment"),
 						},
 						"is_support_shielded_instances": {
 							Type:     schema.TypeBool,
@@ -128,13 +148,26 @@ func (s *OcvpSupportedHostShapesDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if initialHostShapeName, ok := s.D.GetOkExists("initial_host_shape_name"); ok {
+		tmp := initialHostShapeName.(string)
+		request.InitialHostShapeName = &tmp
+	}
+
+	if isSingleHostSddcSupported, ok := s.D.GetOkExists("is_single_host_sddc_supported"); ok {
+		tmp := isSingleHostSddcSupported.(bool)
+		request.IsSingleHostSddcSupported = &tmp
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
 	}
 
 	if sddcType, ok := s.D.GetOkExists("sddc_type"); ok {
-		request.SddcType = oci_ocvp.ListSupportedHostShapesSddcTypeEnum(sddcType.(string))
+		if sddcType == "NON_PRODUCTION" {
+			tmp := true
+			request.IsSingleHostSddcSupported = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
@@ -194,8 +227,18 @@ func SupportedHostShapeSummaryToMap(obj oci_ocvp.SupportedHostShapeSummary) map[
 		result["description"] = string(*obj.Description)
 	}
 
-	if obj.IsSupportMonthlySku != nil {
-		result["is_support_monthly_sku"] = bool(*obj.IsSupportMonthlySku)
+	if obj.IsSingleHostSddcSupported != nil {
+		result["is_single_host_sddc_supported"] = bool(*obj.IsSingleHostSddcSupported)
+		supportedSddcTypes := []string{"PRODUCTION"}
+		if *obj.IsSingleHostSddcSupported {
+			supportedSddcTypes = append(supportedSddcTypes, "NON_PRODUCTION")
+		}
+		result["supported_sddc_types"] = supportedSddcTypes
+	}
+
+	if obj.IsSupportMonthlyCommitment != nil {
+		result["is_support_monthly_commitment"] = bool(*obj.IsSupportMonthlyCommitment)
+		result["is_support_monthly_sku"] = bool(*obj.IsSupportMonthlyCommitment)
 	}
 
 	if obj.IsSupportShieldedInstances != nil {
@@ -213,8 +256,6 @@ func SupportedHostShapeSummaryToMap(obj oci_ocvp.SupportedHostShapeSummary) map[
 	result["supported_ocpu_count"] = obj.SupportedOcpuCount
 
 	result["supported_operations"] = obj.SupportedOperations
-
-	result["supported_sddc_types"] = obj.SupportedSddcTypes
 
 	result["supported_vmware_software_versions"] = obj.SupportedVmwareSoftwareVersions
 

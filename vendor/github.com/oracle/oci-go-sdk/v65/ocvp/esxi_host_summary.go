@@ -26,17 +26,21 @@ type EsxiHostSummary struct {
 	// ESXi host belongs to.
 	SddcId *string `mandatory:"true" json:"sddcId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cluster that the
+	// ESXi host belongs to.
+	ClusterId *string `mandatory:"true" json:"clusterId"`
+
 	// The billing option currently used by the ESXi host.
-	// ListSupportedSkus.
-	CurrentSku SkuEnum `mandatory:"true" json:"currentSku"`
+	// ListSupportedCommitments.
+	CurrentCommitment CommitmentEnum `mandatory:"true" json:"currentCommitment"`
 
 	// The billing option to switch to after the current billing cycle ends.
-	// If `nextSku` is null or empty, `currentSku` continues to the next billing cycle.
-	// ListSupportedSkus.
-	NextSku SkuEnum `mandatory:"true" json:"nextSku"`
+	// If `nextCommitment` is null or empty, `currentCommitment` continues to the next billing cycle.
+	// ListSupportedCommitments.
+	NextCommitment CommitmentEnum `mandatory:"true" json:"nextCommitment"`
 
-	// Current billing cycle end date. If the value in `currentSku` and `nextSku` are different, the value specified in `nextSku`
-	// becomes the new `currentSKU` when the `contractEndDate` is reached.
+	// Current billing cycle end date. If the value in `currentCommitment` and `nextCommitment` are different, the value specified in `nextCommitment`
+	// becomes the new `currentCommitment` when the `contractEndDate` is reached.
 	// Example: `2016-08-25T21:10:29.600Z`
 	BillingContractEndDate *common.SDKTime `mandatory:"true" json:"billingContractEndDate"`
 
@@ -65,7 +69,7 @@ type EsxiHostSummary struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that
-	// contains the SDDC.
+	// contains the Cluster.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// In terms of implementation, an ESXi host is a Compute instance that
@@ -130,11 +134,11 @@ func (m EsxiHostSummary) String() string {
 // Not recommended for calling this function directly
 func (m EsxiHostSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingSkuEnum(string(m.CurrentSku)); !ok && m.CurrentSku != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrentSku: %s. Supported values are: %s.", m.CurrentSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	if _, ok := GetMappingCommitmentEnum(string(m.CurrentCommitment)); !ok && m.CurrentCommitment != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CurrentCommitment: %s. Supported values are: %s.", m.CurrentCommitment, strings.Join(GetCommitmentEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingSkuEnum(string(m.NextSku)); !ok && m.NextSku != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextSku: %s. Supported values are: %s.", m.NextSku, strings.Join(GetSkuEnumStringValues(), ",")))
+	if _, ok := GetMappingCommitmentEnum(string(m.NextCommitment)); !ok && m.NextCommitment != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextCommitment: %s. Supported values are: %s.", m.NextCommitment, strings.Join(GetCommitmentEnumStringValues(), ",")))
 	}
 
 	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {

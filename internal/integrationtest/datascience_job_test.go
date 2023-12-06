@@ -251,6 +251,7 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					},
 				),
 			},
+
 			// verify datasource
 			{
 				Config: config +

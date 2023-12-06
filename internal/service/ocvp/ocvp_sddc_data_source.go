@@ -5,6 +5,7 @@ package ocvp
 
 import (
 	"context"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_ocvp "github.com/oracle/oci-go-sdk/v65/ocvp"
@@ -26,14 +27,15 @@ func readSingularOcvpSddc(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpSddcDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SddcClient()
-
+	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
 	return tfresource.ReadResource(sync)
 }
 
 type OcvpSddcDataSourceCrud struct {
-	D      *schema.ResourceData
-	Client *oci_ocvp.SddcClient
-	Res    *oci_ocvp.GetSddcResponse
+	D             *schema.ResourceData
+	Client        *oci_ocvp.SddcClient
+	ClusterClient *oci_ocvp.ClusterClient
+	Res           *oci_ocvp.GetSddcResponse
 }
 
 func (s *OcvpSddcDataSourceCrud) VoidState() {
@@ -66,23 +68,27 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
-	if s.Res.CapacityReservationId != nil {
-		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	if s.Res.ClustersCount != nil {
+		s.D.Set("clusters_count", *s.Res.ClustersCount)
 	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
-	if s.Res.ComputeAvailabilityDomain != nil {
-		s.D.Set("compute_availability_domain", *s.Res.ComputeAvailabilityDomain)
+	actualEsxiHostCount, err := CalculateActualEsxiHostCount(s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
+	if err != nil {
+		return nil
 	}
+	s.D.Set("esxi_hosts_count", actualEsxiHostCount)
+	s.D.Set("actual_esxi_hosts_count", actualEsxiHostCount)
 
-	datastores := []interface{}{}
-	for _, item := range s.Res.Datastores {
-		datastores = append(datastores, DatastoreSummaryToMap(item))
+	if s.Res.InitialConfiguration != nil {
+		s.D.Set("initial_configuration", []interface{}{InitialConfigurationToMap(s.Res.InitialConfiguration,
+			s.D.GetOk, s.D.HasChange, s.D.GetChange, true)})
+	} else {
+		s.D.Set("initial_configuration", nil)
 	}
-	s.D.Set("datastores", datastores)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -92,9 +98,8 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
-	if s.Res.EsxiHostsCount != nil {
-		s.D.Set("esxi_hosts_count", *s.Res.EsxiHostsCount)
-		s.D.Set("actual_esxi_hosts_count", *s.Res.EsxiHostsCount)
+	if s.Res.EsxiSoftwareVersion != nil {
+		s.D.Set("esxi_software_version", *s.Res.EsxiSoftwareVersion)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
@@ -103,12 +108,19 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("hcx_fqdn", *s.Res.HcxFqdn)
 	}
 
-	if s.Res.HcxInitialPassword != nil {
-		s.D.Set("hcx_initial_password", *s.Res.HcxInitialPassword)
-	}
+	s.D.Set("hcx_mode", s.Res.HcxMode)
+	switch s.Res.HcxMode {
+	case oci_ocvp.HcxModesDisabled:
+		s.D.Set("is_hcx_enabled", false)
+		s.D.Set("is_hcx_enterprise_enabled", false)
 
-	if s.Res.HcxOnPremKey != nil {
-		s.D.Set("hcx_on_prem_key", *s.Res.HcxOnPremKey)
+	case oci_ocvp.HcxModesAdvanced:
+		s.D.Set("is_hcx_enabled", true)
+		s.D.Set("is_hcx_enterprise_enabled", false)
+
+	case oci_ocvp.HcxModesEnterprise:
+		s.D.Set("is_hcx_enabled", true)
+		s.D.Set("is_hcx_enterprise_enabled", true)
 	}
 
 	hcxOnPremLicenses := []interface{}{}
@@ -117,70 +129,30 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 	}
 	s.D.Set("hcx_on_prem_licenses", hcxOnPremLicenses)
 
+	if len(s.Res.HcxOnPremLicenses) > 0 {
+		s.D.Set("hcx_on_prem_key", s.Res.HcxOnPremLicenses[0].ActivationKey)
+	}
+
+	s.D.Set("nsx_overlay_segment_name", "WORKLOAD")
+
 	if s.Res.HcxPrivateIpId != nil {
 		s.D.Set("hcx_private_ip_id", *s.Res.HcxPrivateIpId)
-	}
-
-	if s.Res.HcxVlanId != nil {
-		s.D.Set("hcx_vlan_id", *s.Res.HcxVlanId)
-	}
-
-	if s.Res.InitialHostOcpuCount != nil {
-		s.D.Set("initial_host_ocpu_count", *s.Res.InitialHostOcpuCount)
-	}
-
-	if s.Res.InitialHostShapeName != nil {
-		s.D.Set("initial_host_shape_name", *s.Res.InitialHostShapeName)
-	}
-
-	s.D.Set("initial_sku", s.Res.InitialSku)
-
-	if s.Res.InstanceDisplayNamePrefix != nil {
-		s.D.Set("instance_display_name_prefix", *s.Res.InstanceDisplayNamePrefix)
-	}
-
-	if s.Res.IsHcxEnabled != nil {
-		s.D.Set("is_hcx_enabled", *s.Res.IsHcxEnabled)
-	}
-
-	if s.Res.IsHcxEnterpriseEnabled != nil {
-		s.D.Set("is_hcx_enterprise_enabled", *s.Res.IsHcxEnterpriseEnabled)
 	}
 
 	if s.Res.IsHcxPendingDowngrade != nil {
 		s.D.Set("is_hcx_pending_downgrade", *s.Res.IsHcxPendingDowngrade)
 	}
 
-	if s.Res.IsShieldedInstanceEnabled != nil {
-		s.D.Set("is_shielded_instance_enabled", *s.Res.IsShieldedInstanceEnabled)
-	}
-
 	if s.Res.IsSingleHostSddc != nil {
 		s.D.Set("is_single_host_sddc", *s.Res.IsSingleHostSddc)
-	}
-
-	if s.Res.NsxEdgeUplink1VlanId != nil {
-		s.D.Set("nsx_edge_uplink1vlan_id", *s.Res.NsxEdgeUplink1VlanId)
-	}
-
-	if s.Res.NsxEdgeUplink2VlanId != nil {
-		s.D.Set("nsx_edge_uplink2vlan_id", *s.Res.NsxEdgeUplink2VlanId)
 	}
 
 	if s.Res.NsxEdgeUplinkIpId != nil {
 		s.D.Set("nsx_edge_uplink_ip_id", *s.Res.NsxEdgeUplinkIpId)
 	}
 
-	if s.Res.NsxEdgeVTepVlanId != nil {
-		s.D.Set("nsx_edge_vtep_vlan_id", *s.Res.NsxEdgeVTepVlanId)
-	}
-
 	if s.Res.NsxManagerFqdn != nil {
 		s.D.Set("nsx_manager_fqdn", *s.Res.NsxManagerFqdn)
-	}
-
-	if s.Res.NsxManagerInitialPassword != nil {
-		s.D.Set("nsx_manager_initial_password", *s.Res.NsxManagerInitialPassword)
 	}
 
 	if s.Res.NsxManagerPrivateIpId != nil {
@@ -189,26 +161,6 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 
 	if s.Res.NsxManagerUsername != nil {
 		s.D.Set("nsx_manager_username", *s.Res.NsxManagerUsername)
-	}
-
-	if s.Res.NsxOverlaySegmentName != nil {
-		s.D.Set("nsx_overlay_segment_name", *s.Res.NsxOverlaySegmentName)
-	}
-
-	if s.Res.NsxVTepVlanId != nil {
-		s.D.Set("nsx_vtep_vlan_id", *s.Res.NsxVTepVlanId)
-	}
-
-	if s.Res.ProvisioningSubnetId != nil {
-		s.D.Set("provisioning_subnet_id", *s.Res.ProvisioningSubnetId)
-	}
-
-	if s.Res.ProvisioningVlanId != nil {
-		s.D.Set("provisioning_vlan_id", *s.Res.ProvisioningVlanId)
-	}
-
-	if s.Res.ReplicationVlanId != nil {
-		s.D.Set("replication_vlan_id", *s.Res.ReplicationVlanId)
 	}
 
 	if s.Res.SshAuthorizedKeys != nil {
@@ -233,18 +185,8 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
-	upgradeLicenses := []interface{}{}
-	for _, item := range s.Res.UpgradeLicenses {
-		upgradeLicenses = append(upgradeLicenses, VsphereLicenseToMap(item))
-	}
-	s.D.Set("upgrade_licenses", upgradeLicenses)
-
 	if s.Res.VcenterFqdn != nil {
 		s.D.Set("vcenter_fqdn", *s.Res.VcenterFqdn)
-	}
-
-	if s.Res.VcenterInitialPassword != nil {
-		s.D.Set("vcenter_initial_password", *s.Res.VcenterInitialPassword)
 	}
 
 	if s.Res.VcenterPrivateIpId != nil {
@@ -255,35 +197,155 @@ func (s *OcvpSddcDataSourceCrud) SetData() error {
 		s.D.Set("vcenter_username", *s.Res.VcenterUsername)
 	}
 
-	if s.Res.VmotionVlanId != nil {
-		s.D.Set("vmotion_vlan_id", *s.Res.VmotionVlanId)
-	}
-
 	if s.Res.VmwareSoftwareVersion != nil {
 		s.D.Set("vmware_software_version", *s.Res.VmwareSoftwareVersion)
 	}
 
-	if s.Res.VsanVlanId != nil {
-		s.D.Set("vsan_vlan_id", *s.Res.VsanVlanId)
+	if s.Res.HcxMode != oci_ocvp.HcxModesDisabled {
+		hcxPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeHcx)
+		if err != nil {
+			return err
+		}
+		if hcxPassword != nil {
+			s.D.Set("hcx_initial_password", *hcxPassword)
+		}
 	}
 
-	if s.Res.VsphereUpgradeGuide != nil {
-		s.D.Set("vsphere_upgrade_guide", *s.Res.VsphereUpgradeGuide)
+	nsxPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeNsx)
+	if err != nil {
+		return err
+	}
+	if nsxPassword != nil {
+		s.D.Set("nsx_manager_initial_password", *nsxPassword)
 	}
 
+	vCenterPassword, err := GetSddcPassword(s.Client, s.D.Id(), oci_ocvp.RetrievePasswordTypeVcenter)
+	if err != nil {
+		return err
+	}
+	if vCenterPassword != nil {
+		s.D.Set("vcenter_initial_password", *vCenterPassword)
+	}
+
+	err = s.SetDataClusterValues(s.Res.Id, s.Res.CompartmentId, s.ClusterClient)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *OcvpSddcDataSourceCrud) SetDataClusterValues(sddcId *string, compartmentId *string, clusterClient *oci_ocvp.ClusterClient) error {
+	clusterSummary, err := GetManagementClusterSummary(sddcId, compartmentId, clusterClient)
+	if err != nil {
+		return err
+	}
+	clusterId := clusterSummary.Id
+	log.Printf("[DEBUG] setting values from cluster %s", *clusterId)
+
+	req := oci_ocvp.GetClusterRequest{}
+	req.ClusterId = clusterId
+	clusterResponse, err := clusterClient.GetCluster(context.Background(), req)
+
+	if err != nil {
+		log.Printf("[ERROR] failed to get cluster id : '%s'", *clusterId)
+		return err
+	}
+	log.Printf("[DEBUG] setting vshere upgrade objects")
 	vsphereUpgradeObjects := []interface{}{}
-	for _, item := range s.Res.VsphereUpgradeObjects {
+	for _, item := range clusterResponse.VsphereUpgradeObjects {
 		vsphereUpgradeObjects = append(vsphereUpgradeObjects, VsphereUpgradeObjectToMap(item))
 	}
-	s.D.Set("vsphere_upgrade_objects", vsphereUpgradeObjects)
-
-	if s.Res.VsphereVlanId != nil {
-		s.D.Set("vsphere_vlan_id", *s.Res.VsphereVlanId)
+	err = s.D.Set("vsphere_upgrade_objects", vsphereUpgradeObjects)
+	if err != nil {
+		return err
 	}
 
-	if s.Res.WorkloadNetworkCidr != nil {
-		s.D.Set("workload_network_cidr", *s.Res.WorkloadNetworkCidr)
+	if len(vsphereUpgradeObjects) > 0 {
+		s.D.Set("vsphere_upgrade_guide", "vsphereUpgradeGuide_place_holder")
 	}
 
+	log.Printf("[DEBUG] setting upgrade licenses")
+	upgradeLicenses := []interface{}{}
+	for _, item := range clusterResponse.UpgradeLicenses {
+		upgradeLicenses = append(upgradeLicenses, VsphereLicenseToMap(item))
+	}
+	err = s.D.Set("upgrade_licenses", upgradeLicenses)
+	if err != nil {
+		return err
+	}
+
+	if clusterResponse.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", clusterResponse.CapacityReservationId)
+	}
+
+	if clusterResponse.ComputeAvailabilityDomain != nil {
+		s.D.Set("compute_availability_domain", clusterResponse.ComputeAvailabilityDomain)
+	}
+
+	datastores := []interface{}{}
+	for _, item := range clusterResponse.Datastores {
+		datastores = append(datastores, DatastoreDetailsToMap(item))
+	}
+	s.D.Set("datastores", datastores)
+
+	if clusterResponse.InitialHostOcpuCount != nil {
+		s.D.Set("initial_host_ocpu_count", clusterResponse.InitialHostOcpuCount)
+	}
+
+	if clusterResponse.InitialHostShapeName != nil {
+		s.D.Set("initial_host_shape_name", clusterResponse.InitialHostShapeName)
+	}
+
+	s.D.Set("initial_sku", clusterResponse.InitialCommitment)
+
+	if clusterResponse.InstanceDisplayNamePrefix != nil {
+		s.D.Set("instance_display_name_prefix", clusterResponse.InstanceDisplayNamePrefix)
+	}
+
+	if clusterResponse.IsShieldedInstanceEnabled != nil {
+		s.D.Set("is_shielded_instance_enabled", clusterResponse.IsShieldedInstanceEnabled)
+	}
+
+	if clusterResponse.WorkloadNetworkCidr != nil {
+		s.D.Set("workload_network_cidr", clusterResponse.WorkloadNetworkCidr)
+	}
+
+	networkConfiguration := clusterResponse.NetworkConfiguration
+	if networkConfiguration.NsxEdgeUplink1VlanId != nil {
+		s.D.Set("nsx_edge_uplink1vlan_id", networkConfiguration.NsxEdgeUplink1VlanId)
+	}
+	if networkConfiguration.NsxEdgeUplink2VlanId != nil {
+		s.D.Set("nsx_edge_uplink2vlan_id", networkConfiguration.NsxEdgeUplink2VlanId)
+	}
+	if networkConfiguration.NsxEdgeVTepVlanId != nil {
+		s.D.Set("nsx_edge_vtep_vlan_id", networkConfiguration.NsxEdgeVTepVlanId)
+	}
+	if networkConfiguration.NsxVTepVlanId != nil {
+		s.D.Set("nsx_vtep_vlan_id", networkConfiguration.NsxVTepVlanId)
+	}
+	if networkConfiguration.ProvisioningSubnetId != nil {
+		s.D.Set("provisioning_subnet_id", networkConfiguration.ProvisioningSubnetId)
+	}
+	if networkConfiguration.ProvisioningVlanId != nil {
+		s.D.Set("provisioning_vlan_id", networkConfiguration.ProvisioningVlanId)
+	}
+	if networkConfiguration.ReplicationVlanId != nil {
+		s.D.Set("replication_vlan_id", networkConfiguration.ReplicationVlanId)
+	}
+	if networkConfiguration.VmotionVlanId != nil {
+		s.D.Set("vmotion_vlan_id", networkConfiguration.VmotionVlanId)
+	}
+	if networkConfiguration.VsanVlanId != nil {
+		s.D.Set("vsan_vlan_id", networkConfiguration.VsanVlanId)
+	}
+	if networkConfiguration.VsphereVlanId != nil {
+		s.D.Set("vsphere_vlan_id", networkConfiguration.VsphereVlanId)
+	}
+
+	if networkConfiguration.HcxVlanId != nil {
+		s.D.Set("hcx_vlan_id", networkConfiguration.HcxVlanId)
+	}
 	return nil
 }

@@ -75,7 +75,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   #Required
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
-  compute_count            = 8
+  compute_count            = 16
   data_storage_size_in_tbs = "1"
   db_name                  = "atpdb1"
 
@@ -94,7 +94,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database_character_
   #Required
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
-  compute_count            = "1"
+  compute_count            = "2"
   data_storage_size_in_tbs = "1"
   db_name                  = "atpdb2"
 

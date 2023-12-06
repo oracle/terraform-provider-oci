@@ -47,14 +47,16 @@ func readOcvpSddcs(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpSddcsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).SddcClient()
+	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
 
 	return tfresource.ReadResource(sync)
 }
 
 type OcvpSddcsDataSourceCrud struct {
-	D      *schema.ResourceData
-	Client *oci_ocvp.SddcClient
-	Res    *oci_ocvp.ListSddcsResponse
+	D             *schema.ResourceData
+	Client        *oci_ocvp.SddcClient
+	ClusterClient *oci_ocvp.ClusterClient
+	Res           *oci_ocvp.ListSddcsResponse
 }
 
 func (s *OcvpSddcsDataSourceCrud) VoidState() {
@@ -103,7 +105,11 @@ func (s *OcvpSddcsDataSourceCrud) SetData() error {
 
 	resources := []map[string]interface{}{}
 	for _, item := range s.Res.Items {
-		resources = append(resources, SddcSummaryToMap(item))
+		sddcSummary, err := SddcSummaryToMap(item, s.Client, s.ClusterClient)
+		if err != nil {
+			return err
+		}
+		resources = append(resources, sddcSummary)
 	}
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {

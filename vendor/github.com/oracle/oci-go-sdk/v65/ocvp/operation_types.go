@@ -21,6 +21,8 @@ type OperationTypesEnum string
 const (
 	OperationTypesCreateSddc              OperationTypesEnum = "CREATE_SDDC"
 	OperationTypesDeleteSddc              OperationTypesEnum = "DELETE_SDDC"
+	OperationTypesCreateCluster           OperationTypesEnum = "CREATE_CLUSTER"
+	OperationTypesDeleteCluster           OperationTypesEnum = "DELETE_CLUSTER"
 	OperationTypesCreateEsxiHost          OperationTypesEnum = "CREATE_ESXI_HOST"
 	OperationTypesDeleteEsxiHost          OperationTypesEnum = "DELETE_ESXI_HOST"
 	OperationTypesUpgradeHcx              OperationTypesEnum = "UPGRADE_HCX"
@@ -28,11 +30,15 @@ const (
 	OperationTypesCancelDowngradeHcx      OperationTypesEnum = "CANCEL_DOWNGRADE_HCX"
 	OperationTypesRefreshHcxLicenseStatus OperationTypesEnum = "REFRESH_HCX_LICENSE_STATUS"
 	OperationTypesSwapBilling             OperationTypesEnum = "SWAP_BILLING"
+	OperationTypesReplaceHost             OperationTypesEnum = "REPLACE_HOST"
+	OperationTypesInPlaceUpgrade          OperationTypesEnum = "IN_PLACE_UPGRADE"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CREATE_SDDC":                OperationTypesCreateSddc,
 	"DELETE_SDDC":                OperationTypesDeleteSddc,
+	"CREATE_CLUSTER":             OperationTypesCreateCluster,
+	"DELETE_CLUSTER":             OperationTypesDeleteCluster,
 	"CREATE_ESXI_HOST":           OperationTypesCreateEsxiHost,
 	"DELETE_ESXI_HOST":           OperationTypesDeleteEsxiHost,
 	"UPGRADE_HCX":                OperationTypesUpgradeHcx,
@@ -40,11 +46,15 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"CANCEL_DOWNGRADE_HCX":       OperationTypesCancelDowngradeHcx,
 	"REFRESH_HCX_LICENSE_STATUS": OperationTypesRefreshHcxLicenseStatus,
 	"SWAP_BILLING":               OperationTypesSwapBilling,
+	"REPLACE_HOST":               OperationTypesReplaceHost,
+	"IN_PLACE_UPGRADE":           OperationTypesInPlaceUpgrade,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"create_sddc":                OperationTypesCreateSddc,
 	"delete_sddc":                OperationTypesDeleteSddc,
+	"create_cluster":             OperationTypesCreateCluster,
+	"delete_cluster":             OperationTypesDeleteCluster,
 	"create_esxi_host":           OperationTypesCreateEsxiHost,
 	"delete_esxi_host":           OperationTypesDeleteEsxiHost,
 	"upgrade_hcx":                OperationTypesUpgradeHcx,
@@ -52,6 +62,8 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"cancel_downgrade_hcx":       OperationTypesCancelDowngradeHcx,
 	"refresh_hcx_license_status": OperationTypesRefreshHcxLicenseStatus,
 	"swap_billing":               OperationTypesSwapBilling,
+	"replace_host":               OperationTypesReplaceHost,
+	"in_place_upgrade":           OperationTypesInPlaceUpgrade,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -68,6 +80,8 @@ func GetOperationTypesEnumStringValues() []string {
 	return []string{
 		"CREATE_SDDC",
 		"DELETE_SDDC",
+		"CREATE_CLUSTER",
+		"DELETE_CLUSTER",
 		"CREATE_ESXI_HOST",
 		"DELETE_ESXI_HOST",
 		"UPGRADE_HCX",
@@ -75,6 +89,8 @@ func GetOperationTypesEnumStringValues() []string {
 		"CANCEL_DOWNGRADE_HCX",
 		"REFRESH_HCX_LICENSE_STATUS",
 		"SWAP_BILLING",
+		"REPLACE_HOST",
+		"IN_PLACE_UPGRADE",
 	}
 }
 

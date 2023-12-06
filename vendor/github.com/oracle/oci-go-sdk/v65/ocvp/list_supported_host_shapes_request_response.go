@@ -38,8 +38,11 @@ type ListSupportedHostShapesRequest struct {
 	// A filter to return only resources that match the given name exactly.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// A filter to return only resources that match the given SDDC type exactly.
-	SddcType ListSupportedHostShapesSddcTypeEnum `mandatory:"false" contributesTo:"query" name:"sddcType" omitEmpty:"true"`
+	// A filter to return only resources that support single host SDDC.
+	IsSingleHostSddcSupported *bool `mandatory:"false" contributesTo:"query" name:"isSingleHostSddcSupported"`
+
+	// A filter to return only the shapes compatible with the initial host shape of the Cluster.
+	InitialHostShapeName *string `mandatory:"false" contributesTo:"query" name:"initialHostShapeName"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -77,9 +80,6 @@ func (request ListSupportedHostShapesRequest) RetryPolicy() *common.RetryPolicy 
 // Not recommended for calling this function directly
 func (request ListSupportedHostShapesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListSupportedHostShapesSddcTypeEnum(string(request.SddcType)); !ok && request.SddcType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SddcType: %s. Supported values are: %s.", request.SddcType, strings.Join(GetListSupportedHostShapesSddcTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -112,46 +112,4 @@ func (response ListSupportedHostShapesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListSupportedHostShapesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListSupportedHostShapesSddcTypeEnum Enum with underlying type: string
-type ListSupportedHostShapesSddcTypeEnum string
-
-// Set of constants representing the allowable values for ListSupportedHostShapesSddcTypeEnum
-const (
-	ListSupportedHostShapesSddcTypeProduction    ListSupportedHostShapesSddcTypeEnum = "PRODUCTION"
-	ListSupportedHostShapesSddcTypeNonProduction ListSupportedHostShapesSddcTypeEnum = "NON_PRODUCTION"
-)
-
-var mappingListSupportedHostShapesSddcTypeEnum = map[string]ListSupportedHostShapesSddcTypeEnum{
-	"PRODUCTION":     ListSupportedHostShapesSddcTypeProduction,
-	"NON_PRODUCTION": ListSupportedHostShapesSddcTypeNonProduction,
-}
-
-var mappingListSupportedHostShapesSddcTypeEnumLowerCase = map[string]ListSupportedHostShapesSddcTypeEnum{
-	"production":     ListSupportedHostShapesSddcTypeProduction,
-	"non_production": ListSupportedHostShapesSddcTypeNonProduction,
-}
-
-// GetListSupportedHostShapesSddcTypeEnumValues Enumerates the set of values for ListSupportedHostShapesSddcTypeEnum
-func GetListSupportedHostShapesSddcTypeEnumValues() []ListSupportedHostShapesSddcTypeEnum {
-	values := make([]ListSupportedHostShapesSddcTypeEnum, 0)
-	for _, v := range mappingListSupportedHostShapesSddcTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListSupportedHostShapesSddcTypeEnumStringValues Enumerates the set of values in String for ListSupportedHostShapesSddcTypeEnum
-func GetListSupportedHostShapesSddcTypeEnumStringValues() []string {
-	return []string{
-		"PRODUCTION",
-		"NON_PRODUCTION",
-	}
-}
-
-// GetMappingListSupportedHostShapesSddcTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListSupportedHostShapesSddcTypeEnum(val string) (ListSupportedHostShapesSddcTypeEnum, bool) {
-	enum, ok := mappingListSupportedHostShapesSddcTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

@@ -10,9 +10,30 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_ocvp.ClusterClient", &OracleClient{InitClientFn: initOcvpClusterClient})
 	RegisterOracleClient("oci_ocvp.EsxiHostClient", &OracleClient{InitClientFn: initOcvpEsxiHostClient})
 	RegisterOracleClient("oci_ocvp.WorkRequestClient", &OracleClient{InitClientFn: initOcvpWorkRequestClient})
 	RegisterOracleClient("oci_ocvp.SddcClient", &OracleClient{InitClientFn: initOcvpSddcClient})
+}
+
+func initOcvpClusterClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_ocvp.NewClusterClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) ClusterClient() *oci_ocvp.ClusterClient {
+	return m.GetClient("oci_ocvp.ClusterClient").(*oci_ocvp.ClusterClient)
 }
 
 func initOcvpEsxiHostClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

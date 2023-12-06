@@ -5,6 +5,7 @@ package osmanagement
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -59,6 +60,14 @@ func OsmanagementManagedInstanceGroupResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"managed_instance_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 
 			// Computed
@@ -205,6 +214,35 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) Create() error {
 	}
 
 	s.Res = &response.ManagedInstanceGroup
+	managedInstanceGroupId := s.Res.Id
+
+	if managedInstanceIds, ok := s.D.GetOkExists("managed_instance_ids"); ok {
+		interfaces := managedInstanceIds.([]interface{})
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				managedInstanceId := interfaces[i].(string)
+				attachManagedInstanceToGroupRequest := oci_osmanagement.AttachManagedInstanceToManagedInstanceGroupRequest{}
+				attachManagedInstanceToGroupRequest.ManagedInstanceId = &managedInstanceId
+				attachManagedInstanceToGroupRequest.ManagedInstanceGroupId = managedInstanceGroupId
+
+				_, attachErr := s.Client.AttachManagedInstanceToManagedInstanceGroup(context.Background(), attachManagedInstanceToGroupRequest)
+				if attachErr != nil {
+					return fmt.Errorf("failed to attach managed instance to  managed instance Group, error: %v", attachErr)
+				}
+			}
+		}
+	}
+
+	request2 := oci_osmanagement.GetManagedInstanceGroupRequest{}
+	request2.ManagedInstanceGroupId = managedInstanceGroupId
+	request2.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "osmanagement")
+	response2, err := s.Client.GetManagedInstanceGroup(context.Background(), request2)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response2.ManagedInstanceGroup
+
 	return nil
 }
 
@@ -270,6 +308,48 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) Update() error {
 	}
 
 	s.Res = &response.ManagedInstanceGroup
+	managedInstanceGroupId := s.Res.Id
+
+	if s.D.HasChange("managed_instance_ids") {
+		o, n := s.D.GetChange("managed_instance_ids")
+		if o == nil {
+			o = new(schema.Set)
+		}
+		if n == nil {
+			n = new(schema.Set)
+		}
+
+		os := schema.NewSet(tfresource.LiteralTypeHashCodeForSets, o.([]interface{}))
+		ns := schema.NewSet(tfresource.LiteralTypeHashCodeForSets, n.([]interface{}))
+
+		newManagedInstancesToAttach := ns.Difference(os).List()
+		oldManagedInstancesToDetach := os.Difference(ns).List()
+
+		for _, oldManagedInstanceId := range oldManagedInstancesToDetach {
+			managedInstanceId := oldManagedInstanceId.(string)
+			detachManagedInstanceFromGroupRequest := oci_osmanagement.DetachManagedInstanceFromManagedInstanceGroupRequest{}
+			detachManagedInstanceFromGroupRequest.ManagedInstanceId = &managedInstanceId
+			detachManagedInstanceFromGroupRequest.ManagedInstanceGroupId = managedInstanceGroupId
+
+			_, detachErr := s.Client.DetachManagedInstanceFromManagedInstanceGroup(context.Background(), detachManagedInstanceFromGroupRequest)
+			if detachErr != nil {
+				return fmt.Errorf("failed to detach managed instance from managed instance Group request, error: %v", detachErr)
+			}
+		}
+
+		for _, newManagedInstance := range newManagedInstancesToAttach {
+			managedInstanceId := newManagedInstance.(string)
+			attachManagedInstanceToGroupRequest := oci_osmanagement.AttachManagedInstanceToManagedInstanceGroupRequest{}
+			attachManagedInstanceToGroupRequest.ManagedInstanceId = &managedInstanceId
+			attachManagedInstanceToGroupRequest.ManagedInstanceGroupId = managedInstanceGroupId
+
+			_, attachErr := s.Client.AttachManagedInstanceToManagedInstanceGroup(context.Background(), attachManagedInstanceToGroupRequest)
+			if attachErr != nil {
+				return fmt.Errorf("failed to attach parent software source, error: %v", attachErr)
+			}
+		}
+	}
+
 	return nil
 }
 
@@ -305,10 +385,13 @@ func (s *OsmanagementManagedInstanceGroupResourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	managedInstances := []interface{}{}
+	managedInstanceIds := []string{}
 	for _, item := range s.Res.ManagedInstances {
 		managedInstances = append(managedInstances, IdToMap(item))
+		managedInstanceIds = append(managedInstanceIds, *item.Id)
 	}
 	s.D.Set("managed_instances", managedInstances)
+	s.D.Set("managed_instance_ids", managedInstanceIds)
 
 	s.D.Set("os_family", s.Res.OsFamily)
 

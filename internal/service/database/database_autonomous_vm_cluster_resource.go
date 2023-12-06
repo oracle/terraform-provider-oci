@@ -52,7 +52,6 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"compute_model": {
 				Type:     schema.TypeString,
@@ -64,7 +63,6 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"db_servers": {
 				Type:     schema.TypeList,
@@ -229,7 +227,6 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 
 			// Computed
@@ -261,6 +258,10 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"cpus_lowest_scaled_value": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeFloat,
 				Computed: true,
@@ -271,6 +272,10 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 			},
 			"db_node_storage_size_in_gbs": {
 				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"exadata_storage_in_tbs_lowest_scaled_value": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"last_maintenance_run_id": {
@@ -369,6 +374,10 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 					},
 				},
 			},
+			"max_acds_lowest_scaled_value": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"memory_size_in_gbs": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -387,6 +396,10 @@ func DatabaseAutonomousVmClusterResource() *schema.Resource {
 			},
 			"ocpus_enabled": {
 				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"provisionable_autonomous_container_databases": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"provisioned_autonomous_container_databases": {
@@ -663,8 +676,18 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Update() error {
 	}
 	request := oci_database.UpdateAutonomousVmClusterRequest{}
 
+	if autonomousDataStorageSizeInTBs, ok := s.D.GetOkExists("autonomous_data_storage_size_in_tbs"); ok {
+		tmp := autonomousDataStorageSizeInTBs.(float64)
+		request.AutonomousDataStorageSizeInTBs = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.AutonomousVmClusterId = &tmp
+
+	if cpuCoreCountPerNode, ok := s.D.GetOkExists("cpu_core_count_per_node"); ok {
+		tmp := cpuCoreCountPerNode.(int)
+		request.CpuCoreCountPerNode = &tmp
+	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -691,6 +714,11 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) Update() error {
 			}
 			request.MaintenanceWindowDetails = &tmp
 		}
+	}
+
+	if totalContainerDatabases, ok := s.D.GetOkExists("total_container_databases"); ok {
+		tmp := totalContainerDatabases.(int)
+		request.TotalContainerDatabases = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -759,6 +787,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("cpus_enabled", *s.Res.CpusEnabled)
 	}
 
+	if s.Res.CpusLowestScaledValue != nil {
+		s.D.Set("cpus_lowest_scaled_value", *s.Res.CpusLowestScaledValue)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}
@@ -783,6 +815,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
+	}
+
+	if s.Res.ExadataStorageInTBsLowestScaledValue != nil {
+		s.D.Set("exadata_storage_in_tbs_lowest_scaled_value", *s.Res.ExadataStorageInTBsLowestScaledValue)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
@@ -811,6 +847,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("maintenance_window", nil)
 	}
 
+	if s.Res.MaxAcdsLowestScaledValue != nil {
+		s.D.Set("max_acds_lowest_scaled_value", *s.Res.MaxAcdsLowestScaledValue)
+	}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
@@ -833,6 +873,10 @@ func (s *DatabaseAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.OcpusEnabled != nil {
 		s.D.Set("ocpus_enabled", *s.Res.OcpusEnabled)
+	}
+
+	if s.Res.ProvisionableAutonomousContainerDatabases != nil {
+		s.D.Set("provisionable_autonomous_container_databases", *s.Res.ProvisionableAutonomousContainerDatabases)
 	}
 
 	if s.Res.ProvisionedAutonomousContainerDatabases != nil {

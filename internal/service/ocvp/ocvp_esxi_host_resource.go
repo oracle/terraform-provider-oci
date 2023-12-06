@@ -35,17 +35,28 @@ func OcvpEsxiHostResource() *schema.Resource {
 			// Required
 
 			// Optional
+			"cluster_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"sddc_id", "current_sku", "failed_esxi_host_id", "next_sku", "non_upgraded_esxi_host_id"},
+			},
 			"sddc_id": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				ForceNew:   true,
-				Deprecated: tfresource.FieldDeprecatedForAnother("sddc_id", "cluster_id"),
+				Type:          schema.TypeString,
+				Optional:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				// sddc_id is being changed to compute only so need to suppress diff if sddc_id is removed from config
+				DiffSuppressFunc: suppressEsxiHostDeprecatedFieldRemoval,
+				Deprecated:       tfresource.FieldDeprecatedForAnother("sddc_id", "cluster_id"),
 			},
 			"billing_donor_host_id": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Computed:   true,
-				Deprecated: "This 'billing_donor_host_id' argument has been deprecated and will be computed only.",
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ConflictsWith:    []string{"cluster_id", "esxi_software_version"},
+				DiffSuppressFunc: suppressEsxiHostDeprecatedFieldRemoval,
+				Deprecated:       "This 'billing_donor_host_id' argument has been deprecated and will be computed only.",
 			},
 			"capacity_reservation_id": {
 				Type:     schema.TypeString,
@@ -71,7 +82,8 @@ func OcvpEsxiHostResource() *schema.Resource {
 					}
 					return true
 				},
-				Deprecated: tfresource.FieldDeprecated("current_sku"),
+				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				Deprecated:    tfresource.FieldDeprecated("current_sku"),
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -85,12 +97,19 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"esxi_software_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"failed_esxi_host_id": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Computed:   true,
-				ForceNew:   true,
-				Deprecated: "This 'failed_esxi_host_id' argument has been deprecated and will be computed only.",
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				Deprecated:    "This 'failed_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -111,22 +130,21 @@ func OcvpEsxiHostResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"next_sku": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Computed:   true,
-				Deprecated: tfresource.FieldDeprecated("next_sku"),
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				Deprecated:    tfresource.FieldDeprecated("next_sku"),
 			},
 			"non_upgraded_esxi_host_id": {
-				Type:       schema.TypeString,
-				Optional:   true,
-				Computed:   true,
-				ForceNew:   true,
-				Deprecated: "This 'non_upgraded_esxi_host_id' argument has been deprecated and will be computed only.",
-			},
-			"swap_billing_host_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"cluster_id", "esxi_software_version"},
+				// sddc_id is being changed to compute only so need to suppress diff if sddc_id is removed from config
+				DiffSuppressFunc: suppressEsxiHostDeprecatedFieldRemoval,
+				Deprecated:       "This 'non_upgraded_esxi_host_id' argument has been deprecated and will be computed only.",
 			},
 
 			// Computed
@@ -142,6 +160,10 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"current_commitment": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"grace_period_end_date": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -154,11 +176,19 @@ func OcvpEsxiHostResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"next_commitment": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"replacement_esxi_host_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"swap_billing_host_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -182,10 +212,20 @@ func OcvpEsxiHostResource() *schema.Resource {
 	}
 }
 
+func suppressEsxiHostDeprecatedFieldRemoval(k, old string, new string, d *schema.ResourceData) bool {
+	// suppress diff when resource is using new fields and old fields are removed
+	if _, ok := d.GetOkExists("cluster_id"); ok && old != "" && new == "" {
+		return true
+	}
+	return false
+}
+
 func createOcvpEsxiHost(d *schema.ResourceData, m interface{}) error {
 	sync := &OcvpEsxiHostResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).EsxiHostClient()
+	sync.ClusterClient = m.(*client.OracleClients).ClusterClient()
+	sync.SddcClient = m.(*client.OracleClients).SddcClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).OcvpWorkRequestClient()
 
 	if e := tfresource.CreateResource(d, sync); e != nil {
@@ -233,6 +273,8 @@ type OcvpEsxiHostResourceCrud struct {
 	Res                    *oci_ocvp.EsxiHost
 	DisableNotFoundRetries bool
 	WorkRequestClient      *oci_ocvp.WorkRequestClient
+	ClusterClient          *oci_ocvp.ClusterClient
+	SddcClient             *oci_ocvp.SddcClient
 }
 
 func (s *OcvpEsxiHostResourceCrud) ID() string {
@@ -266,6 +308,11 @@ func (s *OcvpEsxiHostResourceCrud) DeletedTarget() []string {
 func (s *OcvpEsxiHostResourceCrud) Create() error {
 	request := oci_ocvp.CreateEsxiHostRequest{}
 
+	// replace failed ESXi host
+	if failedEsxiHostId, ok := s.D.GetOkExists("failed_esxi_host_id"); ok {
+		return s.ReplaceHost(failedEsxiHostId.(string))
+	}
+
 	if billingDonorHostId, ok := s.D.GetOkExists("billing_donor_host_id"); ok {
 		tmp := billingDonorHostId.(string)
 		request.BillingDonorHostId = &tmp
@@ -275,13 +322,29 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		request.CapacityReservationId = &tmp
 	}
 
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
+	}
+
+	if clusterId, ok := s.D.GetOkExists("cluster_id"); ok {
+		tmp := clusterId.(string)
+		request.ClusterId = &tmp
+	} else if _, ok := s.D.GetOkExists("sddc_id"); !ok {
+		return fmt.Errorf("one of cluster_id or sddc_id must be configured")
+	}
+
 	if computeAvailabilityDomain, ok := s.D.GetOkExists("compute_availability_domain"); ok {
 		tmp := computeAvailabilityDomain.(string)
 		request.ComputeAvailabilityDomain = &tmp
 	}
 
+	if currentCommitment, ok := s.D.GetOkExists("current_commitment"); ok {
+		request.CurrentCommitment = oci_ocvp.CommitmentEnum(currentCommitment.(string))
+	}
+
 	if currentSku, ok := s.D.GetOkExists("current_sku"); ok {
-		request.CurrentSku = oci_ocvp.SkuEnum(currentSku.(string))
+		request.CurrentCommitment = oci_ocvp.CommitmentEnum(currentSku.(string))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -297,9 +360,9 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
-	if failedEsxiHostId, ok := s.D.GetOkExists("failed_esxi_host_id"); ok {
-		tmp := failedEsxiHostId.(string)
-		request.FailedEsxiHostId = &tmp
+	if esxiSoftwareVersion, ok := s.D.GetOkExists("esxi_software_version"); ok {
+		tmp := esxiSoftwareVersion.(string)
+		request.EsxiSoftwareVersion = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -316,18 +379,45 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 		request.HostShapeName = &tmp
 	}
 
+	if nextCommitment, ok := s.D.GetOkExists("next_commitment"); ok {
+		request.NextCommitment = oci_ocvp.CommitmentEnum(nextCommitment.(string))
+	}
 	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
-		request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
+		request.NextCommitment = oci_ocvp.CommitmentEnum(nextSku.(string))
 	}
 
 	if nonUpgradedEsxiHostId, ok := s.D.GetOkExists("non_upgraded_esxi_host_id"); ok {
-		tmp := nonUpgradedEsxiHostId.(string)
-		request.NonUpgradedEsxiHostId = &tmp
+		return s.InplaceUpgrade(nonUpgradedEsxiHostId.(string))
 	}
 
 	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok {
+		getSddcRequest := oci_ocvp.GetSddcRequest{}
 		tmp := sddcId.(string)
-		request.SddcId = &tmp
+		getSddcRequest.SddcId = &tmp
+		getSddcRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+		getSddcResponse, getSddcErr := s.SddcClient.GetSddc(context.Background(), getSddcRequest)
+		if getSddcErr != nil {
+			return fmt.Errorf("cannot get SDDC %s due to error: %s", sddcId, getSddcErr)
+		}
+
+		listClustersRequest := oci_ocvp.ListClustersRequest{}
+		listClustersRequest.SddcId = &tmp
+		listClustersRequest.CompartmentId = getSddcResponse.CompartmentId
+		listClustersRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+		listClustersResponse, listClustersErr := s.ClusterClient.ListClusters(context.Background(), listClustersRequest)
+		if listClustersErr != nil {
+			return fmt.Errorf("cannot list clusters for SDDC %s due to error: %s", sddcId, listClustersErr)
+		}
+		// by default, add ESXi host to the management cluster of the SDDC
+		for _, cluster := range listClustersResponse.Items {
+			if cluster.VsphereType == oci_ocvp.VsphereTypesManagement {
+				request.ClusterId = cluster.Id
+				break
+			}
+		}
+		if request.ClusterId == nil {
+			return fmt.Errorf("cannot find management cluster for sddc %s", sddcId)
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
@@ -338,8 +428,13 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 	}
 
 	workId := response.OpcWorkRequestId
+	s.setEsxiHostIdFromWorkRequest(workId)
+	return s.getEsxiHostFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *OcvpEsxiHostResourceCrud) setEsxiHostIdFromWorkRequest(workId *string) {
 	workRequestResponse := oci_ocvp.GetWorkRequestResponse{}
-	workRequestResponse, err = s.WorkRequestClient.GetWorkRequest(context.Background(),
+	workRequestResponse, err := s.WorkRequestClient.GetWorkRequest(context.Background(),
 		oci_ocvp.GetWorkRequestRequest{
 			WorkRequestId: workId,
 			RequestMetadata: oci_common.RequestMetadata{
@@ -355,7 +450,6 @@ func (s *OcvpEsxiHostResourceCrud) Create() error {
 			}
 		}
 	}
-	return s.getEsxiHostFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *OcvpEsxiHostResourceCrud) getEsxiHostFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -519,7 +613,7 @@ func (s *OcvpEsxiHostResourceCrud) Update() error {
 	}
 
 	if nextSku, ok := s.D.GetOkExists("next_sku"); ok {
-		request.NextSku = oci_ocvp.SkuEnum(nextSku.(string))
+		request.NextCommitment = oci_ocvp.CommitmentEnum(nextSku.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
@@ -554,6 +648,24 @@ func (s *OcvpEsxiHostResourceCrud) Delete() error {
 }
 
 func (s *OcvpEsxiHostResourceCrud) SetData() error {
+	_, clusterIdExists := s.D.GetOkExists("cluster_id")
+	if _, sddcIdExists := s.D.GetOkExists("sddc_id"); sddcIdExists && !clusterIdExists {
+		// We will set values for deprecated fields only when deprecated fields are used in configs.
+		// We will not set deprecated fields values during resource importing
+		s.D.Set("current_sku", s.Res.CurrentCommitment)
+		s.D.Set("next_sku", s.Res.NextCommitment)
+	} else {
+		if s.Res.ClusterId != nil {
+			s.D.Set("cluster_id", *s.Res.ClusterId)
+		}
+		if s.Res.EsxiSoftwareVersion != nil {
+			s.D.Set("esxi_software_version", *s.Res.EsxiSoftwareVersion)
+		}
+		s.D.Set("current_commitment", s.Res.CurrentCommitment)
+		s.D.Set("next_commitment", s.Res.NextCommitment)
+		s.D.Set("current_sku", nil)
+		s.D.Set("next_sku", nil)
+	}
 	if s.Res.BillingContractEndDate != nil {
 		s.D.Set("billing_contract_end_date", s.Res.BillingContractEndDate.String())
 	}
@@ -561,6 +673,10 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	if s.Res.BillingDonorHostId != nil {
 		s.D.Set("billing_donor_host_id", *s.Res.BillingDonorHostId)
 	}
+	if s.Res.CapacityReservationId != nil {
+		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
 	if s.Res.CapacityReservationId != nil {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
@@ -576,8 +692,6 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	if s.Res.ComputeInstanceId != nil {
 		s.D.Set("compute_instance_id", *s.Res.ComputeInstanceId)
 	}
-
-	s.D.Set("current_sku", s.Res.CurrentSku)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -612,8 +726,6 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	if s.Res.IsBillingSwappingInProgress != nil {
 		s.D.Set("is_billing_swapping_in_progress", *s.Res.IsBillingSwappingInProgress)
 	}
-
-	s.D.Set("next_sku", s.Res.NextSku)
 
 	if s.Res.NonUpgradedEsxiHostId != nil {
 		s.D.Set("non_upgraded_esxi_host_id", *s.Res.NonUpgradedEsxiHostId)
@@ -652,6 +764,113 @@ func (s *OcvpEsxiHostResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *OcvpEsxiHostResourceCrud) InplaceUpgrade(nonUpgradeEsxiHostId string) error {
+	getNonUpgradeEsxiHostRequest := oci_ocvp.GetEsxiHostRequest{}
+	getNonUpgradeEsxiHostRequest.EsxiHostId = &nonUpgradeEsxiHostId
+	getNonUpgradeEsxiHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	response, err := s.Client.GetEsxiHost(context.Background(), getNonUpgradeEsxiHostRequest)
+	if err != nil {
+		return fmt.Errorf("cannot get non-upgrade ESXi host due to error: %s", err)
+	}
+	nonUpgradeEsxiHost := response.EsxiHost
+	if err = validateReplacementHostDetails(nonUpgradeEsxiHost, s, true); err != nil {
+		return err
+	}
+	if _, ok := s.D.GetOkExists("billing_donor_host_id"); ok {
+		return fmt.Errorf("cannot do in-place upgrade and select donor host at the same time")
+	}
+	if _, ok := s.D.GetOkExists("failed_esxi_host_id"); ok {
+		return fmt.Errorf("cannot do host replacement and in-place upgrade at the same time")
+	}
+
+	upgradeHostRequest := oci_ocvp.InplaceUpgradeRequest{}
+	upgradeHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	upgradeHostRequest.EsxiHostId = &nonUpgradeEsxiHostId
+
+	upgradeResponse, err := s.Client.InplaceUpgrade(context.Background(), upgradeHostRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := upgradeResponse.OpcWorkRequestId
+	s.setEsxiHostIdFromWorkRequest(workId)
+	return s.getEsxiHostFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func (s *OcvpEsxiHostResourceCrud) ReplaceHost(failedEsxiHostId string) error {
+	getFailedEsxiHostRequest := oci_ocvp.GetEsxiHostRequest{}
+	getFailedEsxiHostRequest.EsxiHostId = &failedEsxiHostId
+	getFailedEsxiHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	response, err := s.Client.GetEsxiHost(context.Background(), getFailedEsxiHostRequest)
+	if err != nil {
+		return fmt.Errorf("cannot get failed ESXi host due to error: %s", err)
+	}
+	failedEsxiHost := response.EsxiHost
+	if err = validateReplacementHostDetails(failedEsxiHost, s, false); err != nil {
+		return err
+	}
+	if _, ok := s.D.GetOkExists("billing_donor_host_id"); ok {
+		return fmt.Errorf("cannot do host replacement and select donor host at the same time")
+	}
+	if _, ok := s.D.GetOkExists("non_upgraded_esxi_host_id"); ok {
+		return fmt.Errorf("cannot do host replacement and in-place upgrade at the same time")
+	}
+
+	replaceHostRequest := oci_ocvp.ReplaceHostRequest{}
+	replaceHostRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp")
+	replaceHostRequest.EsxiHostId = &failedEsxiHostId
+
+	replaceHostResponse, replaceHostErr := s.Client.ReplaceHost(context.Background(), replaceHostRequest)
+	if replaceHostErr != nil {
+		return replaceHostErr
+	}
+
+	workId := replaceHostResponse.OpcWorkRequestId
+	s.setEsxiHostIdFromWorkRequest(workId)
+	return s.getEsxiHostFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "ocvp"), oci_ocvp.ActionTypesCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
+func validateReplacementHostDetails(oldHost oci_ocvp.EsxiHost, s *OcvpEsxiHostResourceCrud, isUpgrade bool) error {
+	var oldHostName string
+	if isUpgrade {
+		oldHostName = "non-upgrade ESXi host"
+	} else {
+		oldHostName = "failed ESXi host"
+	}
+
+	if currentSku, ok := s.D.GetOkExists("current_sku"); ok && currentSku != oldHost.CurrentCommitment {
+		return fmt.Errorf("current_sku %s is different from the current commitment %s of %s", currentSku, oldHost.CurrentCommitment, oldHostName)
+	}
+	if nextSku, ok := s.D.GetOkExists("next_sku"); ok && nextSku != oldHost.NextCommitment {
+		return fmt.Errorf("next_sku %s is different from the next commitment %s of %s", nextSku, oldHost.NextCommitment, oldHostName)
+	}
+	if sddcId, ok := s.D.GetOkExists("sddc_id"); ok && sddcId != *oldHost.SddcId {
+		return fmt.Errorf("sddc_id %s is different from the sddc id %s of %s", sddcId, *oldHost.SddcId, oldHostName)
+	}
+	if shape, ok := s.D.GetOkExists("host_shape_name"); ok && shape != *oldHost.HostShapeName {
+		return fmt.Errorf("host_shape_name %s is different from the shape name %s of %s", shape, *oldHost.HostShapeName, oldHostName)
+	}
+	if ocpuCount, ok := s.D.GetOkExists("host_ocpu_count"); ok && ocpuCount != *oldHost.HostOcpuCount {
+		return fmt.Errorf("host_ocpu_count %f is different from the OCPU count %f of %s", ocpuCount, *oldHost.HostOcpuCount, oldHostName)
+	}
+	if computeAd, ok := s.D.GetOkExists("compute_availability_domain"); ok && computeAd != *oldHost.ComputeAvailabilityDomain {
+		return fmt.Errorf("compute_availability_domain %s is different from the availability domain %s of %s", computeAd, *oldHost.ComputeAvailabilityDomain, oldHostName)
+	}
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok && capacityReservationId != *oldHost.CapacityReservationId {
+		return fmt.Errorf("capacity_reservation_id %s is different from the capacity reservation id %s of %s", capacityReservationId, *oldHost.CapacityReservationId, oldHostName)
+	}
+	if _, ok := s.D.GetOkExists("display_name"); ok {
+		return fmt.Errorf("cannot set display_name during host replacement or in-place upgrade")
+	}
+	if _, ok := s.D.GetOkExists("freeform_tags"); ok {
+		return fmt.Errorf("cannot set freeform_tags during host replacement or in-place upgrade")
+	}
+	if _, ok := s.D.GetOkExists("defined_tags"); ok {
+		return fmt.Errorf("cannot set defined_tags during host replacement or in-place upgrade")
+	}
+	return nil
+}
+
 func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -661,6 +880,10 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 
 	if obj.BillingDonorHostId != nil {
 		result["billing_donor_host_id"] = string(*obj.BillingDonorHostId)
+	}
+
+	if obj.ClusterId != nil {
+		result["cluster_id"] = string(*obj.ClusterId)
 	}
 
 	if obj.CompartmentId != nil {
@@ -675,7 +898,8 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 		result["compute_instance_id"] = string(*obj.ComputeInstanceId)
 	}
 
-	result["current_sku"] = string(obj.CurrentSku)
+	result["current_commitment"] = string(obj.CurrentCommitment)
+	result["current_sku"] = string(obj.CurrentCommitment)
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
@@ -715,7 +939,8 @@ func EsxiHostSummaryToMap(obj oci_ocvp.EsxiHostSummary) map[string]interface{} {
 		result["is_billing_swapping_in_progress"] = bool(*obj.IsBillingSwappingInProgress)
 	}
 
-	result["next_sku"] = string(obj.NextSku)
+	result["next_commitment"] = string(obj.NextCommitment)
+	result["next_sku"] = string(obj.NextCommitment)
 
 	if obj.NonUpgradedEsxiHostId != nil {
 		result["non_upgraded_esxi_host_id"] = string(*obj.NonUpgradedEsxiHostId)

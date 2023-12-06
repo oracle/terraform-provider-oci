@@ -4,25 +4,17 @@
 package integrationtest
 
 import (
-	"context"
 	"fmt"
 	"strconv"
 	"testing"
-	"time"
 
-	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
-	"github.com/oracle/oci-go-sdk/v65/common"
-	oci_database_tools "github.com/oracle/oci-go-sdk/v65/databasetools"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
 
-	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 )
 
 var (
@@ -37,14 +29,22 @@ var (
 	}
 
 	DatabaseToolsDatabaseToolsDatabaseToolsConnectionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tf_connection_name`, Update: `displayName2`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"type":           acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_DATABASE`}},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsDatabaseToolsConnectionDataSourceFilterRepresentation}}
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `tf_connection_name`, Update: `displayName2`},
+		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"type":            acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_DATABASE`}},
+		"runtime_support": acctest.Representation{RepType: acctest.Optional, Create: []string{`SUPPORTED`}},
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsDatabaseToolsConnectionDataSourceFilterRepresentation}}
+
 	DatabaseToolsDatabaseToolsConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_tools_database_tools_connection.test_database_tools_connection.id}`}},
+	}
+
+	DatabaseToolsUsernameProxyClientRepresentation = map[string]interface{}{
+		"proxy_authentication_type": acctest.Representation{RepType: acctest.Required, Create: `USER_NAME`},
+		"user_name":                 acctest.Representation{RepType: acctest.Required, Create: `johndoe`},
+		"user_password":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseToolsDatabaseToolsConnectionUserPasswordRepresentation},
 	}
 
 	DatabaseToolsDatabaseToolsConnectionRepresentation = map[string]interface{}{
@@ -54,6 +54,7 @@ var (
 		"advanced_properties": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle.jdbc.loginTimeout": "0"}, Update: map[string]string{"oracle.net.CONNECT_TIMEOUT": "0"}},
 		"connection_string":   acctest.Representation{RepType: acctest.Required, Create: `tcps://adb.us-phoenix-1.oraclecloud.com:1522/u9adutfb2ba8x4d_db202103231111_low.adb.oraclecloud.com`, Update: `connectionString2`},
 		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"proxy_client":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseToolsUsernameProxyClientRepresentation},
 		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"key_stores":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseToolsDatabaseToolsConnectionKeyStoresRepresentation},
 		"private_endpoint_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_tools_database_tools_private_endpoint.test_private_endpoint.id}`},
@@ -69,19 +70,19 @@ var (
 	}
 	DatabaseToolsDatabaseToolsConnectionRelatedResourceRepresentation = map[string]interface{}{
 		"entity_type": acctest.Representation{RepType: acctest.Required, Create: `DATABASE`},
-		"identifier":  acctest.Representation{RepType: acctest.Required, Create: `ocid1.database.oc1.phx.exampletksujfufl4bhe5sqkfgn7t7lcrkkpy7km5iwzvg6ycls7r5dlbx6q`, Update: `identifier2`},
+		"identifier":  acctest.Representation{RepType: acctest.Required, Create: `${var.related_resource_id}`, Update: `identifier2`},
 	}
 	DatabaseToolsDatabaseToolsConnectionUserPasswordRepresentation = map[string]interface{}{
 		"value_type": acctest.Representation{RepType: acctest.Required, Create: `SECRETID`},
-		"secret_id":  acctest.Representation{RepType: acctest.Required, Create: `ocid1.vaultsecret.dev.dev.amaaaaaaihuofciaie44ubvpggl6zrodrar7ils25hf53qyue3w5t3awtufa`},
+		"secret_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.secret_id}`},
 	}
 	DatabaseToolsDatabaseToolsConnectionKeyStoresKeyStoreContentRepresentation = map[string]interface{}{
 		"value_type": acctest.Representation{RepType: acctest.Required, Create: `SECRETID`},
-		"secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `ocid1.vaultsecret.dev.dev.amaaaaaaihuofciaie44ubvpggl6zrodrar7ils25hf53qyue3w5t3awtufa`},
+		"secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.secret_id}`},
 	}
 	DatabaseToolsDatabaseToolsConnectionKeyStoresKeyStorePasswordRepresentation = map[string]interface{}{
 		"value_type": acctest.Representation{RepType: acctest.Required, Create: `SECRETID`},
-		"secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `ocid1.vaultsecret.dev.dev.amaaaaaaihuofciaie44ubvpggl6zrodrar7ils25hf53qyue3w5t3awtufa`},
+		"secret_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.secret_id}`},
 	}
 
 	DatabaseToolsIgnoreChangesDatabaseToolsConnectionRepresentation = map[string]interface{}{ // This may vary depending on the tenancy settings
@@ -95,38 +96,27 @@ var (
 )
 
 // issue-routing-tag: database_tools/default
-func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseToolsDatabaseToolsConnectionResource_basic")
-	defer httpreplay.SaveScenario()
-
-	provider := acctest.TestAccProvider
+func TestDatabaseToolsConnectionOracleResource_basic(t *testing.T) {
 	config := acctest.ProviderTestConfig()
-
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
-
+	allVars := databaseToolsStandardVariables()
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
-
 	resourceName := "oci_database_tools_database_tools_connection.test_database_tools_connection"
 	datasourceName := "data.oci_database_tools_database_tools_connections.test_database_tools_connections"
 	singularDatasourceName := "data.oci_database_tools_database_tools_connection.test_database_tools_connection"
+	relatedResourceId := utils.GetEnvSettingWithBlankDefault("related_resource_id")
 
-	var resId, resId2 string
-	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseToolsDatabaseToolsConnectionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Optional, acctest.Create, DatabaseToolsDatabaseToolsConnectionRepresentation), "databasetools", "databaseToolsConnection", t)
+	var resId string
+	var resId2 string
 
 	resource.Test(t, resource.TestCase{
-		PreCheck: func() { acctest.PreCheck(t) },
-		Providers: map[string]*schema.Provider{
-			"oci": provider,
-		},
+		PreCheck:     func() { acctest.PreCheck(t) },
+		Providers:    databaseToolsOciProvider(),
 		CheckDestroy: testAccCheckDatabaseToolsDatabaseToolsConnectionDestroy,
 		Steps: []resource.TestStep{
 			// Step 1. Verify create
 			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
+				Config: config + allVars + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -138,9 +128,9 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "user_password.#", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "user_password.0.secret_id"),
 					resource.TestCheckResourceAttr(resourceName, "user_password.0.value_type", "SECRETID"),
-
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						print(resId)
 						return err
 					},
 				),
@@ -148,12 +138,12 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 
 			// Step 2. Delete before next create
 			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
+				Config: config + allVars + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation),
 			},
-			// Step 3. Verify create with optionals
+			//// Step 3. Verify create with optionals
 			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
+				Config: config + allVars + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Optional, acctest.Create, DatabaseToolsDatabaseToolsConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -174,7 +164,7 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 					resource.TestCheckResourceAttr(resourceName, "related_resource.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "related_resource.0.entity_type", "DATABASE"),
-					resource.TestCheckResourceAttr(resourceName, "related_resource.0.identifier", "ocid1.database.oc1.phx.exampletksujfufl4bhe5sqkfgn7t7lcrkkpy7km5iwzvg6ycls7r5dlbx6q"),
+					resource.TestCheckResourceAttr(resourceName, "related_resource.0.identifier", relatedResourceId),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -195,10 +185,10 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 					},
 				),
 			},
-
+			//
 			// Step 4. Verify update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
+				Config: config + allVars + compartmentIdUVariableStr + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Optional, acctest.Create,
 						acctest.RepresentationCopyWithNewProperties(DatabaseToolsDatabaseToolsConnectionRepresentation, map[string]interface{}{
@@ -222,7 +212,7 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "private_endpoint_id"),
 					resource.TestCheckResourceAttr(resourceName, "related_resource.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "related_resource.0.entity_type", "DATABASE"),
-					resource.TestCheckResourceAttr(resourceName, "related_resource.0.identifier", "ocid1.database.oc1.phx.exampletksujfufl4bhe5sqkfgn7t7lcrkkpy7km5iwzvg6ycls7r5dlbx6q"),
+					resource.TestCheckResourceAttr(resourceName, "related_resource.0.identifier", relatedResourceId),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -244,7 +234,7 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 
 			// Step 5. Verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
+				Config: config + allVars + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -289,7 +279,7 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_connections", "test_database_tools_connections", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsDatabaseToolsConnectionDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
+					allVars + DatabaseToolsDatabaseToolsConnectionResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Optional, acctest.Update, DatabaseToolsDatabaseToolsConnectionRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -304,7 +294,7 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 				Config: config +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_endpoint_services", "test_database_tools_endpoint_services", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsEndpointServiceDataSourceRepresentation) +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_tools_database_tools_connection", "test_database_tools_connection", acctest.Required, acctest.Create, DatabaseToolsDatabaseToolsDatabaseToolsConnectionSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseToolsDatabaseToolsConnectionResourceConfig,
+					allVars + DatabaseToolsDatabaseToolsConnectionResourceConfig,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "database_tools_connection_id"),
 
@@ -343,124 +333,6 @@ func TestDatabaseToolsDatabaseToolsConnectionResource_basic(t *testing.T) {
 	})
 }
 
-func testAccCheckDatabaseToolsDatabaseToolsConnectionDestroy(s *terraform.State) error {
-	noResourceFound := true
-	client := acctest.GetTestClients(&schema.ResourceData{}).DatabaseToolsClient()
-	//client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).DatabaseToolsClient()
-	for _, rs := range s.RootModule().Resources {
-		if rs.Type == "oci_database_tools_database_tools_connection" {
-			noResourceFound = false
-			request := oci_database_tools.GetDatabaseToolsConnectionRequest{}
-
-			tmp := rs.Primary.ID
-			request.DatabaseToolsConnectionId = &tmp
-
-			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "database_tools")
-
-			response, err := client.GetDatabaseToolsConnection(context.Background(), request)
-
-			if err == nil {
-				deletedLifecycleStates := map[string]bool{
-					string(oci_database_tools.LifecycleStateDeleted): true,
-				}
-				if _, ok := deletedLifecycleStates[string(response.DatabaseToolsConnection.GetLifecycleState())]; !ok {
-					//resource lifecycle state is not in expected deleted lifecycle states.
-					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.DatabaseToolsConnection.GetLifecycleState())
-				}
-				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
-				continue
-			}
-
-			//Verify that exception is for '404 not found'.
-			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
-				return err
-			}
-		}
-	}
-	if noResourceFound {
-		return fmt.Errorf("at least one resource was expected from the state file, but could not be found")
-	}
-
-	return nil
-}
-
 func init() {
-	if acctest.DependencyGraph == nil {
-		acctest.InitDependencyGraph()
-	}
-	if !acctest.InSweeperExcludeList("DatabaseToolsDatabaseToolsConnection") {
-		resource.AddTestSweepers("DatabaseToolsDatabaseToolsConnection", &resource.Sweeper{
-			Name:         "DatabaseToolsDatabaseToolsConnection",
-			Dependencies: acctest.DependencyGraph["databaseToolsConnection"],
-			F:            sweepDatabaseToolsDatabaseToolsConnectionResource,
-		})
-	}
-}
-
-func sweepDatabaseToolsDatabaseToolsConnectionResource(compartment string) error {
-	databaseToolsClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseToolsClient()
-	databaseToolsConnectionIds, err := getDatabaseToolsDatabaseToolsConnectionIds(compartment)
-	if err != nil {
-		return err
-	}
-	for _, databaseToolsConnectionId := range databaseToolsConnectionIds {
-		if ok := acctest.SweeperDefaultResourceId[databaseToolsConnectionId]; !ok {
-			deleteDatabaseToolsConnectionRequest := oci_database_tools.DeleteDatabaseToolsConnectionRequest{}
-
-			deleteDatabaseToolsConnectionRequest.DatabaseToolsConnectionId = &databaseToolsConnectionId
-
-			deleteDatabaseToolsConnectionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "database_tools")
-			_, error := databaseToolsClient.DeleteDatabaseToolsConnection(context.Background(), deleteDatabaseToolsConnectionRequest)
-			if error != nil {
-				fmt.Printf("Error deleting DatabaseToolsConnection %s %s, It is possible that the resource is already deleted. Please verify manually \n", databaseToolsConnectionId, error)
-				continue
-			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &databaseToolsConnectionId, DatabaseToolsDatabaseToolsConnectionSweepWaitCondition, time.Duration(3*time.Minute),
-				DatabaseToolsDatabaseToolsConnectionSweepResponseFetchOperation, "database_tools", true)
-		}
-	}
-	return nil
-}
-
-func getDatabaseToolsDatabaseToolsConnectionIds(compartment string) ([]string, error) {
-	ids := acctest.GetResourceIdsToSweep(compartment, "DatabaseToolsConnectionId")
-	if ids != nil {
-		return ids, nil
-	}
-	var resourceIds []string
-	compartmentId := compartment
-	databaseToolsClient := acctest.GetTestClients(&schema.ResourceData{}).DatabaseToolsClient()
-
-	listDatabaseToolsConnectionsRequest := oci_database_tools.ListDatabaseToolsConnectionsRequest{}
-	listDatabaseToolsConnectionsRequest.CompartmentId = &compartmentId
-	listDatabaseToolsConnectionsRequest.LifecycleState = oci_database_tools.ListDatabaseToolsConnectionsLifecycleStateActive
-	listDatabaseToolsConnectionsResponse, err := databaseToolsClient.ListDatabaseToolsConnections(context.Background(), listDatabaseToolsConnectionsRequest)
-
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting DatabaseToolsConnection list for compartment id : %s , %s \n", compartmentId, err)
-	}
-	for _, databaseToolsConnection := range listDatabaseToolsConnectionsResponse.Items {
-		id := *databaseToolsConnection.GetId()
-		resourceIds = append(resourceIds, id)
-		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "DatabaseToolsConnectionId", id)
-	}
-	return resourceIds, nil
-}
-
-func DatabaseToolsDatabaseToolsConnectionSweepWaitCondition(response common.OCIOperationResponse) bool {
-	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	if databaseToolsConnectionResponse, ok := response.Response.(oci_database_tools.GetDatabaseToolsConnectionResponse); ok {
-		return databaseToolsConnectionResponse.DatabaseToolsConnection.GetLifecycleState() != oci_database_tools.LifecycleStateDeleted
-	}
-	return false
-}
-
-func DatabaseToolsDatabaseToolsConnectionSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.DatabaseToolsClient().GetDatabaseToolsConnection(context.Background(), oci_database_tools.GetDatabaseToolsConnectionRequest{
-		DatabaseToolsConnectionId: resourceId,
-		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: retryPolicy,
-		},
-	})
-	return err
+	databaseToolsInitDependencyGraphAndSweeper("DatabaseToolsDatabaseToolsConnection")
 }

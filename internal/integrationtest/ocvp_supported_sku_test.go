@@ -48,5 +48,15 @@ func TestOcvpSupportedSkuResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "items.0.name"),
 			),
 		},
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_ocvp_supported_skus", "test_supported_skus", acctest.Optional, acctest.Create, OcvpOcvpSupportedSkuDataSourceRepresentation) +
+				compartmentIdVariableStr + OcvpSupportedSkuResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "host_shape_name"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "items.0.name"),
+			),
+		},
 	})
 }
