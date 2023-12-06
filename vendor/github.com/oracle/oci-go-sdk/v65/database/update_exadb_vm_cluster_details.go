@@ -56,6 +56,15 @@ type UpdateExadbVmClusterDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
+	// Operating system version of the image.
+	SystemVersion *string `mandatory:"false" json:"systemVersion"`
+
+	// A valid Oracle Grid Infrastructure (GI) software version.
+	GiVersion *string `mandatory:"false" json:"giVersion"`
+
+	// The update action.
+	UpdateAction UpdateExadbVmClusterDetailsUpdateActionEnum `mandatory:"false" json:"updateAction,omitempty"`
 }
 
 func (m UpdateExadbVmClusterDetails) String() string {
@@ -70,6 +79,9 @@ func (m UpdateExadbVmClusterDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingUpdateExadbVmClusterDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetUpdateExadbVmClusterDetailsLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateExadbVmClusterDetailsUpdateActionEnum(string(m.UpdateAction)); !ok && m.UpdateAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateAction: %s. Supported values are: %s.", m.UpdateAction, strings.Join(GetUpdateExadbVmClusterDetailsUpdateActionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -116,5 +128,55 @@ func GetUpdateExadbVmClusterDetailsLicenseModelEnumStringValues() []string {
 // GetMappingUpdateExadbVmClusterDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateExadbVmClusterDetailsLicenseModelEnum(val string) (UpdateExadbVmClusterDetailsLicenseModelEnum, bool) {
 	enum, ok := mappingUpdateExadbVmClusterDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateExadbVmClusterDetailsUpdateActionEnum Enum with underlying type: string
+type UpdateExadbVmClusterDetailsUpdateActionEnum string
+
+// Set of constants representing the allowable values for UpdateExadbVmClusterDetailsUpdateActionEnum
+const (
+	UpdateExadbVmClusterDetailsUpdateActionRollingApply    UpdateExadbVmClusterDetailsUpdateActionEnum = "ROLLING_APPLY"
+	UpdateExadbVmClusterDetailsUpdateActionNonRollingApply UpdateExadbVmClusterDetailsUpdateActionEnum = "NON_ROLLING_APPLY"
+	UpdateExadbVmClusterDetailsUpdateActionPrecheck        UpdateExadbVmClusterDetailsUpdateActionEnum = "PRECHECK"
+	UpdateExadbVmClusterDetailsUpdateActionRollback        UpdateExadbVmClusterDetailsUpdateActionEnum = "ROLLBACK"
+)
+
+var mappingUpdateExadbVmClusterDetailsUpdateActionEnum = map[string]UpdateExadbVmClusterDetailsUpdateActionEnum{
+	"ROLLING_APPLY":     UpdateExadbVmClusterDetailsUpdateActionRollingApply,
+	"NON_ROLLING_APPLY": UpdateExadbVmClusterDetailsUpdateActionNonRollingApply,
+	"PRECHECK":          UpdateExadbVmClusterDetailsUpdateActionPrecheck,
+	"ROLLBACK":          UpdateExadbVmClusterDetailsUpdateActionRollback,
+}
+
+var mappingUpdateExadbVmClusterDetailsUpdateActionEnumLowerCase = map[string]UpdateExadbVmClusterDetailsUpdateActionEnum{
+	"rolling_apply":     UpdateExadbVmClusterDetailsUpdateActionRollingApply,
+	"non_rolling_apply": UpdateExadbVmClusterDetailsUpdateActionNonRollingApply,
+	"precheck":          UpdateExadbVmClusterDetailsUpdateActionPrecheck,
+	"rollback":          UpdateExadbVmClusterDetailsUpdateActionRollback,
+}
+
+// GetUpdateExadbVmClusterDetailsUpdateActionEnumValues Enumerates the set of values for UpdateExadbVmClusterDetailsUpdateActionEnum
+func GetUpdateExadbVmClusterDetailsUpdateActionEnumValues() []UpdateExadbVmClusterDetailsUpdateActionEnum {
+	values := make([]UpdateExadbVmClusterDetailsUpdateActionEnum, 0)
+	for _, v := range mappingUpdateExadbVmClusterDetailsUpdateActionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateExadbVmClusterDetailsUpdateActionEnumStringValues Enumerates the set of values in String for UpdateExadbVmClusterDetailsUpdateActionEnum
+func GetUpdateExadbVmClusterDetailsUpdateActionEnumStringValues() []string {
+	return []string{
+		"ROLLING_APPLY",
+		"NON_ROLLING_APPLY",
+		"PRECHECK",
+		"ROLLBACK",
+	}
+}
+
+// GetMappingUpdateExadbVmClusterDetailsUpdateActionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateExadbVmClusterDetailsUpdateActionEnum(val string) (UpdateExadbVmClusterDetailsUpdateActionEnum, bool) {
+	enum, ok := mappingUpdateExadbVmClusterDetailsUpdateActionEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

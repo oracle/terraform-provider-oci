@@ -20,6 +20,9 @@ type ListExadbVmClusterUpdatesRequest struct {
 	// A filter to return only resources that match the given update type exactly.
 	UpdateType ListExadbVmClusterUpdatesUpdateTypeEnum `mandatory:"false" contributesTo:"query" name:"updateType" omitEmpty:"true"`
 
+	// A filter to return only resources that match the given update version exactly.
+	Version *string `mandatory:"false" contributesTo:"query" name:"version"`
+
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

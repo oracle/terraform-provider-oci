@@ -10,237 +10,83 @@
 package databasemigration
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// ConnectionSummary Represents the parameters common for all connections in list operation.
-type ConnectionSummary interface {
+// ConnectionSummary Database Connection Summary.
+type ConnectionSummary struct {
 
-	// The connection's OCID.
-	GetId() *string
+	// The OCID of the resource
+	Id *string `mandatory:"true" json:"id"`
 
-	// An object's Display Name.
-	GetDisplayName() *string
+	// OCID of the compartment
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// OCI resource ID.
-	GetCompartmentId() *string
+	// Database connection type.
+	DatabaseType DatabaseConnectionTypesEnum `mandatory:"true" json:"databaseType"`
 
-	// Lifecycle state for connection.
-	GetLifecycleState() ConnectionLifecycleStateEnum
+	// Database Connection display name identifier.
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
-	GetTimeCreated() *common.SDKTime
+	// The time the Connection resource was created. An RFC3339 formatted datetime string.
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
-	GetTimeUpdated() *common.SDKTime
+	// The current state of the Connection resource.
+	LifecycleState LifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
-	// An object's Description.
-	GetDescription() *string
+	// Database manual connection subtype. This value can only be specified for manual connections.
+	ManualDatabaseSubType DatabaseManualConnectionSubTypesEnum `mandatory:"false" json:"manualDatabaseSubType,omitempty"`
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
-	GetFreeformTags() map[string]string
+	// True if the Autonomous Connection is dedicated. Not provided for Non-Autonomous Connections.
+	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	GetDefinedTags() map[string]map[string]interface{}
+	// The OCID of the cloud database.
+	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
-	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	GetSystemTags() map[string]map[string]interface{}
+	// The time of the last Connection resource details update. An RFC3339 formatted datetime string.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information
 	// for a resource in Failed state.
-	GetLifecycleDetails() *string
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// OCI resource ID.
-	GetVaultId() *string
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// OCI resource ID.
-	GetKeyId() *string
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// OCI resource ID.
-	GetSubnetId() *string
-
-	// List of ingress IP addresses from where to connect to this connection's privateIp.
-	GetIngressIps() []IngressIpDetails
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// An array of Network Security Group OCIDs used to define network access for Connections.
-	GetNsgIds() []string
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
-type connectionsummary struct {
-	JsonData         []byte
-	Description      *string                           `mandatory:"false" json:"description"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
-	VaultId          *string                           `mandatory:"false" json:"vaultId"`
-	KeyId            *string                           `mandatory:"false" json:"keyId"`
-	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
-	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
-	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
-	Id               *string                           `mandatory:"true" json:"id"`
-	DisplayName      *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	LifecycleState   ConnectionLifecycleStateEnum      `mandatory:"true" json:"lifecycleState"`
-	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	TimeUpdated      *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
-	ConnectionType   string                            `json:"connectionType"`
-}
-
-// UnmarshalJSON unmarshals json
-func (m *connectionsummary) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalerconnectionsummary connectionsummary
-	s := struct {
-		Model Unmarshalerconnectionsummary
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.Id = s.Model.Id
-	m.DisplayName = s.Model.DisplayName
-	m.CompartmentId = s.Model.CompartmentId
-	m.LifecycleState = s.Model.LifecycleState
-	m.TimeCreated = s.Model.TimeCreated
-	m.TimeUpdated = s.Model.TimeUpdated
-	m.Description = s.Model.Description
-	m.FreeformTags = s.Model.FreeformTags
-	m.DefinedTags = s.Model.DefinedTags
-	m.SystemTags = s.Model.SystemTags
-	m.LifecycleDetails = s.Model.LifecycleDetails
-	m.VaultId = s.Model.VaultId
-	m.KeyId = s.Model.KeyId
-	m.SubnetId = s.Model.SubnetId
-	m.IngressIps = s.Model.IngressIps
-	m.NsgIds = s.Model.NsgIds
-	m.ConnectionType = s.Model.ConnectionType
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.ConnectionType {
-	case "ORACLE":
-		mm := OracleConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MYSQL":
-		mm := MysqlConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		common.Logf("Recieved unsupported enum value for ConnectionSummary: %s.", m.ConnectionType)
-		return *m, nil
-	}
-}
-
-// GetDescription returns Description
-func (m connectionsummary) GetDescription() *string {
-	return m.Description
-}
-
-// GetFreeformTags returns FreeformTags
-func (m connectionsummary) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-// GetDefinedTags returns DefinedTags
-func (m connectionsummary) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-// GetSystemTags returns SystemTags
-func (m connectionsummary) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
-}
-
-// GetLifecycleDetails returns LifecycleDetails
-func (m connectionsummary) GetLifecycleDetails() *string {
-	return m.LifecycleDetails
-}
-
-// GetVaultId returns VaultId
-func (m connectionsummary) GetVaultId() *string {
-	return m.VaultId
-}
-
-// GetKeyId returns KeyId
-func (m connectionsummary) GetKeyId() *string {
-	return m.KeyId
-}
-
-// GetSubnetId returns SubnetId
-func (m connectionsummary) GetSubnetId() *string {
-	return m.SubnetId
-}
-
-// GetIngressIps returns IngressIps
-func (m connectionsummary) GetIngressIps() []IngressIpDetails {
-	return m.IngressIps
-}
-
-// GetNsgIds returns NsgIds
-func (m connectionsummary) GetNsgIds() []string {
-	return m.NsgIds
-}
-
-// GetId returns Id
-func (m connectionsummary) GetId() *string {
-	return m.Id
-}
-
-// GetDisplayName returns DisplayName
-func (m connectionsummary) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-// GetCompartmentId returns CompartmentId
-func (m connectionsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-// GetLifecycleState returns LifecycleState
-func (m connectionsummary) GetLifecycleState() ConnectionLifecycleStateEnum {
-	return m.LifecycleState
-}
-
-// GetTimeCreated returns TimeCreated
-func (m connectionsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-// GetTimeUpdated returns TimeUpdated
-func (m connectionsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-func (m connectionsummary) String() string {
+func (m ConnectionSummary) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m connectionsummary) ValidateEnumValue() (bool, error) {
+func (m ConnectionSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingConnectionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectionLifecycleStateEnumStringValues(), ",")))
+	if _, ok := GetMappingDatabaseConnectionTypesEnum(string(m.DatabaseType)); !ok && m.DatabaseType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetDatabaseConnectionTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLifecycleStatesEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDatabaseManualConnectionSubTypesEnum(string(m.ManualDatabaseSubType)); !ok && m.ManualDatabaseSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManualDatabaseSubType: %s. Supported values are: %s.", m.ManualDatabaseSubType, strings.Join(GetDatabaseManualConnectionSubTypesEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

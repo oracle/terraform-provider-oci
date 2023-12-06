@@ -291,22 +291,22 @@ type SecretRotationStatusEnum string
 const (
 	SecretRotationStatusInProgress SecretRotationStatusEnum = "IN_PROGRESS"
 	SecretRotationStatusScheduled  SecretRotationStatusEnum = "SCHEDULED"
-	SecretRotationStatusFailed     SecretRotationStatusEnum = "FAILED"
 	SecretRotationStatusNotEnabled SecretRotationStatusEnum = "NOT_ENABLED"
+	SecretRotationStatusCancelling SecretRotationStatusEnum = "CANCELLING"
 )
 
 var mappingSecretRotationStatusEnum = map[string]SecretRotationStatusEnum{
 	"IN_PROGRESS": SecretRotationStatusInProgress,
 	"SCHEDULED":   SecretRotationStatusScheduled,
-	"FAILED":      SecretRotationStatusFailed,
 	"NOT_ENABLED": SecretRotationStatusNotEnabled,
+	"CANCELLING":  SecretRotationStatusCancelling,
 }
 
 var mappingSecretRotationStatusEnumLowerCase = map[string]SecretRotationStatusEnum{
 	"in_progress": SecretRotationStatusInProgress,
 	"scheduled":   SecretRotationStatusScheduled,
-	"failed":      SecretRotationStatusFailed,
 	"not_enabled": SecretRotationStatusNotEnabled,
+	"cancelling":  SecretRotationStatusCancelling,
 }
 
 // GetSecretRotationStatusEnumValues Enumerates the set of values for SecretRotationStatusEnum
@@ -323,8 +323,8 @@ func GetSecretRotationStatusEnumStringValues() []string {
 	return []string{
 		"IN_PROGRESS",
 		"SCHEDULED",
-		"FAILED",
 		"NOT_ENABLED",
+		"CANCELLING",
 	}
 }
 

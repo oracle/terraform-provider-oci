@@ -22,7 +22,7 @@ type RotationConfig struct {
 
 	// The time interval that indicates the frequency for rotating secret data, as described in ISO 8601 format.
 	// The minimum value is 1 day and maximum value is 360 days.
-	// For example, if you want to set the time interval for rotating a secret data as 30 days, the duration is expressed as “P30D.”
+	// For example, if you want to set the time interval for rotating a secret data as 30 days, the duration is expressed as "P30D."
 	RotationInterval *string `mandatory:"false" json:"rotationInterval"`
 
 	// Enables auto rotation, when set to true rotationInterval must be set.

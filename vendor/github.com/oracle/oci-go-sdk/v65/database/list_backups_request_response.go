@@ -26,6 +26,9 @@ type ListBackupsRequest struct {
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// If provided, filters the results to the set of database versions which are supported for the given shape family.
+	ShapeFamily ListBackupsShapeFamilyEnum `mandatory:"false" contributesTo:"query" name:"shapeFamily" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -66,6 +69,9 @@ func (request ListBackupsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListBackupsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListBackupsShapeFamilyEnum(string(request.ShapeFamily)); !ok && request.ShapeFamily != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeFamily: %s. Supported values are: %s.", request.ShapeFamily, strings.Join(GetListBackupsShapeFamilyEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -99,4 +105,62 @@ func (response ListBackupsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListBackupsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListBackupsShapeFamilyEnum Enum with underlying type: string
+type ListBackupsShapeFamilyEnum string
+
+// Set of constants representing the allowable values for ListBackupsShapeFamilyEnum
+const (
+	ListBackupsShapeFamilySinglenode     ListBackupsShapeFamilyEnum = "SINGLENODE"
+	ListBackupsShapeFamilyYoda           ListBackupsShapeFamilyEnum = "YODA"
+	ListBackupsShapeFamilyVirtualmachine ListBackupsShapeFamilyEnum = "VIRTUALMACHINE"
+	ListBackupsShapeFamilyExadata        ListBackupsShapeFamilyEnum = "EXADATA"
+	ListBackupsShapeFamilyExacc          ListBackupsShapeFamilyEnum = "EXACC"
+	ListBackupsShapeFamilyExadbxs        ListBackupsShapeFamilyEnum = "EXADBXS"
+)
+
+var mappingListBackupsShapeFamilyEnum = map[string]ListBackupsShapeFamilyEnum{
+	"SINGLENODE":     ListBackupsShapeFamilySinglenode,
+	"YODA":           ListBackupsShapeFamilyYoda,
+	"VIRTUALMACHINE": ListBackupsShapeFamilyVirtualmachine,
+	"EXADATA":        ListBackupsShapeFamilyExadata,
+	"EXACC":          ListBackupsShapeFamilyExacc,
+	"EXADBXS":        ListBackupsShapeFamilyExadbxs,
+}
+
+var mappingListBackupsShapeFamilyEnumLowerCase = map[string]ListBackupsShapeFamilyEnum{
+	"singlenode":     ListBackupsShapeFamilySinglenode,
+	"yoda":           ListBackupsShapeFamilyYoda,
+	"virtualmachine": ListBackupsShapeFamilyVirtualmachine,
+	"exadata":        ListBackupsShapeFamilyExadata,
+	"exacc":          ListBackupsShapeFamilyExacc,
+	"exadbxs":        ListBackupsShapeFamilyExadbxs,
+}
+
+// GetListBackupsShapeFamilyEnumValues Enumerates the set of values for ListBackupsShapeFamilyEnum
+func GetListBackupsShapeFamilyEnumValues() []ListBackupsShapeFamilyEnum {
+	values := make([]ListBackupsShapeFamilyEnum, 0)
+	for _, v := range mappingListBackupsShapeFamilyEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListBackupsShapeFamilyEnumStringValues Enumerates the set of values in String for ListBackupsShapeFamilyEnum
+func GetListBackupsShapeFamilyEnumStringValues() []string {
+	return []string{
+		"SINGLENODE",
+		"YODA",
+		"VIRTUALMACHINE",
+		"EXADATA",
+		"EXACC",
+		"EXADBXS",
+	}
+}
+
+// GetMappingListBackupsShapeFamilyEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListBackupsShapeFamilyEnum(val string) (ListBackupsShapeFamilyEnum, bool) {
+	enum, ok := mappingListBackupsShapeFamilyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -51,6 +51,10 @@ type SecretSummary struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
@@ -112,6 +116,7 @@ func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags                map[string]map[string]interface{} `json:"definedTags"`
 		Description                *string                           `json:"description"`
 		FreeformTags               map[string]string                 `json:"freeformTags"`
+		SystemTags                 map[string]map[string]interface{} `json:"systemTags"`
 		KeyId                      *string                           `json:"keyId"`
 		LifecycleDetails           *string                           `json:"lifecycleDetails"`
 		RotationConfig             *RotationConfig                   `json:"rotationConfig"`
@@ -140,6 +145,8 @@ func (m *SecretSummary) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
 
 	m.KeyId = model.KeyId
 

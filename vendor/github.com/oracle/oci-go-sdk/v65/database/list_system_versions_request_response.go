@@ -35,6 +35,12 @@ type ListSystemVersionsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The number of nodes in the Exadata VM cluster on Exascale Infrastructure.
+	NodeCount *int `mandatory:"false" contributesTo:"query" name:"nodeCount"`
+
+	// The number of nodes in the Exadata VM cluster on Exascale Infrastructure.
+	TotalCpuCoreCount *int `mandatory:"false" contributesTo:"query" name:"totalCpuCoreCount"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

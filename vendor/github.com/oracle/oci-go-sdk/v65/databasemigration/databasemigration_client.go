@@ -60,7 +60,7 @@ func newDatabaseMigrationClientFromBaseClient(baseClient common.BaseClient, conf
 	common.ConfigCircuitBreakerFromGlobalVar(&baseClient)
 
 	client = DatabaseMigrationClient{BaseClient: baseClient}
-	client.BasePath = "20230518"
+	client.BasePath = "20210929"
 	err = client.setConfigurationProvider(configProvider)
 	return
 }
@@ -141,7 +141,7 @@ func (client DatabaseMigrationClient) abortJob(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/AbortJob"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/AbortJob"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "AbortJob", apiReferenceLink)
 		return response, err
 	}
@@ -195,8 +195,67 @@ func (client DatabaseMigrationClient) addMigrationObjects(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/AddMigrationObjects"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/AddMigrationObjects"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "AddMigrationObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeAgentCompartment Used to configure an ODMS Agent Compartment ID.
+// A default retry strategy applies to this operation ChangeAgentCompartment()
+func (client DatabaseMigrationClient) ChangeAgentCompartment(ctx context.Context, request ChangeAgentCompartmentRequest) (response ChangeAgentCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAgentCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAgentCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAgentCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAgentCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAgentCompartmentResponse")
+	}
+	return
+}
+
+// changeAgentCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) changeAgentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/agents/{agentId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAgentCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/ChangeAgentCompartment"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ChangeAgentCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -254,7 +313,7 @@ func (client DatabaseMigrationClient) changeConnectionCompartment(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Connection/ChangeConnectionCompartment"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/ChangeConnectionCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ChangeConnectionCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -313,7 +372,7 @@ func (client DatabaseMigrationClient) changeMigrationCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/ChangeMigrationCompartment"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/ChangeMigrationCompartment"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ChangeMigrationCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -372,12 +431,12 @@ func (client DatabaseMigrationClient) cloneMigration(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/CloneMigration"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/CloneMigration"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "CloneMigration", apiReferenceLink)
 		return response, err
 	}
 
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &migration{})
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -431,8 +490,67 @@ func (client DatabaseMigrationClient) connectionDiagnostics(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Connection/ConnectionDiagnostics"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/ConnectionDiagnostics"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ConnectionDiagnostics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateAgent Used to register an on-premises ODMS Agent with the Database Migration service.
+// A default retry strategy applies to this operation CreateAgent()
+func (client DatabaseMigrationClient) CreateAgent(ctx context.Context, request CreateAgentRequest) (response CreateAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAgentResponse")
+	}
+	return
+}
+
+// createAgent implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) createAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/agents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "CreateAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -496,7 +614,7 @@ func (client DatabaseMigrationClient) createConnection(ctx context.Context, requ
 		return response, err
 	}
 
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &connection{})
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -552,12 +670,66 @@ func (client DatabaseMigrationClient) createMigration(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/CreateMigration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "CreateMigration", apiReferenceLink)
 		return response, err
 	}
 
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &migration{})
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAgent Delete the ODMS Agent represented by the specified ODMS Agent ID.
+// A default retry strategy applies to this operation DeleteAgent()
+func (client DatabaseMigrationClient) DeleteAgent(ctx context.Context, request DeleteAgentRequest) (response DeleteAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAgentResponse")
+	}
+	return
+}
+
+// deleteAgent implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) deleteAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/agents/{agentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/DeleteAgent"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteAgent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -606,7 +778,7 @@ func (client DatabaseMigrationClient) deleteConnection(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Connection/DeleteConnection"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/DeleteConnection"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteConnection", apiReferenceLink)
 		return response, err
 	}
@@ -660,7 +832,7 @@ func (client DatabaseMigrationClient) deleteJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/DeleteJob"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/DeleteJob"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteJob", apiReferenceLink)
 		return response, err
 	}
@@ -714,7 +886,7 @@ func (client DatabaseMigrationClient) deleteMigration(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/DeleteMigration"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/DeleteMigration"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteMigration", apiReferenceLink)
 		return response, err
 	}
@@ -773,8 +945,67 @@ func (client DatabaseMigrationClient) evaluateMigration(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/EvaluateMigration"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/EvaluateMigration"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "EvaluateMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetActionGenerateToken Used to generate token for an ODMS Agent ID.
+// A default retry strategy applies to this operation GetActionGenerateToken()
+func (client DatabaseMigrationClient) GetActionGenerateToken(ctx context.Context, request GetActionGenerateTokenRequest) (response GetActionGenerateTokenResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getActionGenerateToken, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetActionGenerateTokenResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetActionGenerateTokenResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetActionGenerateTokenResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetActionGenerateTokenResponse")
+	}
+	return
+}
+
+// getActionGenerateToken implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) getActionGenerateToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/agents/{agentId}/actions/generateToken", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetActionGenerateTokenResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/GetActionGenerateToken"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetActionGenerateToken", apiReferenceLink)
 		return response, err
 	}
 
@@ -827,8 +1058,62 @@ func (client DatabaseMigrationClient) getAdvisorReport(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/GetAdvisorReport"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/GetAdvisorReport"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetAdvisorReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAgent Display the ODMS Agent configuration.
+// A default retry strategy applies to this operation GetAgent()
+func (client DatabaseMigrationClient) GetAgent(ctx context.Context, request GetAgentRequest) (response GetAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAgentResponse")
+	}
+	return
+}
+
+// getAgent implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) getAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/agents/{agentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/GetAgent"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -881,12 +1166,12 @@ func (client DatabaseMigrationClient) getConnection(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Connection/GetConnection"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/GetConnection"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetConnection", apiReferenceLink)
 		return response, err
 	}
 
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &connection{})
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -935,7 +1220,7 @@ func (client DatabaseMigrationClient) getJob(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/GetJob"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/GetJob"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetJob", apiReferenceLink)
 		return response, err
 	}
@@ -988,7 +1273,7 @@ func (client DatabaseMigrationClient) getJobOutputContent(ctx context.Context, r
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/GetJobOutputContent"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/GetJobOutputContent"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetJobOutputContent", apiReferenceLink)
 		return response, err
 	}
@@ -1042,12 +1327,12 @@ func (client DatabaseMigrationClient) getMigration(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/GetMigration"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/GetMigration"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetMigration", apiReferenceLink)
 		return response, err
 	}
 
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &migration{})
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -1096,8 +1381,116 @@ func (client DatabaseMigrationClient) getWorkRequest(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/WorkRequest/GetWorkRequest"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAgentImages Get details of the ODMS Agent Images available to install on-premises.
+// A default retry strategy applies to this operation ListAgentImages()
+func (client DatabaseMigrationClient) ListAgentImages(ctx context.Context, request ListAgentImagesRequest) (response ListAgentImagesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAgentImages, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAgentImagesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAgentImagesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAgentImagesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAgentImagesResponse")
+	}
+	return
+}
+
+// listAgentImages implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listAgentImages(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/agentImages", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAgentImagesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/AgentImageSummary/ListAgentImages"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListAgentImages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAgents Display the name of all the existing ODMS Agents in the server.
+// A default retry strategy applies to this operation ListAgents()
+func (client DatabaseMigrationClient) ListAgents(ctx context.Context, request ListAgentsRequest) (response ListAgentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAgents, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAgentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAgentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAgentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAgentsResponse")
+	}
+	return
+}
+
+// listAgents implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listAgents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/agents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAgentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/AgentSummary/ListAgents"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListAgents", apiReferenceLink)
 		return response, err
 	}
 
@@ -1150,7 +1543,7 @@ func (client DatabaseMigrationClient) listConnections(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/ConnectionSummary/ListConnections"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/ConnectionSummary/ListConnections"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListConnections", apiReferenceLink)
 		return response, err
 	}
@@ -1204,7 +1597,7 @@ func (client DatabaseMigrationClient) listExcludedObjects(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/ExcludedObjectSummary/ListExcludedObjects"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/ExcludedObjectSummary/ListExcludedObjects"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListExcludedObjects", apiReferenceLink)
 		return response, err
 	}
@@ -1258,7 +1651,7 @@ func (client DatabaseMigrationClient) listJobOutputs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/JobOutputSummary/ListJobOutputs"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/JobOutputSummary/ListJobOutputs"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListJobOutputs", apiReferenceLink)
 		return response, err
 	}
@@ -1313,7 +1706,7 @@ func (client DatabaseMigrationClient) listJobs(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/JobSummary/ListJobs"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/JobSummary/ListJobs"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListJobs", apiReferenceLink)
 		return response, err
 	}
@@ -1367,7 +1760,7 @@ func (client DatabaseMigrationClient) listMigrationObjectTypes(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/MigrationObjectTypeSummary/ListMigrationObjectTypes"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/MigrationObjectTypeSummary/ListMigrationObjectTypes"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListMigrationObjectTypes", apiReferenceLink)
 		return response, err
 	}
@@ -1421,12 +1814,12 @@ func (client DatabaseMigrationClient) listMigrationObjects(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/MigrationObjectCollection/ListMigrationObjects"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/MigrationObjectCollection/ListMigrationObjects"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListMigrationObjects", apiReferenceLink)
 		return response, err
 	}
 
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &migrationobjectcollection{})
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -1475,7 +1868,7 @@ func (client DatabaseMigrationClient) listMigrations(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/MigrationSummary/ListMigrations"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/MigrationSummary/ListMigrations"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListMigrations", apiReferenceLink)
 		return response, err
 	}
@@ -1529,7 +1922,7 @@ func (client DatabaseMigrationClient) listWorkRequestErrors(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1583,7 +1976,7 @@ func (client DatabaseMigrationClient) listWorkRequestLogs(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1637,8 +2030,67 @@ func (client DatabaseMigrationClient) listWorkRequests(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/WorkRequestSummary/ListWorkRequests"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/WorkRequestSummary/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RegisterHeartbeat Register heartbeat call from ODMS Agent
+// A default retry strategy applies to this operation RegisterHeartbeat()
+func (client DatabaseMigrationClient) RegisterHeartbeat(ctx context.Context, request RegisterHeartbeatRequest) (response RegisterHeartbeatResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.registerHeartbeat, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RegisterHeartbeatResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RegisterHeartbeatResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RegisterHeartbeatResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RegisterHeartbeatResponse")
+	}
+	return
+}
+
+// registerHeartbeat implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) registerHeartbeat(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/agents/{agentId}/actions/registerHeartbeat", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RegisterHeartbeatResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/RegisterHeartbeat"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "RegisterHeartbeat", apiReferenceLink)
 		return response, err
 	}
 
@@ -1691,7 +2143,7 @@ func (client DatabaseMigrationClient) removeMigrationObjects(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/RemoveMigrationObjects"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/RemoveMigrationObjects"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "RemoveMigrationObjects", apiReferenceLink)
 		return response, err
 	}
@@ -1750,7 +2202,7 @@ func (client DatabaseMigrationClient) resumeJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/ResumeJob"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/ResumeJob"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ResumeJob", apiReferenceLink)
 		return response, err
 	}
@@ -1804,7 +2256,7 @@ func (client DatabaseMigrationClient) retrieveSupportedPhases(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/RetrieveSupportedPhases"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/RetrieveSupportedPhases"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "RetrieveSupportedPhases", apiReferenceLink)
 		return response, err
 	}
@@ -1863,8 +2315,67 @@ func (client DatabaseMigrationClient) startMigration(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/StartMigration"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/StartMigration"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "StartMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAgent Modifies the ODMS Agent represented by the given ODMS Agent ID.
+// A default retry strategy applies to this operation UpdateAgent()
+func (client DatabaseMigrationClient) UpdateAgent(ctx context.Context, request UpdateAgentRequest) (response UpdateAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAgentResponse")
+	}
+	return
+}
+
+// updateAgent implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) updateAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/agents/{agentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/UpdateAgent"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateAgent", apiReferenceLink)
 		return response, err
 	}
 
@@ -1917,7 +2428,7 @@ func (client DatabaseMigrationClient) updateConnection(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Connection/UpdateConnection"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Connection/UpdateConnection"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateConnection", apiReferenceLink)
 		return response, err
 	}
@@ -1971,7 +2482,7 @@ func (client DatabaseMigrationClient) updateJob(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/UpdateJob"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Job/UpdateJob"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateJob", apiReferenceLink)
 		return response, err
 	}
@@ -2025,8 +2536,67 @@ func (client DatabaseMigrationClient) updateMigration(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/UpdateMigration"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Migration/UpdateMigration"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "UpdateMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateAgent Used to complete initial ODMS Agent setup.
+// A default retry strategy applies to this operation ValidateAgent()
+func (client DatabaseMigrationClient) ValidateAgent(ctx context.Context, request ValidateAgentRequest) (response ValidateAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.validateAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateAgentResponse")
+	}
+	return
+}
+
+// validateAgent implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) validateAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/agents/{agentId}/actions/validate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20210929/Agent/ValidateAgent"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ValidateAgent", apiReferenceLink)
 		return response, err
 	}
 

@@ -41,6 +41,9 @@ type ExadbVmClusterUpdateHistoryEntrySummary struct {
 
 	// The date and time when the maintenance update action completed.
 	TimeCompleted *common.SDKTime `mandatory:"false" json:"timeCompleted"`
+
+	// The version of the maintenance update package.
+	Version *string `mandatory:"false" json:"version"`
 }
 
 func (m ExadbVmClusterUpdateHistoryEntrySummary) String() string {

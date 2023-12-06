@@ -14,7 +14,7 @@ import (
 // ConnectionDiagnosticsRequest wrapper for the ConnectionDiagnostics operation
 type ConnectionDiagnosticsRequest struct {
 
-	// The OCID of the database connection.
+	// The OCID of the database connection
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

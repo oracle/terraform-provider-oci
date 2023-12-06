@@ -18,10 +18,10 @@ import (
 // GgsDeployment Details about Oracle GoldenGate GGS Deployment.
 type GgsDeployment struct {
 
-	// OCI resource ID.
+	// OCID of a GoldenGate Deployment
 	DeploymentId *string `mandatory:"true" json:"deploymentId"`
 
-	// OCI resource ID.
+	// OCID of a VaultSecret containing the Admin Credentials for the GGS Deployment
 	GgsAdminCredentialsSecretId *string `mandatory:"true" json:"ggsAdminCredentialsSecretId"`
 }
 

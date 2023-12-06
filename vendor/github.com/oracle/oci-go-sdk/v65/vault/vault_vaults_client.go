@@ -146,6 +146,62 @@ func (client VaultsClient) cancelSecretDeletion(ctx context.Context, request com
 	return response, err
 }
 
+// CancelSecretRotation Cancels the ongoing secret rotation. The cancellation is contingent on how
+// far the rotation process has progressed. Upon cancelling a rotation, all
+// future rotations are also disabled.
+// A default retry strategy applies to this operation CancelSecretRotation()
+func (client VaultsClient) CancelSecretRotation(ctx context.Context, request CancelSecretRotationRequest) (response CancelSecretRotationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.cancelSecretRotation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelSecretRotationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelSecretRotationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CancelSecretRotationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CancelSecretRotationResponse")
+	}
+	return
+}
+
+// cancelSecretRotation implements the OCIOperation interface (enables retrying operations)
+func (client VaultsClient) cancelSecretRotation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/secrets/{secretId}/actions/cancelRotation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CancelSecretRotationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/secretmgmt/20180608/Secret/CancelSecretRotation"
+		err = common.PostProcessServiceError(err, "Vaults", "CancelSecretRotation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelSecretVersionDeletion Cancels the scheduled deletion of a secret version.
 func (client VaultsClient) CancelSecretVersionDeletion(ctx context.Context, request CancelSecretVersionDeletionRequest) (response CancelSecretVersionDeletionResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -14,7 +14,7 @@ import (
 // ChangeConnectionCompartmentRequest wrapper for the ChangeConnectionCompartment operation
 type ChangeConnectionCompartmentRequest struct {
 
-	// The OCID of the database connection.
+	// The OCID of the database connection
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// Details to change the compartment.

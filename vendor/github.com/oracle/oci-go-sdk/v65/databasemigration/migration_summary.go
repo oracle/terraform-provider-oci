@@ -10,221 +10,79 @@
 package databasemigration
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
 // MigrationSummary Migration resource
-type MigrationSummary interface {
+type MigrationSummary struct {
 
-	// OCI resource ID.
-	GetId() *string
+	// The OCID of the resource
+	Id *string `mandatory:"true" json:"id"`
 
-	// An object's Display Name.
-	GetDisplayName() *string
+	// Migration Display Name
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// OCI resource ID.
-	GetCompartmentId() *string
+	// OCID of the compartment
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Migration type (ONLINE/OFFLINE).
-	GetType() MigrationTypesEnum
+	// Migration type.
+	Type MigrationTypesEnum `mandatory:"true" json:"type"`
 
-	// OCI resource ID.
-	GetSourceDatabaseConnectionId() *string
+	// The OCID of the Source Database Connection.
+	SourceDatabaseConnectionId *string `mandatory:"true" json:"sourceDatabaseConnectionId"`
 
-	// OCI resource ID.
-	GetTargetDatabaseConnectionId() *string
+	// The OCID of the Target Database Connection.
+	TargetDatabaseConnectionId *string `mandatory:"true" json:"targetDatabaseConnectionId"`
 
-	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
-	GetTimeCreated() *common.SDKTime
+	// The time the Migration was created. An RFC3339 formatted datetime string.
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The current state of the Migration resource.
-	GetLifecycleState() MigrationLifecycleStatesEnum
+	// The current state of the Migration.
+	LifecycleState MigrationLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
 
-	// OCI resource ID.
-	GetExecutingJobId() *string
+	// The OCID of the Source Container Database Connection.
+	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
 
-	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
-	GetTimeUpdated() *common.SDKTime
+	// OCID of the current ODMS Job in execution for the Migration, if any.
+	ExecutingJobId *string `mandatory:"false" json:"executingJobId"`
 
-	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
-	GetTimeLastMigration() *common.SDKTime
+	// The OCID of the registered on-premises ODMS Agent. Only valid for Offline Migrations.
+	AgentId *string `mandatory:"false" json:"agentId"`
+
+	VaultDetails *VaultDetails `mandatory:"false" json:"vaultDetails"`
+
+	// The time of the last Migration details update. An RFC3339 formatted datetime string.
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The time of last Migration. An RFC3339 formatted datetime string.
+	TimeLastMigration *common.SDKTime `mandatory:"false" json:"timeLastMigration"`
 
 	// Additional status related to the execution and current state of the Migration.
-	GetLifecycleDetails() MigrationStatusEnum
+	LifecycleDetails MigrationStatusEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
-	GetFreeformTags() map[string]string
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	GetDefinedTags() map[string]map[string]interface{}
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	GetSystemTags() map[string]map[string]interface{}
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
-type migrationsummary struct {
-	JsonData                   []byte
-	ExecutingJobId             *string                           `mandatory:"false" json:"executingJobId"`
-	TimeUpdated                *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	TimeLastMigration          *common.SDKTime                   `mandatory:"false" json:"timeLastMigration"`
-	LifecycleDetails           MigrationStatusEnum               `mandatory:"false" json:"lifecycleDetails,omitempty"`
-	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags                 map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	Id                         *string                           `mandatory:"true" json:"id"`
-	DisplayName                *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId              *string                           `mandatory:"true" json:"compartmentId"`
-	Type                       MigrationTypesEnum                `mandatory:"true" json:"type"`
-	SourceDatabaseConnectionId *string                           `mandatory:"true" json:"sourceDatabaseConnectionId"`
-	TargetDatabaseConnectionId *string                           `mandatory:"true" json:"targetDatabaseConnectionId"`
-	TimeCreated                *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	LifecycleState             MigrationLifecycleStatesEnum      `mandatory:"true" json:"lifecycleState"`
-	DatabaseCombination        string                            `json:"databaseCombination"`
-}
-
-// UnmarshalJSON unmarshals json
-func (m *migrationsummary) UnmarshalJSON(data []byte) error {
-	m.JsonData = data
-	type Unmarshalermigrationsummary migrationsummary
-	s := struct {
-		Model Unmarshalermigrationsummary
-	}{}
-	err := json.Unmarshal(data, &s.Model)
-	if err != nil {
-		return err
-	}
-	m.Id = s.Model.Id
-	m.DisplayName = s.Model.DisplayName
-	m.CompartmentId = s.Model.CompartmentId
-	m.Type = s.Model.Type
-	m.SourceDatabaseConnectionId = s.Model.SourceDatabaseConnectionId
-	m.TargetDatabaseConnectionId = s.Model.TargetDatabaseConnectionId
-	m.TimeCreated = s.Model.TimeCreated
-	m.LifecycleState = s.Model.LifecycleState
-	m.ExecutingJobId = s.Model.ExecutingJobId
-	m.TimeUpdated = s.Model.TimeUpdated
-	m.TimeLastMigration = s.Model.TimeLastMigration
-	m.LifecycleDetails = s.Model.LifecycleDetails
-	m.FreeformTags = s.Model.FreeformTags
-	m.DefinedTags = s.Model.DefinedTags
-	m.SystemTags = s.Model.SystemTags
-	m.DatabaseCombination = s.Model.DatabaseCombination
-
-	return err
-}
-
-// UnmarshalPolymorphicJSON unmarshals polymorphic json
-func (m *migrationsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
-
-	if data == nil || string(data) == "null" {
-		return nil, nil
-	}
-
-	var err error
-	switch m.DatabaseCombination {
-	case "ORACLE":
-		mm := OracleMigrationSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "MYSQL":
-		mm := MySqlMigrationSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	default:
-		common.Logf("Recieved unsupported enum value for MigrationSummary: %s.", m.DatabaseCombination)
-		return *m, nil
-	}
-}
-
-// GetExecutingJobId returns ExecutingJobId
-func (m migrationsummary) GetExecutingJobId() *string {
-	return m.ExecutingJobId
-}
-
-// GetTimeUpdated returns TimeUpdated
-func (m migrationsummary) GetTimeUpdated() *common.SDKTime {
-	return m.TimeUpdated
-}
-
-// GetTimeLastMigration returns TimeLastMigration
-func (m migrationsummary) GetTimeLastMigration() *common.SDKTime {
-	return m.TimeLastMigration
-}
-
-// GetLifecycleDetails returns LifecycleDetails
-func (m migrationsummary) GetLifecycleDetails() MigrationStatusEnum {
-	return m.LifecycleDetails
-}
-
-// GetFreeformTags returns FreeformTags
-func (m migrationsummary) GetFreeformTags() map[string]string {
-	return m.FreeformTags
-}
-
-// GetDefinedTags returns DefinedTags
-func (m migrationsummary) GetDefinedTags() map[string]map[string]interface{} {
-	return m.DefinedTags
-}
-
-// GetSystemTags returns SystemTags
-func (m migrationsummary) GetSystemTags() map[string]map[string]interface{} {
-	return m.SystemTags
-}
-
-// GetId returns Id
-func (m migrationsummary) GetId() *string {
-	return m.Id
-}
-
-// GetDisplayName returns DisplayName
-func (m migrationsummary) GetDisplayName() *string {
-	return m.DisplayName
-}
-
-// GetCompartmentId returns CompartmentId
-func (m migrationsummary) GetCompartmentId() *string {
-	return m.CompartmentId
-}
-
-// GetType returns Type
-func (m migrationsummary) GetType() MigrationTypesEnum {
-	return m.Type
-}
-
-// GetSourceDatabaseConnectionId returns SourceDatabaseConnectionId
-func (m migrationsummary) GetSourceDatabaseConnectionId() *string {
-	return m.SourceDatabaseConnectionId
-}
-
-// GetTargetDatabaseConnectionId returns TargetDatabaseConnectionId
-func (m migrationsummary) GetTargetDatabaseConnectionId() *string {
-	return m.TargetDatabaseConnectionId
-}
-
-// GetTimeCreated returns TimeCreated
-func (m migrationsummary) GetTimeCreated() *common.SDKTime {
-	return m.TimeCreated
-}
-
-// GetLifecycleState returns LifecycleState
-func (m migrationsummary) GetLifecycleState() MigrationLifecycleStatesEnum {
-	return m.LifecycleState
-}
-
-func (m migrationsummary) String() string {
+func (m MigrationSummary) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m migrationsummary) ValidateEnumValue() (bool, error) {
+func (m MigrationSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingMigrationTypesEnum(string(m.Type)); !ok && m.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetMigrationTypesEnumStringValues(), ",")))

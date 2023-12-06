@@ -46,6 +46,9 @@ type CreateContainerDetails struct {
 	// Additional capabilities that can be configured for the container.
 	AdditionalCapabilities []ContainerCapabilityEnum `mandatory:"false" json:"additionalCapabilities,omitempty"`
 
+	// A flag to indicate whether PKI certs and regionInfo related files are mounted to the container.
+	IsPkiCertsProvided *bool `mandatory:"false" json:"isPkiCertsProvided"`
+
 	// The working directory within the container's filesystem for
 	// the container process. If not specified, the default
 	// working directory from the image is used.
@@ -111,6 +114,7 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 		Command                     []string                              `json:"command"`
 		Arguments                   []string                              `json:"arguments"`
 		AdditionalCapabilities      []ContainerCapabilityEnum             `json:"additionalCapabilities"`
+		IsPkiCertsProvided          *bool                                 `json:"isPkiCertsProvided"`
 		WorkingDirectory            *string                               `json:"workingDirectory"`
 		EnvironmentVariables        map[string]string                     `json:"environmentVariables"`
 		VolumeMounts                []CreateVolumeMountDetails            `json:"volumeMounts"`
@@ -136,6 +140,8 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 	copy(m.Arguments, model.Arguments)
 	m.AdditionalCapabilities = make([]ContainerCapabilityEnum, len(model.AdditionalCapabilities))
 	copy(m.AdditionalCapabilities, model.AdditionalCapabilities)
+	m.IsPkiCertsProvided = model.IsPkiCertsProvided
+
 	m.WorkingDirectory = model.WorkingDirectory
 
 	m.EnvironmentVariables = model.EnvironmentVariables
