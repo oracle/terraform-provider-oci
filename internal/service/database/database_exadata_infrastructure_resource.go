@@ -361,6 +361,35 @@ func DatabaseExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"defined_file_system_configurations": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_backup_partition": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_resizable": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"min_size_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"mount_point": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1002,6 +1031,12 @@ func (s *DatabaseExadataInfrastructureResourceCrud) SetData() error {
 	if s.Res.DbServerVersion != nil {
 		s.D.Set("db_server_version", *s.Res.DbServerVersion)
 	}
+
+	definedFileSystemConfigurations := []interface{}{}
+	for _, item := range s.Res.DefinedFileSystemConfigurations {
+		definedFileSystemConfigurations = append(definedFileSystemConfigurations, DefinedFileSystemConfigurationToMap(item))
+	}
+	s.D.Set("defined_file_system_configurations", definedFileSystemConfigurations)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))

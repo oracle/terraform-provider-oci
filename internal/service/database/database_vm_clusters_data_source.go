@@ -160,6 +160,12 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["exadata_infrastructure_id"] = *r.ExadataInfrastructureId
 		}
 
+		fileSystemConfigurationDetails := []interface{}{}
+		for _, item := range r.FileSystemConfigurationDetails {
+			fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
+		}
+		vmCluster["file_system_configuration_details"] = fileSystemConfigurationDetails
+
 		vmCluster["freeform_tags"] = r.FreeformTags
 
 		if r.GiVersion != nil {

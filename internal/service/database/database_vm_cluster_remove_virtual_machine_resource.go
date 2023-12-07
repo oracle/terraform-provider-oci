@@ -112,6 +112,27 @@ func DatabaseVmClusterRemoveVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"file_system_configuration_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"file_system_size_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"mount_point": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -305,6 +326,12 @@ func (s *DatabaseVmClusterRemoveVirtualMachineResourceCrud) SetData() error {
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
+
+	fileSystemConfigurationDetails := []interface{}{}
+	for _, item := range s.Res.FileSystemConfigurationDetails {
+		fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
+	}
+	s.D.Set("file_system_configuration_details", fileSystemConfigurationDetails)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
