@@ -38,6 +38,12 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 	db_node_storage_size_in_gbs = var.vm_cluster_db_node_storage_size_in_gbs
 	db_servers = var.vm_cluster_db_servers
 	defined_tags = var.vm_cluster_defined_tags
+	file_system_configuration_details {
+
+		#Optional
+		file_system_size_gb = var.vm_cluster_file_system_configuration_details_file_system_size_gb
+		mount_point = var.vm_cluster_file_system_configuration_details_mount_point
+	}
 	freeform_tags = {"Department"= "Finance"}
 	is_local_backup_enabled = var.vm_cluster_is_local_backup_enabled
 	is_sparse_diskgroup_enabled = var.vm_cluster_is_sparse_diskgroup_enabled
@@ -65,6 +71,9 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) The user-friendly name for the VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+* `file_system_configuration_details` - (Optional) (Updatable) Details of the file system configuration of the VM cluster.
+	* `file_system_size_gb` - (Optional) (Updatable) The file system size to be allocated in GBs.
+	* `mount_point` - (Optional) (Updatable) The mount point of file system.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gi_version` - (Required) The Oracle Grid Infrastructure software version for the VM cluster.
 * `is_local_backup_enabled` - (Optional) If true, database backup on local Exadata storage is configured for the VM cluster. If false, database backup on local Exadata storage is not available in the VM cluster. 
@@ -98,6 +107,9 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the Exadata Cloud@Customer VM cluster. The name does not need to be unique.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+* `file_system_configuration_details` - Details of the file system configuration of the VM cluster.
+	* `file_system_size_gb` - The file system size to be allocated in GBs.
+	* `mount_point` - The mount point of file system.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gi_version` - The Oracle Grid Infrastructure software version for the VM cluster.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster.
