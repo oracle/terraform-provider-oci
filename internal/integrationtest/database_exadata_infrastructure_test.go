@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -435,6 +435,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.db_node_storage_size_in_gbs"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.defined_file_system_configurations.#", "7"),
+
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.dns_server.#", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.freeform_tags.%", "1"),
@@ -504,6 +506,8 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_storage_size_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_file_system_configurations.#", "7"),
+
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_server.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),

@@ -61,9 +61,11 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`validate_vm_cluster_network`, `vm_networks`}},
 	}
 	vmClusterNetworkScansHalfRackRepresentation = map[string]interface{}{
-		"hostname": acctest.Representation{RepType: acctest.Required, Create: `myprefix1-ivmmj-scan`, Update: `myprefix2-ivmmj-scan`},
-		"ips":      acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.7`, `192.168.19.6`, `192.168.19.8`}, Update: []string{`192.168.19.7`, `192.168.19.8`, `192.168.19.9`}},
-		"port":     acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
+		"hostname":                   acctest.Representation{RepType: acctest.Required, Create: `myprefix1-ivmmj-scan`, Update: `myprefix2-ivmmj-scan`},
+		"ips":                        acctest.Representation{RepType: acctest.Required, Create: []string{`192.168.19.7`, `192.168.19.6`, `192.168.19.8`}, Update: []string{`192.168.19.7`, `192.168.19.8`, `192.168.19.9`}},
+		"port":                       acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
+		"scan_listener_port_tcp":     acctest.Representation{RepType: acctest.Required, Create: `1521`, Update: `1522`},
+		"scan_listener_port_tcp_ssl": acctest.Representation{RepType: acctest.Required, Create: `2484`, Update: `2484`},
 	}
 	vmClusterNetworkBackupVmNetworkHalfRackRepresentation = map[string]interface{}{
 		"domain_name":  acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `oracle.com`},
