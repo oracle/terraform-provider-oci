@@ -47,7 +47,11 @@ resource "oci_identity_domains_user" "test_grant_user" {
   schemas = ["urn:ietf:params:scim:schemas:core:2.0:User"]
   user_name = "testGrantUserName"
   lifecycle {
-    ignore_changes = ["urnietfparamsscimschemasoracleidcsextension_oci_tags[0].defined_tags", "emails", "schemas"]
+    ignore_changes = [
+      urnietfparamsscimschemasoracleidcsextension_oci_tags[0].defined_tags,
+      emails,
+      schemas,
+    ]
   }
 }
 
