@@ -137,7 +137,7 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
     #Optional
     arguments = [
       "-c",
-    "sleep 24h"]
+    "cat /mnt/my_file"]
     command = [
     "/bin/sh"]
     display_name = "displayName"
@@ -175,12 +175,17 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
     volume_mounts {
       #Required
       mount_path  = "/mnt"
-      volume_name = "volumeName"
+      volume_name = "volumeName1"
 
       #Optional
       is_read_only = "false"
       partition    = "10"
       sub_path     = "/subPath"
+    }
+    volume_mounts {
+      #Required
+      mount_path  = "/mnt"
+      volume_name = "volumeName2"
     }
     working_directory = "/mnt"
     security_context {
@@ -237,10 +242,20 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
   state = "ACTIVE"
   volumes {
     #Required
-    name        = "volumeName"
+    name        = "volumeName1"
     volume_type = "EMPTYDIR"
 
     #Optional
     backing_store = "EPHEMERAL_STORAGE"
+  }
+  volumes {
+    #Required
+    name = "volumeName2"
+    volume_type = "CONFIGFILE"
+
+    configs {
+      data = "SGFyc2hpdA=="
+      file_name = "my_file"
+    }
   }
 }

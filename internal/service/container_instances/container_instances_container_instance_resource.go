@@ -5,6 +5,7 @@ package container_instances
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"log"
 	"strconv"
@@ -1554,7 +1555,10 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) mapToContainerConfigFi
 	result := oci_container_instances.ContainerConfigFile{}
 
 	if data, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "data")); ok {
-		tmp := data.(string)
+		tmp, err := base64.StdEncoding.DecodeString(data.(string))
+		if err != nil {
+			return result, err
+		}
 		result.Data = []byte(tmp)
 	}
 
