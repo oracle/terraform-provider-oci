@@ -9,13 +9,6 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/oracle/terraform-provider-oci/internal/acctest"
-	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-	"github.com/oracle/terraform-provider-oci/internal/service/logging"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -23,9 +16,19 @@ import (
 	oci_logging "github.com/oracle/oci-go-sdk/v65/logging"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
+	"github.com/oracle/terraform-provider-oci/internal/acctest"
+	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+	"github.com/oracle/terraform-provider-oci/internal/service/logging"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
+	definedTagsIgnoreRepresentation_logging = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Optional, Create: []string{`defined_tags`}},
+	}
+
 	LoggingLogRequiredOnlyResource = LoggingLogResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Required, acctest.Create, LoggingLogRepresentation)
 
@@ -59,6 +62,7 @@ var (
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"retention_duration": acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `60`},
+		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: definedTagsIgnoreRepresentation_logging},
 	}
 	LoggingLogConfigurationRepresentation = map[string]interface{}{
 		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingLogConfigurationSourceRepresentation},
@@ -69,12 +73,13 @@ var (
 		"resource":    acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
 		"service":     acctest.Representation{RepType: acctest.Required, Create: `objectstorage`},
 		"source_type": acctest.Representation{RepType: acctest.Required, Create: `OCISERVICE`},
+		"parameters":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"parameter": "value"}},
 	}
 
 	LoggingLogResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_log_group", acctest.Required, acctest.Create, LoggingLogGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "test_update_log_group", acctest.Required, acctest.Create, logGroupUpdateRepresentation)
 )
 
@@ -93,7 +98,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_logging_log.test_log"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+LoggingLogResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "test_log", acctest.Optional, acctest.Create, LoggingLogRepresentation), "logging", "log", t)
 
@@ -129,6 +134,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "write"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.parameters.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", testBucketName),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "objectstorage"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
@@ -140,7 +146,6 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "log_type", "SERVICE"),
 				resource.TestCheckResourceAttr(resourceName, "retention_duration", "30"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
-				//resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -165,6 +170,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.category", "write"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.parameters.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.resource", testBucketName),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.service", "objectstorage"),
 				resource.TestCheckResourceAttr(resourceName, "configuration.0.source.0.source_type", "OCISERVICE"),
@@ -205,6 +211,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.category", "write"),
+				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.parameters.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.resource", testBucketName),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.service", "objectstorage"),
 				resource.TestCheckResourceAttr(datasourceName, "logs.0.configuration.0.source.0.source_type", "OCISERVICE"),
@@ -234,6 +241,7 @@ func TestLoggingLogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.category", "write"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.parameters.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.resource", testBucketName),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.service", "objectstorage"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.source.0.source_type", "OCISERVICE"),

@@ -38,6 +38,10 @@ resource "oci_logging_log_group" "test_log_group" {
     "${var.tag_namespace1_name}.${var.tag2_name}" = var.defined_tags_value
   }
   freeform_tags      = var.freeform_tags_value
+
+  lifecycle {
+    ignore_changes = [ defined_tags ]
+  }
 }
 
 data "oci_logging_log_groups" "test_log_groups" {

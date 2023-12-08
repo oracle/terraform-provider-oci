@@ -55,6 +55,7 @@ The following attributes are exported:
 	* `compartment_id` - The OCID of the compartment that the resource belongs to.
 	* `source` - The source the log object comes from.
 		* `category` - Log object category.
+		* `parameters` - Log category parameters are stored here.
 		* `resource` - The unique identifier of the resource emitting the log.
 		* `service` - Service generating log.
 		* `source_type` - The log source.

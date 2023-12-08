@@ -198,7 +198,7 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
         source {
           type = "UMA_METRICS"
           record_input {
-            namespace = "tf-test-namespace"
+            namespace = "tf_test_namespace"
             resource_group = "tf-test-resource-group"
           }
         }
@@ -249,6 +249,10 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
 
     #Optional
     group_list = ["ocid1.dynamicgroup.oc1..aaaaaaaatqbpurg4jtr57dthka4lbykvsqajjmynecixwgsfgu2z36wf4kgq"]
+  }
+
+  lifecycle {
+    ignore_changes = [ defined_tags ]
   }
 }
 

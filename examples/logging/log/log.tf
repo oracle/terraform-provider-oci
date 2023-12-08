@@ -90,6 +90,10 @@ resource "oci_logging_log" "test_log" {
   freeform_tags      = var.freeform_tags_value
   is_enabled         = "false"
   retention_duration = "30"
+
+  lifecycle {
+    ignore_changes = [ defined_tags ]
+  }
 }
 
 data "oci_logging_logs" "test_logs" {
