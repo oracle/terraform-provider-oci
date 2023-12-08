@@ -85,6 +85,14 @@ func (s *DataSafeSensitiveTypeDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.SensitiveType.GetFreeformTags())
 
+	if s.Res.SensitiveType.GetIsCommon() != nil {
+		s.D.Set("is_common", *s.Res.SensitiveType.GetIsCommon())
+	}
+
+	if s.Res.SensitiveType.GetIsCommon() != nil {
+		s.D.Set("is_common", *s.Res.SensitiveType.GetIsCommon())
+	}
+
 	if s.Res.SensitiveType.GetParentCategoryId() != nil {
 		s.D.Set("parent_category_id", *s.Res.SensitiveType.GetParentCategoryId())
 	}
@@ -107,6 +115,16 @@ func (s *DataSafeSensitiveTypeDataSourceCrud) SetData() error {
 
 	if s.Res.SensitiveType.GetTimeUpdated() != nil {
 		s.D.Set("time_updated", s.Res.SensitiveType.GetTimeUpdated().String())
+	}
+
+	switch v := (s.Res.SensitiveType).(type) {
+
+	case oci_data_safe.SensitiveTypePattern:
+		s.D.Set("entity_type", "SENSITIVE_TYPE")
+
+		if v.CommentPattern != nil {
+			s.D.Set("comment_pattern", *v.CommentPattern)
+		}
 	}
 
 	return nil

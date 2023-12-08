@@ -44,7 +44,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) The description of the security policy.
 * `display_name` - (Optional) (Updatable) The display name of the database security config. The name does not have to be unique, and it is changeable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
-* `sql_firewall_config` - (Optional) (Updatable) Details to update the SQL firewall config. 
+* `sql_firewall_config` - (Optional) (Updatable) Details to update the SQL Firewall config. 
 	* `exclude_job` - (Optional) (Updatable) Specifies whether the firewall should include or exclude the database internal job activities.
 	* `status` - (Optional) (Updatable) Specifies whether the firewall is enabled or disabled on the target database.
 	* `violation_log_auto_purge` - (Optional) (Updatable) Specifies whether Data Safe should automatically purge the violation logs  from the database after collecting the violation logs and persisting on Data Safe. 
@@ -65,7 +65,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the database security config.
 * `lifecycle_details` - Details about the current state of the database security config in Data Safe.
-* `sql_firewall_config` - The SQL firewall related configurations. 
+* `sql_firewall_config` - The SQL Firewall related configurations. 
 	* `exclude_job` - Specifies whether the firewall should include or exclude the database internal job activities.
 	* `status` - Specifies if the firewall is enabled or disabled on the target database.
 	* `time_status_updated` - The most recent time when the firewall status is updated, in the format defined by RFC3339.

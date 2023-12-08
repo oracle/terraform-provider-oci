@@ -39,7 +39,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the database security config.
 * `lifecycle_details` - Details about the current state of the database security config in Data Safe.
-* `sql_firewall_config` - The SQL firewall related configurations. 
+* `sql_firewall_config` - The SQL Firewall related configurations. 
 	* `exclude_job` - Specifies whether the firewall should include or exclude the database internal job activities.
 	* `status` - Specifies if the firewall is enabled or disabled on the target database.
 	* `time_status_updated` - The most recent time when the firewall status is updated, in the format defined by RFC3339.
