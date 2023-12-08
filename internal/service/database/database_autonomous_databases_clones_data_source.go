@@ -5,6 +5,7 @@ package database
 
 import (
 	"context"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -1385,7 +1386,7 @@ func LongTermBackUpScheduleDetailsToMap(obj *oci_database.LongTermBackUpSchedule
 	}
 
 	if obj.TimeOfBackup != nil {
-		result["time_of_backup"] = obj.TimeOfBackup.String()
+		result["time_of_backup"] = obj.TimeOfBackup.Format(time.RFC3339Nano)
 	}
 
 	return result
