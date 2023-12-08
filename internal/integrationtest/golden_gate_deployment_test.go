@@ -33,6 +33,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		COMPARTMENT_ID          = "compartment_id"
 		COMPARTMENT_ID_FOR_MOVE = "compartment_id_for_move"
 		TEST_SUBNET_ID          = "test_subnet_id"
+		LOAD_BALANCER_SUBNET_ID = "load_balancer_subnet_id"
 		CERTIFICATE             = "certificate"
 		KEY                     = "key"
 		BASE_OGG_VERSION        = "base_ogg_version"
@@ -157,6 +158,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		makeVariableStr(COMPARTMENT_ID, t) +
 		makeVariableStr(COMPARTMENT_ID_FOR_MOVE, t) +
 		makeVariableStr(TEST_SUBNET_ID, t) +
+		makeVariableStr(LOAD_BALANCER_SUBNET_ID, t) +
 		makeVariableStr(CERTIFICATE, t) +
 		makeVariableStr(KEY, t) +
 		makeVariableStr(BASE_OGG_VERSION, t) +
@@ -176,7 +178,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create, goldenGateDeploymentRepresentation), "goldengate", "deployment", t)
 
 	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{
-		// verify Create
+		//		verify Create
 		{
 			Config: config + testDeploymentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create, goldenGateDeploymentRepresentation),
@@ -193,6 +195,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
+				resource.TestCheckNoResourceAttr(resourceName, "load_balancer_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "load_balancer_subnet_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -273,8 +277,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Update,
 				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
-					"ogg_data": acctest.RepresentationGroup{RepType: acctest.Required, Group: oggDataRepresentationForGoldenGate},
-				})),
+					"ogg_data":                acctest.RepresentationGroup{RepType: acctest.Required, Group: oggDataRepresentationForGoldenGate},
+					"is_public":               acctest.Representation{RepType: acctest.Optional, Update: `true`},
+					"load_balancer_subnet_id": acctest.Representation{RepType: acctest.Optional, Update: `${var.load_balancer_subnet_id}`}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
@@ -289,11 +294,12 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername2"),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.password_secret_id", passwordSecretId2),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.deployment_name", "GoldengateDeployment"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					if resId == resId2 {
+						return fmt.Errorf("resource updated in place when it was supposed to be recreated for public access")
 					}
 					return err
 				},
