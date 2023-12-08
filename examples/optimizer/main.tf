@@ -134,6 +134,10 @@ resource "oci_optimizer_profile" "test_profile" {
       tag_values = ["tagValue"]
     }
   }
+
+  lifecycle {
+    ignore_changes = [system_tags]
+  }
 }
 
 data "oci_optimizer_profile" "test_profile" {

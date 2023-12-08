@@ -16,6 +16,10 @@ import (
 
 func OptimizerResourceActionDataSource() *schema.Resource {
 	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["include_resource_metadata"] = &schema.Schema{
+		Type:     schema.TypeBool,
+		Optional: true,
+	}
 	fieldMap["resource_action_id"] = &schema.Schema{
 		Type:     schema.TypeString,
 		Required: true,
@@ -43,6 +47,11 @@ func (s *OptimizerResourceActionDataSourceCrud) VoidState() {
 
 func (s *OptimizerResourceActionDataSourceCrud) Get() error {
 	request := oci_optimizer.GetResourceActionRequest{}
+
+	if includeResourceMetadata, ok := s.D.GetOkExists("include_resource_metadata"); ok {
+		tmp := includeResourceMetadata.(bool)
+		request.IncludeResourceMetadata = &tmp
+	}
 
 	if resourceActionId, ok := s.D.GetOkExists("resource_action_id"); ok {
 		tmp := resourceActionId.(string)
