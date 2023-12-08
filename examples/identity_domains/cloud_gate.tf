@@ -22,7 +22,7 @@ variable "cloud_gate_description" {
 }
 
 variable "cloud_gate_display_name" {
-  default = "displayName"
+  default = "cloudGateDisplayName"
 }
 
 variable "cloud_gate_last_modified_time" {
