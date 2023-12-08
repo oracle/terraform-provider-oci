@@ -858,6 +858,7 @@ load_balancer
 * oci\_load\_balancer\_path\_route\_set
 * oci\_load\_balancer\_load\_balancer\_routing\_policy
 * oci\_load\_balancer\_rule\_set
+* oci\_load\_balancer\_ssl\_cipher\_suite
 
 log_analytics
 
