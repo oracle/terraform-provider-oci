@@ -1003,6 +1003,7 @@ opsi
 * oci\_opsi\_operations\_insights\_private\_endpoint
 * oci\_opsi\_opsi\_configuration
 * oci\_opsi\_news\_report
+* oci\_opsi\_awr\_hub\_source
 
 optimizer
 

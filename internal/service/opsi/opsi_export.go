@@ -146,6 +146,18 @@ var exportOpsiNewsReportHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportOpsiAwrHubSourceHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_opsi_awr_hub_source",
+	DatasourceClass:        "oci_opsi_awr_hub_sources",
+	DatasourceItemsAttr:    "awr_hub_source_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "awr_hub_source",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_opsi.AwrHubSourceLifecycleStateActive),
+	},
+}
+
 var opsiResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportOpsiEnterpriseManagerBridgeHints},
@@ -156,6 +168,14 @@ var opsiResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportOpsiOperationsInsightsPrivateEndpointHints},
 		{TerraformResourceHints: exportOpsiOpsiConfigurationHints},
 		{TerraformResourceHints: exportOpsiNewsReportHints},
+	},
+	"oci_opsi_awr_hub": {
+		{
+			TerraformResourceHints: exportOpsiAwrHubSourceHints,
+			DatasourceQueryParams: map[string]string{
+				"awr_hub_id": "id",
+			},
+		},
 	},
 	"oci_opsi_operations_insights_warehouse": {
 		{
