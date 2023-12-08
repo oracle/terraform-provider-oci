@@ -34,7 +34,6 @@ func OpsiOperationsInsightsWarehouseResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"cpu_allocated": {
 				Type:     schema.TypeFloat,
@@ -363,6 +362,15 @@ func (s *OpsiOperationsInsightsWarehouseResourceCrud) Get() error {
 }
 
 func (s *OpsiOperationsInsightsWarehouseResourceCrud) Update() error {
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_opsi.UpdateOperationsInsightsWarehouseRequest{}
 
 	if cpuAllocated, ok := s.D.GetOkExists("cpu_allocated"); ok {
@@ -558,4 +566,24 @@ func OperationsInsightsWarehouseSummaryToMap(obj oci_opsi.OperationsInsightsWare
 	}
 
 	return result
+}
+
+func (s *OpsiOperationsInsightsWarehouseResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_opsi.ChangeOperationsInsightsWarehouseCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.OperationsInsightsWarehouseId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi")
+
+	response, err := s.Client.ChangeOperationsInsightsWarehouseCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getOperationsInsightsWarehouseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opsi"), oci_opsi.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }

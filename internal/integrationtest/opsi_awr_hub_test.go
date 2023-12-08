@@ -51,7 +51,7 @@ var (
 	OpsiAwrHubRepresentation = map[string]interface{}{
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"object_storage_bucket_name":       acctest.Representation{RepType: acctest.Required, Create: `${oci_objectstorage_bucket.test_bucket.name}`},
+		"object_storage_bucket_name":       acctest.Representation{RepType: acctest.Optional, Create: `${var.bucket_name}`},
 		"operations_insights_warehouse_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_opsi_operations_insights_warehouse.test_operations_insights_warehouse.id}`},
 		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -63,8 +63,6 @@ var (
 	}
 
 	OpsiAwrHubResourceDependencies = DefinedTagsDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_operations_insights_warehouse", "test_operations_insights_warehouse", acctest.Required, acctest.Create, OpsiOperationsInsightsWarehouseRepresentation)
 )
 
@@ -75,6 +73,9 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
+	bucketName := utils.GetEnvSettingWithBlankDefault("bucket_name")
+	bucketNameVariableStr := fmt.Sprintf("variable \"bucket_name\" { default = \"%s\" }\n", bucketName)
+
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -84,7 +85,7 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OpsiAwrHubResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+bucketNameVariableStr+OpsiAwrHubResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Create, OpsiAwrHubRepresentation), "operationsinsights", "awrHub", t)
 
 	acctest.ResourceTest(t, testAccCheckOpsiAwrHubDestroy, []resource.TestStep{
@@ -95,7 +96,6 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttrSet(resourceName, "object_storage_bucket_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "operations_insights_warehouse_id"),
 
 				func(s *terraform.State) (err error) {
@@ -107,11 +107,11 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 
 		// delete before next create
 		{
-			Config: config + compartmentIdVariableStr + OpsiAwrHubResourceDependencies,
+			Config: config + compartmentIdVariableStr + bucketNameVariableStr + OpsiAwrHubResourceDependencies,
 		},
 		// verify create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OpsiAwrHubResourceDependencies +
+			Config: config + compartmentIdVariableStr + bucketNameVariableStr + OpsiAwrHubResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Create, OpsiAwrHubRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -138,7 +138,7 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + OpsiAwrHubResourceDependencies +
+			Config: config + compartmentIdVariableStr + bucketNameVariableStr + OpsiAwrHubResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Update, OpsiAwrHubRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -164,7 +164,7 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hubs", "test_awr_hubs", acctest.Optional, acctest.Update, OpsiOpsiAwrHubDataSourceRepresentation) +
-				compartmentIdVariableStr + OpsiAwrHubResourceDependencies +
+				compartmentIdVariableStr + bucketNameVariableStr + OpsiAwrHubResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Optional, acctest.Update, OpsiAwrHubRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -181,7 +181,7 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_opsi_awr_hub", "test_awr_hub", acctest.Required, acctest.Create, OpsiOpsiAwrHubSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + OpsiAwrHubResourceConfig,
+				compartmentIdVariableStr + bucketNameVariableStr + OpsiAwrHubResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "awr_hub_id"),
 
@@ -190,6 +190,7 @@ func TestOpsiAwrHubResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "hub_dst_timezone_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

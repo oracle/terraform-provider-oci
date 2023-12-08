@@ -35,7 +35,7 @@ resource "oci_opsi_operations_insights_warehouse" "test_operations_insights_ware
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpu_allocated` - (Required) (Updatable) Number of OCPUs allocated to OPSI Warehouse ADW. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) User-friedly name of Operations Insights Warehouse that does not have to be unique.
