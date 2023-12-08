@@ -60,7 +60,7 @@ The following attributes are exported:
 	* `gdpr` - Relevant section from GDPR.
 	* `stig` - Relevant section from STIG.
 * `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
-* `severity` - The severity of the finding.
+* `severity` - The severity of the finding as determined by security assessment and is same as oracleDefinedSeverity, unless modified by user.
 * `summary` - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.
 * `target_id` - The OCID of the target database.
 * `title` - The short title for the finding.

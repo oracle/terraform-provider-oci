@@ -38,7 +38,7 @@ The following attributes are exported:
 * `display_name` - Name of the report.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the report.
-* `mime_type` - Specifies the format of report to be excel or pdf
+* `mime_type` - Specifies the format of report to be .xls or .pdf
 * `report_definition_id` - The OCID of the report definition.
 * `state` - The current state of the audit report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

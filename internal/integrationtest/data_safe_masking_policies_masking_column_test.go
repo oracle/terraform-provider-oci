@@ -56,12 +56,41 @@ var (
 		"schema_name":       acctest.Representation{RepType: acctest.Required, Create: `HCM`},
 		"masking_formats":   acctest.RepresentationGroup{RepType: acctest.Required, Group: maskingPoliciesMaskingColumnMaskingFormatsRepresentation},
 	}
+
 	maskingPoliciesMaskingColumnMaskingFormatsRepresentation = map[string]interface{}{
 		"format_entries": acctest.RepresentationGroup{RepType: acctest.Required, Group: maskingPoliciesMaskingColumnMaskingFormatsFormatEntriesRepresentation},
 	}
+
 	maskingPoliciesMaskingColumnMaskingFormatsFormatEntriesRepresentation = map[string]interface{}{
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `FIXED_STRING`, Update: `FIXED_STRING`},
 		"fixed_string": acctest.Representation{RepType: acctest.Required, Create: `FixedStringName`, Update: `FixedStringUpdate`},
+	}
+
+	DataSafeMaskingPoliciesMaskingColumnMaskingFormatsFormatEntriesRepresentation = map[string]interface{}{
+		"type":                      acctest.Representation{RepType: acctest.Required, Create: `DELETE_ROWS`, Update: `DETERMINISTIC_SUBSTITUTION`},
+		"column_name":               acctest.Representation{RepType: acctest.Optional, Create: `columnName`, Update: `columnName2`},
+		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"end_date":                  acctest.Representation{RepType: acctest.Optional, Create: `endDate`, Update: `endDate2`},
+		"end_length":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"end_value":                 acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"fixed_number":              acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"fixed_string":              acctest.Representation{RepType: acctest.Optional, Create: `fixedString`, Update: `fixedString2`},
+		"grouping_columns":          acctest.Representation{RepType: acctest.Optional, Create: []string{`groupingColumns`}, Update: []string{`groupingColumns2`}},
+		"length":                    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"library_masking_format_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_library_masking_format.test_library_masking_format.id}`},
+		"pattern":                   acctest.Representation{RepType: acctest.Optional, Create: `pattern`, Update: `pattern2`},
+		"post_processing_function":  acctest.Representation{RepType: acctest.Optional, Create: `postProcessingFunction`, Update: `postProcessingFunction2`},
+		"random_list":               acctest.Representation{RepType: acctest.Optional, Create: []string{`randomList`}, Update: []string{`randomList2`}},
+		"regular_expression":        acctest.Representation{RepType: acctest.Optional, Create: `regularExpression`, Update: `regularExpression2`},
+		"replace_with":              acctest.Representation{RepType: acctest.Optional, Create: `replaceWith`, Update: `replaceWith2`},
+		"schema_name":               acctest.Representation{RepType: acctest.Optional, Create: `schemaName`, Update: `schemaName2`},
+		"sql_expression":            acctest.Representation{RepType: acctest.Optional, Create: `sqlExpression`, Update: `sqlExpression2`},
+		"start_date":                acctest.Representation{RepType: acctest.Optional, Create: `startDate`, Update: `startDate2`},
+		"start_length":              acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"start_position":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"start_value":               acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"table_name":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_nosql_table.test_table.name}`},
+		"user_defined_function":     acctest.Representation{RepType: acctest.Optional, Create: `userDefinedFunction`, Update: `userDefinedFunction2`},
 	}
 
 	DataSafeMaskingPoliciesMaskingColumnResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, maskingPolicyRepresentation) +

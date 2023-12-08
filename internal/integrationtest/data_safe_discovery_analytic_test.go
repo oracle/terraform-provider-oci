@@ -20,6 +20,10 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"group_by":                  acctest.Representation{RepType: acctest.Optional, Create: `targetId`},
+		"is_common":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"sensitive_data_model_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
+		"sensitive_type_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_type.test_sensitive_type.id}`},
+		"target_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_cloud_guard_target.test_target.id}`},
 	}
 
 	DataSafeDiscoveryAnalyticResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_discovery_analytics", "test_discovery_analytics", acctest.Required, acctest.Create, DataSafediscoveryAnalyticDataSourceRepresentation)

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_safe_sql_firewall_violations
 This data source provides the list of Sql Firewall Violations in Oracle Cloud Infrastructure Data Safe service.
 
-Gets a list of all the SQL firewall violations captured by the firewall.
+Gets a list of all the SQL Firewall violations captured by the firewall.
 
 
 ## Example Usage

@@ -31,7 +31,15 @@ func DataSafeDiscoveryAnalyticsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_common": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"sensitive_data_model_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"sensitive_type_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -74,6 +82,10 @@ func DataSafeDiscoveryAnalyticsDataSource() *schema.Resource {
 
 												// Computed
 												"sensitive_data_model_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"sensitive_type_id": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -133,9 +145,19 @@ func (s *DataSafeDiscoveryAnalyticsDataSourceCrud) Get() error {
 		request.GroupBy = oci_data_safe.ListDiscoveryAnalyticsGroupByEnum(groupBy.(string))
 	}
 
+	if isCommon, ok := s.D.GetOkExists("is_common"); ok {
+		tmp := isCommon.(bool)
+		request.IsCommon = &tmp
+	}
+
 	if sensitiveDataModelId, ok := s.D.GetOkExists("sensitive_data_model_id"); ok {
 		tmp := sensitiveDataModelId.(string)
 		request.SensitiveDataModelId = &tmp
+	}
+
+	if sensitiveTypeId, ok := s.D.GetOkExists("sensitive_type_id"); ok {
+		tmp := sensitiveTypeId.(string)
+		request.SensitiveTypeId = &tmp
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
@@ -199,6 +221,10 @@ func DataSafeDimensionsToMap(obj *oci_data_safe.Dimensions) map[string]interface
 
 	if obj.SensitiveDataModelId != nil {
 		result["sensitive_data_model_id"] = string(*obj.SensitiveDataModelId)
+	}
+
+	if obj.SensitiveTypeId != nil {
+		result["sensitive_type_id"] = string(*obj.SensitiveTypeId)
 	}
 
 	if obj.TargetId != nil {
