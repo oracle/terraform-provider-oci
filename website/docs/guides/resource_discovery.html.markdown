@@ -902,6 +902,8 @@ metering_computation
 * oci\_metering\_computation\_query
 * oci\_metering\_computation\_custom\_table
 * oci\_metering\_computation\_schedule
+* oci\_metering\_computation\_usage\_carbon\_emissions\_query
+* oci\_metering\_computation\_usage\_carbon\_emission
 
 monitoring
 
