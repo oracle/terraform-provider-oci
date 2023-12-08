@@ -74,6 +74,7 @@ The following attributes are exported:
 * `entity_type` - The entity type. It can be either a sensitive type with regular expressions or a sensitive category used for grouping similar sensitive types. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the sensitive type.
+* `is_common` - Specifies whether the sensitive type is common. Common sensitive types belong to  library sensitive types which are frequently used to perform sensitive data discovery. 
 * `name_pattern` - A regular expression to be used by data discovery for matching column names.
 * `parent_category_id` - The OCID of the parent sensitive category.
 * `search_type` - The search type indicating how the column name, comment and data patterns should be used by data discovery. [Learn more](https://docs.oracle.com/en/cloud/paas/data-safe/udscs/sensitive-types.html#GUID-1D1AD98E-B93F-4FF2-80AE-CB7D8A14F6CC). 

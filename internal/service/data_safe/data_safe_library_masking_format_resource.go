@@ -57,6 +57,7 @@ func DataSafeLibraryMaskingFormatResource() *schema.Resource {
 								"FIXED_STRING",
 								"LIBRARY_MASKING_FORMAT",
 								"NULL_VALUE",
+								"PATTERN",
 								"POST_PROCESSING_FUNCTION",
 								"PRESERVE_ORIGINAL_DATA",
 								"RANDOM_DATE",
@@ -126,6 +127,11 @@ func DataSafeLibraryMaskingFormatResource() *schema.Resource {
 							Computed: true,
 						},
 						"library_masking_format_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"pattern": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -784,6 +790,17 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) mapToFormatEntry(fieldKeyForm
 			details.Description = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("PATTERN"):
+		details := oci_data_safe.PatternFormatEntry{}
+		if pattern, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pattern")); ok {
+			tmp := pattern.(string)
+			details.Pattern = &tmp
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("POST_PROCESSING_FUNCTION"):
 		details := oci_data_safe.PpfFormatEntry{}
 		if postProcessingFunction, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "post_processing_function")); ok {
@@ -1096,6 +1113,16 @@ func FormatEntryToMap(obj oci_data_safe.FormatEntry) map[string]interface{} {
 		}
 	case oci_data_safe.NullValueFormatEntry:
 		result["type"] = "NULL_VALUE"
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+	case oci_data_safe.PatternFormatEntry:
+		result["type"] = "PATTERN"
+
+		if v.Pattern != nil {
+			result["pattern"] = string(*v.Pattern)
+		}
 
 		if v.Description != nil {
 			result["description"] = string(*v.Description)

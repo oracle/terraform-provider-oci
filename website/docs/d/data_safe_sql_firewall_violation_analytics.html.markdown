@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_safe_sql_firewall_violation_analytics
 This data source provides the list of Sql Firewall Violation Analytics in Oracle Cloud Infrastructure Data Safe service.
 
-Returns the aggregation details of the SQL firewall violations.
+Returns the aggregation details of the SQL Firewall violations.
 
 
 ## Example Usage
@@ -67,7 +67,7 @@ The following attributes are exported:
 		* `db_user_name` - The name of the database user.
 		* `operation` - The name of the action executed by the user on the target database, for example, ALTER, CREATE, DROP.
 		* `operation_time` - The time of the SQL violation occurrence in the target database.
-		* `sql_level` - Specifies the level of SQL included for this SQL firewall policy. USER_ISSUED_SQL - User issued SQL statements only. ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units. 
+		* `sql_level` - Specifies the level of SQL included for this SQL Firewall policy. USER_ISSUED_SQL - User issued SQL statements only. ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units. 
 		* `target_id` - The OCID of the target database.
 		* `target_name` - The name of the target database.
 		* `violation_action` - The action taken for this SQL violation.
