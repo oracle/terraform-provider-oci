@@ -1038,6 +1038,83 @@ func TestResourceDatabaseAutonomousDatabaseResource_preview(t *testing.T) {
 }
 
 // issue-routing-tag: database/dbaas-adb
+func TestResourceDatabaseAutonomousDatabaseResource_longtermBackup(t *testing.T) {
+
+	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_longtermBackup")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"long_term_backup_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseLongTermBackupCreate},
+					}),
+				),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"long_term_backup_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseLongTermBackupDelete},
+					}),
+				),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T) {
 	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus")
 	defer httpreplay.SaveScenario()

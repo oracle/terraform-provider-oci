@@ -29,6 +29,7 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
+
 			Create: tfresource.GetTimeoutDuration("12h"),
 			Update: tfresource.GetTimeoutDuration("12h"),
 			Delete: tfresource.GetTimeoutDuration("12h"),
@@ -827,8 +828,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				},
 			},
 			"long_term_backup_schedule": {
-				Type:     schema.TypeList,
-				Computed: true,
+				Type:             schema.TypeList,
+				Computed:         true,
+				Optional:         true,
+				DiffSuppressFunc: longTermBackupSupressDiff,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -839,18 +842,22 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						"is_disabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
+							Optional: true,
 						},
 						"repeat_cadence": {
 							Type:     schema.TypeString,
 							Computed: true,
+							Optional: true,
 						},
 						"retention_period_in_days": {
 							Type:     schema.TypeInt,
 							Computed: true,
+							Optional: true,
 						},
 						"time_of_backup": {
 							Type:     schema.TypeString,
 							Computed: true,
+							Optional: true,
 						},
 					},
 				},
@@ -1583,7 +1590,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.LocalAdgAutoFailoverMaxDataLossLimit = &tmp
 	}
 
-	if longTermBackupSchedule, ok := s.D.GetOkExists("long_term_backup_schedule"); ok {
+	if longTermBackupSchedule, ok := s.D.GetOkExists("long_term_backup_schedule"); ok && s.D.HasChange("long_term_backup_schedule") {
 		if tmpList := longTermBackupSchedule.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "long_term_backup_schedule", 0)
 			tmp, err := s.mapToLongTermBackUpScheduleDetails(fieldKeyFormat)
@@ -1779,6 +1786,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Delete() error {
 
 	_, err := s.Client.DeleteAutonomousDatabase(context.Background(), request)
 	return err
+}
+
+func longTermBackupSupressDiff(key string, old string, new string, d *schema.ResourceData) bool {
+	if longTermBackupSchedule, ok := d.GetOkExists("long_term_backup_schedule"); ok {
+		if tmpList := longTermBackupSchedule.([]interface{}); len(tmpList) > 0 {
+			isDisabled, _ := d.GetOkExists(fmt.Sprintf("long_term_backup_schedule.%d.is_disabled", 0))
+			if isDisabled.(bool) == true {
+				return true
+			}
+			return false
+		}
+		return false
+	}
+	return false
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
