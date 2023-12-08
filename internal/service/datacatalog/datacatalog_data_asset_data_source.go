@@ -65,8 +65,7 @@ func (s *DatacatalogDataAssetDataSourceCrud) Get() error {
 	}
 
 	if fields, ok := s.D.GetOkExists("fields"); ok {
-		set := fields.(*schema.Set)
-		interfaces := set.List()
+		interfaces := fields.([]interface{})
 		tmp := make([]oci_datacatalog.GetDataAssetFieldsEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
@@ -120,6 +119,7 @@ func (s *DatacatalogDataAssetDataSourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
 	if s.Res.Properties != nil {
 		s.D.Set("properties", propertiesToMap(s.Res.Properties))
 	}

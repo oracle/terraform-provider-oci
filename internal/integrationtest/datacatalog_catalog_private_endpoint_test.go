@@ -52,12 +52,12 @@ var (
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreCatalogPrivateEndpointDefinedTagsChangesRepresentation},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreCatalogPrivateEndpointDefinedTagsnSystemtagsChangesRepresentation},
 	}
 
 	// need to ignore the defined tags created by the OCI service tenancy
-	ignoreCatalogPrivateEndpointDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	ignoreCatalogPrivateEndpointDefinedTagsnSystemtagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
 	}
 
 	DatacatalogCatalogPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -195,6 +195,7 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_private_endpoints.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "catalog_private_endpoints.0.locks.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_private_endpoints.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_private_endpoints.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalog_private_endpoints.0.time_created"),
@@ -214,6 +215,8 @@ func TestDatacatalogCatalogPrivateEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_zones.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

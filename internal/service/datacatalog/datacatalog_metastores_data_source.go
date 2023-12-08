@@ -128,7 +128,17 @@ func (s *DatacatalogMetastoresDataSourceCrud) SetData() error {
 			metastore["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, ResourceLockToMapMetastore(item))
+		}
+		metastore["locks"] = locks
+
 		metastore["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			metastore["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			metastore["time_created"] = r.TimeCreated.String()

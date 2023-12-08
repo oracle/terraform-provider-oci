@@ -57,7 +57,7 @@ var (
 		"catalog_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_catalog.test_catalog.id}`},
 		"data_asset_key": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_data_asset.test_data_asset.id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"properties":     acctest.Representation{RepType: acctest.Required, Create: map[string]string{"default.username": "scott"}, Update: map[string]string{"default.username": "wardon"}},
+		"properties":     acctest.Representation{RepType: acctest.Required, Create: map[string]string{"default.username": "scott", "default.passwordAndSecrets": "passwordField"}, Update: map[string]string{"default.username": "wardon", "default.passwordAndSecrets": "passwordField"}},
 		"type_key":       acctest.Representation{RepType: acctest.Required, Create: `${data.oci_datacatalog_catalog_types.test_catalog_types_connection.type_collection.0.items.0.key}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"enc_properties": acctest.Representation{RepType: acctest.Required, Create: map[string]string{"default.password": "tiger"}, Update: map[string]string{"default.password": "lion"}},
@@ -109,7 +109,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "catalog_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "data_asset_key"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "properties.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
@@ -135,7 +135,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "enc_properties.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_default", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "key"),
-				resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "properties.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
@@ -166,7 +166,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "enc_properties.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "is_default", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "key"),
-				resource.TestCheckResourceAttr(resourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "properties.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "type_key"),
 
 				func(s *terraform.State) (err error) {
@@ -210,7 +210,7 @@ func TestDatacatalogConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_key"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_default", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "properties.%", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
