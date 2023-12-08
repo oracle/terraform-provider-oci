@@ -109,6 +109,12 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	ingressIps := []interface{}{}
+	for _, item := range s.Res.IngressIps {
+		ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+	}
+	s.D.Set("ingress_ips", ingressIps)
+
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
 	}
@@ -136,6 +142,14 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
+	if s.Res.LoadBalancerId != nil {
+		s.D.Set("load_balancer_id", *s.Res.LoadBalancerId)
+	}
+
+	if s.Res.LoadBalancerSubnetId != nil {
+		s.D.Set("load_balancer_subnet_id", *s.Res.LoadBalancerSubnetId)
+	}
 
 	if s.Res.MaintenanceConfiguration != nil {
 		s.D.Set("maintenance_configuration", []interface{}{MaintenanceConfigurationToMap(s.Res.MaintenanceConfiguration)})
