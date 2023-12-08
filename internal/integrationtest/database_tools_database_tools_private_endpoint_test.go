@@ -6,10 +6,11 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"strconv"
 	"testing"
 	"time"
+
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"

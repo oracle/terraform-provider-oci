@@ -20,6 +20,7 @@ func init() {
 	exportLoadBalancerPathRouteSetHints.GetIdFn = getLoadBalancerPathRouteSetId
 	exportLoadBalancerLoadBalancerRoutingPolicyHints.GetIdFn = getLoadBalancerLoadBalancerRoutingPolicyId
 	exportLoadBalancerRuleSetHints.GetIdFn = getLoadBalancerRuleSetId
+	exportLoadBalancerSslCipherSuiteHints.GetIdFn = getLoadBalancerSslCipherSuiteId
 	exportLoadBalancerBackendHints.ProcessDiscoveredResourcesFn = processLoadBalancerBackends
 	exportLoadBalancerBackendSetHints.ProcessDiscoveredResourcesFn = processLoadBalancerBackendSets
 	exportLoadBalancerCertificateHints.ProcessDiscoveredResourcesFn = processLoadBalancerCertificates
@@ -332,6 +333,16 @@ func getLoadBalancerRuleSetId(resource *tf_export.OCIResource) (string, error) {
 	return GetRuleSetCompositeId(loadBalancerId, name), nil
 }
 
+func getLoadBalancerSslCipherSuiteId(resource *tf_export.OCIResource) (string, error) {
+
+	loadBalancerId := resource.Parent.Id
+	name, ok := resource.SourceAttributes["name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find name for LoadBalancer SslCipherSuite")
+	}
+	return getSslCipherSuiteCompositeId(loadBalancerId, name), nil
+}
+
 // Hints for discovering and exporting this resource to configuration and state files
 var exportLoadBalancerBackendHints = &tf_export.TerraformResourceHints{
 	ResourceClass:        "oci_load_balancer_backend",
@@ -397,6 +408,13 @@ var exportLoadBalancerRuleSetHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "rule_set",
 }
 
+var exportLoadBalancerSslCipherSuiteHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_load_balancer_ssl_cipher_suite",
+	DatasourceClass:      "oci_load_balancer_ssl_cipher_suites",
+	DatasourceItemsAttr:  "ssl_cipher_suites",
+	ResourceAbbreviation: "ssl_cipher_suite",
+}
+
 var loadBalancerResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportLoadBalancerLoadBalancerHints},
@@ -447,6 +465,12 @@ var loadBalancerResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportLoadBalancerRuleSetHints,
+			DatasourceQueryParams: map[string]string{
+				"load_balancer_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportLoadBalancerSslCipherSuiteHints,
 			DatasourceQueryParams: map[string]string{
 				"load_balancer_id": "id",
 			},
