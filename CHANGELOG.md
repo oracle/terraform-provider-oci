@@ -1,4 +1,4 @@
-## 5.22.0 (Unreleased)
+## 5.22.0 (December 06, 2023)
 
 ### Added
 - Support for VM Cluster Vertical scaling | ADB-D + ADB-C@C
@@ -16,6 +16,8 @@ support for Database Tools service connections without runtime support
 - Support for Increase Creation Time for VM Cluster in Terraform
 - Support adding managed instances to a group
 - git module configuration to resolve TC job failure issue
+
+## 5.21.0 (November 14, 2023)
 - Support for BM Capacity API for customers with dedicated capacity
 test improvements for postgresql service
 - Support for BDS Certificate Management - API ONLY Changes
