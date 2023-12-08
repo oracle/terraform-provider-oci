@@ -99,6 +99,11 @@ func OptimizerProfileResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"target_compartments": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -475,6 +480,10 @@ func (s *OptimizerProfileResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TargetCompartments != nil {
 		s.D.Set("target_compartments", []interface{}{TargetCompartmentsToMap(s.Res.TargetCompartments)})
 	} else {
@@ -597,6 +606,10 @@ func ProfileSummaryToMap(obj oci_optimizer.ProfileSummary) map[string]interface{
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TargetCompartments != nil {
 		result["target_compartments"] = []interface{}{TargetCompartmentsToMap(obj.TargetCompartments)}

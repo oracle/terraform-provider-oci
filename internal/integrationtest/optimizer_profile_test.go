@@ -52,6 +52,7 @@ var (
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"target_compartments":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: OptimizerProfileTargetCompartmentsRepresentation},
 		"target_tags":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: OptimizerProfileTargetTagsRepresentation},
+		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreProfileChangesRep},
 	}
 	OptimizerProfileLevelsConfigurationRepresentation = map[string]interface{}{
 		"items": acctest.RepresentationGroup{RepType: acctest.Required, Group: OptimizerProfileLevelsConfigurationItemsRepresentation},
@@ -75,6 +76,9 @@ var (
 
 	OptimizerProfileResourceDependencies = DefinedTagsDependencies + OptimizerRecommendationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_optimizer_recommendation", "test_recommendation", acctest.Required, acctest.Create, OptimizerRecommendationRepresentation)
+	ignoreProfileChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
+	}
 )
 
 // issue-routing-tag: optimizer/default

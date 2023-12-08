@@ -26,6 +26,10 @@ func OptimizerHistoriesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Required: true,
 			},
+			"include_resource_metadata": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -195,6 +199,11 @@ func (s *OptimizerHistoriesDataSourceCrud) Get() error {
 	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
+	}
+
+	if includeResourceMetadata, ok := s.D.GetOkExists("include_resource_metadata"); ok {
+		tmp := includeResourceMetadata.(bool)
+		request.IncludeResourceMetadata = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

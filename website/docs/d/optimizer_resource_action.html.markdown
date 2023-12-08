@@ -19,6 +19,9 @@ Gets the resource action that corresponds to the specified OCID.
 data "oci_optimizer_resource_action" "test_resource_action" {
 	#Required
 	resource_action_id = oci_optimizer_resource_action.test_resource_action.id
+
+	#Optional
+	include_resource_metadata = var.resource_action_include_resource_metadata
 }
 ```
 
@@ -26,6 +29,7 @@ data "oci_optimizer_resource_action" "test_resource_action" {
 
 The following arguments are supported:
 
+* `include_resource_metadata` - (Optional) Supplement additional resource information in extended metadata response.
 * `resource_action_id` - (Required) The unique OCID associated with the resource action.
 
 
