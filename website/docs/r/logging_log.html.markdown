@@ -32,6 +32,9 @@ resource "oci_logging_log" "test_log" {
 			resource = var.log_configuration_source_resource
 			service = var.log_configuration_source_service
 			source_type = var.log_configuration_source_source_type
+
+			#Optional
+			parameters = var.log_configuration_source_parameters
 		}
 
 		#Optional
@@ -52,6 +55,7 @@ The following arguments are supported:
 	* `compartment_id` - (Optional) The OCID of the compartment that the resource belongs to.
 	* `source` - (Required) The source the log object comes from.
 		* `category` - (Required) Log object category.
+		* `parameters` - (Applicable when source_type=OCISERVICE) (Updatable) Log category parameters are stored here.
 		* `resource` - (Required) The unique identifier of the resource emitting the log.
 		* `service` - (Required) Service generating log.
 		* `source_type` - (Required) The log source.
@@ -77,6 +81,7 @@ The following attributes are exported:
 	* `compartment_id` - The OCID of the compartment that the resource belongs to.
 	* `source` - The source the log object comes from.
 		* `category` - Log object category.
+		* `parameters` - Log category parameters are stored here.
 		* `resource` - The unique identifier of the resource emitting the log.
 		* `service` - Service generating log.
 		* `source_type` - The log source.

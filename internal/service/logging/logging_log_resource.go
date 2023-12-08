@@ -95,6 +95,12 @@ func LoggingLogResource() *schema.Resource {
 									},
 
 									// Optional
+									"parameters": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 
 									// Computed
 								},
@@ -706,6 +712,10 @@ func SourceToMap(obj *oci_logging.Source) map[string]interface{} {
 
 		if v.Service != nil {
 			result["service"] = string(*v.Service)
+		}
+
+		if v.Parameters != nil {
+			result["parameters"] = map[string]string(v.Parameters)
 		}
 	default:
 		log.Printf("[WARN] Received 'source_type' of unknown type %v", *obj)

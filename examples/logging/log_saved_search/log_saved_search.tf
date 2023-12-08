@@ -32,6 +32,10 @@ resource "oci_logging_log_saved_search" "test_log_saved_search" {
   description = "description"
 
   freeform_tags = var.log_saved_search_freeform_tags
+
+  lifecycle {
+    ignore_changes = [ defined_tags ]
+  }
 }
 
 data "oci_logging_log_saved_searches" "test_log_saved_searches" {
