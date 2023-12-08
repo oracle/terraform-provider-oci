@@ -10,4 +10,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_metering_computation_query", MeteringComputationQueryResource())
 	tfresource.RegisterResource("oci_metering_computation_schedule", MeteringComputationScheduleResource())
 	tfresource.RegisterResource("oci_metering_computation_usage", MeteringComputationUsageResource())
+	tfresource.RegisterResource("oci_metering_computation_usage_carbon_emission", MeteringComputationUsageCarbonEmissionResource())
+	tfresource.RegisterResource("oci_metering_computation_usage_carbon_emissions_query", MeteringComputationUsageCarbonEmissionsQueryResource())
 }

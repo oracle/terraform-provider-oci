@@ -43,10 +43,25 @@ var exportMeteringComputationScheduleHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportMeteringComputationUsageCarbonEmissionsQueryHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_metering_computation_usage_carbon_emissions_query",
+	DatasourceClass:        "oci_metering_computation_usage_carbon_emissions_queries",
+	DatasourceItemsAttr:    "usage_carbon_emissions_query_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "usage_carbon_emissions_query",
+	RequireResourceRefresh: true,
+}
+
+var exportMeteringComputationUsageCarbonEmissionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_metering_computation_usage_carbon_emission",
+	ResourceAbbreviation: "usage_carbon_emission",
+}
+
 var meteringComputationResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportMeteringComputationQueryHints},
 		{TerraformResourceHints: exportMeteringComputationScheduleHints},
+		{TerraformResourceHints: exportMeteringComputationUsageCarbonEmissionsQueryHints},
 	},
 	"oci_metering_computation_query": {
 		{
