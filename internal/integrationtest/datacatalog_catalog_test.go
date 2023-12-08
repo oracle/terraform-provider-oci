@@ -51,12 +51,12 @@ var (
 		"display_name":                       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"attached_catalog_private_endpoints": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_datacatalog_catalog_private_endpoint.test_catalog_private_endpoint.id}`}},
-		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatacatalogCatalogIgnoreDatacatalogDefinedTagsChangesRepresentation},
+		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDatacatalogDefinednSystemTagsChangesRepresentation},
 	}
 
 	// need to ignore the defined tags created by the OCI service tenancy
-	DatacatalogCatalogIgnoreDatacatalogDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	ignoreDatacatalogDefinednSystemTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
 	}
 
 	DatacatalogCatalogResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_catalog_private_endpoint", "test_catalog_private_endpoint", acctest.Required, acctest.Create, catalogPrivateEndpointRepresentation) +
@@ -190,6 +190,7 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "catalogs.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "catalogs.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "catalogs.0.locks.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.number_of_objects"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "catalogs.0.time_created"),
@@ -209,6 +210,8 @@ func TestDatacatalogCatalogResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "number_of_objects"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_api_url"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

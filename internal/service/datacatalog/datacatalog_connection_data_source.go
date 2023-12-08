@@ -75,8 +75,7 @@ func (s *DatacatalogConnectionDataSourceCrud) Get() error {
 	}
 
 	if fields, ok := s.D.GetOkExists("fields"); ok {
-		set := fields.(*schema.Set)
-		interfaces := set.List()
+		interfaces := fields.([]interface{})
 		tmp := make([]oci_datacatalog.GetConnectionFieldsEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {

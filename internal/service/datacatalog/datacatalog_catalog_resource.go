@@ -70,6 +70,35 @@ func DatacatalogCatalogResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"number_of_objects": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -85,6 +114,11 @@ func DatacatalogCatalogResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -216,6 +250,7 @@ func (s *DatacatalogCatalogResourceCrud) Create() error {
 			}
 		}
 	}
+
 	err = s.getCatalogFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog"), oci_datacatalog.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 	if err != nil {
 		return err
@@ -451,6 +486,11 @@ func (s *DatacatalogCatalogResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
 	response, err := s.Client.UpdateCatalog(context.Background(), request)
@@ -467,6 +507,11 @@ func (s *DatacatalogCatalogResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.CatalogId = &tmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 
@@ -525,6 +570,12 @@ func (s *DatacatalogCatalogResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMapCatalog(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.NumberOfObjects != nil {
 		s.D.Set("number_of_objects", *s.Res.NumberOfObjects)
 	}
@@ -539,6 +590,10 @@ func (s *DatacatalogCatalogResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -548,6 +603,26 @@ func (s *DatacatalogCatalogResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ResourceLockToMapCatalog(obj oci_datacatalog.ResourceLock) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Message != nil {
+		result["message"] = string(*obj.Message)
+	}
+
+	if obj.RelatedResourceId != nil {
+		result["related_resource_id"] = string(*obj.RelatedResourceId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
 }
 
 func (s *DatacatalogCatalogResourceCrud) attachCatalogPrivateEndpoints(attachCatalogPrivateEndpoints []string) error {
@@ -600,6 +675,11 @@ func (s *DatacatalogCatalogResourceCrud) updateCompartment(compartment interface
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datacatalog")
 

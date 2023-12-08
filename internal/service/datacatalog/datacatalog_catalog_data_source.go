@@ -6,11 +6,11 @@ package datacatalog
 import (
 	"context"
 
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datacatalog "github.com/oracle/oci-go-sdk/v65/datacatalog"
+	"github.com/oracle/terraform-provider-oci/internal/client"
+
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatacatalogCatalogDataSource() *schema.Resource {
@@ -86,6 +86,12 @@ func (s *DatacatalogCatalogDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMapCatalog(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.NumberOfObjects != nil {
 		s.D.Set("number_of_objects", *s.Res.NumberOfObjects)
 	}
@@ -99,6 +105,10 @@ func (s *DatacatalogCatalogDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
