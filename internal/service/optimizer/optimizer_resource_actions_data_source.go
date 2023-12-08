@@ -37,6 +37,10 @@ func OptimizerResourceActionsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"include_resource_metadata": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -126,6 +130,11 @@ func (s *OptimizerResourceActionsDataSourceCrud) Get() error {
 	if includeOrganization, ok := s.D.GetOkExists("include_organization"); ok {
 		tmp := includeOrganization.(bool)
 		request.IncludeOrganization = &tmp
+	}
+
+	if includeResourceMetadata, ok := s.D.GetOkExists("include_resource_metadata"); ok {
+		tmp := includeResourceMetadata.(bool)
+		request.IncludeResourceMetadata = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

@@ -232,6 +232,11 @@ func (s *OptimizerResourceActionResourceCrud) Create() error {
 func (s *OptimizerResourceActionResourceCrud) Get() error {
 	request := oci_optimizer.GetResourceActionRequest{}
 
+	if includeResourceMetadata, ok := s.D.GetOkExists("include_resource_metadata"); ok {
+		tmp := includeResourceMetadata.(bool)
+		request.IncludeResourceMetadata = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.ResourceActionId = &tmp
 
