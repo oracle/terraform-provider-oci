@@ -18,17 +18,6 @@ Create a user.
 resource "oci_identity_domains_user" "test_user" {
 	#Required
 	idcs_endpoint = data.oci_identity_domain.test_domain.url
-	name {
-		#Required
-		family_name = var.user_name_family_name
-
-		#Optional
-		formatted = var.user_name_formatted
-		given_name = var.user_name_given_name
-		honorific_prefix = var.user_name_honorific_prefix
-		honorific_suffix = var.user_name_honorific_suffix
-		middle_name = var.user_name_middle_name
-	}
 	schemas = ["urn:ietf:params:scim:schemas:core:2.0:User"]
 	user_name = "userName"
 	/* Note: In most cases, a primary email is REQUIRED to create a user. Otherwise you might get a 400 error. Please see "emails" block below. */
@@ -97,6 +86,16 @@ resource "oci_identity_domains_user" "test_user" {
 		primary = var.user_ims_primary
 	}
 	locale = var.user_locale
+	name {
+
+		#Optional
+		family_name = var.user_name_family_name
+		formatted = var.user_name_formatted
+		given_name = var.user_name_given_name
+		honorific_prefix = var.user_name_honorific_prefix
+		honorific_suffix = var.user_name_honorific_suffix
+		middle_name = var.user_name_middle_name
+	}
 	nick_name = var.user_nick_name
 	ocid = var.user_ocid
 	password = var.user_password
@@ -368,7 +367,8 @@ resource "oci_identity_domains_user" "test_user" {
 		is_group_membership_normalized = var.user_urnietfparamsscimschemasoracleidcsextensionuser_user_is_group_membership_normalized
 		is_group_membership_synced_to_users_groups = var.user_urnietfparamsscimschemasoracleidcsextensionuser_user_is_group_membership_synced_to_users_groups
 		notification_email_template_id = oci_identity_domains_notification_email_template.test_notification_email_template.id
-		preferred_ui_landing_page = var.user_urnietfparamsscimschemasoracleidcsextensionuser_user_preferred_ui_landing_page
+		preferred_ui_landing_page = var.user_urn_ietf_params_scim_schemas_oracle_idcs_extension_user_user_preferred_ui_landing_page
+		service_user = var.user_urn_ietf_params_scim_schemas_oracle_idcs_extension_user_user_service_user
 		synced_from_app {
 			#Required
 			type = var.user_urnietfparamsscimschemasoracleidcsextensionuser_user_synced_from_app_type
@@ -1125,18 +1125,18 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-* `name` - (Required) (Updatable) A complex attribute that contains attributes representing the name
+* `name` - (Optional) (Updatable) A complex attribute that contains attributes representing the name
 
 	**SCIM++ Properties:**
 	* idcsCsvAttributeNameMappings: [[columnHeaderName:Formatted Name, mapsTo:name.formatted], [columnHeaderName:Honorific Prefix, mapsTo:name.honorificPrefix], [columnHeaderName:First Name, mapsTo:name.givenName], [columnHeaderName:Middle Name, mapsTo:name.middleName], [columnHeaderName:Last Name, mapsTo:name.familyName], [columnHeaderName:Honorific Suffix, mapsTo:name.honorificSuffix]]
 	* idcsPii: true
 	* multiValued: false
 	* mutability: readWrite
-	* required: true
+	* required: false
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `family_name` - (Required) (Updatable) Last name
+	* `family_name` - (Optional) (Updatable) Last name
 
 		**SCIM++ Properties:**
 		* caseExact: false
@@ -1144,7 +1144,7 @@ The following arguments are supported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readWrite
-		* required: true
+		* required: false
 		* returned: default
 		* type: string
 		* uniqueness: none
@@ -4064,6 +4064,21 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+	* `service_user` - (Optional) (Updatable) Indicates if User is a Service User
+
+		**Added In:** 2306131901
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsCsvAttributeName: Service User
+		* idcsCsvAttributeNameMappings: [[columnHeaderName:Service User]]
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: immutable
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
 	* `status` - (Optional) (Updatable) A supplemental status indicating the reason why a user is disabled
 
 		**SCIM++ Properties:**
@@ -5085,7 +5100,7 @@ The following attributes are exported:
 	* idcsPii: true
 	* multiValued: false
 	* mutability: readWrite
-	* required: true
+	* required: false
 	* returned: default
 	* type: complex
 	* uniqueness: none
@@ -5097,7 +5112,7 @@ The following attributes are exported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readWrite
-		* required: true
+		* required: false
 		* returned: default
 		* type: string
 		* uniqueness: none
@@ -8015,6 +8030,21 @@ The following attributes are exported:
 		* required: false
 		* returned: default
 		* type: string
+		* uniqueness: none
+	* `service_user` - Indicates if User is a Service User
+
+		**Added In:** 2306131901
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsCsvAttributeName: Service User
+		* idcsCsvAttributeNameMappings: [[columnHeaderName:Service User]]
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: immutable
+		* required: false
+		* returned: default
+		* type: boolean
 		* uniqueness: none
 	* `status` - A supplemental status indicating the reason why a user is disabled
 

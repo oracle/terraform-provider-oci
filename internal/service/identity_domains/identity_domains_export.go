@@ -68,6 +68,8 @@ func init() {
 	exportIdentityDomainsApprovalWorkflowHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 	exportIdentityDomainsRuleHints.GetIdFn = getGetIdFn("rules")
 	exportIdentityDomainsRuleHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
+	exportIdentityDomainsIdentityPropagationTrustHints.GetIdFn = getGetIdFn("identityPropagationTrusts")
+	exportIdentityDomainsIdentityPropagationTrustHints.ProcessDiscoveredResourcesFn = processIdentityDomainsResources
 
 	//// User sub-resources
 	exportIdentityDomainsApiKeyHints.GetIdFn = getUserSubResourceGetIdFn("apiKeys")
@@ -551,6 +553,13 @@ var exportIdentityDomainsRuleHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "rule",
 }
 
+var exportIdentityDomainsIdentityPropagationTrustHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_identity_domains_identity_propagation_trust",
+	DatasourceClass:      "oci_identity_domains_identity_propagation_trusts",
+	DatasourceItemsAttr:  "identity_propagation_trusts",
+	ResourceAbbreviation: "identity_propagation_trust",
+}
+
 var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_tenancy": {
 		{TerraformResourceHints: exportIdentityDomainHints},
@@ -768,6 +777,12 @@ var identityDomainsResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportIdentityDomainsRuleHints,
+			DatasourceQueryParams: map[string]string{
+				"idcs_endpoint": "url",
+			},
+		},
+		{
+			TerraformResourceHints: exportIdentityDomainsIdentityPropagationTrustHints,
 			DatasourceQueryParams: map[string]string{
 				"idcs_endpoint": "url",
 			},

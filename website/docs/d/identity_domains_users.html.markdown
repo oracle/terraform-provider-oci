@@ -786,7 +786,7 @@ The following attributes are exported:
 	* idcsPii: true
 	* multiValued: false
 	* mutability: readWrite
-	* required: true
+	* required: false
 	* returned: default
 	* type: complex
 	* uniqueness: none
@@ -798,7 +798,7 @@ The following attributes are exported:
 		* idcsSearchable: true
 		* multiValued: false
 		* mutability: readWrite
-		* required: true
+		* required: false
 		* returned: default
 		* type: string
 		* uniqueness: none
@@ -3716,6 +3716,21 @@ The following attributes are exported:
 		* required: false
 		* returned: default
 		* type: string
+		* uniqueness: none
+	* `service_user` - Indicates if User is a Service User
+
+		**Added In:** 2306131901
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsCsvAttributeName: Service User
+		* idcsCsvAttributeNameMappings: [[columnHeaderName:Service User]]
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: immutable
+		* required: false
+		* returned: default
+		* type: boolean
 		* uniqueness: none
 	* `status` - A supplemental status indicating the reason why a user is disabled
 
