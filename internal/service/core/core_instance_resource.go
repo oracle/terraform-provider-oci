@@ -279,7 +279,6 @@ func CoreInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -1265,8 +1264,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 			request.AgentConfig = &tmp
 		}
 	}
-
-	if availabilityConfig, ok := s.D.GetOkExists("availability_config"); ok {
+	if availabilityConfig, ok := s.D.GetOkExists("availability_config"); ok && s.D.HasChange("availability_config") {
 		if tmpList := availabilityConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "availability_config", 0)
 			tmp, err := s.mapToUpdateInstanceAvailabilityConfigDetails(fieldKeyFormat)
@@ -1281,7 +1279,10 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		tmp := capacityReservationId.(string)
 		request.CapacityReservationId = &tmp
 	}
-
+	if dedicatedVmHostId, ok := s.D.GetOkExists("dedicated_vm_host_id"); ok {
+		tmp := dedicatedVmHostId.(string)
+		request.DedicatedVmHostId = &tmp
+	}
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
