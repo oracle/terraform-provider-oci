@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,9 +17,9 @@ import (
 	"strings"
 )
 
-// PatchDbSystemDetails For Adding Read Replica DB Instance, Operation is INSERT and Value object to specify is
+// PatchDbSystemDetails For adding read replica database instances, the operation is INSERT and value object to specify is
 // #/definitions/CreateDbInstanceDetails.
-// For Removing Read Replica DB Instance, Operation is REMOVE and Value object needs to be Array of dbInstanceId's
+// For removing read replica database instances, the operation is REMOVE and value object needs to be an array of dbInstanceId's.
 type PatchDbSystemDetails struct {
 
 	// List of patch instructions.

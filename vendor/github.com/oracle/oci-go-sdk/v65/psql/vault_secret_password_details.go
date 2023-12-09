@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,13 +17,13 @@ import (
 	"strings"
 )
 
-// VaultSecretPasswordDetails Secret details for the DbSystem password.
+// VaultSecretPasswordDetails Secret details for the database system password.
 type VaultSecretPasswordDetails struct {
 
-	// The OCID of secret where the password is stored.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret where the password is stored.
 	SecretId *string `mandatory:"true" json:"secretId"`
 
-	// The secret version where the password is stored.
+	// The secret version of the stored password.
 	SecretVersion *string `mandatory:"true" json:"secretVersion"`
 }
 

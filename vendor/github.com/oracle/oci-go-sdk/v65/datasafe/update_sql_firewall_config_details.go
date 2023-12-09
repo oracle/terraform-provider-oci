@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateSqlFirewallConfigDetails Details to update the SQL firewall config.
+// UpdateSqlFirewallConfigDetails Details to update the SQL Firewall config.
 type UpdateSqlFirewallConfigDetails struct {
 
 	// Specifies whether the firewall is enabled or disabled on the target database.

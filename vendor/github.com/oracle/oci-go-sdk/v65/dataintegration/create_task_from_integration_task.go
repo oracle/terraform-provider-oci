@@ -54,6 +54,9 @@ type CreateTaskFromIntegrationTask struct {
 
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
 }
 
@@ -115,6 +118,11 @@ func (m CreateTaskFromIntegrationTask) GetOpConfigValues() *ConfigValues {
 // GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskFromIntegrationTask) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
+}
+
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m CreateTaskFromIntegrationTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
 }
 
 // GetRegistryMetadata returns RegistryMetadata

@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,7 +17,7 @@ import (
 	"strings"
 )
 
-// ManagementPolicyDetails Posgresql DB system management policy update details
+// ManagementPolicyDetails PostgreSQL database system management policy update details.
 type ManagementPolicyDetails struct {
 
 	// The start of the maintenance window.

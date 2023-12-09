@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetPrimaryDbInstance.go.html to see an example of how to use GetPrimaryDbInstanceRequest.
 type GetPrimaryDbInstanceRequest struct {
 
-	// unique DbSystem identifier
+	// A unique identifier for the database system.
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// The client request ID for tracing.

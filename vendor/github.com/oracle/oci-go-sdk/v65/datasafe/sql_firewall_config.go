@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SqlFirewallConfig The SQL firewall related configurations.
+// SqlFirewallConfig The SQL Firewall related configurations.
 type SqlFirewallConfig struct {
 
 	// Specifies if the firewall is enabled or disabled on the target database.

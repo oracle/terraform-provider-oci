@@ -124,6 +124,12 @@ type UpdateInstanceDetails struct {
 	// Infrastructure Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
 	// Example: `2018-05-25T21:10:29.600Z`
 	TimeMaintenanceRebootDue *common.SDKTime `mandatory:"false" json:"timeMaintenanceRebootDue"`
+
+	// The OCID of the dedicated virtual machine host to place the instance on.
+	// Supported only if this VM instance was already placed on a dedicated virtual machine host
+	// - that is, you can't move an instance from on-demand capacity to dedicated capacity,
+	// nor can you move an instance from dedicated capacity to on-demand capacity.
+	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
 }
 
 func (m UpdateInstanceDetails) String() string {

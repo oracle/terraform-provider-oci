@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// SdmMaskingPolicyDifference A SDM masking policy difference resource. It helps track the difference between sensitive columns of SDM and masking columns of the masking policy.
+// SdmMaskingPolicyDifference A resource that tracks the differences between sensitive columns in the sensitive data model and masking columns in the masking policy
 type SdmMaskingPolicyDifference struct {
 
-	// The OCID of the SDM masking policy difference.
+	// The OCID of the Sensitive data model and masking policy difference resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment that contains the SDM masking policy difference.
+	// The OCID of the compartment that contains the Sensitive data model and masking policy difference resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The type of the SDM masking policy difference. It defines the difference scope.

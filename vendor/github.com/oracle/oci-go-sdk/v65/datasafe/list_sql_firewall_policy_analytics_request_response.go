@@ -37,20 +37,20 @@ type ListSqlFirewallPolicyAnalyticsRequest struct {
 	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The group by parameter to summarize SQL firewall policy aggregation.
+	// The group by parameter to summarize SQL Firewall policy aggregation.
 	GroupBy []ListSqlFirewallPolicyAnalyticsGroupByEnum `contributesTo:"query" name:"groupBy" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The current state of the SQL firewall policy.
+	// The current state of the SQL Firewall policy.
 	LifecycleState ListSqlFirewallPolicyAnalyticsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// An optional filter to return only resources that match the specified OCID of the security policy resource.
 	SecurityPolicyId *string `mandatory:"false" contributesTo:"query" name:"securityPolicyId"`
 
-	// An optional filter to return the summary of the SQL firewall policies created after the date-time specified,
+	// An optional filter to return the summary of the SQL Firewall policies created after the date-time specified,
 	// in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStarted *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStarted"`
 
-	// An optional filter to return the summary of the SQL firewall policies created before the date-time specified,
+	// An optional filter to return the summary of the SQL Firewall policies created before the date-time specified,
 	// in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeEnded *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnded"`
 

@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,30 +16,31 @@ import (
 	"strings"
 )
 
-// CreateConfigurationDetails The information to create a new Configuration.
+// CreateConfigurationDetails The information to create a new configuration.
 type CreateConfigurationDetails struct {
 
-	// configuration display name
+	// A user-friendly display name for the configuration. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment identifier
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the configuration.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Compute Shape Name like VM.Standard3.Flex.
+	// The name of the shape for the configuration.
+	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// Version of the Postgresql DB
+	// Version of the PostgreSQL database.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
-	// CPU cpuCoreCount. Min value is 1. Max value depends on the shape.
+	// CPU core count.
 	InstanceOcpuCount *int `mandatory:"true" json:"instanceOcpuCount"`
 
-	// Memory Size in GB with 1GB increment. Min value matches the cpuCoreCount. Max value depends on the shape.
+	// Memory size in gigabytes with 1GB increment.
 	InstanceMemorySizeInGBs *int `mandatory:"true" json:"instanceMemorySizeInGBs"`
 
 	DbConfigurationOverrides *DbConfigurationOverrideCollection `mandatory:"true" json:"dbConfigurationOverrides"`
 
-	// Details about the Configuration Set.
+	// Details about the configuration set.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

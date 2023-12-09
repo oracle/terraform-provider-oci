@@ -57,6 +57,9 @@ type FilterResourceActionsRequest struct {
 	// When using this parameter, please make sure to set the compartmentId with the parent tenancy ID.
 	IncludeOrganization *bool `mandatory:"false" contributesTo:"query" name:"includeOrganization"`
 
+	// Supplement additional resource information in extended metadata response.
+	IncludeResourceMetadata *bool `mandatory:"false" contributesTo:"query" name:"includeResourceMetadata"`
+
 	// The maximum number of items to return in a paginated "List" call.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 

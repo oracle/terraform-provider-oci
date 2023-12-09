@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -18,7 +19,7 @@ import (
 // WorkRequestResource A resource created or operated on by a work request.
 type WorkRequestResource struct {
 
-	// The resource type the work request affects.
+	// The resource type that the work request affects.
 	EntityType *string `mandatory:"true" json:"entityType"`
 
 	// The way in which this resource is affected by the work tracked in the work request.
@@ -27,7 +28,7 @@ type WorkRequestResource struct {
 	// The identifier of the resource the work request affects.
 	Identifier *string `mandatory:"true" json:"identifier"`
 
-	// The URI path that the user can do a GET on to access the resource metadata
+	// The URI path that the user can do a GET on to access the resource metadata.
 	EntityUri *string `mandatory:"false" json:"entityUri"`
 
 	// Additional information that helps to explain the resource.

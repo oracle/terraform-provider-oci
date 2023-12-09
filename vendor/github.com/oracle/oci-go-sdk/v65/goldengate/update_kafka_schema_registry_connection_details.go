@@ -46,6 +46,9 @@ type UpdateKafkaSchemaRegistryConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	// Kafka Schema Registry URL.
 	// e.g.: 'https://server1.us.oracle.com:8081'
 	Url *string `mandatory:"false" json:"url"`
@@ -74,12 +77,20 @@ type UpdateKafkaSchemaRegistryConnectionDetails struct {
 	// In case it differs from the KeyStore password, it should be provided.
 	SslKeyPassword *string `mandatory:"false" json:"sslKeyPassword"`
 
+	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
+	// field, or make sure the host name is resolvable in the target VCN.
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a
 	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).
 	// In case the privateIp is provided, the subnetId must also be provided.
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 
 	// Used authentication mechanism to access Schema Registry.
 	AuthenticationType KafkaSchemaRegistryConnectionAuthenticationTypeEnum `mandatory:"false" json:"authenticationType,omitempty"`
@@ -120,6 +131,16 @@ func (m UpdateKafkaSchemaRegistryConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+// GetSubnetId returns SubnetId
+func (m UpdateKafkaSchemaRegistryConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+// GetRoutingMethod returns RoutingMethod
+func (m UpdateKafkaSchemaRegistryConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m UpdateKafkaSchemaRegistryConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -130,6 +151,9 @@ func (m UpdateKafkaSchemaRegistryConnectionDetails) String() string {
 func (m UpdateKafkaSchemaRegistryConnectionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingKafkaSchemaRegistryConnectionAuthenticationTypeEnum(string(m.AuthenticationType)); !ok && m.AuthenticationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationType: %s. Supported values are: %s.", m.AuthenticationType, strings.Join(GetKafkaSchemaRegistryConnectionAuthenticationTypeEnumStringValues(), ",")))
 	}

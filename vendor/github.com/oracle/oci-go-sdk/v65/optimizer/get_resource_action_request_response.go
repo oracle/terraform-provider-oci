@@ -21,6 +21,9 @@ type GetResourceActionRequest struct {
 	// The unique OCID associated with the resource action.
 	ResourceActionId *string `mandatory:"true" contributesTo:"path" name:"resourceActionId"`
 
+	// Supplement additional resource information in extended metadata response.
+	IncludeResourceMetadata *bool `mandatory:"false" contributesTo:"query" name:"includeResourceMetadata"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

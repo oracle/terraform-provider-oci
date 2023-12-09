@@ -78,8 +78,14 @@ type ConnectionSummary interface {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	GetNsgIds() []string
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	GetSubnetId() *string
+
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	GetRoutingMethod() RoutingMethodEnum
 }
 
 type connectionsummary struct {
@@ -94,6 +100,7 @@ type connectionsummary struct {
 	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
+	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -130,6 +137,7 @@ func (m *connectionsummary) UnmarshalJSON(data []byte) error {
 	m.IngressIps = s.Model.IngressIps
 	m.NsgIds = s.Model.NsgIds
 	m.SubnetId = s.Model.SubnetId
+	m.RoutingMethod = s.Model.RoutingMethod
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -292,6 +300,11 @@ func (m connectionsummary) GetSubnetId() *string {
 	return m.SubnetId
 }
 
+// GetRoutingMethod returns RoutingMethod
+func (m connectionsummary) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 // GetId returns Id
 func (m connectionsummary) GetId() *string {
 	return m.Id
@@ -335,6 +348,9 @@ func (m connectionsummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetConnectionLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

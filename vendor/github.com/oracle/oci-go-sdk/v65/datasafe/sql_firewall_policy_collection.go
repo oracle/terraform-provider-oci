@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// SqlFirewallPolicyCollection Collection of SQL firewall policy summary.
+// SqlFirewallPolicyCollection Collection of SQL Firewall policy summary.
 type SqlFirewallPolicyCollection struct {
 
-	// Array of SQL firewall policy summary.
+	// Array of SQL Firewall policy summary.
 	Items []SqlFirewallPolicySummary `mandatory:"true" json:"items"`
 }
 

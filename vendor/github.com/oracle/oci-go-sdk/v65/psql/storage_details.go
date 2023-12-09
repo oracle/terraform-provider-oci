@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,18 +17,18 @@ import (
 	"strings"
 )
 
-// StorageDetails Storage details of the DbSystem.
+// StorageDetails Storage details of the database system.
 type StorageDetails interface {
 
-	// Specifies if the block volume used for the DbSystem is regional or AD-local.
+	// Specifies if the block volume used for the database system is regional or AD-local.
 	// If not specified, it will be set to false.
-	// If isRegionallyDurable is set to true, availabilityDomain should not be specified.
-	// If isRegionallyDurable is set to false, availabilityDomain must be specified.
+	// If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified.
+	// If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	GetIsRegionallyDurable() *bool
 
 	// Specifies the availability domain of AD-local storage.
-	// If isRegionallyDurable is set to true, availabilityDomain should not be specified.
-	// If isRegionallyDurable is set to false, availabilityDomain must be specified.
+	// If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified.
+	// If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	GetAvailabilityDomain() *string
 }
 

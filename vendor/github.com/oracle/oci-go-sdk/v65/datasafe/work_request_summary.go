@@ -134,6 +134,7 @@ const (
 	WorkRequestSummaryOperationTypeChangeSqlCollectionCompartment            WorkRequestSummaryOperationTypeEnum = "CHANGE_SQL_COLLECTION_COMPARTMENT"
 	WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights           WorkRequestSummaryOperationTypeEnum = "REFRESH_SQL_COLLECTION_LOG_INSIGHTS"
 	WorkRequestSummaryOperationTypePurgeSqlCollectionLogs                    WorkRequestSummaryOperationTypeEnum = "PURGE_SQL_COLLECTION_LOGS"
+	WorkRequestSummaryOperationTypeRefreshViolations                         WorkRequestSummaryOperationTypeEnum = "REFRESH_VIOLATIONS"
 	WorkRequestSummaryOperationTypeUpdateSecurityPolicy                      WorkRequestSummaryOperationTypeEnum = "UPDATE_SECURITY_POLICY"
 	WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment           WorkRequestSummaryOperationTypeEnum = "CHANGE_SECURITY_POLICY_COMPARTMENT"
 	WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment            WorkRequestSummaryOperationTypeEnum = "UPDATE_SECURITY_POLICY_DEPLOYMENT"
@@ -189,6 +190,7 @@ const (
 	WorkRequestSummaryOperationTypeUpdateDifference                          WorkRequestSummaryOperationTypeEnum = "UPDATE_DIFFERENCE"
 	WorkRequestSummaryOperationTypePatchDifference                           WorkRequestSummaryOperationTypeEnum = "PATCH_DIFFERENCE"
 	WorkRequestSummaryOperationTypeApplyDifference                           WorkRequestSummaryOperationTypeEnum = "APPLY_DIFFERENCE"
+	WorkRequestSummaryOperationTypeAbortMasking                              WorkRequestSummaryOperationTypeEnum = "ABORT_MASKING"
 	WorkRequestSummaryOperationTypeCreateSchedule                            WorkRequestSummaryOperationTypeEnum = "CREATE_SCHEDULE"
 	WorkRequestSummaryOperationTypeRemoveScheduleReport                      WorkRequestSummaryOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestSummaryOperationTypeUpdateAllAlert                            WorkRequestSummaryOperationTypeEnum = "UPDATE_ALL_ALERT"
@@ -257,6 +259,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"CHANGE_SQL_COLLECTION_COMPARTMENT":             WorkRequestSummaryOperationTypeChangeSqlCollectionCompartment,
 	"REFRESH_SQL_COLLECTION_LOG_INSIGHTS":           WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights,
 	"PURGE_SQL_COLLECTION_LOGS":                     WorkRequestSummaryOperationTypePurgeSqlCollectionLogs,
+	"REFRESH_VIOLATIONS":                            WorkRequestSummaryOperationTypeRefreshViolations,
 	"UPDATE_SECURITY_POLICY":                        WorkRequestSummaryOperationTypeUpdateSecurityPolicy,
 	"CHANGE_SECURITY_POLICY_COMPARTMENT":            WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment,
 	"UPDATE_SECURITY_POLICY_DEPLOYMENT":             WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment,
@@ -312,6 +315,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_DIFFERENCE":                             WorkRequestSummaryOperationTypeUpdateDifference,
 	"PATCH_DIFFERENCE":                              WorkRequestSummaryOperationTypePatchDifference,
 	"APPLY_DIFFERENCE":                              WorkRequestSummaryOperationTypeApplyDifference,
+	"ABORT_MASKING":                                 WorkRequestSummaryOperationTypeAbortMasking,
 	"CREATE_SCHEDULE":                               WorkRequestSummaryOperationTypeCreateSchedule,
 	"REMOVE_SCHEDULE_REPORT":                        WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                              WorkRequestSummaryOperationTypeUpdateAllAlert,
@@ -380,6 +384,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"change_sql_collection_compartment":             WorkRequestSummaryOperationTypeChangeSqlCollectionCompartment,
 	"refresh_sql_collection_log_insights":           WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights,
 	"purge_sql_collection_logs":                     WorkRequestSummaryOperationTypePurgeSqlCollectionLogs,
+	"refresh_violations":                            WorkRequestSummaryOperationTypeRefreshViolations,
 	"update_security_policy":                        WorkRequestSummaryOperationTypeUpdateSecurityPolicy,
 	"change_security_policy_compartment":            WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment,
 	"update_security_policy_deployment":             WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment,
@@ -435,6 +440,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_difference":                             WorkRequestSummaryOperationTypeUpdateDifference,
 	"patch_difference":                              WorkRequestSummaryOperationTypePatchDifference,
 	"apply_difference":                              WorkRequestSummaryOperationTypeApplyDifference,
+	"abort_masking":                                 WorkRequestSummaryOperationTypeAbortMasking,
 	"create_schedule":                               WorkRequestSummaryOperationTypeCreateSchedule,
 	"remove_schedule_report":                        WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"update_all_alert":                              WorkRequestSummaryOperationTypeUpdateAllAlert,
@@ -514,6 +520,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"CHANGE_SQL_COLLECTION_COMPARTMENT",
 		"REFRESH_SQL_COLLECTION_LOG_INSIGHTS",
 		"PURGE_SQL_COLLECTION_LOGS",
+		"REFRESH_VIOLATIONS",
 		"UPDATE_SECURITY_POLICY",
 		"CHANGE_SECURITY_POLICY_COMPARTMENT",
 		"UPDATE_SECURITY_POLICY_DEPLOYMENT",
@@ -569,6 +576,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_DIFFERENCE",
 		"PATCH_DIFFERENCE",
 		"APPLY_DIFFERENCE",
+		"ABORT_MASKING",
 		"CREATE_SCHEDULE",
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",

@@ -54,7 +54,14 @@ type CreateTaskFromOciDataflowTask struct {
 
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	DataflowApplication *DataflowApplication `mandatory:"false" json:"dataflowApplication"`
+
+	DriverShapeDetails *ShapeDetails `mandatory:"false" json:"driverShapeDetails"`
+
+	ExecutorShapeDetails *ShapeDetails `mandatory:"false" json:"executorShapeDetails"`
 }
 
 // GetKey returns Key
@@ -115,6 +122,11 @@ func (m CreateTaskFromOciDataflowTask) GetOpConfigValues() *ConfigValues {
 // GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskFromOciDataflowTask) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
+}
+
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m CreateTaskFromOciDataflowTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
 }
 
 // GetRegistryMetadata returns RegistryMetadata

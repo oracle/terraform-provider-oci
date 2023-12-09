@@ -81,6 +81,10 @@ type ListSensitiveTypesRequest struct {
 	// A filter to return only the resources that match the specified lifecycle state.
 	LifecycleState ListSensitiveTypesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only the common sensitive type resources. Common sensitive types belong to
+	// library sensitive types which are frequently used to perform sensitive data discovery.
+	IsCommon *bool `mandatory:"false" contributesTo:"query" name:"isCommon"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

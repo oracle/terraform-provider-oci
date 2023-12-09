@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SqlFirewallAllowedSqlAggregation The details of SQL firewall allow SQL aggregate.
+// SqlFirewallAllowedSqlAggregation The details of SQL Firewall allow SQL aggregate.
 type SqlFirewallAllowedSqlAggregation struct {
 	Dimensions *SqlFirewallAllowedSqlDimensions `mandatory:"true" json:"dimensions"`
 

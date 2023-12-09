@@ -212,6 +212,21 @@ type ExtensionUserUser struct {
 	//  - uniqueness: none
 	NotificationEmailTemplateId *string `mandatory:"false" json:"notificationEmailTemplateId"`
 
+	// Indicates if User is a Service User
+	// **Added In:** 2306131901
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsCsvAttributeName: Service User
+	//  - idcsCsvAttributeNameMappings: [[columnHeaderName:Service User]]
+	//  - idcsSearchable: true
+	//  - multiValued: false
+	//  - mutability: immutable
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	ServiceUser *bool `mandatory:"false" json:"serviceUser"`
+
 	// A list of Support Accounts corresponding to user.
 	// **Added In:** 2103141444
 	// **SCIM++ Properties:**

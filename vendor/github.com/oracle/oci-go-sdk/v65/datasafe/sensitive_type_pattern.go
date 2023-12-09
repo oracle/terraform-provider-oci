@@ -43,6 +43,10 @@ type SensitiveTypePattern struct {
 	// The OCID of the parent sensitive category.
 	ParentCategoryId *string `mandatory:"false" json:"parentCategoryId"`
 
+	// Specifies whether the sensitive type is common. Common sensitive types belong to
+	// library sensitive types which are frequently used to perform sensitive data discovery.
+	IsCommon *bool `mandatory:"false" json:"isCommon"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -126,6 +130,11 @@ func (m SensitiveTypePattern) GetDescription() *string {
 // GetParentCategoryId returns ParentCategoryId
 func (m SensitiveTypePattern) GetParentCategoryId() *string {
 	return m.ParentCategoryId
+}
+
+// GetIsCommon returns IsCommon
+func (m SensitiveTypePattern) GetIsCommon() *bool {
+	return m.IsCommon
 }
 
 // GetFreeformTags returns FreeformTags

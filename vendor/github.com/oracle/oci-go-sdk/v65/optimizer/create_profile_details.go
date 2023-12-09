@@ -44,6 +44,10 @@ type CreateProfileDetails struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	TargetCompartments *TargetCompartments `mandatory:"false" json:"targetCompartments"`
 
 	TargetTags *TargetTags `mandatory:"false" json:"targetTags"`

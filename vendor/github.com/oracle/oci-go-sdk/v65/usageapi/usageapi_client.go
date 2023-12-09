@@ -27,7 +27,7 @@ type UsageapiClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewUsageapiClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client UsageapiClient, err error) {
 	if enabled := common.CheckForEnabledServices("usageapi"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -277,6 +277,68 @@ func (client UsageapiClient) createSchedule(ctx context.Context, request common.
 	return response, err
 }
 
+// CreateUsageCarbonEmissionsQuery Returns the created usage carbon emissions query.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/CreateUsageCarbonEmissionsQuery.go.html to see an example of how to use CreateUsageCarbonEmissionsQuery API.
+func (client UsageapiClient) CreateUsageCarbonEmissionsQuery(ctx context.Context, request CreateUsageCarbonEmissionsQueryRequest) (response CreateUsageCarbonEmissionsQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createUsageCarbonEmissionsQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateUsageCarbonEmissionsQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateUsageCarbonEmissionsQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateUsageCarbonEmissionsQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateUsageCarbonEmissionsQueryResponse")
+	}
+	return
+}
+
+// createUsageCarbonEmissionsQuery implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) createUsageCarbonEmissionsQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/usageCarbonEmissionsQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateUsageCarbonEmissionsQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/UsageCarbonEmissionsQuery/CreateUsageCarbonEmissionsQuery"
+		err = common.PostProcessServiceError(err, "Usageapi", "CreateUsageCarbonEmissionsQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteCustomTable Delete a saved custom table by the OCID.
 //
 // # See also
@@ -441,6 +503,63 @@ func (client UsageapiClient) deleteSchedule(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Schedule/DeleteSchedule"
 		err = common.PostProcessServiceError(err, "Usageapi", "DeleteSchedule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteUsageCarbonEmissionsQuery Delete a usage carbon emissions saved query by the OCID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteUsageCarbonEmissionsQuery.go.html to see an example of how to use DeleteUsageCarbonEmissionsQuery API.
+func (client UsageapiClient) DeleteUsageCarbonEmissionsQuery(ctx context.Context, request DeleteUsageCarbonEmissionsQueryRequest) (response DeleteUsageCarbonEmissionsQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteUsageCarbonEmissionsQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteUsageCarbonEmissionsQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteUsageCarbonEmissionsQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteUsageCarbonEmissionsQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteUsageCarbonEmissionsQueryResponse")
+	}
+	return
+}
+
+// deleteUsageCarbonEmissionsQuery implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) deleteUsageCarbonEmissionsQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/usageCarbonEmissionsQueries/{usageCarbonEmissionsQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteUsageCarbonEmissionsQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/UsageCarbonEmissionsQuery/DeleteUsageCarbonEmissionsQuery"
+		err = common.PostProcessServiceError(err, "Usageapi", "DeleteUsageCarbonEmissionsQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -676,6 +795,63 @@ func (client UsageapiClient) getScheduledRun(ctx context.Context, request common
 	return response, err
 }
 
+// GetUsageCarbonEmissionsQuery Returns the usage carbon emissions saved query.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetUsageCarbonEmissionsQuery.go.html to see an example of how to use GetUsageCarbonEmissionsQuery API.
+func (client UsageapiClient) GetUsageCarbonEmissionsQuery(ctx context.Context, request GetUsageCarbonEmissionsQueryRequest) (response GetUsageCarbonEmissionsQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getUsageCarbonEmissionsQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetUsageCarbonEmissionsQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetUsageCarbonEmissionsQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetUsageCarbonEmissionsQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetUsageCarbonEmissionsQueryResponse")
+	}
+	return
+}
+
+// getUsageCarbonEmissionsQuery implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) getUsageCarbonEmissionsQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/usageCarbonEmissionsQueries/{usageCarbonEmissionsQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetUsageCarbonEmissionsQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/UsageCarbonEmissionsQuery/GetUsageCarbonEmissionsQuery"
+		err = common.PostProcessServiceError(err, "Usageapi", "GetUsageCarbonEmissionsQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListCustomTables Returns the saved custom table list.
 //
 // # See also
@@ -904,6 +1080,177 @@ func (client UsageapiClient) listSchedules(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListUsageCarbonEmissionsQueries Returns the usage carbon emissions saved query list.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListUsageCarbonEmissionsQueries.go.html to see an example of how to use ListUsageCarbonEmissionsQueries API.
+func (client UsageapiClient) ListUsageCarbonEmissionsQueries(ctx context.Context, request ListUsageCarbonEmissionsQueriesRequest) (response ListUsageCarbonEmissionsQueriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listUsageCarbonEmissionsQueries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListUsageCarbonEmissionsQueriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListUsageCarbonEmissionsQueriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListUsageCarbonEmissionsQueriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListUsageCarbonEmissionsQueriesResponse")
+	}
+	return
+}
+
+// listUsageCarbonEmissionsQueries implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) listUsageCarbonEmissionsQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/usageCarbonEmissionsQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListUsageCarbonEmissionsQueriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/UsageCarbonEmissionsQuery/ListUsageCarbonEmissionsQueries"
+		err = common.PostProcessServiceError(err, "Usageapi", "ListUsageCarbonEmissionsQueries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RequestAverageCarbonEmission Returns the average carbon emissions summary by SKU.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestAverageCarbonEmission.go.html to see an example of how to use RequestAverageCarbonEmission API.
+func (client UsageapiClient) RequestAverageCarbonEmission(ctx context.Context, request RequestAverageCarbonEmissionRequest) (response RequestAverageCarbonEmissionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestAverageCarbonEmission, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestAverageCarbonEmissionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestAverageCarbonEmissionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestAverageCarbonEmissionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestAverageCarbonEmissionResponse")
+	}
+	return
+}
+
+// requestAverageCarbonEmission implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) requestAverageCarbonEmission(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/averageCarbonEmissions/{skuPartNumber}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestAverageCarbonEmissionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/AverageCarbonEmission/RequestAverageCarbonEmission"
+		err = common.PostProcessServiceError(err, "Usageapi", "RequestAverageCarbonEmission", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RequestCleanEnergyUsage Returns the clean energy usage summary by region.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestCleanEnergyUsage.go.html to see an example of how to use RequestCleanEnergyUsage API.
+func (client UsageapiClient) RequestCleanEnergyUsage(ctx context.Context, request RequestCleanEnergyUsageRequest) (response RequestCleanEnergyUsageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestCleanEnergyUsage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestCleanEnergyUsageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestCleanEnergyUsageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestCleanEnergyUsageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestCleanEnergyUsageResponse")
+	}
+	return
+}
+
+// requestCleanEnergyUsage implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) requestCleanEnergyUsage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/cleanEnergyUsages/{region}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestCleanEnergyUsageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CleanEnergyUsage/RequestCleanEnergyUsage"
+		err = common.PostProcessServiceError(err, "Usageapi", "RequestCleanEnergyUsage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RequestSummarizedConfigurations Returns the configurations list for the UI drop-down list.
 //
 // # See also
@@ -1011,6 +1358,120 @@ func (client UsageapiClient) requestSummarizedUsages(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/UsageSummary/RequestSummarizedUsages"
 		err = common.PostProcessServiceError(err, "Usageapi", "RequestSummarizedUsages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RequestUsageCarbonEmissionConfig Returns the configuration list for the UI drop-down list of carbon emission console.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestUsageCarbonEmissionConfig.go.html to see an example of how to use RequestUsageCarbonEmissionConfig API.
+func (client UsageapiClient) RequestUsageCarbonEmissionConfig(ctx context.Context, request RequestUsageCarbonEmissionConfigRequest) (response RequestUsageCarbonEmissionConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestUsageCarbonEmissionConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestUsageCarbonEmissionConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestUsageCarbonEmissionConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestUsageCarbonEmissionConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestUsageCarbonEmissionConfigResponse")
+	}
+	return
+}
+
+// requestUsageCarbonEmissionConfig implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) requestUsageCarbonEmissionConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/usageCarbonEmissionsConfig", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestUsageCarbonEmissionConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Configuration/RequestUsageCarbonEmissionConfig"
+		err = common.PostProcessServiceError(err, "Usageapi", "RequestUsageCarbonEmissionConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RequestUsageCarbonEmissions Returns usage carbon emission for the given account.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestUsageCarbonEmissions.go.html to see an example of how to use RequestUsageCarbonEmissions API.
+func (client UsageapiClient) RequestUsageCarbonEmissions(ctx context.Context, request RequestUsageCarbonEmissionsRequest) (response RequestUsageCarbonEmissionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.requestUsageCarbonEmissions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RequestUsageCarbonEmissionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RequestUsageCarbonEmissionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RequestUsageCarbonEmissionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RequestUsageCarbonEmissionsResponse")
+	}
+	return
+}
+
+// requestUsageCarbonEmissions implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) requestUsageCarbonEmissions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/usageCarbonEmissions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RequestUsageCarbonEmissionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/UsageCarbonEmissionSummary/RequestUsageCarbonEmissions"
+		err = common.PostProcessServiceError(err, "Usageapi", "RequestUsageCarbonEmissions", apiReferenceLink)
 		return response, err
 	}
 
@@ -1182,6 +1643,63 @@ func (client UsageapiClient) updateSchedule(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/Schedule/UpdateSchedule"
 		err = common.PostProcessServiceError(err, "Usageapi", "UpdateSchedule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateUsageCarbonEmissionsQuery Update a usage carbon emissions saved query by the OCID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/UpdateUsageCarbonEmissionsQuery.go.html to see an example of how to use UpdateUsageCarbonEmissionsQuery API.
+func (client UsageapiClient) UpdateUsageCarbonEmissionsQuery(ctx context.Context, request UpdateUsageCarbonEmissionsQueryRequest) (response UpdateUsageCarbonEmissionsQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateUsageCarbonEmissionsQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateUsageCarbonEmissionsQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateUsageCarbonEmissionsQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateUsageCarbonEmissionsQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateUsageCarbonEmissionsQueryResponse")
+	}
+	return
+}
+
+// updateUsageCarbonEmissionsQuery implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) updateUsageCarbonEmissionsQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/usageCarbonEmissionsQueries/{usageCarbonEmissionsQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateUsageCarbonEmissionsQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/UsageCarbonEmissionsQuery/UpdateUsageCarbonEmissionsQuery"
+		err = common.PostProcessServiceError(err, "Usageapi", "UpdateUsageCarbonEmissionsQuery", apiReferenceLink)
 		return response, err
 	}
 

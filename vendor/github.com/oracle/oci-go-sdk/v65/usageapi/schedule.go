@@ -50,10 +50,10 @@ type Schedule struct {
 	// The date and time of the next job execution.
 	TimeNextRun *common.SDKTime `mandatory:"false" json:"timeNextRun"`
 
-	// Specifies supported output file format.
+	// Specifies the supported output file format.
 	OutputFileFormat ScheduleOutputFileFormatEnum `mandatory:"false" json:"outputFileFormat,omitempty"`
 
-	// The saved report id which can also be used to generate query.
+	// The saved report ID which can also be used to generate a query.
 	SavedReportId *string `mandatory:"false" json:"savedReportId"`
 
 	QueryProperties *QueryProperties `mandatory:"false" json:"queryProperties"`
