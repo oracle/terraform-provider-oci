@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -27,7 +28,7 @@ type PostgresqlClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewPostgresqlClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client PostgresqlClient, err error) {
 	if enabled := common.CheckForEnabledServices("psql"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -91,7 +92,7 @@ func (client *PostgresqlClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// ChangeBackupCompartment Moves a Backup resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeBackupCompartment Moves a backup from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
 //
@@ -154,7 +155,7 @@ func (client PostgresqlClient) changeBackupCompartment(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeConfigurationCompartment Moves a Configuration resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeConfigurationCompartment Moves a configuration from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
 //
@@ -217,7 +218,7 @@ func (client PostgresqlClient) changeConfigurationCompartment(ctx context.Contex
 	return response, err
 }
 
-// ChangeDbSystemCompartment Moves a DbSystem resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeDbSystemCompartment Moves a database system from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
 //
@@ -280,7 +281,7 @@ func (client PostgresqlClient) changeDbSystemCompartment(ctx context.Context, re
 	return response, err
 }
 
-// CreateBackup Creates a new Backup.
+// CreateBackup Creates a new backup.
 //
 // # See also
 //
@@ -343,7 +344,7 @@ func (client PostgresqlClient) createBackup(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateConfiguration Creates a new Configuration Set.
+// CreateConfiguration Creates a new configuration.
 //
 // # See also
 //
@@ -406,7 +407,7 @@ func (client PostgresqlClient) createConfiguration(ctx context.Context, request 
 	return response, err
 }
 
-// CreateDbSystem Creates a new DbSystem.
+// CreateDbSystem Creates a new database system.
 //
 // # See also
 //
@@ -469,7 +470,7 @@ func (client PostgresqlClient) createDbSystem(ctx context.Context, request commo
 	return response, err
 }
 
-// DeleteBackup Deletes a Backup resource by identifier
+// DeleteBackup Deletes a backup by identifier.
 //
 // # See also
 //
@@ -527,7 +528,7 @@ func (client PostgresqlClient) deleteBackup(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteConfiguration Deletes a Cofniguration resource by identifier
+// DeleteConfiguration Deletes a configuration by identifier.
 //
 // # See also
 //
@@ -585,7 +586,7 @@ func (client PostgresqlClient) deleteConfiguration(ctx context.Context, request 
 	return response, err
 }
 
-// DeleteDbSystem Deletes a DbSystem resource by identifier
+// DeleteDbSystem Deletes a database system by identifier.
 //
 // # See also
 //
@@ -643,7 +644,7 @@ func (client PostgresqlClient) deleteDbSystem(ctx context.Context, request commo
 	return response, err
 }
 
-// FailoverDbSystem Runs a failover operation. Optionally user can specify the desired AD for 3AD regions.
+// FailoverDbSystem Runs a failover operation. Optionally, specify the desired AD for regions with three ADs.
 //
 // # See also
 //
@@ -706,7 +707,7 @@ func (client PostgresqlClient) failoverDbSystem(ctx context.Context, request com
 	return response, err
 }
 
-// GetBackup Gets a Backup by identifier
+// GetBackup Gets a backup by identifier.
 //
 // # See also
 //
@@ -764,7 +765,7 @@ func (client PostgresqlClient) getBackup(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetConfiguration Gets a Configuration by identifier
+// GetConfiguration Gets a configuration by identifier.
 //
 // # See also
 //
@@ -822,7 +823,7 @@ func (client PostgresqlClient) getConfiguration(ctx context.Context, request com
 	return response, err
 }
 
-// GetConnectionDetails Gets the DbSystem connection details.
+// GetConnectionDetails Gets the database system connection details.
 //
 // # See also
 //
@@ -880,7 +881,7 @@ func (client PostgresqlClient) getConnectionDetails(ctx context.Context, request
 	return response, err
 }
 
-// GetDbSystem Gets a DbSystem by identifier
+// GetDbSystem Gets a database system by identifier.
 //
 // # See also
 //
@@ -938,7 +939,7 @@ func (client PostgresqlClient) getDbSystem(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetDefaultConfiguration Gets a Default Configuration by identifier
+// GetDefaultConfiguration Gets a default configuration by identifier.
 //
 // # See also
 //
@@ -996,7 +997,7 @@ func (client PostgresqlClient) getDefaultConfiguration(ctx context.Context, requ
 	return response, err
 }
 
-// GetPrimaryDbInstance Gets the primary DbInstance details.
+// GetPrimaryDbInstance Gets the primary database instance node details.
 //
 // # See also
 //
@@ -1112,7 +1113,7 @@ func (client PostgresqlClient) getWorkRequest(ctx context.Context, request commo
 	return response, err
 }
 
-// ListBackups Returns a list of Backup.
+// ListBackups Returns a list of backups.
 //
 // # See also
 //
@@ -1170,7 +1171,7 @@ func (client PostgresqlClient) listBackups(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListConfigurations Returns a list of Configurations.
+// ListConfigurations Returns a list of configurations.
 //
 // # See also
 //
@@ -1228,7 +1229,7 @@ func (client PostgresqlClient) listConfigurations(ctx context.Context, request c
 	return response, err
 }
 
-// ListDbSystems Returns a list of DbSystems.
+// ListDbSystems Returns a list of database systems.
 //
 // # See also
 //
@@ -1286,7 +1287,7 @@ func (client PostgresqlClient) listDbSystems(ctx context.Context, request common
 	return response, err
 }
 
-// ListDefaultConfigurations Returns a list of Default Configurations.
+// ListDefaultConfigurations Returns a list of default configurations.
 //
 // # See also
 //
@@ -1576,7 +1577,7 @@ func (client PostgresqlClient) listWorkRequests(ctx context.Context, request com
 	return response, err
 }
 
-// PatchDbSystem Patching operation allows to add DbInstances to the DbSystem or remove them.
+// PatchDbSystem Modifies the database system by adding or removing database instance nodes.
 //
 // # See also
 //
@@ -1634,7 +1635,7 @@ func (client PostgresqlClient) patchDbSystem(ctx context.Context, request common
 	return response, err
 }
 
-// ResetMasterUserPassword Resets the Db system's master password.
+// ResetMasterUserPassword Resets the database system's master password.
 //
 // # See also
 //
@@ -1697,7 +1698,7 @@ func (client PostgresqlClient) resetMasterUserPassword(ctx context.Context, requ
 	return response, err
 }
 
-// RestartDbInstanceInDbSystem Restarts the running DbInstance.
+// RestartDbInstanceInDbSystem Restarts the running database instance node.
 //
 // # See also
 //
@@ -1760,7 +1761,7 @@ func (client PostgresqlClient) restartDbInstanceInDbSystem(ctx context.Context, 
 	return response, err
 }
 
-// RestoreDbSystem Restore the Db System.
+// RestoreDbSystem Restore the database system.
 //
 // # See also
 //
@@ -1823,7 +1824,7 @@ func (client PostgresqlClient) restoreDbSystem(ctx context.Context, request comm
 	return response, err
 }
 
-// UpdateBackup Updates the Backup
+// UpdateBackup Updates the backup.
 //
 // # See also
 //
@@ -1881,7 +1882,7 @@ func (client PostgresqlClient) updateBackup(ctx context.Context, request common.
 	return response, err
 }
 
-// UpdateConfiguration Updates a display name or description of the Configuration Set.
+// UpdateConfiguration Updates a display name or description of the configuration.
 //
 // # See also
 //
@@ -1944,7 +1945,7 @@ func (client PostgresqlClient) updateConfiguration(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateDbSystem Updates the DbSystem
+// UpdateDbSystem Updates the database system.
 //
 // # See also
 //
@@ -2007,7 +2008,7 @@ func (client PostgresqlClient) updateDbSystem(ctx context.Context, request commo
 	return response, err
 }
 
-// UpdateDbSystemDbInstance Updates the DbInstance.
+// UpdateDbSystemDbInstance Updates the database instance node.
 //
 // # See also
 //

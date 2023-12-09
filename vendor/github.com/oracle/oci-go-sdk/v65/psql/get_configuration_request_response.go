@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetConfiguration.go.html to see an example of how to use GetConfigurationRequest.
 type GetConfigurationRequest struct {
 
-	// unique Configuration identifier
+	// A unique identifier for the configuration.
 	ConfigurationId *string `mandatory:"true" contributesTo:"path" name:"configurationId"`
 
 	// The client request ID for tracing.

@@ -23,6 +23,9 @@ type Dimensions struct {
 
 	// The OCID of the sensitive data model.
 	SensitiveDataModelId *string `mandatory:"false" json:"sensitiveDataModelId"`
+
+	// The OCID of the sensitive type.
+	SensitiveTypeId *string `mandatory:"false" json:"sensitiveTypeId"`
 }
 
 func (m Dimensions) String() string {

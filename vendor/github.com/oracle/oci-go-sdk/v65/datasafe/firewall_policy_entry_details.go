@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// FirewallPolicyEntryDetails SQL firewall policy details.
+// FirewallPolicyEntryDetails SQL Firewall policy details.
 type FirewallPolicyEntryDetails struct {
 
-	// The time the the SQL firewall policy was generated on the target database, in the format defined by RFC3339.
+	// The time the the SQL Firewall policy was generated on the target database, in the format defined by RFC3339.
 	TimeGenerated *common.SDKTime `mandatory:"true" json:"timeGenerated"`
 
-	// The last date and time the status of the SQL firewall policy was updated on the target database, in the format defined by RFC3339.
+	// The last date and time the status of the SQL Firewall policy was updated on the target database, in the format defined by RFC3339.
 	TimeStatusUpdated *common.SDKTime `mandatory:"false" json:"timeStatusUpdated"`
 }
 

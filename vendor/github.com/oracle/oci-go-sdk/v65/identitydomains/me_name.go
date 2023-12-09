@@ -22,24 +22,11 @@ import (
 //   - idcsPii: true
 //   - multiValued: false
 //   - mutability: readWrite
-//   - required: true
+//   - required: false
 //   - returned: default
 //   - type: complex
 //   - uniqueness: none
 type MeName struct {
-
-	// Last name
-	// **SCIM++ Properties:**
-	//  - caseExact: false
-	//  - idcsCsvAttributeName: Last Name
-	//  - idcsSearchable: true
-	//  - multiValued: false
-	//  - mutability: readWrite
-	//  - required: true
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	FamilyName *string `mandatory:"true" json:"familyName"`
 
 	// Full name
 	// **SCIM++ Properties:**
@@ -52,6 +39,19 @@ type MeName struct {
 	//  - type: string
 	//  - uniqueness: none
 	Formatted *string `mandatory:"false" json:"formatted"`
+
+	// Last name
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsCsvAttributeName: Last Name
+	//  - idcsSearchable: true
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	FamilyName *string `mandatory:"false" json:"familyName"`
 
 	// First name
 	// **SCIM++ Properties:**

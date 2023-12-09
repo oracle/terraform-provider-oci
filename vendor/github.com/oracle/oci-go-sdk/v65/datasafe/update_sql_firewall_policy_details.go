@@ -15,34 +15,34 @@ import (
 	"strings"
 )
 
-// UpdateSqlFirewallPolicyDetails Details to update the SQL firewall policy.
+// UpdateSqlFirewallPolicyDetails Details to update the SQL Firewall policy.
 type UpdateSqlFirewallPolicyDetails struct {
 
-	// The display name of the SQL firewall policy. The name does not have to be unique, and it is changeable.
+	// The display name of the SQL Firewall policy. The name does not have to be unique, and it is changeable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The description of the SQL firewall policy.
+	// The description of the SQL Firewall policy.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Specifies whether the SQL firewall policy is enabled or disabled.
+	// Specifies whether the SQL Firewall policy is enabled or disabled.
 	Status UpdateSqlFirewallPolicyDetailsStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// Specifies the SQL firewall policy enforcement option.
+	// Specifies the SQL Firewall policy enforcement option.
 	EnforcementScope UpdateSqlFirewallPolicyDetailsEnforcementScopeEnum `mandatory:"false" json:"enforcementScope,omitempty"`
 
-	// Specifies the SQL firewall action based on detection of SQL firewall violations.
+	// Specifies the SQL Firewall action based on detection of SQL Firewall violations.
 	ViolationAction UpdateSqlFirewallPolicyDetailsViolationActionEnum `mandatory:"false" json:"violationAction,omitempty"`
 
-	// Specifies whether a unified audit policy should be enabled for auditing the SQL firewall policy violations.
+	// Specifies whether a unified audit policy should be enabled for auditing the SQL Firewall policy violations.
 	ViolationAudit UpdateSqlFirewallPolicyDetailsViolationAuditEnum `mandatory:"false" json:"violationAudit,omitempty"`
 
-	// List of allowed ip addresses for the SQL firewall policy.
+	// List of allowed ip addresses for the SQL Firewall policy.
 	AllowedClientIps []string `mandatory:"false" json:"allowedClientIps"`
 
-	// List of allowed operating system user names for the SQL firewall policy.
+	// List of allowed operating system user names for the SQL Firewall policy.
 	AllowedClientOsUsernames []string `mandatory:"false" json:"allowedClientOsUsernames"`
 
-	// List of allowed client programs for the SQL firewall policy.
+	// List of allowed client programs for the SQL Firewall policy.
 	AllowedClientPrograms []string `mandatory:"false" json:"allowedClientPrograms"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

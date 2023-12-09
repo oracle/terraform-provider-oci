@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,14 +16,22 @@ import (
 	"strings"
 )
 
-// UpdateConfigurationDetails The information to update  Configuration.
+// UpdateConfigurationDetails The information to update a configuration.
 type UpdateConfigurationDetails struct {
 
-	// Configuration display name
+	// A user-friendly display name for the configuration. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Details about the Configuration Set.
+	// Details about the configuration set.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdateConfigurationDetails) String() string {

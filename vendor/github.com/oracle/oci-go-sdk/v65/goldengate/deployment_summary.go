@@ -24,7 +24,7 @@ type DeploymentSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The Oracle license model that applies to a Deployment.
@@ -62,6 +62,15 @@ type DeploymentSummary struct {
 	// Tags defined for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy.
+	// Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy.
+	// For backward compatiblity this is an optional property for now, but it will become mandatory (for public deployments only) after October 1, 2024.
+	LoadBalancerSubnetId *string `mandatory:"false" json:"loadBalancerSubnetId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the loadbalancer in the customer's subnet.
+	// The loadbalancer of the public deployment created in the customer subnet.
+	LoadBalancerId *string `mandatory:"false" json:"loadBalancerId"`
 
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"false" json:"fqdn"`

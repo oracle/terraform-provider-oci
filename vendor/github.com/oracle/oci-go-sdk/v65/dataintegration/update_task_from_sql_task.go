@@ -55,6 +55,9 @@ type UpdateTaskFromSqlTask struct {
 
 	ConfigProviderDelegate *ConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 
 	Script *Script `mandatory:"false" json:"script"`
@@ -129,6 +132,11 @@ func (m UpdateTaskFromSqlTask) GetOpConfigValues() *ConfigValues {
 // GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m UpdateTaskFromSqlTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
+}
+
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m UpdateTaskFromSqlTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
 }
 
 // GetRegistryMetadata returns RegistryMetadata

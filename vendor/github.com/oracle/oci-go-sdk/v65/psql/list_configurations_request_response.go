@@ -21,19 +21,20 @@ type ListConfigurationsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources if their `lifecycleState` matches the given `lifecycleState`.
 	LifecycleState ConfigurationLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Verison of the Postgresql DB like 14.5
+	// Verison of the PostgreSQL database, such as 14.9.
 	DbVersion *string `mandatory:"false" contributesTo:"query" name:"dbVersion"`
 
-	// Shape name of the compute like VM.Standard.E4.Flex or VM.Standard3.Flex
+	// The name of the shape for the configuration.
+	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
 
-	// unique Configuration identifier
+	// A unique identifier for the configuration.
 	ConfigurationId *string `mandatory:"false" contributesTo:"query" name:"configurationId"`
 
 	// The maximum number of items to return.

@@ -21,13 +21,13 @@ type ListDbSystemsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources if their `lifecycleState` matches the given `lifecycleState`.
 	LifecycleState DbSystemLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique DbSystem identifier
+	// A unique identifier for the database system.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

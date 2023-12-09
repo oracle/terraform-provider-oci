@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetBackup.go.html to see an example of how to use GetBackupRequest.
 type GetBackupRequest struct {
 
-	// unique Backup identifier
+	// A unique identifier for the backup.
 	BackupId *string `mandatory:"true" contributesTo:"path" name:"backupId"`
 
 	// The client request ID for tracing.

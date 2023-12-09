@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SqlFirewallAllowedSqlAnalyticsCollection SQL firewall allowed SQL analytics collection.
+// SqlFirewallAllowedSqlAnalyticsCollection SQL Firewall allowed SQL analytics collection.
 type SqlFirewallAllowedSqlAnalyticsCollection struct {
 
 	// The aggregated data point items.

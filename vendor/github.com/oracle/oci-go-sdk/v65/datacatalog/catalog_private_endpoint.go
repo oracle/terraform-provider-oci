@@ -45,6 +45,12 @@ type CatalogPrivateEndpoint struct {
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// System tags can be viewed by users, but can only be created by the system.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -57,6 +63,9 @@ type CatalogPrivateEndpoint struct {
 
 	// The list of catalogs using the private reverse connection endpoint
 	AttachedCatalogs []string `mandatory:"false" json:"attachedCatalogs"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m CatalogPrivateEndpoint) String() string {

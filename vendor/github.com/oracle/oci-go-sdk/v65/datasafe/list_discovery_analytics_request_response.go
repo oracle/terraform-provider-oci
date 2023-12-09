@@ -34,6 +34,9 @@ type ListDiscoveryAnalyticsRequest struct {
 	// A filter to return only the resources that match the specified sensitive data model OCID.
 	SensitiveDataModelId *string `mandatory:"false" contributesTo:"query" name:"sensitiveDataModelId"`
 
+	// A filter to return only items related to a specific sensitive type OCID.
+	SensitiveTypeId *string `mandatory:"false" contributesTo:"query" name:"sensitiveTypeId"`
+
 	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -42,6 +45,10 @@ type ListDiscoveryAnalyticsRequest struct {
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// A filter to return only the common sensitive type resources. Common sensitive types belong to
+	// library sensitive types which are frequently used to perform sensitive data discovery.
+	IsCommon *bool `mandatory:"false" contributesTo:"query" name:"isCommon"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -123,18 +130,30 @@ type ListDiscoveryAnalyticsGroupByEnum string
 
 // Set of constants representing the allowable values for ListDiscoveryAnalyticsGroupByEnum
 const (
-	ListDiscoveryAnalyticsGroupByTargetid             ListDiscoveryAnalyticsGroupByEnum = "targetId"
-	ListDiscoveryAnalyticsGroupBySensitivedatamodelid ListDiscoveryAnalyticsGroupByEnum = "sensitiveDataModelId"
+	ListDiscoveryAnalyticsGroupByTargetid                               ListDiscoveryAnalyticsGroupByEnum = "targetId"
+	ListDiscoveryAnalyticsGroupBySensitivedatamodelid                   ListDiscoveryAnalyticsGroupByEnum = "sensitiveDataModelId"
+	ListDiscoveryAnalyticsGroupBySensitivetypeid                        ListDiscoveryAnalyticsGroupByEnum = "sensitiveTypeId"
+	ListDiscoveryAnalyticsGroupByTargetidandsensitivedatamodelid        ListDiscoveryAnalyticsGroupByEnum = "targetIdAndSensitiveDataModelId"
+	ListDiscoveryAnalyticsGroupBySensitivetypeidandtargetid             ListDiscoveryAnalyticsGroupByEnum = "sensitiveTypeIdAndTargetId"
+	ListDiscoveryAnalyticsGroupBySensitivetypeidandsensitivedatamodelid ListDiscoveryAnalyticsGroupByEnum = "sensitiveTypeIdAndSensitiveDataModelId"
 )
 
 var mappingListDiscoveryAnalyticsGroupByEnum = map[string]ListDiscoveryAnalyticsGroupByEnum{
-	"targetId":             ListDiscoveryAnalyticsGroupByTargetid,
-	"sensitiveDataModelId": ListDiscoveryAnalyticsGroupBySensitivedatamodelid,
+	"targetId":                               ListDiscoveryAnalyticsGroupByTargetid,
+	"sensitiveDataModelId":                   ListDiscoveryAnalyticsGroupBySensitivedatamodelid,
+	"sensitiveTypeId":                        ListDiscoveryAnalyticsGroupBySensitivetypeid,
+	"targetIdAndSensitiveDataModelId":        ListDiscoveryAnalyticsGroupByTargetidandsensitivedatamodelid,
+	"sensitiveTypeIdAndTargetId":             ListDiscoveryAnalyticsGroupBySensitivetypeidandtargetid,
+	"sensitiveTypeIdAndSensitiveDataModelId": ListDiscoveryAnalyticsGroupBySensitivetypeidandsensitivedatamodelid,
 }
 
 var mappingListDiscoveryAnalyticsGroupByEnumLowerCase = map[string]ListDiscoveryAnalyticsGroupByEnum{
-	"targetid":             ListDiscoveryAnalyticsGroupByTargetid,
-	"sensitivedatamodelid": ListDiscoveryAnalyticsGroupBySensitivedatamodelid,
+	"targetid":                               ListDiscoveryAnalyticsGroupByTargetid,
+	"sensitivedatamodelid":                   ListDiscoveryAnalyticsGroupBySensitivedatamodelid,
+	"sensitivetypeid":                        ListDiscoveryAnalyticsGroupBySensitivetypeid,
+	"targetidandsensitivedatamodelid":        ListDiscoveryAnalyticsGroupByTargetidandsensitivedatamodelid,
+	"sensitivetypeidandtargetid":             ListDiscoveryAnalyticsGroupBySensitivetypeidandtargetid,
+	"sensitivetypeidandsensitivedatamodelid": ListDiscoveryAnalyticsGroupBySensitivetypeidandsensitivedatamodelid,
 }
 
 // GetListDiscoveryAnalyticsGroupByEnumValues Enumerates the set of values for ListDiscoveryAnalyticsGroupByEnum
@@ -151,6 +170,10 @@ func GetListDiscoveryAnalyticsGroupByEnumStringValues() []string {
 	return []string{
 		"targetId",
 		"sensitiveDataModelId",
+		"sensitiveTypeId",
+		"targetIdAndSensitiveDataModelId",
+		"sensitiveTypeIdAndTargetId",
+		"sensitiveTypeIdAndSensitiveDataModelId",
 	}
 }
 

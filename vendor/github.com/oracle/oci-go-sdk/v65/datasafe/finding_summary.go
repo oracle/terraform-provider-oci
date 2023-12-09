@@ -18,7 +18,7 @@ import (
 // FindingSummary The particular finding reported by the security assessment.
 type FindingSummary struct {
 
-	// The severity of the finding.
+	// The severity of the finding as determined by security assessment and is same as oracleDefinedSeverity, unless modified by user.
 	Severity FindingSummarySeverityEnum `mandatory:"false" json:"severity,omitempty"`
 
 	// The OCID of the assessment that generated this finding.

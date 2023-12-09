@@ -54,6 +54,9 @@ type CreateTaskFromDataLoaderTask struct {
 
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	DataFlow *DataFlow `mandatory:"false" json:"dataFlow"`
 
 	ConditionalCompositeFieldMap *ConditionalCompositeFieldMap `mandatory:"false" json:"conditionalCompositeFieldMap"`
@@ -123,6 +126,11 @@ func (m CreateTaskFromDataLoaderTask) GetOpConfigValues() *ConfigValues {
 // GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m CreateTaskFromDataLoaderTask) GetConfigProviderDelegate() *CreateConfigProvider {
 	return m.ConfigProviderDelegate
+}
+
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m CreateTaskFromDataLoaderTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
 }
 
 // GetRegistryMetadata returns RegistryMetadata

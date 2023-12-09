@@ -55,6 +55,10 @@ type SensitiveTypeSummary struct {
 	// The OCID of the library masking format that should be used to mask the sensitive columns associated with the sensitive type.
 	DefaultMaskingFormatId *string `mandatory:"false" json:"defaultMaskingFormatId"`
 
+	// Specifies whether the sensitive type is common. Common sensitive types belong to
+	// library sensitive types which are frequently used to perform sensitive data discovery.
+	IsCommon *bool `mandatory:"false" json:"isCommon"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

@@ -134,6 +134,10 @@ func (m *formatentry) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := SubstringFormatEntry{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PATTERN":
+		mm := PatternFormatEntry{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "RANDOM_NUMBER":
 		mm := RandomNumberFormatEntry{}
 		err = json.Unmarshal(data, &mm)

@@ -18,19 +18,23 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ChangeConfigurationCompartment.go.html to see an example of how to use ChangeConfigurationCompartmentRequest.
 type ChangeConfigurationCompartmentRequest struct {
 
-	// unique Configuration identifier
+	// A unique identifier for the configuration.
 	ConfigurationId *string `mandatory:"true" contributesTo:"path" name:"configurationId"`
 
 	// The information to be updated.
 	ChangeConfigurationCompartmentDetails `contributesTo:"body"`
 
-	// For optimistic concurrency control. In the PUT or DELETE call
+	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match` parameter to the value of the etag from a previous GET or POST response for that resource.
+	// The resource will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
+	// server error without risk of executing that same action again. Retry tokens expire after 24
+	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
+	// has been deleted and purged from the system, `retrytoken` could be expired or invalidated.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -80,12 +84,6 @@ type ChangeConfigurationCompartmentResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
-
-	// The Configuration instance
-	Configuration `presentIn:"body"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

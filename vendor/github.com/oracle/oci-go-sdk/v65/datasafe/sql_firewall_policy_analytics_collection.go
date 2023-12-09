@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// SqlFirewallPolicyAnalyticsCollection SQL firewall policy analytics collection.
+// SqlFirewallPolicyAnalyticsCollection SQL Firewall policy analytics collection.
 type SqlFirewallPolicyAnalyticsCollection struct {
 
 	// The aggregated data point items.
