@@ -1,3 +1,21 @@
+## 5.23.0 (Unreleased)
+
+### Added
+Support for Dedicated VM Hosts Reboot Migration
+Support for Cloud Advisor Permission Model Update
+Support for IdentityDomains IDCS Token Exchange
+Support for AWR Hub Source in opsi service
+Support for OCI customer carbon footprint reporting
+Support for Data Safe - Support for top 10 commonly used sensitive types.
+Support for GGS Network Changes
+Support for Data Catalog Resource Locking Splat feature
+Support for ADB-S: Break Glass Access (CP Support)
+Parameters attribute in oci_logging_log Configuration Source block
+Support for Load Balancer - Enable Resource Discovery for SSL Cipher Suites add ciphers to be exported solve undefined reqId error
+### Bug Fix
+Double base64 encoding of container config file content
+Added implementation for long term backup retention.
+
 ## 5.22.0 (Unreleased)
 
 ### Added
