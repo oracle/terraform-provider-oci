@@ -338,6 +338,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_dedicated"] = *r.IsDedicated
 		}
 
+		if r.IsDevTier != nil {
+			autonomousDatabase["is_dev_tier"] = *r.IsDevTier
+		}
+
 		if r.IsFreeTier != nil {
 			autonomousDatabase["is_free_tier"] = *r.IsFreeTier
 		}

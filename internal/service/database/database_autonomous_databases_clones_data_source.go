@@ -410,6 +410,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_dev_tier": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_free_tier": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -1116,6 +1120,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.IsDedicated != nil {
 			autonomousDatabasesClone["is_dedicated"] = *r.IsDedicated
+		}
+
+		if r.IsDevTier != nil {
+			autonomousDatabasesClone["is_dev_tier"] = *r.IsDevTier
 		}
 
 		if r.IsFreeTier != nil {
