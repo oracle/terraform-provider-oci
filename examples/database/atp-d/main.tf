@@ -7,6 +7,7 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
+  version          = "5.25.0"
 }
 
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database" {
@@ -88,7 +89,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   #Optional
   autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
   db_workload                      = "OLTP"
-  display_name                     = "example_autonomous_database-007"
+  display_name                     = "example_autonomous_db-1"
   freeform_tags                    = var.autonomous_database_freeform_tags
   is_dedicated                     = "true"
   rotate_key_trigger               = "true"
@@ -107,10 +108,28 @@ resource "oci_database_autonomous_database" "test_autonomous_database_character_
   #Optional
   autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
   db_workload                      = "OLTP"
-  display_name                     = "example_autonomous_database-008"
+  display_name                     = "example_autonomous_db-2"
   is_dedicated                     = "true"
   character_set                    = "AL32UTF8"
   ncharacter_set                   = "AL16UTF16"
+}
+
+resource "oci_database_autonomous_database" "test_autonomous_database_developer" {
+  #Required
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  compute_count            = "4"
+  data_storage_size_in_gb  = "32"
+  db_name                  = "atpdb3"
+
+  #Optional
+  autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+  db_workload                      = "OLTP"
+  display_name                     = "example_autonomous_db-developer"
+  is_dedicated                     = "true"
+  character_set                    = "AL32UTF8"
+  ncharacter_set                   = "AL16UTF16"
+  is_dev_tier                      = "true"
 }
 
 data "oci_database_autonomous_container_databases" "test_autonomous_container_databases" {

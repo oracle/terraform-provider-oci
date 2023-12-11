@@ -255,6 +255,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_dev_tier": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_free_tier": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -1618,6 +1623,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsDataGuardEnabled = &tmp
 	}
 
+	if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+		tmp := isDevTier.(bool)
+		request.IsDevTier = &tmp
+	}
+
 	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok && s.D.HasChange("is_free_tier") {
 		tmp := isFreeTier.(bool)
 		request.IsFreeTier = &tmp
@@ -2016,6 +2026,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.IsDedicated != nil {
 		s.D.Set("is_dedicated", *s.Res.IsDedicated)
+	}
+
+	if s.Res.IsDevTier != nil {
+		s.D.Set("is_dev_tier", *s.Res.IsDevTier)
 	}
 
 	if s.Res.IsFreeTier != nil {
@@ -2820,6 +2834,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
 		}
+		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+			tmp := isDevTier.(bool)
+			details.IsDevTier = &tmp
+		}
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
@@ -3097,6 +3115,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
 		}
+		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+			tmp := isDevTier.(bool)
+			details.IsDevTier = &tmp
+		}
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
@@ -3361,6 +3383,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
 		}
+		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+			tmp := isDevTier.(bool)
+			details.IsDevTier = &tmp
+		}
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
@@ -3618,6 +3644,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
 		}
+		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+			tmp := isDevTier.(bool)
+			details.IsDevTier = &tmp
+		}
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
 			details.IsFreeTier = &tmp
@@ -3870,6 +3900,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
+		}
+		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+			tmp := isDevTier.(bool)
+			details.IsDevTier = &tmp
 		}
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
@@ -4126,6 +4160,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
+		}
+		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+			tmp := isDevTier.(bool)
+			details.IsDevTier = &tmp
 		}
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
@@ -4385,6 +4423,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
+		}
+		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+			tmp := isDevTier.(bool)
+			details.IsDevTier = &tmp
 		}
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)

@@ -1,12 +1,11 @@
 resource "random_string" "db_unique_name" {
   length = 8
   special = false
-  numeric = false
 }
 
 resource "oci_database_autonomous_container_database" "autonomous_container_database" {
   autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id
-  db_version = "19.22.0.1.0"
+  db_version = "19.20.0.1.0"
   backup_config {
     backup_destination_details {
       type = "LOCAL"
@@ -19,13 +18,6 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
   freeform_tags = {
     "Department" = "Finance"
   }
-
-  #Optional
-  db_split_threshold           = 12
-  vm_failover_reservation      = 25
-  distribution_affinity        = "MINIMUM_DISTRIBUTION"
-  net_services_architecture    = "DEDICATED"
-
   maintenance_window_details {
     preference = "NO_PREFERENCE"
   }

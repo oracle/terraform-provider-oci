@@ -97,6 +97,12 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation) +
 		KmsVaultIdVariableStr + OkvSecretVariableStr
 
+	ACDECPUatabaseResourceDependencies = DatabaseAVMClusterWithSingleNetworkResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseECPUAutonomousVmClusterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation) +
+		KmsVaultIdVariableStr + OkvSecretVariableStr
+
 	dgDbUniqueName = utils.RandomString(10, utils.CharsetWithoutDigits)
 
 	ExaccDatabaseAutonomousContainerDatabaseResourceDependencies = DatabaseAutonomousVmClusterRequiredOnlyResource +
