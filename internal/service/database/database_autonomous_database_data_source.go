@@ -224,6 +224,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_dedicated", *s.Res.IsDedicated)
 	}
 
+	if s.Res.IsDevTier != nil {
+		s.D.Set("is_dev_tier", *s.Res.IsDevTier)
+	}
+
 	if s.Res.IsFreeTier != nil {
 		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
 	}
