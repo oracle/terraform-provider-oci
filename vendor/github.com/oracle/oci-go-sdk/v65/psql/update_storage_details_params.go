@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,11 +16,11 @@ import (
 	"strings"
 )
 
-// UpdateStorageDetailsParams Storage details of the DbSystem.
+// UpdateStorageDetailsParams Storage details of the database system.
 type UpdateStorageDetailsParams struct {
 
-	// DbSystem Performance Unit.
-	// Only valid for `OCI_OPTIMIZED_STORAGE` dbSystem type.
+	// Guaranteed input/output storage requests per second (IOPS) available to the database system.
+	// Only valid for `OCI_OPTIMIZED_STORAGE` database system type.
 	Iops *int64 `mandatory:"false" json:"iops"`
 }
 

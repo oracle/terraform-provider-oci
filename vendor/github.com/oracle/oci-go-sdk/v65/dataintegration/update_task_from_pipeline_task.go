@@ -55,6 +55,9 @@ type UpdateTaskFromPipelineTask struct {
 
 	ConfigProviderDelegate *ConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	RegistryMetadata *RegistryMetadata `mandatory:"false" json:"registryMetadata"`
 
 	Pipeline *Pipeline `mandatory:"false" json:"pipeline"`
@@ -123,6 +126,11 @@ func (m UpdateTaskFromPipelineTask) GetOpConfigValues() *ConfigValues {
 // GetConfigProviderDelegate returns ConfigProviderDelegate
 func (m UpdateTaskFromPipelineTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
+}
+
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m UpdateTaskFromPipelineTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
 }
 
 // GetRegistryMetadata returns RegistryMetadata

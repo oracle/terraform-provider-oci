@@ -52,7 +52,6 @@ var (
 
 	IdentityDomainsUserRepresentation = map[string]interface{}{
 		"idcs_endpoint":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_domain.test_domain.url}`},
-		"name":               acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsUserNameRepresentation},
 		"schemas":            acctest.Representation{RepType: acctest.Required, Create: []string{`urn:ietf:params:scim:schemas:core:2.0:User`}},
 		"user_name":          acctest.Representation{RepType: acctest.Required, Create: `userName`},
 		"active":             acctest.Representation{RepType: acctest.Optional, Create: `true`},
@@ -65,6 +64,7 @@ var (
 		"external_id":        acctest.Representation{RepType: acctest.Optional, Create: `externalId`},
 		"ims":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsUserImsRepresentation},
 		"locale":             acctest.Representation{RepType: acctest.Optional, Create: `en`, Update: `es`},
+		"name":               acctest.RepresentationGroup{RepType: acctest.Required, Group: IdentityDomainsUserNameRepresentation},
 		"nick_name":          acctest.Representation{RepType: acctest.Optional, Create: `nickName`, Update: `nickName2`},
 		"password":           acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
 		"phone_numbers":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsUserPhoneNumbersRepresentation},
@@ -90,7 +90,6 @@ var (
 		"x509certificates": acctest.RepresentationGroup{RepType: acctest.Optional, Group: IdentityDomainsUserX509CertificatesRepresentation},
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangeForIdentityDomainsUser},
 	}
-
 	ignoreChangeForIdentityDomainsUser = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{
 			`urnietfparamsscimschemasoracleidcsextension_oci_tags[0].defined_tags`,
@@ -99,15 +98,6 @@ var (
 			`urnietfparamsscimschemasoracleidcsextensionself_change_user`,
 			`urnietfparamsscimschemasoracleidcsextensionsecurity_questions_user[0].sec_questions`,
 		}},
-	}
-
-	IdentityDomainsUserNameRepresentation = map[string]interface{}{
-		"family_name":      acctest.Representation{RepType: acctest.Required, Create: `familyName`, Update: `familyName2`},
-		"formatted":        acctest.Representation{RepType: acctest.Optional, Create: `formatted`, Update: `formatted2`},
-		"given_name":       acctest.Representation{RepType: acctest.Optional, Create: `givenName`, Update: `givenName2`},
-		"honorific_prefix": acctest.Representation{RepType: acctest.Optional, Create: `honorificPrefix`, Update: `honorificPrefix2`},
-		"honorific_suffix": acctest.Representation{RepType: acctest.Optional, Create: `honorificSuffix`, Update: `honorificSuffix2`},
-		"middle_name":      acctest.Representation{RepType: acctest.Optional, Create: `middleName`, Update: `middleName2`},
 	}
 
 	IdentityDomainsUserAddressesRepresentation = map[string]interface{}{
@@ -138,6 +128,14 @@ var (
 		"value":   acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 		"display": acctest.Representation{RepType: acctest.Optional, Create: `display`, Update: `display2`},
 		"primary": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+	IdentityDomainsUserNameRepresentation = map[string]interface{}{
+		"family_name":      acctest.Representation{RepType: acctest.Required, Create: `familyName`, Update: `familyName2`},
+		"formatted":        acctest.Representation{RepType: acctest.Optional, Create: `formatted`, Update: `formatted2`},
+		"given_name":       acctest.Representation{RepType: acctest.Optional, Create: `givenName`, Update: `givenName2`},
+		"honorific_prefix": acctest.Representation{RepType: acctest.Optional, Create: `honorificPrefix`, Update: `honorificPrefix2`},
+		"honorific_suffix": acctest.Representation{RepType: acctest.Optional, Create: `honorificSuffix`, Update: `honorificSuffix2`},
+		"middle_name":      acctest.Representation{RepType: acctest.Optional, Create: `middleName`, Update: `middleName2`},
 	}
 	IdentityDomainsUserPhoneNumbersRepresentation = map[string]interface{}{
 		"type":    acctest.Representation{RepType: acctest.Required, Create: `work`, Update: `home`},
@@ -216,6 +214,7 @@ var (
 		"is_federated_user":                          acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_group_membership_normalized":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_group_membership_synced_to_users_groups": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"service_user":                               acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"user_flow_controlled_by_external_client":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 	IdentityDomainsUserX509CertificatesRepresentation = map[string]interface{}{
@@ -271,7 +270,7 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "name.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name.0.family_name", "familyName"),
-				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
+				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9][0-9]*")),
 				resource.TestCheckResourceAttrSet(resourceName, "user_name"),
 
 				func(s *terraform.State) (err error) {
@@ -289,7 +288,7 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "name.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "name.0.family_name", "familyName2"),
-				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
+				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9][0-9]*")),
 				resource.TestCheckResourceAttrSet(resourceName, "user_name"),
 
 				func(s *terraform.State) (err error) {
@@ -364,7 +363,7 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "roles.0.primary", "false"),
 				resource.TestCheckResourceAttr(resourceName, "roles.0.type", "type"),
 				resource.TestCheckResourceAttr(resourceName, "roles.0.value", "value"),
-				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
+				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9][0-9]*")),
 				resource.TestCheckResourceAttr(resourceName, "tags.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "tags.0.key", "key"),
 				resource.TestCheckResourceAttr(resourceName, "tags.0.value", "value"),
@@ -503,7 +502,7 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "roles.0.primary", "true"),
 				resource.TestCheckResourceAttr(resourceName, "roles.0.type", "type2"),
 				resource.TestCheckResourceAttr(resourceName, "roles.0.value", "value2"),
-				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
+				resource.TestMatchResourceAttr(resourceName, "schemas.#", regexp.MustCompile("[1-9][0-9]*")),
 				resource.TestCheckResourceAttr(resourceName, "tags.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "tags.0.key", "key2"),
 				resource.TestCheckResourceAttr(resourceName, "tags.0.value", "value2"),
@@ -645,7 +644,7 @@ func TestIdentityDomainsUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "roles.0.primary", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "roles.0.type", "type2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "roles.0.value", "value2"),
-				resource.TestMatchResourceAttr(singularDatasourceName, "schemas.#", regexp.MustCompile("[1-9]+")),
+				resource.TestMatchResourceAttr(singularDatasourceName, "schemas.#", regexp.MustCompile("[1-9][0-9]*")),
 				resource.TestCheckResourceAttr(singularDatasourceName, "timezone", "America/Vancouver"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "title", "title2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "urnietfparamsscimschemasextensionenterprise20user.#", "1"),

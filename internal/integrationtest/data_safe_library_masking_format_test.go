@@ -56,10 +56,38 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
+
 	libraryMaskingFormatFormatEntriesRepresentation = map[string]interface{}{
 		"type":         acctest.Representation{RepType: acctest.Required, Create: `DELETE_ROWS`, Update: `FIXED_STRING`},
 		"description":  acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"fixed_string": acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `fixedString2`},
+	}
+
+	DataSafeLibraryMaskingFormatFormatEntriesRepresentation = map[string]interface{}{
+		"type":                      acctest.Representation{RepType: acctest.Required, Create: `DELETE_ROWS`, Update: `DETERMINISTIC_SUBSTITUTION`},
+		"column_name":               acctest.Representation{RepType: acctest.Optional, Create: `columnName`, Update: `columnName2`},
+		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"end_date":                  acctest.Representation{RepType: acctest.Optional, Create: `endDate`, Update: `endDate2`},
+		"end_length":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"end_value":                 acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"fixed_number":              acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"fixed_string":              acctest.Representation{RepType: acctest.Optional, Create: `fixedString`, Update: `fixedString2`},
+		"grouping_columns":          acctest.Representation{RepType: acctest.Optional, Create: []string{`groupingColumns`}, Update: []string{`groupingColumns2`}},
+		"length":                    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"library_masking_format_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_library_masking_format.test_library_masking_format.id}`},
+		"pattern":                   acctest.Representation{RepType: acctest.Optional, Create: `pattern`, Update: `pattern2`},
+		"post_processing_function":  acctest.Representation{RepType: acctest.Optional, Create: `postProcessingFunction`, Update: `postProcessingFunction2`},
+		"random_list":               acctest.Representation{RepType: acctest.Optional, Create: []string{`randomList`}, Update: []string{`randomList2`}},
+		"regular_expression":        acctest.Representation{RepType: acctest.Optional, Create: `regularExpression`, Update: `regularExpression2`},
+		"replace_with":              acctest.Representation{RepType: acctest.Optional, Create: `replaceWith`, Update: `replaceWith2`},
+		"schema_name":               acctest.Representation{RepType: acctest.Optional, Create: `schemaName`, Update: `schemaName2`},
+		"sql_expression":            acctest.Representation{RepType: acctest.Optional, Create: `sqlExpression`, Update: `sqlExpression2`},
+		"start_date":                acctest.Representation{RepType: acctest.Optional, Create: `startDate`, Update: `startDate2`},
+		"start_length":              acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"start_position":            acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"start_value":               acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"table_name":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_nosql_table.test_table.name}`},
+		"user_defined_function":     acctest.Representation{RepType: acctest.Optional, Create: `userDefinedFunction`, Update: `userDefinedFunction2`},
 	}
 
 	DataSafeLibraryMaskingFormatResourceDependencies = DefinedTagsDependencies
@@ -95,6 +123,7 @@ func TestDataSafeLibraryMaskingFormatResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_library_masking_format", "test_library_masking_format", acctest.Required, acctest.Create, libraryMaskingFormatRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "format_entries.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "format_entries.0.type", "DELETE_ROWS"),
 
 				func(s *terraform.State) (err error) {

@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSqlFirewallPolicy.go.html to see an example of how to use UpdateSqlFirewallPolicyRequest.
 type UpdateSqlFirewallPolicyRequest struct {
 
-	// The OCID of the SQL firewall policy resource.
+	// The OCID of the SQL Firewall policy resource.
 	SqlFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"sqlFirewallPolicyId"`
 
-	// Details to update the SQL firewall policy.
+	// Details to update the SQL Firewall policy.
 	UpdateSqlFirewallPolicyDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

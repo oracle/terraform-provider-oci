@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,45 +17,46 @@ import (
 	"strings"
 )
 
-// CreateDbSystemDetails The information about new DbSystem.
+// CreateDbSystemDetails The information about new database system.
 type CreateDbSystemDetails struct {
 
-	// DbSystem display name
+	// A user-friendly display name for the database system. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment identifier
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the database system.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Version of DbSystem software.
+	// Version of database system software.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	StorageDetails StorageDetails `mandatory:"true" json:"storageDetails"`
 
-	// Shape of DbInstance. This name should match from with one of the available shapes from /shapes API.
+	// The name of the shape for the database instance node. Use the /shapes API for accepted shapes.
+	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
 	NetworkDetails *NetworkDetails `mandatory:"true" json:"networkDetails"`
 
-	// Description of a DbSystem. This field should be input by the user.
+	// A user-provided description of a database system.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Type of the DbSystem.
+	// Type of the database system.
 	SystemType DbSystemSystemTypeEnum `mandatory:"false" json:"systemType,omitempty"`
 
-	// Configuration identifier
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration associated with the database system.
 	ConfigId *string `mandatory:"false" json:"configId"`
 
-	// The total number of OCPUs available to each DbInstance.
+	// The total number of OCPUs available to each database instance node.
 	InstanceOcpuCount *int `mandatory:"false" json:"instanceOcpuCount"`
 
-	// The total amount of memory available to each DbInstance, in gigabytes.
+	// The total amount of memory available to each database instance node, in gigabytes.
 	InstanceMemorySizeInGBs *int `mandatory:"false" json:"instanceMemorySizeInGBs"`
 
-	// Count of DbInstances to be created in the DbSystem.
+	// Count of database instances nodes to be created in the database system.
 	InstanceCount *int `mandatory:"false" json:"instanceCount"`
 
-	// Details of DbInstances to be created. Optional parameter.
-	// If specified, its size must match instanceCount.
+	// Details of database instances nodes to be created. This parameter is optional.
+	// If specified, its size must match `instanceCount`.
 	InstancesDetails []CreateDbInstanceDetails `mandatory:"false" json:"instancesDetails"`
 
 	Credentials *Credentials `mandatory:"false" json:"credentials"`

@@ -108,6 +108,10 @@ func DataSafeSensitiveTypeResource() *schema.Resource {
 			},
 
 			// Computed
+			"is_common": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"source": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -435,6 +439,10 @@ func (s *DataSafeSensitiveTypeResourceCrud) SetData() error {
 			s.D.Set("id", *v.Id)
 		}
 
+		if v.IsCommon != nil {
+			s.D.Set("is_common", *v.IsCommon)
+		}
+
 		if v.ParentCategoryId != nil {
 			s.D.Set("parent_category_id", *v.ParentCategoryId)
 		}
@@ -502,7 +510,11 @@ func (s *DataSafeSensitiveTypeResourceCrud) SetData() error {
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.Id != nil {
-			s.D.Set("id", *v.Id)
+			s.D.SetId(*v.Id)
+		}
+
+		if v.IsCommon != nil {
+			s.D.Set("is_common", *v.IsCommon)
 		}
 
 		if v.ParentCategoryId != nil {
@@ -564,6 +576,10 @@ func SensitiveTypeSummaryToMap(obj oci_data_safe.SensitiveTypeSummary) map[strin
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsCommon != nil {
+		result["is_common"] = bool(*obj.IsCommon)
 	}
 
 	if obj.ParentCategoryId != nil {

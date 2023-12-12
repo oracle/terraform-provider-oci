@@ -24,6 +24,9 @@ type JsonFormatAttribute struct {
 
 	// The encoding for the file.
 	Encoding *string `mandatory:"false" json:"encoding"`
+
+	// Sample JSON with all fields of JSON schema specified in it for the JSON data files used in Data Flow, Data Loader or Data Preview and should be specified in Base64 encoded format. Maximum size is 2 MB.
+	SampleEntityData *string `mandatory:"false" json:"sampleEntityData"`
 }
 
 // GetIsFilePattern returns IsFilePattern

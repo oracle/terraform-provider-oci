@@ -23,6 +23,7 @@ data "oci_optimizer_histories" "test_histories" {
 	compartment_id_in_subtree = var.history_compartment_id_in_subtree
 
 	#Optional
+	include_resource_metadata = var.history_include_resource_metadata
 	name = var.history_name
 	recommendation_id = oci_optimizer_recommendation.test_recommendation.id
 	recommendation_name = oci_optimizer_recommendation.test_recommendation.name
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Required) When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned depending on the the setting of `accessLevel`.
 
 	Can only be set to true when performing ListCompartments on the tenancy (root compartment). 
+* `include_resource_metadata` - (Optional) Supplement additional resource information in extended metadata response.
 * `name` - (Optional) Optional. A filter that returns results that match the name specified.
 * `recommendation_id` - (Optional) The unique OCID associated with the recommendation.
 * `recommendation_name` - (Optional) Optional. A filter that returns results that match the recommendation name specified.

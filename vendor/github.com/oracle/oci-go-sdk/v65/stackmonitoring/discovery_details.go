@@ -64,45 +64,48 @@ type DiscoveryDetailsResourceTypeEnum string
 
 // Set of constants representing the allowable values for DiscoveryDetailsResourceTypeEnum
 const (
-	DiscoveryDetailsResourceTypeWeblogicDomain DiscoveryDetailsResourceTypeEnum = "WEBLOGIC_DOMAIN"
-	DiscoveryDetailsResourceTypeEbsInstance    DiscoveryDetailsResourceTypeEnum = "EBS_INSTANCE"
-	DiscoveryDetailsResourceTypeSqlServer      DiscoveryDetailsResourceTypeEnum = "SQL_SERVER"
-	DiscoveryDetailsResourceTypeApacheTomcat   DiscoveryDetailsResourceTypeEnum = "APACHE_TOMCAT"
-	DiscoveryDetailsResourceTypeOracleDatabase DiscoveryDetailsResourceTypeEnum = "ORACLE_DATABASE"
-	DiscoveryDetailsResourceTypeOciOracleDb    DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_DB"
-	DiscoveryDetailsResourceTypeOciOracleCdb   DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_CDB"
-	DiscoveryDetailsResourceTypeOciOraclePdb   DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_PDB"
-	DiscoveryDetailsResourceTypeHost           DiscoveryDetailsResourceTypeEnum = "HOST"
-	DiscoveryDetailsResourceTypeOraclePsft     DiscoveryDetailsResourceTypeEnum = "ORACLE_PSFT"
-	DiscoveryDetailsResourceTypeOracleMft      DiscoveryDetailsResourceTypeEnum = "ORACLE_MFT"
+	DiscoveryDetailsResourceTypeWeblogicDomain   DiscoveryDetailsResourceTypeEnum = "WEBLOGIC_DOMAIN"
+	DiscoveryDetailsResourceTypeEbsInstance      DiscoveryDetailsResourceTypeEnum = "EBS_INSTANCE"
+	DiscoveryDetailsResourceTypeSqlServer        DiscoveryDetailsResourceTypeEnum = "SQL_SERVER"
+	DiscoveryDetailsResourceTypeApacheTomcat     DiscoveryDetailsResourceTypeEnum = "APACHE_TOMCAT"
+	DiscoveryDetailsResourceTypeOracleDatabase   DiscoveryDetailsResourceTypeEnum = "ORACLE_DATABASE"
+	DiscoveryDetailsResourceTypeOciOracleDb      DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_DB"
+	DiscoveryDetailsResourceTypeOciOracleCdb     DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_CDB"
+	DiscoveryDetailsResourceTypeOciOraclePdb     DiscoveryDetailsResourceTypeEnum = "OCI_ORACLE_PDB"
+	DiscoveryDetailsResourceTypeHost             DiscoveryDetailsResourceTypeEnum = "HOST"
+	DiscoveryDetailsResourceTypeOraclePsft       DiscoveryDetailsResourceTypeEnum = "ORACLE_PSFT"
+	DiscoveryDetailsResourceTypeOracleMft        DiscoveryDetailsResourceTypeEnum = "ORACLE_MFT"
+	DiscoveryDetailsResourceTypeApacheHttpServer DiscoveryDetailsResourceTypeEnum = "APACHE_HTTP_SERVER"
 )
 
 var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourceTypeEnum{
-	"WEBLOGIC_DOMAIN": DiscoveryDetailsResourceTypeWeblogicDomain,
-	"EBS_INSTANCE":    DiscoveryDetailsResourceTypeEbsInstance,
-	"SQL_SERVER":      DiscoveryDetailsResourceTypeSqlServer,
-	"APACHE_TOMCAT":   DiscoveryDetailsResourceTypeApacheTomcat,
-	"ORACLE_DATABASE": DiscoveryDetailsResourceTypeOracleDatabase,
-	"OCI_ORACLE_DB":   DiscoveryDetailsResourceTypeOciOracleDb,
-	"OCI_ORACLE_CDB":  DiscoveryDetailsResourceTypeOciOracleCdb,
-	"OCI_ORACLE_PDB":  DiscoveryDetailsResourceTypeOciOraclePdb,
-	"HOST":            DiscoveryDetailsResourceTypeHost,
-	"ORACLE_PSFT":     DiscoveryDetailsResourceTypeOraclePsft,
-	"ORACLE_MFT":      DiscoveryDetailsResourceTypeOracleMft,
+	"WEBLOGIC_DOMAIN":    DiscoveryDetailsResourceTypeWeblogicDomain,
+	"EBS_INSTANCE":       DiscoveryDetailsResourceTypeEbsInstance,
+	"SQL_SERVER":         DiscoveryDetailsResourceTypeSqlServer,
+	"APACHE_TOMCAT":      DiscoveryDetailsResourceTypeApacheTomcat,
+	"ORACLE_DATABASE":    DiscoveryDetailsResourceTypeOracleDatabase,
+	"OCI_ORACLE_DB":      DiscoveryDetailsResourceTypeOciOracleDb,
+	"OCI_ORACLE_CDB":     DiscoveryDetailsResourceTypeOciOracleCdb,
+	"OCI_ORACLE_PDB":     DiscoveryDetailsResourceTypeOciOraclePdb,
+	"HOST":               DiscoveryDetailsResourceTypeHost,
+	"ORACLE_PSFT":        DiscoveryDetailsResourceTypeOraclePsft,
+	"ORACLE_MFT":         DiscoveryDetailsResourceTypeOracleMft,
+	"APACHE_HTTP_SERVER": DiscoveryDetailsResourceTypeApacheHttpServer,
 }
 
 var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetailsResourceTypeEnum{
-	"weblogic_domain": DiscoveryDetailsResourceTypeWeblogicDomain,
-	"ebs_instance":    DiscoveryDetailsResourceTypeEbsInstance,
-	"sql_server":      DiscoveryDetailsResourceTypeSqlServer,
-	"apache_tomcat":   DiscoveryDetailsResourceTypeApacheTomcat,
-	"oracle_database": DiscoveryDetailsResourceTypeOracleDatabase,
-	"oci_oracle_db":   DiscoveryDetailsResourceTypeOciOracleDb,
-	"oci_oracle_cdb":  DiscoveryDetailsResourceTypeOciOracleCdb,
-	"oci_oracle_pdb":  DiscoveryDetailsResourceTypeOciOraclePdb,
-	"host":            DiscoveryDetailsResourceTypeHost,
-	"oracle_psft":     DiscoveryDetailsResourceTypeOraclePsft,
-	"oracle_mft":      DiscoveryDetailsResourceTypeOracleMft,
+	"weblogic_domain":    DiscoveryDetailsResourceTypeWeblogicDomain,
+	"ebs_instance":       DiscoveryDetailsResourceTypeEbsInstance,
+	"sql_server":         DiscoveryDetailsResourceTypeSqlServer,
+	"apache_tomcat":      DiscoveryDetailsResourceTypeApacheTomcat,
+	"oracle_database":    DiscoveryDetailsResourceTypeOracleDatabase,
+	"oci_oracle_db":      DiscoveryDetailsResourceTypeOciOracleDb,
+	"oci_oracle_cdb":     DiscoveryDetailsResourceTypeOciOracleCdb,
+	"oci_oracle_pdb":     DiscoveryDetailsResourceTypeOciOraclePdb,
+	"host":               DiscoveryDetailsResourceTypeHost,
+	"oracle_psft":        DiscoveryDetailsResourceTypeOraclePsft,
+	"oracle_mft":         DiscoveryDetailsResourceTypeOracleMft,
+	"apache_http_server": DiscoveryDetailsResourceTypeApacheHttpServer,
 }
 
 // GetDiscoveryDetailsResourceTypeEnumValues Enumerates the set of values for DiscoveryDetailsResourceTypeEnum
@@ -128,6 +131,7 @@ func GetDiscoveryDetailsResourceTypeEnumStringValues() []string {
 		"HOST",
 		"ORACLE_PSFT",
 		"ORACLE_MFT",
+		"APACHE_HTTP_SERVER",
 	}
 }
 

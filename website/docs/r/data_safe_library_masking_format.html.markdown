@@ -38,6 +38,7 @@ resource "oci_data_safe_library_masking_format" "test_library_masking_format" {
 		grouping_columns = var.library_masking_format_format_entries_grouping_columns
 		length = var.library_masking_format_format_entries_length
 		library_masking_format_id = oci_data_safe_library_masking_format.test_library_masking_format.id
+		pattern = var.library_masking_format_format_entries_pattern
 		post_processing_function = var.library_masking_format_format_entries_post_processing_function
 		random_list = var.library_masking_format_format_entries_random_list
 		regular_expression = var.library_masking_format_format_entries_regular_expression
@@ -80,6 +81,7 @@ The following arguments are supported:
 	* `grouping_columns` - (Applicable when type=SHUFFLE) (Updatable) One or more reference columns to be used to group column values so that they can be shuffled within their own group. The grouping columns and  the column to be masked must belong to the same table.  
 	* `length` - (Required when type=SUBSTRING) (Updatable) The number of characters that should be there in the substring. It should be an integer and greater than zero.  
 	* `library_masking_format_id` - (Required when type=LIBRARY_MASKING_FORMAT) (Updatable) The OCID of the library masking format.
+	* `pattern` - (Required when type=PATTERN) (Updatable) The pattern that should be used to mask data.
 	* `post_processing_function` - (Required when type=POST_PROCESSING_FUNCTION) (Updatable) The post processing function in SCHEMA_NAME.PACKAGE_NAME.FUNCTION_NAME format. It can be a standalone or packaged function, so PACKAGE_NAME is optional.  
 	* `random_list` - (Required when type=RANDOM_LIST) (Updatable) A comma-separated list of values to be used to replace column values. The list can be of strings, numbers, or dates. The data type of each value in the list must be compatible with the data type of the column. The number of entries in the list cannot be more than 999.  
 	* `regular_expression` - (Required when type=DETERMINISTIC_ENCRYPTION | REGULAR_EXPRESSION) (Updatable) The regular expression to be used for masking. For data with characters in the ASCII character set, providing a regular expression is optional. However, it  is required if the data contains multi-byte characters. If not provided, an  error is returned when a multi-byte character is found.
@@ -123,6 +125,7 @@ The following attributes are exported:
 	* `grouping_columns` - One or more reference columns to be used to group column values so that they can be shuffled within their own group. The grouping columns and  the column to be masked must belong to the same table.  
 	* `length` - The number of characters that should be there in the substring. It should be an integer and greater than zero.  
 	* `library_masking_format_id` - The OCID of the library masking format.
+	* `pattern` - The pattern that should be used to mask data.
 	* `post_processing_function` - The post processing function in SCHEMA_NAME.PACKAGE_NAME.FUNCTION_NAME format. It can be a standalone or packaged function, so PACKAGE_NAME is optional.  
 	* `random_list` - A comma-separated list of values to be used to replace column values. The list can be of strings, numbers, or dates. The data type of each value in the list must be compatible with the data type of the column. The number of entries in the list cannot be more than 999.  
 	* `regular_expression` - The regular expression to be used for masking. For data with characters in the ASCII character set, providing a regular expression is optional. However, it  is required if the data contains multi-byte characters. If not provided, an  error is returned when a multi-byte character is found.

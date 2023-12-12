@@ -78,6 +78,9 @@ type ListResourceActionsRequest struct {
 	// A filter that returns recommendations that match the status specified.
 	Status ListResourceActionsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
+	// Supplement additional resource information in extended metadata response.
+	IncludeResourceMetadata *bool `mandatory:"false" contributesTo:"query" name:"includeResourceMetadata"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

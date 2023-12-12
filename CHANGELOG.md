@@ -1,3 +1,37 @@
+## 5.23.0 (December 12, 2023)
+
+### Added
+Support for Dedicated VM Hosts Reboot Migration
+Support for Cloud Advisor Permission Model Update
+Support for IdentityDomains IDCS Token Exchange
+Support for AWR Hub Source in opsi service
+Support for OCI customer carbon footprint reporting
+Support for Data Safe - Support for top 10 commonly used sensitive types.
+Support for GGS Network Changes
+Support for Data Catalog Resource Locking Splat feature
+Support for ADB-S: Break Glass Access (CP Support)
+Parameters attribute in oci_logging_log Configuration Source block
+Support for Load Balancer - Enable Resource Discovery for SSL Cipher Suites add ciphers to be exported solve undefined reqId error
+Reverted Vendored changes from commit 28b9c4211724127f0c401367ab1cd4db4527955b
+Support for VM Cluster Vertical scaling | ADB-D + ADB-C@C
+Support for Enable Multiple Clusters in an SDDC
+support for Database Tools service connections without runtime support
+Support for Backup/Recovery Enhancements | ADB-D
+Support for Manage Certificates of Target Servers
+Support for Support OL8 and upgrade to OL8 | Base DB
+Support for ARM Shapes in Data Science
+terraform test for reduce false positive
+Support for VM Cluster Vertical scaling | ADB-D + ADB-C@C
+Support for ExaDB-C@C (EXACC) Serial Console Access to VM - History Files
+Support for ADB-S: Ability to Switch DB Tools On/Off
+Support for Update documentation for SQL firewall management resources
+Support for Increase Creation Time for VM Cluster in Terraform
+Support adding managed instances to a group
+git module configuration to resolve TC job failure issue
+### Bug Fix
+Double base64 encoding of container config file content
+Added implementation for long term backup retention.
+
 ## 5.22.0 (December 06, 2023)
 
 ### Added
@@ -18,6 +52,26 @@ support for Database Tools service connections without runtime support
 - git module configuration to resolve TC job failure issue
 
 ## 5.21.0 (November 14, 2023)
+- Support for BM Capacity API for customers with dedicated capacity
+test improvements for postgresql service
+- Support for BDS Certificate Management - API ONLY Changes
+- Support for IdentityDomains/IDCS API - Phase 3
+### Bug Fix
+- core ipsec tunnels
+- Analytics - fix for AOAC-60112 change on network_security_group_ids attribute for oci_analytics_analytics_instance resource forces replacement
+
+## 5.21.0 (December 12, 2023)
+
+### Added
+- Support for BM Capacity API for customers with dedicated capacity
+test improvements for postgresql service
+- Support for BDS Certificate Management - API ONLY Changes
+- Support for IdentityDomains/IDCS API - Phase 3
+### Bug Fix
+- core ipsec tunnels
+- Analytics - fix for AOAC-60112 change on network_security_group_ids attribute for oci_analytics_analytics_instance resource forces replacement
+
+## 5.21.0 (December 12, 2023)
 
 ### Added
 test improvements for postgresql service

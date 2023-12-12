@@ -44,6 +44,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_identity_domains_grants", IdentityDomainsGrantsDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_group", IdentityDomainsGroupDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_groups", IdentityDomainsGroupsDataSource())
+	tfresource.RegisterDatasource("oci_identity_domains_identity_propagation_trust", IdentityDomainsIdentityPropagationTrustDataSource())
+	tfresource.RegisterDatasource("oci_identity_domains_identity_propagation_trusts", IdentityDomainsIdentityPropagationTrustsDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_identity_provider", IdentityDomainsIdentityProviderDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_identity_providers", IdentityDomainsIdentityProvidersDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_identity_setting", IdentityDomainsIdentitySettingDataSource())

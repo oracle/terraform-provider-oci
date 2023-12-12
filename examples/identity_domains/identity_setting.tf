@@ -98,7 +98,7 @@ resource "oci_identity_domains_identity_setting" "test_identity_setting" {
     allow_end_users_to_manage_their_capabilities      = true
     allow_end_users_to_update_their_security_settings = true
   }
-  user_allowed_to_set_recovery_email = var.identity_setting_user_allowed_to_set_recovery_email
+  user_allowed_to_set_recovery_email = true
   lifecycle {
     ignore_changes = [my_profile]
   }

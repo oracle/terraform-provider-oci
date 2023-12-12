@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,21 +17,21 @@ import (
 	"strings"
 )
 
-// OciOptimizedStorageDetails Storage details of the OCI_OPTIMIZED_STORAGE DbSystem.
+// OciOptimizedStorageDetails Storage details of the database system.
 type OciOptimizedStorageDetails struct {
 
-	// Specifies if the block volume used for the DbSystem is regional or AD-local.
+	// Specifies if the block volume used for the database system is regional or AD-local.
 	// If not specified, it will be set to false.
-	// If isRegionallyDurable is set to true, availabilityDomain should not be specified.
-	// If isRegionallyDurable is set to false, availabilityDomain must be specified.
+	// If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified.
+	// If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	IsRegionallyDurable *bool `mandatory:"true" json:"isRegionallyDurable"`
 
 	// Specifies the availability domain of AD-local storage.
-	// If isRegionallyDurable is set to true, availabilityDomain should not be specified.
-	// If isRegionallyDurable is set to false, availabilityDomain must be specified.
+	// If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified.
+	// If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
-	// DbSystem Performance Unit
+	// Guaranteed input/output storage requests per second (IOPS) available to the database system.
 	Iops *int64 `mandatory:"false" json:"iops"`
 }
 

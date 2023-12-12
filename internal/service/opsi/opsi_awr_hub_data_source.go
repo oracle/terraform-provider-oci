@@ -84,6 +84,10 @@ func (s *OpsiAwrHubDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.HubDstTimezoneVersion != nil {
+		s.D.Set("hub_dst_timezone_version", *s.Res.HubDstTimezoneVersion)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

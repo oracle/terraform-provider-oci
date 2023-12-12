@@ -819,6 +819,7 @@ identity_domains
 * oci\_identity\_domains\_oauth\_client\_certificate
 * oci\_identity\_domains\_oauth\_partner\_certificate
 * oci\_identity\_domains\_rule
+* oci\_identity\_domains\_identity\_propagation\_trust
 
 integration
 
@@ -858,6 +859,7 @@ load_balancer
 * oci\_load\_balancer\_path\_route\_set
 * oci\_load\_balancer\_load\_balancer\_routing\_policy
 * oci\_load\_balancer\_rule\_set
+* oci\_load\_balancer\_ssl\_cipher\_suite
 
 log_analytics
 
@@ -901,6 +903,8 @@ metering_computation
 * oci\_metering\_computation\_query
 * oci\_metering\_computation\_custom\_table
 * oci\_metering\_computation\_schedule
+* oci\_metering\_computation\_usage\_carbon\_emissions\_query
+* oci\_metering\_computation\_usage\_carbon\_emission
 
 monitoring
 
@@ -1000,6 +1004,7 @@ opsi
 * oci\_opsi\_operations\_insights\_private\_endpoint
 * oci\_opsi\_opsi\_configuration
 * oci\_opsi\_news\_report
+* oci\_opsi\_awr\_hub\_source
 
 optimizer
 

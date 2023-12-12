@@ -46,11 +46,20 @@ type UpdateAmazonKinesisConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	// Access key ID to access the Amazon Kinesis.
 	AccessKeyId *string `mandatory:"false" json:"accessKeyId"`
 
 	// Secret access key to access the Amazon Kinesis.
 	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
+
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -88,6 +97,16 @@ func (m UpdateAmazonKinesisConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+// GetSubnetId returns SubnetId
+func (m UpdateAmazonKinesisConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+// GetRoutingMethod returns RoutingMethod
+func (m UpdateAmazonKinesisConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m UpdateAmazonKinesisConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -98,6 +117,9 @@ func (m UpdateAmazonKinesisConnectionDetails) String() string {
 func (m UpdateAmazonKinesisConnectionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

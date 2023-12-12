@@ -6,7 +6,7 @@ variable "app_app_count" {
 }
 
 variable "app_app_filter" {
-  default = ""
+  default = "id ne \"IDCSAppId\""
 }
 
 variable "app_access_token_expiry" {

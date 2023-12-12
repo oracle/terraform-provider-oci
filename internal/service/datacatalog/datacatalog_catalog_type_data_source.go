@@ -23,9 +23,8 @@ func DatacatalogCatalogTypeDataSource() *schema.Resource {
 				Required: true,
 			},
 			"fields": {
-				Type:     schema.TypeSet,
+				Type:     schema.TypeList,
 				Optional: true,
-				Set:      tfresource.LiteralTypeHashCodeForSets,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -111,8 +110,7 @@ func (s *DatacatalogCatalogTypeDataSourceCrud) Get() error {
 	}
 
 	if fields, ok := s.D.GetOkExists("fields"); ok {
-		set := fields.(*schema.Set)
-		interfaces := set.List()
+		interfaces := fields.([]interface{})
 		tmp := make([]oci_datacatalog.GetTypeFieldsEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {

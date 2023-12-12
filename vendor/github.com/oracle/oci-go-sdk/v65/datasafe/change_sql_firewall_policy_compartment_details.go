@@ -18,7 +18,7 @@ import (
 // ChangeSqlFirewallPolicyCompartmentDetails Details for which compartment to move the resource to.
 type ChangeSqlFirewallPolicyCompartmentDetails struct {
 
-	// The OCID of the compartment where you want to move the SQL firewall policy.
+	// The OCID of the compartment where you want to move the SQL Firewall policy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

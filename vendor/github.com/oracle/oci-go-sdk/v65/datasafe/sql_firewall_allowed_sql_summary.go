@@ -15,42 +15,42 @@ import (
 	"strings"
 )
 
-// SqlFirewallAllowedSqlSummary The resource represents a SQL firewall allowed SQL in Data Safe.
+// SqlFirewallAllowedSqlSummary The resource represents a SQL Firewall allowed SQL in Data Safe.
 type SqlFirewallAllowedSqlSummary struct {
 
-	// The OCID of the SQL firewall allowed SQL.
+	// The OCID of the SQL Firewall allowed SQL.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing the SQL firewall allowed SQL.
+	// The OCID of the compartment containing the SQL Firewall allowed SQL.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The display name of the SQL firewall allowed SQL.
+	// The display name of the SQL Firewall allowed SQL.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the SQL firewall policy corresponding to the SQL firewall allowed SQL.
+	// The OCID of the SQL Firewall policy corresponding to the SQL Firewall allowed SQL.
 	SqlFirewallPolicyId *string `mandatory:"true" json:"sqlFirewallPolicyId"`
 
 	// The database user name.
 	DbUserName *string `mandatory:"true" json:"dbUserName"`
 
-	// The SQL text of the SQL firewall allowed SQL.
+	// The SQL text of the SQL Firewall allowed SQL.
 	SqlText *string `mandatory:"true" json:"sqlText"`
 
-	// Specifies the level of SQL included for this SQL firewall policy.
+	// Specifies the level of SQL included for this SQL Firewall policy.
 	// USER_ISSUED_SQL - User issued SQL statements only.
 	// ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units.
 	SqlLevel SqlFirewallAllowedSqlSummarySqlLevelEnum `mandatory:"true" json:"sqlLevel"`
 
-	// Version of the associated SQL firewall policy. This identifies whether the allowed SQLs were added in the same batch or not.
+	// Version of the associated SQL Firewall policy. This identifies whether the allowed SQLs were added in the same batch or not.
 	Version *float32 `mandatory:"true" json:"version"`
 
-	// The time the the SQL firewall allowed SQL was collected from the target database, in the format defined by RFC3339.
+	// The time the the SQL Firewall allowed SQL was collected from the target database, in the format defined by RFC3339.
 	TimeCollected *common.SDKTime `mandatory:"true" json:"timeCollected"`
 
-	// The current state of the SQL firewall allowed SQL.
+	// The current state of the SQL Firewall allowed SQL.
 	LifecycleState SqlFirewallAllowedSqlLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The description of the SQL firewall allowed SQL.
+	// The description of the SQL Firewall allowed SQL.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The name of the user that SQL was executed as.
@@ -59,7 +59,7 @@ type SqlFirewallAllowedSqlSummary struct {
 	// The objects accessed by the SQL.
 	SqlAccessedObjects []string `mandatory:"false" json:"sqlAccessedObjects"`
 
-	// The last date and time the SQL firewall allowed SQL was updated, in the format defined by RFC3339.
+	// The last date and time the SQL Firewall allowed SQL was updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

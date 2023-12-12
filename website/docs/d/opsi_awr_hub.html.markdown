@@ -37,6 +37,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - User-friedly name of AWR Hub that does not have to be unique.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `hub_dst_timezone_version` - Dst Time Zone Version of the AWR Hub
 * `id` - AWR Hub OCID
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `object_storage_bucket_name` - Object Storage Bucket Name

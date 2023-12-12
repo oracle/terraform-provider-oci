@@ -24,6 +24,7 @@ data "oci_optimizer_resource_actions" "test_resource_actions" {
 	#Optional
 	child_tenancy_ids = var.resource_action_child_tenancy_ids
 	include_organization = var.resource_action_include_organization
+	include_resource_metadata = var.resource_action_include_resource_metadata
 	name = var.resource_action_name
 	recommendation_id = oci_optimizer_recommendation.test_recommendation.id
 	recommendation_name = oci_optimizer_recommendation.test_recommendation.name
@@ -53,6 +54,7 @@ The following arguments are supported:
 	Please note that this parameter shouldn't be used along with childTenancyIds parameter. If you would like  to get results specifically for parent P and only child A, use the childTenancyIds parameter and populate the list with tenancy id of P and A.
 
 	When using this parameter, please make sure to set the compartmentId with the parent tenancy ID. 
+* `include_resource_metadata` - (Optional) Supplement additional resource information in extended metadata response.
 * `name` - (Optional) Optional. A filter that returns results that match the name specified.
 * `recommendation_id` - (Optional) The unique OCID associated with the recommendation.
 * `recommendation_name` - (Optional) Optional. A filter that returns results that match the recommendation name specified.

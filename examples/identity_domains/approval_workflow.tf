@@ -70,10 +70,10 @@ resource "oci_identity_domains_user" "test_approval_workflow_user" {
   }
   idcs_endpoint = data.oci_identity_domain.test_domain.url
   name {
-    family_name = "testGrantFamilyName"
+    family_name = "testApprovalWorkflowFamilyName"
   }
   schemas = ["urn:ietf:params:scim:schemas:core:2.0:User"]
-  user_name = "testGrantUserName"
+  user_name = "testApprovalWorkflowUserName"
   lifecycle {
     ignore_changes = ["urnietfparamsscimschemasoracleidcsextension_oci_tags[0].defined_tags", "emails", "schemas"]
   }

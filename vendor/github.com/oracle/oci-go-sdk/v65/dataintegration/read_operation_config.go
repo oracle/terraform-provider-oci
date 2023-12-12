@@ -44,6 +44,8 @@ type ReadOperationConfig struct {
 
 	ReadAttribute AbstractReadAttribute `mandatory:"false" json:"readAttribute"`
 
+	IncrementalReadConfig *IncrementalReadConfig `mandatory:"false" json:"incrementalReadConfig"`
+
 	// The status of an object that can be set to value 1 for shallow references across objects, other values reserved.
 	ObjectStatus *int `mandatory:"false" json:"objectStatus"`
 }
@@ -96,17 +98,18 @@ func (m ReadOperationConfig) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ReadOperationConfig) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		MetadataConfigProperties map[string]string     `json:"metadataConfigProperties"`
-		DerivedAttributes        map[string]string     `json:"derivedAttributes"`
-		CallAttribute            *BipCallAttribute     `json:"callAttribute"`
-		Key                      *string               `json:"key"`
-		ModelVersion             *string               `json:"modelVersion"`
-		ParentRef                *ParentReference      `json:"parentRef"`
-		Operations               []pushdownoperation   `json:"operations"`
-		DataFormat               *DataFormat           `json:"dataFormat"`
-		PartitionConfig          partitionconfig       `json:"partitionConfig"`
-		ReadAttribute            abstractreadattribute `json:"readAttribute"`
-		ObjectStatus             *int                  `json:"objectStatus"`
+		MetadataConfigProperties map[string]string      `json:"metadataConfigProperties"`
+		DerivedAttributes        map[string]string      `json:"derivedAttributes"`
+		CallAttribute            *BipCallAttribute      `json:"callAttribute"`
+		Key                      *string                `json:"key"`
+		ModelVersion             *string                `json:"modelVersion"`
+		ParentRef                *ParentReference       `json:"parentRef"`
+		Operations               []pushdownoperation    `json:"operations"`
+		DataFormat               *DataFormat            `json:"dataFormat"`
+		PartitionConfig          partitionconfig        `json:"partitionConfig"`
+		ReadAttribute            abstractreadattribute  `json:"readAttribute"`
+		IncrementalReadConfig    *IncrementalReadConfig `json:"incrementalReadConfig"`
+		ObjectStatus             *int                   `json:"objectStatus"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -159,6 +162,8 @@ func (m *ReadOperationConfig) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ReadAttribute = nil
 	}
+
+	m.IncrementalReadConfig = model.IncrementalReadConfig
 
 	m.ObjectStatus = model.ObjectStatus
 

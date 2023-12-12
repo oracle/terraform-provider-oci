@@ -26,6 +26,7 @@ const (
 	FormatEntryTypeFixedString                 FormatEntryTypeEnum = "FIXED_STRING"
 	FormatEntryTypeLibraryMaskingFormat        FormatEntryTypeEnum = "LIBRARY_MASKING_FORMAT"
 	FormatEntryTypeNullValue                   FormatEntryTypeEnum = "NULL_VALUE"
+	FormatEntryTypePattern                     FormatEntryTypeEnum = "PATTERN"
 	FormatEntryTypePostProcessingFunction      FormatEntryTypeEnum = "POST_PROCESSING_FUNCTION"
 	FormatEntryTypePreserveOriginalData        FormatEntryTypeEnum = "PRESERVE_ORIGINAL_DATA"
 	FormatEntryTypeRandomDate                  FormatEntryTypeEnum = "RANDOM_DATE"
@@ -52,6 +53,7 @@ var mappingFormatEntryTypeEnum = map[string]FormatEntryTypeEnum{
 	"FIXED_STRING":                  FormatEntryTypeFixedString,
 	"LIBRARY_MASKING_FORMAT":        FormatEntryTypeLibraryMaskingFormat,
 	"NULL_VALUE":                    FormatEntryTypeNullValue,
+	"PATTERN":                       FormatEntryTypePattern,
 	"POST_PROCESSING_FUNCTION":      FormatEntryTypePostProcessingFunction,
 	"PRESERVE_ORIGINAL_DATA":        FormatEntryTypePreserveOriginalData,
 	"RANDOM_DATE":                   FormatEntryTypeRandomDate,
@@ -78,6 +80,7 @@ var mappingFormatEntryTypeEnumLowerCase = map[string]FormatEntryTypeEnum{
 	"fixed_string":                  FormatEntryTypeFixedString,
 	"library_masking_format":        FormatEntryTypeLibraryMaskingFormat,
 	"null_value":                    FormatEntryTypeNullValue,
+	"pattern":                       FormatEntryTypePattern,
 	"post_processing_function":      FormatEntryTypePostProcessingFunction,
 	"preserve_original_data":        FormatEntryTypePreserveOriginalData,
 	"random_date":                   FormatEntryTypeRandomDate,
@@ -115,6 +118,7 @@ func GetFormatEntryTypeEnumStringValues() []string {
 		"FIXED_STRING",
 		"LIBRARY_MASKING_FORMAT",
 		"NULL_VALUE",
+		"PATTERN",
 		"POST_PROCESSING_FUNCTION",
 		"PRESERVE_ORIGINAL_DATA",
 		"RANDOM_DATE",

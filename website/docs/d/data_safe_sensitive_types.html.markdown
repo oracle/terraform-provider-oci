@@ -26,6 +26,7 @@ data "oci_data_safe_sensitive_types" "test_sensitive_types" {
 	default_masking_format_id = oci_data_safe_default_masking_format.test_default_masking_format.id
 	display_name = var.sensitive_type_display_name
 	entity_type = var.sensitive_type_entity_type
+	is_common = var.sensitive_type_is_common
 	parent_category_id = oci_marketplace_category.test_category.id
 	sensitive_type_id = oci_data_safe_sensitive_type.test_sensitive_type.id
 	sensitive_type_source = var.sensitive_type_sensitive_type_source
@@ -45,6 +46,7 @@ The following arguments are supported:
 * `default_masking_format_id` - (Applicable when entity_type=SENSITIVE_TYPE) A filter to return only the sensitive types that have the default masking format identified by the specified OCID.
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
 * `entity_type` - (Optional) A filter to return the sensitive type resources based on the value of their entityType attribute.
+* `is_common` - (Optional) A filter to return only the common sensitive type resources. Common sensitive types belong to  library sensitive types which are frequently used to perform sensitive data discovery. 
 * `parent_category_id` - (Optional) A filter to return only the sensitive types that are children of the sensitive category identified by the specified OCID.
 * `sensitive_type_id` - (Optional) A filter to return only items related to a specific sensitive type OCID.
 * `sensitive_type_source` - (Optional) A filter to return the sensitive type resources based on the value of their source attribute.
@@ -77,6 +79,7 @@ The following attributes are exported:
 * `entity_type` - The entity type. It can be either a sensitive type with regular expressions or a sensitive category used for grouping similar sensitive types. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the sensitive type.
+* `is_common` - Specifies whether the sensitive type is common. Common sensitive types belong to  library sensitive types which are frequently used to perform sensitive data discovery. 
 * `name_pattern` - A regular expression to be used by data discovery for matching column names.
 * `parent_category_id` - The OCID of the parent sensitive category.
 * `search_type` - The search type indicating how the column name, comment and data patterns should be used by data discovery. [Learn more](https://docs.oracle.com/en/cloud/paas/data-safe/udscs/sensitive-types.html#GUID-1D1AD98E-B93F-4FF2-80AE-CB7D8A14F6CC). 

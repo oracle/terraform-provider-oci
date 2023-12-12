@@ -50,7 +50,7 @@ var (
 		"allowed_client_os_usernames": acctest.Representation{RepType: acctest.Optional, Create: []string{`allowedClientOsUsernames`}, Update: []string{`allowedClientOsUsernames2`}},
 		"allowed_client_programs":     acctest.Representation{RepType: acctest.Optional, Create: []string{`allowedClientPrograms`}, Update: []string{`allowedClientPrograms2`}},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":                 acctest.Representation{RepType: acctest.Optional, Create: `sample SQL firewall policy`, Update: `description2`},
+		"description":                 acctest.Representation{RepType: acctest.Optional, Create: `sample SQL Firewall policy`, Update: `description2`},
 		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `samplePolicy`, Update: `displayName2`},
 		"enforcement_scope":           acctest.Representation{RepType: acctest.Optional, Create: `ENFORCE_CONTEXT`, Update: `ENFORCE_SQL`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
@@ -115,6 +115,15 @@ func TestDataSafeSqlFirewallPolicyResource_basic(t *testing.T) {
 			Config: config + policyIdVariableStr + compartmentIdUVariableStr + DataSafeSecurityPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sql_firewall_policy", "test_sql_firewall_policy", acctest.Optional, acctest.Update, DataSafeSqlFirewallPolicyChangeCompartmentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "allowed_client_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "allowed_client_os_usernames.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "allowed_client_programs.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_user_name"),
+				resource.TestCheckResourceAttr(resourceName, "description", "sample SQL Firewall policy"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "samplePolicy"),
+				resource.TestCheckResourceAttr(resourceName, "enforcement_scope", "ENFORCE_CONTEXT"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "security_policy_id"),
 
 				func(s *terraform.State) (err error) {

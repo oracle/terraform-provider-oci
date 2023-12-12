@@ -22,7 +22,7 @@ type UpdateScheduleDetails struct {
 	// The description of the schedule.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Specifies supported output file format.
+	// Specifies the supported output file format.
 	OutputFileFormat UpdateScheduleDetailsOutputFileFormatEnum `mandatory:"false" json:"outputFileFormat,omitempty"`
 
 	ResultLocation ResultLocation `mandatory:"false" json:"resultLocation"`

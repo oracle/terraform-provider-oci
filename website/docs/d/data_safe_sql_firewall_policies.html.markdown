@@ -10,9 +10,9 @@ description: |-
 # Data Source: oci_data_safe_sql_firewall_policies
 This data source provides the list of Sql Firewall Policies in Oracle Cloud Infrastructure Data Safe service.
 
-Retrieves a list of all SQL firewall policies.
+Retrieves a list of all SQL Firewall policies.
 
-The ListSqlFirewallPolicies operation returns only the SQL firewall policies in the specified `compartmentId`.
+The ListSqlFirewallPolicies operation returns only the SQL Firewall policies in the specified `compartmentId`.
 
 The parameter `accessLevel` specifies whether to return only those compartments for which the
 requestor has INSPECT permissions on at least one resource directly
@@ -57,8 +57,8 @@ The following arguments are supported:
 * `db_user_name` - (Optional) A filter to return only items that match the specified user name.
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
 * `security_policy_id` - (Optional) An optional filter to return only resources that match the specified OCID of the security policy resource.
-* `sql_firewall_policy_id` - (Optional) An optional filter to return only resources that match the specified OCID of the SQL firewall policy resource.
-* `state` - (Optional) The current state of the SQL firewall policy.
+* `sql_firewall_policy_id` - (Optional) An optional filter to return only resources that match the specified OCID of the SQL Firewall policy resource.
+* `state` - (Optional) The current state of the SQL Firewall policy.
 * `time_created_greater_than_or_equal_to` - (Optional) A filter to return only the resources that were created after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using TimeCreatedGreaterThanOrEqualToQueryParam parameter retrieves all resources created after that date.
 
 	**Example:** 2016-12-19T16:39:57.600Z 
@@ -78,25 +78,25 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `allowed_client_ips` - The list of allowed ip addresses for the SQL firewall policy.
-* `allowed_client_os_usernames` - The list of allowed operating system user names for the SQL firewall policy.
-* `allowed_client_programs` - The list of allowed client programs for the SQL firewall policy.
-* `compartment_id` - The OCID of the compartment containing the SQL firewall policy.
+* `allowed_client_ips` - The list of allowed ip addresses for the SQL Firewall policy.
+* `allowed_client_os_usernames` - The list of allowed operating system user names for the SQL Firewall policy.
+* `allowed_client_programs` - The list of allowed client programs for the SQL Firewall policy.
+* `compartment_id` - The OCID of the compartment containing the SQL Firewall policy.
 * `db_user_name` - The database user name.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
-* `description` - The description of the SQL firewall policy.
-* `display_name` - The display name of the SQL firewall policy.
-* `enforcement_scope` - Specifies the SQL firewall policy enforcement option.
+* `description` - The description of the SQL Firewall policy.
+* `display_name` - The display name of the SQL Firewall policy.
+* `enforcement_scope` - Specifies the SQL Firewall policy enforcement option.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
-* `id` - The OCID of the SQL firewall policy.
-* `lifecycle_details` - Details about the current state of the SQL firewall policy in Data Safe.
-* `security_policy_id` - The OCID of the security policy corresponding to the SQL firewall policy.
-* `sql_level` - Specifies the level of SQL included for this SQL firewall policy. USER_ISSUED_SQL - User issued SQL statements only. ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units. 
-* `state` - The current state of the SQL firewall policy.
-* `status` - Specifies whether the SQL firewall policy is enabled or disabled.
+* `id` - The OCID of the SQL Firewall policy.
+* `lifecycle_details` - Details about the current state of the SQL Firewall policy in Data Safe.
+* `security_policy_id` - The OCID of the security policy corresponding to the SQL Firewall policy.
+* `sql_level` - Specifies the level of SQL included for this SQL Firewall policy. USER_ISSUED_SQL - User issued SQL statements only. ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units. 
+* `state` - The current state of the SQL Firewall policy.
+* `status` - Specifies whether the SQL Firewall policy is enabled or disabled.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The time that the SQL firewall policy was created, in the format defined by RFC3339.
-* `time_updated` - The date and time the SQL firewall policy was last updated, in the format defined by RFC3339.
-* `violation_action` - Specifies the mode in which the SQL firewall policy is enabled.
-* `violation_audit` - Specifies whether a unified audit policy should be enabled for auditing the SQL firewall policy violations.
+* `time_created` - The time that the SQL Firewall policy was created, in the format defined by RFC3339.
+* `time_updated` - The date and time the SQL Firewall policy was last updated, in the format defined by RFC3339.
+* `violation_action` - Specifies the mode in which the SQL Firewall policy is enabled.
+* `violation_audit` - Specifies whether a unified audit policy should be enabled for auditing the SQL Firewall policy violations.
 

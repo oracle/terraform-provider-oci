@@ -52,12 +52,12 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the compartment that contains the SDM masking policy difference.
+* `compartment_id` - The OCID of the compartment that contains the Sensitive data model and masking policy difference resource.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
 * `difference_type` - The type of the SDM masking policy difference. It defines the difference scope. NEW identifies new sensitive columns in the sensitive data model that are not in the masking policy. DELETED identifies columns that are present in the masking policy but have been deleted from the sensitive data model. MODIFIED identifies columns that are present in the sensitive data model as well as the masking policy but some of their attributes have been modified. ALL covers all the above three scenarios and reports new, deleted and modified columns. 
 * `display_name` - The display name of the SDM masking policy difference.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
-* `id` - The OCID of the SDM masking policy difference.
+* `id` - The OCID of the Sensitive data model and masking policy difference resource.
 * `masking_policy_id` - The OCID of the masking policy associated with the SDM masking policy difference.
 * `sensitive_data_model_id` - The OCID of the sensitive data model associated with the SDM masking policy difference.
 * `state` - The current state of the SDM masking policy difference.
