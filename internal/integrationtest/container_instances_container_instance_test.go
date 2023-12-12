@@ -62,7 +62,7 @@ var (
 		"dns_config":                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceDnsConfigRepresentation},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"graceful_shutdown_timeout_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"volumes":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceVolumesRepresentation},
+		"volumes":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceEmptyDirVolumesRepresentation},
 		"state":                                acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`, Update: `INACTIVE`},
 		"lifecycle":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesCIDefinedTagsRepresentation},
 	}
@@ -76,7 +76,7 @@ var (
 		"is_resource_principal_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"resource_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersResourceConfigRepresentation},
 		"security_context":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersSecurityContextRepresentation},
-		"volume_mounts":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersVolumeMountsRepresentation},
+		"volume_mounts":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersEmptyDirVolumeMountsRepresentation},
 		"working_directory":              acctest.Representation{RepType: acctest.Optional, Create: `/mnt`},
 	}
 	ContainerInstancesContainerInstanceContainersSecondRepresentation = map[string]interface{}{
@@ -88,7 +88,19 @@ var (
 		"health_checks":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersHealthChecksRepresentation},
 		"is_resource_principal_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"resource_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersResourceConfigRepresentation},
-		"volume_mounts":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersVolumeMountsRepresentation},
+		"volume_mounts":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersEmptyDirVolumeMountsRepresentation},
+		"working_directory":              acctest.Representation{RepType: acctest.Optional, Create: `/mnt`},
+	}
+	ContainerInstancesContainerInstanceContainersGoodConfigFileRepresentation = map[string]interface{}{
+		"image_url":                      acctest.Representation{RepType: acctest.Required, Create: `busybox`},
+		"arguments":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`-c`, `sleep 24h`}},
+		"command":                        acctest.Representation{RepType: acctest.Optional, Create: []string{`/bin/sh`}},
+		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: `secondDisplayName`, Update: `secondDisplayName2`},
+		"environment_variables":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": "environmentVariables"}},
+		"health_checks":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersHealthChecksRepresentation},
+		"is_resource_principal_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"resource_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersResourceConfigRepresentation},
+		"volume_mounts":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersGoodConfigFileVolumeMountsRepresentation},
 		"working_directory":              acctest.Representation{RepType: acctest.Optional, Create: `/mnt`},
 	}
 	ContainerInstancesContainerInstanceShapeConfigRepresentation = map[string]interface{}{
@@ -111,10 +123,19 @@ var (
 		"options":     acctest.Representation{RepType: acctest.Optional, Create: []string{`options`}},
 		"searches":    acctest.Representation{RepType: acctest.Optional, Create: []string{`search domain`}},
 	}
-	ContainerInstancesContainerInstanceVolumesRepresentation = map[string]interface{}{
+	ContainerInstancesContainerInstanceEmptyDirVolumesRepresentation = map[string]interface{}{
 		"name":          acctest.Representation{RepType: acctest.Required, Create: `volumeName`},
 		"volume_type":   acctest.Representation{RepType: acctest.Required, Create: `EMPTYDIR`},
 		"backing_store": acctest.Representation{RepType: acctest.Optional, Create: `EPHEMERAL_STORAGE`},
+	}
+	ContainerInstancesContainerInstanceGoodConfigFileVolumesRepresentation = map[string]interface{}{
+		"name":        acctest.Representation{RepType: acctest.Required, Create: `volumeGoodConfigFile`},
+		"volume_type": acctest.Representation{RepType: acctest.Required, Create: `CONFIGFILE`},
+		"configs":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceGoodConfigFileVolumesConfigsRepresentation},
+	}
+	ContainerInstancesContainerInstanceGoodConfigFileVolumesConfigsRepresentation = map[string]interface{}{
+		"data":      acctest.Representation{RepType: acctest.Required, Create: `T0NJ`},
+		"file_name": acctest.Representation{RepType: acctest.Required, Create: `my_file`},
 	}
 	ContainerInstancesContainerInstanceContainersHealthChecksRepresentation = map[string]interface{}{
 		"health_check_type":        acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
@@ -140,12 +161,16 @@ var (
 		"run_as_user":                    acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"security_context_type":          acctest.Representation{RepType: acctest.Optional, Create: `LINUX`},
 	}
-	ContainerInstancesContainerInstanceContainersVolumeMountsRepresentation = map[string]interface{}{
+	ContainerInstancesContainerInstanceContainersEmptyDirVolumeMountsRepresentation = map[string]interface{}{
 		"mount_path":   acctest.Representation{RepType: acctest.Required, Create: `/mnt`},
 		"volume_name":  acctest.Representation{RepType: acctest.Required, Create: `volumeName`},
 		"is_read_only": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"partition":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"sub_path":     acctest.Representation{RepType: acctest.Optional, Create: `/subPath`},
+	}
+	ContainerInstancesContainerInstanceContainersGoodConfigFileVolumeMountsRepresentation = map[string]interface{}{
+		"mount_path":  acctest.Representation{RepType: acctest.Required, Create: `/mnt`},
+		"volume_name": acctest.Representation{RepType: acctest.Required, Create: `volumeGoodConfigFile`},
 	}
 
 	//check how this works for multiple containers
@@ -685,13 +710,18 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 						"containers": []acctest.RepresentationGroup{
 							{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceContainersRepresentation},
 							{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceContainersSecondRepresentation},
+							{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceContainersGoodConfigFileRepresentation},
+						},
+						"volumes": []acctest.RepresentationGroup{
+							{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceEmptyDirVolumesRepresentation},
+							{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceGoodConfigFileVolumesRepresentation},
 						},
 					}),
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "container_count"),
-				resource.TestCheckResourceAttr(resourceName, "container_count", "2"),
-				resource.TestCheckResourceAttr(resourceName, "containers.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "container_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "containers.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.container_id"),
@@ -727,10 +757,12 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "containers.1.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.working_directory", "/mnt"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "volumes.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "volumes.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "volumes.0.backing_store", "EPHEMERAL_STORAGE"),
 				resource.TestCheckResourceAttr(resourceName, "volumes.0.name", "volumeName"),
 				resource.TestCheckResourceAttr(resourceName, "volumes.0.volume_type", "EMPTYDIR"),
+				resource.TestCheckResourceAttr(resourceName, "volumes.1.name", "volumeGoodConfigFile"),
+				resource.TestCheckResourceAttr(resourceName, "volumes.1.volume_type", "CONFIGFILE"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
@@ -745,13 +777,18 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 						"containers": []acctest.RepresentationGroup{
 							{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceContainersRepresentation},
 							{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceContainersSecondRepresentation},
+							{RepType: acctest.Required, Group: ContainerInstancesContainerInstanceContainersGoodConfigFileRepresentation},
+						},
+						"volumes": []acctest.RepresentationGroup{
+							{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceEmptyDirVolumesRepresentation},
+							{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceGoodConfigFileVolumesRepresentation},
 						},
 					}),
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "container_count"),
-				resource.TestCheckResourceAttr(resourceName, "container_count", "2"),
-				resource.TestCheckResourceAttr(resourceName, "containers.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "container_count", "3"),
+				resource.TestCheckResourceAttr(resourceName, "containers.#", "3"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.arguments.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.command.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "containers.0.container_id"),
@@ -787,10 +824,12 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "containers.1.volume_mounts.0.volume_name"),
 				resource.TestCheckResourceAttr(resourceName, "containers.1.working_directory", "/mnt"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttr(resourceName, "volumes.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "volumes.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "volumes.0.backing_store", "EPHEMERAL_STORAGE"),
 				resource.TestCheckResourceAttr(resourceName, "volumes.0.name", "volumeName"),
 				resource.TestCheckResourceAttr(resourceName, "volumes.0.volume_type", "EMPTYDIR"),
+				resource.TestCheckResourceAttr(resourceName, "volumes.1.name", "volumeGoodConfigFile"),
+				resource.TestCheckResourceAttr(resourceName, "volumes.1.volume_type", "CONFIGFILE"),
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {

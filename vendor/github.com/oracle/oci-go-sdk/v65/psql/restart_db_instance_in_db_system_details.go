@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// RestartDbInstanceInDbSystemDetails DbInstance restart parameters.
+// RestartDbInstanceInDbSystemDetails Database instance node restart parameters.
 type RestartDbInstanceInDbSystemDetails struct {
 
-	// Unique identifier of the DbInstance.
+	// A unique identifier for the database instance, or node.
 	DbInstanceId *string `mandatory:"true" json:"dbInstanceId"`
 
-	// The DbInstance restart type to use.
+	// The restart type for the database instance.
 	RestartType RestartDbInstanceInDbSystemDetailsRestartTypeEnum `mandatory:"true" json:"restartType"`
 }
 

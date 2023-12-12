@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// SqlFirewallAllowedSqlCollection Collection of SQL firewall allowed SQL statements.
+// SqlFirewallAllowedSqlCollection Collection of SQL Firewall allowed SQL statements.
 type SqlFirewallAllowedSqlCollection struct {
 
-	// Array of SQL firewall allowed SQL statements.
+	// Array of SQL Firewall allowed SQL statements.
 	Items []SqlFirewallAllowedSqlSummary `mandatory:"true" json:"items"`
 }
 

@@ -104,6 +104,12 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"load_balancer_subnet_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"maintenance_configuration": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -284,6 +290,23 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"ingress_ips": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"ingress_ip": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"is_healthy": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -301,6 +324,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Computed: true,
 			},
 			"lifecycle_sub_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"load_balancer_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -586,6 +613,11 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_golden_gate.LicenseModelEnum(licenseModel.(string))
+	}
+
+	if loadBalancerSubnetId, ok := s.D.GetOkExists("load_balancer_subnet_id"); ok {
+		tmp := loadBalancerSubnetId.(string)
+		request.LoadBalancerSubnetId = &tmp
 	}
 
 	if maintenanceConfiguration, ok := s.D.GetOkExists("maintenance_configuration"); ok {
@@ -976,6 +1008,12 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	ingressIps := []interface{}{}
+	for _, item := range s.Res.IngressIps {
+		ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+	}
+	s.D.Set("ingress_ips", ingressIps)
+
 	if s.Res.IsAutoScalingEnabled != nil {
 		s.D.Set("is_auto_scaling_enabled", *s.Res.IsAutoScalingEnabled)
 	}
@@ -1003,6 +1041,14 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	}
 
 	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
+	if s.Res.LoadBalancerId != nil {
+		s.D.Set("load_balancer_id", *s.Res.LoadBalancerId)
+	}
+
+	if s.Res.LoadBalancerSubnetId != nil {
+		s.D.Set("load_balancer_subnet_id", *s.Res.LoadBalancerSubnetId)
+	}
 
 	if s.Res.MaintenanceConfiguration != nil {
 		s.D.Set("maintenance_configuration", []interface{}{MaintenanceConfigurationToMap(s.Res.MaintenanceConfiguration)})
@@ -1438,6 +1484,14 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 	}
 
 	result["lifecycle_sub_state"] = string(obj.LifecycleSubState)
+
+	if obj.LoadBalancerId != nil {
+		result["load_balancer_id"] = string(*obj.LoadBalancerId)
+	}
+
+	if obj.LoadBalancerSubnetId != nil {
+		result["load_balancer_subnet_id"] = string(*obj.LoadBalancerSubnetId)
+	}
 
 	if obj.PrivateIpAddress != nil {
 		result["private_ip_address"] = string(*obj.PrivateIpAddress)

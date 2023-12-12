@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,16 +16,16 @@ import (
 	"strings"
 )
 
-// Endpoint The node endpoint information.
+// Endpoint Information about the database instance node endpoint.
 type Endpoint struct {
 
-	// The FQDN of the endpoint
+	// The FQDN of the endpoint.
 	Fqdn *string `mandatory:"true" json:"fqdn"`
 
-	// The IP Address of the endpoint
+	// The IP address of the endpoint.
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
-	// The port Address of the endpoint
+	// The port address of the endpoint.
 	Port *int `mandatory:"true" json:"port"`
 }
 

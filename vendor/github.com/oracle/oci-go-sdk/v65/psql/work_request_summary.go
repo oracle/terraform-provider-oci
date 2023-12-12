@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -18,16 +19,19 @@ import (
 // WorkRequestSummary A summary of the status of a work request.
 type WorkRequestSummary struct {
 
-	// Type of the work request
+	// Type of the work request.
 	OperationType OperationTypeEnum `mandatory:"true" json:"operationType"`
 
 	// Status of current work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
-	// The id of the work request.
+	// The ID of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid of the compartment that contains the work request. Work requests should be scoped to
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request. Work requests should be scoped to
+	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
+	// and those resources are not in the same compartment, it is up to the service team to pick the primary
+	// resource whose compartment should be used
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The resources affected by this work request.
@@ -44,7 +48,7 @@ type WorkRequestSummary struct {
 	// section 14.29.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the object was finished, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	// The date and time the request was finished, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 

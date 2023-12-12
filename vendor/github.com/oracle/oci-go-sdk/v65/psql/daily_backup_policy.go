@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,13 +17,13 @@ import (
 	"strings"
 )
 
-// DailyBackupPolicy Daily backup policy
+// DailyBackupPolicy Daily backup policy.
 type DailyBackupPolicy struct {
 
-	// Hour of the day when backup starts.
+	// Hour of the day when the backup starts.
 	BackupStart *string `mandatory:"true" json:"backupStart"`
 
-	// How many days the customers data should be stored after the db system deletion.
+	// How many days the data should be stored after the database system deletion.
 	RetentionDays *int `mandatory:"false" json:"retentionDays"`
 }
 

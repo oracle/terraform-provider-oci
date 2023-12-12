@@ -15,54 +15,54 @@ import (
 	"strings"
 )
 
-// SqlFirewallPolicySummary The SQL firewall policy resource contains the firewall policy metadata for a single user.
+// SqlFirewallPolicySummary The SQL Firewall policy resource contains the firewall policy metadata for a single user.
 type SqlFirewallPolicySummary struct {
 
-	// The OCID of the SQL firewall policy.
+	// The OCID of the SQL Firewall policy.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment containing the SQL firewall policy.
+	// The OCID of the compartment containing the SQL Firewall policy.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The display name of the SQL firewall policy.
+	// The display name of the SQL Firewall policy.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the security policy corresponding to the SQL firewall policy.
+	// The OCID of the security policy corresponding to the SQL Firewall policy.
 	SecurityPolicyId *string `mandatory:"true" json:"securityPolicyId"`
 
 	// The database user name.
 	DbUserName *string `mandatory:"true" json:"dbUserName"`
 
-	// Specifies whether the SQL firewall policy is enabled or disabled.
+	// Specifies whether the SQL Firewall policy is enabled or disabled.
 	Status SqlFirewallPolicySummaryStatusEnum `mandatory:"true" json:"status"`
 
-	// The time that the SQL firewall policy was created, in the format defined by RFC3339.
+	// The time that the SQL Firewall policy was created, in the format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The current state of the SQL firewall policy.
+	// The current state of the SQL Firewall policy.
 	LifecycleState SqlFirewallPolicyLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The description of the SQL firewall policy.
+	// The description of the SQL Firewall policy.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Specifies the level of SQL included for this SQL firewall policy.
+	// Specifies the level of SQL included for this SQL Firewall policy.
 	// USER_ISSUED_SQL - User issued SQL statements only.
 	// ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units.
 	SqlLevel SqlFirewallPolicySummarySqlLevelEnum `mandatory:"false" json:"sqlLevel,omitempty"`
 
-	// Specifies the SQL firewall policy enforcement option.
+	// Specifies the SQL Firewall policy enforcement option.
 	EnforcementScope SqlFirewallPolicySummaryEnforcementScopeEnum `mandatory:"false" json:"enforcementScope,omitempty"`
 
-	// Specifies the SQL firewall action based on detection of SQL firewall violations.
+	// Specifies the SQL Firewall action based on detection of SQL Firewall violations.
 	ViolationAction SqlFirewallPolicySummaryViolationActionEnum `mandatory:"false" json:"violationAction,omitempty"`
 
-	// Specifies whether a unified audit policy should be enabled for auditing the SQL firewall policy violations.
+	// Specifies whether a unified audit policy should be enabled for auditing the SQL Firewall policy violations.
 	ViolationAudit SqlFirewallPolicySummaryViolationAuditEnum `mandatory:"false" json:"violationAudit,omitempty"`
 
-	// The date and time the SQL firewall policy was last updated, in the format defined by RFC3339.
+	// The date and time the SQL Firewall policy was last updated, in the format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Details about the current state of the SQL firewall policy in Data Safe.
+	// Details about the current state of the SQL Firewall policy in Data Safe.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

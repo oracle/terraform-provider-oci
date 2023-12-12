@@ -31,6 +31,5 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
-#  version = "5.13.0"
+#  version = "5.19.0"
 }
-

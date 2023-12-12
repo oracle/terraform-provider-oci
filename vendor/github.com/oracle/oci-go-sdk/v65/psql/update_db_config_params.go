@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,14 +16,14 @@ import (
 	"strings"
 )
 
-// UpdateDbConfigParams Configuration for PGSQL instance.
+// UpdateDbConfigParams Configuration for the PostgreSQL database instance.
 type UpdateDbConfigParams struct {
 
-	// Configuration identifier
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the configuration.
 	ConfigId *string `mandatory:"true" json:"configId"`
 
-	// Specify whether config update requires a restart of Db instance or reload of config.
-	// Some of the config changes require restart of DB instnace's to apply.
+	// Whether a configuration update requires a restart of the database instance or a reload of the configuration.
+	// Some configuration changes require a restart of database instances to be applied.
 	ApplyConfig UpdateDbConfigParamsApplyConfigEnum `mandatory:"false" json:"applyConfig,omitempty"`
 }
 

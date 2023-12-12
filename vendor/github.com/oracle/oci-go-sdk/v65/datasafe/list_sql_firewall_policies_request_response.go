@@ -43,10 +43,10 @@ type ListSqlFirewallPoliciesRequest struct {
 	// An optional filter to return only resources that match the specified OCID of the security policy resource.
 	SecurityPolicyId *string `mandatory:"false" contributesTo:"query" name:"securityPolicyId"`
 
-	// The current state of the SQL firewall policy.
+	// The current state of the SQL Firewall policy.
 	LifecycleState ListSqlFirewallPoliciesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// An optional filter to return only resources that match the specified OCID of the SQL firewall policy resource.
+	// An optional filter to return only resources that match the specified OCID of the SQL Firewall policy resource.
 	SqlFirewallPolicyId *string `mandatory:"false" contributesTo:"query" name:"sqlFirewallPolicyId"`
 
 	// A filter to return only items that match the specified user name.

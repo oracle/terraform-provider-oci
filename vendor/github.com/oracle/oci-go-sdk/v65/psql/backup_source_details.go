@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,13 +17,14 @@ import (
 	"strings"
 )
 
-// BackupSourceDetails Restoring to a new DbSystem from the backup. The DbSystem details that are part of the CreateDbSystem request are not required, but if present will override the backup's DbSystem details snapshot.
+// BackupSourceDetails Restoring to a new database system from the backup.
+// The database system details that are part of the CreateDbSystem request are not required, but if present will override the details from the backup's database system snapshot.
 type BackupSourceDetails struct {
 
-	// DbSystem backup identifier.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database system backup.
 	BackupId *string `mandatory:"true" json:"backupId"`
 
-	// Restore the DB config overrides from backup. Default is false
+	// Deprecated. Don't use.
 	IsHavingRestoreConfigOverrides *bool `mandatory:"false" json:"isHavingRestoreConfigOverrides"`
 }
 

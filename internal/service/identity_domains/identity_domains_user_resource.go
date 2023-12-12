@@ -36,50 +36,6 @@ func IdentityDomainsUserResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"name": {
-				Type:     schema.TypeList,
-				Required: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"family_name": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-
-						// Optional
-						"formatted": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"given_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"honorific_prefix": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"honorific_suffix": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"middle_name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-					},
-				},
-			},
 			"schemas": {
 				Type:     schema.TypeList,
 				Required: true,
@@ -290,6 +246,52 @@ func IdentityDomainsUserResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"name": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"family_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"formatted": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"given_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"honorific_prefix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"honorific_suffix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"middle_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"nick_name": {
 				Type:     schema.TypeString,
@@ -1500,6 +1502,11 @@ func IdentityDomainsUserResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"service_user": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"synced_from_app": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -2451,7 +2458,6 @@ type IdentityDomainsUserResourceCrud struct {
 
 func (s *IdentityDomainsUserResourceCrud) ID() string {
 	return *s.Res.Id
-	//return GetUserCompositeId(s.D.Get("id").(string))
 }
 
 func (s *IdentityDomainsUserResourceCrud) Create() error {
@@ -3790,14 +3796,6 @@ func (s *IdentityDomainsUserResourceCrud) SetData() error {
 	return nil
 }
 
-func GetUserCompositeId(idcsEndpoint string, userId string) string {
-	//id = url.PathEscape(id)
-	//idcsEndpoint = url.PathEscape(idcsEndpoint)
-	userId = url.PathEscape(userId)
-	compositeId := "idcsEndpoint/" + idcsEndpoint + "/users/" + userId
-	return compositeId
-}
-
 func parseUserCompositeId(compositeId string) (userId string, err error) {
 	parts := strings.Split(compositeId, "/")
 	match, _ := regexp.MatchString("idcsEndpoint/.*/users/.*", compositeId)
@@ -3805,7 +3803,6 @@ func parseUserCompositeId(compositeId string) (userId string, err error) {
 		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
 		return
 	}
-	//idcsEndpoint, _ = url.PathUnescape(parts[1])
 	userId, _ = url.PathUnescape(parts[3])
 
 	return
@@ -4928,6 +4925,11 @@ func (s *IdentityDomainsUserResourceCrud) mapToExtensionUserUser(fieldKeyFormat 
 		result.PreferredUiLandingPage = oci_identity_domains.ExtensionUserUserPreferredUiLandingPageEnum(preferredUiLandingPage.(string))
 	}
 
+	if serviceUser, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_user")); ok && !forUpdate {
+		tmp := serviceUser.(bool)
+		result.ServiceUser = &tmp
+	}
+
 	if status, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status")); ok {
 		result.Status = oci_identity_domains.ExtensionUserUserStatusEnum(status.(string))
 	}
@@ -5031,6 +5033,10 @@ func ExtensionUserUserToMap(obj *oci_identity_domains.ExtensionUserUser) map[str
 	}
 
 	result["preferred_ui_landing_page"] = string(obj.PreferredUiLandingPage)
+
+	if obj.ServiceUser != nil {
+		result["service_user"] = bool(*obj.ServiceUser)
+	}
 
 	result["status"] = string(obj.Status)
 

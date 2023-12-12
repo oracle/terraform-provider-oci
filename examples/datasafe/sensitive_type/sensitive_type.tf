@@ -96,6 +96,10 @@ resource "oci_data_safe_sensitive_type" "test_sensitive_type" {
   name_pattern              = var.sensitive_type_name_pattern
   search_type               = var.sensitive_type_search_type
   short_name                = var.sensitive_type_short_name
+
+  lifecycle {
+    ignore_changes = [defined_tags, system_tags, freeform_tags]
+  }
 }
 
 data "oci_data_safe_sensitive_types" "test_sensitive_types" {

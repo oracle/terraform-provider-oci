@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,11 +17,11 @@ import (
 	"strings"
 )
 
-// Credentials Initial DbSystem credentials that the DbSystem will be provisioned with.
+// Credentials Initial database system credentials that the database system will be provisioned with.
 // The password details are not visible on any subsequent operation, such as GET /dbSystems/{dbSystemId}.
 type Credentials struct {
 
-	// The DB system username.
+	// The database system administrator username.
 	Username *string `mandatory:"true" json:"username"`
 
 	PasswordDetails PasswordDetails `mandatory:"true" json:"passwordDetails"`

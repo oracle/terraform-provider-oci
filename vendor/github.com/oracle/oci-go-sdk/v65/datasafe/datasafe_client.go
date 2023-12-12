@@ -27,7 +27,7 @@ type DataSafeClient struct {
 // the configuration provider will be used for the default signer as well as reading the region
 func NewDataSafeClientWithConfigurationProvider(configProvider common.ConfigurationProvider) (client DataSafeClient, err error) {
 	if enabled := common.CheckForEnabledServices("datasafe"); !enabled {
-		return client, fmt.Errorf("the Alloy configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local alloy_config file configured the service you're targeting or contact the cloud provider on the availability of this service")
+		return client, fmt.Errorf("the Developer Tool configuration disabled this service, this behavior is controlled by OciSdkEnabledServicesMap variables. Please check if your local developer-tool-configuration.json file configured the service you're targeting or contact the cloud provider on the availability of this service")
 	}
 	provider, err := auth.GetGenericConfigurationProvider(configProvider)
 	if err != nil {
@@ -1853,7 +1853,7 @@ func (client DataSafeClient) changeSqlCollectionCompartment(ctx context.Context,
 	return response, err
 }
 
-// ChangeSqlFirewallPolicyCompartment Moves the specified SQL firewall policy and its dependent resources into a different compartment.
+// ChangeSqlFirewallPolicyCompartment Moves the specified SQL Firewall policy and its dependent resources into a different compartment.
 //
 // # See also
 //
@@ -4355,7 +4355,7 @@ func (client DataSafeClient) deleteSqlCollection(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteSqlFirewallPolicy Deletes the SQL firewall policy resource.
+// DeleteSqlFirewallPolicy Deletes the SQL Firewall policy resource.
 //
 // # See also
 //
@@ -5444,7 +5444,7 @@ func (client DataSafeClient) generateOnPremConnectorConfiguration(ctx context.Co
 	return response, err
 }
 
-// GenerateReport Generates a PDF or XLS report based on parameters and report definition.
+// GenerateReport Generates a .xls or .pdf report based on parameters and report definition.
 //
 // # See also
 //
@@ -5632,7 +5632,7 @@ func (client DataSafeClient) generateSensitiveDataModelForDownload(ctx context.C
 	return response, err
 }
 
-// GenerateSqlFirewallPolicy Generates or appends to the SQL firewall policy using the specified SQL collection.
+// GenerateSqlFirewallPolicy Generates or appends to the SQL Firewall policy using the specified SQL collection.
 //
 // # See also
 //
@@ -6988,7 +6988,7 @@ func (client DataSafeClient) getReport(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// GetReportContent Downloads the specified report in the form of PDF or XLXS.
+// GetReportContent Downloads the specified report in the form of .xls or .pdf.
 //
 // # See also
 //
@@ -7683,7 +7683,7 @@ func (client DataSafeClient) getSqlCollection(ctx context.Context, request commo
 	return response, err
 }
 
-// GetSqlFirewallPolicy Gets a SQL firewall policy by identifier.
+// GetSqlFirewallPolicy Gets a SQL Firewall policy by identifier.
 //
 // # See also
 //
@@ -10063,7 +10063,7 @@ func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request c
 // When you perform the ListProfileAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
 // parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has INSPECT
 // permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
-// root compartment. If the requestor does not have access to at least one subcompartment of the compartment specified by
+// root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 // compartmentId, then "Not Authorized" is returned.
 // The parameter compartmentIdInSubtree applies when you perform ListProfileAnalytics on the compartmentId passed and when it is
 // set to true, the entire hierarchy of compartments can be returned.
@@ -11235,8 +11235,8 @@ func (client DataSafeClient) listSqlCollections(ctx context.Context, request com
 	return response, err
 }
 
-// ListSqlFirewallAllowedSqlAnalytics Returns the aggregation details of all SQL firewall allowed SQL statements.
-// The ListSqlFirewallAllowedSqlAnalytics operation returns the aggregates of the SQL firewall allowed SQL statements in the specified `compartmentId`.
+// ListSqlFirewallAllowedSqlAnalytics Returns the aggregation details of all SQL Firewall allowed SQL statements.
+// The ListSqlFirewallAllowedSqlAnalytics operation returns the aggregates of the SQL Firewall allowed SQL statements in the specified `compartmentId`.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -11303,8 +11303,8 @@ func (client DataSafeClient) listSqlFirewallAllowedSqlAnalytics(ctx context.Cont
 	return response, err
 }
 
-// ListSqlFirewallAllowedSqls Retrieves a list of all SQL firewall allowed SQL statements.
-// The ListSqlFirewallAllowedSqls operation returns only the SQL firewall allowed SQL statements in the specified `compartmentId`.
+// ListSqlFirewallAllowedSqls Retrieves a list of all SQL Firewall allowed SQL statements.
+// The ListSqlFirewallAllowedSqls operation returns only the SQL Firewall allowed SQL statements in the specified `compartmentId`.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -11371,8 +11371,8 @@ func (client DataSafeClient) listSqlFirewallAllowedSqls(ctx context.Context, req
 	return response, err
 }
 
-// ListSqlFirewallPolicies Retrieves a list of all SQL firewall policies.
-// The ListSqlFirewallPolicies operation returns only the SQL firewall policies in the specified `compartmentId`.
+// ListSqlFirewallPolicies Retrieves a list of all SQL Firewall policies.
+// The ListSqlFirewallPolicies operation returns only the SQL Firewall policies in the specified `compartmentId`.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -11439,7 +11439,7 @@ func (client DataSafeClient) listSqlFirewallPolicies(ctx context.Context, reques
 	return response, err
 }
 
-// ListSqlFirewallPolicyAnalytics Gets a list of aggregated SQL firewall policy details.
+// ListSqlFirewallPolicyAnalytics Gets a list of aggregated SQL Firewall policy details.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -11506,7 +11506,7 @@ func (client DataSafeClient) listSqlFirewallPolicyAnalytics(ctx context.Context,
 	return response, err
 }
 
-// ListSqlFirewallViolationAnalytics Returns the aggregation details of the SQL firewall violations.
+// ListSqlFirewallViolationAnalytics Returns the aggregation details of the SQL Firewall violations.
 //
 // # See also
 //
@@ -11569,7 +11569,7 @@ func (client DataSafeClient) listSqlFirewallViolationAnalytics(ctx context.Conte
 	return response, err
 }
 
-// ListSqlFirewallViolations Gets a list of all the SQL firewall violations captured by the firewall.
+// ListSqlFirewallViolations Gets a list of all the SQL Firewall violations captured by the firewall.
 //
 // # See also
 //
@@ -11807,7 +11807,7 @@ func (client DataSafeClient) listTargetDatabases(ctx context.Context, request co
 // When you perform the ListUserAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
 // parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has INSPECT
 // permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
-// root compartment. If the requestor does not have access to at least one subcompartment of the compartment specified by
+// root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 // compartmentId, then "Not Authorized" is returned.
 // The parameter compartmentIdInSubtree applies when you perform ListUserAnalytics on the compartmentId passed and when it is
 // set to true, the entire hierarchy of compartments can be returned.
@@ -13030,7 +13030,7 @@ func (client DataSafeClient) refreshUserAssessment(ctx context.Context, request 
 	return response, err
 }
 
-// RemoveScheduleReport Deletes the schedule of a PDF or XLS report.
+// RemoveScheduleReport Deletes the schedule of a .xls or .pdf report.
 //
 // # See also
 //
@@ -13277,7 +13277,7 @@ func (client DataSafeClient) retrieveAuditPolicies(ctx context.Context, request 
 	return response, err
 }
 
-// ScheduleReport Schedules a PDF or XLS report based on parameters and report definition.
+// ScheduleReport Schedules a .xls or .pdf report based on parameters and report definition.
 //
 // # See also
 //
@@ -15134,7 +15134,7 @@ func (client DataSafeClient) updateSqlCollection(ctx context.Context, request co
 	return response, err
 }
 
-// UpdateSqlFirewallPolicy Updates the SQL firewall policy.
+// UpdateSqlFirewallPolicy Updates the SQL Firewall policy.
 //
 // # See also
 //

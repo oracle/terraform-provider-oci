@@ -46,6 +46,9 @@ type UpdatePostgresqlConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	// The name of the database.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 
@@ -81,12 +84,20 @@ type UpdatePostgresqlConnectionDetails struct {
 	// The base64 encoded private key of the PostgreSQL server. The supported file formats are .pem and .crt.
 	SslKey *string `mandatory:"false" json:"sslKey"`
 
+	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
+	// field, or make sure the host name is resolvable in the target VCN.
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a
 	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).
 	// In case the privateIp is provided, the subnetId must also be provided.
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 
 	// Security protocol for PostgreSQL.
 	SecurityProtocol PostgresqlConnectionSecurityProtocolEnum `mandatory:"false" json:"securityProtocol,omitempty"`
@@ -130,6 +141,16 @@ func (m UpdatePostgresqlConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+// GetSubnetId returns SubnetId
+func (m UpdatePostgresqlConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+// GetRoutingMethod returns RoutingMethod
+func (m UpdatePostgresqlConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m UpdatePostgresqlConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -140,6 +161,9 @@ func (m UpdatePostgresqlConnectionDetails) String() string {
 func (m UpdatePostgresqlConnectionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingPostgresqlConnectionSecurityProtocolEnum(string(m.SecurityProtocol)); !ok && m.SecurityProtocol != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityProtocol: %s. Supported values are: %s.", m.SecurityProtocol, strings.Join(GetPostgresqlConnectionSecurityProtocolEnumStringValues(), ",")))
 	}

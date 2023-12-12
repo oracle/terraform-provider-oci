@@ -18,10 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/CreateConfiguration.go.html to see an example of how to use CreateConfigurationRequest.
 type CreateConfigurationRequest struct {
 
-	// Details for the new Configuration.
+	// Details for the new configuration.
 	CreateConfigurationDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
+	// server error without risk of executing that same action again. Retry tokens expire after 24
+	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource
+	// has been deleted and purged from the system, `retrytoken` could be expired or invalidated.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
 	// The client request ID for tracing.

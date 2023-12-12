@@ -15,19 +15,19 @@ import (
 	"strings"
 )
 
-// SqlFirewallPolicyDimensions The dimensions available for SQL firewall policy analytics.
+// SqlFirewallPolicyDimensions The dimensions available for SQL Firewall policy analytics.
 type SqlFirewallPolicyDimensions struct {
 
-	// The OCID of the security policy corresponding to the SQL firewall policy.
+	// The OCID of the security policy corresponding to the SQL Firewall policy.
 	SecurityPolicyId *string `mandatory:"false" json:"securityPolicyId"`
 
-	// Specifies the SQL firewall policy enforcement option.
+	// Specifies the SQL Firewall policy enforcement option.
 	EnforcementScope SqlFirewallPolicyDimensionsEnforcementScopeEnum `mandatory:"false" json:"enforcementScope,omitempty"`
 
-	// Specifies the mode in which the SQL firewall policy is enabled.
+	// Specifies the mode in which the SQL Firewall policy is enabled.
 	ViolationAction SqlFirewallPolicyDimensionsViolationActionEnum `mandatory:"false" json:"violationAction,omitempty"`
 
-	// The current state of the SQL firewall policy.
+	// The current state of the SQL Firewall policy.
 	LifecycleState SqlFirewallPolicyLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 

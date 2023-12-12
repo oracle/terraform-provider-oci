@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSqlFirewallPolicyCompartment.go.html to see an example of how to use ChangeSqlFirewallPolicyCompartmentRequest.
 type ChangeSqlFirewallPolicyCompartmentRequest struct {
 
-	// The OCID of the SQL firewall policy resource.
+	// The OCID of the SQL Firewall policy resource.
 	SqlFirewallPolicyId *string `mandatory:"true" contributesTo:"path" name:"sqlFirewallPolicyId"`
 
 	// Details for the compartment move.

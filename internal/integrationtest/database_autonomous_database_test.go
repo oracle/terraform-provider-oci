@@ -128,6 +128,21 @@ var (
 	DatabaseAutonomousDatabaseCustomerContactsRepresentation = map[string]interface{}{
 		"email": acctest.Representation{RepType: acctest.Optional, Create: `test@oracle.com`, Update: `test2@oracle.com`},
 	}
+
+	timeOfBackupCreate = time.Now().UTC().AddDate(0, 0, 8).Truncate(time.Millisecond)
+	timeOfBackupUpdate = time.Now().UTC().AddDate(0, 0, 10).Truncate(time.Millisecond)
+
+	DatabaseAutonomousDatabaseLongTermBackupCreate = map[string]interface{}{
+		"retention_period_in_days": acctest.Representation{RepType: acctest.Optional, Create: `365`, Update: `365`},
+		"time_of_backup":           acctest.Representation{RepType: acctest.Optional, Create: timeOfBackupCreate.Format(time.RFC3339Nano), Update: timeOfBackupUpdate.Format(time.RFC3339Nano)},
+		"repeat_cadence":           acctest.Representation{RepType: acctest.Optional, Create: `WEEKLY`, Update: `WEEKLY`},
+		"is_disabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	DatabaseAutonomousDatabaseLongTermBackupDelete = map[string]interface{}{
+		"is_disabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+
 	DatabaseAutonomousDatabaseResourcePoolSummaryRepresentation = map[string]interface{}{
 		"is_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"pool_size":   acctest.Representation{RepType: acctest.Optional, Create: `128`, Update: `256`},

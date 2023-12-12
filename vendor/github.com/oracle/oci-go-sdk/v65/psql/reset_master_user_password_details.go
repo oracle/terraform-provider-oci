@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -16,8 +17,8 @@ import (
 	"strings"
 )
 
-// ResetMasterUserPasswordDetails Password detail that will be used to reset the DbSystem's master user.
-// They are not visible on any subsequent operation, such as GET /dbSystems/{dbSystemId}.
+// ResetMasterUserPasswordDetails Password detail that will be used to reset the database system's master user.
+// These details are not visible on any subsequent operation, such as GET /dbSystems/{dbSystemId}.
 type ResetMasterUserPasswordDetails struct {
 	PasswordDetails PasswordDetails `mandatory:"true" json:"passwordDetails"`
 }

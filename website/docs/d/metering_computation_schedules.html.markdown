@@ -49,7 +49,7 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}` 
 * `id` - The OCID representing a unique shedule.
 * `name` - The unique name of the schedule created by the user.
-* `output_file_format` - Specifies supported output file format.
+* `output_file_format` - Specifies the supported output file format.
 * `query_properties` - The query properties.
 	* `compartment_depth` - The depth level of the compartment.
 	* `date_range` - Static or dynamic date range `dateRangeType`, which corresponds with type-specific characteristics. 
@@ -71,7 +71,7 @@ The following attributes are exported:
 	* `location_type` - Defines the type of location where the usage or cost CSVs will be stored. 
 	* `namespace` - The namespace needed to determine the object storage bucket.
 	* `region` - The destination Object Store Region specified by the customer.
-* `saved_report_id` - The saved report id which can also be used to generate query.
+* `saved_report_id` - The saved report ID which can also be used to generate a query.
 * `schedule_recurrences` - Specifies the frequency according to when the schedule will be run,  in the x-obmcs-recurring-time format described in [RFC 5545 section 3.3.10](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10). Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY. 
 * `state` - The schedule lifecycle state.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}` 

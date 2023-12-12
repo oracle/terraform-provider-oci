@@ -55,6 +55,9 @@ type TaskSummaryFromRestTask struct {
 
 	ConfigProviderDelegate *ConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	Metadata *ObjectMetadata `mandatory:"false" json:"metadata"`
 
 	// A key map. If provided, key is replaced with generated key. This structure provides mapping between user provided key and generated key.
@@ -155,6 +158,11 @@ func (m TaskSummaryFromRestTask) GetConfigProviderDelegate() *ConfigProvider {
 	return m.ConfigProviderDelegate
 }
 
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m TaskSummaryFromRestTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
 // GetMetadata returns Metadata
 func (m TaskSummaryFromRestTask) GetMetadata() *ObjectMetadata {
 	return m.Metadata
@@ -220,6 +228,7 @@ func (m *TaskSummaryFromRestTask) UnmarshalJSON(data []byte) (e error) {
 		Parameters             []Parameter                                 `json:"parameters"`
 		OpConfigValues         *ConfigValues                               `json:"opConfigValues"`
 		ConfigProviderDelegate *ConfigProvider                             `json:"configProviderDelegate"`
+		IsConcurrentAllowed    *bool                                       `json:"isConcurrentAllowed"`
 		Metadata               *ObjectMetadata                             `json:"metadata"`
 		KeyMap                 map[string]string                           `json:"keyMap"`
 		AuthDetails            *AuthDetails                                `json:"authDetails"`
@@ -266,6 +275,8 @@ func (m *TaskSummaryFromRestTask) UnmarshalJSON(data []byte) (e error) {
 	m.OpConfigValues = model.OpConfigValues
 
 	m.ConfigProviderDelegate = model.ConfigProviderDelegate
+
+	m.IsConcurrentAllowed = model.IsConcurrentAllowed
 
 	m.Metadata = model.Metadata
 

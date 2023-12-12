@@ -23,6 +23,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_identity_domains_dynamic_resource_group", IdentityDomainsDynamicResourceGroupResource())
 	tfresource.RegisterResource("oci_identity_domains_grant", IdentityDomainsGrantResource())
 	tfresource.RegisterResource("oci_identity_domains_group", IdentityDomainsGroupResource())
+	tfresource.RegisterResource("oci_identity_domains_identity_propagation_trust", IdentityDomainsIdentityPropagationTrustResource())
 	tfresource.RegisterResource("oci_identity_domains_identity_provider", IdentityDomainsIdentityProviderResource())
 	tfresource.RegisterResource("oci_identity_domains_identity_setting", IdentityDomainsIdentitySettingResource())
 	tfresource.RegisterResource("oci_identity_domains_kmsi_setting", IdentityDomainsKmsiSettingResource())

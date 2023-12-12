@@ -46,6 +46,9 @@ type UpdateRedisConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	// Comma separated list of Redis server addresses, specified as host:port entries, where :port is optional.
 	// If port is not specified, it defaults to 6379.
 	// Used for establishing the initial connection to the Redis cluster.
@@ -72,6 +75,12 @@ type UpdateRedisConnectionDetails struct {
 
 	// The KeyStore password.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
+
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 
 	// Security protocol for Redis.
 	SecurityProtocol RedisConnectionSecurityProtocolEnum `mandatory:"false" json:"securityProtocol,omitempty"`
@@ -115,6 +124,16 @@ func (m UpdateRedisConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+// GetSubnetId returns SubnetId
+func (m UpdateRedisConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+// GetRoutingMethod returns RoutingMethod
+func (m UpdateRedisConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m UpdateRedisConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -125,6 +144,9 @@ func (m UpdateRedisConnectionDetails) String() string {
 func (m UpdateRedisConnectionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingRedisConnectionSecurityProtocolEnum(string(m.SecurityProtocol)); !ok && m.SecurityProtocol != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityProtocol: %s. Supported values are: %s.", m.SecurityProtocol, strings.Join(GetRedisConnectionSecurityProtocolEnumStringValues(), ",")))
 	}

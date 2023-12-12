@@ -16,7 +16,7 @@ import (
 )
 
 // DatabaseSecurityConfigSummary Database Security Configurations resource represents the target database configurations.
-// Included in the Database Security Configurations are the SQL firewall configurations such as
+// Included in the Database Security Configurations are the SQL Firewall configurations such as
 // the status of the firewall, the time that the firewall status was last updated, violation log auto purge settings, etc.
 type DatabaseSecurityConfigSummary struct {
 

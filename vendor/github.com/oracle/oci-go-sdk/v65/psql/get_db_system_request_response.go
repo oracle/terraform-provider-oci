@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetDbSystem.go.html to see an example of how to use GetDbSystemRequest.
 type GetDbSystemRequest struct {
 
-	// unique DbSystem identifier
+	// A unique identifier for the database system.
 	DbSystemId *string `mandatory:"true" contributesTo:"path" name:"dbSystemId"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A filter to exclude DB config  when this query param is set to OverrideDbConfig
+	// A filter to exclude database configuration when this query parameter is set to OverrideDbConfig.
 	ExcludedFields []GetDbSystemExcludedFieldsEnum `contributesTo:"query" name:"excludedFields" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

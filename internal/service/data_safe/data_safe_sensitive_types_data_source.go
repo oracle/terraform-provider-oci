@@ -44,6 +44,10 @@ func DataSafeSensitiveTypesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_common": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"parent_category_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -133,6 +137,11 @@ func (s *DataSafeSensitiveTypesDataSourceCrud) Get() error {
 
 	if entityType, ok := s.D.GetOkExists("entity_type"); ok {
 		request.EntityType = oci_data_safe.ListSensitiveTypesEntityTypeEnum(entityType.(string))
+	}
+
+	if isCommon, ok := s.D.GetOkExists("is_common"); ok {
+		tmp := isCommon.(bool)
+		request.IsCommon = &tmp
 	}
 
 	if parentCategoryId, ok := s.D.GetOkExists("parent_category_id"); ok {

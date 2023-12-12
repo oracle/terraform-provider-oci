@@ -40,11 +40,6 @@ func OpsiAwrHubResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"object_storage_bucket_name": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"operations_insights_warehouse_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -65,9 +60,19 @@ func OpsiAwrHubResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"object_storage_bucket_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"awr_mailbox_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"hub_dst_timezone_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -419,6 +424,10 @@ func (s *OpsiAwrHubResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.HubDstTimezoneVersion != nil {
+		s.D.Set("hub_dst_timezone_version", *s.Res.HubDstTimezoneVersion)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)

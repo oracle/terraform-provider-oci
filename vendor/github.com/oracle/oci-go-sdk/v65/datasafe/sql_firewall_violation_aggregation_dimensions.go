@@ -48,7 +48,7 @@ type SqlFirewallViolationAggregationDimensions struct {
 	// The action taken for this SQL violation.
 	ViolationAction []string `mandatory:"false" json:"violationAction"`
 
-	// Specifies the level of SQL included for this SQL firewall policy.
+	// Specifies the level of SQL included for this SQL Firewall policy.
 	// USER_ISSUED_SQL - User issued SQL statements only.
 	// ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units.
 	SqlLevel []SqlFirewallViolationAggregationDimensionsSqlLevelEnum `mandatory:"false" json:"sqlLevel,omitempty"`

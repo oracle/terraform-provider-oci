@@ -37,9 +37,9 @@ The following attributes are exported:
 * `deployment_status` - The current deployment status of the security policy deployment and the security policy entry associated.
 * `entry_details` - Details specific to the security policy entry.
 	* `entry_type` - The security policy entry type. Allowed values:
-		* FIREWALL_POLICY - The SQL firewall policy entry type. 
-	* `time_generated` - The time the the SQL firewall policy was generated on the target database, in the format defined by RFC3339.
-	* `time_status_updated` - The last date and time the status of the SQL firewall policy was updated on the target database, in the format defined by RFC3339.
+		* FIREWALL_POLICY - The SQL Firewall policy entry type. 
+	* `time_generated` - The time the the SQL Firewall policy was generated on the target database, in the format defined by RFC3339.
+	* `time_status_updated` - The last date and time the status of the SQL Firewall policy was updated on the target database, in the format defined by RFC3339.
 * `id` - Unique id of the security policy entry state.
 * `security_policy_deployment_id` - The OCID of the security policy deployment associated.
 * `security_policy_entry_id` - The OCID of the security policy entry type associated.

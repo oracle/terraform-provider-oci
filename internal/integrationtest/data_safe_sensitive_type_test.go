@@ -37,14 +37,18 @@ var (
 		"sensitive_type_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_type.test_sensitive_type.id}`},
 	}
 
-	DataSafesensitiveTypeDataSourceRepresentation = map[string]interface{}{
+	DataSafeSensitiveTypeDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"entity_type":               acctest.Representation{RepType: acctest.Optional, Create: `SENSITIVE_TYPE`, Update: `SENSITIVE_TYPE`},
-		"sensitive_type_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_type.test_sensitive_type.id}`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: sensitiveTypeDataSourceFilterRepresentation}}
+		//"is_common":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"sensitive_type_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_type.test_sensitive_type.id}`},
+		//"sensitive_type_source":     acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
+		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: sensitiveTypeDataSourceFilterRepresentation},
+	}
+
 	sensitiveTypeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_sensitive_type.test_sensitive_type.id}`}},
@@ -66,7 +70,7 @@ var (
 	}
 
 	ignoreSensitiveTypeSystemTagsChangesRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `freeform_tags`}},
 	}
 
 	DataSafeSensitiveTypeResourceDependencies = DefinedTagsDependencies
@@ -214,7 +218,7 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_types", "test_sensitive_types", acctest.Optional, acctest.Update, DataSafesensitiveTypeDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_types", "test_sensitive_types", acctest.Optional, acctest.Update, DataSafeSensitiveTypeDataSourceRepresentation) +
 				compartmentIdVariableStr + DataSafeSensitiveTypeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_type", "test_sensitive_type", acctest.Optional, acctest.Update, sensitiveTypeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -235,12 +239,12 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DataSafeSensitiveTypeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sensitive_type_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_common"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "short_name", "shortName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "source"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -254,7 +258,7 @@ func TestDataSafeSensitiveTypeResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config,
+			Config:                  config + DataSafeSensitiveTypeRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

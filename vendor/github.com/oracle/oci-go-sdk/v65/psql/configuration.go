@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,39 +16,42 @@ import (
 	"strings"
 )
 
-// Configuration Db system Postgresql Configuration
+// Configuration PostgreSQL configuration for a database system.
 type Configuration struct {
 
-	// Unique identifier that is immutable on creation
+	// A unique identifier for the configuration. Immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Config display name
+	// A user-friendly display name for the configuration. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Config compartment identifier
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the configuration.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The time Configuration was created. An RFC3339 formatted datetime string
+	// The date and time that the configuration was created, expressed in
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The current state of the Configuration.
+	// The current state of the configuration.
 	LifecycleState ConfigurationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Compute Shape Name like VM.Standard3.Flex.
+	// The name of the shape for the configuration.
+	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// CPU cpuCoreCount. Min value is 1. Max value depends on the shape.
+	// CPU core count.
 	InstanceOcpuCount *int `mandatory:"true" json:"instanceOcpuCount"`
 
-	// Memory Size in GB with 1GB increment. Min value matches the cpuCoreCount. Max value depends on the shape.
+	// Memory size in gigabytes with 1GB increment.
 	InstanceMemorySizeInGBs *int `mandatory:"true" json:"instanceMemorySizeInGBs"`
 
-	// Version of the Postgresql DB
+	// Version of the PostgreSQL database.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	ConfigurationDetails *ConfigurationDetails `mandatory:"true" json:"configurationDetails"`
 
-	// Config description
+	// A description for the configuration.
 	Description *string `mandatory:"false" json:"description"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

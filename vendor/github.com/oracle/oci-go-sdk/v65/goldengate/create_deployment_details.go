@@ -27,7 +27,7 @@ type CreateDeploymentDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet being referenced.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// The Minimum number of OCPUs to be made available for this Deployment.
@@ -55,6 +55,11 @@ type CreateDeploymentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup being referenced.
 	DeploymentBackupId *string `mandatory:"false" json:"deploymentBackupId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy.
+	// Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy.
+	// For backward compatiblity this is an optional property for now, but it will become mandatory (for public deployments only) after October 1, 2024.
+	LoadBalancerSubnetId *string `mandatory:"false" json:"loadBalancerSubnetId"`
 
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"false" json:"fqdn"`

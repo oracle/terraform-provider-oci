@@ -114,6 +114,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -186,6 +188,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -253,6 +257,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -336,6 +342,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -409,6 +417,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -486,6 +496,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -553,6 +565,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -638,6 +652,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -701,6 +717,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -766,6 +784,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -829,6 +849,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -934,6 +956,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1014,6 +1038,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1091,6 +1117,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1192,6 +1220,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1267,6 +1297,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1366,6 +1398,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1440,6 +1474,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1523,6 +1559,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1598,6 +1636,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1693,6 +1733,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1769,6 +1811,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1842,6 +1886,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 

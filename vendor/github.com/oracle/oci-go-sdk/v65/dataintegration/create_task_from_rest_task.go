@@ -54,6 +54,9 @@ type CreateTaskFromRestTask struct {
 
 	ConfigProviderDelegate *CreateConfigProvider `mandatory:"false" json:"configProviderDelegate"`
 
+	// Whether the same task can be executed concurrently.
+	IsConcurrentAllowed *bool `mandatory:"false" json:"isConcurrentAllowed"`
+
 	AuthDetails *AuthDetails `mandatory:"false" json:"authDetails"`
 
 	AuthConfig AuthConfig `mandatory:"false" json:"authConfig"`
@@ -147,6 +150,11 @@ func (m CreateTaskFromRestTask) GetConfigProviderDelegate() *CreateConfigProvide
 	return m.ConfigProviderDelegate
 }
 
+// GetIsConcurrentAllowed returns IsConcurrentAllowed
+func (m CreateTaskFromRestTask) GetIsConcurrentAllowed() *bool {
+	return m.IsConcurrentAllowed
+}
+
 // GetRegistryMetadata returns RegistryMetadata
 func (m CreateTaskFromRestTask) GetRegistryMetadata() *RegistryMetadata {
 	return m.RegistryMetadata
@@ -204,6 +212,7 @@ func (m *CreateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
 		Parameters             []Parameter                                `json:"parameters"`
 		OpConfigValues         *ConfigValues                              `json:"opConfigValues"`
 		ConfigProviderDelegate *CreateConfigProvider                      `json:"configProviderDelegate"`
+		IsConcurrentAllowed    *bool                                      `json:"isConcurrentAllowed"`
 		AuthDetails            *AuthDetails                               `json:"authDetails"`
 		AuthConfig             authconfig                                 `json:"authConfig"`
 		Endpoint               *Expression                                `json:"endpoint"`
@@ -246,6 +255,8 @@ func (m *CreateTaskFromRestTask) UnmarshalJSON(data []byte) (e error) {
 	m.OpConfigValues = model.OpConfigValues
 
 	m.ConfigProviderDelegate = model.ConfigProviderDelegate
+
+	m.IsConcurrentAllowed = model.IsConcurrentAllowed
 
 	m.AuthDetails = model.AuthDetails
 

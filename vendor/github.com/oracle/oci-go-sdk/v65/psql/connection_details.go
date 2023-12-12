@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,17 +16,17 @@ import (
 	"strings"
 )
 
-// ConnectionDetails The real-time DbSystem configuration that customers can use for getting access to the PostgreSQL instance.
+// ConnectionDetails Database system connection information. Used to connect to PostgreSQL instance(s).
 type ConnectionDetails struct {
 
-	// The CA certificate to be used by the Posgresql client to connect to the database.
+	// The CA certificate to be used by the PosgreSQL client to connect to the database.
 	// The CA certificate is used to authenticate the server identity.
 	// It is issued by PostgreSQL Service Private CA.
 	CaCertificate *string `mandatory:"true" json:"caCertificate"`
 
 	PrimaryDbEndpoint *Endpoint `mandatory:"true" json:"primaryDbEndpoint"`
 
-	// The list of DbInstance endpoints in the DbSystem.
+	// The list of database instance node endpoints in the database system.
 	InstanceEndpoints []DbInstanceEndpoint `mandatory:"true" json:"instanceEndpoints"`
 }
 

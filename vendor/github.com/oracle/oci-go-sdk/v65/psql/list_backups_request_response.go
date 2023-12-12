@@ -21,22 +21,22 @@ type ListBackupsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The start date for getting  backups. An RFC3339 formatted datetime string
+	// The start date for getting backups. An RFC 3339 (https://tools.ietf.org/rfc/rfc3339) formatted datetime string.
 	TimeStarted *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStarted"`
 
-	// The End date for getting  backups. An RFC3339 formatted datetime string.
+	// The end date for getting backups. An RFC 3339 (https://tools.ietf.org/rfc/rfc3339) formatted datetime string.
 	TimeEnded *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnded"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources if their `lifecycleState` matches the given `lifecycleState`.
 	LifecycleState BackupLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique Backup identifier
+	// A unique identifier for the backup.
 	BackupId *string `mandatory:"false" contributesTo:"query" name:"backupId"`
 
-	// unique DbSystem identifier
+	// A unique identifier for the database system.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

@@ -33,13 +33,13 @@ type AuditEventAggregationDimensions struct {
 	// Class of the target that was audited.
 	TargetClass []AuditEventAggregationDimensionsTargetClassEnum `mandatory:"false" json:"targetClass,omitempty"`
 
-	// Type of object in the source database affected by the action. i.e PL/SQL, SYNONYM, PACKAGE BODY.
+	// Type of object in the source database affected by the action. For example PL/SQL, SYNONYM or PACKAGE BODY.
 	ObjectType []string `mandatory:"false" json:"objectType"`
 
 	// Name of the host machine from which the session was spawned.
 	ClientHostname []string `mandatory:"false" json:"clientHostname"`
 
-	// The application from which the audit event was generated. Examples SQL Plus or SQL Developer.
+	// The application from which the audit event was generated. For example SQL Plus or SQL Developer.
 	ClientProgram []string `mandatory:"false" json:"clientProgram"`
 
 	// The client identifier in each Oracle session.
@@ -48,7 +48,7 @@ type AuditEventAggregationDimensions struct {
 	// Type of auditing.
 	AuditType []AuditEventAggregationDimensionsAuditTypeEnum `mandatory:"false" json:"auditType,omitempty"`
 
-	// The name of the event executed by the user on the target database. i.e ALTER SEQUENCE, CREATE TRIGGER, CREATE INDEX.
+	// The name of the event executed by the user on the target database. For example ALTER SEQUENCE, CREATE TRIGGER or CREATE INDEX.
 	EventName []string `mandatory:"false" json:"eventName"`
 }
 

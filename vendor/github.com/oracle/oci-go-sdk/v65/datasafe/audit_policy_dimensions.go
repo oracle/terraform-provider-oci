@@ -21,7 +21,7 @@ type AuditPolicyDimensions struct {
 	// The category to which the audit policy belongs.
 	AuditPolicyCategory AuditPolicyCategoryEnum `mandatory:"false" json:"auditPolicyCategory,omitempty"`
 
-	// The name of the audit policy. Refer to the documentation (https://docs.oracle.com/en/cloud/paas/data-safe/udscs/audit-policies.html#GUID-361A9A9A-7C21-4F5A-8945-9B3A0C472827) for seeded audit policy names. For custom policies, refer to the user-defined policy name created in the target database.
+	// The name of the audit policy. Refer to the documentation (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/data-safe&id=UDSCS-GUID-361A9A9A-7C21-4F5A-8945-9B3A0C472827) for seeded audit policy names. For custom policies, refer to the user-defined policy name created in the target database.
 	AuditPolicyName *string `mandatory:"false" json:"auditPolicyName"`
 
 	// The OCID of the target database for which the audit policy will be created.

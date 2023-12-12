@@ -130,11 +130,21 @@ func (s *DatacatalogCatalogsDataSourceCrud) SetData() error {
 			catalog["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, ResourceLockToMapCatalog(item))
+		}
+		catalog["locks"] = locks
+
 		if r.NumberOfObjects != nil {
 			catalog["number_of_objects"] = *r.NumberOfObjects
 		}
 
 		catalog["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			catalog["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			catalog["time_created"] = r.TimeCreated.String()

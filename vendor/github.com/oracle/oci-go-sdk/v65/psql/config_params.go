@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,31 +16,31 @@ import (
 	"strings"
 )
 
-// ConfigParams DB Configuration
+// ConfigParams Database configuration.
 type ConfigParams struct {
 
-	// Key is the configuration key.
+	// The configuration variable name.
 	ConfigKey *string `mandatory:"true" json:"configKey"`
 
-	// Default value
+	// Default value for the configuration variable.
 	DefaultConfigValue *string `mandatory:"true" json:"defaultConfigValue"`
 
-	// Range or list of allowed values
+	// Range or list of allowed values.
 	AllowedValues *string `mandatory:"true" json:"allowedValues"`
 
-	// If true, modfying this configuration value will requires restart.
+	// If true, modifying this configuration value will require a restart of the database.
 	IsRestartRequired *bool `mandatory:"true" json:"isRestartRequired"`
 
-	// Describes about the Datatype value.
+	// Data type of the variable.
 	DataType *string `mandatory:"true" json:"dataType"`
 
-	// This flags tells whether the value is overridable or not.
+	// Whether the value can be overridden or not.
 	IsOverridable *bool `mandatory:"true" json:"isOverridable"`
 
-	// Details about the Postgresql params.
+	// Details about the PostgreSQL parameter.
 	Description *string `mandatory:"true" json:"description"`
 
-	// User selected configuration value
+	// User-selected configuration variable value.
 	OverridenConfigValue *string `mandatory:"false" json:"overridenConfigValue"`
 }
 

@@ -17,7 +17,7 @@ and do how many use password verification function. This data is especially usef
 When you perform the ListProfileAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
 parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has INSPECT
 permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
-root compartment. If the requestor does not have access to at least one subcompartment of the compartment specified by
+root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 compartmentId, then "Not Authorized" is returned.
 
 The parameter compartmentIdInSubtree applies when you perform ListProfileAnalytics on the compartmentId passed and when it is

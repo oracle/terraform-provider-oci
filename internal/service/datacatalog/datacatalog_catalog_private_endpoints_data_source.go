@@ -132,10 +132,20 @@ func (s *DatacatalogCatalogPrivateEndpointsDataSourceCrud) SetData() error {
 			catalogPrivateEndpoint["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, ResourceLockToMapPe(item))
+		}
+		catalogPrivateEndpoint["locks"] = locks
+
 		catalogPrivateEndpoint["state"] = r.LifecycleState
 
 		if r.SubnetId != nil {
 			catalogPrivateEndpoint["subnet_id"] = *r.SubnetId
+		}
+
+		if r.SystemTags != nil {
+			catalogPrivateEndpoint["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
 		}
 
 		if r.TimeCreated != nil {

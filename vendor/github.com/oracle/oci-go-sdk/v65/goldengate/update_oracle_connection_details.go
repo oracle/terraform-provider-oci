@@ -46,6 +46,9 @@ type UpdateOracleConnectionDetails struct {
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
 	// This username must already exist and be available by the system/application to be connected to
 	// and must conform to the case sensitivty requirments defined in it.
@@ -62,6 +65,8 @@ type UpdateOracleConnectionDetails struct {
 	// attribute is expected to be base64 encoded.
 	Wallet *string `mandatory:"false" json:"wallet"`
 
+	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
+	// field, or make sure the host name is resolvable in the target VCN.
 	// The private IP address of the connection's endpoint in the customer's VCN, typically a
 	// database endpoint or a big data endpoint (e.g. Kafka bootstrap server).
 	// In case the privateIp is provided, the subnetId must also be provided.
@@ -71,6 +76,12 @@ type UpdateOracleConnectionDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database being referenced.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
+
+	// Controls the network traffic direction to the target:
+	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
+	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
+	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+	RoutingMethod RoutingMethodEnum `mandatory:"false" json:"routingMethod,omitempty"`
 
 	// The mode of the database connection session to be established by the data client.
 	// 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database.
@@ -114,6 +125,16 @@ func (m UpdateOracleConnectionDetails) GetNsgIds() []string {
 	return m.NsgIds
 }
 
+// GetSubnetId returns SubnetId
+func (m UpdateOracleConnectionDetails) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+// GetRoutingMethod returns RoutingMethod
+func (m UpdateOracleConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
+	return m.RoutingMethod
+}
+
 func (m UpdateOracleConnectionDetails) String() string {
 	return common.PointerString(m)
 }
@@ -124,6 +145,9 @@ func (m UpdateOracleConnectionDetails) String() string {
 func (m UpdateOracleConnectionDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRoutingMethodEnum(string(m.RoutingMethod)); !ok && m.RoutingMethod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RoutingMethod: %s. Supported values are: %s.", m.RoutingMethod, strings.Join(GetRoutingMethodEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingOracleConnectionSessionModeEnum(string(m.SessionMode)); !ok && m.SessionMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SessionMode: %s. Supported values are: %s.", m.SessionMode, strings.Join(GetOracleConnectionSessionModeEnumStringValues(), ",")))
 	}

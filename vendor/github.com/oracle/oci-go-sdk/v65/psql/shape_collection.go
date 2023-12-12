@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -15,10 +16,10 @@ import (
 	"strings"
 )
 
-// ShapeCollection The list of shapes that allowed to use to create a db system.
+// ShapeCollection The list of shapes that can be used to create a database system.
 type ShapeCollection struct {
 
-	// List of dbSystems.
+	// List of supported shapes.
 	Items []ShapeSummary `mandatory:"true" json:"items"`
 }
 

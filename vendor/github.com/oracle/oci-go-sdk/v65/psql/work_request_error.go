@@ -4,7 +4,8 @@
 
 // PGSQL Control Plane API
 //
-// A description of the PGSQL Control Plane API
+// Use the OCI Database with PostgreSQL API to manage resources such as database systems, database nodes, backups, and configurations.
+// For information, see the user guide documentation for the service (https://docs.cloud.oracle.com/iaas/Content/postgresql/home.htm).
 //
 
 package psql
@@ -18,14 +19,13 @@ import (
 // WorkRequestError An error encountered while executing a work request.
 type WorkRequestError struct {
 
-	// A machine-usable code for the error that occured. Error codes are listed on
-	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm)
+	// A machine-usable code (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm) for the error that occured.
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human readable description of the issue encountered.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured. An RFC3339 formatted datetime string.
+	// The time the error occured, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

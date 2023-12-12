@@ -18,19 +18,20 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListDefaultConfigurations.go.html to see an example of how to use ListDefaultConfigurationsRequest.
 type ListDefaultConfigurationsRequest struct {
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources if their `lifecycleState` matches the given `lifecycleState`.
 	LifecycleState ConfigurationLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Verison of the Postgresql DB like 14.5
+	// Verison of the PostgreSQL database, such as 14.9.
 	DbVersion *string `mandatory:"false" contributesTo:"query" name:"dbVersion"`
 
-	// Shape name of the compute like VM.Standard.E4.Flex or VM.Standard3.Flex
+	// The name of the shape for the configuration.
+	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
 
-	// unique Configuration identifier
+	// A unique identifier for the configuration.
 	ConfigurationId *string `mandatory:"false" contributesTo:"query" name:"configurationId"`
 
 	// The maximum number of items to return.

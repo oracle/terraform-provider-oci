@@ -103,45 +103,48 @@ type DiscoveryJobSummaryResourceTypeEnum string
 
 // Set of constants representing the allowable values for DiscoveryJobSummaryResourceTypeEnum
 const (
-	DiscoveryJobSummaryResourceTypeWeblogicDomain DiscoveryJobSummaryResourceTypeEnum = "WEBLOGIC_DOMAIN"
-	DiscoveryJobSummaryResourceTypeEbsInstance    DiscoveryJobSummaryResourceTypeEnum = "EBS_INSTANCE"
-	DiscoveryJobSummaryResourceTypeSqlServer      DiscoveryJobSummaryResourceTypeEnum = "SQL_SERVER"
-	DiscoveryJobSummaryResourceTypeApacheTomcat   DiscoveryJobSummaryResourceTypeEnum = "APACHE_TOMCAT"
-	DiscoveryJobSummaryResourceTypeOracleDatabase DiscoveryJobSummaryResourceTypeEnum = "ORACLE_DATABASE"
-	DiscoveryJobSummaryResourceTypeOciOracleDb    DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_DB"
-	DiscoveryJobSummaryResourceTypeOciOracleCdb   DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_CDB"
-	DiscoveryJobSummaryResourceTypeOciOraclePdb   DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_PDB"
-	DiscoveryJobSummaryResourceTypeHost           DiscoveryJobSummaryResourceTypeEnum = "HOST"
-	DiscoveryJobSummaryResourceTypeOraclePsft     DiscoveryJobSummaryResourceTypeEnum = "ORACLE_PSFT"
-	DiscoveryJobSummaryResourceTypeOracleMft      DiscoveryJobSummaryResourceTypeEnum = "ORACLE_MFT"
+	DiscoveryJobSummaryResourceTypeWeblogicDomain   DiscoveryJobSummaryResourceTypeEnum = "WEBLOGIC_DOMAIN"
+	DiscoveryJobSummaryResourceTypeEbsInstance      DiscoveryJobSummaryResourceTypeEnum = "EBS_INSTANCE"
+	DiscoveryJobSummaryResourceTypeSqlServer        DiscoveryJobSummaryResourceTypeEnum = "SQL_SERVER"
+	DiscoveryJobSummaryResourceTypeApacheTomcat     DiscoveryJobSummaryResourceTypeEnum = "APACHE_TOMCAT"
+	DiscoveryJobSummaryResourceTypeOracleDatabase   DiscoveryJobSummaryResourceTypeEnum = "ORACLE_DATABASE"
+	DiscoveryJobSummaryResourceTypeOciOracleDb      DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_DB"
+	DiscoveryJobSummaryResourceTypeOciOracleCdb     DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_CDB"
+	DiscoveryJobSummaryResourceTypeOciOraclePdb     DiscoveryJobSummaryResourceTypeEnum = "OCI_ORACLE_PDB"
+	DiscoveryJobSummaryResourceTypeHost             DiscoveryJobSummaryResourceTypeEnum = "HOST"
+	DiscoveryJobSummaryResourceTypeOraclePsft       DiscoveryJobSummaryResourceTypeEnum = "ORACLE_PSFT"
+	DiscoveryJobSummaryResourceTypeOracleMft        DiscoveryJobSummaryResourceTypeEnum = "ORACLE_MFT"
+	DiscoveryJobSummaryResourceTypeApacheHttpServer DiscoveryJobSummaryResourceTypeEnum = "APACHE_HTTP_SERVER"
 )
 
 var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryResourceTypeEnum{
-	"WEBLOGIC_DOMAIN": DiscoveryJobSummaryResourceTypeWeblogicDomain,
-	"EBS_INSTANCE":    DiscoveryJobSummaryResourceTypeEbsInstance,
-	"SQL_SERVER":      DiscoveryJobSummaryResourceTypeSqlServer,
-	"APACHE_TOMCAT":   DiscoveryJobSummaryResourceTypeApacheTomcat,
-	"ORACLE_DATABASE": DiscoveryJobSummaryResourceTypeOracleDatabase,
-	"OCI_ORACLE_DB":   DiscoveryJobSummaryResourceTypeOciOracleDb,
-	"OCI_ORACLE_CDB":  DiscoveryJobSummaryResourceTypeOciOracleCdb,
-	"OCI_ORACLE_PDB":  DiscoveryJobSummaryResourceTypeOciOraclePdb,
-	"HOST":            DiscoveryJobSummaryResourceTypeHost,
-	"ORACLE_PSFT":     DiscoveryJobSummaryResourceTypeOraclePsft,
-	"ORACLE_MFT":      DiscoveryJobSummaryResourceTypeOracleMft,
+	"WEBLOGIC_DOMAIN":    DiscoveryJobSummaryResourceTypeWeblogicDomain,
+	"EBS_INSTANCE":       DiscoveryJobSummaryResourceTypeEbsInstance,
+	"SQL_SERVER":         DiscoveryJobSummaryResourceTypeSqlServer,
+	"APACHE_TOMCAT":      DiscoveryJobSummaryResourceTypeApacheTomcat,
+	"ORACLE_DATABASE":    DiscoveryJobSummaryResourceTypeOracleDatabase,
+	"OCI_ORACLE_DB":      DiscoveryJobSummaryResourceTypeOciOracleDb,
+	"OCI_ORACLE_CDB":     DiscoveryJobSummaryResourceTypeOciOracleCdb,
+	"OCI_ORACLE_PDB":     DiscoveryJobSummaryResourceTypeOciOraclePdb,
+	"HOST":               DiscoveryJobSummaryResourceTypeHost,
+	"ORACLE_PSFT":        DiscoveryJobSummaryResourceTypeOraclePsft,
+	"ORACLE_MFT":         DiscoveryJobSummaryResourceTypeOracleMft,
+	"APACHE_HTTP_SERVER": DiscoveryJobSummaryResourceTypeApacheHttpServer,
 }
 
 var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJobSummaryResourceTypeEnum{
-	"weblogic_domain": DiscoveryJobSummaryResourceTypeWeblogicDomain,
-	"ebs_instance":    DiscoveryJobSummaryResourceTypeEbsInstance,
-	"sql_server":      DiscoveryJobSummaryResourceTypeSqlServer,
-	"apache_tomcat":   DiscoveryJobSummaryResourceTypeApacheTomcat,
-	"oracle_database": DiscoveryJobSummaryResourceTypeOracleDatabase,
-	"oci_oracle_db":   DiscoveryJobSummaryResourceTypeOciOracleDb,
-	"oci_oracle_cdb":  DiscoveryJobSummaryResourceTypeOciOracleCdb,
-	"oci_oracle_pdb":  DiscoveryJobSummaryResourceTypeOciOraclePdb,
-	"host":            DiscoveryJobSummaryResourceTypeHost,
-	"oracle_psft":     DiscoveryJobSummaryResourceTypeOraclePsft,
-	"oracle_mft":      DiscoveryJobSummaryResourceTypeOracleMft,
+	"weblogic_domain":    DiscoveryJobSummaryResourceTypeWeblogicDomain,
+	"ebs_instance":       DiscoveryJobSummaryResourceTypeEbsInstance,
+	"sql_server":         DiscoveryJobSummaryResourceTypeSqlServer,
+	"apache_tomcat":      DiscoveryJobSummaryResourceTypeApacheTomcat,
+	"oracle_database":    DiscoveryJobSummaryResourceTypeOracleDatabase,
+	"oci_oracle_db":      DiscoveryJobSummaryResourceTypeOciOracleDb,
+	"oci_oracle_cdb":     DiscoveryJobSummaryResourceTypeOciOracleCdb,
+	"oci_oracle_pdb":     DiscoveryJobSummaryResourceTypeOciOraclePdb,
+	"host":               DiscoveryJobSummaryResourceTypeHost,
+	"oracle_psft":        DiscoveryJobSummaryResourceTypeOraclePsft,
+	"oracle_mft":         DiscoveryJobSummaryResourceTypeOracleMft,
+	"apache_http_server": DiscoveryJobSummaryResourceTypeApacheHttpServer,
 }
 
 // GetDiscoveryJobSummaryResourceTypeEnumValues Enumerates the set of values for DiscoveryJobSummaryResourceTypeEnum
@@ -167,6 +170,7 @@ func GetDiscoveryJobSummaryResourceTypeEnumStringValues() []string {
 		"HOST",
 		"ORACLE_PSFT",
 		"ORACLE_MFT",
+		"APACHE_HTTP_SERVER",
 	}
 }
 

@@ -33,11 +33,11 @@ var (
 	DatacatalogMetastoreResourceConfig = DatacatalogMetastoreResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, DatacatalogMetastoreRepresentation)
 
-	DatacatalogDatacatalogMetastoreSingularDataSourceRepresentation = map[string]interface{}{
+	DatacatalogMetastoreSingularDataSourceRepresentation = map[string]interface{}{
 		"metastore_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datacatalog_metastore.test_metastore.id}`},
 	}
 
-	DatacatalogDatacatalogMetastoreDataSourceRepresentation = map[string]interface{}{
+	DatacatalogMetastoreDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
@@ -82,11 +82,12 @@ var (
 		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMetastoreDefinedTagsChangesRepresentation},
+		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreMetastoreDefinedTagsnSystemTagsChangesRepresentation},
 	}
-	ignoreMetastoreDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	ignoreMetastoreDefinedTagsnSystemTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
 	}
+
 	//Changes made for Create dependency resources
 	DatacatalogMetastoreResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, bucketRepresentationMetastore) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Optional, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
@@ -100,7 +101,6 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatacatalogMetastoreResource_basic")
 	defer httpreplay.SaveScenario()
 
-	provider := acctest.TestAccProvider
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
@@ -119,154 +119,151 @@ func TestDatacatalogMetastoreResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_datacatalog_metastore.test_metastore"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatacatalogMetastoreResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create, DatacatalogMetastoreRepresentation), "datacatalog", "metastore", t)
 
-	resource.Test(t, resource.TestCase{
-		PreCheck: func() { acctest.TestAccPreCheck(t) },
-		Providers: map[string]*schema.Provider{
-			"oci": provider,
+	acctest.ResourceTest(t, testAccCheckDatacatalogMetastoreDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, DatacatalogMetastoreRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
+				resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
 		},
-		CheckDestroy: testAccCheckDatacatalogMetastoreDestroy,
-		Steps: []resource.TestStep{
-			// verify Create
-			{
-				Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, DatacatalogMetastoreRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
-					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
 
-					func(s *terraform.State) (err error) {
-						resId, err = acctest.FromInstanceState(s, resourceName, "id")
-						return err
-					},
-				),
-			},
-			// delete before next Create
-			{
-				Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies,
-			},
-			// verify Create with optionals
-			{
-				Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create, DatacatalogMetastoreRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
-					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create, DatacatalogMetastoreRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
+				resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
-					func(s *terraform.State) (err error) {
-						resId, err = acctest.FromInstanceState(s, resourceName, "id")
-						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-								return errExport
-							}
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
 						}
-						return err
-					},
-				),
-			},
+					}
+					return err
+				},
+			),
+		},
 
-			// verify Update to the compartment (the compartment will be switched back in the next step)
-			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatacatalogMetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create,
-						acctest.RepresentationCopyWithNewProperties(DatacatalogMetastoreRepresentation, map[string]interface{}{
-							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
-						})),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
-					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatacatalogMetastoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatacatalogMetastoreRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
+				resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("resource recreated when it was supposed to be updated")
-						}
-						return err
-					},
-				),
-			},
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
 
-			// verify updates to updatable parameters
-			{
-				Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, DatacatalogMetastoreRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
-					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
-					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(resourceName, "id"),
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, DatacatalogMetastoreRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
+				resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
-					func(s *terraform.State) (err error) {
-						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-						if resId != resId2 {
-							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-						}
-						return err
-					},
-				),
-			},
-			// verify datasource
-			{
-				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastores", "test_metastores", acctest.Optional, acctest.Update, DatacatalogDatacatalogMetastoreDataSourceRepresentation) +
-					compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, DatacatalogMetastoreRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastores", "test_metastores", acctest.Optional, acctest.Update, DatacatalogMetastoreDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogMetastoreResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Optional, acctest.Update, DatacatalogMetastoreRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
-					resource.TestCheckResourceAttr(datasourceName, "metastores.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "metastores.0.compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(datasourceName, "metastores.0.display_name", "displayName2"),
-					resource.TestCheckResourceAttr(datasourceName, "metastores.0.freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(datasourceName, "metastores.0.id"),
-					resource.TestCheckResourceAttrSet(datasourceName, "metastores.0.state"),
-					resource.TestCheckResourceAttrSet(datasourceName, "metastores.0.time_created"),
-					resource.TestCheckResourceAttrSet(datasourceName, "metastores.0.time_updated"),
-				),
-			},
-			// verify singular datasource
-			{
-				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, DatacatalogDatacatalogMetastoreSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DatacatalogMetastoreResourceConfig,
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "metastore_id"),
+				resource.TestCheckResourceAttr(datasourceName, "metastores.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "metastores.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "metastores.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "metastores.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "metastores.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "metastores.0.locks.#", "0"),
+				resource.TestCheckResourceAttrSet(datasourceName, "metastores.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "metastores.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "metastores.0.time_updated"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datacatalog_metastore", "test_metastore", acctest.Required, acctest.Create, DatacatalogMetastoreSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DatacatalogMetastoreResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "metastore_id"),
 
-					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-					resource.TestCheckResourceAttr(resourceName, "default_external_table_location", defaultExternalTableLocation),
-					resource.TestCheckResourceAttr(resourceName, "default_managed_table_location", defaultManagedTableLocation),
-					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
-				),
-			},
-			// verify resource import
-			{
-				Config:                  config + DatacatalogMetastoreRequiredOnlyResource,
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: []string{},
-				ResourceName:            resourceName,
-			},
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "default_external_table_location", defaultExternalTableLocation),
+				resource.TestCheckResourceAttr(singularDatasourceName, "default_managed_table_location", defaultManagedTableLocation),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + DatacatalogMetastoreRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
 		},
 	})
 }

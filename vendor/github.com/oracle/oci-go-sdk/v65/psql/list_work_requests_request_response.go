@@ -24,7 +24,7 @@ type ListWorkRequestsRequest struct {
 	// The ID of the asynchronous work request.
 	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`
 
-	// A filter to return only resources their lifecycleState matches the given OperationStatus.
+	// A filter to return only resources if their `lifecycleState` matches the given OperationStatus.
 	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
 	// The ID of the resource affected by the request.

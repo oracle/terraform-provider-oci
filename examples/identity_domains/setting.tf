@@ -268,7 +268,7 @@ resource "oci_identity_domains_setting" "test_setting" {
 
   #Optional
   account_always_trust_scope               = var.setting_account_always_trust_scope
-  allowed_domains                          = ["test.com"]
+  allowed_domains                          = ["test.com", "email.com"]
   allowed_forgot_password_flow_return_urls = var.setting_allowed_forgot_password_flow_return_urls
   allowed_notification_redirect_urls       = var.setting_allowed_notification_redirect_urls
   attribute_sets                           = ["all"]

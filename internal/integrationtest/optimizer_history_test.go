@@ -18,6 +18,7 @@ var (
 	OptimizerOptimizerHistoryDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"include_resource_metadata": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"recommendation_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_optimizer_recommendation.test_recommendation.recommendation_id}`},
 		"recommendation_name":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_optimizer_recommendation.test_recommendation.name}`},

@@ -10,9 +10,9 @@ description: |-
 # Data Source: oci_data_safe_sql_firewall_allowed_sql_analytics
 This data source provides the list of Sql Firewall Allowed Sql Analytics in Oracle Cloud Infrastructure Data Safe service.
 
-Returns the aggregation details of all SQL firewall allowed SQL statements.
+Returns the aggregation details of all SQL Firewall allowed SQL statements.
 
-The ListSqlFirewallAllowedSqlAnalytics operation returns the aggregates of the SQL firewall allowed SQL statements in the specified `compartmentId`.
+The ListSqlFirewallAllowedSqlAnalytics operation returns the aggregates of the SQL Firewall allowed SQL statements in the specified `compartmentId`.
 
 The parameter `accessLevel` specifies whether to return only those compartments for which the
 requestor has INSPECT permissions on at least one resource directly
@@ -65,10 +65,10 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - The aggregated data point items.
-	* `dimensions` - The dimensions available for SQL firewall allow SQL analytics.
+	* `dimensions` - The dimensions available for SQL Firewall allow SQL analytics.
 		* `db_user_name` - The database user name.
-		* `sql_firewall_policy_id` - The OCID of the SQL firewall policy corresponding to the SQL firewall allowed SQL.
-		* `sql_level` - Specifies the level of SQL included for this SQL firewall policy. USER_ISSUED_SQL - User issued SQL statements only. ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units. 
-		* `state` - The current state of the SQL firewall allowed SQL.
+		* `sql_firewall_policy_id` - The OCID of the SQL Firewall policy corresponding to the SQL Firewall allowed SQL.
+		* `sql_level` - Specifies the level of SQL included for this SQL Firewall policy. USER_ISSUED_SQL - User issued SQL statements only. ALL_SQL - Includes all SQL statements including SQL statement issued inside PL/SQL units. 
+		* `state` - The current state of the SQL Firewall allowed SQL.
 	* `sql_firewall_allowed_sql_analytic_count` - The total count of the aggregated metric.
 

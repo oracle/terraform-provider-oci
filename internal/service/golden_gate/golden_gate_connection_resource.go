@@ -338,6 +338,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"routing_method": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"sas_token": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -418,7 +423,6 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"tenancy_id": {
 				Type:     schema.TypeString,
@@ -829,6 +833,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -905,6 +911,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -976,6 +984,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1063,6 +1073,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1138,6 +1150,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1219,6 +1233,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1290,6 +1306,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1379,6 +1397,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1446,6 +1466,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1515,6 +1537,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1582,6 +1606,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1691,6 +1717,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1775,6 +1803,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -1856,6 +1886,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -1961,6 +1993,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2040,6 +2074,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2143,6 +2179,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2222,6 +2260,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2309,6 +2349,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2388,6 +2430,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -2487,6 +2531,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2567,6 +2613,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2645,6 +2693,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		}
 		s.D.Set("nsg_ids", nsgIds)
 
+		s.D.Set("routing_method", v.RoutingMethod)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SubnetId != nil {
@@ -2721,6 +2771,7 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 	if obj.GetNsgIds() != nil {
 		result["nsg_ids"] = obj.GetNsgIds()
 	}
+	result["routing_method"] = string(obj.GetRoutingMethod())
 
 	// set type specific fields
 	switch v := (obj).(type) {
@@ -3289,6 +3340,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -3354,6 +3408,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -3414,6 +3471,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -3499,6 +3559,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -3563,6 +3626,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -3641,6 +3707,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -3697,6 +3766,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -3775,6 +3847,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -3831,6 +3906,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -3889,6 +3967,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -3945,6 +4026,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -4070,6 +4154,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -4182,6 +4269,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -4273,6 +4363,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -4378,6 +4471,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -4446,6 +4542,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -4566,6 +4665,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -4642,6 +4744,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -4723,6 +4828,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -4799,6 +4907,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
 		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
@@ -4915,6 +5026,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -5003,6 +5117,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -5079,6 +5196,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
@@ -5151,6 +5271,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5207,6 +5334,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5258,6 +5392,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -5334,6 +5475,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5389,6 +5537,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -5457,6 +5612,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5504,6 +5666,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -5573,6 +5742,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5620,6 +5796,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -5669,6 +5852,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5716,6 +5906,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -5831,6 +6028,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -5934,6 +6138,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -6016,6 +6227,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6112,6 +6330,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -6171,6 +6396,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6282,6 +6514,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -6349,6 +6588,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6421,6 +6667,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -6488,6 +6741,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -6595,6 +6855,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -6673,6 +6940,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 				details.NsgIds = tmp
 			}
 		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -6739,6 +7013,13 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 				details.NsgIds = tmp
 			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)

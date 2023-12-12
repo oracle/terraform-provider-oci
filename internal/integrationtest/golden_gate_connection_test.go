@@ -111,14 +111,13 @@ var (
 	}
 
 	CommonConnectionRepresentation = map[string]interface{}{
-		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id}`},
-		"connection_type": acctest.Representation{RepType: acctest.Required, Create: `${var.connection_type}`},
-		"technology_type": acctest.Representation{RepType: acctest.Required, Create: `${var.technology_type}`},
-		"display_name":    acctest.Representation{RepType: acctest.Required, Create: `TF-connection-test`, Update: `TF-connection-test-updated`},
-		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `new-description`},
-		"key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
-		"subnet_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.subnet_id}`},
-		"vault_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `TF-connection-test`, Update: `TF-connection-test-updated`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `new-description`},
+		"key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		"subnet_id":      acctest.Representation{RepType: acctest.Optional, Update: `${var.subnet_id}`},
+		"vault_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
+		"routing_method": acctest.Representation{RepType: acctest.Optional, Create: `SHARED_DEPLOYMENT_ENDPOINT`, Update: `DEDICATED_ENDPOINT`},
 	}
 
 	ConnectionTestDescriptors = []ConnectionTestDescriptor{
@@ -400,6 +399,7 @@ var (
 				"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database`, Update: `anotherdatabase`},
 				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.MysqlConnectionSecurityProtocolPlain)},
 				"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
+				"host":              acctest.Representation{RepType: acctest.Required, Create: `validfqdn.com`, Update: `updatedfqdn.com`},
 				"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
 			},
 		},
@@ -536,7 +536,13 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		makeVariableStr(PASSWORD, t) +
 		makeVariableStr(NEW_PASSWORD, t)
 
-	var resId, resId2 string
+	var createResourcesConfig, dataSourceConfig, listDataSourceConfig, updateResourcesConfig string
+	// CREATE CHECK FUNCTION MAPS
+	resourceCheckFunctions := []resource.TestCheckFunc{}
+	updatedResourceCheckFunctions := []resource.TestCheckFunc{}
+	dataValidatorFunctions := []resource.TestCheckFunc{}
+	dataSourcesValidatorFunctions := []resource.TestCheckFunc{}
+	resourceNames := make([]string, 0, len(EnabledConnectionTests))
 	for _, connectionTestDescriptor := range ConnectionTestDescriptors {
 		if !containsConnection(EnabledConnectionTests, connectionTestDescriptor.connectionType) {
 			log.Printf("Skip connectionType, because it's not enabled: %s", connectionTestDescriptor.connectionType)
@@ -547,34 +553,27 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		technologyType := string(connectionTestDescriptor.technologyType)
 		resourceName := connectionType + "_" + technologyType
 		checkResourceName := "oci_golden_gate_connection." + connectionType + "_" + technologyType
+		resourceNames = append(resourceNames, checkResourceName)
 		checkDataSourceName := "data.oci_golden_gate_connection." + connectionType + "_" + technologyType
 		checkDataSourcesName := "data.oci_golden_gate_connections." + connectionType + "_" + technologyType
 
 		// CREATE BASIC RESOURCE STRUCTURE
-		connectionRepresentation := acctest.RepresentationCopyWithNewProperties(CommonConnectionRepresentation, connectionTestDescriptor.representation)
-
-		// CREATE CONNECTION SPECIFIC CONFIGURATION
-		connectionSpecificConfig := config +
-			makeVariableStrWithValue(CONNECTION_TYPE, connectionType) +
-			makeVariableStrWithValue(TECHNOLOGY_TYPE, technologyType)
-
-		// CREATE CHECK FUNCTION MAPS
-		resourceCheckFunctions := map[string]resource.TestCheckFunc{}
-		updatedResourceCheckFunctions := map[string]resource.TestCheckFunc{}
-		dataValidatorFunctions := []resource.TestCheckFunc{}
-		dataSourcesValidatorFunctions := []resource.TestCheckFunc{}
-
+		connectionRepresentation := acctest.RepresentationCopyWithNewProperties(CommonConnectionRepresentation, map[string]interface{}{
+			"connection_type": acctest.Representation{RepType: acctest.Required, Create: connectionType},
+			"technology_type": acctest.Representation{RepType: acctest.Required, Create: technologyType},
+		})
+		connectionRepresentation = acctest.RepresentationCopyWithNewProperties(connectionRepresentation, connectionTestDescriptor.representation)
 		// ADD connectionTypeCheck
 		connectionTypeCheck := resource.TestCheckResourceAttr(checkResourceName, CONNECTION_TYPE, connectionType)
-		resourceCheckFunctions[CONNECTION_TYPE] = connectionTypeCheck
-		updatedResourceCheckFunctions[CONNECTION_TYPE] = connectionTypeCheck
+		resourceCheckFunctions = append(resourceCheckFunctions, connectionTypeCheck)
+		updatedResourceCheckFunctions = append(updatedResourceCheckFunctions, connectionTypeCheck)
 		dataValidatorFunctions = append(dataValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourceName, CONNECTION_TYPE, connectionType))
 		log.Printf("Check singular-data / resource: %s, property: %s, expected value: %s ", checkResourceName, CONNECTION_TYPE, connectionType)
 
 		// ADD connectionTypeCheck
 		technologyTypeCheck := resource.TestCheckResourceAttr(checkResourceName, TECHNOLOGY_TYPE, technologyType)
-		resourceCheckFunctions[CONNECTION_TYPE] = technologyTypeCheck
-		updatedResourceCheckFunctions[CONNECTION_TYPE] = technologyTypeCheck
+		resourceCheckFunctions = append(resourceCheckFunctions, technologyTypeCheck)
+		updatedResourceCheckFunctions = append(updatedResourceCheckFunctions, technologyTypeCheck)
 		dataValidatorFunctions = append(dataValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourceName, TECHNOLOGY_TYPE, technologyType))
 		log.Printf("Check singular-data / resource: %s, property: %s, expected value: %s ", checkResourceName, TECHNOLOGY_TYPE, technologyType)
 
@@ -593,9 +592,10 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 				log.Printf("Check singular-data / resource: %s, property: %s, expected value: %s ", checkResourceName, propName, expectedPropertyValue)
 
 				checkAttribute := resource.TestCheckResourceAttr(checkResourceName, propName, expectedPropertyValue)
-				resourceCheckFunctions[propName] = checkAttribute
-				updatedResourceCheckFunctions[propName] = checkAttribute
-
+				resourceCheckFunctions = append(resourceCheckFunctions, checkAttribute)
+				if propertyRepresentation.(acctest.Representation).Update == nil {
+					updatedResourceCheckFunctions = append(updatedResourceCheckFunctions, checkAttribute)
+				}
 				if !contains(connectionTestDescriptor.excludedFieldsFromDataCheck, propName) && !contains(ExcludedFields, propName) {
 					dataValidatorFunctions = append(dataValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourceName, propName, expectedPropertyValue))
 				}
@@ -605,26 +605,31 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 				expectedUpdatePropertyValue := getPropertyValue(propertyRepresentation.(acctest.Representation).Update.(string))
 
 				log.Printf("Check update resource: %s, property: %s, expected value: %s ", checkResourceName, propName, expectedUpdatePropertyValue)
-				updatedResourceCheckFunctions[propName] = resource.TestCheckResourceAttr(checkResourceName, propName, expectedUpdatePropertyValue)
+				updatedResourceCheckFunctions = append(updatedResourceCheckFunctions, resource.TestCheckResourceAttr(checkResourceName, propName, expectedUpdatePropertyValue))
 			}
 		}
 
 		// ADD create validator function
-		resourceCheckFunctions["createValidatorFunction"] = func(s *terraform.State) (err error) {
+		var resId, resId2 string
+		resourceCheckFunctions = append(resourceCheckFunctions, func(s *terraform.State) (err error) {
 			resId, err = acctest.FromInstanceState(s, checkResourceName, "id")
 			return err
-		}
+		})
+		// Checks if the ingress IPs are empty after create - with routingMethod SHARED_DEPLOYMENT_ENDPOINT
+		resourceCheckFunctions = append(resourceCheckFunctions, resource.TestCheckNoResourceAttr(checkResourceName, "ingressIps.#"))
+
 		// ADD update validator function
-		updatedResourceCheckFunctions["notRecreatedValidatorFunction"] = func(s *terraform.State) (err error) {
+		updatedResourceCheckFunctions = append(updatedResourceCheckFunctions, func(s *terraform.State) (err error) {
 			resId2, err = acctest.FromInstanceState(s, checkResourceName, "id")
 			if resId != resId2 {
 				return fmt.Errorf("resource recreated when it was supposed to be updated")
 			}
 			return err
-		}
+		})
+		// Checks if the ingress IPs are populated after the uptade - with routingMethod DEDICATED_ENDPOINT
+		updatedResourceCheckFunctions = append(updatedResourceCheckFunctions, resource.TestCheckResourceAttrSet(checkResourceName, "ingress_ips.#"))
 
 		// DataSource representation
-
 		resourceCompartmentLocation := connectionRepresentation["compartment_id"].(acctest.Representation).Update.(string)
 		displayName := connectionRepresentation["display_name"].(acctest.Representation).Update.(string)
 		dataSourceRepresentation := map[string]interface{}{
@@ -644,54 +649,51 @@ func TestGoldenGateConnectionResource_basic(t *testing.T) {
 		dataSourcesValidatorFunctions = append(dataSourcesValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourcesName, "connection_collection.#", "1"))
 		dataSourcesValidatorFunctions = append(dataSourcesValidatorFunctions, resource.TestCheckResourceAttr(checkDataSourcesName, "connection_collection.0.items.#", "1"))
 
-		resourceFunctions := make([]resource.TestCheckFunc, 0, len(resourceCheckFunctions))
-		for _, value := range resourceCheckFunctions {
-			resourceFunctions = append(resourceFunctions, value)
-		}
-		updatedResourceFunctions := make([]resource.TestCheckFunc, 0, len(updatedResourceCheckFunctions))
-		for _, value := range updatedResourceCheckFunctions {
-			updatedResourceFunctions = append(updatedResourceFunctions, value)
-		}
-
-		// EXECUTE TESTS
-		acctest.ResourceTest(t, testAccCheckGoldenGateConnectionDestroy, []resource.TestStep{
-			// 0. resource test
-			{
-				Config: connectionSpecificConfig + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Create, connectionRepresentation),
-				Check:  acctest.ComposeAggregateTestCheckFuncArrayWrapper(resourceFunctions),
-			},
-			// 1. singular datasource test
-			{
-				Config: connectionSpecificConfig +
-					acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Create, connectionRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Create, map[string]interface{}{
-						"connection_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_golden_gate_connection.` + resourceName + `.id}`},
-					}),
-				Check: acctest.ComposeAggregateTestCheckFuncArrayWrapper(dataValidatorFunctions),
-			},
-			// 2. update resource
-			{
-				Config: connectionSpecificConfig +
-					acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncArrayWrapper(updatedResourceFunctions),
-			},
-			// 3. datasource test
-			{
-				Config: connectionSpecificConfig +
-					acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation) +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connections", resourceName, acctest.Optional, acctest.Create, dataSourceRepresentation),
-				Check: acctest.ComposeAggregateTestCheckFuncArrayWrapper(dataSourcesValidatorFunctions),
-			},
-			// 4. verify resource import
-			{
-				Config:                  connectionSpecificConfig + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation),
-				ImportState:             true,
-				ImportStateVerify:       true,
-				ImportStateVerifyIgnore: ExcludedFields,
-				ResourceName:            checkResourceName,
-			},
+		createResourcesConfig += acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Create, connectionRepresentation)
+		dataSourceConfig += acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Create, map[string]interface{}{
+			"connection_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_golden_gate_connection.` + resourceName + `.id}`},
+		})
+		updateResourcesConfig += acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation)
+		listDataSourceConfig += acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_connection", resourceName, acctest.Optional, acctest.Update, connectionRepresentation) +
+			acctest.GenerateDataSourceFromRepresentationMap("oci_golden_gate_connections", resourceName, acctest.Optional, acctest.Create, dataSourceRepresentation)
+	}
+	steps := []resource.TestStep{
+		// 0. resource test
+		{
+			Config: config + createResourcesConfig,
+			Check:  acctest.ComposeAggregateTestCheckFuncArrayWrapper(resourceCheckFunctions),
+		},
+		// 1. singular datasource test
+		{
+			Config: config + createResourcesConfig + dataSourceConfig,
+			Check:  acctest.ComposeAggregateTestCheckFuncArrayWrapper(dataValidatorFunctions),
+		},
+		// 2. update resource
+		{
+			Config: config + updateResourcesConfig,
+			Check:  acctest.ComposeAggregateTestCheckFuncArrayWrapper(updatedResourceCheckFunctions),
+		},
+		// 3. datasource test
+		{
+			Config: config + listDataSourceConfig,
+			Check:  acctest.ComposeAggregateTestCheckFuncArrayWrapper(dataSourcesValidatorFunctions),
+		},
+	}
+	// It's not recommended to import multiple resources in the same test step
+	// A separate step is executed for each connection's import
+	// https://developer.hashicorp.com/terraform/plugin/sdkv2/resources/import
+	for _, resourceName := range resourceNames {
+		steps = append(steps, resource.TestStep{
+			Config:                  config + updateResourcesConfig,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: ExcludedFields,
+			ResourceName:            resourceName,
 		})
 	}
+	// EXECUTE TESTS
+	acctest.ResourceTest(t, testAccCheckGoldenGateConnectionDestroy, steps)
+
 }
 
 func testAccCheckGoldenGateConnectionDestroy(s *terraform.State) error {
