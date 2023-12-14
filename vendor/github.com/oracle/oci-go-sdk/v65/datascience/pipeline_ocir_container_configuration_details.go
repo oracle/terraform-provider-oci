@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// OcirContainerJobEnvironmentConfigurationDetails Environment configuration based on container image stored in OCI Container Registry.
-type OcirContainerJobEnvironmentConfigurationDetails struct {
+// PipelineOcirContainerConfigurationDetails Container configuration based on image stored in OCI Container Registry.
+type PipelineOcirContainerConfigurationDetails struct {
 
 	// The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format.
 	// Acceptable format:
@@ -44,14 +44,14 @@ type OcirContainerJobEnvironmentConfigurationDetails struct {
 	ImageSignatureId *string `mandatory:"false" json:"imageSignatureId"`
 }
 
-func (m OcirContainerJobEnvironmentConfigurationDetails) String() string {
+func (m PipelineOcirContainerConfigurationDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m OcirContainerJobEnvironmentConfigurationDetails) ValidateEnumValue() (bool, error) {
+func (m PipelineOcirContainerConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -61,14 +61,14 @@ func (m OcirContainerJobEnvironmentConfigurationDetails) ValidateEnumValue() (bo
 }
 
 // MarshalJSON marshals to json representation
-func (m OcirContainerJobEnvironmentConfigurationDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeOcirContainerJobEnvironmentConfigurationDetails OcirContainerJobEnvironmentConfigurationDetails
+func (m PipelineOcirContainerConfigurationDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePipelineOcirContainerConfigurationDetails PipelineOcirContainerConfigurationDetails
 	s := struct {
-		DiscriminatorParam string `json:"jobEnvironmentType"`
-		MarshalTypeOcirContainerJobEnvironmentConfigurationDetails
+		DiscriminatorParam string `json:"containerType"`
+		MarshalTypePipelineOcirContainerConfigurationDetails
 	}{
 		"OCIR_CONTAINER",
-		(MarshalTypeOcirContainerJobEnvironmentConfigurationDetails)(m),
+		(MarshalTypePipelineOcirContainerConfigurationDetails)(m),
 	}
 
 	return json.Marshal(&s)

@@ -55,6 +55,9 @@ type ContainerHttpHealthCheck struct {
 	// The action will be triggered when the container health check fails. There are two types of action: KILL or NONE. The default
 	// action is KILL. If failure action is KILL, the container will be subject to the container restart policy.
 	FailureAction ContainerHealthCheckFailureActionEnum `mandatory:"false" json:"failureAction,omitempty"`
+
+	// Container health check HTTP port.
+	Scheme ContainerHttpHealthCheckSchemeTypeEnum `mandatory:"false" json:"scheme,omitempty"`
 }
 
 // GetName returns Name
@@ -117,6 +120,9 @@ func (m ContainerHttpHealthCheck) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingContainerHealthCheckFailureActionEnum(string(m.FailureAction)); !ok && m.FailureAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FailureAction: %s. Supported values are: %s.", m.FailureAction, strings.Join(GetContainerHealthCheckFailureActionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingContainerHttpHealthCheckSchemeTypeEnum(string(m.Scheme)); !ok && m.Scheme != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scheme: %s. Supported values are: %s.", m.Scheme, strings.Join(GetContainerHttpHealthCheckSchemeTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

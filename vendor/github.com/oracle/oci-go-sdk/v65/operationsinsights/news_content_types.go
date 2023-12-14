@@ -21,7 +21,25 @@ import (
 type NewsContentTypes struct {
 
 	// Supported resources for capacity planning content type.
-	CapacityPlanningResources []NewsContentTypesResourceEnum `mandatory:"true" json:"capacityPlanningResources"`
+	CapacityPlanningResources []NewsContentTypesResourceEnum `mandatory:"false" json:"capacityPlanningResources"`
+
+	// Supported resources for SQL insights - fleet analysis content type.
+	SqlInsightsFleetAnalysisResources []NewsSqlInsightsContentTypesResourceEnum `mandatory:"false" json:"sqlInsightsFleetAnalysisResources"`
+
+	// Supported resources for SQL insights - plan changes content type.
+	SqlInsightsPlanChangesResources []NewsSqlInsightsContentTypesResourceEnum `mandatory:"false" json:"sqlInsightsPlanChangesResources"`
+
+	// Supported resources for SQL insights - top databases content type.
+	SqlInsightsTopDatabasesResources []NewsSqlInsightsContentTypesResourceEnum `mandatory:"false" json:"sqlInsightsTopDatabasesResources"`
+
+	// Supported resources for SQL insights - top SQL by insights content type.
+	SqlInsightsTopSqlByInsightsResources []NewsSqlInsightsContentTypesResourceEnum `mandatory:"false" json:"sqlInsightsTopSqlByInsightsResources"`
+
+	// Supported resources for SQL insights - top SQL content type.
+	SqlInsightsTopSqlResources []NewsSqlInsightsContentTypesResourceEnum `mandatory:"false" json:"sqlInsightsTopSqlResources"`
+
+	// Supported resources for SQL insights - performance degradation content type.
+	SqlInsightsPerformanceDegradationResources []NewsSqlInsightsContentTypesResourceEnum `mandatory:"false" json:"sqlInsightsPerformanceDegradationResources"`
 }
 
 func (m NewsContentTypes) String() string {
