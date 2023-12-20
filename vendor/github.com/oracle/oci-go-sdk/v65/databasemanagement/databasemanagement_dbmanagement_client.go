@@ -9832,7 +9832,7 @@ func (client DbManagementClient) updateExternalAsm(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateExternalAsmInstance Updates the external ASM Instance specified by `externalAsmInstanceId`.
+// UpdateExternalAsmInstance Updates the external ASM instance specified by `externalAsmInstanceId`.
 func (client DbManagementClient) UpdateExternalAsmInstance(ctx context.Context, request UpdateExternalAsmInstanceRequest) (response UpdateExternalAsmInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9991,7 +9991,7 @@ func (client DbManagementClient) updateExternalClusterInstance(ctx context.Conte
 	return response, err
 }
 
-// UpdateExternalDbHome Updates the external DB Home specified by `externalDbHomeId`.
+// UpdateExternalDbHome Updates the external DB home specified by `externalDbHomeId`.
 func (client DbManagementClient) UpdateExternalDbHome(ctx context.Context, request UpdateExternalDbHomeRequest) (response UpdateExternalDbHomeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10577,6 +10577,59 @@ func (client DbManagementClient) updateJob(ctx context.Context, request common.O
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &job{})
+	return response, err
+}
+
+// UpdateManagedDatabase Updates the Managed Database specified by managedDatabaseId.
+func (client DbManagementClient) UpdateManagedDatabase(ctx context.Context, request UpdateManagedDatabaseRequest) (response UpdateManagedDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateManagedDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateManagedDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateManagedDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateManagedDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateManagedDatabaseResponse")
+	}
+	return
+}
+
+// updateManagedDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) updateManagedDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/managedDatabases/{managedDatabaseId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateManagedDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/UpdateManagedDatabase"
+		err = common.PostProcessServiceError(err, "DbManagement", "UpdateManagedDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

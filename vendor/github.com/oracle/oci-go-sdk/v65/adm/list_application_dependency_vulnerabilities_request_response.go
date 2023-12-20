@@ -20,13 +20,13 @@ type ListApplicationDependencyVulnerabilitiesRequest struct {
 	// A filter to return only Vulnerability Audits that match the specified id.
 	VulnerabilityId *string `mandatory:"false" contributesTo:"query" name:"vulnerabilityId"`
 
-	// A filter that returns only Vulnerability Audits that have a Common Vulnerability Scoring System Version 3 (CVSS V3) greater or equal than the specified value.
+	// A filter that returns only Vulnerabilities that have a Common Vulnerability Scoring System Version 3 (CVSS V3) greater than or equal to the specified value.
 	CvssV3GreaterThanOrEqual *float32 `mandatory:"false" contributesTo:"query" name:"cvssV3GreaterThanOrEqual"`
 
-	// A filter that returns only Vulnerability Audits that have a Common Vulnerability Scoring System Version 2 (CVSS V2) greater or equal than the specified value.
+	// A filter that returns only Vulnerabilities that have a Common Vulnerability Scoring System Version 2 (CVSS V2) greater than or equal to the specified value.
 	CvssV2GreaterThanOrEqual *float32 `mandatory:"false" contributesTo:"query" name:"cvssV2GreaterThanOrEqual"`
 
-	// A filter that returns only Vulnerability Audits that have a severity greater or equal to the specified value.
+	// A filter that returns only Vulnerabilities that have a severity greater than or equal to the specified value.
 	SeverityGreaterThanOrEqual ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum `mandatory:"false" contributesTo:"query" name:"severityGreaterThanOrEqual" omitEmpty:"true"`
 
 	// The maximum number of items to return.

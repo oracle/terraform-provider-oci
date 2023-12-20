@@ -46,6 +46,12 @@ type ContainerHealthCheck interface {
 	// The action will be triggered when the container health check fails. There are two types of action: KILL or NONE. The default
 	// action is KILL. If failure action is KILL, the container will be subject to the container restart policy.
 	GetFailureAction() ContainerHealthCheckFailureActionEnum
+
+	// If set to true, this health check runs first while other HealthChecks wait for this one to complete.
+	// If this becomes Healthy then other health checks are started.
+	// If it becomes Unhealthy the container is killed.
+	// At max only 1 healthCheck can have this field set to true.
+	GetIsStartupCheck() *bool
 }
 
 type containerhealthcheck struct {
@@ -59,6 +65,7 @@ type containerhealthcheck struct {
 	Status                ContainerHealthCheckStatusEnum        `mandatory:"false" json:"status,omitempty"`
 	StatusDetails         *string                               `mandatory:"false" json:"statusDetails"`
 	FailureAction         ContainerHealthCheckFailureActionEnum `mandatory:"false" json:"failureAction,omitempty"`
+	IsStartupCheck        *bool                                 `mandatory:"false" json:"isStartupCheck"`
 	HealthCheckType       string                                `json:"healthCheckType"`
 }
 
@@ -82,6 +89,7 @@ func (m *containerhealthcheck) UnmarshalJSON(data []byte) error {
 	m.Status = s.Model.Status
 	m.StatusDetails = s.Model.StatusDetails
 	m.FailureAction = s.Model.FailureAction
+	m.IsStartupCheck = s.Model.IsStartupCheck
 	m.HealthCheckType = s.Model.HealthCheckType
 
 	return err
@@ -157,6 +165,11 @@ func (m containerhealthcheck) GetStatusDetails() *string {
 // GetFailureAction returns FailureAction
 func (m containerhealthcheck) GetFailureAction() ContainerHealthCheckFailureActionEnum {
 	return m.FailureAction
+}
+
+// GetIsStartupCheck returns IsStartupCheck
+func (m containerhealthcheck) GetIsStartupCheck() *bool {
+	return m.IsStartupCheck
 }
 
 func (m containerhealthcheck) String() string {

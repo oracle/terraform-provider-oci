@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// UpdateExternalDbHomeDetails The details required to update an external DB Home.
+// UpdateExternalDbHomeDetails The details required to update an external DB home.
 type UpdateExternalDbHomeDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

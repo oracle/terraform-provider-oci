@@ -29,7 +29,8 @@ type ApplicationDependency struct {
 	// a GAV can have multiple transitive dependencies.)
 	NodeId *string `mandatory:"true" json:"nodeId"`
 
-	// Group Artifact Version (GAV) identifier (Group:Artifact:Version), e.g. org.graalvm.nativeimage:svm:21.1.0.
+	// Group Artifact Version (GAV) identifier (Group:Artifact:Version). Example: org.graalvm.nativeimage:svm:21.1.0.
+	// "N/A" for non-maven artifacts.
 	Gav *string `mandatory:"false" json:"gav"`
 
 	// Package URL defined in https://github.com/package-url/purl-spec, e.g. pkg:maven/org.graalvm.nativeimage/svm@21.1.0

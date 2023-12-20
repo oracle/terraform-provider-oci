@@ -76,6 +76,9 @@ type Bastion struct {
 
 	BastionRecordingConfig *BastionRecordingConfig `mandatory:"false" json:"bastionRecordingConfig"`
 
+	// The OCID of the bastion restriction resource that will restrict traffic to this bastion.
+	BastionRestrictionId *string `mandatory:"false" json:"bastionRestrictionId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

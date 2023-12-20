@@ -87,6 +87,10 @@ type SddcSummary struct {
 
 	// Indicates whether this SDDC is designated for only single ESXi host.
 	IsSingleHostSddc *bool `mandatory:"false" json:"isSingleHostSddc"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m SddcSummary) String() string {

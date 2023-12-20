@@ -14,7 +14,7 @@ import (
 // UpdateClusterRequest wrapper for the UpdateCluster operation
 type UpdateClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cluster.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC Cluster.
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
 	// The information to be updated.

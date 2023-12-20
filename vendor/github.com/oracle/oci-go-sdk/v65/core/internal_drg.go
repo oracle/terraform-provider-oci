@@ -75,6 +75,9 @@ type InternalDrg struct {
 
 	// The type of the DRG.
 	DrgType InternalDrgDrgTypeEnum `mandatory:"false" json:"drgType,omitempty"`
+
+	// Indicates if Drg is Global or Regional
+	IsGlobal *bool `mandatory:"false" json:"isGlobal"`
 }
 
 func (m InternalDrg) String() string {

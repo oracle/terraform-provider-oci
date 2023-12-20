@@ -22,6 +22,8 @@ type PipelineContainerStepDetails struct {
 	// The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	StepName *string `mandatory:"true" json:"stepName"`
 
+	StepContainerConfigurationDetails PipelineContainerConfigurationDetails `mandatory:"true" json:"stepContainerConfigurationDetails"`
+
 	// A short description of the step.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -31,11 +33,6 @@ type PipelineContainerStepDetails struct {
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
 
 	StepInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"stepInfrastructureConfigurationDetails"`
-
-	StepContainerConfigurationDetails PipelineContainerConfigurationDetails `mandatory:"false" json:"stepContainerConfigurationDetails"`
-
-	// A flag to indicate whether a container has been configured for this step.
-	IsContainerConfigured *bool `mandatory:"false" json:"isContainerConfigured"`
 
 	// A flag to indicate whether the artifact has been uploaded for this step or not.
 	IsArtifactUploaded *bool `mandatory:"false" json:"isArtifactUploaded"`
@@ -98,10 +95,9 @@ func (m *PipelineContainerStepDetails) UnmarshalJSON(data []byte) (e error) {
 		DependsOn                              []string                                    `json:"dependsOn"`
 		StepConfigurationDetails               *PipelineStepConfigurationDetails           `json:"stepConfigurationDetails"`
 		StepInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"stepInfrastructureConfigurationDetails"`
-		StepContainerConfigurationDetails      pipelinecontainerconfigurationdetails       `json:"stepContainerConfigurationDetails"`
-		IsContainerConfigured                  *bool                                       `json:"isContainerConfigured"`
 		IsArtifactUploaded                     *bool                                       `json:"isArtifactUploaded"`
 		StepName                               *string                                     `json:"stepName"`
+		StepContainerConfigurationDetails      pipelinecontainerconfigurationdetails       `json:"stepContainerConfigurationDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -117,6 +113,10 @@ func (m *PipelineContainerStepDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.StepInfrastructureConfigurationDetails = model.StepInfrastructureConfigurationDetails
 
+	m.IsArtifactUploaded = model.IsArtifactUploaded
+
+	m.StepName = model.StepName
+
 	nn, e = model.StepContainerConfigurationDetails.UnmarshalPolymorphicJSON(model.StepContainerConfigurationDetails.JsonData)
 	if e != nil {
 		return
@@ -126,12 +126,6 @@ func (m *PipelineContainerStepDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.StepContainerConfigurationDetails = nil
 	}
-
-	m.IsContainerConfigured = model.IsContainerConfigured
-
-	m.IsArtifactUploaded = model.IsArtifactUploaded
-
-	m.StepName = model.StepName
 
 	return
 }

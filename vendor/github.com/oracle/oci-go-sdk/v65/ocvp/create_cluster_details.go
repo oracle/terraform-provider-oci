@@ -72,6 +72,9 @@ type CreateClusterDetails struct {
 	// This value is required only when `initialHostShapeName` is a standard shape.
 	Datastores []DatastoreInfo `mandatory:"false" json:"datastores"`
 
+	// A list of datastore clusters.
+	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
+
 	// The VMware software bundle to install on the ESXi hosts in the Cluster. To get a list of the available versions, use
 	// ListSupportedVmwareSoftwareVersions.
 	VmwareSoftwareVersion *string `mandatory:"false" json:"vmwareSoftwareVersion"`

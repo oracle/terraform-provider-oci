@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// UsageDataDetails The source details of the usage data on Object Storage.
+// UsageDataDetails The source details of the usage data in object storage. The usage data file uploaded to object storage must be a gzip archive
+// of the JSON usage data returned from the GraalVM native-image-inspect tool after a native-image build.
 // Set `sourceType` to `objectStorageTuple`
 // and use UsageDataViaObjectStorageTupleDetails
 // when specifying the namespace, bucket name, and object name.

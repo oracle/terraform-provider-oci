@@ -134,6 +134,16 @@ type EsxiHost struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Capacity Reservation.
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// A list of datastore clusters.
+	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
+
+	// List of DatastoreAttachment objects containing information about attachment details
+	DatastoreAttachments []DatastoreAttachment `mandatory:"false" json:"datastoreAttachments"`
 }
 
 func (m EsxiHost) String() string {

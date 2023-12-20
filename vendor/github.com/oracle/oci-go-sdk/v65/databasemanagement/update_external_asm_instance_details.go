@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// UpdateExternalAsmInstanceDetails The details required to update an external ASM Instance.
+// UpdateExternalAsmInstanceDetails The details required to update an external ASM instance.
 type UpdateExternalAsmInstanceDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

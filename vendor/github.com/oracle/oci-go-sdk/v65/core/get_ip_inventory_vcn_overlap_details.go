@@ -27,9 +27,6 @@ type GetIpInventoryVcnOverlapDetails struct {
 	// The List of Regions selected
 	RegionList []string `mandatory:"true" json:"regionList"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy.
-	TenancyId *string `mandatory:"true" json:"tenancyId"`
-
 	// The list of OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartments.
 	CompartmentList []string `mandatory:"true" json:"compartmentList"`
 }

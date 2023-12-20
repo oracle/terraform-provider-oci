@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// UpdateExternalExadataStorageGridDetails The details for updating storage server grid of the Exadata infrastructure.
+// UpdateExternalExadataStorageGridDetails The details required to update an Exadata storage server grid.
 type UpdateExternalExadataStorageGridDetails struct {
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

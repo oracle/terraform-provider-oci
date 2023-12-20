@@ -46,6 +46,12 @@ type ContainerHttpHealthCheck struct {
 	// A message describing the current status in more details.
 	StatusDetails *string `mandatory:"false" json:"statusDetails"`
 
+	// If set to true, this health check runs first while other HealthChecks wait for this one to complete.
+	// If this becomes Healthy then other health checks are started.
+	// If it becomes Unhealthy the container is killed.
+	// At max only 1 healthCheck can have this field set to true.
+	IsStartupCheck *bool `mandatory:"false" json:"isStartupCheck"`
+
 	// Container health check HTTP headers.
 	Headers []HealthCheckHttpHeader `mandatory:"false" json:"headers"`
 
@@ -103,6 +109,11 @@ func (m ContainerHttpHealthCheck) GetStatusDetails() *string {
 // GetFailureAction returns FailureAction
 func (m ContainerHttpHealthCheck) GetFailureAction() ContainerHealthCheckFailureActionEnum {
 	return m.FailureAction
+}
+
+// GetIsStartupCheck returns IsStartupCheck
+func (m ContainerHttpHealthCheck) GetIsStartupCheck() *bool {
+	return m.IsStartupCheck
 }
 
 func (m ContainerHttpHealthCheck) String() string {

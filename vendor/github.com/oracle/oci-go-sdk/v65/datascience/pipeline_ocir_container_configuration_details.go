@@ -20,9 +20,6 @@ import (
 type PipelineOcirContainerConfigurationDetails struct {
 
 	// The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format.
-	// Acceptable format:
-	// `<region>.ocir.io/<registry>/<image>:<tag>`
-	// `<region>.ocir.io/<registry>/<image>:<tag>@digest`
 	Image *string `mandatory:"true" json:"image"`
 
 	// The container image run CMD (https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings.

@@ -52,6 +52,9 @@ type CreateInternalDrgDetails struct {
 
 	// Route data for the Drg.
 	RouteData *string `mandatory:"false" json:"routeData"`
+
+	// Indicates if Drg is Global or Regional
+	IsGlobal *bool `mandatory:"false" json:"isGlobal"`
 }
 
 func (m CreateInternalDrgDetails) String() string {

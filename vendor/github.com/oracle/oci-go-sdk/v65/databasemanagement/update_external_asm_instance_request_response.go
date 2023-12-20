@@ -17,7 +17,7 @@ type UpdateExternalAsmInstanceRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM instance.
 	ExternalAsmInstanceId *string `mandatory:"true" contributesTo:"path" name:"externalAsmInstanceId"`
 
-	// The details required to update an external ASM Instance.
+	// The details required to update an external ASM instance.
 	UpdateExternalAsmInstanceDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.
