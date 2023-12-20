@@ -42,7 +42,7 @@ func NetworkFirewallNetworkFirewallPolicySecurityRuleResource() *schema.Resource
 					Schema: map[string]*schema.Schema{
 						"application": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -50,7 +50,7 @@ func NetworkFirewallNetworkFirewallPolicySecurityRuleResource() *schema.Resource
 						},
 						"destination_address": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -58,7 +58,7 @@ func NetworkFirewallNetworkFirewallPolicySecurityRuleResource() *schema.Resource
 						},
 						"service": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -66,7 +66,7 @@ func NetworkFirewallNetworkFirewallPolicySecurityRuleResource() *schema.Resource
 						},
 						"source_address": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -74,7 +74,7 @@ func NetworkFirewallNetworkFirewallPolicySecurityRuleResource() *schema.Resource
 						},
 						"url": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
 							MinItems: 0,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
