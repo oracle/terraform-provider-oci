@@ -53,6 +53,7 @@ The following attributes are exported:
 	* `exclusions` - The list of dependencies to be ignored by the recommendation algorithm. The dependency pattern is matched against the 'group:artifact:version' or the purl of a dependency. An asterisk (*) at the end in the dependency pattern acts as a wildcard and matches zero or more characters. 
 	* `max_permissible_cvss_v2score` - The maximum Common Vulnerability Scoring System Version 2 (CVSS V2) score. An artifact with a CVSS V2 score below this value is not considered for patching.
 	* `max_permissible_cvss_v3score` - The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. An artifact with a CVSS V3 score below this value is not considered for patching.
+	* `max_permissible_severity` - The maximum ADM Severity. An artifact with an ADM Severity below this value is not considered for patching.
 	* `upgrade_policy` - The upgrade policy for recommendations. The `Nearest` upgrade policy upgrades a dependency to the oldest version that meets both of the following criteria: it is newer than the current version and it is not affected by a vulnerability. 
 * `display_name` - The name of the Remediation Recipe.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 

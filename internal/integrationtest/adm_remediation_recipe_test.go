@@ -67,6 +67,7 @@ var (
 		"exclusions":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`exclusions`}, Update: []string{`exclusions2`}},
 		"max_permissible_cvss_v2score": acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
 		"max_permissible_cvss_v3score": acctest.Representation{RepType: acctest.Optional, Create: `1.0`},
+		"max_permissible_severity":     acctest.Representation{RepType: acctest.Optional, Create: `LOW`},
 		"upgrade_policy":               acctest.Representation{RepType: acctest.Optional, Create: `NEAREST`},
 	}
 	AdmRemediationRecipeNetworkConfigurationRepresentation = map[string]interface{}{
@@ -102,8 +103,7 @@ var (
 
 	AdmRemediationRecipeResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Required, acctest.Create, knowledgeBaseRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		DefinedTagsDependencies
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) + DefinedTagsDependencies
 )
 
 // issue-routing-tag: adm/default
@@ -179,6 +179,7 @@ func TestAdmRemediationRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.exclusions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.max_permissible_cvss_v2score", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.max_permissible_cvss_v3score", "1"),
+				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.max_permissible_severity", "LOW"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -225,6 +226,7 @@ func TestAdmRemediationRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.exclusions.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.max_permissible_cvss_v2score", "1"),
 				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.max_permissible_cvss_v3score", "1"),
+				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.max_permissible_severity", "LOW"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -266,6 +268,7 @@ func TestAdmRemediationRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.exclusions.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "detect_configuration.0.max_permissible_cvss_v2score"),
 				resource.TestCheckResourceAttrSet(resourceName, "detect_configuration.0.max_permissible_cvss_v3score"),
+				resource.TestCheckResourceAttrSet(resourceName, "detect_configuration.0.max_permissible_severity"),
 				resource.TestCheckResourceAttr(resourceName, "detect_configuration.0.upgrade_policy", "NEAREST"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -330,6 +333,7 @@ func TestAdmRemediationRecipeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "detect_configuration.0.exclusions.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detect_configuration.0.max_permissible_cvss_v2score"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detect_configuration.0.max_permissible_cvss_v3score"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "detect_configuration.0.max_permissible_severity"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detect_configuration.0.upgrade_policy", "NEAREST"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
