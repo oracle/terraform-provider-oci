@@ -38,11 +38,11 @@ resource "oci_adm_knowledge_base" "example_knowledge_base" {
 
 resource "oci_adm_vulnerability_audit" "example_vulnerability_audit" {
   #Required
-  compartment_id = var.compartment_ocid
-  build_type = "MAVEN"
+  knowledge_base_id = oci_adm_knowledge_base.example_knowledge_base.id
 
   #Optional
-  knowledge_base_id = oci_adm_knowledge_base.example_knowledge_base.id
+  build_type = "MAVEN"
+  compartment_id = var.compartment_ocid
   application_dependencies {
     gav = "com.google.guava:guava:29.0-jre"
     node_id = "node_id"
@@ -62,6 +62,28 @@ resource "oci_adm_vulnerability_audit" "example_vulnerability_audit" {
     oci_resource_id = "ocid1.example.ocid"
   }
   display_name = "Example_Vulnerability_Audit"
+}
+
+resource "oci_adm_vulnerability_audit" "example_vulnerability_audit_polyglot" {
+  #Required
+  knowledge_base_id = oci_adm_knowledge_base.example_knowledge_base.id
+
+  #Optional
+  build_type = "UNSET"
+
+  application_dependencies {
+    gav = ""
+    purl = "pkg:deb/ubuntu/openjdk-6@6b30?distro=14.04"
+    node_id = "node_id"
+    #Optional
+    application_dependency_node_ids = []
+  }
+
+  source {
+    type = "OCI_RESOURCE"
+    oci_resource_id = "ocid1.example.ocid"
+  }
+  display_name = "Example_Polyglot_Vulnerability_Audit"
 }
 
 data "oci_adm_knowledge_base" "example_knowledge_base" {
@@ -87,4 +109,10 @@ data "oci_adm_vulnerability_audit_application_dependency_vulnerabilities" "examp
   vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit.id
   gav = "com.google.guava:guava:29.0-jre"
   cvss_v2greater_than_or_equal = "1.5"
+}
+
+data "oci_adm_vulnerability_audit_application_dependency_vulnerabilities" "example_application_dependency_vulnerabilities_polyglot" {
+  vulnerability_audit_id = oci_adm_vulnerability_audit.example_vulnerability_audit_polyglot.id
+  purl = "pkg:deb/ubuntu/openjdk-6@6b30?distro=14.04"
+  severity_greater_than_or_equal = "LOW"
 }

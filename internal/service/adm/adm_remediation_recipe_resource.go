@@ -65,6 +65,11 @@ func AdmRemediationRecipeResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"max_permissible_severity": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"upgrade_policy": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -911,6 +916,10 @@ func (s *AdmRemediationRecipeResourceCrud) mapToDetectConfiguration(fieldKeyForm
 		result.MaxPermissibleCvssV3Score = &tmp
 	}
 
+	if maxPermissibleSeverity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_permissible_severity")); ok {
+		result.MaxPermissibleSeverity = oci_adm.ConfigSeverityEnum(maxPermissibleSeverity.(string))
+	}
+
 	if upgradePolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "upgrade_policy")); ok {
 		result.UpgradePolicy = oci_adm.DetectConfigurationUpgradePolicyEnum(upgradePolicy.(string))
 	}
@@ -930,6 +939,8 @@ func DetectConfigurationToMap(obj *oci_adm.DetectConfiguration) map[string]inter
 	if obj.MaxPermissibleCvssV3Score != nil {
 		result["max_permissible_cvss_v3score"] = float32(*obj.MaxPermissibleCvssV3Score)
 	}
+
+	result["max_permissible_severity"] = string(obj.MaxPermissibleSeverity)
 
 	result["upgrade_policy"] = string(obj.UpgradePolicy)
 
