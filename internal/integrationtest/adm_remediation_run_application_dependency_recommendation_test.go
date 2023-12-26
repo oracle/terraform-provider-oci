@@ -19,14 +19,14 @@ var (
 	AdmRemediationRunApplicationDependencyRecommendationDataSourceRepresentation = map[string]interface{}{
 		"remediation_run_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_adm_remediation_run.test_remediation_run.id}`},
 		"gav":                acctest.Representation{RepType: acctest.Optional, Create: `gav`},
+		"purl":               acctest.Representation{RepType: acctest.Optional, Create: `purl`},
 	}
 
 	AdmRemediationRunApplicationDependencyRecommendationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_adm_knowledge_base", "test_knowledge_base", acctest.Required, acctest.Create, knowledgeBaseRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_adm_remediation_recipe", "test_remediation_recipe", acctest.Required, acctest.Create, AdmRemediationRecipeRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_adm_remediation_run", "test_remediation_run", acctest.Required, acctest.Create, AdmRemediationRunRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		DefinedTagsDependencies
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) + DefinedTagsDependencies
 )
 
 // issue-routing-tag: adm/default
@@ -60,6 +60,7 @@ func TestAdmRemediationRunApplicationDependencyRecommendationResource_basic(t *t
 				compartmentIdVariableStr + AdmRemediationRunApplicationDependencyRecommendationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "gav", "gav"),
+				resource.TestCheckResourceAttr(datasourceName, "purl", "purl"),
 				resource.TestCheckResourceAttrSet(datasourceName, "remediation_run_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "application_dependency_recommendation_collection.#"),
