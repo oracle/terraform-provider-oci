@@ -65,7 +65,7 @@ var (
 		"kerberos_realm_name":      acctest.Representation{RepType: acctest.Optional, Create: `BDSCLOUDSERVICE.ORACLE.COM`},
 		"master_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"util_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
-		"worker_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhWorkerRepresentation},
+		"worker_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeDenseShapeRepresentation},
 		"bootstrap_script_url":     acctest.Representation{RepType: acctest.Optional, Create: `${var.bootstrap_script_url}`, Update: `${var.bootstrap_script_urlU}`},
 		"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
@@ -126,6 +126,12 @@ var (
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
 	}
+	bdsInstanceNodeDenseShapeRepresentation = map[string]interface{}{
+		"shape":           acctest.Representation{RepType: acctest.Required, Create: `VM.DenseIO.E4.Flex`},
+		"subnet_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"number_of_nodes": acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
+		"shape_config":    acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesDenseShapeConfigRepresentation},
+	}
 	bdsInstanceNodeFlex3ShapeRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard3.Flex`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
@@ -136,6 +142,12 @@ var (
 	bdsInstanceNodesShapeConfigRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `32`},
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `3`},
+	}
+
+	bdsInstanceNodesDenseShapeConfigRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `128`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `8`},
+		"nvmes":         acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
 	bdsInstanceOdhWithAddMasterUtilRepresentation = acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation,
 		map[string]interface{}{
@@ -355,7 +367,6 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 						"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
 						"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HADOOP_EXTENDED`, Update: `HADOOP_EXTENDED`},
 						"display_name":        acctest.Representation{RepType: acctest.Required, Create: `hadext1`, Update: `hadext1`},
-						"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceKafkaBrokerNodeFlexShapeRepresentation},
 					})),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
