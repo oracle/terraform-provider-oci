@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -50,6 +50,14 @@ func (m *jobinfrastructureconfigurationdetails) UnmarshalPolymorphicJSON(data []
 
 	var err error
 	switch m.JobInfrastructureType {
+	case "MULTI_NODE":
+		mm := MultiNodeJobInfrastructureConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "EMPTY":
+		mm := EmptyJobInfrastructureConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ME_STANDALONE":
 		mm := ManagedEgressStandaloneJobInfrastructureConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -91,18 +99,24 @@ type JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum string
 const (
 	JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone   JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "STANDALONE"
 	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "ME_STANDALONE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode    JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "MULTI_NODE"
+	JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty        JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "EMPTY"
 	JobInfrastructureConfigurationDetailsJobInfrastructureTypeOke          JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "OKE"
 )
 
 var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
 	"STANDALONE":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
 	"ME_STANDALONE": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
+	"MULTI_NODE":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode,
+	"EMPTY":         JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty,
 	"OKE":           JobInfrastructureConfigurationDetailsJobInfrastructureTypeOke,
 }
 
 var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumLowerCase = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
 	"standalone":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
 	"me_standalone": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
+	"multi_node":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode,
+	"empty":         JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty,
 	"oke":           JobInfrastructureConfigurationDetailsJobInfrastructureTypeOke,
 }
 
@@ -120,6 +134,8 @@ func GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumStringValu
 	return []string{
 		"STANDALONE",
 		"ME_STANDALONE",
+		"MULTI_NODE",
+		"EMPTY",
 		"OKE",
 	}
 }

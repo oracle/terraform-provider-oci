@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -38,6 +38,10 @@ type SignDataDetails struct {
 	// Denotes whether the value of the message parameter is a raw message or a message digest.
 	// The default value, `RAW`, indicates a message. To indicate a message digest, use `DIGEST`.
 	MessageType SignDataDetailsMessageTypeEnum `mandatory:"false" json:"messageType,omitempty"`
+
+	// Information that can be used to provide context for audit logging. It is a map that contains any additional
+	// data that you provide to include with audit logs, if audit logging is enabled.
+	LoggingContext map[string]string `mandatory:"false" json:"loggingContext"`
 }
 
 func (m SignDataDetails) String() string {

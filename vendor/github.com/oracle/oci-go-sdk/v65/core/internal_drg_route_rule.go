@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -41,6 +41,10 @@ type InternalDrgRouteRule struct {
 
 	// The MAC address of the next hop. It can be integer value or string format separated by colon.
 	NextHopMac *string `mandatory:"false" json:"nextHopMac"`
+
+	// The value is used by VCNDP for metrics. For MPLS_O_UDP packets, when this value  is non-zero it indicates
+	// that the packet should be forwarded as a DDRG-to-VC and as a DDRG-to-GW when the value is zero.
+	ExitAttachmentLabel *int `mandatory:"false" json:"exitAttachmentLabel"`
 }
 
 func (m InternalDrgRouteRule) String() string {

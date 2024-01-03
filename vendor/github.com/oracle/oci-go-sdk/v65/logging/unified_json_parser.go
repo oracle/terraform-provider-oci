@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -61,6 +61,12 @@ type UnifiedJsonParser struct {
 
 	// Process time value using the specified format.
 	TimeFormat *string `mandatory:"false" json:"timeFormat"`
+
+	// If true, a separator parameter can be further defined.
+	ParseNested *bool `mandatory:"false" json:"parseNested"`
+
+	// Keys of adjacent levels are joined by the separator.
+	Separator *string `mandatory:"false" json:"separator"`
 
 	// JSON parser time type.
 	TimeType UnifiedJsonParserTimeTypeEnum `mandatory:"false" json:"timeType,omitempty"`

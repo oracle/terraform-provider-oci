@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -124,6 +124,10 @@ func (m *unifiedagentparser) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := UnifiedAgentSyslogParser{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OPENMETRICS":
+		mm := UnifiedAgentOpenmetricsParser{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUDITD":
 		mm := UnifiedAgentAuditdParser{}
 		err = json.Unmarshal(data, &mm)
@@ -236,6 +240,7 @@ const (
 	UnifiedAgentParserParserTypeMultiline     UnifiedAgentParserParserTypeEnum = "MULTILINE"
 	UnifiedAgentParserParserTypeGrok          UnifiedAgentParserParserTypeEnum = "GROK"
 	UnifiedAgentParserParserTypeMultilineGrok UnifiedAgentParserParserTypeEnum = "MULTILINE_GROK"
+	UnifiedAgentParserParserTypeOpenmetrics   UnifiedAgentParserParserTypeEnum = "OPENMETRICS"
 )
 
 var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParserTypeEnum{
@@ -253,6 +258,7 @@ var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParse
 	"MULTILINE":      UnifiedAgentParserParserTypeMultiline,
 	"GROK":           UnifiedAgentParserParserTypeGrok,
 	"MULTILINE_GROK": UnifiedAgentParserParserTypeMultilineGrok,
+	"OPENMETRICS":    UnifiedAgentParserParserTypeOpenmetrics,
 }
 
 var mappingUnifiedAgentParserParserTypeEnumLowerCase = map[string]UnifiedAgentParserParserTypeEnum{
@@ -270,6 +276,7 @@ var mappingUnifiedAgentParserParserTypeEnumLowerCase = map[string]UnifiedAgentPa
 	"multiline":      UnifiedAgentParserParserTypeMultiline,
 	"grok":           UnifiedAgentParserParserTypeGrok,
 	"multiline_grok": UnifiedAgentParserParserTypeMultilineGrok,
+	"openmetrics":    UnifiedAgentParserParserTypeOpenmetrics,
 }
 
 // GetUnifiedAgentParserParserTypeEnumValues Enumerates the set of values for UnifiedAgentParserParserTypeEnum
@@ -298,6 +305,7 @@ func GetUnifiedAgentParserParserTypeEnumStringValues() []string {
 		"MULTILINE",
 		"GROK",
 		"MULTILINE_GROK",
+		"OPENMETRICS",
 	}
 }
 

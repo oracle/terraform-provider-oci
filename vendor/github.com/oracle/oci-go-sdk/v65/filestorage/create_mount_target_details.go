@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -79,8 +79,8 @@ type CreateMountTargetDetails struct {
 
 	Kerberos *CreateKerberosDetails `mandatory:"false" json:"kerberos"`
 
-	// Immediately available IOPS performance for the associated mount target. Three values are accepted: 20000,
-	// 200000, and 400000. The default IOPS value of 20000 translates to a standard shape with 4 Gbps throughput.
+	// Immediately available IOPS performance for the associated mount target. Three values are accepted: 50000,
+	// 200000, and 400000. The default IOPS value of 50000 translates to a standard shape with 10 Gbps throughput.
 	// The values of 200000 and 400000 translate to high performance shapes with 40 Gbps or 80 Gbps throughput,
 	// respectively.
 	BaselineIops *int64 `mandatory:"false" json:"baselineIops"`

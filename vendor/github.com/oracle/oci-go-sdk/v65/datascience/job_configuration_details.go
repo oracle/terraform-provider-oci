@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -50,6 +50,10 @@ func (m *jobconfigurationdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.JobType {
+	case "EMPTY":
+		mm := EmptyJobConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DEFAULT":
 		mm := DefaultJobConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -82,14 +86,17 @@ type JobConfigurationDetailsJobTypeEnum string
 // Set of constants representing the allowable values for JobConfigurationDetailsJobTypeEnum
 const (
 	JobConfigurationDetailsJobTypeDefault JobConfigurationDetailsJobTypeEnum = "DEFAULT"
+	JobConfigurationDetailsJobTypeEmpty   JobConfigurationDetailsJobTypeEnum = "EMPTY"
 )
 
 var mappingJobConfigurationDetailsJobTypeEnum = map[string]JobConfigurationDetailsJobTypeEnum{
 	"DEFAULT": JobConfigurationDetailsJobTypeDefault,
+	"EMPTY":   JobConfigurationDetailsJobTypeEmpty,
 }
 
 var mappingJobConfigurationDetailsJobTypeEnumLowerCase = map[string]JobConfigurationDetailsJobTypeEnum{
 	"default": JobConfigurationDetailsJobTypeDefault,
+	"empty":   JobConfigurationDetailsJobTypeEmpty,
 }
 
 // GetJobConfigurationDetailsJobTypeEnumValues Enumerates the set of values for JobConfigurationDetailsJobTypeEnum
@@ -105,6 +112,7 @@ func GetJobConfigurationDetailsJobTypeEnumValues() []JobConfigurationDetailsJobT
 func GetJobConfigurationDetailsJobTypeEnumStringValues() []string {
 	return []string{
 		"DEFAULT",
+		"EMPTY",
 	}
 }
 

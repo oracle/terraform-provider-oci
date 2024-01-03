@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -55,6 +55,8 @@ type Job struct {
 	// Collection of JobStorageMountConfigurationDetails.
 	JobStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
 
+	JobNodeConfigurationDetails JobNodeConfigurationDetails `mandatory:"false" json:"jobNodeConfigurationDetails"`
+
 	// The state of the job.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -94,6 +96,7 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 		JobEnvironmentConfigurationDetails      jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationDetails"`
 		JobLogConfigurationDetails              *JobLogConfigurationDetails           `json:"jobLogConfigurationDetails"`
 		JobStorageMountConfigurationDetailsList []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
+		JobNodeConfigurationDetails             jobnodeconfigurationdetails           `json:"jobNodeConfigurationDetails"`
 		LifecycleDetails                        *string                               `json:"lifecycleDetails"`
 		FreeformTags                            map[string]string                     `json:"freeformTags"`
 		DefinedTags                             map[string]map[string]interface{}     `json:"definedTags"`
@@ -140,6 +143,16 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 			m.JobStorageMountConfigurationDetailsList[i] = nil
 		}
 	}
+	nn, e = model.JobNodeConfigurationDetails.UnmarshalPolymorphicJSON(model.JobNodeConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.JobNodeConfigurationDetails = nn.(JobNodeConfigurationDetails)
+	} else {
+		m.JobNodeConfigurationDetails = nil
+	}
+
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags
