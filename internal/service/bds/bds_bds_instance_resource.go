@@ -127,7 +127,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 								},
 							},
@@ -190,7 +189,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 								},
 							},
@@ -217,8 +215,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 
 						"block_volume_size_in_gbs": {
-							Type:             schema.TypeString,
-							Optional:         true,
+							Type:     schema.TypeString,
+							Optional: true,
+							//Computed:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -251,7 +250,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 
 									// Computed
@@ -315,7 +313,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 
 									// Computed
@@ -380,7 +377,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 
 									// Computed
@@ -443,7 +439,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 
 									// Computed
@@ -760,6 +755,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Computed: true,
 						},
 						"ocpus": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"nvmes": {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
@@ -2684,8 +2683,9 @@ func BdsNodeToTemplateMap(obj oci_bds.Node) map[string]interface{} {
 			totalSize += *item.VolumeSizeInGBs
 		}
 	}
-	result["block_volume_size_in_gbs"] = strconv.FormatInt(totalSize, 10)
-
+	if totalSize != 0 {
+		result["block_volume_size_in_gbs"] = strconv.FormatInt(totalSize, 10)
+	}
 	if obj.Shape != nil {
 		result["shape"] = string(*obj.Shape)
 	}
@@ -2700,6 +2700,9 @@ func BdsNodeToTemplateMap(obj oci_bds.Node) map[string]interface{} {
 		shapeConfigMap := map[string]interface{}{}
 		shapeConfigMap["ocpus"] = int(*obj.Ocpus)
 		shapeConfigMap["memory_in_gbs"] = int(*obj.MemoryInGBs)
+		if result["shape"] == "VM.DenseIO.E4.Flex" {
+			shapeConfigMap["nvmes"] = int(*obj.Nvmes)
+		}
 		result["shape_config"] = []interface{}{shapeConfigMap}
 	}
 
