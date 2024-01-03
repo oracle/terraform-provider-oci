@@ -75,6 +75,10 @@ var ociDeveloperToolConfigurationRegionSchemaList []map[string]string
 
 // Endpoint returns a endpoint for a service
 func (region Region) Endpoint(service string) string {
+	// Endpoint for dotted region
+	if strings.Contains(string(region), ".") {
+		return fmt.Sprintf("%s.%s", service, region)
+	}
 	return fmt.Sprintf("%s.%s.%s", service, region, region.secondLevelDomain())
 }
 
