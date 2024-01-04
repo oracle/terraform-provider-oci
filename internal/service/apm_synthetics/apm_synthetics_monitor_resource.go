@@ -54,7 +54,7 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 			"vantage_points": {
 				Type:     schema.TypeList,
 				Required: true,
-				MaxItems: 100,
+				MaxItems: 255,
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
@@ -64,9 +64,10 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 							Required: true,
 						},
 
-						// Optional
+						// Computed
 						"display_name": {
 							Type:     schema.TypeString,
+							Computed: true,
 							Optional: true,
 						},
 					},
@@ -113,6 +114,8 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+						// Required
+
 						// Optional
 						"client_certificate_details": {
 							Type:     schema.TypeList,
@@ -189,6 +192,9 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"BROWSER_CONFIG",
+								"DNSSEC_CONFIG",
+								"DNS_SERVER_CONFIG",
+								"DNS_TRACE_CONFIG",
 								"NETWORK_CONFIG",
 								"REST_CONFIG",
 								"SCRIPTED_BROWSER_CONFIG",
@@ -236,8 +242,18 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"is_query_recursive": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"is_redirection_enabled": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"name_server": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
@@ -281,6 +297,16 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"protocol": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"record_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"req_authentication_details": {
 							Type:     schema.TypeList,
@@ -1415,6 +1441,102 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			details.IsFailureRetried = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("DNSSEC_CONFIG"):
+		details := oci_apm_synthetics.DnsSecMonitorConfiguration{}
+		if recordType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "record_type")); ok {
+			details.RecordType = oci_apm_synthetics.DnsRecordTypeEnum(recordType.(string))
+		}
+		if verifyResponseContent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_response_content")); ok {
+			tmp := verifyResponseContent.(string)
+			details.VerifyResponseContent = &tmp
+		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
+			}
+		}
+		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
+			tmp := isFailureRetried.(bool)
+			details.IsFailureRetried = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DNS_SERVER_CONFIG"):
+		details := oci_apm_synthetics.DnsServerMonitorConfiguration{}
+		if isQueryRecursive, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_query_recursive")); ok {
+			tmp := isQueryRecursive.(bool)
+			details.IsQueryRecursive = &tmp
+		}
+		if nameServer, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name_server")); ok {
+			tmp := nameServer.(string)
+			details.NameServer = &tmp
+		}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = &tmp
+			}
+		}
+		if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
+			details.Protocol = oci_apm_synthetics.DnsTransportProtocolEnum(protocol.(string))
+		}
+		if recordType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "record_type")); ok {
+			details.RecordType = oci_apm_synthetics.DnsRecordTypeEnum(recordType.(string))
+		}
+		if verifyResponseContent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_response_content")); ok {
+			tmp := verifyResponseContent.(string)
+			details.VerifyResponseContent = &tmp
+		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
+			}
+		}
+		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
+			tmp := isFailureRetried.(bool)
+			details.IsFailureRetried = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DNS_TRACE_CONFIG"):
+		details := oci_apm_synthetics.DnsTraceMonitorConfiguration{}
+		if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
+			details.Protocol = oci_apm_synthetics.DnsTransportProtocolEnum(protocol.(string))
+		}
+		if recordType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "record_type")); ok {
+			details.RecordType = oci_apm_synthetics.DnsRecordTypeEnum(recordType.(string))
+		}
+		if verifyResponseContent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_response_content")); ok {
+			tmp := verifyResponseContent.(string)
+			details.VerifyResponseContent = &tmp
+		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
+			}
+		}
+		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
+			tmp := isFailureRetried.(bool)
+			details.IsFailureRetried = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("NETWORK_CONFIG"):
 		details := oci_apm_synthetics.NetworkMonitorConfiguration{}
 		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
@@ -1672,6 +1794,70 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 		if v.IsFailureRetried != nil {
 			result["is_failure_retried"] = bool(*v.IsFailureRetried)
 		}
+	case oci_apm_synthetics.DnsSecMonitorConfiguration:
+		result["config_type"] = "DNSSEC_CONFIG"
+
+		result["record_type"] = string(v.RecordType)
+
+		if v.VerifyResponseContent != nil {
+			result["verify_response_content"] = string(*v.VerifyResponseContent)
+		}
+
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
+
+		if v.IsFailureRetried != nil {
+			result["is_failure_retried"] = bool(*v.IsFailureRetried)
+		}
+	case oci_apm_synthetics.DnsServerMonitorConfiguration:
+		result["config_type"] = "DNS_SERVER_CONFIG"
+
+		if v.IsQueryRecursive != nil {
+			result["is_query_recursive"] = bool(*v.IsQueryRecursive)
+		}
+
+		if v.NameServer != nil {
+			result["name_server"] = string(*v.NameServer)
+		}
+
+		if v.NetworkConfiguration != nil {
+			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
+		}
+
+		result["protocol"] = string(v.Protocol)
+
+		result["record_type"] = string(v.RecordType)
+
+		if v.VerifyResponseContent != nil {
+			result["verify_response_content"] = string(*v.VerifyResponseContent)
+		}
+
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
+
+		if v.IsFailureRetried != nil {
+			result["is_failure_retried"] = bool(*v.IsFailureRetried)
+		}
+	case oci_apm_synthetics.DnsTraceMonitorConfiguration:
+		result["config_type"] = "DNS_TRACE_CONFIG"
+
+		result["protocol"] = string(v.Protocol)
+
+		result["record_type"] = string(v.RecordType)
+
+		if v.VerifyResponseContent != nil {
+			result["verify_response_content"] = string(*v.VerifyResponseContent)
+		}
+
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
+
+		if v.IsFailureRetried != nil {
+			result["is_failure_retried"] = bool(*v.IsFailureRetried)
+		}
 	case oci_apm_synthetics.NetworkMonitorConfiguration:
 		result["config_type"] = "NETWORK_CONFIG"
 
@@ -1810,6 +1996,14 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 
 	if obj.BatchIntervalInSeconds != nil {
 		result["batch_interval_in_seconds"] = int(*obj.BatchIntervalInSeconds)
+	}
+
+	if obj.Configuration != nil {
+		configurationArray := []interface{}{}
+		if configurationMap := MonitorConfigurationToMap(&obj.Configuration); configurationMap != nil {
+			configurationArray = append(configurationArray, configurationMap)
+		}
+		result["configuration"] = configurationArray
 	}
 
 	if obj.DefinedTags != nil {

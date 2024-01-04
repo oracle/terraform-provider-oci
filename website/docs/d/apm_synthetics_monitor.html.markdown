@@ -53,13 +53,17 @@ The following attributes are exported:
 	* `is_certificate_validation_enabled` - If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_default_snapshot_enabled` - If disabled, auto snapshots are not collected.
 	* `is_failure_retried` - If isFailureRetried is enabled, then a failed call will be retried.
+	* `is_query_recursive` - If isQueryRecursive is enabled, then queries will be sent recursively to the target server.
 	* `is_redirection_enabled` - If redirection is enabled, then redirects will be allowed while accessing target URL.
-	* `network_configuration` - Details of the network configuration.
+	* `name_server` - Name of the server that will be used to perform DNS lookup.
+	* `network_configuration` - Details of the network configuration. For NETWORK monitor type, NetworkConfiguration is mandatory.
 		* `number_of_hops` - Number of hops.
 		* `probe_mode` - Type of probe mode when TCP protocol is selected.
 		* `probe_per_hop` - Number of probes per hop.
 		* `protocol` - Type of protocol.
 		* `transmission_rate` - Number of probe packets sent out simultaneously.
+	* `protocol` - Type of protocol.
+	* `record_type` - DNS record type.
 	* `req_authentication_details` - Details for request HTTP authentication.
 		* `auth_headers` - List of authentication headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]` 
 			* `header_name` - Name of the header.
@@ -105,7 +109,7 @@ The following attributes are exported:
 		* `param_name` - Name of the parameter.
 		* `param_value` - Value of the parameter.
 * `status` - Enables or disables the monitor.
-* `target` - Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80 
+* `target` - Specify the endpoint on which to run the monitor. For BROWSER, REST and NETWORK monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80 
 * `time_created` - The time the resource was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `time_updated` - The time the resource was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
 * `timeout_in_seconds` - Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
