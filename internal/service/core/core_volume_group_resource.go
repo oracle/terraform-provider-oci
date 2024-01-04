@@ -105,10 +105,11 @@ func CoreVolumeGroupResource() *schema.Resource {
 				Optional: true,
 			},
 			"backup_policy_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
+				Type:       schema.TypeString,
+				Optional:   true,
+				Computed:   true,
+				ForceNew:   true,
+				Deprecated: tfresource.FieldDeprecatedButSupportedThroughAnotherResource("backup_policy_id", "oci_core_volume_backup_policy_assignment"),
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
