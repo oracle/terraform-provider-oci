@@ -57,6 +57,27 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   autonomous_maintenance_schedule_type = var.autonomous_database_autonomous_maintenance_schedule_type
 }
 
+
+
+resource "oci_database_autonomous_database" "test_autonomous_database1" {
+  admin_password                       = random_string.autonomous_database_admin_password.result
+  compartment_id                       = var.compartment_ocid
+  cpu_core_count                       = "1"
+  data_storage_size_in_tbs             = "1"
+  db_name                              = "adbdb15f"
+  db_version                           = "19c"
+  db_workload                          = "OLTP"
+  license_model                        = "BRING_YOUR_OWN_LICENSE"
+  is_free_tier                         = "false"
+  autonomous_maintenance_schedule_type = var.autonomous_database_autonomous_maintenance_schedule_type
+  open_mode                            = "READ_ONLY"
+  permission_level                     = "RESTRICTED"
+  data_safe_status                     = "REGISTERED"
+  database_edition                     = "STANDARD_EDITION"
+  operations_insights_status           = "ENABLED"
+  database_management_status           = "ENABLED"
+}
+
 resource "oci_database_autonomous_database" "test_autonomous_database_ecpu" {
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
