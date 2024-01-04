@@ -48,23 +48,16 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) VoidState() {
 func (s *ApmSyntheticsMonitorDataSourceCrud) Get() error {
 	request := oci_apm_synthetics.GetMonitorRequest{}
 
-	if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
-		tmp := apmDomainId.(string)
-		request.ApmDomainId = &tmp
-	}
-
-	if monitorId, ok := s.D.GetOkExists("monitor_id"); ok {
-		tmp := monitorId.(string)
-
+	if monitorCompositeId, ok := s.D.GetOkExists("monitor_id"); ok {
+		tmp := monitorCompositeId.(string)
 		monitorId, apmDomainId, err := parseMonitorCompositeId(tmp)
 		if err == nil {
 			request.MonitorId = &monitorId
 			request.ApmDomainId = &apmDomainId
 		} else {
-			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+			log.Printf("[WARN] Get() unable to parse monitorCompositeId: %s", tmp)
 		}
 	}
-
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.GetMonitor(context.Background(), request)
@@ -81,7 +74,7 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 		return nil
 	}
 
-	s.D.SetId(GetMonitorCompositeId(*s.Res.Id, s.D.Get("apm_domain_id").(string)))
+	s.D.SetId(*s.Res.Id)
 
 	if s.Res.AvailabilityConfiguration != nil {
 		s.D.Set("availability_configuration", []interface{}{AvailabilityConfigurationToMap(s.Res.AvailabilityConfiguration)})

@@ -48,22 +48,17 @@ func (s *ApmSyntheticsScriptDataSourceCrud) VoidState() {
 func (s *ApmSyntheticsScriptDataSourceCrud) Get() error {
 	request := oci_apm_synthetics.GetScriptRequest{}
 
-	if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
-		tmp := apmDomainId.(string)
-		request.ApmDomainId = &tmp
-	}
-
-	if scriptId, ok := s.D.GetOkExists("script_id"); ok {
-		tmp := scriptId.(string)
-
+	if scriptCompositeId, ok := s.D.GetOkExists("script_id"); ok {
+		tmp := scriptCompositeId.(string)
 		scriptId, apmDomainId, err := parseScriptCompositeId(tmp)
 		if err == nil {
 			request.ScriptId = &scriptId
 			request.ApmDomainId = &apmDomainId
 		} else {
-			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+			log.Printf("[WARN] Get() unable to parse scriptCompositeId: %s", tmp)
 		}
 	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm_synthetics")
 
 	response, err := s.Client.GetScript(context.Background(), request)
