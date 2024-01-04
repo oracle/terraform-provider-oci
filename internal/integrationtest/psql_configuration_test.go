@@ -97,6 +97,9 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_psql_configuration.test_configuration"
 	datasourceName := "data.oci_psql_configurations.test_configurations"
 	singularDatasourceName := "data.oci_psql_configuration.test_configuration"
@@ -163,6 +166,41 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
+					}
+					return err
+				},
+			),
+		},
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PsqlConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_psql_configuration", "test_configuration", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(PsqlConfigurationRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.0.config_key", "effective_io_concurrency"),
+				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.0.overriden_config_value", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_version", "14"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "terraform-test-config"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_memory_size_in_gbs", "64"),
+				resource.TestCheckResourceAttr(resourceName, "instance_ocpu_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},

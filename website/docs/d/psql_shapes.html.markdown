@@ -41,9 +41,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - List of dbSystems.
-	* `id` - Unique identifier for the shape
-	* `memory_size_in_gbs` - The amount of memory in GB
-	* `ocpu_count` - The number of OCPUs
-	* `shape` - The Compute Shape Name like VM.Standard.E4.Flex
+* `items` - List of supported shapes.
+	* `id` - A unique identifier for the shape.
+	* `memory_size_in_gbs` - The amount of memory in gigabytes.
+	* `ocpu_count` - The number of OCPUs.
+	* `shape` - The name of the Compute VM shape. Example: `VM.Standard.E4.Flex` 
 
