@@ -1128,14 +1128,6 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		return inactiveAutonomousDatabaseIfNeeded(d, sync)
 	}
 
-	if configDataSafeStatus == oci_database.AutonomousDatabaseDataSafeStatusRegistered {
-		err := sync.updateDataSafeStatus(sync.D.Id(), oci_database.AutonomousDatabaseDataSafeStatusRegistered)
-		if err != nil {
-			return err
-		}
-		return tfresource.ReadResource(sync)
-	}
-
 	if configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly || configPermissionLevel == oci_database.UpdateAutonomousDatabaseDetailsPermissionLevelRestricted {
 		if configOpenMode == oci_database.UpdateAutonomousDatabaseDetailsOpenModeOnly {
 			sync.D.Set("open_mode", configOpenMode)
@@ -1147,7 +1139,16 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		if err != nil {
 			return err
 		}
-		return tfresource.ReadResource(sync)
+	}
+
+	if configDataSafeStatus == oci_database.AutonomousDatabaseDataSafeStatusRegistered {
+		err := sync.updateDataSafeStatus(sync.D.Id(), oci_database.AutonomousDatabaseDataSafeStatusRegistered)
+		if err != nil {
+			return err
+		}
+		if e := tfresource.ReadResource(sync); e != nil {
+			return e
+		}
 	}
 
 	if configDatabaseManagementStatus == oci_database.AutonomousDatabaseDatabaseManagementStatusEnabled {
@@ -1155,7 +1156,9 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		if err != nil {
 			return err
 		}
-		return tfresource.ReadResource(sync)
+		if e := tfresource.ReadResource(sync); e != nil {
+			return e
+		}
 	}
 
 	if configOperationsInsightsStatus == oci_database.AutonomousDatabaseOperationsInsightsStatusEnabled {
@@ -1163,9 +1166,10 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		if err != nil {
 			return err
 		}
-		return tfresource.ReadResource(sync)
+		if e := tfresource.ReadResource(sync); e != nil {
+			return e
+		}
 	}
-
 	return nil
 }
 

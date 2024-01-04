@@ -3925,3 +3925,91 @@ func TestDatabaseAutonomousDatabaseResource_ElasticResourcePool(t *testing.T) {
 		},
 	})
 }
+
+func TestDatabaseAutonomousDatabase_opsi_dbms(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentation), "database", "autonomousDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. Verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//1. Delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies,
+		},
+		//2. Verify DBMS status
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
+						"database_management_status": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `NOT_ENABLED`},
+						"operations_insights_status": acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `NOT_ENABLED`},
+						"open_mode":                  acctest.Representation{RepType: acctest.Optional, Create: `READ_ONLY`, Update: `READ_ONLY`},
+						"permission_level":           acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`, Update: `RESTRICTED`},
+						"data_safe_status":           acctest.Representation{RepType: acctest.Optional, Create: `REGISTERED`, Update: `not_REGISTERED`},
+						"database_edition":           acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`, Update: `STANDARD_EDITION`},
+						"db_name":                    acctest.Representation{RepType: acctest.Required, Create: adbName},
+					}),
+				),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "REGULAR"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "database_edition", "STANDARD_EDITION"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_ONLY"),
+				resource.TestCheckResourceAttr(resourceName, "permission_level", "RESTRICTED"),
+				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "REGISTERED"),
+				resource.TestCheckResourceAttr(resourceName, "database_management_status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "ENABLED"),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+	})
+}
