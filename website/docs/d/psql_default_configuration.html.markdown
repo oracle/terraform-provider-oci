@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_psql_default_configuration
 This data source provides details about a specific Default Configuration resource in Oracle Cloud Infrastructure Psql service.
 
-Gets a Default Configuration by identifier
+Gets a default configuration by identifier.
 
 ## Example Usage
 
@@ -25,30 +25,30 @@ data "oci_psql_default_configuration" "test_default_configuration" {
 
 The following arguments are supported:
 
-* `default_configuration_id` - (Required) unique Configuration identifier
+* `default_configuration_id` - (Required) A unique identifier for the configuration.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `configuration_details` - List of DB default Configuration Values.
+* `configuration_details` - List of default configuration values for databases.
 	* `items` - List of ConfigParms object.
-		* `allowed_values` - Range or list of allowed values
-		* `config_key` - Key is the configuration key.
-		* `data_type` - Describes about the Datatype value.
-		* `default_config_value` - Default value
-		* `description` - Details about the Postgresql params.
-		* `is_overridable` - This flags tells whether the value is overridable or not.
-		* `is_restart_required` - If true, modfying this configuration value will requires restart.
-* `db_version` - Version of the Postgresql DB
-* `description` - Config description
-* `display_name` - Config display name
-* `id` - Unique identifier that is immutable on creation
-* `instance_memory_size_in_gbs` - Memory Size in GB with 1GB increment. Min value matches the cpuCoreCount. Max value depends on the shape. 
-* `instance_ocpu_count` - CPU cpuCoreCount. Min value is 1. Max value depends on the shape. 
+		* `allowed_values` - Range or list of allowed values.
+		* `config_key` - The configuration variable name.
+		* `data_type` - Data type of the variable.
+		* `default_config_value` - Default value for the variable.
+		* `description` - Details about the PostgreSQL variable.
+		* `is_overridable` - Whether the value can be overridden or not.
+		* `is_restart_required` - If true, modifying this configuration value will require a restart.
+* `db_version` - Version of the PostgreSQL database.
+* `description` - A description for the configuration.
+* `display_name` - A user-friendly display name for the configuration.
+* `id` - A unique identifier for the configuration.
+* `instance_memory_size_in_gbs` - Memory size in gigabytes with 1GB increment. 
+* `instance_ocpu_count` - CPU core count. Minimum value is 1. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `shape` - Compute Shape Name like VM.Standard3.Flex.
-* `state` - The current state of the Configuration.
-* `time_created` - The time Configuration was created. An RFC3339 formatted datetime string
+* `shape` - The name of the shape for the configuration. Example: `VM.Standard.E4.Flex` 
+* `state` - The current state of the configuration.
+* `time_created` - The date and time that the configuration was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 

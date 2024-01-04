@@ -103,7 +103,6 @@ func PsqlConfigurationResource() *schema.Resource {
 				Type:             schema.TypeMap,
 				Optional:         true,
 				Computed:         true,
-				ForceNew:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
@@ -379,6 +378,14 @@ func (s *PsqlConfigurationResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ConfigurationId = &tmp
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
@@ -387,6 +394,10 @@ func (s *PsqlConfigurationResourceCrud) Update() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
