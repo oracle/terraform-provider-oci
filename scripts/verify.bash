@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 # This is called from pre-push.bash to do some verification checks on
 # the Go code. The script will exit non-zero if any of these tests fail.
 
