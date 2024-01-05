@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -10,6 +10,7 @@
 package apmsynthetics
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -66,11 +67,13 @@ type MonitorSummary struct {
 	BatchIntervalInSeconds *int `mandatory:"true" json:"batchIntervalInSeconds"`
 
 	// Specify the endpoint on which to run the monitor.
-	// For BROWSER and REST monitor types, target is mandatory.
+	// For BROWSER, REST and NETWORK monitor types, target is mandatory.
 	// If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint.
 	// If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is.
 	// For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80
 	Target *string `mandatory:"false" json:"target"`
+
+	Configuration MonitorConfiguration `mandatory:"false" json:"configuration"`
 
 	MaintenanceWindowSchedule *MaintenanceWindowSchedule `mandatory:"false" json:"maintenanceWindowSchedule"`
 
@@ -116,4 +119,88 @@ func (m MonitorSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *MonitorSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Target                    *string                           `json:"target"`
+		Configuration             monitorconfiguration              `json:"configuration"`
+		MaintenanceWindowSchedule *MaintenanceWindowSchedule        `json:"maintenanceWindowSchedule"`
+		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated               *common.SDKTime                   `json:"timeUpdated"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		Id                        *string                           `json:"id"`
+		DisplayName               *string                           `json:"displayName"`
+		MonitorType               MonitorTypesEnum                  `json:"monitorType"`
+		VantagePoints             []VantagePointInfo                `json:"vantagePoints"`
+		VantagePointCount         *int                              `json:"vantagePointCount"`
+		ScriptId                  *string                           `json:"scriptId"`
+		ScriptName                *string                           `json:"scriptName"`
+		Status                    MonitorStatusEnum                 `json:"status"`
+		RepeatIntervalInSeconds   *int                              `json:"repeatIntervalInSeconds"`
+		IsRunOnce                 *bool                             `json:"isRunOnce"`
+		TimeoutInSeconds          *int                              `json:"timeoutInSeconds"`
+		IsRunNow                  *bool                             `json:"isRunNow"`
+		SchedulingPolicy          SchedulingPolicyEnum              `json:"schedulingPolicy"`
+		BatchIntervalInSeconds    *int                              `json:"batchIntervalInSeconds"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Target = model.Target
+
+	nn, e = model.Configuration.UnmarshalPolymorphicJSON(model.Configuration.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Configuration = nn.(MonitorConfiguration)
+	} else {
+		m.Configuration = nil
+	}
+
+	m.MaintenanceWindowSchedule = model.MaintenanceWindowSchedule
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.MonitorType = model.MonitorType
+
+	m.VantagePoints = make([]VantagePointInfo, len(model.VantagePoints))
+	copy(m.VantagePoints, model.VantagePoints)
+	m.VantagePointCount = model.VantagePointCount
+
+	m.ScriptId = model.ScriptId
+
+	m.ScriptName = model.ScriptName
+
+	m.Status = model.Status
+
+	m.RepeatIntervalInSeconds = model.RepeatIntervalInSeconds
+
+	m.IsRunOnce = model.IsRunOnce
+
+	m.TimeoutInSeconds = model.TimeoutInSeconds
+
+	m.IsRunNow = model.IsRunNow
+
+	m.SchedulingPolicy = model.SchedulingPolicy
+
+	m.BatchIntervalInSeconds = model.BatchIntervalInSeconds
+
+	return
 }

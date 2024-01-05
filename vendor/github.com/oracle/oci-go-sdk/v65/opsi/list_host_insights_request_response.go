@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -37,7 +37,7 @@ type ListHostInsightsRequest struct {
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX, HP-UX].
 	PlatformType []ListHostInsightsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to
@@ -179,6 +179,7 @@ const (
 	ListHostInsightsPlatformTypeZlinux  ListHostInsightsPlatformTypeEnum = "ZLINUX"
 	ListHostInsightsPlatformTypeWindows ListHostInsightsPlatformTypeEnum = "WINDOWS"
 	ListHostInsightsPlatformTypeAix     ListHostInsightsPlatformTypeEnum = "AIX"
+	ListHostInsightsPlatformTypeHpUx    ListHostInsightsPlatformTypeEnum = "HP_UX"
 )
 
 var mappingListHostInsightsPlatformTypeEnum = map[string]ListHostInsightsPlatformTypeEnum{
@@ -188,6 +189,7 @@ var mappingListHostInsightsPlatformTypeEnum = map[string]ListHostInsightsPlatfor
 	"ZLINUX":  ListHostInsightsPlatformTypeZlinux,
 	"WINDOWS": ListHostInsightsPlatformTypeWindows,
 	"AIX":     ListHostInsightsPlatformTypeAix,
+	"HP_UX":   ListHostInsightsPlatformTypeHpUx,
 }
 
 var mappingListHostInsightsPlatformTypeEnumLowerCase = map[string]ListHostInsightsPlatformTypeEnum{
@@ -197,6 +199,7 @@ var mappingListHostInsightsPlatformTypeEnumLowerCase = map[string]ListHostInsigh
 	"zlinux":  ListHostInsightsPlatformTypeZlinux,
 	"windows": ListHostInsightsPlatformTypeWindows,
 	"aix":     ListHostInsightsPlatformTypeAix,
+	"hp_ux":   ListHostInsightsPlatformTypeHpUx,
 }
 
 // GetListHostInsightsPlatformTypeEnumValues Enumerates the set of values for ListHostInsightsPlatformTypeEnum
@@ -217,6 +220,7 @@ func GetListHostInsightsPlatformTypeEnumStringValues() []string {
 		"ZLINUX",
 		"WINDOWS",
 		"AIX",
+		"HP_UX",
 	}
 }
 
