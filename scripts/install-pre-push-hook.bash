@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 
 TARGET_HOOK="$(git rev-parse --show-toplevel)/.git/hooks/pre-push"
 
