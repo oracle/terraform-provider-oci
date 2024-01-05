@@ -73,6 +73,6 @@ Please consult the [security guide](./SECURITY.md) for our responsible security 
 
 ## License
 
-Copyright (c) 2017, 2023 Oracle and/or its affiliates.
+Copyright (c) 2017, 2024 Oracle and/or its affiliates.
 
 Released under the Mozilla Public License 2.0
