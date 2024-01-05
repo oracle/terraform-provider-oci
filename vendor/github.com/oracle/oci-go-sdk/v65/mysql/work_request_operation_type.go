@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -39,6 +39,8 @@ const (
 	WorkRequestOperationTypeResumeChannel                         WorkRequestOperationTypeEnum = "RESUME_CHANNEL"
 	WorkRequestOperationTypeResetChannel                          WorkRequestOperationTypeEnum = "RESET_CHANNEL"
 	WorkRequestOperationTypeDeleteChannel                         WorkRequestOperationTypeEnum = "DELETE_CHANNEL"
+	WorkRequestOperationTypeCreateBackup                          WorkRequestOperationTypeEnum = "CREATE_BACKUP"
+	WorkRequestOperationTypeDeleteBackup                          WorkRequestOperationTypeEnum = "DELETE_BACKUP"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -63,6 +65,8 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"RESUME_CHANNEL":                            WorkRequestOperationTypeResumeChannel,
 	"RESET_CHANNEL":                             WorkRequestOperationTypeResetChannel,
 	"DELETE_CHANNEL":                            WorkRequestOperationTypeDeleteChannel,
+	"CREATE_BACKUP":                             WorkRequestOperationTypeCreateBackup,
+	"DELETE_BACKUP":                             WorkRequestOperationTypeDeleteBackup,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -87,6 +91,8 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"resume_channel":                            WorkRequestOperationTypeResumeChannel,
 	"reset_channel":                             WorkRequestOperationTypeResetChannel,
 	"delete_channel":                            WorkRequestOperationTypeDeleteChannel,
+	"create_backup":                             WorkRequestOperationTypeCreateBackup,
+	"delete_backup":                             WorkRequestOperationTypeDeleteBackup,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -122,6 +128,8 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"RESUME_CHANNEL",
 		"RESET_CHANNEL",
 		"DELETE_CHANNEL",
+		"CREATE_BACKUP",
+		"DELETE_BACKUP",
 	}
 }
 

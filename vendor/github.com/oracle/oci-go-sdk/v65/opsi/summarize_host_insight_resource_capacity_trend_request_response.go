@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -47,7 +47,7 @@ type SummarizeHostInsightResourceCapacityTrendRequest struct {
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX, HP-UX].
 	PlatformType []SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -218,6 +218,7 @@ const (
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeZlinux  SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "ZLINUX"
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "WINDOWS"
 	SummarizeHostInsightResourceCapacityTrendPlatformTypeAix     SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "AIX"
+	SummarizeHostInsightResourceCapacityTrendPlatformTypeHpUx    SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = "HP_UX"
 )
 
 var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = map[string]SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum{
@@ -227,6 +228,7 @@ var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnum = map[strin
 	"ZLINUX":  SummarizeHostInsightResourceCapacityTrendPlatformTypeZlinux,
 	"WINDOWS": SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows,
 	"AIX":     SummarizeHostInsightResourceCapacityTrendPlatformTypeAix,
+	"HP_UX":   SummarizeHostInsightResourceCapacityTrendPlatformTypeHpUx,
 }
 
 var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum{
@@ -236,6 +238,7 @@ var mappingSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumLowerCase = 
 	"zlinux":  SummarizeHostInsightResourceCapacityTrendPlatformTypeZlinux,
 	"windows": SummarizeHostInsightResourceCapacityTrendPlatformTypeWindows,
 	"aix":     SummarizeHostInsightResourceCapacityTrendPlatformTypeAix,
+	"hp_ux":   SummarizeHostInsightResourceCapacityTrendPlatformTypeHpUx,
 }
 
 // GetSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceCapacityTrendPlatformTypeEnum
@@ -256,6 +259,7 @@ func GetSummarizeHostInsightResourceCapacityTrendPlatformTypeEnumStringValues() 
 		"ZLINUX",
 		"WINDOWS",
 		"AIX",
+		"HP_UX",
 	}
 }
 

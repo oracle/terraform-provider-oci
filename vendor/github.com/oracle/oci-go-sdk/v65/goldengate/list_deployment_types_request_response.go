@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -141,6 +141,7 @@ const (
 	ListDeploymentTypesDeploymentTypeDatabaseMysql              ListDeploymentTypesDeploymentTypeEnum = "DATABASE_MYSQL"
 	ListDeploymentTypesDeploymentTypeDatabasePostgresql         ListDeploymentTypesDeploymentTypeEnum = "DATABASE_POSTGRESQL"
 	ListDeploymentTypesDeploymentTypeDatabaseDb2zos             ListDeploymentTypesDeploymentTypeEnum = "DATABASE_DB2ZOS"
+	ListDeploymentTypesDeploymentTypeGgsa                       ListDeploymentTypesDeploymentTypeEnum = "GGSA"
 	ListDeploymentTypesDeploymentTypeDataTransforms             ListDeploymentTypesDeploymentTypeEnum = "DATA_TRANSFORMS"
 )
 
@@ -152,6 +153,7 @@ var mappingListDeploymentTypesDeploymentTypeEnum = map[string]ListDeploymentType
 	"DATABASE_MYSQL":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
 	"DATABASE_POSTGRESQL":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
 	"DATABASE_DB2ZOS":              ListDeploymentTypesDeploymentTypeDatabaseDb2zos,
+	"GGSA":                         ListDeploymentTypesDeploymentTypeGgsa,
 	"DATA_TRANSFORMS":              ListDeploymentTypesDeploymentTypeDataTransforms,
 }
 
@@ -163,6 +165,7 @@ var mappingListDeploymentTypesDeploymentTypeEnumLowerCase = map[string]ListDeplo
 	"database_mysql":               ListDeploymentTypesDeploymentTypeDatabaseMysql,
 	"database_postgresql":          ListDeploymentTypesDeploymentTypeDatabasePostgresql,
 	"database_db2zos":              ListDeploymentTypesDeploymentTypeDatabaseDb2zos,
+	"ggsa":                         ListDeploymentTypesDeploymentTypeGgsa,
 	"data_transforms":              ListDeploymentTypesDeploymentTypeDataTransforms,
 }
 
@@ -185,6 +188,7 @@ func GetListDeploymentTypesDeploymentTypeEnumStringValues() []string {
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 		"DATABASE_DB2ZOS",
+		"GGSA",
 		"DATA_TRANSFORMS",
 	}
 }

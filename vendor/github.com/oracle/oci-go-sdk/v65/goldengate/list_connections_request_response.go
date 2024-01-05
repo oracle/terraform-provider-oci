@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -168,6 +168,7 @@ const (
 	ListConnectionsAssignableDeploymentTypeDatabaseMysql              ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_MYSQL"
 	ListConnectionsAssignableDeploymentTypeDatabasePostgresql         ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_POSTGRESQL"
 	ListConnectionsAssignableDeploymentTypeDatabaseDb2zos             ListConnectionsAssignableDeploymentTypeEnum = "DATABASE_DB2ZOS"
+	ListConnectionsAssignableDeploymentTypeGgsa                       ListConnectionsAssignableDeploymentTypeEnum = "GGSA"
 	ListConnectionsAssignableDeploymentTypeDataTransforms             ListConnectionsAssignableDeploymentTypeEnum = "DATA_TRANSFORMS"
 )
 
@@ -179,6 +180,7 @@ var mappingListConnectionsAssignableDeploymentTypeEnum = map[string]ListConnecti
 	"DATABASE_MYSQL":               ListConnectionsAssignableDeploymentTypeDatabaseMysql,
 	"DATABASE_POSTGRESQL":          ListConnectionsAssignableDeploymentTypeDatabasePostgresql,
 	"DATABASE_DB2ZOS":              ListConnectionsAssignableDeploymentTypeDatabaseDb2zos,
+	"GGSA":                         ListConnectionsAssignableDeploymentTypeGgsa,
 	"DATA_TRANSFORMS":              ListConnectionsAssignableDeploymentTypeDataTransforms,
 }
 
@@ -190,6 +192,7 @@ var mappingListConnectionsAssignableDeploymentTypeEnumLowerCase = map[string]Lis
 	"database_mysql":               ListConnectionsAssignableDeploymentTypeDatabaseMysql,
 	"database_postgresql":          ListConnectionsAssignableDeploymentTypeDatabasePostgresql,
 	"database_db2zos":              ListConnectionsAssignableDeploymentTypeDatabaseDb2zos,
+	"ggsa":                         ListConnectionsAssignableDeploymentTypeGgsa,
 	"data_transforms":              ListConnectionsAssignableDeploymentTypeDataTransforms,
 }
 
@@ -212,6 +215,7 @@ func GetListConnectionsAssignableDeploymentTypeEnumStringValues() []string {
 		"DATABASE_MYSQL",
 		"DATABASE_POSTGRESQL",
 		"DATABASE_DB2ZOS",
+		"GGSA",
 		"DATA_TRANSFORMS",
 	}
 }
