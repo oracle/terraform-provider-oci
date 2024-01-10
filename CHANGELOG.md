@@ -1,4 +1,4 @@
-## 5.24.0 (Unreleased)
+## 5.24.0 (January 10, 2024)
 
 ### Added
 - Support for GoldenGate : Stream Analytics
