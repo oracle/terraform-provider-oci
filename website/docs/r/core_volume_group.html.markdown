@@ -53,7 +53,7 @@ resource "oci_core_volume_group" "test_volume_group" {
 The following arguments are supported:
 
 * `availability_domain` - (Required) The availability domain of the volume group.
-* `backup_policy_id` - (Optional) If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned. 
+* `backup_policy_id` - (Optional) If provided, specifies the ID of the volume backup policy to assign to the newly created volume group. If omitted, no policy will be assigned. This field is deprecated. Use the `oci_core_volume_backup_policy_assignments` instead to assign a backup policy to a volume group.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the volume group.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 

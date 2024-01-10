@@ -137,7 +137,14 @@ func PsqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
+			},
+			"apply_config": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					"RESTART",
+					"RELOAD",
+				}, true),
 			},
 			"credentials": {
 				Type:     schema.TypeList,
@@ -151,7 +158,6 @@ func PsqlDbSystemResource() *schema.Resource {
 						"password_details": {
 							Type:     schema.TypeList,
 							Required: true,
-							ForceNew: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -160,7 +166,6 @@ func PsqlDbSystemResource() *schema.Resource {
 									"password_type": {
 										Type:             schema.TypeString,
 										Required:         true,
-										ForceNew:         true,
 										Sensitive:        true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
@@ -174,22 +179,18 @@ func PsqlDbSystemResource() *schema.Resource {
 										Type:      schema.TypeString,
 										Optional:  true,
 										Computed:  true,
-										ForceNew:  true,
 										Sensitive: true,
 									},
 									"secret_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"secret_version": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
-
 									// Computed
 								},
 							},
@@ -228,7 +229,6 @@ func PsqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"instance_memory_size_in_gbs": {
 				Type:     schema.TypeInt,
@@ -346,6 +346,49 @@ func PsqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"patch_operations": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"operation": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"INSERT",
+								"REMOVE",
+							}, true),
+						},
+						"selection": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"value": {
+							Type:             schema.TypeMap,
+							Optional:         true,
+							DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
+						},
+						"from": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"position": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"selected_item": {
+							Type:     schema.TypeString,
+							Optional: true,
 						},
 
 						// Computed
@@ -510,6 +553,7 @@ type PsqlDbSystemResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_psql.PostgresqlClient
 	Res                    *oci_psql.DbSystem
+	PatchResponse          *oci_psql.DbSystem
 	DisableNotFoundRetries bool
 }
 
@@ -694,6 +738,47 @@ func (s *PsqlDbSystemResourceCrud) Create() error {
 	return s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
+func (s *PsqlDbSystemResourceCrud) Patch() error {
+	request := oci_psql.PatchDbSystemRequest{}
+
+	tmp := s.D.Id()
+	request.DbSystemId = &tmp
+
+	if patchOperations, ok := s.D.GetOkExists("patch_operations"); ok {
+
+		interfaces := patchOperations.([]interface{})
+		tmp := make([]oci_psql.PatchInstruction, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "patch_operations", stateDataIndex)
+			converted, err := s.mapToPatchInstruction(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 {
+			request.Items = tmp
+		} else {
+			return nil
+		}
+	}
+
+	//Check if instance count has changed when applying patch operation
+	if (len(request.Items) != 0 && !s.D.HasChange("instance_count")) || (len(request.Items) == 0 && s.D.HasChange("instance_count")) {
+		return fmt.Errorf("please update the instance count of the dbSystem while doing a patch operation to add/remove replica")
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
+	response, err := s.Client.PatchDbSystem(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
+}
+
 func (s *PsqlDbSystemResourceCrud) getDbSystemFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
 	actionTypeEnum oci_psql.ActionTypeEnum, timeout time.Duration) error {
 
@@ -771,10 +856,8 @@ func dbSystemWaitForWorkRequest(wId *string, entityType string, action oci_psql.
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			if res.ActionType == action {
-				identifier = res.Identifier
-				break
-			}
+			identifier = res.Identifier
+			break
 		}
 	}
 
@@ -858,15 +941,19 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 	}
 	request := oci_psql.UpdateDbSystemRequest{}
 
-	if dbConfigurationParams, ok := s.D.GetOkExists("db_configuration_params"); ok {
-		if tmpList := dbConfigurationParams.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_configuration_params", 0)
-			tmp, err := s.mapToUpdateDbConfigParams(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.DbConfigurationParams = &tmp
+	if configId, ok := s.D.GetOkExists("config_id"); ok && s.D.HasChange("config_id") {
+		configRequest := oci_psql.UpdateDbConfigParams{}
+
+		tmp := configId.(string)
+		configRequest.ConfigId = &tmp
+
+		if applyConfig, ok := s.D.GetOkExists("apply_config"); ok {
+			configRequest.ApplyConfig = oci_psql.UpdateDbConfigParamsApplyConfigEnum(applyConfig.(string))
+		} else {
+			configRequest.ApplyConfig = oci_psql.UpdateDbConfigParamsApplyConfigReload
 		}
+
+		request.DbConfigurationParams = &configRequest
 	}
 
 	tmp := s.D.Id()
@@ -924,7 +1011,16 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getDbSystemFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql"), oci_psql.ActionTypeInProgress, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+	err = s.Patch()
+	if err != nil {
+		log.Printf("[ERROR] Failed to execute Patch operation: %v", err)
+		return err
+	}
+	return nil
 }
 
 func (s *PsqlDbSystemResourceCrud) Delete() error {
@@ -1562,6 +1658,40 @@ func PasswordDetailsToMap(obj *oci_psql.PasswordDetails) map[string]interface{} 
 	}
 
 	return result
+}
+
+func (s *PsqlDbSystemResourceCrud) mapToPatchInstruction(fieldKeyFormat string) (oci_psql.PatchInstruction, error) {
+	var baseObject oci_psql.PatchInstruction
+	//discriminator
+	operationRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operation"))
+	var operation string
+	if ok {
+		operation = operationRaw.(string)
+	} else {
+		operation = "" // default value
+	}
+	switch strings.ToLower(operation) {
+	case strings.ToLower("INSERT"):
+		details := oci_psql.PatchInsertInstruction{}
+		if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+			details.Value = &value
+		}
+		if selection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "selection")); ok {
+			tmp := selection.(string)
+			details.Selection = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("REMOVE"):
+		details := oci_psql.PatchRemoveInstruction{}
+		if selection, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "selection")); ok {
+			tmp := selection.(string)
+			details.Selection = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown operation '%v' was specified", operation)
+	}
+	return baseObject, nil
 }
 
 func (s *PsqlDbSystemResourceCrud) mapToSourceDetails(fieldKeyFormat string) (oci_psql.SourceDetails, error) {

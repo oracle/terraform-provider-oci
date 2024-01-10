@@ -83,7 +83,7 @@ variable "bds_instance_nodes_shape" {
 }
 
 variable "bds_instance_worker_node_shape" {
-  default = "VM.Standard2.4"
+  default = "VM.DenseIO.E4.Flex"
 }
 
 variable "bds_instance_compute_only_worker_node_shape" {
@@ -229,8 +229,12 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
     shape = var.bds_instance_worker_node_shape
 
     subnet_id                = var.subnet_id
-    block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
     number_of_nodes          = 4
+     shape_config {
+          memory_in_gbs = 128
+          ocpus         = 8
+          nvmes         = 1
+     }
   }
 
   edge_node {

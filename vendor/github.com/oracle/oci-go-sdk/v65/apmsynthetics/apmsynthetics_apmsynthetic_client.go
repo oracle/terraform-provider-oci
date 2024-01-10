@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -280,6 +280,69 @@ func (client ApmSyntheticClient) createMonitor(ctx context.Context, request comm
 	return response, err
 }
 
+// CreateOnPremiseVantagePoint Registers a new On-premise vantage point.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateOnPremiseVantagePoint.go.html to see an example of how to use CreateOnPremiseVantagePoint API.
+// A default retry strategy applies to this operation CreateOnPremiseVantagePoint()
+func (client ApmSyntheticClient) CreateOnPremiseVantagePoint(ctx context.Context, request CreateOnPremiseVantagePointRequest) (response CreateOnPremiseVantagePointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOnPremiseVantagePoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOnPremiseVantagePointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOnPremiseVantagePointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOnPremiseVantagePointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOnPremiseVantagePointResponse")
+	}
+	return
+}
+
+// createOnPremiseVantagePoint implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) createOnPremiseVantagePoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremiseVantagePoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOnPremiseVantagePointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePoint/CreateOnPremiseVantagePoint"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateOnPremiseVantagePoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateScript Creates a new script.
 //
 // # See also
@@ -336,6 +399,69 @@ func (client ApmSyntheticClient) createScript(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Script/CreateScript"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateScript", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateWorker Registers a new worker.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateWorker.go.html to see an example of how to use CreateWorker API.
+// A default retry strategy applies to this operation CreateWorker()
+func (client ApmSyntheticClient) CreateWorker(ctx context.Context, request CreateWorkerRequest) (response CreateWorkerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createWorker, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateWorkerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateWorkerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateWorkerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateWorkerResponse")
+	}
+	return
+}
+
+// createWorker implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) createWorker(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/onPremiseVantagePoints/{onPremiseVantagePointId}/workers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateWorkerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/CreateWorker"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "CreateWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -459,6 +585,64 @@ func (client ApmSyntheticClient) deleteMonitor(ctx context.Context, request comm
 	return response, err
 }
 
+// DeleteOnPremiseVantagePoint Deregisters the specified On-premise vantage point.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteOnPremiseVantagePoint.go.html to see an example of how to use DeleteOnPremiseVantagePoint API.
+// A default retry strategy applies to this operation DeleteOnPremiseVantagePoint()
+func (client ApmSyntheticClient) DeleteOnPremiseVantagePoint(ctx context.Context, request DeleteOnPremiseVantagePointRequest) (response DeleteOnPremiseVantagePointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOnPremiseVantagePoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOnPremiseVantagePointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOnPremiseVantagePointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOnPremiseVantagePointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOnPremiseVantagePointResponse")
+	}
+	return
+}
+
+// deleteOnPremiseVantagePoint implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) deleteOnPremiseVantagePoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/onPremiseVantagePoints/{onPremiseVantagePointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOnPremiseVantagePointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePoint/DeleteOnPremiseVantagePoint"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteOnPremiseVantagePoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteScript Deletes the specified script.
 //
 // # See also
@@ -510,6 +694,64 @@ func (client ApmSyntheticClient) deleteScript(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Script/DeleteScript"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteScript", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteWorker Deregisters the specified worker.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteWorker.go.html to see an example of how to use DeleteWorker API.
+// A default retry strategy applies to this operation DeleteWorker()
+func (client ApmSyntheticClient) DeleteWorker(ctx context.Context, request DeleteWorkerRequest) (response DeleteWorkerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteWorker, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteWorkerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteWorkerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteWorkerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteWorkerResponse")
+	}
+	return
+}
+
+// deleteWorker implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) deleteWorker(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/onPremiseVantagePoints/{onPremiseVantagePointId}/workers/{workerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteWorkerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/DeleteWorker"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "DeleteWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -691,6 +933,64 @@ func (client ApmSyntheticClient) getMonitorResult(ctx context.Context, request c
 	return response, err
 }
 
+// GetOnPremiseVantagePoint Gets the details of the On-premise vantage point identified by the OCID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetOnPremiseVantagePoint.go.html to see an example of how to use GetOnPremiseVantagePoint API.
+// A default retry strategy applies to this operation GetOnPremiseVantagePoint()
+func (client ApmSyntheticClient) GetOnPremiseVantagePoint(ctx context.Context, request GetOnPremiseVantagePointRequest) (response GetOnPremiseVantagePointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOnPremiseVantagePoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOnPremiseVantagePointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOnPremiseVantagePointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOnPremiseVantagePointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOnPremiseVantagePointResponse")
+	}
+	return
+}
+
+// getOnPremiseVantagePoint implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) getOnPremiseVantagePoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onPremiseVantagePoints/{onPremiseVantagePointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOnPremiseVantagePointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePoint/GetOnPremiseVantagePoint"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetOnPremiseVantagePoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetScript Gets the configuration of the script identified by the OCID.
 //
 // # See also
@@ -742,6 +1042,64 @@ func (client ApmSyntheticClient) getScript(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Script/GetScript"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetScript", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetWorker Gets the details of the worker identified by the OCID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetWorker.go.html to see an example of how to use GetWorker API.
+// A default retry strategy applies to this operation GetWorker()
+func (client ApmSyntheticClient) GetWorker(ctx context.Context, request GetWorkerRequest) (response GetWorkerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWorker, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWorkerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWorkerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetWorkerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWorkerResponse")
+	}
+	return
+}
+
+// getWorker implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) getWorker(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onPremiseVantagePoints/{onPremiseVantagePointId}/workers/{workerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWorkerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/GetWorker"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "GetWorker", apiReferenceLink)
 		return response, err
 	}
 
@@ -865,6 +1223,64 @@ func (client ApmSyntheticClient) listMonitors(ctx context.Context, request commo
 	return response, err
 }
 
+// ListOnPremiseVantagePoints Returns a list of On-premise vantage points.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListOnPremiseVantagePoints.go.html to see an example of how to use ListOnPremiseVantagePoints API.
+// A default retry strategy applies to this operation ListOnPremiseVantagePoints()
+func (client ApmSyntheticClient) ListOnPremiseVantagePoints(ctx context.Context, request ListOnPremiseVantagePointsRequest) (response ListOnPremiseVantagePointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOnPremiseVantagePoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOnPremiseVantagePointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOnPremiseVantagePointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOnPremiseVantagePointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOnPremiseVantagePointsResponse")
+	}
+	return
+}
+
+// listOnPremiseVantagePoints implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) listOnPremiseVantagePoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onPremiseVantagePoints", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOnPremiseVantagePointsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePointCollection/ListOnPremiseVantagePoints"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListOnPremiseVantagePoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPublicVantagePoints Returns a list of public vantage points.
 //
 // # See also
@@ -974,6 +1390,64 @@ func (client ApmSyntheticClient) listScripts(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/ScriptCollection/ListScripts"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListScripts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWorkers Returns a list of workers.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListWorkers.go.html to see an example of how to use ListWorkers API.
+// A default retry strategy applies to this operation ListWorkers()
+func (client ApmSyntheticClient) ListWorkers(ctx context.Context, request ListWorkersRequest) (response ListWorkersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWorkers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWorkersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWorkersResponse")
+	}
+	return
+}
+
+// listWorkers implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) listWorkers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/onPremiseVantagePoints/{onPremiseVantagePointId}/workers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWorkersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/WorkerCollection/ListWorkers"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "ListWorkers", apiReferenceLink)
 		return response, err
 	}
 
@@ -1097,6 +1571,64 @@ func (client ApmSyntheticClient) updateMonitor(ctx context.Context, request comm
 	return response, err
 }
 
+// UpdateOnPremiseVantagePoint Updates the On-premise vantage point.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateOnPremiseVantagePoint.go.html to see an example of how to use UpdateOnPremiseVantagePoint API.
+// A default retry strategy applies to this operation UpdateOnPremiseVantagePoint()
+func (client ApmSyntheticClient) UpdateOnPremiseVantagePoint(ctx context.Context, request UpdateOnPremiseVantagePointRequest) (response UpdateOnPremiseVantagePointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOnPremiseVantagePoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOnPremiseVantagePointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOnPremiseVantagePointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOnPremiseVantagePointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOnPremiseVantagePointResponse")
+	}
+	return
+}
+
+// updateOnPremiseVantagePoint implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) updateOnPremiseVantagePoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/onPremiseVantagePoints/{onPremiseVantagePointId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOnPremiseVantagePointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/OnPremiseVantagePoint/UpdateOnPremiseVantagePoint"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateOnPremiseVantagePoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateScript Updates the script.
 //
 // # See also
@@ -1148,6 +1680,64 @@ func (client ApmSyntheticClient) updateScript(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Script/UpdateScript"
 		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateScript", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateWorker Updates the worker.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateWorker.go.html to see an example of how to use UpdateWorker API.
+// A default retry strategy applies to this operation UpdateWorker()
+func (client ApmSyntheticClient) UpdateWorker(ctx context.Context, request UpdateWorkerRequest) (response UpdateWorkerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateWorker, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateWorkerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateWorkerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateWorkerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateWorkerResponse")
+	}
+	return
+}
+
+// updateWorker implements the OCIOperation interface (enables retrying operations)
+func (client ApmSyntheticClient) updateWorker(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/onPremiseVantagePoints/{onPremiseVantagePointId}/workers/{workerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateWorkerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-synthetic-monitoring/20200630/Worker/UpdateWorker"
+		err = common.PostProcessServiceError(err, "ApmSynthetic", "UpdateWorker", apiReferenceLink)
 		return response, err
 	}
 

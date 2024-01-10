@@ -3,13 +3,10 @@
 variable "tenancy_ocid" {
 }
 
-variable "user_ocid" {
+variable "auth" {
 }
 
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
+variable "config_file_profile" {
 }
 
 variable "region" {
@@ -22,11 +19,9 @@ variable "destination_region" {
 }
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
+  auth                = var.auth
+  config_file_profile = var.config_file_profile
+  region              = var.region
 }
 
 data "oci_identity_availability_domain" "ad" {
@@ -132,3 +127,46 @@ output "test_backup_policy_assignments_custom" {
   value = data.oci_core_volume_backup_policy_assignments.test_backup_policy_assignments_custom.volume_backup_policy_assignments
 }
 
+// Example 3: Assign a policy to a volume group
+
+resource "oci_core_volume" "test_volume" {
+  count               = 2
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = format("-tf-volume-%d", count.index + 1)
+  size_in_gbs         = "50"
+}
+
+resource "oci_core_volume_group" "test_volume_group" {
+  #Required
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+
+  source_details {
+    #Required
+    type = "volumeIds"
+
+    volume_ids = oci_core_volume.test_volume.*.id
+  }
+
+  #Optional
+  display_name = "test-volume-group-with-backup-policy"
+}
+
+resource "oci_core_volume_backup_policy_assignment" "test_volume_group_backup_policy_assignment" {
+  asset_id  = oci_core_volume_group.test_volume_group.id
+  policy_id = oci_core_volume_backup_policy.test_volume_backup_policy_custom.id
+}
+
+data "oci_core_volume_backup_policy_assignments" "test_volume_group_backup_policy_assignments" {
+  asset_id = oci_core_volume_group.test_volume_group.id
+
+  filter {
+    name   = "id"
+    values = [oci_core_volume_backup_policy_assignment.test_volume_group_backup_policy_assignment.id]
+  }
+}
+
+output "volume_group_backup_policy_assignments" {
+  value = data.oci_core_volume_backup_policy_assignments.test_volume_group_backup_policy_assignments
+}

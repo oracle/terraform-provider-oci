@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 package common
@@ -78,6 +78,8 @@ const (
 	RegionUSSaltlake2 Region = "us-saltlake-2"
 	//RegionSABogota1 region Bogota
 	RegionSABogota1 Region = "sa-bogota-1"
+	//RegionSAValparaiso1 region Valparaiso
+	RegionSAValparaiso1 Region = "sa-valparaiso-1"
 	//RegionUSLangley1 region Langley
 	RegionUSLangley1 Region = "us-langley-1"
 	//RegionUSLuke1 region Luke
@@ -160,6 +162,7 @@ var shortNameRegion = map[string]Region{
 	"mty": RegionMXMonterrey1,
 	"aga": RegionUSSaltlake2,
 	"bog": RegionSABogota1,
+	"vap": RegionSAValparaiso1,
 	"lfi": RegionUSLangley1,
 	"luf": RegionUSLuke1,
 	"ric": RegionUSGovAshburn1,
@@ -235,6 +238,7 @@ var regionRealm = map[Region]string{
 	RegionMXMonterrey1:    "oc1",
 	RegionUSSaltlake2:     "oc1",
 	RegionSABogota1:       "oc1",
+	RegionSAValparaiso1:   "oc1",
 
 	RegionUSLangley1: "oc2",
 	RegionUSLuke1:    "oc2",

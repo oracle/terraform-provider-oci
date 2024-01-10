@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -47,7 +47,7 @@ type SummarizeHostInsightResourceStatisticsRequest struct {
 	// Filter by one or more platform types.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
-	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX].
+	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX, HP-UX].
 	PlatformType []SummarizeHostInsightResourceStatisticsPlatformTypeEnum `contributesTo:"query" name:"platformType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Optional list of host insight resource OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
@@ -226,6 +226,7 @@ const (
 	SummarizeHostInsightResourceStatisticsPlatformTypeZlinux  SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "ZLINUX"
 	SummarizeHostInsightResourceStatisticsPlatformTypeWindows SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "WINDOWS"
 	SummarizeHostInsightResourceStatisticsPlatformTypeAix     SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "AIX"
+	SummarizeHostInsightResourceStatisticsPlatformTypeHpUx    SummarizeHostInsightResourceStatisticsPlatformTypeEnum = "HP_UX"
 )
 
 var mappingSummarizeHostInsightResourceStatisticsPlatformTypeEnum = map[string]SummarizeHostInsightResourceStatisticsPlatformTypeEnum{
@@ -235,6 +236,7 @@ var mappingSummarizeHostInsightResourceStatisticsPlatformTypeEnum = map[string]S
 	"ZLINUX":  SummarizeHostInsightResourceStatisticsPlatformTypeZlinux,
 	"WINDOWS": SummarizeHostInsightResourceStatisticsPlatformTypeWindows,
 	"AIX":     SummarizeHostInsightResourceStatisticsPlatformTypeAix,
+	"HP_UX":   SummarizeHostInsightResourceStatisticsPlatformTypeHpUx,
 }
 
 var mappingSummarizeHostInsightResourceStatisticsPlatformTypeEnumLowerCase = map[string]SummarizeHostInsightResourceStatisticsPlatformTypeEnum{
@@ -244,6 +246,7 @@ var mappingSummarizeHostInsightResourceStatisticsPlatformTypeEnumLowerCase = map
 	"zlinux":  SummarizeHostInsightResourceStatisticsPlatformTypeZlinux,
 	"windows": SummarizeHostInsightResourceStatisticsPlatformTypeWindows,
 	"aix":     SummarizeHostInsightResourceStatisticsPlatformTypeAix,
+	"hp_ux":   SummarizeHostInsightResourceStatisticsPlatformTypeHpUx,
 }
 
 // GetSummarizeHostInsightResourceStatisticsPlatformTypeEnumValues Enumerates the set of values for SummarizeHostInsightResourceStatisticsPlatformTypeEnum
@@ -264,6 +267,7 @@ func GetSummarizeHostInsightResourceStatisticsPlatformTypeEnumStringValues() []s
 		"ZLINUX",
 		"WINDOWS",
 		"AIX",
+		"HP_UX",
 	}
 }
 

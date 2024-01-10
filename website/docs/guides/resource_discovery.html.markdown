@@ -405,6 +405,8 @@ apm_synthetics
 * oci\_apm\_synthetics\_script
 * oci\_apm\_synthetics\_monitor
 * oci\_apm\_synthetics\_dedicated\_vantage\_point
+* oci\_apm\_synthetics\_on\_premise\_vantage\_point\_worker
+* oci\_apm\_synthetics\_on\_premise\_vantage\_point
 
 artifacts
 

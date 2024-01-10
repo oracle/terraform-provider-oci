@@ -66,7 +66,9 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 		is_certificate_validation_enabled = var.monitor_configuration_is_certificate_validation_enabled
 		is_default_snapshot_enabled = var.monitor_configuration_is_default_snapshot_enabled
 		is_failure_retried = var.monitor_configuration_is_failure_retried
+		is_query_recursive = var.monitor_configuration_is_query_recursive
 		is_redirection_enabled = var.monitor_configuration_is_redirection_enabled
+		name_server = var.monitor_configuration_name_server
 		network_configuration {
 
 			#Optional
@@ -76,6 +78,8 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
 			protocol = var.monitor_configuration_network_configuration_protocol
 			transmission_rate = var.monitor_configuration_network_configuration_transmission_rate
 		}
+		protocol = var.monitor_configuration_protocol
+		record_type = var.monitor_configuration_record_type
 		req_authentication_details {
 
 			#Optional
@@ -170,13 +174,17 @@ The following arguments are supported:
 	* `is_certificate_validation_enabled` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG) (Updatable) If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_default_snapshot_enabled` - (Applicable when config_type=BROWSER_CONFIG | SCRIPTED_BROWSER_CONFIG) (Updatable) If disabled, auto snapshots are not collected.
 	* `is_failure_retried` - (Optional) (Updatable) If isFailureRetried is enabled, then a failed call will be retried.
+	* `is_query_recursive` - (Applicable when config_type=DNS_SERVER_CONFIG) (Updatable) If isQueryRecursive is enabled, then queries will be sent recursively to the target server.
 	* `is_redirection_enabled` - (Applicable when config_type=REST_CONFIG) (Updatable) If redirection is enabled, then redirects will be allowed while accessing target URL.
-	* `network_configuration` - (Optional) (Updatable) Details of the network configuration.
-		* `number_of_hops` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of hops.
-		* `probe_mode` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Type of probe mode when TCP protocol is selected.
-		* `probe_per_hop` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of probes per hop.
-		* `protocol` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Type of protocol.
-		* `transmission_rate` - (Applicable when config_type=BROWSER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of probe packets sent out simultaneously.
+	* `name_server` - (Applicable when config_type=DNS_SERVER_CONFIG) (Updatable) Name of the server that will be used to perform DNS lookup.
+	* `network_configuration` - (Required when config_type=BROWSER_CONFIG | DNS_SERVER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Details of the network configuration. For NETWORK monitor type, NetworkConfiguration is mandatory.
+		* `number_of_hops` - (Applicable when config_type=BROWSER_CONFIG | DNS_SERVER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of hops.
+		* `probe_mode` - (Applicable when config_type=BROWSER_CONFIG | DNS_SERVER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Type of probe mode when TCP protocol is selected.
+		* `probe_per_hop` - (Applicable when config_type=BROWSER_CONFIG | DNS_SERVER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of probes per hop.
+		* `protocol` - (Applicable when config_type=BROWSER_CONFIG | DNS_SERVER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Type of protocol.
+		* `transmission_rate` - (Applicable when config_type=BROWSER_CONFIG | DNS_SERVER_CONFIG | NETWORK_CONFIG | REST_CONFIG | SCRIPTED_BROWSER_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Number of probe packets sent out simultaneously.
+	* `protocol` - (Applicable when config_type=DNS_SERVER_CONFIG | DNS_TRACE_CONFIG) (Updatable) Type of protocol.
+	* `record_type` - (Applicable when config_type=DNSSEC_CONFIG | DNS_SERVER_CONFIG | DNS_TRACE_CONFIG) (Updatable) DNS record type.
 	* `req_authentication_details` - (Applicable when config_type=REST_CONFIG) (Updatable) Details for request HTTP authentication.
 		* `auth_headers` - (Applicable when config_type=REST_CONFIG) (Updatable) List of authentication headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]` 
 			* `header_name` - (Required when config_type=REST_CONFIG) (Updatable) Name of the header.
@@ -198,7 +206,7 @@ The following arguments are supported:
 		* `param_name` - (Required when config_type=REST_CONFIG) (Updatable) Name of request query parameter.
 		* `param_value` - (Applicable when config_type=REST_CONFIG) (Updatable) Value of request query parameter.
 	* `verify_response_codes` - (Applicable when config_type=BROWSER_CONFIG | REST_CONFIG | SCRIPTED_REST_CONFIG) (Updatable) Expected HTTP response codes. For status code range, set values such as 2xx, 3xx. 
-	* `verify_response_content` - (Applicable when config_type=REST_CONFIG) (Updatable) Verify response content against regular expression based string. If response content does not match the verifyResponseContent value, then it will be considered a failure. 
+	* `verify_response_content` - (Applicable when config_type=DNSSEC_CONFIG | DNS_SERVER_CONFIG | DNS_TRACE_CONFIG | REST_CONFIG) (Updatable) Verify response content against regular expression based string. If response content does not match the verifyResponseContent value, then it will be considered a failure. 
 	* `verify_texts` - (Applicable when config_type=BROWSER_CONFIG) (Updatable) Verifies all the search strings present in the response. If any search string is not present in the response, then it will be considered as a failure. 
 		* `text` - (Applicable when config_type=BROWSER_CONFIG) (Updatable) Verification text in the response.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -216,7 +224,7 @@ The following arguments are supported:
 	* `param_name` - (Required) (Updatable) Name of the parameter.
 	* `param_value` - (Required) (Updatable) Value of the parameter.
 * `status` - (Optional) (Updatable) Enables or disables the monitor.
-* `target` - (Optional) (Updatable) Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80 
+* `target` - (Optional) (Updatable) Specify the endpoint on which to run the monitor. For BROWSER, REST and NETWORK monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80 
 * `timeout_in_seconds` - (Optional) (Updatable) Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 
 * `vantage_points` - (Required) (Updatable) A list of public and dedicated vantage points from which to execute the monitor. Use /publicVantagePoints to fetch public vantage points, and /dedicatedVantagePoints to fetch dedicated vantage points. 
 
@@ -247,13 +255,17 @@ The following attributes are exported:
 	* `is_certificate_validation_enabled` - If certificate validation is enabled, then the call will fail in case of certification errors.
 	* `is_default_snapshot_enabled` - If disabled, auto snapshots are not collected.
 	* `is_failure_retried` - If isFailureRetried is enabled, then a failed call will be retried.
+	* `is_query_recursive` - If isQueryRecursive is enabled, then queries will be sent recursively to the target server.
 	* `is_redirection_enabled` - If redirection is enabled, then redirects will be allowed while accessing target URL.
-	* `network_configuration` - Details of the network configuration.
+	* `name_server` - Name of the server that will be used to perform DNS lookup.
+	* `network_configuration` - Details of the network configuration. For NETWORK monitor type, NetworkConfiguration is mandatory.
 		* `number_of_hops` - Number of hops.
 		* `probe_mode` - Type of probe mode when TCP protocol is selected.
 		* `probe_per_hop` - Number of probes per hop.
 		* `protocol` - Type of protocol.
 		* `transmission_rate` - Number of probe packets sent out simultaneously.
+	* `protocol` - Type of protocol.
+	* `record_type` - DNS record type.
 	* `req_authentication_details` - Details for request HTTP authentication.
 		* `auth_headers` - List of authentication headers. Example: `[{"headerName": "content-type", "headerValue":"json"}]` 
 			* `header_name` - Name of the header.
@@ -299,7 +311,7 @@ The following attributes are exported:
 		* `param_name` - Name of the parameter.
 		* `param_value` - Value of the parameter.
 * `status` - Enables or disables the monitor.
-* `target` - Specify the endpoint on which to run the monitor. For BROWSER and REST monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80 
+* `target` - Specify the endpoint on which to run the monitor. For BROWSER, REST and NETWORK monitor types, target is mandatory. If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint. If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is. For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80 
 * `time_created` - The time the resource was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-12T22:47:12.613Z` 
 * `time_updated` - The time the resource was updated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2020-02-13T22:47:12.613Z` 
 * `timeout_in_seconds` - Timeout in seconds. If isFailureRetried is true, then timeout cannot be more than 30% of repeatIntervalInSeconds time for monitors. If isFailureRetried is false, then timeout cannot be more than 50% of repeatIntervalInSeconds time for monitors. Also, timeoutInSeconds should be a multiple of 60 for Scripted REST, Scripted Browser and Browser monitors. Monitor will be allowed to run only for timeoutInSeconds time. It would be terminated after that. 

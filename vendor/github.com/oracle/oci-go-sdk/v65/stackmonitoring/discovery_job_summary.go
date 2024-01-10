@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -115,6 +115,7 @@ const (
 	DiscoveryJobSummaryResourceTypeOraclePsft       DiscoveryJobSummaryResourceTypeEnum = "ORACLE_PSFT"
 	DiscoveryJobSummaryResourceTypeOracleMft        DiscoveryJobSummaryResourceTypeEnum = "ORACLE_MFT"
 	DiscoveryJobSummaryResourceTypeApacheHttpServer DiscoveryJobSummaryResourceTypeEnum = "APACHE_HTTP_SERVER"
+	DiscoveryJobSummaryResourceTypeOracleGoldengate DiscoveryJobSummaryResourceTypeEnum = "ORACLE_GOLDENGATE"
 )
 
 var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -130,6 +131,7 @@ var mappingDiscoveryJobSummaryResourceTypeEnum = map[string]DiscoveryJobSummaryR
 	"ORACLE_PSFT":        DiscoveryJobSummaryResourceTypeOraclePsft,
 	"ORACLE_MFT":         DiscoveryJobSummaryResourceTypeOracleMft,
 	"APACHE_HTTP_SERVER": DiscoveryJobSummaryResourceTypeApacheHttpServer,
+	"ORACLE_GOLDENGATE":  DiscoveryJobSummaryResourceTypeOracleGoldengate,
 }
 
 var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJobSummaryResourceTypeEnum{
@@ -145,6 +147,7 @@ var mappingDiscoveryJobSummaryResourceTypeEnumLowerCase = map[string]DiscoveryJo
 	"oracle_psft":        DiscoveryJobSummaryResourceTypeOraclePsft,
 	"oracle_mft":         DiscoveryJobSummaryResourceTypeOracleMft,
 	"apache_http_server": DiscoveryJobSummaryResourceTypeApacheHttpServer,
+	"oracle_goldengate":  DiscoveryJobSummaryResourceTypeOracleGoldengate,
 }
 
 // GetDiscoveryJobSummaryResourceTypeEnumValues Enumerates the set of values for DiscoveryJobSummaryResourceTypeEnum
@@ -171,6 +174,7 @@ func GetDiscoveryJobSummaryResourceTypeEnumStringValues() []string {
 		"ORACLE_PSFT",
 		"ORACLE_MFT",
 		"APACHE_HTTP_SERVER",
+		"ORACLE_GOLDENGATE",
 	}
 }
 
