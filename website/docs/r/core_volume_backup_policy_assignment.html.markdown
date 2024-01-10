@@ -10,8 +10,8 @@ description: |-
 # oci_core_volume_backup_policy_assignment
 This resource provides the Volume Backup Policy Assignment resource in Oracle Cloud Infrastructure Core service.
 
-Assigns a volume backup policy to the specified volume. Note that a given volume can
-only have one backup policy assigned to it. If this operation is used for a volume that already
+Assigns a volume backup policy to the specified volume or volume group. Note that a given volume or volume group can
+only have one backup policy assigned to it. If this operation is used for a volume or volume group that already
 has a different backup policy assigned, the prior backup policy will be silently unassigned.
 
 
@@ -29,7 +29,7 @@ resource "oci_core_volume_backup_policy_assignment" "test_volume_backup_policy_a
 
 The following arguments are supported:
 
-* `asset_id` - (Required) The OCID of the volume to assign the policy to.
+* `asset_id` - (Required) The OCID of the volume or volume group to assign the policy to.
 * `policy_id` - (Required) The OCID of the volume backup policy to assign to the volume.
 
 
@@ -40,9 +40,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `asset_id` - The OCID of the volume the policy has been assigned to.
+* `asset_id` - The OCID of the volume or volume group the policy has been assigned to.
 * `id` - The OCID of the volume backup policy assignment.
-* `policy_id` - The OCID of the volume backup policy that has been assigned to the volume. 
+* `policy_id` - The OCID of the volume backup policy that has been assigned to the volume or volume group. For a volume group, only the **user defined** policy is allowed to use. For more information, see [Policy-Based Backups](https://docs.oracle.com/en-us/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 * `time_created` - The date and time the volume backup policy was assigned to the volume. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
 
 ## Timeouts

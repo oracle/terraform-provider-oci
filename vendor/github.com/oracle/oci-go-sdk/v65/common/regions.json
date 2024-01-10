@@ -346,5 +346,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "sa-bogota-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "vap",
+        "realmKey": "oc1",
+        "regionIdentifier": "sa-valparaiso-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

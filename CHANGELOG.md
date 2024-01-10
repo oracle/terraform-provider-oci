@@ -1,3 +1,15 @@
+## 5.24.0 (January 10, 2024)
+
+### Added
+- Support for GoldenGate : Stream Analytics
+- Support for APM - Synthetics - Support for On Premise Vantage Point
+support to update config id for a psql dbSystem
+### Deprecation
+- Deprecate backup_policy_id field for oci_core_volume_group
+### Bug Fix
+- database_management_status and operations_insights_status both not enabled together.
+- Support for New Compute Shapes (VM.DenseIO.E4.Flex)
+
 ## 5.23.0 (December 12, 2023)
 
 ### Added

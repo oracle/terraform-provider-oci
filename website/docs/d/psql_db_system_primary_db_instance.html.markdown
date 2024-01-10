@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_psql_db_system_primary_db_instance
 This data source provides details about a specific Db System Primary Db Instance resource in Oracle Cloud Infrastructure Psql service.
 
-Gets the primary DbInstance details.
+Gets the primary database instance node details.
 
 ## Example Usage
 
@@ -25,12 +25,12 @@ data "oci_psql_db_system_primary_db_instance" "test_db_system_primary_db_instanc
 
 The following arguments are supported:
 
-* `db_system_id` - (Required) unique DbSystem identifier
+* `db_system_id` - (Required) A unique identifier for the database system.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `db_instance_id` - Unique identifier of the DbInstance.
+* `db_instance_id` - A unique identifier for the primary database instance node.
 

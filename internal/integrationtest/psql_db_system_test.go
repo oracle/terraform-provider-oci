@@ -58,7 +58,8 @@ var (
 		"network_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemNetworkDetailsRepresentation},
 		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `PostgreSQL.VM.Standard.E4.Flex.2.32GB`},
 		"storage_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemStorageDetailsRepresentation},
-		"config_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.config_id}`},
+		"config_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${var.config_id}`, Update: `${var.update_config_id}`},
+		"apply_config":                acctest.Representation{RepType: acctest.Optional, Update: `RESTART`},
 		"credentials":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlDbSystemCredentialsRepresentation},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                 acctest.Representation{RepType: acctest.Optional, Create: `terrafrom test dbSystem`},
@@ -80,7 +81,7 @@ var (
 		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 	}
 	PsqlDbSystemStorageDetailsRepresentation = map[string]interface{}{
-		"availability_domain":   acctest.Representation{RepType: acctest.Required, Create: `slEf:UK-LONDON-1-AD-1`},
+		"availability_domain":   acctest.Representation{RepType: acctest.Required, Create: `slEf:PHX-AD-1`},
 		"is_regionally_durable": acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"system_type":           acctest.Representation{RepType: acctest.Required, Create: `OCI_OPTIMIZED_STORAGE`},
 		"iops":                  acctest.Representation{RepType: acctest.Optional, Create: `300000`},
@@ -92,17 +93,11 @@ var (
 	PsqlDbSystemInstancesDetailsRepresentation = map[string]interface{}{
 		"description":  acctest.Representation{RepType: acctest.Optional, Create: `Terraform federated test dbSystem`},
 		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `dbsystem-instance`},
-		"private_ip":   acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.65`},
+		"private_ip":   acctest.Representation{RepType: acctest.Optional, Create: `10.0.1.61`},
 	}
 	PsqlDbSystemManagementPolicyRepresentation = map[string]interface{}{
 		"backup_policy":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: PsqlDbSystemManagementPolicyBackupPolicyRepresentation},
 		"maintenance_window_start": acctest.Representation{RepType: acctest.Optional, Create: `SUN 12:00`},
-	}
-	PsqlDbSystemPatchOperationsRepresentation = map[string]interface{}{
-		"operation": acctest.Representation{RepType: acctest.Required, Create: `INSERT`},
-		"selection": acctest.Representation{RepType: acctest.Required, Create: `instances`},
-		"from":      acctest.Representation{RepType: acctest.Optional, Create: `{}`},
-		"value":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"displayName": "patch-instance"}},
 	}
 	PsqlDbSystemSourceRepresentation = map[string]interface{}{
 		"source_type":                        acctest.Representation{RepType: acctest.Required, Create: `NONE`},
@@ -110,8 +105,8 @@ var (
 		"is_having_restore_config_overrides": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 	PsqlDbSystemCredentialsPasswordDetailsRepresentation = map[string]interface{}{
-		"password_type": acctest.Representation{RepType: acctest.Required, Create: `PLAIN_TEXT`},
-		"password":      acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"password_type": acctest.Representation{RepType: acctest.Required, Create: `PLAIN_TEXT`, Update: `PLAIN_TEXT`},
+		"password":      acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
 	}
 	PsqlDbSystemManagementPolicyBackupPolicyRepresentation = map[string]interface{}{
 		"backup_start":     acctest.Representation{RepType: acctest.Optional, Create: `02:00`},
@@ -139,7 +134,7 @@ var (
 	PsqlDbSystemIpNetworkDetailsRepresentation = map[string]interface{}{
 		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"nsg_ids":                        acctest.Representation{RepType: acctest.Required, Create: []string{}},
-		"primary_db_endpoint_private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.1.86`},
+		"primary_db_endpoint_private_ip": acctest.Representation{RepType: acctest.Required, Create: `10.0.1.84`},
 	}
 
 	PsqlDbSystemRegionalStorageDetailsRepresentation = map[string]interface{}{
@@ -192,8 +187,11 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_ocid")
 	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
 
-	configId := utils.GetEnvSettingWithBlankDefault("config_ocid")
+	configId := utils.GetEnvSettingWithBlankDefault("config_id")
 	configIdVariableStr := fmt.Sprintf("variable \"config_id\" { default = \"%s\" }\n", configId)
+
+	configIdU := utils.GetEnvSettingWithBlankDefault("update_config_id")
+	configIdUVariableStr := fmt.Sprintf("variable \"update_config_id\" { default = \"%s\" }\n", configIdU)
 
 	vaultId := utils.GetEnvSettingWithBlankDefault("vault_ocid")
 	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
@@ -255,7 +253,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(test2_resourceName, "storage_details.#", "1"),
 				resource.TestCheckResourceAttr(test2_resourceName, "storage_details.0.is_regionally_durable", "true"),
 				resource.TestCheckResourceAttr(test2_resourceName, "storage_details.0.system_type", "OCI_OPTIMIZED_STORAGE"),
-				resource.TestCheckResourceAttr(test2_resourceName, "network_details.0.primary_db_endpoint_private_ip", "10.0.1.86"),
+				resource.TestCheckResourceAttr(test2_resourceName, "network_details.0.primary_db_endpoint_private_ip", "10.0.1.84"),
 
 				resource.TestCheckResourceAttrSet(test2_resourceName, "source.0.backup_id"),
 				resource.TestCheckResourceAttr(test2_resourceName, "source.0.is_having_restore_config_overrides", "false"),
@@ -294,7 +292,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instances_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.description", "Terraform federated test dbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.display_name", "dbsystem-instance"),
-				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.65"),
+				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.61"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
@@ -356,7 +354,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instances_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.description", "Terraform federated test dbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.display_name", "dbsystem-instance"),
-				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.65"),
+				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.61"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "02:00"),
@@ -391,14 +389,14 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + subnetIdVariableStr + configIdVariableStr + PsqlDbSystemResourceDependencies +
+			Config: config + compartmentIdVariableStr + configIdUVariableStr + subnetIdVariableStr + configIdVariableStr + PsqlDbSystemResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "config_id"),
 				resource.TestCheckResourceAttr(resourceName, "credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "credentials.0.password_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "credentials.0.password_details.0.password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "credentials.0.password_details.0.password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "credentials.0.password_details.0.password_type", "PLAIN_TEXT"),
 				resource.TestCheckResourceAttr(resourceName, "credentials.0.username", "user"),
 				resource.TestCheckResourceAttr(resourceName, "db_version", "14"),
@@ -412,7 +410,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instances_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.description", "Terraform federated test dbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "instances_details.0.display_name", "dbsystem-instance"),
-				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.65"),
+				resource.TestCheckResourceAttr(resourceName, "instances_details.0.private_ip", "10.0.1.61"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.backup_start", "02:00"),
@@ -448,7 +446,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_psql_db_systems", "test_db_systems", acctest.Optional, acctest.Update, PsqlDbSystemDataSourceRepresentation) +
-				compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + configIdVariableStr +
+				compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + configIdVariableStr + configIdUVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -464,7 +462,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_psql_db_systems", "test_db_systems", acctest.Optional, acctest.Update, PsqlDbSystemIdOnlyDataSourceRepresentation) +
-				compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + configIdVariableStr +
+				compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + configIdVariableStr + configIdUVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
@@ -477,7 +475,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Required, acctest.Create, PsqlDbSystemSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + subnetIdVariableStr + configIdVariableStr + PsqlDbSystemResourceConfig,
+				compartmentIdVariableStr + subnetIdVariableStr + configIdVariableStr + configIdUVariableStr + PsqlDbSystemResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 
@@ -525,6 +523,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				"credentials",
 				"instances_details",
 				"patch_operations",
+				"apply_config",
 			},
 			ResourceName: resourceName,
 		},

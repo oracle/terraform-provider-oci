@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2023, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -76,6 +76,7 @@ const (
 	DiscoveryDetailsResourceTypeOraclePsft       DiscoveryDetailsResourceTypeEnum = "ORACLE_PSFT"
 	DiscoveryDetailsResourceTypeOracleMft        DiscoveryDetailsResourceTypeEnum = "ORACLE_MFT"
 	DiscoveryDetailsResourceTypeApacheHttpServer DiscoveryDetailsResourceTypeEnum = "APACHE_HTTP_SERVER"
+	DiscoveryDetailsResourceTypeOracleGoldengate DiscoveryDetailsResourceTypeEnum = "ORACLE_GOLDENGATE"
 )
 
 var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -91,6 +92,7 @@ var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourc
 	"ORACLE_PSFT":        DiscoveryDetailsResourceTypeOraclePsft,
 	"ORACLE_MFT":         DiscoveryDetailsResourceTypeOracleMft,
 	"APACHE_HTTP_SERVER": DiscoveryDetailsResourceTypeApacheHttpServer,
+	"ORACLE_GOLDENGATE":  DiscoveryDetailsResourceTypeOracleGoldengate,
 }
 
 var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -106,6 +108,7 @@ var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetai
 	"oracle_psft":        DiscoveryDetailsResourceTypeOraclePsft,
 	"oracle_mft":         DiscoveryDetailsResourceTypeOracleMft,
 	"apache_http_server": DiscoveryDetailsResourceTypeApacheHttpServer,
+	"oracle_goldengate":  DiscoveryDetailsResourceTypeOracleGoldengate,
 }
 
 // GetDiscoveryDetailsResourceTypeEnumValues Enumerates the set of values for DiscoveryDetailsResourceTypeEnum
@@ -132,6 +135,7 @@ func GetDiscoveryDetailsResourceTypeEnumStringValues() []string {
 		"ORACLE_PSFT",
 		"ORACLE_MFT",
 		"APACHE_HTTP_SERVER",
+		"ORACLE_GOLDENGATE",
 	}
 }
 
