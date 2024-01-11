@@ -45,6 +45,7 @@ resource "oci_core_volume_group" "test_volume_group" {
 		#Optional
 		display_name = var.volume_group_volume_group_replicas_display_name
 	}
+	volume_ids = [var.volume_group_source_id]
 }
 ```
 
@@ -63,11 +64,11 @@ The following arguments are supported:
 	* `volume_group_backup_id` - (Required when type=volumeGroupBackupId) The OCID of the volume group backup to restore from.
 	* `volume_group_id` - (Required when type=volumeGroupId) The OCID of the volume group to clone from.
 	* `volume_group_replica_id` - (Required when type=volumeGroupReplicaId) The OCID of the volume group replica.
-	* `volume_ids` - (Required when type=volumeIds) OCIDs for the volumes in this volume group.
+	* `volume_ids` - (Required when type=volumeIds) OCIDs for the volumes used to create this volume group.
 * `volume_group_replicas` - (Optional) (Updatable) The list of volume group replicas that this volume group will be enabled to have in the specified destination availability domains. 
 	* `availability_domain` - (Required) (Updatable) The availability domain of the volume group replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-
+* `volume_ids` - (Optional) (Updatable) Use this for update operation only. This field is not supported during creation. For create use `volume_ids` under `source_details`.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -90,14 +91,14 @@ The following attributes are exported:
 	* `volume_group_backup_id` - The OCID of the volume group backup to restore from.
 	* `volume_group_id` - The OCID of the volume group to clone from.
 	* `volume_group_replica_id` - The OCID of the volume group replica.
-	* `volume_ids` - OCIDs for the volumes in this volume group.
+	* `volume_ids` - OCIDs for the volumes used to create this volume group. This field never changes after creation.
 * `state` - The current state of a volume group.
 * `time_created` - The date and time the volume group was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `volume_group_replicas` - The list of volume group replicas of this volume group.
 	* `availability_domain` - The availability domain of the boot volume replica replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 	* `volume_group_replica_id` - The volume group replica's Oracle ID (OCID).
-* `volume_ids` - OCIDs for the volumes in this volume group.
+* `volume_ids` - OCIDs for the current volumes in this volume group.
 
 ## Timeouts
 
