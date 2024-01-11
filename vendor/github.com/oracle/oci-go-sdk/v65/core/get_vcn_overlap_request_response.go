@@ -14,10 +14,10 @@ import (
 // GetVcnOverlapRequest wrapper for the GetVcnOverlap operation
 type GetVcnOverlapRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"path" name:"vcnId"`
 
-	// Details needed to List the IpInventory VCN Overlap Data.
+	// Lists details of the IP Inventory VCN overlap data.
 	GetVcnOverlapDetails GetIpInventoryVcnOverlapDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

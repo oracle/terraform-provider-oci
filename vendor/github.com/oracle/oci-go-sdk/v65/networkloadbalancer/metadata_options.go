@@ -22,6 +22,7 @@ const (
 	MetadataOptionsSgwPeNatIp MetadataOptionsEnum = "SGW_PE_NAT_IP"
 	MetadataOptionsVcnOcid    MetadataOptionsEnum = "VCN_OCID"
 	MetadataOptionsPeOcid     MetadataOptionsEnum = "PE_OCID"
+	MetadataOptionsSgwOcid    MetadataOptionsEnum = "SGW_OCID"
 )
 
 var mappingMetadataOptionsEnum = map[string]MetadataOptionsEnum{
@@ -29,6 +30,7 @@ var mappingMetadataOptionsEnum = map[string]MetadataOptionsEnum{
 	"SGW_PE_NAT_IP": MetadataOptionsSgwPeNatIp,
 	"VCN_OCID":      MetadataOptionsVcnOcid,
 	"PE_OCID":       MetadataOptionsPeOcid,
+	"SGW_OCID":      MetadataOptionsSgwOcid,
 }
 
 var mappingMetadataOptionsEnumLowerCase = map[string]MetadataOptionsEnum{
@@ -36,6 +38,7 @@ var mappingMetadataOptionsEnumLowerCase = map[string]MetadataOptionsEnum{
 	"sgw_pe_nat_ip": MetadataOptionsSgwPeNatIp,
 	"vcn_ocid":      MetadataOptionsVcnOcid,
 	"pe_ocid":       MetadataOptionsPeOcid,
+	"sgw_ocid":      MetadataOptionsSgwOcid,
 }
 
 // GetMetadataOptionsEnumValues Enumerates the set of values for MetadataOptionsEnum
@@ -54,6 +57,7 @@ func GetMetadataOptionsEnumStringValues() []string {
 		"SGW_PE_NAT_IP",
 		"VCN_OCID",
 		"PE_OCID",
+		"SGW_OCID",
 	}
 }
 

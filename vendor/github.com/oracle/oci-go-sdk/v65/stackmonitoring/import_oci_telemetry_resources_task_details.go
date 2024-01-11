@@ -26,6 +26,44 @@ type ImportOciTelemetryResourcesTaskDetails struct {
 	// If not specified, resource group will be skipped in the list metrics request.
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
 
+	// Flag to indicate whether status is calculated using metrics or
+	// LifeCycleState attribute of the resource in OCI service.
+	ShouldUseMetricsFlowForStatus *bool `mandatory:"false" json:"shouldUseMetricsFlowForStatus"`
+
+	// The base URL of the OCI service to which the resource belongs to.
+	// Also this property is applicable only when source is OCI_TELEMETRY_NATIVE.
+	ServiceBaseUrl *string `mandatory:"false" json:"serviceBaseUrl"`
+
+	// The console path prefix to use for providing service home url page navigation.
+	// For example if the prefix provided is 'security/bastion/bastions', the URL used for navigation will be
+	// https://<cloudhostname>/security/bastion/bastions/<resourceOcid>. If not provided, service home page link
+	// will not be shown in the stack monitoring home page.
+	ConsolePathPrefix *string `mandatory:"false" json:"consolePathPrefix"`
+
+	// Lifecycle states of the external resource which reflects the status of the resource being up.
+	LifecycleStatusMappingsForUpStatus []string `mandatory:"false" json:"lifecycleStatusMappingsForUpStatus"`
+
+	// The resource name property in the metric dimensions.
+	// Resources imported will be using this property value for resource name.
+	ResourceNameMapping *string `mandatory:"false" json:"resourceNameMapping"`
+
+	// The external resource identifier property in the metric dimensions.
+	// Resources imported will be using this property value for external id.
+	ExternalIdMapping *string `mandatory:"false" json:"externalIdMapping"`
+
+	// The resource type property in the metric dimensions.
+	// Resources imported will be using this property value for resource type.
+	// If not specified, namespace will be used for resource type.
+	ResourceTypeMapping *string `mandatory:"false" json:"resourceTypeMapping"`
+
+	// The resource name filter. Resources matching with the resource name filter will be imported.
+	// Regular expressions will be accepted.
+	ResourceNameFilter *string `mandatory:"false" json:"resourceNameFilter"`
+
+	// The resource type filter. Resources matching with the resource type filter will be imported.
+	// Regular expressions will be accepted.
+	ResourceTypeFilter *string `mandatory:"false" json:"resourceTypeFilter"`
+
 	// List of metrics to be used to calculate the availability of the resource.
 	// Resource is considered to be up if at least one of the specified metrics is available for
 	// the resource during the specified interval using the property

@@ -12,6 +12,7 @@
 package databasemanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -105,6 +106,9 @@ type ManagedDatabase struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The list of feature configurations
+	DbmgmtFeatureConfigs []DatabaseFeatureConfiguration `mandatory:"false" json:"dbmgmtFeatureConfigs"`
 }
 
 func (m ManagedDatabase) String() string {
@@ -139,4 +143,105 @@ func (m ManagedDatabase) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ManagedDatabase) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DeploymentType               DeploymentTypeEnum                `json:"deploymentType"`
+		ManagementOption             ManagementOptionEnum              `json:"managementOption"`
+		WorkloadType                 WorkloadTypeEnum                  `json:"workloadType"`
+		ParentContainerId            *string                           `json:"parentContainerId"`
+		ManagedDatabaseGroups        []ParentGroup                     `json:"managedDatabaseGroups"`
+		DbSystemId                   *string                           `json:"dbSystemId"`
+		StorageSystemId              *string                           `json:"storageSystemId"`
+		DatabaseVersion              *string                           `json:"databaseVersion"`
+		DatabaseStatus               DatabaseStatusEnum                `json:"databaseStatus"`
+		ParentContainerName          *string                           `json:"parentContainerName"`
+		ParentContainerCompartmentId *string                           `json:"parentContainerCompartmentId"`
+		InstanceCount                *int                              `json:"instanceCount"`
+		InstanceDetails              []InstanceDetails                 `json:"instanceDetails"`
+		PdbCount                     *int                              `json:"pdbCount"`
+		PdbStatus                    []PdbStatusDetails                `json:"pdbStatus"`
+		AdditionalDetails            map[string]string                 `json:"additionalDetails"`
+		FreeformTags                 map[string]string                 `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
+		DbmgmtFeatureConfigs         []databasefeatureconfiguration    `json:"dbmgmtFeatureConfigs"`
+		Id                           *string                           `json:"id"`
+		CompartmentId                *string                           `json:"compartmentId"`
+		Name                         *string                           `json:"name"`
+		DatabaseType                 DatabaseTypeEnum                  `json:"databaseType"`
+		DatabaseSubType              DatabaseSubTypeEnum               `json:"databaseSubType"`
+		IsCluster                    *bool                             `json:"isCluster"`
+		TimeCreated                  *common.SDKTime                   `json:"timeCreated"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DeploymentType = model.DeploymentType
+
+	m.ManagementOption = model.ManagementOption
+
+	m.WorkloadType = model.WorkloadType
+
+	m.ParentContainerId = model.ParentContainerId
+
+	m.ManagedDatabaseGroups = make([]ParentGroup, len(model.ManagedDatabaseGroups))
+	copy(m.ManagedDatabaseGroups, model.ManagedDatabaseGroups)
+	m.DbSystemId = model.DbSystemId
+
+	m.StorageSystemId = model.StorageSystemId
+
+	m.DatabaseVersion = model.DatabaseVersion
+
+	m.DatabaseStatus = model.DatabaseStatus
+
+	m.ParentContainerName = model.ParentContainerName
+
+	m.ParentContainerCompartmentId = model.ParentContainerCompartmentId
+
+	m.InstanceCount = model.InstanceCount
+
+	m.InstanceDetails = make([]InstanceDetails, len(model.InstanceDetails))
+	copy(m.InstanceDetails, model.InstanceDetails)
+	m.PdbCount = model.PdbCount
+
+	m.PdbStatus = make([]PdbStatusDetails, len(model.PdbStatus))
+	copy(m.PdbStatus, model.PdbStatus)
+	m.AdditionalDetails = model.AdditionalDetails
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DbmgmtFeatureConfigs = make([]DatabaseFeatureConfiguration, len(model.DbmgmtFeatureConfigs))
+	for i, n := range model.DbmgmtFeatureConfigs {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.DbmgmtFeatureConfigs[i] = nn.(DatabaseFeatureConfiguration)
+		} else {
+			m.DbmgmtFeatureConfigs[i] = nil
+		}
+	}
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.Name = model.Name
+
+	m.DatabaseType = model.DatabaseType
+
+	m.DatabaseSubType = model.DatabaseSubType
+
+	m.IsCluster = model.IsCluster
+
+	m.TimeCreated = model.TimeCreated
+
+	return
 }

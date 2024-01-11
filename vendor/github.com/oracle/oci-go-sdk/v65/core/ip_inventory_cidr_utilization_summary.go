@@ -21,16 +21,16 @@ import (
 	"strings"
 )
 
-// IpInventoryCidrUtilizationSummary The Cidr Utilization details of a subnet
+// IpInventoryCidrUtilizationSummary The CIDR utilization details of a subnet.
 type IpInventoryCidrUtilizationSummary struct {
 
-	// The CIDR range of the subnet
+	// The CIDR range of a subnet.
 	Cidr *string `mandatory:"false" json:"cidr"`
 
-	// The CIDR Utilisation of the subnet
+	// The CIDR utilisation of a subnet.
 	Utilization *float32 `mandatory:"false" json:"utilization"`
 
-	// Address type of the Cidr within Subnet
+	// Address type of the CIDR within a subnet.
 	AddressType *string `mandatory:"false" json:"addressType"`
 }
 

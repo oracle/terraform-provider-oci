@@ -21,43 +21,43 @@ import (
 	"strings"
 )
 
-// IpInventorySubnetResourceSummary The IP Inventory Details of a Subnet and its associated resources
+// IpInventorySubnetResourceSummary Provides the IP Inventory details of a subnet and its associated resources.
 type IpInventorySubnetResourceSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IP Address .
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IP address.
 	IpId *string `mandatory:"false" json:"ipId"`
 
-	// The Private Ip Address Allocated
+	// Lists the allocated private IP address.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
-	// The Lifetime of the Private IP Allocated
+	// Lifetime of the allocated private IP address.
 	IpAddressLifetime IpInventorySubnetResourceSummaryIpAddressLifetimeEnum `mandatory:"false" json:"ipAddressLifetime,omitempty"`
 
-	// The address range the ip address is assigned from.
+	// The address range the IP address is assigned from.
 	ParentCidr *string `mandatory:"false" json:"parentCidr"`
 
-	// Associate Public IP address for the Private Ip Address.
+	// Associated public IP address for the private IP address.
 	AssociatedPublicIp *string `mandatory:"false" json:"associatedPublicIp"`
 
-	// The Lifetime of the Public IP Assigned
+	// Lifetime of the assigned public IP address.
 	PublicIpLifetime IpInventorySubnetResourceSummaryPublicIpLifetimeEnum `mandatory:"false" json:"publicIpLifetime,omitempty"`
 
-	// Public Pool the IP address is allocated from.
+	// Public IP address Pool the IP address is allocated from.
 	AssociatedPublicIpPool IpInventorySubnetResourceSummaryAssociatedPublicIpPoolEnum `mandatory:"false" json:"associatedPublicIpPool,omitempty"`
 
-	// DNS Hostname of the ip Address
+	// DNS hostname of the IP address.
 	DnsHostName *string `mandatory:"false" json:"dnsHostName"`
 
-	// The Name of the resource created
+	// Name of the created resource.
 	AssignedResourceName *string `mandatory:"false" json:"assignedResourceName"`
 
-	// Resource types of the Resource
+	// Type of the resource.
 	AssignedResourceType IpInventorySubnetResourceSummaryAssignedResourceTypeEnum `mandatory:"false" json:"assignedResourceType,omitempty"`
 
-	// Address type of the Private IP Allocated
+	// Address type of the allocated private IP address.
 	AddressType *string `mandatory:"false" json:"addressType"`
 
-	// The Assigned Time of the Private IP Address
+	// Assigned time of the private IP address.
 	AssignedTime *common.SDKTime `mandatory:"false" json:"assignedTime"`
 }
 

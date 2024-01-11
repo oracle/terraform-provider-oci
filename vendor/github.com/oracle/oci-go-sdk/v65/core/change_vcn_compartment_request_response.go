@@ -14,7 +14,7 @@ import (
 // ChangeVcnCompartmentRequest wrapper for the ChangeVcnCompartment operation
 type ChangeVcnCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"path" name:"vcnId"`
 
 	// Request to change the compartment of a given VCN.

@@ -24,13 +24,14 @@ type BatchDetectLanguagePiiEntitiesDetails struct {
 	// List of documents to detect personal identification information.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
 
+	// The endpoint which have to be used for inferencing. If endpointId and compartmentId is provided, then inference will be served from custom model which is mapped to this Endpoint.
+	EndpointId *string `mandatory:"false" json:"endpointId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that calls the API, inference will be served from pre trained model
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// Mask recognized PII entities with different modes.
 	Masking map[string]PiiEntityMasking `mandatory:"false" json:"masking"`
-
-	Profile *Profile `mandatory:"false" json:"profile"`
 }
 
 func (m BatchDetectLanguagePiiEntitiesDetails) String() string {
@@ -52,9 +53,9 @@ func (m BatchDetectLanguagePiiEntitiesDetails) ValidateEnumValue() (bool, error)
 // UnmarshalJSON unmarshals from json
 func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		EndpointId    *string                     `json:"endpointId"`
 		CompartmentId *string                     `json:"compartmentId"`
 		Masking       map[string]piientitymasking `json:"masking"`
-		Profile       *Profile                    `json:"profile"`
 		Documents     []TextDocument              `json:"documents"`
 	}{}
 
@@ -63,6 +64,8 @@ func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e er
 		return
 	}
 	var nn interface{}
+	m.EndpointId = model.EndpointId
+
 	m.CompartmentId = model.CompartmentId
 
 	m.Masking = make(map[string]PiiEntityMasking)
@@ -77,8 +80,6 @@ func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e er
 			m.Masking[k] = nil
 		}
 	}
-
-	m.Profile = model.Profile
 
 	m.Documents = make([]TextDocument, len(model.Documents))
 	copy(m.Documents, model.Documents)

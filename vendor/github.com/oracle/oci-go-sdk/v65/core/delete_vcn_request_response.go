@@ -14,7 +14,7 @@ import (
 // DeleteVcnRequest wrapper for the DeleteVcn operation
 type DeleteVcnRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"path" name:"vcnId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

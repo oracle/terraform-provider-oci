@@ -14,7 +14,7 @@ import (
 // GetScheduledRunRequest wrapper for the GetScheduledRun operation
 type GetScheduledRunRequest struct {
 
-	// The scheduledRun unique OCID.
+	// The scheduledRun unique OCID
 	ScheduledRunId *string `mandatory:"true" contributesTo:"path" name:"scheduledRunId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

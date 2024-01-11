@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// InventoryVcnCidrBlockSummary The List of Cidrs and Utilization within the VCN
+// InventoryVcnCidrBlockSummary Lists the CIDRs and utilization within a VCN.
 type InventoryVcnCidrBlockSummary struct {
 
-	// The CIDR Prefix within the VCN
+	// The CIDR prefix within a VCN.
 	IpCidrBlock *string `mandatory:"false" json:"ipCidrBlock"`
 
-	// The CIDR Utilization of a VCN
+	// The CIDR utilization of a VCN.
 	Utilization *float32 `mandatory:"false" json:"utilization"`
 }
 

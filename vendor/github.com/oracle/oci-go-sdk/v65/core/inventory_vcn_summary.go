@@ -21,31 +21,31 @@ import (
 	"strings"
 )
 
-// InventoryVcnSummary A Summary of IP Inventory data of the VCN under given compartments
+// InventoryVcnSummary Provides the summary of a VCN's IP Inventory data under specified compartments.
 type InventoryVcnSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN .
 	VcnId *string `mandatory:"false" json:"vcnId"`
 
-	// The Name of  VCN
+	// Name of the VCN.
 	VcnName *string `mandatory:"false" json:"vcnName"`
 
-	// Resource types of the VCN
+	// Resource types of the VCN.
 	ResourceType InventoryVcnSummaryResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
 
-	// A list of `InventoryVcnCidrBlockSummary` objects.
+	// Lists `InventoryVcnCidrBlockSummary` objects.
 	InventoryVcnCidrBlockCollection []InventoryVcnCidrBlockSummary `mandatory:"false" json:"inventoryVcnCidrBlockCollection"`
 
-	// The DNS Domain Name of the VCN
+	// DNS domain name of the VCN.
 	DnsDomainName *string `mandatory:"false" json:"dnsDomainName"`
 
-	// The Region Name of the VCN
+	// Region name of the VCN.
 	Region *string `mandatory:"false" json:"region"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// A List of `Subnetcollection` objects
+	// Lists `Subnetcollection` objects
 	InventorySubnetcollection []InventorySubnetSummary `mandatory:"false" json:"inventorySubnetcollection"`
 }
 

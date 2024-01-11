@@ -83,6 +83,9 @@ type CreateNetworkLoadBalancerDetails struct {
 	// Example: `test_shard1`
 	ShardId *string `mandatory:"false" json:"shardId"`
 
+	// Indicates if VNIC is latency sensitive and needs to be placed in dedicated latency sensitive pod.
+	IsLatencySensitive *bool `mandatory:"false" json:"isLatencySensitive"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

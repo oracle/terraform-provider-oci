@@ -16511,7 +16511,7 @@ func (client VirtualNetworkClient) getSubnet(ctx context.Context, request common
 	return response, err
 }
 
-// GetSubnetCidrUtilization Gets the `SubnetIpInventory` resource. You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetSubnetCidrUtilization Gets the CIDR utilization data of the specified subnet. Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetSubnetCidrUtilization(ctx context.Context, request GetSubnetCidrUtilizationRequest) (response GetSubnetCidrUtilizationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16564,7 +16564,7 @@ func (client VirtualNetworkClient) getSubnetCidrUtilization(ctx context.Context,
 	return response, err
 }
 
-// GetSubnetIpInventory Gets the `SubnetIpInventory` resource. You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// GetSubnetIpInventory Gets the IP Inventory data of the specified subnet. Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetSubnetIpInventory(ctx context.Context, request GetSubnetIpInventoryRequest) (response GetSubnetIpInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17177,7 +17177,7 @@ func (client VirtualNetworkClient) getVcnMappinglessStatus(ctx context.Context, 
 	return response, err
 }
 
-// GetVcnOverlap Lists the `IpInventory` resources in the selected compartments.
+// GetVcnOverlap Gets the CIDR overlap information of the specified VCN in selected compartments. Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) GetVcnOverlap(ctx context.Context, request GetVcnOverlapRequest) (response GetVcnOverlapResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -20418,7 +20418,7 @@ func (client VirtualNetworkClient) listInternetGateways(ctx context.Context, req
 	return response, err
 }
 
-// ListIpInventory Lists the `IpInventory` resources in the selected compartments.
+// ListIpInventory Lists the IP Inventory information in the selected compartments.
 func (client VirtualNetworkClient) ListIpInventory(ctx context.Context, request ListIpInventoryRequest) (response ListIpInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

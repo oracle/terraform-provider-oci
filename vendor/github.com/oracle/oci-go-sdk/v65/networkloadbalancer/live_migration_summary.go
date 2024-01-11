@@ -68,6 +68,10 @@ type LiveMigrationSummary struct {
 	// Example: `pod2`
 	DestinationPodName *string `mandatory:"false" json:"destinationPodName"`
 
+	// The destination shard name to where the live migration is performed.
+	// Example: `shard2`
+	DestinationShardName *string `mandatory:"false" json:"destinationShardName"`
+
 	// The source slot id.
 	// Example: `1233`
 	SourceSlotId *int `mandatory:"false" json:"sourceSlotId"`

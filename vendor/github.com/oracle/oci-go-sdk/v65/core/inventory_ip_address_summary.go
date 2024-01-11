@@ -21,19 +21,19 @@ import (
 	"strings"
 )
 
-// InventoryIpAddressSummary The IpAddress and its corresponding VNIC Id, VNIC Name and DNS HostName
+// InventoryIpAddressSummary Provides the IP address and its corresponding VNIC ID, VNIC name, and DNS hostname.
 type InventoryIpAddressSummary struct {
 
-	// The Ip Address assigned from the Subnet
+	// The IP address assigned from a subnet.
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
-	// The Name of the VNIC.
+	// The name of the VNIC.
 	VnicName *string `mandatory:"false" json:"vnicName"`
 
-	// The DNS HostName of the resource assigned with the Ip Address
+	// The DNS hostname of the resource assigned with the IP address.
 	DnsHostName *string `mandatory:"false" json:"dnsHostName"`
 }
 

@@ -14,7 +14,7 @@ import (
 // GetSubnetIpInventoryRequest wrapper for the GetSubnetIpInventory operation
 type GetSubnetIpInventoryRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"true" contributesTo:"path" name:"subnetId"`
 
 	// Unique identifier for the request.

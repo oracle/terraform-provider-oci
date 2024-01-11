@@ -14,7 +14,7 @@ import (
 // ListIpInventoryRequest wrapper for the ListIpInventory operation
 type ListIpInventoryRequest struct {
 
-	// Details needed to List the IpInventory Data.
+	// Details required to list the IP Inventory data.
 	ListIpInventoryDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

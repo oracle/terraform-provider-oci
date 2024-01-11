@@ -35,6 +35,9 @@ type UpdateBackendSetDetails struct {
 	// The value is false by default.
 	IsFailOpen *bool `mandatory:"false" json:"isFailOpen"`
 
+	// If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
+	IsInstantFailoverEnabled *bool `mandatory:"false" json:"isInstantFailoverEnabled"`
+
 	// The IP version associated with the backend set.
 	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
 
@@ -42,6 +45,15 @@ type UpdateBackendSetDetails struct {
 	Backends []BackendDetails `mandatory:"false" json:"backends"`
 
 	HealthChecker *HealthCheckerDetails `mandatory:"false" json:"healthChecker"`
+
+	// If this parameter is enabled, the NLB fleet in a particular AD will prefer backends within the same AD while load-balancing traffic.
+	IsAdAffinityEnabled *bool `mandatory:"false" json:"isAdAffinityEnabled"`
+
+	// When backends are added without weights, this value will represent the percent of backends that must be healthy within an AD for AD Affinity to be honored.
+	// When backends are added with weights, this value will represent the percent of weights that must be healthy within an AD for AD Affinity to be honored.
+	// If the percent of healthy backends falls below this threshold, traffic will be distributed across all healthy backends in all ADs.
+	// If this percent value is not specified then default will be 80.
+	MinimumHealthyBackendPercentage *int `mandatory:"false" json:"minimumHealthyBackendPercentage"`
 }
 
 func (m UpdateBackendSetDetails) String() string {

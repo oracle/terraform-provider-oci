@@ -36,6 +36,9 @@ type CloudExadataInfrastructure struct {
 	// The name of the availability domain that the cloud Exadata infrastructure resource is located in.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The number of compute servers for the cloud Exadata infrastructure.
 	ComputeCount *int `mandatory:"false" json:"computeCount"`
 

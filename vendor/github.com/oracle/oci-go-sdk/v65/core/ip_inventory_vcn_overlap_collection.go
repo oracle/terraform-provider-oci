@@ -21,20 +21,20 @@ import (
 	"strings"
 )
 
-// IpInventoryVcnOverlapCollection The VCN overlap details of the given VCNs and Compartments
+// IpInventoryVcnOverlapCollection The details of the overlapping VCNs and compartments.
 type IpInventoryVcnOverlapCollection struct {
 
-	// The Timestamp of the latest update from the database, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The timestamp of the latest update from the database in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	LastUpdatedTimestamp *common.SDKTime `mandatory:"false" json:"lastUpdatedTimestamp"`
 
-	// List of `IpInventoryVcnOverlapSummary` Object
+	// Lists `IpInventoryVcnOverlapSummary` object.
 	IpInventoryVcnOverlapSummary []IpInventoryVcnOverlapSummary `mandatory:"false" json:"ipInventoryVcnOverlapSummary"`
 
-	// The message to indicate the status of the data.
+	// Indicates the status of the data.
 	Message *string `mandatory:"false" json:"message"`
 
-	// The Overlap Count for the given VCN and Compartments
+	// The overlap count for the given VCN and compartments.
 	OverlapCount *int `mandatory:"false" json:"overlapCount"`
 }
 

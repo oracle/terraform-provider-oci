@@ -14,7 +14,7 @@ import (
 // ChangeSubnetCompartmentRequest wrapper for the ChangeSubnetCompartment operation
 type ChangeSubnetCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"true" contributesTo:"path" name:"subnetId"`
 
 	// Request to change the compartment of a given subnet.

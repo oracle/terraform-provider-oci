@@ -51,7 +51,7 @@ type AutonomousVmCluster struct {
 	// The number of enabled CPU cores.
 	CpusEnabled *int `mandatory:"false" json:"cpusEnabled"`
 
-	// The compute model of the Autonomous VM Cluster. See Compute Models in Autonomous Database on Dedicated Exadata #Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The compute model of the Autonomous VM Cluster. ECPU compute model is the recommended model and OCPU compute model is legacy. See Compute Models in Autonomous Database on Dedicated Exadata #Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	ComputeModel AutonomousVmClusterComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The number of enabled OCPU cores.
@@ -161,13 +161,13 @@ type AutonomousVmCluster struct {
 	// The date and time of the ORDS certificate expiration.
 	TimeOrdsCertificateExpires *common.SDKTime `mandatory:"false" json:"timeOrdsCertificateExpires"`
 
-	// The lowest value to which exadataStorage in TBs can be scaled down.
+	// The lowest value to which exadataStorage(in TBs) can be scaled down.
 	ExadataStorageInTBsLowestScaledValue *float64 `mandatory:"false" json:"exadataStorageInTBsLowestScaledValue"`
 
 	// The lowest value to which cpus can be scaled down.
 	CpusLowestScaledValue *int `mandatory:"false" json:"cpusLowestScaledValue"`
 
-	// The lowest value to which ACDs can be scaled down.
+	// The lowest value to which maximum number of ACDs can be scaled down.
 	MaxAcdsLowestScaledValue *int `mandatory:"false" json:"maxAcdsLowestScaledValue"`
 }
 

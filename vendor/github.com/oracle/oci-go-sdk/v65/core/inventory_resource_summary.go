@@ -21,19 +21,19 @@ import (
 	"strings"
 )
 
-// InventoryResourceSummary The Lists of resources and its properties under a given Subnet
+// InventoryResourceSummary Lists resources and its properties under a given subnet.
 type InventoryResourceSummary struct {
 
-	// The Name of the resource created
+	// The name of the resource created.
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
-	// Resource types of the Resource
+	// Resource types of the resource.
 	ResourceType InventoryResourceSummaryResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
 
-	// A List of `IpAddressCollection` Object
+	// Lists the 'IpAddressCollection' object.
 	IpAddressCollection []InventoryIpAddressSummary `mandatory:"false" json:"ipAddressCollection"`
 
-	// The Region Name of the corresponding resource
+	// The region name of the corresponding resource.
 	Region *string `mandatory:"false" json:"region"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

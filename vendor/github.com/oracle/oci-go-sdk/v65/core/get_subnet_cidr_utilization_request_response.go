@@ -14,7 +14,7 @@ import (
 // GetSubnetCidrUtilizationRequest wrapper for the GetSubnetCidrUtilization operation
 type GetSubnetCidrUtilizationRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"true" contributesTo:"path" name:"subnetId"`
 
 	// Unique identifier for the request.

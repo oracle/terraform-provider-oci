@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// InventorySubnetCidrBlockSummary The List of Cidrs and Utilization within the Subnet
+// InventorySubnetCidrBlockSummary Lists CIDRs and utilization within a subnet.
 type InventorySubnetCidrBlockSummary struct {
 
-	// The CIDR Prefix within the VCN
+	// The CIDR Prefix within a VCN.
 	IpCidrBlock *string `mandatory:"false" json:"ipCidrBlock"`
 
-	// The CIDR Utilization of a VCN
+	// The CIDR utilization of a VCN.
 	Utilization *float32 `mandatory:"false" json:"utilization"`
 }
 

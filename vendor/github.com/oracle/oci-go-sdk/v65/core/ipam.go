@@ -21,12 +21,12 @@ import (
 	"strings"
 )
 
-// Ipam An Ipam is a conceptual term that refers to a group of VCNs, Subnets, Ip Resources
+// Ipam An IPAM refers to a group of VCNs, subnets, IP resources
 //
 //	and its related properties.
 type Ipam struct {
 
-	// Dummy property to please the validation
+	// Placeholder for description
 	Placeholder *string `mandatory:"false" json:"placeholder"`
 }
 

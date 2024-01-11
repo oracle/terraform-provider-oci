@@ -14,7 +14,7 @@ import (
 // GetVcnCompartmentMappingRequest wrapper for the GetVcnCompartmentMapping operation
 type GetVcnCompartmentMappingRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"path" name:"vcnId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

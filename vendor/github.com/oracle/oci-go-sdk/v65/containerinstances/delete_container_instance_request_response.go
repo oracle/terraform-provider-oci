@@ -17,6 +17,9 @@ type DeleteContainerInstanceRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
 	ContainerInstanceId *string `mandatory:"true" contributesTo:"path" name:"containerInstanceId"`
 
+	// The amount of time that processes in a container have to gracefully end. After the timeout is reached, the processes are sent a signal to be deleted.
+	GracePeriodInSeconds *int64 `mandatory:"false" contributesTo:"query" name:"gracePeriodInSeconds"`
+
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
 	// etag from a previous GET or POST response for that resource.

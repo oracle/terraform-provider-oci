@@ -21,23 +21,23 @@ import (
 	"strings"
 )
 
-// IpInventoryCidrUtilizationCollection The IP Inventory Cidr Utilization Details of a Subnet
+// IpInventoryCidrUtilizationCollection The IP Inventory CIDR utilization details of a subnet.
 type IpInventoryCidrUtilizationCollection struct {
 
-	// The Count for the number of Results for the  Response to the  Request
+	// Specifies the count for the number of results for the response.
 	Count *int `mandatory:"false" json:"count"`
 
-	// The Timestamp of the latest update from the database, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The Timestamp of the latest update from the database in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	LastUpdatedTimestamp *common.SDKTime `mandatory:"false" json:"lastUpdatedTimestamp"`
 
-	// List of 'IpInventoryCidrUtilizationSummary` Object
+	// Lists 'IpInventoryCidrUtilizationSummary` object.
 	IpInventoryCidrUtilizationSummary []IpInventoryCidrUtilizationSummary `mandatory:"false" json:"ipInventoryCidrUtilizationSummary"`
 
-	// The message to indicate the status of the data.
+	// Indicates the status of the data.
 	Message *string `mandatory:"false" json:"message"`
 
-	// The compartment of the subnet.
+	// Compartment of the subnet.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 

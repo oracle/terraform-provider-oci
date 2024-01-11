@@ -151,63 +151,6 @@ func (client AIServiceLanguageClient) batchDetectDominantLanguage(ctx context.Co
 	return response, err
 }
 
-// BatchDetectHealthEntity The API extracts health entities in text records. For each entity, its type and confidence score (between 0 and 1) is returned.  It supports passing a batch of records.
-// Limitations:
-// - A batch may have up to 100 records.
-// - A record may be up to 5000 characters long.
-// - The total of characters to process in a request can be up to 20,000 characters.
-func (client AIServiceLanguageClient) BatchDetectHealthEntity(ctx context.Context, request BatchDetectHealthEntityRequest) (response BatchDetectHealthEntityResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.batchDetectHealthEntity, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = BatchDetectHealthEntityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = BatchDetectHealthEntityResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(BatchDetectHealthEntityResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into BatchDetectHealthEntityResponse")
-	}
-	return
-}
-
-// batchDetectHealthEntity implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceLanguageClient) batchDetectHealthEntity(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/batchDetectHealthEntities", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response BatchDetectHealthEntityResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/language/20221001/BatchDetectHealthEntityDetails/BatchDetectHealthEntity"
-		err = common.PostProcessServiceError(err, "AIServiceLanguage", "BatchDetectHealthEntity", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // BatchDetectLanguageEntities The API extracts entities in text records. For each entity, its type/subtype and confidence score (between 0 and 1) is returned.  It supports passing a batch of records.
 // List of supported entities. (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#ner__sup-ner-entity)
 // Limitations:
@@ -499,12 +442,11 @@ func (client AIServiceLanguageClient) batchDetectLanguageTextClassification(ctx 
 	return response, err
 }
 
-// BatchLanguageTranslation Translate text to other language over pre-deployed model.
-// Use state of the art neural machine translation to translate text between more than 15 languages.
-// Limitations:
-//   - A batch may have up to 100 records.
-//   - A record may be up to 5000 characters long.
-//   - The total of characters to process in a request can be up to 20,000 characters.
+// BatchLanguageTranslation Translates a batch of text documents from source to target language.
+// A batch can contain:
+//   - up to 100 records.
+//   - documents length less than 5000 characters.
+//   - 20,000 characters in total as a sum of all documents length.
 func (client AIServiceLanguageClient) BatchLanguageTranslation(ctx context.Context, request BatchLanguageTranslationRequest) (response BatchLanguageTranslationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

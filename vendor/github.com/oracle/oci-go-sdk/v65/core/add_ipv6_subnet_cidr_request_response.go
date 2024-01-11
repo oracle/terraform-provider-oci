@@ -14,7 +14,7 @@ import (
 // AddIpv6SubnetCidrRequest wrapper for the AddIpv6SubnetCidr operation
 type AddIpv6SubnetCidrRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"true" contributesTo:"path" name:"subnetId"`
 
 	// Details object for adding an IPv6 prefix to a subnet.

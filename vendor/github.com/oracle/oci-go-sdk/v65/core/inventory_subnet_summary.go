@@ -21,31 +21,31 @@ import (
 	"strings"
 )
 
-// InventorySubnetSummary The List of Subnet and its associated resources
+// InventorySubnetSummary Lists subnet and its associated resources.
 type InventorySubnetSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The Name of the Subnet within a VCN
+	// Name of the subnet within a VCN.
 	SubnetName *string `mandatory:"false" json:"subnetName"`
 
-	// Resource types of the Subnet
+	// Resource types of the subnet.
 	ResourceType InventorySubnetSummaryResourceTypeEnum `mandatory:"false" json:"resourceType,omitempty"`
 
-	// The List of Cidrs and Utilization within the Subnet
+	// Lists CIDRs and utilization within the subnet.
 	InventorySubnetCidrCollection []InventorySubnetCidrBlockSummary `mandatory:"false" json:"inventorySubnetCidrCollection"`
 
-	// The DNS Domain Name of the Subnet
+	// DNS domain name of the subnet.
 	DnsDomainName *string `mandatory:"false" json:"dnsDomainName"`
 
-	// The Region Name of the Subnet
+	// Region name of the subnet.
 	Region *string `mandatory:"false" json:"region"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// A List of `ResourceCollection` object
+	// Lists the `ResourceCollection` object.
 	InventoryResourceSummary []InventoryResourceSummary `mandatory:"false" json:"inventoryResourceSummary"`
 }
 

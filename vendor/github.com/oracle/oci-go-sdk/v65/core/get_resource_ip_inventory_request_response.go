@@ -14,7 +14,7 @@ import (
 // GetResourceIpInventoryRequest wrapper for the GetResourceIpInventory operation
 type GetResourceIpInventoryRequest struct {
 
-	// The Id of the Resource.
+	// Specify the ID of the resource.
 	DataRequestId *string `mandatory:"true" contributesTo:"path" name:"dataRequestId"`
 
 	// Unique identifier for the request.

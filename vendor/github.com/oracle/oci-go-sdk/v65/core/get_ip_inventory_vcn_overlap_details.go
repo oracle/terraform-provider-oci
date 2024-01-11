@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// GetIpInventoryVcnOverlapDetails The List of Compartment to find VCN Overlap
+// GetIpInventoryVcnOverlapDetails Lists the compartment to find VCN overlap.
 type GetIpInventoryVcnOverlapDetails struct {
 
-	// The List of Regions selected
+	// Lists the selected regions.
 	RegionList []string `mandatory:"true" json:"regionList"`
 
 	// The list of OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartments.

@@ -14,7 +14,7 @@ import (
 // AddIpv6VcnCidrRequest wrapper for the AddIpv6VcnCidr operation
 type AddIpv6VcnCidrRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"path" name:"vcnId"`
 
 	// Unique identifier for the request.

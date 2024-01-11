@@ -24,17 +24,17 @@ import (
 // IpInventorySubnetResourceCollection The results returned by a `ListIpInventorySubnet` operation.
 type IpInventorySubnetResourceCollection struct {
 
-	// The Count for the number of Results for the  Response to the  Request
+	// Specifies the count for the number of results for the response.
 	Count *int `mandatory:"false" json:"count"`
 
-	// The Timestamp of the latest update from the database, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The Timestamp of the latest update from the database in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	LastUpdatedTimestamp *common.SDKTime `mandatory:"false" json:"lastUpdatedTimestamp"`
 
-	// A list of `SubnetResourceSummary` objects.
+	// Lists `SubnetResourceSummary` objects.
 	IpInventorySubnetResourceSummary []IpInventorySubnetResourceSummary `mandatory:"false" json:"ipInventorySubnetResourceSummary"`
 
-	// The message to indicate the status of the data.
+	// Indicates the status of the data.
 	Message *string `mandatory:"false" json:"message"`
 
 	// The compartment of the subnet.

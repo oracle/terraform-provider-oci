@@ -21,54 +21,48 @@ import (
 	"strings"
 )
 
-// ListIpInventoryDetails Input Parameters for retrieving Ip Inventory Data within specified compartments of a region.
+// ListIpInventoryDetails Required input parameters for retrieving IP Inventory data within the specified compartments of a region.
 type ListIpInventoryDetails struct {
 
-	// The List of Regions selected
+	// Lists the selected regions.
 	RegionList []string `mandatory:"true" json:"regionList"`
 
-	// The list of OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartments.
+	// List the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartments.
 	CompartmentList []string `mandatory:"true" json:"compartmentList"`
 
-	// The selected filters
+	// List of selected filters.
 	OverrideFilters *bool `mandatory:"false" json:"overrideFilters"`
 
-	// The CIDR(s) Utilization of a VCN
+	// The CIDR utilization of a VCN.
 	Utilization *float32 `mandatory:"false" json:"utilization"`
 
-	// The List of Overlapping VCN's.
+	// List of overlapping VCNs.
 	OverlappingVcnsOnly *bool `mandatory:"false" json:"overlappingVcnsOnly"`
 
-	// List of Address types of the IP Consumed by Customer
+	// List of IP address types used.
 	AddressTypeList []AddressTypeEnum `mandatory:"false" json:"addressTypeList"`
 
-	// List of Resource types of the VCN
+	// List of VCN resource types.
 	ResourceTypeList []ListIpInventoryDetailsResourceTypeListEnum `mandatory:"false" json:"resourceTypeList,omitempty"`
 
-	// filter the results for the given searchKey
+	// Filters the results for the specified string.
 	SearchKeyword *string `mandatory:"false" json:"searchKeyword"`
 
-	// The field to sort by. You can provide one sort order (`sortOrder`). Default order for
-	// TIMECREATED is descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME
-	// sort order is case sensitive.
-	// **Note:** In general, some "List" operations (for example, `ListInstances`) let you
-	// optionally filter by availability domain if the scope of the resource type is within a
-	// single availability domain. If you call one of these "List" operations without specifying
-	// an availability domain, the resources are grouped by availability domain, then sorted.
+	// Provide the sort order (`sortOrder`) to sort the fields such as TIMECREATED in descending or descending order, and DISPLAYNAME in case sensitive.
+	// **Note:** For some "List" operations (for example, `ListInstances`), sort resources by an availability domain when the resources belong to a single availability domain.
+	// If you sort the "List" operations without specifying
+	// an availability domain, the resources are grouped by availability domains and then sorted.
 	SortBy ListIpInventoryDetailsSortByEnum `mandatory:"false" json:"sortBy,omitempty"`
 
-	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The DISPLAYNAME sort order
+	// Specifies the sort order to use. Select either ascending (`ASC`) or descending (`DESC`) order. The DISPLAYNAME sort order
 	// is case sensitive.
 	SortOrder ListIpInventoryDetailsSortOrderEnum `mandatory:"false" json:"sortOrder,omitempty"`
 
-	// For list pagination. The value of the `opc-next-page` response header from the previous "List"
-	// call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// Most List operations paginate results. Results are paginated for the ListInstances operations. When you call a paginated List operation, the response indicates more pages of results by including the opc-next-page header.
+	// For more information, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	PaginationOffset *int `mandatory:"false" json:"paginationOffset"`
 
-	// For list pagination. The maximum number of results per page, or items to return in a paginated
-	// "List" call. For important details about how pagination works, see
-	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
+	// Specifies the maximum number of results displayed per page for a paginated "List" call. For more information, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
 	PaginationLimit *int `mandatory:"false" json:"paginationLimit"`
 }

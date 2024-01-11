@@ -21,19 +21,19 @@ import (
 	"strings"
 )
 
-// IpInventoryVcnOverlapSummary The VCN overlap details
+// IpInventoryVcnOverlapSummary Provides the VCN overlap details.
 type IpInventoryVcnOverlapSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN .
 	OverlappingVcnId *string `mandatory:"false" json:"overlappingVcnId"`
 
-	// The Name of  VCN to contain the VCN
+	// Name of the overlapping VCN.
 	OverlappingVcnName *string `mandatory:"false" json:"overlappingVcnName"`
 
-	// The Overlapping CIDR Prefix
+	// The overlapping CIDR prefix.
 	OverlappingCidr *string `mandatory:"false" json:"overlappingCidr"`
 
-	// The CIDR Prefix of the VCN
+	// CIDR prefix of the VCN.
 	Cidr *string `mandatory:"false" json:"cidr"`
 }
 

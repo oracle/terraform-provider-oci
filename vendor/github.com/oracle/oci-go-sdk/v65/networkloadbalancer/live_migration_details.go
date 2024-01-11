@@ -23,6 +23,10 @@ type LiveMigrationDetails struct {
 	// Example: `pod2`
 	PodName *string `mandatory:"false" json:"podName"`
 
+	// Optional, destination shard name of VNICaaS.
+	// Example: `shard2`
+	ShardName *string `mandatory:"false" json:"shardName"`
+
 	// To select the test environment. Only to be used with test region.
 	// Example: `true`
 	IsTest *bool `mandatory:"false" json:"isTest"`
