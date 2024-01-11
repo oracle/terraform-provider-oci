@@ -165,6 +165,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `file_storage` - Discovers file_storage resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
+    * `generative_ai` - Discovers generative_ai resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
@@ -736,6 +737,12 @@ fusion_apps
 * oci\_fusion\_apps\_fusion\_environment\_family
 * oci\_fusion\_apps\_fusion\_environment
 * oci\_fusion\_apps\_fusion\_environment\_data\_masking\_activity
+
+generative_ai
+    
+* oci\_generative\_ai\_dedicated\_ai\_cluster
+* oci\_generative\_ai\_endpoint
+* oci\_generative\_ai\_model
 
 golden_gate
 
