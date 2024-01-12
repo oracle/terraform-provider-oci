@@ -913,6 +913,7 @@ metering_computation
 monitoring
 
 * oci\_monitoring\_alarm
+* oci\_monitoring\_alarm\_suppression
 
 mysql
 

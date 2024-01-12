@@ -422,6 +422,9 @@ variable "alarm_repeat_notification_duration" {
 variable "alarm_resolution" {
   default = "1m"
 }
+variable "is_notifications_per_metric_dimension_enabled"{
+  default = false
+}
 
 variable "alarm_resource_group" {
   default = "resourceGroup"
