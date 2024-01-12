@@ -139,6 +139,10 @@ func (s *MonitoringAlarmsDataSourceCrud) SetData() error {
 			alarm["is_enabled"] = *r.IsEnabled
 		}
 
+		if r.IsNotificationsPerMetricDimensionEnabled != nil {
+			alarm["is_notifications_per_metric_dimension_enabled"] = *r.IsNotificationsPerMetricDimensionEnabled
+		}
+
 		if r.MetricCompartmentId != nil {
 			alarm["metric_compartment_id"] = *r.MetricCompartmentId
 		}

@@ -24,8 +24,28 @@ var exportMonitoringAlarmHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportMonitoringAlarmSuppressionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_monitoring_alarm_suppression",
+	DatasourceClass:        "oci_monitoring_alarm_suppressions",
+	DatasourceItemsAttr:    "alarm_suppression_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "alarm_suppression",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_monitoring.AlarmSuppressionLifecycleStateActive),
+	},
+}
+
 var monitoringResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMonitoringAlarmHints},
+	},
+	"oci_monitoring_alarm": {
+		{
+			TerraformResourceHints: exportMonitoringAlarmSuppressionHints,
+			DatasourceQueryParams: map[string]string{
+				"alarm_id": "id",
+			},
+		},
 	},
 }
