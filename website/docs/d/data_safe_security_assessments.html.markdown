@@ -113,6 +113,15 @@ The following attributes are exported:
 		* `privileges_and_roles_findings_count` - The number of findings in the Privileges and Roles category.
 		* `targets_count` - The number of targets that contributed to the counts at this risk level.
 		* `user_accounts_findings_count` - The number of findings in the User Accounts category.
+	* `deferred` - Statistics showing the number of findings with a particular risk level for each category.
+		* `auditing_findings_count` - The number of findings in the Auditing category.
+		* `authorization_control_findings_count` - The number of findings in the Authorization Control category.
+		* `data_encryption_findings_count` - The number of findings in the Data Encryption category.
+		* `db_configuration_findings_count` - The number of findings in the Database Configuration category.
+		* `fine_grained_access_control_findings_count` - The number of findings in the Fine-Grained Access Control category.
+		* `privileges_and_roles_findings_count` - The number of findings in the Privileges and Roles category.
+		* `targets_count` - The number of targets that contributed to the counts at this risk level.
+		* `user_accounts_findings_count` - The number of findings in the User Accounts category.
 	* `evaluate` - Statistics showing the number of findings with a particular risk level for each category.
 		* `auditing_findings_count` - The number of findings in the Auditing category.
 		* `authorization_control_findings_count` - The number of findings in the Authorization Control category.

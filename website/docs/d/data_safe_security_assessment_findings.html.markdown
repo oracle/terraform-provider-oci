@@ -28,6 +28,7 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 	references {
 	}
 	severity = var.security_assessment_finding_severity
+	state = var.security_assessment_finding_state
 }
 ```
 
@@ -42,6 +43,7 @@ The following arguments are supported:
 * `references` - (Optional) An optional filter to return only findings containing the specified reference.
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 * `severity` - (Optional) A filter to return only findings of a particular risk level.
+* `state` - (Optional) A filter to return only the findings that match the specified lifecycle states.
 
 
 ## Attributes Reference
@@ -57,14 +59,22 @@ The following attributes are exported:
 * `assessment_id` - The OCID of the assessment that generated this finding.
 * `details` - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.
 * `is_top_finding` - Indicates whether a given finding is marked as topFinding or not.
+* `has_target_db_risk_level_changed` - Determines if this risk level has changed on the target database since the last time 'severity' was modified by user.
+* `is_risk_modified` - Determines if this risk level was modified by user.
+* `justification` - User provided reason for accepting or modifying this finding if they choose to do so.
 * `key` - The unique finding key. This is a system-generated identifier. To get the finding key for a finding, use ListFindings.
+* `lifecycle_details` - Details about the current state of the finding.
+* `oracle_defined_severity` - The severity of the finding as determined by security assessment. This cannot be modified by user.
 * `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, a STIG rule, or a GDPR Article/Recital.
 	* `cis` - Relevant section from CIS.
 	* `gdpr` - Relevant section from GDPR.
 	* `stig` - Relevant section from STIG.
 * `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 * `severity` - The severity of the finding as determined by security assessment and is same as oracleDefinedSeverity, unless modified by user.
+* `state` - The current state of the finding.
 * `summary` - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.
 * `target_id` - The OCID of the target database.
+* `time_updated` - The date and time the risk level of finding was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
+* `time_valid_until` - The time until which the change in severity(deferred / modified) of this finding is valid.
 * `title` - The short title for the finding.
 

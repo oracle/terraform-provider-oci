@@ -173,6 +173,51 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 								},
 							},
 						},
+						"deferred": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"auditing_findings_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"authorization_control_findings_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"data_encryption_findings_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"db_configuration_findings_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"fine_grained_access_control_findings_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"privileges_and_roles_findings_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"targets_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"user_accounts_findings_count": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"evaluate": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -911,6 +956,10 @@ func SecurityAssessmentStatisticsToMap(obj *oci_data_safe.SecurityAssessmentStat
 
 	if obj.Advisory != nil {
 		result["advisory"] = []interface{}{SectionStatisticsToMap(obj.Advisory)}
+	}
+
+	if obj.Deferred != nil {
+		result["deferred"] = []interface{}{SectionStatisticsToMap(obj.Deferred)}
 	}
 
 	if obj.Evaluate != nil {
