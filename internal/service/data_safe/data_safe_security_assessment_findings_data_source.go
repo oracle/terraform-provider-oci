@@ -30,6 +30,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_top_finding": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"references": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -62,6 +66,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+						"is_top_finding": {
+							Type:     schema.TypeBool,
+							Computed: true,
 						},
 						"key": {
 							Type:     schema.TypeString,
@@ -154,6 +162,11 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 		request.FindingKey = &tmp
 	}
 
+	if isTopFinding, ok := s.D.GetOkExists("is_top_finding"); ok {
+		tmp := isTopFinding.(bool)
+		request.IsTopFinding = &tmp
+	}
+
 	if references, ok := s.D.GetOkExists("references"); ok {
 		request.References = oci_data_safe.ListFindingsReferencesEnum(references.(string))
 	}
@@ -209,6 +222,10 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) SetData() error {
 			securityAssessmentFinding["details"] = []interface{}{}
 		} else {
 			securityAssessmentFinding["details"] = nil
+		}
+
+		if r.IsTopFinding != nil {
+			securityAssessmentFinding["is_top_finding"] = *r.IsTopFinding
 		}
 
 		if r.Key != nil {
