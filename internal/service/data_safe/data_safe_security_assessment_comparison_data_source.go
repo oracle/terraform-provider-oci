@@ -71,6 +71,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -78,7 +82,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -115,7 +139,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -136,6 +176,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -143,7 +187,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -180,7 +244,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -239,6 +319,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -246,7 +330,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -283,7 +387,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -304,6 +424,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -311,7 +435,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -348,7 +492,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -415,6 +575,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -422,7 +586,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -459,7 +643,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -480,6 +680,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -487,7 +691,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -524,7 +748,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -583,6 +823,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -590,7 +834,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -627,7 +891,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -648,6 +928,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -655,7 +939,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -692,7 +996,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -751,6 +1071,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -758,7 +1082,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -795,7 +1139,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -816,6 +1176,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -823,7 +1187,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -860,7 +1244,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -919,6 +1319,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -926,7 +1330,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -963,7 +1387,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -984,6 +1424,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -991,7 +1435,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -1028,7 +1492,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -1087,6 +1567,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -1094,7 +1578,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -1131,7 +1635,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -1152,6 +1672,10 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 												// Optional
 
 												// Computed
+												"assessment_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"details": {
 													Type:     schema.TypeList,
 													Computed: true,
@@ -1159,7 +1683,27 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 														Type: schema.TypeString,
 													},
 												},
+												"has_target_db_risk_level_changed": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"is_risk_modified": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
+												"justification": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"key": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"lifecycle_details": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"oracle_defined_severity": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -1196,7 +1740,23 @@ func DataSafeSecurityAssessmentComparisonDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"state": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 												"summary": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"target_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_updated": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_valid_until": {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
@@ -1332,13 +1892,35 @@ func DiffsToMap(obj oci_data_safe.Diffs) map[string]interface{} {
 func FindingToMap(obj *oci_data_safe.Finding) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AssessmentId != nil {
+		result["assessment_id"] = string(*obj.AssessmentId)
+	}
+
 	if obj.Details != nil {
 		result["details"] = []interface{}{}
+	}
+
+	if obj.HasTargetDbRiskLevelChanged != nil {
+		result["has_target_db_risk_level_changed"] = bool(*obj.HasTargetDbRiskLevelChanged)
+	}
+
+	if obj.IsRiskModified != nil {
+		result["is_risk_modified"] = bool(*obj.IsRiskModified)
+	}
+
+	if obj.Justification != nil {
+		result["justification"] = string(*obj.Justification)
 	}
 
 	if obj.Key != nil {
 		result["key"] = string(*obj.Key)
 	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	result["oracle_defined_severity"] = string(obj.OracleDefinedSeverity)
 
 	if obj.References != nil {
 		result["references"] = []interface{}{ReferencesToMap(obj.References)}
@@ -1350,8 +1932,22 @@ func FindingToMap(obj *oci_data_safe.Finding) map[string]interface{} {
 
 	result["severity"] = string(obj.Severity)
 
+	result["state"] = string(obj.LifecycleState)
+
 	if obj.Summary != nil {
 		result["summary"] = string(*obj.Summary)
+	}
+
+	if obj.TargetId != nil {
+		result["target_id"] = string(*obj.TargetId)
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
+	}
+
+	if obj.TimeValidUntil != nil {
+		result["time_valid_until"] = obj.TimeValidUntil.String()
 	}
 
 	if obj.Title != nil {

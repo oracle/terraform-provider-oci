@@ -46,6 +46,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"findings": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -67,11 +71,31 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"has_target_db_risk_level_changed": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_risk_modified": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"justification": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"is_top_finding": {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"oracle_defined_severity": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -108,11 +132,23 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"summary": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"target_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_valid_until": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -180,6 +216,10 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 		request.Severity = oci_data_safe.ListFindingsSeverityEnum(severity.(string))
 	}
 
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_data_safe.ListFindingsLifecycleStateEnum(state.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListFindings(context.Background(), request)
@@ -224,6 +264,18 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) SetData() error {
 			securityAssessmentFinding["details"] = nil
 		}
 
+		if r.HasTargetDbRiskLevelChanged != nil {
+			securityAssessmentFinding["has_target_db_risk_level_changed"] = *r.HasTargetDbRiskLevelChanged
+		}
+
+		if r.IsRiskModified != nil {
+			securityAssessmentFinding["is_risk_modified"] = *r.IsRiskModified
+		}
+
+		if r.Justification != nil {
+			securityAssessmentFinding["justification"] = *r.Justification
+		}
+
 		if r.IsTopFinding != nil {
 			securityAssessmentFinding["is_top_finding"] = *r.IsTopFinding
 		}
@@ -231,6 +283,12 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) SetData() error {
 		if r.Key != nil {
 			securityAssessmentFinding["key"] = *r.Key
 		}
+
+		if r.LifecycleDetails != nil {
+			securityAssessmentFinding["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		securityAssessmentFinding["oracle_defined_severity"] = r.OracleDefinedSeverity
 
 		if r.References != nil {
 			securityAssessmentFinding["references"] = []interface{}{FindingsReferencesToMap(r.References)}
@@ -244,12 +302,22 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) SetData() error {
 
 		securityAssessmentFinding["severity"] = r.Severity
 
+		securityAssessmentFinding["state"] = r.LifecycleState
+
 		if r.Summary != nil {
 			securityAssessmentFinding["summary"] = *r.Summary
 		}
 
 		if r.TargetId != nil {
 			securityAssessmentFinding["target_id"] = *r.TargetId
+		}
+
+		if r.TimeUpdated != nil {
+			securityAssessmentFinding["time_updated"] = r.TimeUpdated.String()
+		}
+
+		if r.TimeValidUntil != nil {
+			securityAssessmentFinding["time_valid_until"] = r.TimeValidUntil.String()
 		}
 
 		if r.Title != nil {

@@ -7,9 +7,12 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
-variable "security_assessment_id" {}
+variable "security_assessment_ocid" {}
 variable "data_safe_target_ocid" {}
 
+variable "description" {
+  default = "description"
+}
 
 variable "display_name" {
   default = "SA_1"
@@ -23,20 +26,7 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_data_safe_security_assessment" "oci_data_safe_security_assessment" {
+data "oci_data_safe_security_assessment_findings_change_audit_logs" "test_security_assessment_findings_change_audit_logs" {
   #Required
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  target_id = var.data_safe_target_ocid
-  display_name = var.display_name
-}
-
-data "oci_data_safe_security_assessments" "test_security_assessments" {
-  #Required
-  compartment_id = var.compartment_ocid
-
-  #Optional
-  target_id = var.data_safe_target_ocid
-
+  security_assessment_id = var.security_assessment_ocid
 }

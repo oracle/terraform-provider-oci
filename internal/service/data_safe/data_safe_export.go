@@ -315,6 +315,7 @@ var exportDataSafeSdmMaskingPolicyDifferenceHints = &tf_export.TerraformResource
 		string(oci_data_safe.SdmMaskingPolicyDifferenceLifecycleStateActive),
 	},
 }
+
 var exportDataSafeDiscoveryJobsResultHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_data_safe_discovery_jobs_result",
 	DatasourceClass:        "oci_data_safe_discovery_jobs_results",
