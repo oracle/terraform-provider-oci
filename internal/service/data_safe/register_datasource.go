@@ -74,6 +74,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_data_safe_security_assessment_findings", DataSafeSecurityAssessmentFindingsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_assessment_security_feature_analytics", DataSafeSecurityAssessmentSecurityFeatureAnalyticsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_assessment_security_features", DataSafeSecurityAssessmentSecurityFeaturesDataSource())
+	tfresource.RegisterDatasource("oci_data_safe_security_assessment_findings_change_audit_logs", DataSafeSecurityAssessmentFindingsChangeAuditLogsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_assessments", DataSafeSecurityAssessmentsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_policies", DataSafeSecurityPoliciesDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_policy", DataSafeSecurityPolicyDataSource())
