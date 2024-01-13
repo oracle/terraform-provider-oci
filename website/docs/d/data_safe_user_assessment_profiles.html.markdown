@@ -115,5 +115,5 @@ The following attributes are exported:
 * `sessions_per_user` - Specify the number of concurrent sessions to which you want to limit the user.
 * `target_id` - The OCID of the target database.
 * `user_assessment_id` - The OCID of the latest user assessment corresponding to the target under consideration. A compartment  type assessment can also be passed to profiles from all the targets from the corresponding compartment. 
-* `user_count` - The number of users having a given profile.
+* `user_count` - The number of users that have a given profile.
 

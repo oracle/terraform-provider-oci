@@ -82,6 +82,14 @@ func DataSafeAuditProfileAvailableAuditVolumesDataSource() *schema.Resource {
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"audit_trail_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"database_unique_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
 											},
 										},
 									},
@@ -225,6 +233,14 @@ func AvailableAuditVolumeSummaryToMap(obj oci_data_safe.AvailableAuditVolumeSumm
 
 	if obj.AuditProfileId != nil {
 		result["audit_profile_id"] = string(*obj.AuditProfileId)
+	}
+
+	if obj.AuditTrailId != nil {
+		result["audit_trail_id"] = string(*obj.AuditTrailId)
+	}
+
+	if obj.DatabaseUniqueName != nil {
+		result["database_unique_name"] = string(*obj.DatabaseUniqueName)
 	}
 
 	if obj.MonthInConsideration != nil {
