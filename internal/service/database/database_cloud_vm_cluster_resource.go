@@ -232,6 +232,12 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"system_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"time_zone": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -339,10 +345,6 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 			},
 			"storage_size_in_gbs": {
 				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"system_version": {
-				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"time_created": {
@@ -642,6 +644,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
+	}
+
+	if systemVersion, ok := s.D.GetOkExists("system_version"); ok {
+		tmp := systemVersion.(string)
+		request.SystemVersion = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {
