@@ -28,6 +28,10 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"are_all_schemas_accessible": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"authentication_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -35,6 +39,13 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 			"compartment_id_in_subtree": {
 				Type:     schema.TypeBool,
 				Optional: true,
+			},
+			"schema_list": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"target_id": {
 				Type:     schema.TypeString,
@@ -113,6 +124,10 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"are_all_schemas_accessible": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"authentication_type": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -120,6 +135,13 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 						"key": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"schema_list": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 						"target_id": {
 							Type:     schema.TypeString,
@@ -193,6 +215,11 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 		request.AccountStatus = &tmp
 	}
 
+	if areAllSchemasAccessible, ok := s.D.GetOkExists("are_all_schemas_accessible"); ok {
+		tmp := areAllSchemasAccessible.(bool)
+		request.AreAllSchemasAccessible = &tmp
+	}
+
 	if authenticationType, ok := s.D.GetOkExists("authentication_type"); ok {
 		tmp := authenticationType.(string)
 		request.AuthenticationType = &tmp
@@ -201,6 +228,19 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
+	}
+
+	if schemaList, ok := s.D.GetOkExists("schema_list"); ok {
+		interfaces := schemaList.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("schema_list") {
+			request.SchemaList = tmp
+		}
 	}
 
 	if targetId, ok := s.D.GetOkExists("target_id"); ok {
@@ -329,11 +369,17 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) SetData() error {
 
 		userAssessmentUser["admin_roles"] = r.AdminRoles
 
+		if r.AreAllSchemasAccessible != nil {
+			userAssessmentUser["are_all_schemas_accessible"] = *r.AreAllSchemasAccessible
+		}
+
 		userAssessmentUser["authentication_type"] = r.AuthenticationType
 
 		if r.Key != nil {
 			userAssessmentUser["key"] = *r.Key
 		}
+
+		userAssessmentUser["schema_list"] = r.SchemaList
 
 		if r.TargetId != nil {
 			userAssessmentUser["target_id"] = *r.TargetId

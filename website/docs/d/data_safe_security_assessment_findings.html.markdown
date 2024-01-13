@@ -24,6 +24,7 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 	access_level = var.security_assessment_finding_access_level
 	compartment_id_in_subtree = var.security_assessment_finding_compartment_id_in_subtree
 	finding_key = var.security_assessment_finding_finding_key
+	is_top_finding = var.security_assessment_finding_is_top_finding
 	references {
 	}
 	severity = var.security_assessment_finding_severity
@@ -37,7 +38,8 @@ The following arguments are supported:
 * `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `finding_key` - (Optional) Each finding in security assessment has an associated key (think of key as a finding's name). For a given finding, the key will be the same across targets. The user can use these keys to filter the findings. 
-* `references` - (Optional) An optional filter to return only findings that match the specified reference.
+* `is_top_finding` - (Optional) A filter to return only the findings that are marked as top findings.
+* `references` - (Optional) An optional filter to return only findings containing the specified reference.
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 * `severity` - (Optional) A filter to return only findings of a particular risk level.
 
@@ -54,6 +56,7 @@ The following attributes are exported:
 
 * `assessment_id` - The OCID of the assessment that generated this finding.
 * `details` - The details of the finding. Provides detailed information to explain the finding summary, typically results from the assessed database, followed by any recommendations for changes.
+* `is_top_finding` - Indicates whether a given finding is marked as topFinding or not.
 * `key` - The unique finding key. This is a system-generated identifier. To get the finding key for a finding, use ListFindings.
 * `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, a STIG rule, or a GDPR Article/Recital.
 	* `cis` - Relevant section from CIS.
