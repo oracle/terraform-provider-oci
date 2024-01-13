@@ -54,6 +54,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
 	private_zone_id = oci_dns_zone.test_zone.id
 	scan_listener_port_tcp = var.cloud_vm_cluster_scan_listener_port_tcp
 	scan_listener_port_tcp_ssl = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
+	system_version = var.cloud_vm_cluster_system_version
 	time_zone = var.cloud_vm_cluster_time_zone
 }
 ```
@@ -105,6 +106,7 @@ The following arguments are supported:
 * `scan_listener_port_tcp_ssl` - (Optional) The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the cloud VM cluster. 
+* `system_version` - (Optional) Operating system version of the image.
 * `time_zone` - (Optional) The time zone to use for the cloud VM cluster. For details, see [Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm). 
 
 

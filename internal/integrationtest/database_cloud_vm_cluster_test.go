@@ -76,6 +76,7 @@ var (
 		"scan_listener_port_tcp_ssl":      acctest.Representation{RepType: acctest.Optional, Create: `2484`},
 		"private_zone_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_zone.test_zone.id}`},
 		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
 	}
 
 	DatabaseCloudVmClusterRepresentation2 = map[string]interface{}{
@@ -123,6 +124,7 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
 	}
 
 	CoreCoreVcnDnsResolverAssociationRepresentation = map[string]interface{}{
@@ -136,6 +138,11 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"scope":          acctest.Representation{RepType: acctest.Required, Create: `PRIVATE`},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
+	}
+
+	cloudVmClusterIgnoreDefinedTagsRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
 	ResolverAttachedViewsRepresentation = map[string]interface{}{
