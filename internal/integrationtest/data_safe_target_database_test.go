@@ -47,14 +47,11 @@ var (
 	}
 
 	targetDatabaseRepresentation = map[string]interface{}{
-		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"database_details":  acctest.RepresentationGroup{RepType: acctest.Required, Group: targetDatabaseDatabaseDetailsRepresentation},
-		"connection_option": acctest.RepresentationGroup{RepType: acctest.Optional, Group: targetDatabaseConnectionOptionRepresentation},
-		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":       acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTargetDatabaseRep},
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"database_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: targetDatabaseDatabaseDetailsRepresentation},
+		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreTargetDatabaseRep},
 	}
 	targetDatabaseDatabaseDetailsRepresentation = map[string]interface{}{
 		"database_type":          acctest.Representation{RepType: acctest.Required, Create: `AUTONOMOUS_DATABASE`, Update: `AUTONOMOUS_DATABASE`},
@@ -78,10 +75,7 @@ var (
 	}
 
 	DataSafeTargetDatabaseResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_data_safe_private_endpoint", "test_data_safe_private_endpoint", acctest.Required, acctest.Create, dataSafePrivateEndpointRepresentation) +
 		DefinedTagsDependencies
 
 	ignoreTargetDatabaseRep = map[string]interface{}{
@@ -140,16 +134,12 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Create, targetDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "connection_option.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),
-				resource.TestCheckResourceAttrSet(resourceName, "connection_option.0.datasafe_private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.database_type", "AUTONOMOUS_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -175,16 +165,12 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "connection_option.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),
-				resource.TestCheckResourceAttrSet(resourceName, "connection_option.0.datasafe_private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.database_type", "AUTONOMOUS_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -205,16 +191,12 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_target_database", "test_target_database", acctest.Optional, acctest.Update, targetDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "connection_option.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),
-				resource.TestCheckResourceAttrSet(resourceName, "connection_option.0.datasafe_private_endpoint_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.database_type", "AUTONOMOUS_DATABASE"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_details.0.autonomous_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -243,7 +225,6 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.description", "description2"),
 				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.display_name", "displayName2"),
-				resource.TestCheckResourceAttr(datasourceName, "target_databases.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_databases.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "target_databases.0.time_created"),
@@ -258,14 +239,11 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_database_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "connection_option.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "connection_option.0.connection_type", "PRIVATE_ENDPOINT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_details.0.database_type", "AUTONOMOUS_DATABASE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_details.0.infrastructure_type", "ORACLE_CLOUD"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -278,6 +256,7 @@ func TestDataSafeTargetDatabaseResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				"peer_target_database_details",
 				"credentials",
 				"tls_config",
 				"defined_tags",

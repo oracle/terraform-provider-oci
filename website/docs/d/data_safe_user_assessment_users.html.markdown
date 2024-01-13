@@ -89,14 +89,14 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `account_status` - The user account status.
+* `account_status` - The status of the user account.
 * `admin_roles` - The admin roles granted to the user.
 * `authentication_type` - The user authentication method.
 * `key` - The unique user key. This is a system-generated identifier. Use ListUsers to get the user key for a user.
 * `target_id` - The OCID of the target database.
-* `time_last_login` - The date and time when the user last logged in, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `time_password_changed` - The date and time when the user password was last changed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `time_user_created` - The date and time when the user was created in the database, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_last_login` - The date and time the user last logged in, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_password_changed` - The date and time the user password was last changed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_user_created` - The date and time the user was created in the database, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `user_category` - The user category based on the privileges and other details of the user.
 * `user_name` - The database user name.
 * `user_profile` - The user profile name.

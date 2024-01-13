@@ -99,6 +99,22 @@ func DataSafeAuditTrailResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"peer_target_database_key": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"purge_job_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"purge_job_status": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"purge_job_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -125,6 +141,10 @@ func DataSafeAuditTrailResource() *schema.Resource {
 				Computed: true,
 			},
 			"trail_location": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"trail_source": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -577,6 +597,20 @@ func (s *DataSafeAuditTrailResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.PeerTargetDatabaseKey != nil {
+		s.D.Set("peer_target_database_key", *s.Res.PeerTargetDatabaseKey)
+	}
+
+	if s.Res.PurgeJobDetails != nil {
+		s.D.Set("purge_job_details", *s.Res.PurgeJobDetails)
+	}
+
+	s.D.Set("purge_job_status", s.Res.PurgeJobStatus)
+
+	if s.Res.PurgeJobTime != nil {
+		s.D.Set("purge_job_time", s.Res.PurgeJobTime.String())
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("status", s.Res.Status)
@@ -604,6 +638,8 @@ func (s *DataSafeAuditTrailResourceCrud) SetData() error {
 	if s.Res.TrailLocation != nil {
 		s.D.Set("trail_location", *s.Res.TrailLocation)
 	}
+
+	s.D.Set("trail_source", s.Res.TrailSource)
 
 	if s.Res.WorkRequestId != nil {
 		s.D.Set("work_request_id", *s.Res.WorkRequestId)
@@ -720,6 +756,10 @@ func AuditTrailSummaryToMap(obj oci_data_safe.AuditTrailSummary) map[string]inte
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.PeerTargetDatabaseKey != nil {
+		result["peer_target_database_key"] = int(*obj.PeerTargetDatabaseKey)
 	}
 
 	result["state"] = string(obj.LifecycleState)

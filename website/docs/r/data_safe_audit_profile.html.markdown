@@ -61,6 +61,10 @@ The following attributes are exported:
 	* `id` - The OCID of the audit trail.
 	* `is_auto_purge_enabled` - Indicates if auto purge is enabled on the target database, which helps delete audit data in the target database every seven days so that the database's audit trail does not become too large. 
 	* `lifecycle_details` - Details about the current state of the audit trail in Data Safe.
+	* `peer_target_database_key` - The secondary id assigned for the peer database registered with Data Safe.
+	* `purge_job_details` - The details of the audit trail purge job that ran on the "purgeJobTime".
+	* `purge_job_status` - The current status of the audit trail purge job.
+	* `purge_job_time` - The date and time of the last purge job, which deletes audit data in the target database every seven days so that the database's audit trail does not become too large. In the format defined by RFC3339. 
 	* `state` - The current state of the audit trail.
 	* `status` - The current sub-state of the audit trail.
 	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
@@ -69,6 +73,7 @@ The following attributes are exported:
 	* `time_last_collected` - The date and time until when the audit events were collected from the target database by the Data Safe audit trail  collection process, in the format defined by RFC3339. 
 	* `time_updated` - The date and time the audit trail was updated, in the format defined by RFC3339.
 	* `trail_location` - An audit trail location represents the source of audit records that provides documentary evidence of the sequence of activities in the target database. 
+	* `trail_source` - The underlying source of unified audit trail.
 	* `work_request_id` - The OCID of the workrequest for audit trail which collects audit records.
 * `compartment_id` - The OCID of the compartment that contains the audit.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 

@@ -189,6 +189,163 @@ func DataSafeTargetDatabaseResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"peer_target_database_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"database_details": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"database_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"AUTONOMOUS_DATABASE",
+											"DATABASE_CLOUD_SERVICE",
+											"INSTALLED_DATABASE",
+										}, true),
+									},
+									"infrastructure_type": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"autonomous_database_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"db_system_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"instance_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"ip_addresses": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"listener_port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"service_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"vm_cluster_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+						"dataguard_association_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"tls_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"status": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"certificate_store_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"key_store_content": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"store_password": {
+										Type:      schema.TypeString,
+										Optional:  true,
+										Computed:  true,
+										ForceNew:  true,
+										Sensitive: true,
+									},
+									"trust_store_content": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"tls_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -242,6 +399,140 @@ func DataSafeTargetDatabaseResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"peer_target_databases": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"database_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"autonomous_database_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"database_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"db_system_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"infrastructure_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"instance_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ip_addresses": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"listener_port": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"service_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"vm_cluster_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"database_unique_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"dataguard_association_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"key": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"lifecycle_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"role": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"tls_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"certificate_store_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"key_store_content": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"status": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"store_password": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"trust_store_content": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -393,6 +684,23 @@ func (s *DataSafeTargetDatabaseResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if peerTargetDatabaseDetails, ok := s.D.GetOkExists("peer_target_database_details"); ok {
+		interfaces := peerTargetDatabaseDetails.([]interface{})
+		tmp := make([]oci_data_safe.CreatePeerTargetDatabaseDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "peer_target_database_details", stateDataIndex)
+			converted, err := s.mapToCreatePeerTargetDatabaseDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("peer_target_database_details") {
+			request.PeerTargetDatabaseDetails = tmp
+		}
 	}
 
 	if tlsConfig, ok := s.D.GetOkExists("tls_config"); ok {
@@ -709,6 +1017,12 @@ func (s *DataSafeTargetDatabaseResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	peerTargetDatabases := []interface{}{}
+	for _, item := range s.Res.PeerTargetDatabases {
+		peerTargetDatabases = append(peerTargetDatabases, PeerTargetDatabaseToMap(item))
+	}
+	s.D.Set("peer_target_databases", peerTargetDatabases)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -775,6 +1089,79 @@ func ConnectionOptionToMap(obj *oci_data_safe.ConnectionOption) map[string]inter
 	default:
 		log.Printf("[WARN] Received 'connection_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func (s *DataSafeTargetDatabaseResourceCrud) mapToCreatePeerTargetDatabaseDetails(fieldKeyFormat string) (oci_data_safe.CreatePeerTargetDatabaseDetails, error) {
+	result := oci_data_safe.CreatePeerTargetDatabaseDetails{}
+
+	if databaseDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_details")); ok {
+		if tmpList := databaseDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_details"), 0)
+			tmp, err := s.mapToDatabaseDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert database_details, encountered error: %v", err)
+			}
+			result.DatabaseDetails = tmp
+		}
+	}
+
+	if dataguardAssociationId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dataguard_association_id")); ok {
+		tmp := dataguardAssociationId.(string)
+		result.DataguardAssociationId = &tmp
+	}
+
+	if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+		tmp := description.(string)
+		result.Description = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if tlsConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tls_config")); ok {
+		if tmpList := tlsConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "tls_config"), 0)
+			tmp, err := s.mapToTlsConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert tls_config, encountered error: %v", err)
+			}
+			result.TlsConfig = &tmp
+		}
+	}
+
+	return result, nil
+}
+
+func CreatePeerTargetDatabaseDetailsToMap(obj oci_data_safe.CreatePeerTargetDatabaseDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DatabaseDetails != nil {
+		databaseDetailsArray := []interface{}{}
+		if databaseDetailsMap := DatabaseDetailsToMap(&obj.DatabaseDetails); databaseDetailsMap != nil {
+			databaseDetailsArray = append(databaseDetailsArray, databaseDetailsMap)
+		}
+		result["database_details"] = databaseDetailsArray
+	}
+
+	if obj.DataguardAssociationId != nil {
+		result["dataguard_association_id"] = string(*obj.DataguardAssociationId)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.TlsConfig != nil {
+		result["tls_config"] = []interface{}{TlsConfigToMap(obj.TlsConfig)}
 	}
 
 	return result
@@ -941,6 +1328,58 @@ func DatabaseDetailsToMap(obj *oci_data_safe.DatabaseDetails) map[string]interfa
 	default:
 		log.Printf("[WARN] Received 'database_type' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func PeerTargetDatabaseToMap(obj oci_data_safe.PeerTargetDatabase) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DatabaseDetails != nil {
+		databaseDetailsArray := []interface{}{}
+		if databaseDetailsMap := DatabaseDetailsToMap(&obj.DatabaseDetails); databaseDetailsMap != nil {
+			databaseDetailsArray = append(databaseDetailsArray, databaseDetailsMap)
+		}
+		result["database_details"] = databaseDetailsArray
+	}
+
+	if obj.DatabaseUniqueName != nil {
+		result["database_unique_name"] = string(*obj.DatabaseUniqueName)
+	}
+
+	if obj.DataguardAssociationId != nil {
+		result["dataguard_association_id"] = string(*obj.DataguardAssociationId)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Key != nil {
+		result["key"] = int(*obj.Key)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.Role != nil {
+		result["role"] = string(*obj.Role)
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TlsConfig != nil {
+		result["tls_config"] = []interface{}{TlsConfigToMap(obj.TlsConfig)}
 	}
 
 	return result

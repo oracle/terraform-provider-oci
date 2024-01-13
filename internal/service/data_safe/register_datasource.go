@@ -83,6 +83,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_data_safe_target_alert_policy_association", DataSafeTargetAlertPolicyAssociationDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_target_alert_policy_associations", DataSafeTargetAlertPolicyAssociationsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_target_database", DataSafeTargetDatabaseDataSource())
+	tfresource.RegisterDatasource("oci_data_safe_target_database_peer_target_database", DataSafeTargetDatabasePeerTargetDatabaseDataSource())
+	tfresource.RegisterDatasource("oci_data_safe_target_database_peer_target_databases", DataSafeTargetDatabasePeerTargetDatabasesDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_target_database_roles", DataSafeTargetDatabaseRolesDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_target_database_role", DataSafeTargetDatabaseRolesDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_target_databases", DataSafeTargetDatabasesDataSource())
