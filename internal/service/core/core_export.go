@@ -1041,6 +1041,14 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 			},
 		},
 	},
+	"oci_core_vlan": {
+		{
+			TerraformResourceHints: exportCorePrivateIpHints,
+			DatasourceQueryParams: map[string]string{
+				"vlan_id": "id",
+			},
+		},
+	},
 	"oci_core_volume": {
 		{
 			TerraformResourceHints: exportCoreVolumeBackupPolicyAssignmentHints,
