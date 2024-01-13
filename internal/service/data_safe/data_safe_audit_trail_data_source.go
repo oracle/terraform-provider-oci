@@ -100,6 +100,20 @@ func (s *DataSafeAuditTrailDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.PeerTargetDatabaseKey != nil {
+		s.D.Set("peer_target_database_key", *s.Res.PeerTargetDatabaseKey)
+	}
+
+	if s.Res.PurgeJobDetails != nil {
+		s.D.Set("purge_job_details", *s.Res.PurgeJobDetails)
+	}
+
+	s.D.Set("purge_job_status", s.Res.PurgeJobStatus)
+
+	if s.Res.PurgeJobTime != nil {
+		s.D.Set("purge_job_time", s.Res.PurgeJobTime.String())
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	s.D.Set("status", s.Res.Status)
@@ -127,6 +141,8 @@ func (s *DataSafeAuditTrailDataSourceCrud) SetData() error {
 	if s.Res.TrailLocation != nil {
 		s.D.Set("trail_location", *s.Res.TrailLocation)
 	}
+
+	s.D.Set("trail_source", s.Res.TrailSource)
 
 	if s.Res.WorkRequestId != nil {
 		s.D.Set("work_request_id", *s.Res.WorkRequestId)

@@ -14,63 +14,12 @@ import (
 )
 
 func DataSafeReportDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDataSafeReport,
-		Schema: map[string]*schema.Schema{
-			"report_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"mime_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"report_definition_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"system_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"time_generated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["report_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(DataSafeReportResource(), fieldMap, readSingularDataSafeReport)
 }
 
 func readSingularDataSafeReport(d *schema.ResourceData, m interface{}) error {
