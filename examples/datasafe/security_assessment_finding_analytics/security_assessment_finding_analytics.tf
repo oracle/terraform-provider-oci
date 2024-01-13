@@ -7,17 +7,8 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
-variable "user_assessment_ocid" {}
+variable "security_assessment_ocid" {}
 variable "data_safe_target_ocid" {}
-
-
-variable "description" {
-  default = "description"
-}
-
-variable "display_name" {
-  default = "UA_1"
-}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -27,17 +18,9 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_data_safe_user_assessment" "test_user_assessment" {
+data "oci_data_safe_security_assessment_finding_analytics" "test_security_assessment_finding_analytics" {
   #Required
-  compartment_id      = var.compartment_ocid
-  target_id           = var.data_safe_target_ocid
-
-  #Optional
-  description   = var.description
-  display_name  = var.display_name
-}
-
-data "oci_data_safe_user_assessment_users" "test_user_assessment_users" {
-  #Required
-  user_assessment_id = var.user_assessment_ocid
+  compartment_id = var.compartment_ocid
+  access_level = "ACCESSIBLE"
+  compartment_id_in_subtree = true
 }

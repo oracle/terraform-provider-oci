@@ -7,17 +7,9 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
-variable "user_assessment_ocid" {}
+variable "security_policy_report_ocid" {}
 variable "data_safe_target_ocid" {}
-
-
-variable "description" {
-  default = "description"
-}
-
-variable "display_name" {
-  default = "UA_1"
-}
+variable "database_table_access_entrykey" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -27,17 +19,13 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_data_safe_user_assessment" "test_user_assessment" {
+data "oci_data_safe_security_policy_report_database_table_access_entries" "test_security_policy_report_database_table_access_entries" {
   #Required
-  compartment_id      = var.compartment_ocid
-  target_id           = var.data_safe_target_ocid
-
-  #Optional
-  description   = var.description
-  display_name  = var.display_name
+  security_policy_report_id = var.security_policy_report_ocid
 }
 
-data "oci_data_safe_user_assessment_users" "test_user_assessment_users" {
+data "oci_data_safe_security_policy_report_database_table_access_entry" "test_security_policy_report_database_table_access_entry" {
   #Required
-  user_assessment_id = var.user_assessment_ocid
+  security_policy_report_id = var.security_policy_report_ocid
+  database_table_access_entry_key = var.database_table_access_entrykey
 }
