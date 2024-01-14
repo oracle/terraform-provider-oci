@@ -18,11 +18,14 @@ import (
 // CalculateAuditVolumeAvailableDetails The details for calculating audit data volume on target.
 type CalculateAuditVolumeAvailableDetails struct {
 
-	// The trail locations for which the audit data volume has to be calculated.
-	TrailLocations []string `mandatory:"true" json:"trailLocations"`
-
 	// The date from which the audit trail must start collecting data in UTC, in the format defined by RFC3339. If not specified, this will default to the date based on the retention period.
 	AuditCollectionStartTime *common.SDKTime `mandatory:"false" json:"auditCollectionStartTime"`
+
+	// The trail locations for which the audit data volume has to be calculated.
+	TrailLocations []string `mandatory:"false" json:"trailLocations"`
+
+	// Unique name of the database associated to the peer target database.
+	DatabaseUniqueName *string `mandatory:"false" json:"databaseUniqueName"`
 }
 
 func (m CalculateAuditVolumeAvailableDetails) String() string {

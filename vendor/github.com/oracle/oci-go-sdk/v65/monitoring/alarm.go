@@ -5,7 +5,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
-// Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
+// Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
 // the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
 //
@@ -79,8 +79,7 @@ type Alarm struct {
 	// A list of destinations for alarm notifications.
 	// Each destination is represented by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// of a related resource, such as a NotificationTopic.
-	// Supported destination services: Notifications
-	// , Streaming.
+	// Supported destination services: Notifications, Streaming.
 	// Limit: One destination per supported destination service.
 	Destinations []string `mandatory:"true" json:"destinations"`
 
@@ -93,11 +92,11 @@ type Alarm struct {
 	LifecycleState AlarmLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time the alarm was created. Format defined by RFC3339.
-	// Example: `2019-02-01T01:02:29.600Z`
+	// Example: `2023-02-01T01:02:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The date and time the alarm was last updated. Format defined by RFC3339.
-	// Example: `2019-02-03T01:02:29.600Z`
+	// Example: `2023-02-03T01:02:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
 	// When true, the alarm evaluates metrics from all compartments and subcompartments. The parameter can
@@ -131,7 +130,7 @@ type Alarm struct {
 
 	// The human-readable content of the delivered alarm notification. Oracle recommends providing guidance
 	// to operators for resolving the alarm condition. Consider adding links to standard runbook
-	// practices.
+	// practices. Avoid entering confidential information.
 	// Example: `High CPU usage alert. Follow runbook instructions for resolution.`
 	Body *string `mandatory:"false" json:"body"`
 

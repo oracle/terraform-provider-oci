@@ -103,6 +103,12 @@ type ListUsersRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return items that contain the specified schema list.
+	SchemaList []string `contributesTo:"query" name:"schemaList" collectionFormat:"multi"`
+
+	// A filter to return only items that match the criteria that all schemas can be accessed by a user.
+	AreAllSchemasAccessible *bool `mandatory:"false" contributesTo:"query" name:"areAllSchemasAccessible"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
