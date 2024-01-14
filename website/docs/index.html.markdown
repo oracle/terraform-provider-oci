@@ -11,7 +11,7 @@ The Oracle Cloud Infrastructure provider is used to interact with the resources 
 The Oracle Cloud Infrastructure (OCI) provider allows you to use Terraform to interact with [Oracle Cloud Infrastructure](https://cloud.oracle.com/cloud-infrastructure) resources. Wherever you use a Terraform distribution you can use the OCI Terraform provider, including [Terraform Cloud](https://www.terraform.io/docs/cloud/index.html) and the OCI [Resource Manager](#resource-manager).
 
 To learn the basics of Terraform using this provider, follow the
-hands-on [get started tutorials](https://learn.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/oci-get-started) on HashiCorp's Learn platform.
+hands-on [get started tutorials](https://developer.hashicorp.com/tutorials/terraform/infrastructure-as-code?in=terraform/oci-get-started) on HashiCorp's Learn platform.
 
 ## Terraform CLI
 
