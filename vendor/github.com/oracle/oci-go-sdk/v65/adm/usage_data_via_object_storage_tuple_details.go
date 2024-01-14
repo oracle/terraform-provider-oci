@@ -16,7 +16,8 @@ import (
 	"strings"
 )
 
-// UsageDataViaObjectStorageTupleDetails Reference to an object in Object Storage as a tuple.
+// UsageDataViaObjectStorageTupleDetails Reference to an object in object storage as a tuple. The usage data file uploaded to object storage must be a gzip archive
+// of the JSON usage data returned from the GraalVM native-image-inspect tool after a native-image build.
 type UsageDataViaObjectStorageTupleDetails struct {
 
 	// The Object Storage bucket to read the usage data from.

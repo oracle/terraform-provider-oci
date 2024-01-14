@@ -89,6 +89,10 @@ const (
 	WorkRequestOperationTypeDeactivateTargetDatabase                  WorkRequestOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
 	WorkRequestOperationTypeDeleteTargetDatabase                      WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE"
 	WorkRequestOperationTypeChangeTargetDatabaseCompartment           WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
+	WorkRequestOperationTypeCreatePeerTargetDatabase                  WorkRequestOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeUpdatePeerTargetDatabase                  WorkRequestOperationTypeEnum = "UPDATE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeDeletePeerTargetDatabase                  WorkRequestOperationTypeEnum = "DELETE_PEER_TARGET_DATABASE"
+	WorkRequestOperationTypeRefreshTargetDatabase                     WorkRequestOperationTypeEnum = "REFRESH_TARGET_DATABASE"
 	WorkRequestOperationTypeProvisionPolicy                           WorkRequestOperationTypeEnum = "PROVISION_POLICY"
 	WorkRequestOperationTypeRetrievePolicy                            WorkRequestOperationTypeEnum = "RETRIEVE_POLICY"
 	WorkRequestOperationTypeUpdatePolicy                              WorkRequestOperationTypeEnum = "UPDATE_POLICY"
@@ -112,6 +116,7 @@ const (
 	WorkRequestOperationTypeCompareWithBaselineSecurityAssessment     WorkRequestOperationTypeEnum = "COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT"
 	WorkRequestOperationTypeDeleteSecurityAssessment                  WorkRequestOperationTypeEnum = "DELETE_SECURITY_ASSESSMENT"
 	WorkRequestOperationTypeUpdateSecurityAssessment                  WorkRequestOperationTypeEnum = "UPDATE_SECURITY_ASSESSMENT"
+	WorkRequestOperationTypeUpdateFindingRisk                         WorkRequestOperationTypeEnum = "UPDATE_FINDING_RISK"
 	WorkRequestOperationTypeChangeSecurityAssessmentCompartment       WorkRequestOperationTypeEnum = "CHANGE_SECURITY_ASSESSMENT_COMPARTMENT"
 	WorkRequestOperationTypeSetSecurityAssessmentBaseline             WorkRequestOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
 	WorkRequestOperationTypeUnsetSecurityAssessmentBaseline           WorkRequestOperationTypeEnum = "UNSET_SECURITY_ASSESSMENT_BASELINE"
@@ -192,6 +197,9 @@ const (
 	WorkRequestOperationTypePatchDifference                           WorkRequestOperationTypeEnum = "PATCH_DIFFERENCE"
 	WorkRequestOperationTypeApplyDifference                           WorkRequestOperationTypeEnum = "APPLY_DIFFERENCE"
 	WorkRequestOperationTypeAbortMasking                              WorkRequestOperationTypeEnum = "ABORT_MASKING"
+	WorkRequestOperationTypeCreateSecurityPolicyReport                WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
+	WorkRequestOperationTypeRefreshSecurityPolicyCache                WorkRequestOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
+	WorkRequestOperationTypeDeleteSecurityPolicyCache                 WorkRequestOperationTypeEnum = "DELETE_SECURITY_POLICY_CACHE"
 	WorkRequestOperationTypeCreateSchedule                            WorkRequestOperationTypeEnum = "CREATE_SCHEDULE"
 	WorkRequestOperationTypeRemoveScheduleReport                      WorkRequestOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestOperationTypeUpdateAllAlert                            WorkRequestOperationTypeEnum = "UPDATE_ALL_ALERT"
@@ -215,6 +223,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"DEACTIVATE_TARGET_DATABASE":                    WorkRequestOperationTypeDeactivateTargetDatabase,
 	"DELETE_TARGET_DATABASE":                        WorkRequestOperationTypeDeleteTargetDatabase,
 	"CHANGE_TARGET_DATABASE_COMPARTMENT":            WorkRequestOperationTypeChangeTargetDatabaseCompartment,
+	"CREATE_PEER_TARGET_DATABASE":                   WorkRequestOperationTypeCreatePeerTargetDatabase,
+	"UPDATE_PEER_TARGET_DATABASE":                   WorkRequestOperationTypeUpdatePeerTargetDatabase,
+	"DELETE_PEER_TARGET_DATABASE":                   WorkRequestOperationTypeDeletePeerTargetDatabase,
+	"REFRESH_TARGET_DATABASE":                       WorkRequestOperationTypeRefreshTargetDatabase,
 	"PROVISION_POLICY":                              WorkRequestOperationTypeProvisionPolicy,
 	"RETRIEVE_POLICY":                               WorkRequestOperationTypeRetrievePolicy,
 	"UPDATE_POLICY":                                 WorkRequestOperationTypeUpdatePolicy,
@@ -238,6 +250,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT":     WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
 	"DELETE_SECURITY_ASSESSMENT":                    WorkRequestOperationTypeDeleteSecurityAssessment,
 	"UPDATE_SECURITY_ASSESSMENT":                    WorkRequestOperationTypeUpdateSecurityAssessment,
+	"UPDATE_FINDING_RISK":                           WorkRequestOperationTypeUpdateFindingRisk,
 	"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT":        WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
 	"SET_SECURITY_ASSESSMENT_BASELINE":              WorkRequestOperationTypeSetSecurityAssessmentBaseline,
 	"UNSET_SECURITY_ASSESSMENT_BASELINE":            WorkRequestOperationTypeUnsetSecurityAssessmentBaseline,
@@ -318,6 +331,9 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PATCH_DIFFERENCE":                              WorkRequestOperationTypePatchDifference,
 	"APPLY_DIFFERENCE":                              WorkRequestOperationTypeApplyDifference,
 	"ABORT_MASKING":                                 WorkRequestOperationTypeAbortMasking,
+	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
+	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
+	"DELETE_SECURITY_POLICY_CACHE":                  WorkRequestOperationTypeDeleteSecurityPolicyCache,
 	"CREATE_SCHEDULE":                               WorkRequestOperationTypeCreateSchedule,
 	"REMOVE_SCHEDULE_REPORT":                        WorkRequestOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                              WorkRequestOperationTypeUpdateAllAlert,
@@ -341,6 +357,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"deactivate_target_database":                    WorkRequestOperationTypeDeactivateTargetDatabase,
 	"delete_target_database":                        WorkRequestOperationTypeDeleteTargetDatabase,
 	"change_target_database_compartment":            WorkRequestOperationTypeChangeTargetDatabaseCompartment,
+	"create_peer_target_database":                   WorkRequestOperationTypeCreatePeerTargetDatabase,
+	"update_peer_target_database":                   WorkRequestOperationTypeUpdatePeerTargetDatabase,
+	"delete_peer_target_database":                   WorkRequestOperationTypeDeletePeerTargetDatabase,
+	"refresh_target_database":                       WorkRequestOperationTypeRefreshTargetDatabase,
 	"provision_policy":                              WorkRequestOperationTypeProvisionPolicy,
 	"retrieve_policy":                               WorkRequestOperationTypeRetrievePolicy,
 	"update_policy":                                 WorkRequestOperationTypeUpdatePolicy,
@@ -364,6 +384,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"compare_with_baseline_security_assessment":     WorkRequestOperationTypeCompareWithBaselineSecurityAssessment,
 	"delete_security_assessment":                    WorkRequestOperationTypeDeleteSecurityAssessment,
 	"update_security_assessment":                    WorkRequestOperationTypeUpdateSecurityAssessment,
+	"update_finding_risk":                           WorkRequestOperationTypeUpdateFindingRisk,
 	"change_security_assessment_compartment":        WorkRequestOperationTypeChangeSecurityAssessmentCompartment,
 	"set_security_assessment_baseline":              WorkRequestOperationTypeSetSecurityAssessmentBaseline,
 	"unset_security_assessment_baseline":            WorkRequestOperationTypeUnsetSecurityAssessmentBaseline,
@@ -444,6 +465,9 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"patch_difference":                              WorkRequestOperationTypePatchDifference,
 	"apply_difference":                              WorkRequestOperationTypeApplyDifference,
 	"abort_masking":                                 WorkRequestOperationTypeAbortMasking,
+	"create_security_policy_report":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
+	"refresh_security_policy_cache":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
+	"delete_security_policy_cache":                  WorkRequestOperationTypeDeleteSecurityPolicyCache,
 	"create_schedule":                               WorkRequestOperationTypeCreateSchedule,
 	"remove_schedule_report":                        WorkRequestOperationTypeRemoveScheduleReport,
 	"update_all_alert":                              WorkRequestOperationTypeUpdateAllAlert,
@@ -478,6 +502,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"DEACTIVATE_TARGET_DATABASE",
 		"DELETE_TARGET_DATABASE",
 		"CHANGE_TARGET_DATABASE_COMPARTMENT",
+		"CREATE_PEER_TARGET_DATABASE",
+		"UPDATE_PEER_TARGET_DATABASE",
+		"DELETE_PEER_TARGET_DATABASE",
+		"REFRESH_TARGET_DATABASE",
 		"PROVISION_POLICY",
 		"RETRIEVE_POLICY",
 		"UPDATE_POLICY",
@@ -501,6 +529,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT",
 		"DELETE_SECURITY_ASSESSMENT",
 		"UPDATE_SECURITY_ASSESSMENT",
+		"UPDATE_FINDING_RISK",
 		"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT",
 		"SET_SECURITY_ASSESSMENT_BASELINE",
 		"UNSET_SECURITY_ASSESSMENT_BASELINE",
@@ -581,6 +610,9 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PATCH_DIFFERENCE",
 		"APPLY_DIFFERENCE",
 		"ABORT_MASKING",
+		"CREATE_SECURITY_POLICY_REPORT",
+		"REFRESH_SECURITY_POLICY_CACHE",
+		"DELETE_SECURITY_POLICY_CACHE",
 		"CREATE_SCHEDULE",
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",

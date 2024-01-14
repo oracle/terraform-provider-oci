@@ -5,7 +5,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
-// Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
+// Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
 // the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
 //
@@ -71,15 +71,14 @@ type AlarmSummary struct {
 	//   -----
 	Query *string `mandatory:"true" json:"query"`
 
-	// The perceived severity of the alarm with regard to the affected system.
+	// The perceived type of response required when the alarm is in the "FIRING" state.
 	// Example: `CRITICAL`
 	Severity AlarmSummarySeverityEnum `mandatory:"true" json:"severity"`
 
 	// A list of destinations for alarm notifications.
 	// Each destination is represented by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// of a related resource, such as a NotificationTopic.
-	// Supported destination services: Notifications
-	// , Streaming.
+	// Supported destination services: Notifications, Streaming.
 	// Limit: One destination per supported destination service.
 	Destinations []string `mandatory:"true" json:"destinations"`
 
@@ -93,6 +92,11 @@ type AlarmSummary struct {
 
 	// The configuration details for suppressing an alarm.
 	Suppression *Suppression `mandatory:"false" json:"suppression"`
+
+	// Whether the alarm sends a separate message for each metric stream.
+	// See Creating an Alarm That Splits Messages by Metric Stream (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-alarm-split.htm).
+	// Example: `true`
+	IsNotificationsPerMetricDimensionEnabled *bool `mandatory:"false" json:"isNotificationsPerMetricDimensionEnabled"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"Department": "Finance"}`

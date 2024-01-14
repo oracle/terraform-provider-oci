@@ -54,6 +54,9 @@ type TargetDatabase struct {
 	// The date and time of the target database update in Data Safe.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// The OCIDs of associated resources like database, Data Safe private endpoint, etc.
+	PeerTargetDatabases []PeerTargetDatabase `mandatory:"false" json:"peerTargetDatabases"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -96,6 +99,7 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 		AssociatedResourceIds []string                          `json:"associatedResourceIds"`
 		LifecycleDetails      *string                           `json:"lifecycleDetails"`
 		TimeUpdated           *common.SDKTime                   `json:"timeUpdated"`
+		PeerTargetDatabases   []PeerTargetDatabase              `json:"peerTargetDatabases"`
 		FreeformTags          map[string]string                 `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags            map[string]map[string]interface{} `json:"systemTags"`
@@ -134,6 +138,8 @@ func (m *TargetDatabase) UnmarshalJSON(data []byte) (e error) {
 
 	m.TimeUpdated = model.TimeUpdated
 
+	m.PeerTargetDatabases = make([]PeerTargetDatabase, len(model.PeerTargetDatabases))
+	copy(m.PeerTargetDatabases, model.PeerTargetDatabases)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

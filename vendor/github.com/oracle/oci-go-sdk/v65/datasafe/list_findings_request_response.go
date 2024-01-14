@@ -24,8 +24,14 @@ type ListFindingsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only the findings that are marked as top findings.
+	IsTopFinding *bool `mandatory:"false" contributesTo:"query" name:"isTopFinding"`
+
 	// A filter to return only findings of a particular risk level.
 	Severity ListFindingsSeverityEnum `mandatory:"false" contributesTo:"query" name:"severity" omitEmpty:"true"`
+
+	// A filter to return only the findings that match the specified lifecycle states.
+	LifecycleState ListFindingsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// An optional filter to return only findings that match the specified reference.
 	References ListFindingsReferencesEnum `mandatory:"false" contributesTo:"query" name:"references" omitEmpty:"true"`
@@ -89,6 +95,9 @@ func (request ListFindingsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListFindingsSeverityEnum(string(request.Severity)); !ok && request.Severity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", request.Severity, strings.Join(GetListFindingsSeverityEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListFindingsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListFindingsLifecycleStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListFindingsReferencesEnum(string(request.References)); !ok && request.References != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for References: %s. Supported values are: %s.", request.References, strings.Join(GetListFindingsReferencesEnumStringValues(), ",")))
 	}
@@ -142,6 +151,7 @@ const (
 	ListFindingsSeverityEvaluate ListFindingsSeverityEnum = "EVALUATE"
 	ListFindingsSeverityAdvisory ListFindingsSeverityEnum = "ADVISORY"
 	ListFindingsSeverityPass     ListFindingsSeverityEnum = "PASS"
+	ListFindingsSeverityDeferred ListFindingsSeverityEnum = "DEFERRED"
 )
 
 var mappingListFindingsSeverityEnum = map[string]ListFindingsSeverityEnum{
@@ -151,6 +161,7 @@ var mappingListFindingsSeverityEnum = map[string]ListFindingsSeverityEnum{
 	"EVALUATE": ListFindingsSeverityEvaluate,
 	"ADVISORY": ListFindingsSeverityAdvisory,
 	"PASS":     ListFindingsSeverityPass,
+	"DEFERRED": ListFindingsSeverityDeferred,
 }
 
 var mappingListFindingsSeverityEnumLowerCase = map[string]ListFindingsSeverityEnum{
@@ -160,6 +171,7 @@ var mappingListFindingsSeverityEnumLowerCase = map[string]ListFindingsSeverityEn
 	"evaluate": ListFindingsSeverityEvaluate,
 	"advisory": ListFindingsSeverityAdvisory,
 	"pass":     ListFindingsSeverityPass,
+	"deferred": ListFindingsSeverityDeferred,
 }
 
 // GetListFindingsSeverityEnumValues Enumerates the set of values for ListFindingsSeverityEnum
@@ -180,12 +192,63 @@ func GetListFindingsSeverityEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
+		"DEFERRED",
 	}
 }
 
 // GetMappingListFindingsSeverityEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListFindingsSeverityEnum(val string) (ListFindingsSeverityEnum, bool) {
 	enum, ok := mappingListFindingsSeverityEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListFindingsLifecycleStateEnum Enum with underlying type: string
+type ListFindingsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for ListFindingsLifecycleStateEnum
+const (
+	ListFindingsLifecycleStateActive         ListFindingsLifecycleStateEnum = "ACTIVE"
+	ListFindingsLifecycleStateUpdating       ListFindingsLifecycleStateEnum = "UPDATING"
+	ListFindingsLifecycleStateNeedsAttention ListFindingsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListFindingsLifecycleStateFailed         ListFindingsLifecycleStateEnum = "FAILED"
+)
+
+var mappingListFindingsLifecycleStateEnum = map[string]ListFindingsLifecycleStateEnum{
+	"ACTIVE":          ListFindingsLifecycleStateActive,
+	"UPDATING":        ListFindingsLifecycleStateUpdating,
+	"NEEDS_ATTENTION": ListFindingsLifecycleStateNeedsAttention,
+	"FAILED":          ListFindingsLifecycleStateFailed,
+}
+
+var mappingListFindingsLifecycleStateEnumLowerCase = map[string]ListFindingsLifecycleStateEnum{
+	"active":          ListFindingsLifecycleStateActive,
+	"updating":        ListFindingsLifecycleStateUpdating,
+	"needs_attention": ListFindingsLifecycleStateNeedsAttention,
+	"failed":          ListFindingsLifecycleStateFailed,
+}
+
+// GetListFindingsLifecycleStateEnumValues Enumerates the set of values for ListFindingsLifecycleStateEnum
+func GetListFindingsLifecycleStateEnumValues() []ListFindingsLifecycleStateEnum {
+	values := make([]ListFindingsLifecycleStateEnum, 0)
+	for _, v := range mappingListFindingsLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListFindingsLifecycleStateEnumStringValues Enumerates the set of values in String for ListFindingsLifecycleStateEnum
+func GetListFindingsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"UPDATING",
+		"NEEDS_ATTENTION",
+		"FAILED",
+	}
+}
+
+// GetMappingListFindingsLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListFindingsLifecycleStateEnum(val string) (ListFindingsLifecycleStateEnum, bool) {
+	enum, ok := mappingListFindingsLifecycleStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

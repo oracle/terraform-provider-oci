@@ -61,6 +61,9 @@ type AuditTrailSummary struct {
 	// The date from which the audit trail must start collecting data, in the format defined by RFC3339.
 	AuditCollectionStartTime *common.SDKTime `mandatory:"false" json:"auditCollectionStartTime"`
 
+	// The secondary id assigned for the peer database registered with Data Safe.
+	PeerTargetDatabaseKey *int `mandatory:"false" json:"peerTargetDatabaseKey"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

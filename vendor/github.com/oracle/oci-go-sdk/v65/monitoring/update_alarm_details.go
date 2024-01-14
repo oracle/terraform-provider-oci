@@ -5,7 +5,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
-// Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
+// Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
 // the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
 //
@@ -114,8 +114,7 @@ type UpdateAlarmDetails struct {
 	// A list of destinations for alarm notifications.
 	// Each destination is represented by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// of a related resource, such as a NotificationTopic.
-	// Supported destination services: Notifications
-	// , Streaming.
+	// Supported destination services: Notifications, Streaming.
 	// Limit: One destination per supported destination service.
 	Destinations []string `mandatory:"false" json:"destinations"`
 

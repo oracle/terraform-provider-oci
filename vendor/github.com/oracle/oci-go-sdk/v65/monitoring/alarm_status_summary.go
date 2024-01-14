@@ -5,7 +5,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
-// Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
+// Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
 // the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
 //
@@ -37,13 +37,13 @@ type AlarmStatusSummary struct {
 	// Example: `High CPU Utilization`
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The configured severity of the alarm.
+	// The perceived type of response required when the alarm is in the "FIRING" state.
 	// Example: `CRITICAL`
 	Severity AlarmStatusSummarySeverityEnum `mandatory:"true" json:"severity"`
 
 	// Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing.
 	// Note: A three-minute lag for this value accounts for any late-arriving metrics.
-	// Example: `2019-02-01T01:02:29.600Z`
+	// Example: `2023-02-01T01:02:29.600Z`
 	TimestampTriggered *common.SDKTime `mandatory:"true" json:"timestampTriggered"`
 
 	// The status of this alarm.
