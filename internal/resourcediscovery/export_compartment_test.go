@@ -69,6 +69,14 @@ var exportChildDefinition = &tf_export.TerraformResourceHints{
 	RequireResourceRefresh:      true,
 }
 
+var exportChildDefinitionInactive = &tf_export.TerraformResourceHints{
+	ResourceClass:               "oci_test_child_inactive",
+	DatasourceClass:             "oci_test_children",
+	ResourceAbbreviation:        "child",
+	DatasourceItemsAttr:         "item_summaries",
+	DiscoverableLifecycleStates: []string{resourceDiscoveryTestInactiveLifecycle},
+}
+
 var exportParentDefinitionWithFaultyDatasource = &tf_export.TerraformResourceHints{
 	ResourceClass:               "oci_test_parent",
 	DatasourceClass:             "oci_test_error_parents",
@@ -125,6 +133,24 @@ var compartmentTestingResourceGraph = tf_export.TerraformResourceGraph{
 		},
 	},
 	"oci_test_parent": {
+		{
+			TerraformResourceHints: exportChildDefinition,
+			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
+		},
+	},
+}
+
+var compartmentTestingResourceInactiveLifeCycleGraphGraph = tf_export.TerraformResourceGraph{
+	"oci_identity_compartment": {
+		{
+			TerraformResourceHints: exportParentDefinition,
+		},
+	},
+	"oci_test_parent": {
+		{
+			TerraformResourceHints: exportChildDefinitionInactive,
+			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
+		},
 		{
 			TerraformResourceHints: exportChildDefinition,
 			DatasourceQueryParams:  map[string]string{"parent_id": "id"},
@@ -1216,6 +1242,60 @@ func TestUnitFindResources_basic(t *testing.T) {
 	}
 }
 
+func TestUnitFindResourcesInActiveLifeCycle_basic(t *testing.T) {
+	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
+	}
+	os.Setenv(globalvar.DiscoverAllStatesEnv, "1")
+
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceInactiveLifeCycleGraphGraph, true)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+
+	foundInactiveResource := false
+	for _, foundResource := range results {
+		if foundResource.TerraformClass == "oci_test_child_inactive" {
+			foundInactiveResource = true
+			break
+		}
+	}
+	if foundInactiveResource == false {
+		t.Logf("Inactive Resources not found")
+		t.Fail()
+	}
+}
+
+func TestUnitFindResourcesInActiveLifeCycleWithGlobalVariableNotSet_basic(t *testing.T) {
+	initResourceDiscoveryTests()
+	defer cleanupResourceDiscoveryTests()
+	rootResource := getRootCompartmentResource()
+
+	ctx := &tf_export.ResourceDiscoveryContext{
+		ErrorList: tf_export.ErrorList{},
+	}
+
+	os.Unsetenv(globalvar.DiscoverAllStatesEnv)
+
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceInactiveLifeCycleGraphGraph, true)
+	if err != nil {
+		t.Logf("got error from findResources: %v", err)
+		t.Fail()
+	}
+
+	for _, foundResource := range results {
+		if foundResource.TerraformClass == "oci_test_child_inactive" {
+			t.Logf("Inactive resource found even when export variable TF_DISCOVER_ALL_STATES is not set to 1: %v", err)
+			t.Fail()
+		}
+	}
+}
+
 // Test that resources can be found using a resource dependency graph
 // issue-routing-tag: terraform/default
 func TestUnitFindResources_filter(t *testing.T) {
@@ -1232,7 +1312,7 @@ func TestUnitFindResources_filter(t *testing.T) {
 			}},
 		},
 	}
-	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph, true)
+	results, err := findResources(ctx, rootResource, compartmentTestingResourceGraph, false)
 	if err != nil {
 		t.Logf("got error from findResources: %v", err)
 		t.Fail()

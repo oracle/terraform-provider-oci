@@ -489,10 +489,16 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 			if itemMap, ok := item.(map[string]interface{}); ok {
 				if state, exists := itemMap["state"].(string); exists && len(tfMeta.DiscoverableLifecycleStates) > 0 {
 					discoverable := false
-					for _, val := range tfMeta.DiscoverableLifecycleStates {
-						if strings.EqualFold(state, val) {
-							discoverable = true
-							break
+
+					if utils.GetEnvSettingWithBlankDefault(globalvar.DiscoverAllStatesEnv) == "1" {
+						utils.Logf("Skipping Lifecycle State Check as TF_DISCOVER_ALL_STATES is set")
+						discoverable = true
+					} else {
+						for _, val := range tfMeta.DiscoverableLifecycleStates {
+							if strings.EqualFold(state, val) {
+								discoverable = true
+								break
+							}
 						}
 					}
 
@@ -609,10 +615,16 @@ func FindResourcesGeneric(ctx *ResourceDiscoveryContext, tfMeta *TerraformResour
 		discoverable := true
 		if state, ok := resource.SourceAttributes["state"]; ok && len(tfMeta.DiscoverableLifecycleStates) > 0 {
 			discoverable = false
-			for _, val := range tfMeta.DiscoverableLifecycleStates {
-				if strings.EqualFold(state.(string), val) {
-					discoverable = true
-					break
+
+			if utils.GetEnvSettingWithBlankDefault(globalvar.DiscoverAllStatesEnv) == "1" {
+				utils.Logf("Skipping Lifecycle State Check as TF_DISCOVER_ALL_STATES is set")
+				discoverable = true
+			} else {
+				for _, val := range tfMeta.DiscoverableLifecycleStates {
+					if strings.EqualFold(state.(string), val) {
+						discoverable = true
+						break
+					}
 				}
 			}
 		}
