@@ -43,11 +43,11 @@ type GetAlarmHistoryRequest struct {
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// A filter to return only alarm history entries with timestamps occurring on or after the specified date and time. Format defined by RFC3339.
-	// Example: `2019-01-01T01:00:00.789Z`
+	// Example: `2023-01-01T01:00:00.789Z`
 	TimestampGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timestampGreaterThanOrEqualTo"`
 
 	// A filter to return only alarm history entries with timestamps occurring before the specified date and time. Format defined by RFC3339.
-	// Example: `2019-01-02T01:00:00.789Z`
+	// Example: `2023-01-02T01:00:00.789Z`
 	TimestampLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timestampLessThan"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -24,11 +24,14 @@ type ListApplicationDependencyVulnerabilitiesRequest struct {
 	// A filter to return only Vulnerability Audits that match the specified id.
 	VulnerabilityId *string `mandatory:"false" contributesTo:"query" name:"vulnerabilityId"`
 
-	// A filter that returns only Vulnerability Audits that have a Common Vulnerability Scoring System Version 3 (CVSS V3) greater or equal than the specified value.
+	// A filter that returns only Vulnerabilities that have a Common Vulnerability Scoring System Version 3 (CVSS V3) greater than or equal to the specified value.
 	CvssV3GreaterThanOrEqual *float32 `mandatory:"false" contributesTo:"query" name:"cvssV3GreaterThanOrEqual"`
 
-	// A filter that returns only Vulnerability Audits that have a Common Vulnerability Scoring System Version 2 (CVSS V2) greater or equal than the specified value.
+	// A filter that returns only Vulnerabilities that have a Common Vulnerability Scoring System Version 2 (CVSS V2) greater than or equal to the specified value.
 	CvssV2GreaterThanOrEqual *float32 `mandatory:"false" contributesTo:"query" name:"cvssV2GreaterThanOrEqual"`
+
+	// A filter that returns only Vulnerabilities that have a severity greater than or equal to the specified value.
+	SeverityGreaterThanOrEqual ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum `mandatory:"false" contributesTo:"query" name:"severityGreaterThanOrEqual" omitEmpty:"true"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -43,6 +46,7 @@ type ListApplicationDependencyVulnerabilitiesRequest struct {
 	// If sort order is dfs, the nodes are returned by going through the application dependency tree in a depth-first manner. Children are sorted based on their GAV property alphabetically (either ascending or descending, depending on the order parameter). Default order is ascending.
 	// If sort order is bfs, the nodes are returned by going through the application dependency tree in a breadth-first manner. Children are sorted based on their GAV property alphabetically (either ascending or descending, depending on the order parameter). Default order is ascending.
 	// Default order for gav is ascending where ascending corresponds to alphanumerical order.
+	// Default order for purl is ascending where ascending corresponds to alphabetical order
 	// Default order for nodeId is ascending where ascending corresponds to alphanumerical order.
 	// Sorting by DFS or BFS cannot be used in conjunction with the following query parameters: "gav", "cvssV2GreaterThanOrEqual", "cvssV3GreaterThanOrEqual" and "vulnerabilityId".
 	SortBy ListApplicationDependencyVulnerabilitiesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
@@ -57,6 +61,9 @@ type ListApplicationDependencyVulnerabilitiesRequest struct {
 
 	// A filter to return only resources that match the entire GAV (Group Artifact Version) identifier given.
 	Gav *string `mandatory:"false" contributesTo:"query" name:"gav"`
+
+	// A filter to return only resources that match the entire PURL given (https://github.com/package-url/purl-spec/).
+	Purl *string `mandatory:"false" contributesTo:"query" name:"purl"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -97,6 +104,9 @@ func (request ListApplicationDependencyVulnerabilitiesRequest) RetryPolicy() *co
 // Not recommended for calling this function directly
 func (request ListApplicationDependencyVulnerabilitiesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum(string(request.SeverityGreaterThanOrEqual)); !ok && request.SeverityGreaterThanOrEqual != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SeverityGreaterThanOrEqual: %s. Supported values are: %s.", request.SeverityGreaterThanOrEqual, strings.Join(GetListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListApplicationDependencyVulnerabilitiesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListApplicationDependencyVulnerabilitiesSortOrderEnumStringValues(), ",")))
 	}
@@ -135,6 +145,60 @@ func (response ListApplicationDependencyVulnerabilitiesResponse) String() string
 // HTTPResponse implements the OCIResponse interface
 func (response ListApplicationDependencyVulnerabilitiesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum Enum with underlying type: string
+type ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum string
+
+// Set of constants representing the allowable values for ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum
+const (
+	ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualNone     ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum = "NONE"
+	ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualLow      ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum = "LOW"
+	ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualMedium   ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum = "MEDIUM"
+	ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualHigh     ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum = "HIGH"
+	ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualCritical ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum = "CRITICAL"
+)
+
+var mappingListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum = map[string]ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum{
+	"NONE":     ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualNone,
+	"LOW":      ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualLow,
+	"MEDIUM":   ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualMedium,
+	"HIGH":     ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualHigh,
+	"CRITICAL": ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualCritical,
+}
+
+var mappingListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnumLowerCase = map[string]ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum{
+	"none":     ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualNone,
+	"low":      ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualLow,
+	"medium":   ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualMedium,
+	"high":     ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualHigh,
+	"critical": ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualCritical,
+}
+
+// GetListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnumValues Enumerates the set of values for ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum
+func GetListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnumValues() []ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum {
+	values := make([]ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum, 0)
+	for _, v := range mappingListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnumStringValues Enumerates the set of values in String for ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum
+func GetListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnumStringValues() []string {
+	return []string{
+		"NONE",
+		"LOW",
+		"MEDIUM",
+		"HIGH",
+		"CRITICAL",
+	}
+}
+
+// GetMappingListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum(val string) (ListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnum, bool) {
+	enum, ok := mappingListApplicationDependencyVulnerabilitiesSeverityGreaterThanOrEqualEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListApplicationDependencyVulnerabilitiesSortOrderEnum Enum with underlying type: string
@@ -185,6 +249,7 @@ type ListApplicationDependencyVulnerabilitiesSortByEnum string
 // Set of constants representing the allowable values for ListApplicationDependencyVulnerabilitiesSortByEnum
 const (
 	ListApplicationDependencyVulnerabilitiesSortByGav    ListApplicationDependencyVulnerabilitiesSortByEnum = "gav"
+	ListApplicationDependencyVulnerabilitiesSortByPurl   ListApplicationDependencyVulnerabilitiesSortByEnum = "purl"
 	ListApplicationDependencyVulnerabilitiesSortByNodeid ListApplicationDependencyVulnerabilitiesSortByEnum = "nodeId"
 	ListApplicationDependencyVulnerabilitiesSortByDfs    ListApplicationDependencyVulnerabilitiesSortByEnum = "dfs"
 	ListApplicationDependencyVulnerabilitiesSortByBfs    ListApplicationDependencyVulnerabilitiesSortByEnum = "bfs"
@@ -192,6 +257,7 @@ const (
 
 var mappingListApplicationDependencyVulnerabilitiesSortByEnum = map[string]ListApplicationDependencyVulnerabilitiesSortByEnum{
 	"gav":    ListApplicationDependencyVulnerabilitiesSortByGav,
+	"purl":   ListApplicationDependencyVulnerabilitiesSortByPurl,
 	"nodeId": ListApplicationDependencyVulnerabilitiesSortByNodeid,
 	"dfs":    ListApplicationDependencyVulnerabilitiesSortByDfs,
 	"bfs":    ListApplicationDependencyVulnerabilitiesSortByBfs,
@@ -199,6 +265,7 @@ var mappingListApplicationDependencyVulnerabilitiesSortByEnum = map[string]ListA
 
 var mappingListApplicationDependencyVulnerabilitiesSortByEnumLowerCase = map[string]ListApplicationDependencyVulnerabilitiesSortByEnum{
 	"gav":    ListApplicationDependencyVulnerabilitiesSortByGav,
+	"purl":   ListApplicationDependencyVulnerabilitiesSortByPurl,
 	"nodeid": ListApplicationDependencyVulnerabilitiesSortByNodeid,
 	"dfs":    ListApplicationDependencyVulnerabilitiesSortByDfs,
 	"bfs":    ListApplicationDependencyVulnerabilitiesSortByBfs,
@@ -217,6 +284,7 @@ func GetListApplicationDependencyVulnerabilitiesSortByEnumValues() []ListApplica
 func GetListApplicationDependencyVulnerabilitiesSortByEnumStringValues() []string {
 	return []string{
 		"gav",
+		"purl",
 		"nodeId",
 		"dfs",
 		"bfs",

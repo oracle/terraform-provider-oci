@@ -1,3 +1,15 @@
+## 5.25.0 (January 17, 2024)
+
+### Added
+Support for Configure Acceptable Risks for Security Assessment Findings
+Support for Data Safe - Users access to db objects, top 5 security assessment findings and db security feature usage
+Support for suppression by dimension
+Support for ADM Polyglot Audit
+Support for Data Safe Support for Active DataGuard (ADG) enabled databases
+Support for OL8/OL7 DomU provisioning on OL8 Infra
+### Bug Fix
+Fix missing discover private IPs associated with VLAN using terraform
+
 ## 5.24.0 (January 10, 2024)
 
 ### Added

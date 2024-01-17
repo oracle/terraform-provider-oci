@@ -11,6 +11,7 @@ import (
 func init() {
 	exportDataSafeMaskingPoliciesMaskingColumnHints.GetIdFn = getDataSafeMaskingPoliciesMaskingColumnId
 	exportDataSafeSensitiveDataModelsSensitiveColumnHints.GetIdFn = getDataSafeSensitiveDataModelsSensitiveColumnId
+	exportDataSafeTargetDatabasePeerTargetDatabaseHints.GetIdFn = getDataSafeTargetDatabasePeerTargetDatabaseId
 	exportDataSafeDiscoveryJobsResultHints.GetIdFn = getDataSafeDiscoveryJobsResultId
 	tf_export.RegisterCompartmentGraphs("data_safe", dataSafeResourceGraph)
 }
@@ -44,6 +45,16 @@ func getDataSafeSensitiveDataModelsSensitiveColumnId(resource *tf_export.OCIReso
 	}
 	sensitiveDataModelId := resource.Parent.Id
 	return GetSensitiveDataModelsSensitiveColumnCompositeId(sensitiveColumnKey, sensitiveDataModelId), nil
+}
+
+func getDataSafeTargetDatabasePeerTargetDatabaseId(resource *tf_export.OCIResource) (string, error) {
+
+	peerTargetDatabaseId, ok := resource.SourceAttributes["peer_target_database_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find peerTargetDatabaseId for DataSafe TargetDatabasePeerTargetDatabase")
+	}
+	targetDatabaseId := resource.Parent.Id
+	return GetTargetDatabasePeerTargetDatabaseCompositeId(peerTargetDatabaseId, targetDatabaseId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -194,6 +205,18 @@ var exportDataSafeTargetAlertPolicyAssociationHints = &tf_export.TerraformResour
 	},
 }
 
+var exportDataSafeReportHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_report",
+	DatasourceClass:        "oci_data_safe_reports",
+	DatasourceItemsAttr:    "report_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "report",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.ReportLifecycleStateActive),
+	},
+}
+
 var exportDataSafeSensitiveTypeHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_data_safe_sensitive_type",
 	DatasourceClass:        "oci_data_safe_sensitive_types",
@@ -292,12 +315,26 @@ var exportDataSafeSdmMaskingPolicyDifferenceHints = &tf_export.TerraformResource
 		string(oci_data_safe.SdmMaskingPolicyDifferenceLifecycleStateActive),
 	},
 }
+
 var exportDataSafeDiscoveryJobsResultHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_data_safe_discovery_jobs_result",
 	DatasourceClass:        "oci_data_safe_discovery_jobs_results",
 	DatasourceItemsAttr:    "discovery_job_result_collection",
 	IsDatasourceCollection: true,
 	ResourceAbbreviation:   "discovery_jobs_result",
+}
+
+var exportDataSafeTargetDatabasePeerTargetDatabaseHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_target_database_peer_target_database",
+	DatasourceClass:        "oci_data_safe_target_database_peer_target_databases",
+	DatasourceItemsAttr:    "peer_target_database_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "target_database_peer_target_database",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.TargetDatabaseLifecycleStateActive),
+		string(oci_data_safe.TargetDatabaseLifecycleStateNeedsAttention),
+	},
 }
 
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
@@ -314,12 +351,21 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeAuditProfileHints},
 		{TerraformResourceHints: exportDataSafeAuditPolicyHints},
 		{TerraformResourceHints: exportDataSafeTargetAlertPolicyAssociationHints},
+		{TerraformResourceHints: exportDataSafeReportHints},
 		{TerraformResourceHints: exportDataSafeSensitiveTypeHints},
 		{TerraformResourceHints: exportDataSafeMaskingPolicyHints},
 		{TerraformResourceHints: exportDataSafeLibraryMaskingFormatHints},
 		{TerraformResourceHints: exportDataSafeSensitiveDataModelHints},
 		{TerraformResourceHints: exportDataSafeDiscoveryJobHints},
 		{TerraformResourceHints: exportDataSafeSdmMaskingPolicyDifferenceHints},
+	},
+	"oci_data_safe_target_database": {
+		{
+			TerraformResourceHints: exportDataSafeTargetDatabasePeerTargetDatabaseHints,
+			DatasourceQueryParams: map[string]string{
+				"target_database_id": "id",
+			},
+		},
 	},
 	"oci_data_safe_masking_policy": {
 		{

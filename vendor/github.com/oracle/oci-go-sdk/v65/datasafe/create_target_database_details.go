@@ -36,6 +36,9 @@ type CreateTargetDatabaseDetails struct {
 
 	ConnectionOption ConnectionOption `mandatory:"false" json:"connectionOption"`
 
+	// The details of the database to be registered as a peer target database.
+	PeerTargetDatabaseDetails []CreatePeerTargetDatabaseDetails `mandatory:"false" json:"peerTargetDatabaseDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -64,15 +67,16 @@ func (m CreateTargetDatabaseDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateTargetDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName      *string                           `json:"displayName"`
-		Description      *string                           `json:"description"`
-		Credentials      *Credentials                      `json:"credentials"`
-		TlsConfig        *TlsConfig                        `json:"tlsConfig"`
-		ConnectionOption connectionoption                  `json:"connectionOption"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		CompartmentId    *string                           `json:"compartmentId"`
-		DatabaseDetails  databasedetails                   `json:"databaseDetails"`
+		DisplayName               *string                           `json:"displayName"`
+		Description               *string                           `json:"description"`
+		Credentials               *Credentials                      `json:"credentials"`
+		TlsConfig                 *TlsConfig                        `json:"tlsConfig"`
+		ConnectionOption          connectionoption                  `json:"connectionOption"`
+		PeerTargetDatabaseDetails []CreatePeerTargetDatabaseDetails `json:"peerTargetDatabaseDetails"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		CompartmentId             *string                           `json:"compartmentId"`
+		DatabaseDetails           databasedetails                   `json:"databaseDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -98,6 +102,8 @@ func (m *CreateTargetDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ConnectionOption = nil
 	}
 
+	m.PeerTargetDatabaseDetails = make([]CreatePeerTargetDatabaseDetails, len(model.PeerTargetDatabaseDetails))
+	copy(m.PeerTargetDatabaseDetails, model.PeerTargetDatabaseDetails)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

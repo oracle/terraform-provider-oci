@@ -47,8 +47,7 @@ resource "oci_adm_remediation_recipe" "example_remediation_recipe" {
   is_run_triggered_on_kb_change = false
   detect_configuration {
     exclusions = []
-    max_permissible_cvss_v2score = 1.5
-    max_permissible_cvss_v3score = 1.5
+    max_permissible_severity = "LOW"
     upgrade_policy = "NEAREST"
   }
   network_configuration {

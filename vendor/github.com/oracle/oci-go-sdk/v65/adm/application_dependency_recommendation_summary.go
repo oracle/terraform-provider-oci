@@ -28,8 +28,14 @@ type ApplicationDependencyRecommendationSummary struct {
 	// List of (application dependencies) node identifiers from which this node depends.
 	ApplicationDependencyNodeIds []string `mandatory:"true" json:"applicationDependencyNodeIds"`
 
+	// Package URL defined in https://github.com/package-url/purl-spec, e.g. pkg:maven/org.graalvm.nativeimage/svm@21.1.0
+	Purl *string `mandatory:"false" json:"purl"`
+
 	// Recommended application dependency in "group:artifact:version" (GAV) format, e.g. org.graalvm.nativeimage:svm:21.2.0.
 	RecommendedGav *string `mandatory:"false" json:"recommendedGav"`
+
+	// Recommended application dependency in PURL format, e.g. pkg:maven/org.graalvm.nativeimage/svm@21.2.0
+	RecommendedPurl *string `mandatory:"false" json:"recommendedPurl"`
 }
 
 func (m ApplicationDependencyRecommendationSummary) String() string {

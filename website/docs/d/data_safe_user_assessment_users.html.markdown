@@ -26,8 +26,10 @@ data "oci_data_safe_user_assessment_users" "test_user_assessment_users" {
 	#Optional
 	access_level = var.user_assessment_user_access_level
 	account_status = var.user_assessment_user_account_status
+	are_all_schemas_accessible = var.user_assessment_user_are_all_schemas_accessible
 	authentication_type = var.user_assessment_user_authentication_type
 	compartment_id_in_subtree = var.user_assessment_user_compartment_id_in_subtree
+	schema_list = var.user_assessment_user_schema_list
 	target_id = oci_cloud_guard_target.test_target.id
 	time_last_login_greater_than_or_equal_to = var.user_assessment_user_time_last_login_greater_than_or_equal_to
 	time_last_login_less_than = var.user_assessment_user_time_last_login_less_than
@@ -50,8 +52,10 @@ The following arguments are supported:
 
 * `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
 * `account_status` - (Optional) A filter to return only items that match the specified account status.
+* `are_all_schemas_accessible` - (Optional) A filter to return only items that match the criteria that all schemas can be accessed by a user.
 * `authentication_type` - (Optional) A filter to return only items that match the specified authentication type.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
+* `schema_list` - (Optional) A filter to return items that contain the specified schema list.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 * `time_last_login_greater_than_or_equal_to` - (Optional) A filter to return users whose last login time in the database is greater than or equal to the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 
@@ -89,14 +93,16 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `account_status` - The user account status.
+* `account_status` - The status of the user account.
 * `admin_roles` - The admin roles granted to the user.
+* `are_all_schemas_accessible` - Indicates whether the user has access to all the schemas.
 * `authentication_type` - The user authentication method.
 * `key` - The unique user key. This is a system-generated identifier. Use ListUsers to get the user key for a user.
+* `schema_list` - The list of database schemas current user can access.
 * `target_id` - The OCID of the target database.
-* `time_last_login` - The date and time when the user last logged in, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `time_password_changed` - The date and time when the user password was last changed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `time_user_created` - The date and time when the user was created in the database, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_last_login` - The date and time the user last logged in, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_password_changed` - The date and time the user password was last changed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_user_created` - The date and time the user was created in the database, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `user_category` - The user category based on the privileges and other details of the user.
 * `user_name` - The database user name.
 * `user_profile` - The user profile name.

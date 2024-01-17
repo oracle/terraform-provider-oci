@@ -117,6 +117,15 @@ type AuditEventSummary struct {
 	// The type of the auditing.
 	AuditType AuditEventSummaryAuditTypeEnum `mandatory:"false" json:"auditType,omitempty"`
 
+	// The secondary id assigned for the peer database registered with Data Safe.
+	PeerTargetDatabaseKey *int `mandatory:"false" json:"peerTargetDatabaseKey"`
+
+	// The underlying source of unified audit trail.
+	TrailSource AuditTrailSourceEnum `mandatory:"false" json:"trailSource,omitempty"`
+
+	// Unique name of the database associated to the peer target database.
+	DatabaseUniqueName *string `mandatory:"false" json:"databaseUniqueName"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -150,6 +159,9 @@ func (m AuditEventSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAuditEventSummaryAuditTypeEnum(string(m.AuditType)); !ok && m.AuditType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuditType: %s. Supported values are: %s.", m.AuditType, strings.Join(GetAuditEventSummaryAuditTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAuditTrailSourceEnum(string(m.TrailSource)); !ok && m.TrailSource != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TrailSource: %s. Supported values are: %s.", m.TrailSource, strings.Join(GetAuditTrailSourceEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

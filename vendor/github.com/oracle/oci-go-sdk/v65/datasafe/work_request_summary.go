@@ -93,6 +93,10 @@ const (
 	WorkRequestSummaryOperationTypeDeactivateTargetDatabase                  WorkRequestSummaryOperationTypeEnum = "DEACTIVATE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeDeleteTargetDatabase                      WorkRequestSummaryOperationTypeEnum = "DELETE_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment           WorkRequestSummaryOperationTypeEnum = "CHANGE_TARGET_DATABASE_COMPARTMENT"
+	WorkRequestSummaryOperationTypeCreatePeerTargetDatabase                  WorkRequestSummaryOperationTypeEnum = "CREATE_PEER_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeUpdatePeerTargetDatabase                  WorkRequestSummaryOperationTypeEnum = "UPDATE_PEER_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeDeletePeerTargetDatabase                  WorkRequestSummaryOperationTypeEnum = "DELETE_PEER_TARGET_DATABASE"
+	WorkRequestSummaryOperationTypeRefreshTargetDatabase                     WorkRequestSummaryOperationTypeEnum = "REFRESH_TARGET_DATABASE"
 	WorkRequestSummaryOperationTypeCreateUserAssessment                      WorkRequestSummaryOperationTypeEnum = "CREATE_USER_ASSESSMENT"
 	WorkRequestSummaryOperationTypeAssessUserAssessment                      WorkRequestSummaryOperationTypeEnum = "ASSESS_USER_ASSESSMENT"
 	WorkRequestSummaryOperationTypeCreateSnapshotUserAssessment              WorkRequestSummaryOperationTypeEnum = "CREATE_SNAPSHOT_USER_ASSESSMENT"
@@ -112,6 +116,7 @@ const (
 	WorkRequestSummaryOperationTypeCompareWithBaselineSecurityAssessment     WorkRequestSummaryOperationTypeEnum = "COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT"
 	WorkRequestSummaryOperationTypeDeleteSecurityAssessment                  WorkRequestSummaryOperationTypeEnum = "DELETE_SECURITY_ASSESSMENT"
 	WorkRequestSummaryOperationTypeUpdateSecurityAssessment                  WorkRequestSummaryOperationTypeEnum = "UPDATE_SECURITY_ASSESSMENT"
+	WorkRequestSummaryOperationTypeUpdateFindingRisk                         WorkRequestSummaryOperationTypeEnum = "UPDATE_FINDING_RISK"
 	WorkRequestSummaryOperationTypeChangeSecurityAssessmentCompartment       WorkRequestSummaryOperationTypeEnum = "CHANGE_SECURITY_ASSESSMENT_COMPARTMENT"
 	WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline             WorkRequestSummaryOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
 	WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline           WorkRequestSummaryOperationTypeEnum = "UNSET_SECURITY_ASSESSMENT_BASELINE"
@@ -191,6 +196,9 @@ const (
 	WorkRequestSummaryOperationTypePatchDifference                           WorkRequestSummaryOperationTypeEnum = "PATCH_DIFFERENCE"
 	WorkRequestSummaryOperationTypeApplyDifference                           WorkRequestSummaryOperationTypeEnum = "APPLY_DIFFERENCE"
 	WorkRequestSummaryOperationTypeAbortMasking                              WorkRequestSummaryOperationTypeEnum = "ABORT_MASKING"
+	WorkRequestSummaryOperationTypeCreateSecurityPolicyReport                WorkRequestSummaryOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
+	WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache                WorkRequestSummaryOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
+	WorkRequestSummaryOperationTypeDeleteSecurityPolicyCache                 WorkRequestSummaryOperationTypeEnum = "DELETE_SECURITY_POLICY_CACHE"
 	WorkRequestSummaryOperationTypeCreateSchedule                            WorkRequestSummaryOperationTypeEnum = "CREATE_SCHEDULE"
 	WorkRequestSummaryOperationTypeRemoveScheduleReport                      WorkRequestSummaryOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestSummaryOperationTypeUpdateAllAlert                            WorkRequestSummaryOperationTypeEnum = "UPDATE_ALL_ALERT"
@@ -218,6 +226,10 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"DEACTIVATE_TARGET_DATABASE":                    WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
 	"DELETE_TARGET_DATABASE":                        WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"CHANGE_TARGET_DATABASE_COMPARTMENT":            WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
+	"CREATE_PEER_TARGET_DATABASE":                   WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
+	"UPDATE_PEER_TARGET_DATABASE":                   WorkRequestSummaryOperationTypeUpdatePeerTargetDatabase,
+	"DELETE_PEER_TARGET_DATABASE":                   WorkRequestSummaryOperationTypeDeletePeerTargetDatabase,
+	"REFRESH_TARGET_DATABASE":                       WorkRequestSummaryOperationTypeRefreshTargetDatabase,
 	"CREATE_USER_ASSESSMENT":                        WorkRequestSummaryOperationTypeCreateUserAssessment,
 	"ASSESS_USER_ASSESSMENT":                        WorkRequestSummaryOperationTypeAssessUserAssessment,
 	"CREATE_SNAPSHOT_USER_ASSESSMENT":               WorkRequestSummaryOperationTypeCreateSnapshotUserAssessment,
@@ -237,6 +249,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT":     WorkRequestSummaryOperationTypeCompareWithBaselineSecurityAssessment,
 	"DELETE_SECURITY_ASSESSMENT":                    WorkRequestSummaryOperationTypeDeleteSecurityAssessment,
 	"UPDATE_SECURITY_ASSESSMENT":                    WorkRequestSummaryOperationTypeUpdateSecurityAssessment,
+	"UPDATE_FINDING_RISK":                           WorkRequestSummaryOperationTypeUpdateFindingRisk,
 	"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT":        WorkRequestSummaryOperationTypeChangeSecurityAssessmentCompartment,
 	"SET_SECURITY_ASSESSMENT_BASELINE":              WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline,
 	"UNSET_SECURITY_ASSESSMENT_BASELINE":            WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline,
@@ -316,6 +329,9 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"PATCH_DIFFERENCE":                              WorkRequestSummaryOperationTypePatchDifference,
 	"APPLY_DIFFERENCE":                              WorkRequestSummaryOperationTypeApplyDifference,
 	"ABORT_MASKING":                                 WorkRequestSummaryOperationTypeAbortMasking,
+	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestSummaryOperationTypeCreateSecurityPolicyReport,
+	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache,
+	"DELETE_SECURITY_POLICY_CACHE":                  WorkRequestSummaryOperationTypeDeleteSecurityPolicyCache,
 	"CREATE_SCHEDULE":                               WorkRequestSummaryOperationTypeCreateSchedule,
 	"REMOVE_SCHEDULE_REPORT":                        WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                              WorkRequestSummaryOperationTypeUpdateAllAlert,
@@ -343,6 +359,10 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"deactivate_target_database":                    WorkRequestSummaryOperationTypeDeactivateTargetDatabase,
 	"delete_target_database":                        WorkRequestSummaryOperationTypeDeleteTargetDatabase,
 	"change_target_database_compartment":            WorkRequestSummaryOperationTypeChangeTargetDatabaseCompartment,
+	"create_peer_target_database":                   WorkRequestSummaryOperationTypeCreatePeerTargetDatabase,
+	"update_peer_target_database":                   WorkRequestSummaryOperationTypeUpdatePeerTargetDatabase,
+	"delete_peer_target_database":                   WorkRequestSummaryOperationTypeDeletePeerTargetDatabase,
+	"refresh_target_database":                       WorkRequestSummaryOperationTypeRefreshTargetDatabase,
 	"create_user_assessment":                        WorkRequestSummaryOperationTypeCreateUserAssessment,
 	"assess_user_assessment":                        WorkRequestSummaryOperationTypeAssessUserAssessment,
 	"create_snapshot_user_assessment":               WorkRequestSummaryOperationTypeCreateSnapshotUserAssessment,
@@ -362,6 +382,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"compare_with_baseline_security_assessment":     WorkRequestSummaryOperationTypeCompareWithBaselineSecurityAssessment,
 	"delete_security_assessment":                    WorkRequestSummaryOperationTypeDeleteSecurityAssessment,
 	"update_security_assessment":                    WorkRequestSummaryOperationTypeUpdateSecurityAssessment,
+	"update_finding_risk":                           WorkRequestSummaryOperationTypeUpdateFindingRisk,
 	"change_security_assessment_compartment":        WorkRequestSummaryOperationTypeChangeSecurityAssessmentCompartment,
 	"set_security_assessment_baseline":              WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline,
 	"unset_security_assessment_baseline":            WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline,
@@ -441,6 +462,9 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"patch_difference":                              WorkRequestSummaryOperationTypePatchDifference,
 	"apply_difference":                              WorkRequestSummaryOperationTypeApplyDifference,
 	"abort_masking":                                 WorkRequestSummaryOperationTypeAbortMasking,
+	"create_security_policy_report":                 WorkRequestSummaryOperationTypeCreateSecurityPolicyReport,
+	"refresh_security_policy_cache":                 WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache,
+	"delete_security_policy_cache":                  WorkRequestSummaryOperationTypeDeleteSecurityPolicyCache,
 	"create_schedule":                               WorkRequestSummaryOperationTypeCreateSchedule,
 	"remove_schedule_report":                        WorkRequestSummaryOperationTypeRemoveScheduleReport,
 	"update_all_alert":                              WorkRequestSummaryOperationTypeUpdateAllAlert,
@@ -479,6 +503,10 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"DEACTIVATE_TARGET_DATABASE",
 		"DELETE_TARGET_DATABASE",
 		"CHANGE_TARGET_DATABASE_COMPARTMENT",
+		"CREATE_PEER_TARGET_DATABASE",
+		"UPDATE_PEER_TARGET_DATABASE",
+		"DELETE_PEER_TARGET_DATABASE",
+		"REFRESH_TARGET_DATABASE",
 		"CREATE_USER_ASSESSMENT",
 		"ASSESS_USER_ASSESSMENT",
 		"CREATE_SNAPSHOT_USER_ASSESSMENT",
@@ -498,6 +526,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"COMPARE_WITH_BASELINE_SECURITY_ASSESSMENT",
 		"DELETE_SECURITY_ASSESSMENT",
 		"UPDATE_SECURITY_ASSESSMENT",
+		"UPDATE_FINDING_RISK",
 		"CHANGE_SECURITY_ASSESSMENT_COMPARTMENT",
 		"SET_SECURITY_ASSESSMENT_BASELINE",
 		"UNSET_SECURITY_ASSESSMENT_BASELINE",
@@ -577,6 +606,9 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"PATCH_DIFFERENCE",
 		"APPLY_DIFFERENCE",
 		"ABORT_MASKING",
+		"CREATE_SECURITY_POLICY_REPORT",
+		"REFRESH_SECURITY_POLICY_CACHE",
+		"DELETE_SECURITY_POLICY_CACHE",
 		"CREATE_SCHEDULE",
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",

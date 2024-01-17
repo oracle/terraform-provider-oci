@@ -31,6 +31,9 @@ type DetectConfiguration struct {
 
 	// The maximum Common Vulnerability Scoring System Version 3 (CVSS V3) score. An artifact with a CVSS V3 score below this value is not considered for patching.
 	MaxPermissibleCvssV3Score *float32 `mandatory:"false" json:"maxPermissibleCvssV3Score"`
+
+	// The maximum ADM Severity. An artifact with an ADM Severity below this value is not considered for patching.
+	MaxPermissibleSeverity ConfigSeverityEnum `mandatory:"false" json:"maxPermissibleSeverity,omitempty"`
 }
 
 func (m DetectConfiguration) String() string {
@@ -45,6 +48,9 @@ func (m DetectConfiguration) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDetectConfigurationUpgradePolicyEnum(string(m.UpgradePolicy)); !ok && m.UpgradePolicy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpgradePolicy: %s. Supported values are: %s.", m.UpgradePolicy, strings.Join(GetDetectConfigurationUpgradePolicyEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingConfigSeverityEnum(string(m.MaxPermissibleSeverity)); !ok && m.MaxPermissibleSeverity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaxPermissibleSeverity: %s. Supported values are: %s.", m.MaxPermissibleSeverity, strings.Join(GetConfigSeverityEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

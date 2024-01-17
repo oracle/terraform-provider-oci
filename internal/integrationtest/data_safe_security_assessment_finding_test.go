@@ -22,8 +22,10 @@ var (
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"finding_key":               acctest.Representation{RepType: acctest.Optional, Create: `findingKey`},
 		"severity":                  acctest.Representation{RepType: acctest.Optional, Create: `HIGH`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"is_top_finding":            acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
-	DataSafeSecurityAssessmentFindingReferencesDataSourceRepresentation = map[string]interface{}{}
+	DataSafeSecurityAssessmentFindingReferencesDataSourceRepresentation = DefinedTagsDependencies
 
 	DataSafeSecurityAssessmentFindingResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_security_assessment", "test_security_assessment_findings", acctest.Required, acctest.Create, securityAssessmentRepresentation)
 )
@@ -54,6 +56,12 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "security_assessment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.has_target_db_risk_level_changed"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_risk_modified"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.key"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.oracle_defined_severity"),
+				resource.TestCheckResourceAttr(datasourceName, "findings.0.references.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_top_finding"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.key"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.remarks"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.severity"),

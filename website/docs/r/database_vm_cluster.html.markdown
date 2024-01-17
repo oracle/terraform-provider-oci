@@ -43,6 +43,7 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 	is_sparse_diskgroup_enabled = var.vm_cluster_is_sparse_diskgroup_enabled
 	license_model = var.vm_cluster_license_model
 	memory_size_in_gbs = var.vm_cluster_memory_size_in_gbs
+	system_version = var.vm_cluster_system_version
 	time_zone = var.vm_cluster_time_zone
 }
 ```
@@ -71,6 +72,7 @@ The following arguments are supported:
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the VM cluster. The default is BRING_YOUR_OWN_LICENSE. 
 * `memory_size_in_gbs` - (Optional) (Updatable) The memory to be allocated in GBs.
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the VM cluster.
+* `system_version` - (Optional) Operating system version of the image.
 * `time_zone` - (Optional) The time zone to use for the VM cluster. For details, see [DB System Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `vm_cluster_network_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
 

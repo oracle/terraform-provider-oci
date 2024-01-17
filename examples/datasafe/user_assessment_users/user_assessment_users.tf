@@ -6,9 +6,9 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
-variable "user_assessment_id" {}
-variable "target_id" {}
+variable "compartment_ocid" {}
+variable "user_assessment_ocid" {}
+variable "data_safe_target_ocid" {}
 
 
 variable "description" {
@@ -29,8 +29,8 @@ provider "oci" {
 
 resource "oci_data_safe_user_assessment" "test_user_assessment" {
   #Required
-  compartment_id      = var.compartment_id
-  target_id           = var.target_id
+  compartment_id      = var.compartment_ocid
+  target_id           = var.data_safe_target_ocid
 
   #Optional
   description   = var.description
@@ -39,5 +39,5 @@ resource "oci_data_safe_user_assessment" "test_user_assessment" {
 
 data "oci_data_safe_user_assessment_users" "test_user_assessment_users" {
   #Required
-  user_assessment_id = var.user_assessment_id
+  user_assessment_id = var.user_assessment_ocid
 }

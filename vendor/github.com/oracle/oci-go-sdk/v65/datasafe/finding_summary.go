@@ -30,6 +30,9 @@ type FindingSummary struct {
 	// The unique finding key. This is a system-generated identifier. To get the finding key for a finding, use ListFindings.
 	Key *string `mandatory:"false" json:"key"`
 
+	// Indicates whether a given finding is marked as topFinding or not.
+	IsTopFinding *bool `mandatory:"false" json:"isTopFinding"`
+
 	// The short title for the finding.
 	Title *string `mandatory:"false" json:"title"`
 
@@ -44,6 +47,30 @@ type FindingSummary struct {
 
 	// Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, a STIG rule, or a GDPR Article/Recital.
 	References *References `mandatory:"false" json:"references"`
+
+	// The severity of the finding as determined by security assessment. This cannot be modified by user.
+	OracleDefinedSeverity FindingSeverityEnum `mandatory:"false" json:"oracleDefinedSeverity,omitempty"`
+
+	// Determines if this risk level was modified by user.
+	IsRiskModified *bool `mandatory:"false" json:"isRiskModified"`
+
+	// Determines if this risk level has changed on the target database since the last time 'severity' was modified by user.
+	HasTargetDbRiskLevelChanged *bool `mandatory:"false" json:"hasTargetDbRiskLevelChanged"`
+
+	// User provided reason for accepting or modifying this finding if they choose to do so.
+	Justification *string `mandatory:"false" json:"justification"`
+
+	// The time until which the change in severity(deferred / modified) of this finding is valid.
+	TimeValidUntil *common.SDKTime `mandatory:"false" json:"timeValidUntil"`
+
+	// The date and time the risk level of finding was last updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The current state of the finding.
+	LifecycleState FindingLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Details about the current state of the finding.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 }
 
 func (m FindingSummary) String() string {
@@ -58,6 +85,12 @@ func (m FindingSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingFindingSummarySeverityEnum(string(m.Severity)); !ok && m.Severity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", m.Severity, strings.Join(GetFindingSummarySeverityEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFindingSeverityEnum(string(m.OracleDefinedSeverity)); !ok && m.OracleDefinedSeverity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OracleDefinedSeverity: %s. Supported values are: %s.", m.OracleDefinedSeverity, strings.Join(GetFindingSeverityEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFindingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetFindingLifecycleStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -76,6 +109,7 @@ const (
 	FindingSummarySeverityEvaluate FindingSummarySeverityEnum = "EVALUATE"
 	FindingSummarySeverityAdvisory FindingSummarySeverityEnum = "ADVISORY"
 	FindingSummarySeverityPass     FindingSummarySeverityEnum = "PASS"
+	FindingSummarySeverityDeferred FindingSummarySeverityEnum = "DEFERRED"
 )
 
 var mappingFindingSummarySeverityEnum = map[string]FindingSummarySeverityEnum{
@@ -85,6 +119,7 @@ var mappingFindingSummarySeverityEnum = map[string]FindingSummarySeverityEnum{
 	"EVALUATE": FindingSummarySeverityEvaluate,
 	"ADVISORY": FindingSummarySeverityAdvisory,
 	"PASS":     FindingSummarySeverityPass,
+	"DEFERRED": FindingSummarySeverityDeferred,
 }
 
 var mappingFindingSummarySeverityEnumLowerCase = map[string]FindingSummarySeverityEnum{
@@ -94,6 +129,7 @@ var mappingFindingSummarySeverityEnumLowerCase = map[string]FindingSummarySeveri
 	"evaluate": FindingSummarySeverityEvaluate,
 	"advisory": FindingSummarySeverityAdvisory,
 	"pass":     FindingSummarySeverityPass,
+	"deferred": FindingSummarySeverityDeferred,
 }
 
 // GetFindingSummarySeverityEnumValues Enumerates the set of values for FindingSummarySeverityEnum
@@ -114,6 +150,7 @@ func GetFindingSummarySeverityEnumStringValues() []string {
 		"EVALUATE",
 		"ADVISORY",
 		"PASS",
+		"DEFERRED",
 	}
 }
 

@@ -136,6 +136,22 @@ func DataSafeAuditProfileResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"peer_target_database_key": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"purge_job_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"purge_job_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"purge_job_time": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -166,6 +182,10 @@ func DataSafeAuditProfileResource() *schema.Resource {
 							Computed: true,
 						},
 						"trail_location": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"trail_source": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -795,6 +815,20 @@ func AuditTrailToMap(obj oci_data_safe.AuditTrail) map[string]interface{} {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	if obj.PeerTargetDatabaseKey != nil {
+		result["peer_target_database_key"] = int(*obj.PeerTargetDatabaseKey)
+	}
+
+	if obj.PurgeJobDetails != nil {
+		result["purge_job_details"] = string(*obj.PurgeJobDetails)
+	}
+
+	result["purge_job_status"] = string(obj.PurgeJobStatus)
+
+	if obj.PurgeJobTime != nil {
+		result["purge_job_time"] = obj.PurgeJobTime.String()
+	}
+
 	result["state"] = string(obj.LifecycleState)
 
 	result["status"] = string(obj.Status)
@@ -822,6 +856,8 @@ func AuditTrailToMap(obj oci_data_safe.AuditTrail) map[string]interface{} {
 	if obj.TrailLocation != nil {
 		result["trail_location"] = string(*obj.TrailLocation)
 	}
+
+	result["trail_source"] = string(obj.TrailSource)
 
 	if obj.WorkRequestId != nil {
 		result["work_request_id"] = string(*obj.WorkRequestId)
