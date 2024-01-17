@@ -1,4 +1,4 @@
-## 5.25.0 (Unreleased)
+## 5.25.0 (January 17, 2024)
 
 ### Added
 Support for Configure Acceptable Risks for Security Assessment Findings
