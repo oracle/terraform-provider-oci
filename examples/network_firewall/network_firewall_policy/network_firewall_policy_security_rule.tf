@@ -28,6 +28,10 @@ variable "network_firewall_policy_security_rule_inspect_name" {
   default = "security_rule_inspect"
 }
 
+variable "network_firewall_policy_security_rule_empty_condition_name" {
+  default = "security_rule_empty_condition"
+}
+
 variable "network_firewall_policy_security_rule_position_after_rule" {
   default = null
 }
@@ -88,6 +92,26 @@ resource "oci_network_firewall_network_firewall_policy_security_rule" "test_netw
     source_address      = []
     url                 = []
   }
+
+  #Optional - provide 'inspection' value only when action is selected as 'INSPECT'
+  inspection = var.network_firewall_policy_security_rule_inspection
+  position {
+    after_rule  = oci_network_firewall_network_firewall_policy_security_rule.test_network_firewall_policy_security_rule_allow.name
+  }
+}
+
+resource "oci_network_firewall_network_firewall_policy_security_rule" "test_network_firewall_policy_security_rule_empty_condition" {
+  lifecycle {
+    # ignore changes to position
+    ignore_changes = [
+      position
+    ]
+  }
+  #Required
+  name                       = var.network_firewall_policy_security_rule_empty_condition_name
+  network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
+  action = var.network_firewall_policy_security_rule_action_inspect
+  condition {}
 
   #Optional - provide 'inspection' value only when action is selected as 'INSPECT'
   inspection = var.network_firewall_policy_security_rule_inspection

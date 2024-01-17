@@ -60,6 +60,12 @@ type UserSummary struct {
 
 	// The admin roles granted to the user.
 	AdminRoles []UserSummaryAdminRolesEnum `mandatory:"false" json:"adminRoles,omitempty"`
+
+	// Indicates whether the user has access to all the schemas.
+	AreAllSchemasAccessible *bool `mandatory:"false" json:"areAllSchemasAccessible"`
+
+	// The list of database schemas current user can access.
+	SchemaList []string `mandatory:"false" json:"schemaList"`
 }
 
 func (m UserSummary) String() string {

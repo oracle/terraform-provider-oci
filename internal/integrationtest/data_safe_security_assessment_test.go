@@ -239,6 +239,8 @@ func TestDataSafeSecurityAssessmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_baseline"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "statistics.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "statistics.0.pass.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "statistics.0.deferred.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_ids.#", "1"),
 				// resource.TestCheckResourceAttrSet(singularDatasourceName, "target_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

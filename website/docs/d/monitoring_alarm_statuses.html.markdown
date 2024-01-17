@@ -13,6 +13,7 @@ This data source provides the list of Alarm Statuses in Oracle Cloud Infrastruct
 List the status of each alarm in the specified compartment.
 Status is collective, across all metric streams in the alarm.
 To list alarm status for each metric stream, use [RetrieveDimensionStates](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmDimensionStatesCollection/RetrieveDimensionStates).
+The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`.
 For more information, see
 [Listing Alarm Statuses](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/list-alarm-status.htm).
 For important limits information, see
@@ -65,15 +66,15 @@ The following attributes are exported:
 
 * `display_name` - The configured name of the alarm.  Example: `High CPU Utilization` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm. 
-* `severity` - The configured severity of the alarm.  Example: `CRITICAL` 
-* `status` - The status of this alarm. Status is collective, across all metric streams in the alarm. To list alarm status for each metric stream, use [RetrieveDimensionStates](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmDimensionStatesCollection/RetrieveDimensionStates). Example: `FIRING` 
+* `severity` - The perceived type of response required when the alarm is in the "FIRING" state.  Example: `CRITICAL` 
+* `status` - The status of this alarm. Status is collective, across all metric streams in the alarm. To list alarm status for each metric stream, use [RetrieveDimensionStates](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmDimensionStatesCollection/RetrieveDimensionStates). The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`. Example: `FIRING` 
 * `suppression` - The configuration details for suppressing an alarm. 
 	* `description` - Human-readable reason for suppressing alarm notifications. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 
 		Oracle recommends including tracking information for the event or associated work, such as a ticket number.
 
 		Example: `Planned outage due to change IT-1234.` 
-	* `time_suppress_from` - The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2019-02-01T01:02:29.600Z` 
-	* `time_suppress_until` - The end date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2019-02-01T02:02:29.600Z` 
-* `timestamp_triggered` - Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing. Note: A three-minute lag for this value accounts for any late-arriving metrics.  Example: `2019-02-01T01:02:29.600Z` 
+	* `time_suppress_from` - The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2023-02-01T01:02:29.600Z` 
+	* `time_suppress_until` - The end date and time for the suppression to take place, inclusive. Format defined by RFC3339.  Example: `2023-02-01T02:02:29.600Z` 
+* `timestamp_triggered` - Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing. Note: A three-minute lag for this value accounts for any late-arriving metrics.  Example: `2023-02-01T01:02:29.600Z` 
 

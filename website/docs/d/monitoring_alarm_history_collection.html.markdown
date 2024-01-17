@@ -41,8 +41,8 @@ The following arguments are supported:
 
 * `alarm_historytype` - (Optional) The type of history entries to retrieve. State history (STATE_HISTORY) or state transition history (STATE_TRANSITION_HISTORY). If not specified, entries of both types are retrieved.  Example: `STATE_HISTORY` 
 * `alarm_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm. 
-* `timestamp_greater_than_or_equal_to` - (Optional) A filter to return only alarm history entries with timestamps occurring on or after the specified date and time. Format defined by RFC3339.  Example: `2019-01-01T01:00:00.789Z` 
-* `timestamp_less_than` - (Optional) A filter to return only alarm history entries with timestamps occurring before the specified date and time. Format defined by RFC3339.  Example: `2019-01-02T01:00:00.789Z` 
+* `timestamp_greater_than_or_equal_to` - (Optional) A filter to return only alarm history entries with timestamps occurring on or after the specified date and time. Format defined by RFC3339.  Example: `2023-01-01T01:00:00.789Z` 
+* `timestamp_less_than` - (Optional) A filter to return only alarm history entries with timestamps occurring before the specified date and time. Format defined by RFC3339.  Example: `2023-01-02T01:00:00.789Z` 
 
 
 ## Attributes Reference
@@ -56,7 +56,7 @@ The following attributes are exported:
 		Example 1 - alarm state history entry: `The alarm state is FIRING`
 
 		Example 2 - alarm state transition history entry: `State transitioned from OK to Firing` 
-	* `timestamp` - Timestamp for this alarm history entry. Format defined by RFC3339.  Example: `2019-02-01T01:02:29.600Z` 
-	* `timestamp_triggered` - Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing. Available for state transition entries only. Note: A three-minute lag for this value accounts for any late-arriving metrics.  Example: `2019-02-01T0:59:00.789Z` 
+	* `timestamp` - Timestamp for this alarm history entry. Format defined by RFC3339.  Example: `2023-02-01T01:02:29.600Z` 
+	* `timestamp_triggered` - Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing. Available for state transition entries only. Note: A three-minute lag for this value accounts for any late-arriving metrics.  Example: `2023-02-01T0:59:00.789Z` 
 * `is_enabled` - Whether the alarm is enabled.  Example: `true` 
 

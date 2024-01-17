@@ -164,6 +164,12 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"system_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"time_zone": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -197,10 +203,6 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"system_version": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -413,6 +415,11 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("ssh_public_keys") {
 			request.SshPublicKeys = tmp
 		}
+	}
+
+	if systemVersion, ok := s.D.GetOkExists("system_version"); ok {
+		tmp := systemVersion.(string)
+		request.SystemVersion = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists("time_zone"); ok {

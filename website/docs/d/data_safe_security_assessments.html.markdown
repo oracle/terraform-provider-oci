@@ -58,7 +58,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `display_name` - (Optional) A filter to return only resources that match the specified display name. 
-* `is_baseline` - (Optional) A filter to return only security assessments that are set as baseline.
+* `is_baseline` - (Optional) A filter to return only the security assessments that are set as a baseline.
 * `is_schedule_assessment` - (Optional) A filter to return only security assessments of type save schedule. 
 * `schedule_assessment_id` - (Optional) The OCID of the security assessment of type SAVE_SCHEDULE.
 * `state` - (Optional) A filter to return only resources that match the specified lifecycle state.
@@ -105,6 +105,15 @@ The following attributes are exported:
 
 	The categories include Auditing, Authorization Control, Data Encryption, Database Configuration, Fine-Grained Access Control, Privileges and Roles, and User Accounts. The risk levels include High Risk, Medium Risk, Low Risk, Advisory, Evaluate, and Pass. 
 	* `advisory` - Statistics showing the number of findings with a particular risk level for each category.
+		* `auditing_findings_count` - The number of findings in the Auditing category.
+		* `authorization_control_findings_count` - The number of findings in the Authorization Control category.
+		* `data_encryption_findings_count` - The number of findings in the Data Encryption category.
+		* `db_configuration_findings_count` - The number of findings in the Database Configuration category.
+		* `fine_grained_access_control_findings_count` - The number of findings in the Fine-Grained Access Control category.
+		* `privileges_and_roles_findings_count` - The number of findings in the Privileges and Roles category.
+		* `targets_count` - The number of targets that contributed to the counts at this risk level.
+		* `user_accounts_findings_count` - The number of findings in the User Accounts category.
+	* `deferred` - Statistics showing the number of findings with a particular risk level for each category.
 		* `auditing_findings_count` - The number of findings in the Auditing category.
 		* `authorization_control_findings_count` - The number of findings in the Authorization Control category.
 		* `data_encryption_findings_count` - The number of findings in the Data Encryption category.
@@ -162,9 +171,9 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `target_ids` - Array of database target OCIDs.
 * `target_version` - The version of the target database.
-* `time_created` - The date and time when the security assessment was created. Conforms to the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `time_last_assessed` - The date and time when the security assessment was last run. Conforms to the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `time_updated` - The date and time when the security assessment was last updated. Conforms to the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_created` - The date and time the security assessment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_last_assessed` - The date and time the security assessment was last executed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_updated` - The date and time the security assessment was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `triggered_by` - Indicates whether the security assessment was created by system or by a user.
 * `type` - The type of this security assessment. The possible types are:
 

@@ -116,6 +116,12 @@ func (s *DataSafeTargetDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	peerTargetDatabases := []interface{}{}
+	for _, item := range s.Res.PeerTargetDatabases {
+		peerTargetDatabases = append(peerTargetDatabases, PeerTargetDatabaseToMap(item))
+	}
+	s.D.Set("peer_target_databases", peerTargetDatabases)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

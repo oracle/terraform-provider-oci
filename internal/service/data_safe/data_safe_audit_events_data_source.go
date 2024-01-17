@@ -105,6 +105,10 @@ func DataSafeAuditEventsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"database_unique_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"db_user_name": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -171,6 +175,10 @@ func DataSafeAuditEventsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"peer_target_database_key": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
 									"target_class": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -184,6 +192,10 @@ func DataSafeAuditEventsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_collected": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"trail_source": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -342,6 +354,10 @@ func AuditEventsSummaryToMap(obj oci_data_safe.AuditEventSummary) map[string]int
 
 	result["database_type"] = string(obj.DatabaseType)
 
+	if obj.DatabaseUniqueName != nil {
+		result["database_unique_name"] = string(*obj.DatabaseUniqueName)
+	}
+
 	if obj.DbUserName != nil {
 		result["db_user_name"] = string(*obj.DbUserName)
 	}
@@ -402,6 +418,10 @@ func AuditEventsSummaryToMap(obj oci_data_safe.AuditEventSummary) map[string]int
 		result["os_user_name"] = string(*obj.OsUserName)
 	}
 
+	if obj.PeerTargetDatabaseKey != nil {
+		result["peer_target_database_key"] = int(*obj.PeerTargetDatabaseKey)
+	}
+
 	result["target_class"] = string(obj.TargetClass)
 
 	if obj.TargetId != nil {
@@ -415,6 +435,8 @@ func AuditEventsSummaryToMap(obj oci_data_safe.AuditEventSummary) map[string]int
 	if obj.TimeCollected != nil {
 		result["time_collected"] = obj.TimeCollected.String()
 	}
+
+	result["trail_source"] = string(obj.TrailSource)
 
 	return result
 }

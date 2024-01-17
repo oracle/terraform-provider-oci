@@ -64,9 +64,15 @@ var (
 		"is_local_backup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_sparse_diskgroup_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"license_model":               acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterIgnoreDefinedTagsSystemVersionRepresentation},
 		"memory_size_in_gbs":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `90`},
 		"time_zone":                   acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
 	}
+
+	vmClusterIgnoreDefinedTagsSystemVersionRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	DatabaseVmClusterDataCollectionOptionsRepresentation = map[string]interface{}{
 		"is_diagnostics_events_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_health_monitoring_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -143,6 +149,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
+				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -183,6 +190,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "60"),
+				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -218,6 +226,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(resourceName, "memory_size_in_gbs", "90"),
+				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
 
@@ -264,6 +273,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.memory_size_in_gbs", "90"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.shape"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.state"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.vm_cluster_network_id"),
@@ -298,6 +308,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "memory_size_in_gbs", "90"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
 			),

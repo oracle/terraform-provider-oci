@@ -22,6 +22,10 @@ func AdmRemediationRunApplicationDependencyRecommendationsDataSource() *schema.R
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"purl": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"remediation_run_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -61,7 +65,15 @@ func AdmRemediationRunApplicationDependencyRecommendationsDataSource() *schema.R
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"purl": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"recommended_gav": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"recommended_purl": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -99,6 +111,11 @@ func (s *AdmRemediationRunApplicationDependencyRecommendationsDataSourceCrud) Ge
 	if gav, ok := s.D.GetOkExists("gav"); ok {
 		tmp := gav.(string)
 		request.Gav = &tmp
+	}
+
+	if purl, ok := s.D.GetOkExists("purl"); ok {
+		tmp := purl.(string)
+		request.Purl = &tmp
 	}
 
 	if remediationRunId, ok := s.D.GetOkExists("remediation_run_id"); ok {
@@ -170,8 +187,16 @@ func ApplicationDependencyRecommendationSummaryToMap(obj oci_adm.ApplicationDepe
 		result["node_id"] = string(*obj.NodeId)
 	}
 
+	if obj.Purl != nil {
+		result["purl"] = string(*obj.Purl)
+	}
+
 	if obj.RecommendedGav != nil {
 		result["recommended_gav"] = string(*obj.RecommendedGav)
+	}
+
+	if obj.RecommendedPurl != nil {
+		result["recommended_purl"] = string(*obj.RecommendedPurl)
 	}
 
 	return result

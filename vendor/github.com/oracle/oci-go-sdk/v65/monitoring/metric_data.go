@@ -5,7 +5,7 @@
 // Monitoring API
 //
 // Use the Monitoring API to manage metric queries and alarms for assessing the health, capacity, and performance of your cloud resources.
-// Endpoints vary by operation. For PostMetric, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
+// Endpoints vary by operation. For PostMetricData, use the `telemetry-ingestion` endpoints; for all other operations, use the `telemetry` endpoints.
 // For more information, see
 // the Monitoring documentation (https://docs.cloud.oracle.com/iaas/Content/Monitoring/home.htm).
 //
@@ -50,7 +50,7 @@ type MetricData struct {
 
 	// Qualifiers provided in the definition of the returned metric.
 	// Available dimensions vary by metric namespace. Each dimension takes the form of a key-value pair.
-	// Example: `"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"`
+	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
 	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
 
 	// The list of timestamp-value pairs returned for the specified request. Metric values are rolled up to the start time specified in the request.

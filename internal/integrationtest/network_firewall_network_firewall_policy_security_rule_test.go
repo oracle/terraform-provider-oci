@@ -22,14 +22,6 @@ import (
 )
 
 var (
-	// security rule empty -> rule created with empty condition
-	// security rule non-empty -> rule created with non empty condition
-
-	// create a security rule with empty condition
-	// update security rule with non-empty condition
-	// get security rule
-	// list the security rules
-
 	createSecurityRuleResourceConfig = securityRuleResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap(
 			"oci_network_firewall_network_firewall_policy_security_rule",
@@ -66,18 +58,26 @@ var (
 
 	securityRuleRepresentation = map[string]interface{}{
 		"action":                     acctest.Representation{RepType: acctest.Required, Create: `INSPECT`, Update: `DROP`},
-		"condition":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: conditionRepresentation},
+		"condition":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: conditionRepresentationNull},
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `security_rule_1`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 		"position":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: rulePositionRepresentation},
 	}
 
 	conditionRepresentation = map[string]interface{}{
-		"application":         acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_application_group.test_network_firewall_policy_application_group.name}`}, Update: []string{}},
-		"destination_address": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_address_list.test_network_firewall_policy_address_list.name}`}, Update: []string{}},
-		"service":             acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_service_list.test_network_firewall_policy_service_list.name}`}, Update: []string{}},
-		"source_address":      acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_address_list.test_network_firewall_policy_address_list.name}`}, Update: []string{}},
-		"url":                 acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_url_list.test_network_firewall_policy_url_list.name}`}, Update: []string{}},
+		"application":         acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_application_group.test_network_firewall_policy_application_group.name}`}, Update: nil},
+		"destination_address": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_address_list.test_network_firewall_policy_address_list.name}`}},
+		"service":             acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_service_list.test_network_firewall_policy_service_list.name}`}},
+		"source_address":      acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_address_list.test_network_firewall_policy_address_list.name}`}},
+		"url":                 acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_firewall_network_firewall_policy_url_list.test_network_firewall_policy_url_list.name}`}},
+	}
+
+	conditionRepresentationNull = map[string]interface{}{
+		"application":         acctest.Representation{RepType: acctest.Required, Create: nil},
+		"destination_address": acctest.Representation{RepType: acctest.Required, Create: nil},
+		"service":             acctest.Representation{RepType: acctest.Required, Create: nil},
+		"source_address":      acctest.Representation{RepType: acctest.Required, Create: nil},
+		"url":                 acctest.Representation{RepType: acctest.Required, Create: nil},
 	}
 
 	rulePositionRepresentation = map[string]interface{}{

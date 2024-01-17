@@ -54,6 +54,8 @@ The following attributes are exported:
 
 * `items` - Array of available audit volume summary.
 	* `audit_profile_id` - The OCID of the audit profile resource.
+	* `audit_trail_id` - The OCID of the audit trail.
+	* `database_unique_name` - Unique name of the database associated to the peer target database.
 	* `month_in_consideration` - Represents the month under consideration for which aggregated audit data volume available at the target is computed. This field will be the UTC start of the day of the first day of the month for which the aggregate count corresponds to, in the format defined by RFC3339.. For instance, the value of 01-01-2021T00:00:00Z represents Jan 2021. 
 	* `trail_location` - Audit trail location on the target database from where the audit data is being collected by Data Safe.
 	* `volume` - Represents the aggregated audit data volume available in the audit trails on the target database which is yet to be collected by Data Safe for the specified month. 

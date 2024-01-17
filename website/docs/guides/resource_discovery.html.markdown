@@ -571,6 +571,7 @@ data_safe
 * oci\_data\_safe\_audit\_profile
 * oci\_data\_safe\_audit\_policy
 * oci\_data\_safe\_target\_alert\_policy\_association
+* oci\_data\_safe\_report
 * oci\_data\_safe\_sensitive\_type
 * oci\_data\_safe\_masking\_policy
 * oci\_data\_safe\_masking\_policies\_masking\_column
@@ -580,6 +581,7 @@ data_safe
 * oci\_data\_safe\_discovery\_jobs\_result
 * oci\_data\_safe\_discovery\_job
 * oci\_data\_safe\_sdm\_masking\_policy\_difference
+* oci\_data\_safe\_target\_database\_peer\_target\_database
 
 database
 
@@ -911,6 +913,7 @@ metering_computation
 monitoring
 
 * oci\_monitoring\_alarm
+* oci\_monitoring\_alarm\_suppression
 
 mysql
 

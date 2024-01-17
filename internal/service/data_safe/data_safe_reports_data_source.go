@@ -51,70 +51,11 @@ func DataSafeReportsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-									"compartment_id": {
-										Type:     schema.TypeString,
-										Optional: true,
-										Computed: true,
-									},
-
-									// Computed
-									"defined_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"description": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"display_name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"freeform_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"mime_type": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"report_definition_id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"state": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"system_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"time_generated": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"type": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
+							Elem:     tfresource.GetDataSourceItemSchema(DataSafeReportResource()),
 						},
 					},
 				},

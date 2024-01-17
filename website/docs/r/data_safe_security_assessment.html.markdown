@@ -84,6 +84,15 @@ The following attributes are exported:
 		* `privileges_and_roles_findings_count` - The number of findings in the Privileges and Roles category.
 		* `targets_count` - The number of targets that contributed to the counts at this risk level.
 		* `user_accounts_findings_count` - The number of findings in the User Accounts category.
+	* `deferred` - Statistics showing the number of findings with a particular risk level for each category.
+		* `auditing_findings_count` - The number of findings in the Auditing category.
+		* `authorization_control_findings_count` - The number of findings in the Authorization Control category.
+		* `data_encryption_findings_count` - The number of findings in the Data Encryption category.
+		* `db_configuration_findings_count` - The number of findings in the Database Configuration category.
+		* `fine_grained_access_control_findings_count` - The number of findings in the Fine-Grained Access Control category.
+		* `privileges_and_roles_findings_count` - The number of findings in the Privileges and Roles category.
+		* `targets_count` - The number of targets that contributed to the counts at this risk level.
+		* `user_accounts_findings_count` - The number of findings in the User Accounts category.
 	* `evaluate` - Statistics showing the number of findings with a particular risk level for each category.
 		* `auditing_findings_count` - The number of findings in the Auditing category.
 		* `authorization_control_findings_count` - The number of findings in the Authorization Control category.
@@ -133,9 +142,9 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `target_ids` - Array of database target OCIDs.
 * `target_version` - The version of the target database.
-* `time_created` - The date and time when the security assessment was created. Conforms to the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `time_last_assessed` - The date and time when the security assessment was last run. Conforms to the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
-* `time_updated` - The date and time when the security assessment was last updated. Conforms to the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_created` - The date and time the security assessment was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_last_assessed` - The date and time the security assessment was last executed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_updated` - The date and time the security assessment was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `triggered_by` - Indicates whether the security assessment was created by system or by a user.
 * `type` - The type of this security assessment. The possible types are:
 

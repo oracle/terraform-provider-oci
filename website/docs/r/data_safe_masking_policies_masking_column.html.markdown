@@ -91,7 +91,7 @@ resource "oci_data_safe_masking_policies_masking_column" "test_masking_policies_
 The following arguments are supported:
 
 * `column_name` - (Required) The name of the database column. This attribute cannot be updated for an existing  masking column. Note that the same name is used for the masking column. There  is no separate displayName attribute for the masking column.  
-* `is_masking_enabled` - (Optional) (Updatable) Indicates if data masking is enabled for the masking column. Set it to false if  you don't want to mask the column.  
+* `is_masking_enabled` - (Optional) (Updatable) Indicates whether data masking is enabled for the masking column. Set it to false if  you don't want to mask the column.  
 * `masking_column_group` - (Optional) (Updatable) The group of the masking column. It's a masking group identifier and can be any string  of acceptable length. All the columns in a group are masked together to ensure that  the masked data across these columns continue to retain the same logical relationship.  For more details, check  <a href=https://docs.oracle.com/en/cloud/paas/data-safe/udscs/group-masking1.html#GUID-755056B9-9540-48C0-9491-262A44A85037>Group Masking in the Data Safe documentation.</a>  
 * `masking_formats` - (Optional) (Updatable) The masking formats to be assigned to the masking column. You can specify a condition  as part of each masking format. It enables you to do  <a href="https://docs.oracle.com/en/cloud/paas/data-safe/udscs/conditional-masking.html">conditional masking</a>  so that you can mask the column data values differently using different masking  formats and the associated conditions. A masking format can have one or more format  entries. The combined output of all the format entries is used for masking. It  provides the flexibility to define a masking format that can generate different parts  of a data value separately and then combine them to get the final data value for masking.  
 	* `condition` - (Optional) (Updatable) A condition that must be true for applying the masking format. It can be any valid  SQL construct that can be used in a SQL predicate. It enables you to do  <a href="https://docs.oracle.com/en/cloud/paas/data-safe/udscs/conditional-masking.html">conditional masking</a>  so that you can mask the column data values differently using different masking  formats and the associated conditions. 
@@ -142,7 +142,7 @@ The following attributes are exported:
 * `child_columns` - An array of child columns that are in referential relationship with the masking column.
 * `column_name` - The name of the database column. Note that the same name is used for the masking column.  There is no separate displayName attribute for the masking column.  
 * `data_type` - The data type of the masking column.
-* `is_masking_enabled` - Indicates if data masking is enabled for the masking column.
+* `is_masking_enabled` - Indicates whether data masking is enabled for the masking column.
 * `key` - The unique key that identifies the masking column. It's numeric and unique within a masking policy.
 * `lifecycle_details` - Details about the current state of the masking column.
 * `masking_column_group` - The group of the masking column. All the columns in a group are masked together to ensure  that the masked data across these columns continue to retain the same logical relationship.  For more details, check <a href=https://docs.oracle.com/en/cloud/paas/data-safe/udscs/group-masking1.html#GUID-755056B9-9540-48C0-9491-262A44A85037>Group Masking in the Data Safe documentation.</a>  

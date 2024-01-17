@@ -72,6 +72,23 @@ type AuditTrail struct {
 	// collection process, in the format defined by RFC3339.
 	TimeLastCollected *common.SDKTime `mandatory:"false" json:"timeLastCollected"`
 
+	// The secondary id assigned for the peer database registered with Data Safe.
+	PeerTargetDatabaseKey *int `mandatory:"false" json:"peerTargetDatabaseKey"`
+
+	// The underlying source of unified audit trail.
+	TrailSource AuditTrailSourceEnum `mandatory:"false" json:"trailSource,omitempty"`
+
+	// The date and time of the last purge job. The purge job deletes audit data in the
+	// target database every seven days so that the database's audit trail does not become too large.
+	// In the format defined by RFC3339.
+	PurgeJobTime *common.SDKTime `mandatory:"false" json:"purgeJobTime"`
+
+	// The current status of the audit trail purge job.
+	PurgeJobStatus AuditTrailPurgeJobStatusEnum `mandatory:"false" json:"purgeJobStatus,omitempty"`
+
+	// The details of the audit trail purge job that ran at the time specified by purgeJobTime".
+	PurgeJobDetails *string `mandatory:"false" json:"purgeJobDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -101,8 +118,56 @@ func (m AuditTrail) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetAuditTrailStatusEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingAuditTrailSourceEnum(string(m.TrailSource)); !ok && m.TrailSource != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TrailSource: %s. Supported values are: %s.", m.TrailSource, strings.Join(GetAuditTrailSourceEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAuditTrailPurgeJobStatusEnum(string(m.PurgeJobStatus)); !ok && m.PurgeJobStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PurgeJobStatus: %s. Supported values are: %s.", m.PurgeJobStatus, strings.Join(GetAuditTrailPurgeJobStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// AuditTrailPurgeJobStatusEnum Enum with underlying type: string
+type AuditTrailPurgeJobStatusEnum string
+
+// Set of constants representing the allowable values for AuditTrailPurgeJobStatusEnum
+const (
+	AuditTrailPurgeJobStatusSucceeded AuditTrailPurgeJobStatusEnum = "SUCCEEDED"
+	AuditTrailPurgeJobStatusFailed    AuditTrailPurgeJobStatusEnum = "FAILED"
+)
+
+var mappingAuditTrailPurgeJobStatusEnum = map[string]AuditTrailPurgeJobStatusEnum{
+	"SUCCEEDED": AuditTrailPurgeJobStatusSucceeded,
+	"FAILED":    AuditTrailPurgeJobStatusFailed,
+}
+
+var mappingAuditTrailPurgeJobStatusEnumLowerCase = map[string]AuditTrailPurgeJobStatusEnum{
+	"succeeded": AuditTrailPurgeJobStatusSucceeded,
+	"failed":    AuditTrailPurgeJobStatusFailed,
+}
+
+// GetAuditTrailPurgeJobStatusEnumValues Enumerates the set of values for AuditTrailPurgeJobStatusEnum
+func GetAuditTrailPurgeJobStatusEnumValues() []AuditTrailPurgeJobStatusEnum {
+	values := make([]AuditTrailPurgeJobStatusEnum, 0)
+	for _, v := range mappingAuditTrailPurgeJobStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAuditTrailPurgeJobStatusEnumStringValues Enumerates the set of values in String for AuditTrailPurgeJobStatusEnum
+func GetAuditTrailPurgeJobStatusEnumStringValues() []string {
+	return []string{
+		"SUCCEEDED",
+		"FAILED",
+	}
+}
+
+// GetMappingAuditTrailPurgeJobStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAuditTrailPurgeJobStatusEnum(val string) (AuditTrailPurgeJobStatusEnum, bool) {
+	enum, ok := mappingAuditTrailPurgeJobStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

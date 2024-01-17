@@ -46,6 +46,9 @@ type ListWorkRequestsRequest struct {
 	// The sort order to use, either ascending (ASC) or descending (DESC).
 	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// The OCID of the resource affected by the work request.
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
