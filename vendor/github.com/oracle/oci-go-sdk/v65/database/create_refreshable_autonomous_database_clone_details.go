@@ -224,24 +224,11 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
-	// The frequency at which the data is refreshed for a refreshable clone after auto-refresh is enabled. The minimum is 1 minute. The maximum is 1 day. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
-	AutoRefreshFrequencyInSeconds *int `mandatory:"false" json:"autoRefreshFrequencyInSeconds"`
-
-	// The amount of time, in seconds, that the data of the refreshable clone lags the data of the primary database at the point of refresh. The minimum is 1 minute. The maximum is 7 days. The lag time increases after refreshing until the next data refresh happens.
-	AutoRefreshPointInSeconds *int `mandatory:"false" json:"autoRefreshPointInSeconds"`
-
-	// The the date and time that auto-refreshing will begin for an Autonomous Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
-	TimeOfAutoRefreshStart *common.SDKTime `mandatory:"false" json:"timeOfAutoRefreshStart"`
-
 	// The refresh mode of the clone. AUTOMATIC indicates that the clone is automatically being refreshed with data from the source Autonomous Database.
 	RefreshableMode CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `mandatory:"false" json:"refreshableMode,omitempty"`
 
 	// The auto-refresh policy for the Autonomous Database refreshable clone. You can specify continuous refreshing or a custom refresh schedule.
 	AutoRefreshPolicy CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum `mandatory:"false" json:"autoRefreshPolicy,omitempty"`
-
-	// Indicates the Autonomous Database mode. The database can be opened in `READ_ONLY` or `READ_WRITE` mode.
-	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
-	OpenMode CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
@@ -529,9 +516,6 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) ValidateEnumValue() (bo
 	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum(string(m.AutoRefreshPolicy)); !ok && m.AutoRefreshPolicy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum(string(m.OpenMode)); !ok && m.OpenMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpenMode: %s. Supported values are: %s.", m.OpenMode, strings.Join(GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues(), ",")))
-	}
 
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
@@ -649,47 +633,5 @@ func GetCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumStri
 // GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnum, bool) {
 	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsAutoRefreshPolicyEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum Enum with underlying type: string
-type CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum string
-
-// Set of constants representing the allowable values for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
-const (
-	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_ONLY"
-	CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = "READ_WRITE"
-)
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum{
-	"READ_ONLY":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly,
-	"READ_WRITE": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite,
-}
-
-var mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumLowerCase = map[string]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum{
-	"read_only":  CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeOnly,
-	"read_write": CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeWrite,
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumValues Enumerates the set of values for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumValues() []CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum {
-	values := make([]CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum, 0)
-	for _, v := range mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues Enumerates the set of values in String for CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum
-func GetCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumStringValues() []string {
-	return []string{
-		"READ_ONLY",
-		"READ_WRITE",
-	}
-}
-
-// GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum(val string) (CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum, bool) {
-	enum, ok := mappingCreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

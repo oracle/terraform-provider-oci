@@ -95,16 +95,19 @@ type InstanceComponentTypeEnum string
 const (
 	InstanceComponentTypeDataScienceModelDeployment InstanceComponentTypeEnum = "DATA_SCIENCE_MODEL_DEPLOYMENT"
 	InstanceComponentTypeObjectStorageBucket        InstanceComponentTypeEnum = "OBJECT_STORAGE_BUCKET"
+	InstanceComponentTypeObjectStorageObject        InstanceComponentTypeEnum = "OBJECT_STORAGE_OBJECT"
 )
 
 var mappingInstanceComponentTypeEnum = map[string]InstanceComponentTypeEnum{
 	"DATA_SCIENCE_MODEL_DEPLOYMENT": InstanceComponentTypeDataScienceModelDeployment,
 	"OBJECT_STORAGE_BUCKET":         InstanceComponentTypeObjectStorageBucket,
+	"OBJECT_STORAGE_OBJECT":         InstanceComponentTypeObjectStorageObject,
 }
 
 var mappingInstanceComponentTypeEnumLowerCase = map[string]InstanceComponentTypeEnum{
 	"data_science_model_deployment": InstanceComponentTypeDataScienceModelDeployment,
 	"object_storage_bucket":         InstanceComponentTypeObjectStorageBucket,
+	"object_storage_object":         InstanceComponentTypeObjectStorageObject,
 }
 
 // GetInstanceComponentTypeEnumValues Enumerates the set of values for InstanceComponentTypeEnum
@@ -121,6 +124,7 @@ func GetInstanceComponentTypeEnumStringValues() []string {
 	return []string{
 		"DATA_SCIENCE_MODEL_DEPLOYMENT",
 		"OBJECT_STORAGE_BUCKET",
+		"OBJECT_STORAGE_OBJECT",
 	}
 }
 

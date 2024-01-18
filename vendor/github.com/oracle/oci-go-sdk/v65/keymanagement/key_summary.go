@@ -63,6 +63,8 @@ type KeySummary struct {
 	Algorithm KeySummaryAlgorithmEnum `mandatory:"false" json:"algorithm,omitempty"`
 
 	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
+
+	AutoKeyRotationDetails *AutoKeyRotationDetails `mandatory:"false" json:"autoKeyRotationDetails"`
 }
 
 func (m KeySummary) String() string {

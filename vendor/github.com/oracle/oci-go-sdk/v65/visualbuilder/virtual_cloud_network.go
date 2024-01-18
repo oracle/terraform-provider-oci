@@ -16,34 +16,25 @@ import (
 	"strings"
 )
 
-// IdcsInfoDetails Information for IDCS access
-type IdcsInfoDetails struct {
+// VirtualCloudNetwork Virtual Cloud Network definition.
+type VirtualCloudNetwork struct {
 
-	// URL for the location of the IDCS Application (used by IDCS APIs)
-	IdcsAppLocationUrl *string `mandatory:"true" json:"idcsAppLocationUrl"`
+	// The Virtual Cloud Network OCID.
+	Id *string `mandatory:"true" json:"id"`
 
-	// The IDCS application display name associated with the instance
-	IdcsAppDisplayName *string `mandatory:"true" json:"idcsAppDisplayName"`
-
-	// The IDCS application ID associated with the instance
-	IdcsAppId *string `mandatory:"true" json:"idcsAppId"`
-
-	// The IDCS application name associated with the instance
-	IdcsAppName *string `mandatory:"true" json:"idcsAppName"`
-
-	// The URL used as the primary audience for visual builder flows in this instance
-	// type: string
-	InstancePrimaryAudienceUrl *string `mandatory:"true" json:"instancePrimaryAudienceUrl"`
+	// Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5/32", "10.20.30.0/26")
+	// An invalid IP or CIDR block will result in a 400 response.
+	AllowlistedIpCidrs []string `mandatory:"false" json:"allowlistedIpCidrs"`
 }
 
-func (m IdcsInfoDetails) String() string {
+func (m VirtualCloudNetwork) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m IdcsInfoDetails) ValidateEnumValue() (bool, error) {
+func (m VirtualCloudNetwork) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

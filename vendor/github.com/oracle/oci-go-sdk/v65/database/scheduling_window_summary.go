@@ -35,6 +35,9 @@ type SchedulingWindowSummary struct {
 	// The user-friendly name for the Scheduling Window. The name does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The date and time of the next upcoming window associated within the schedulingWindow is planned to start.
+	TimeNextSchedulingWindowStarts *common.SDKTime `mandatory:"false" json:"timeNextSchedulingWindowStarts"`
+
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 

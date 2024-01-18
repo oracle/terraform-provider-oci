@@ -101,16 +101,19 @@ type ApplicationComponentTypeEnum string
 const (
 	ApplicationComponentTypePipeline ApplicationComponentTypeEnum = "DATA_SCIENCE_PIPELINE"
 	ApplicationComponentTypeJob      ApplicationComponentTypeEnum = "DATA_SCIENCE_JOB"
+	ApplicationComponentTypeModel    ApplicationComponentTypeEnum = "DATA_SCIENCE_MODEL"
 )
 
 var mappingApplicationComponentTypeEnum = map[string]ApplicationComponentTypeEnum{
 	"DATA_SCIENCE_PIPELINE": ApplicationComponentTypePipeline,
 	"DATA_SCIENCE_JOB":      ApplicationComponentTypeJob,
+	"DATA_SCIENCE_MODEL":    ApplicationComponentTypeModel,
 }
 
 var mappingApplicationComponentTypeEnumLowerCase = map[string]ApplicationComponentTypeEnum{
 	"data_science_pipeline": ApplicationComponentTypePipeline,
 	"data_science_job":      ApplicationComponentTypeJob,
+	"data_science_model":    ApplicationComponentTypeModel,
 }
 
 // GetApplicationComponentTypeEnumValues Enumerates the set of values for ApplicationComponentTypeEnum
@@ -127,6 +130,7 @@ func GetApplicationComponentTypeEnumStringValues() []string {
 	return []string{
 		"DATA_SCIENCE_PIPELINE",
 		"DATA_SCIENCE_JOB",
+		"DATA_SCIENCE_MODEL",
 	}
 }
 

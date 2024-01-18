@@ -54,6 +54,10 @@ func (m *createauthconfigurationdetails) UnmarshalPolymorphicJSON(data []byte) (
 		mm := CreateIdcsAuthConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "IDCS_CUSTOM_SERVICE":
+		mm := CreateIdcsCustomServiceAuthConfigurationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "IAM":
 		mm := CreateIamAuthConfigurationCreateDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -78,46 +82,4 @@ func (m createauthconfigurationdetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// CreateAuthConfigurationDetailsTypeEnum Enum with underlying type: string
-type CreateAuthConfigurationDetailsTypeEnum string
-
-// Set of constants representing the allowable values for CreateAuthConfigurationDetailsTypeEnum
-const (
-	CreateAuthConfigurationDetailsTypeIdcs CreateAuthConfigurationDetailsTypeEnum = "IDCS"
-	CreateAuthConfigurationDetailsTypeIam  CreateAuthConfigurationDetailsTypeEnum = "IAM"
-)
-
-var mappingCreateAuthConfigurationDetailsTypeEnum = map[string]CreateAuthConfigurationDetailsTypeEnum{
-	"IDCS": CreateAuthConfigurationDetailsTypeIdcs,
-	"IAM":  CreateAuthConfigurationDetailsTypeIam,
-}
-
-var mappingCreateAuthConfigurationDetailsTypeEnumLowerCase = map[string]CreateAuthConfigurationDetailsTypeEnum{
-	"idcs": CreateAuthConfigurationDetailsTypeIdcs,
-	"iam":  CreateAuthConfigurationDetailsTypeIam,
-}
-
-// GetCreateAuthConfigurationDetailsTypeEnumValues Enumerates the set of values for CreateAuthConfigurationDetailsTypeEnum
-func GetCreateAuthConfigurationDetailsTypeEnumValues() []CreateAuthConfigurationDetailsTypeEnum {
-	values := make([]CreateAuthConfigurationDetailsTypeEnum, 0)
-	for _, v := range mappingCreateAuthConfigurationDetailsTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateAuthConfigurationDetailsTypeEnumStringValues Enumerates the set of values in String for CreateAuthConfigurationDetailsTypeEnum
-func GetCreateAuthConfigurationDetailsTypeEnumStringValues() []string {
-	return []string{
-		"IDCS",
-		"IAM",
-	}
-}
-
-// GetMappingCreateAuthConfigurationDetailsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateAuthConfigurationDetailsTypeEnum(val string) (CreateAuthConfigurationDetailsTypeEnum, bool) {
-	enum, ok := mappingCreateAuthConfigurationDetailsTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

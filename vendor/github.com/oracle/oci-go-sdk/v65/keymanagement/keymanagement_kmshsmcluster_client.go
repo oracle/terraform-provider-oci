@@ -487,7 +487,7 @@ func (client KmsHsmClusterClient) getPreCoUserCredentials(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/HsmPartition/GetPreCoUserCredentials"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/key/release/HsmCluster/GetPreCoUserCredentials"
 		err = common.PostProcessServiceError(err, "KmsHsmCluster", "GetPreCoUserCredentials", apiReferenceLink)
 		return response, err
 	}

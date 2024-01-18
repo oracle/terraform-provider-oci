@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -42,6 +43,8 @@ type AutonomousDatabaseSummary struct {
 
 	// KMS key lifecycle details.
 	KmsKeyLifecycleDetails *string `mandatory:"false" json:"kmsKeyLifecycleDetails"`
+
+	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
 
 	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
@@ -83,6 +86,9 @@ type AutonomousDatabaseSummary struct {
 
 	// Key History Entry.
 	KeyHistoryEntry []AutonomousDatabaseKeyHistoryEntry `mandatory:"false" json:"keyHistoryEntry"`
+
+	// Key History Entry.
+	EncryptionKeyHistoryEntry []AutonomousDatabaseEncryptionKeyHistoryEntry `mandatory:"false" json:"encryptionKeyHistoryEntry"`
 
 	// The number of CPU cores to be made available to the database. When the ECPU is selected, the value for cpuCoreCount is 0. For Autonomous Database on Dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
@@ -344,15 +350,6 @@ type AutonomousDatabaseSummary struct {
 	// The auto-refresh policy for the Autonomous Database refreshable clone. You can specify continuous refreshing or a custom refresh schedule.
 	AutoRefreshPolicy AutonomousDatabaseSummaryAutoRefreshPolicyEnum `mandatory:"false" json:"autoRefreshPolicy,omitempty"`
 
-	// The frequency at which the data is refreshed for a refreshable clone after auto-refresh is enabled. The minimum is 1 minute. The maximum is 1 day. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
-	AutoRefreshFrequencyInSeconds *int `mandatory:"false" json:"autoRefreshFrequencyInSeconds"`
-
-	// The amount of time, in seconds, that the data of the refreshable clone lags the data of the primary database at the point of refresh. The minimum is 1 minute. The maximum is 7 days. The lag time increases after refreshing until the next data refresh happens.
-	AutoRefreshPointInSeconds *int `mandatory:"false" json:"autoRefreshPointInSeconds"`
-
-	// The the date and time that auto-refreshing will begin for an Autonomous Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
-	TimeOfAutoRefreshStart *common.SDKTime `mandatory:"false" json:"timeOfAutoRefreshStart"`
-
 	// The list of regions that support the creation of an Autonomous Database clone or an Autonomous Data Guard standby database.
 	SupportedRegionsToCloneTo []string `mandatory:"false" json:"supportedRegionsToCloneTo"`
 
@@ -439,6 +436,9 @@ type AutonomousDatabaseSummary struct {
 
 	// List of access types for an Autonomous Database.
 	AccessTypes []string `mandatory:"false" json:"accessTypes"`
+
+	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
+	NetServicesArchitecture AutonomousDatabaseSummaryNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -508,10 +508,382 @@ func (m AutonomousDatabaseSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum(string(m.DisasterRecoveryRegionType)); !ok && m.DisasterRecoveryRegionType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DisasterRecoveryRegionType: %s. Supported values are: %s.", m.DisasterRecoveryRegionType, strings.Join(GetAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAutonomousDatabaseSummaryNetServicesArchitectureEnum(string(m.NetServicesArchitecture)); !ok && m.NetServicesArchitecture != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetServicesArchitecture: %s. Supported values are: %s.", m.NetServicesArchitecture, strings.Join(GetAutonomousDatabaseSummaryNetServicesArchitectureEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		LifecycleDetails                        *string                                                        `json:"lifecycleDetails"`
+		KmsKeyId                                *string                                                        `json:"kmsKeyId"`
+		VaultId                                 *string                                                        `json:"vaultId"`
+		KmsKeyLifecycleDetails                  *string                                                        `json:"kmsKeyLifecycleDetails"`
+		EncryptionKey                           autonomousdatabaseencryptionkeydetails                         `json:"encryptionKey"`
+		KmsKeyVersionId                         *string                                                        `json:"kmsKeyVersionId"`
+		CharacterSet                            *string                                                        `json:"characterSet"`
+		NcharacterSet                           *string                                                        `json:"ncharacterSet"`
+		InMemoryPercentage                      *int                                                           `json:"inMemoryPercentage"`
+		InMemoryAreaInGBs                       *int                                                           `json:"inMemoryAreaInGBs"`
+		NextLongTermBackupTimeStamp             *common.SDKTime                                                `json:"nextLongTermBackupTimeStamp"`
+		LongTermBackupSchedule                  *LongTermBackUpScheduleDetails                                 `json:"longTermBackupSchedule"`
+		IsFreeTier                              *bool                                                          `json:"isFreeTier"`
+		SystemTags                              map[string]map[string]interface{}                              `json:"systemTags"`
+		TimeReclamationOfFreeAutonomousDatabase *common.SDKTime                                                `json:"timeReclamationOfFreeAutonomousDatabase"`
+		TimeDeletionOfFreeAutonomousDatabase    *common.SDKTime                                                `json:"timeDeletionOfFreeAutonomousDatabase"`
+		BackupConfig                            *AutonomousDatabaseBackupConfig                                `json:"backupConfig"`
+		KeyHistoryEntry                         []AutonomousDatabaseKeyHistoryEntry                            `json:"keyHistoryEntry"`
+		EncryptionKeyHistoryEntry               []AutonomousDatabaseEncryptionKeyHistoryEntry                  `json:"encryptionKeyHistoryEntry"`
+		CpuCoreCount                            *int                                                           `json:"cpuCoreCount"`
+		LocalAdgAutoFailoverMaxDataLossLimit    *int                                                           `json:"localAdgAutoFailoverMaxDataLossLimit"`
+		ComputeModel                            AutonomousDatabaseSummaryComputeModelEnum                      `json:"computeModel"`
+		ComputeCount                            *float32                                                       `json:"computeCount"`
+		BackupRetentionPeriodInDays             *int                                                           `json:"backupRetentionPeriodInDays"`
+		TotalBackupStorageSizeInGBs             *float64                                                       `json:"totalBackupStorageSizeInGBs"`
+		OcpuCount                               *float32                                                       `json:"ocpuCount"`
+		ProvisionableCpus                       []float32                                                      `json:"provisionableCpus"`
+		DataStorageSizeInTBs                    *int                                                           `json:"dataStorageSizeInTBs"`
+		MemoryPerOracleComputeUnitInGBs         *int                                                           `json:"memoryPerOracleComputeUnitInGBs"`
+		DataStorageSizeInGBs                    *int                                                           `json:"dataStorageSizeInGBs"`
+		UsedDataStorageSizeInGBs                *int                                                           `json:"usedDataStorageSizeInGBs"`
+		InfrastructureType                      AutonomousDatabaseSummaryInfrastructureTypeEnum                `json:"infrastructureType"`
+		IsDedicated                             *bool                                                          `json:"isDedicated"`
+		AutonomousContainerDatabaseId           *string                                                        `json:"autonomousContainerDatabaseId"`
+		TimeCreated                             *common.SDKTime                                                `json:"timeCreated"`
+		DisplayName                             *string                                                        `json:"displayName"`
+		ServiceConsoleUrl                       *string                                                        `json:"serviceConsoleUrl"`
+		ConnectionStrings                       *AutonomousDatabaseConnectionStrings                           `json:"connectionStrings"`
+		ConnectionUrls                          *AutonomousDatabaseConnectionUrls                              `json:"connectionUrls"`
+		LicenseModel                            AutonomousDatabaseSummaryLicenseModelEnum                      `json:"licenseModel"`
+		UsedDataStorageSizeInTBs                *int                                                           `json:"usedDataStorageSizeInTBs"`
+		FreeformTags                            map[string]string                                              `json:"freeformTags"`
+		DefinedTags                             map[string]map[string]interface{}                              `json:"definedTags"`
+		SubnetId                                *string                                                        `json:"subnetId"`
+		NsgIds                                  []string                                                       `json:"nsgIds"`
+		PrivateEndpoint                         *string                                                        `json:"privateEndpoint"`
+		PrivateEndpointLabel                    *string                                                        `json:"privateEndpointLabel"`
+		PrivateEndpointIp                       *string                                                        `json:"privateEndpointIp"`
+		DbVersion                               *string                                                        `json:"dbVersion"`
+		IsPreview                               *bool                                                          `json:"isPreview"`
+		DbWorkload                              AutonomousDatabaseSummaryDbWorkloadEnum                        `json:"dbWorkload"`
+		IsDevTier                               *bool                                                          `json:"isDevTier"`
+		IsAccessControlEnabled                  *bool                                                          `json:"isAccessControlEnabled"`
+		WhitelistedIps                          []string                                                       `json:"whitelistedIps"`
+		ArePrimaryWhitelistedIpsUsed            *bool                                                          `json:"arePrimaryWhitelistedIpsUsed"`
+		StandbyWhitelistedIps                   []string                                                       `json:"standbyWhitelistedIps"`
+		ApexDetails                             *AutonomousDatabaseApex                                        `json:"apexDetails"`
+		IsAutoScalingEnabled                    *bool                                                          `json:"isAutoScalingEnabled"`
+		DataSafeStatus                          AutonomousDatabaseSummaryDataSafeStatusEnum                    `json:"dataSafeStatus"`
+		OperationsInsightsStatus                AutonomousDatabaseSummaryOperationsInsightsStatusEnum          `json:"operationsInsightsStatus"`
+		DatabaseManagementStatus                AutonomousDatabaseSummaryDatabaseManagementStatusEnum          `json:"databaseManagementStatus"`
+		TimeMaintenanceBegin                    *common.SDKTime                                                `json:"timeMaintenanceBegin"`
+		TimeMaintenanceEnd                      *common.SDKTime                                                `json:"timeMaintenanceEnd"`
+		IsRefreshableClone                      *bool                                                          `json:"isRefreshableClone"`
+		TimeOfLastRefresh                       *common.SDKTime                                                `json:"timeOfLastRefresh"`
+		TimeOfLastRefreshPoint                  *common.SDKTime                                                `json:"timeOfLastRefreshPoint"`
+		TimeOfNextRefresh                       *common.SDKTime                                                `json:"timeOfNextRefresh"`
+		OpenMode                                AutonomousDatabaseSummaryOpenModeEnum                          `json:"openMode"`
+		RefreshableStatus                       AutonomousDatabaseSummaryRefreshableStatusEnum                 `json:"refreshableStatus"`
+		RefreshableMode                         AutonomousDatabaseSummaryRefreshableModeEnum                   `json:"refreshableMode"`
+		SourceId                                *string                                                        `json:"sourceId"`
+		PermissionLevel                         AutonomousDatabaseSummaryPermissionLevelEnum                   `json:"permissionLevel"`
+		IsVirtualClone                          *bool                                                          `json:"isVirtualClone"`
+		TimeOfLastSwitchover                    *common.SDKTime                                                `json:"timeOfLastSwitchover"`
+		TimeOfLastFailover                      *common.SDKTime                                                `json:"timeOfLastFailover"`
+		IsDataGuardEnabled                      *bool                                                          `json:"isDataGuardEnabled"`
+		FailedDataRecoveryInSeconds             *int                                                           `json:"failedDataRecoveryInSeconds"`
+		StandbyDb                               *AutonomousDatabaseStandbySummary                              `json:"standbyDb"`
+		IsLocalDataGuardEnabled                 *bool                                                          `json:"isLocalDataGuardEnabled"`
+		IsRemoteDataGuardEnabled                *bool                                                          `json:"isRemoteDataGuardEnabled"`
+		LocalStandbyDb                          *AutonomousDatabaseStandbySummary                              `json:"localStandbyDb"`
+		Role                                    AutonomousDatabaseSummaryRoleEnum                              `json:"role"`
+		AvailableUpgradeVersions                []string                                                       `json:"availableUpgradeVersions"`
+		KeyStoreId                              *string                                                        `json:"keyStoreId"`
+		KeyStoreWalletName                      *string                                                        `json:"keyStoreWalletName"`
+		AutoRefreshPolicy                       AutonomousDatabaseSummaryAutoRefreshPolicyEnum                 `json:"autoRefreshPolicy"`
+		SupportedRegionsToCloneTo               []string                                                       `json:"supportedRegionsToCloneTo"`
+		CustomerContacts                        []CustomerContact                                              `json:"customerContacts"`
+		TimeLocalDataGuardEnabled               *common.SDKTime                                                `json:"timeLocalDataGuardEnabled"`
+		DataguardRegionType                     AutonomousDatabaseSummaryDataguardRegionTypeEnum               `json:"dataguardRegionType"`
+		TimeDataGuardRoleChanged                *common.SDKTime                                                `json:"timeDataGuardRoleChanged"`
+		PeerDbIds                               []string                                                       `json:"peerDbIds"`
+		IsMtlsConnectionRequired                *bool                                                          `json:"isMtlsConnectionRequired"`
+		TimeOfJoiningResourcePool               *common.SDKTime                                                `json:"timeOfJoiningResourcePool"`
+		ResourcePoolLeaderId                    *string                                                        `json:"resourcePoolLeaderId"`
+		ResourcePoolSummary                     *ResourcePoolSummary                                           `json:"resourcePoolSummary"`
+		IsReconnectCloneEnabled                 *bool                                                          `json:"isReconnectCloneEnabled"`
+		TimeUntilReconnectCloneEnabled          *common.SDKTime                                                `json:"timeUntilReconnectCloneEnabled"`
+		AutonomousMaintenanceScheduleType       AutonomousDatabaseSummaryAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
+		IsOracleServiceGatewayAllowed           *bool                                                          `json:"isOracleServiceGatewayAllowed"`
+		ScheduledOperations                     []ScheduledOperationDetails                                    `json:"scheduledOperations"`
+		IsAutoScalingForStorageEnabled          *bool                                                          `json:"isAutoScalingForStorageEnabled"`
+		AllocatedStorageSizeInTBs               *float64                                                       `json:"allocatedStorageSizeInTBs"`
+		ActualUsedDataStorageSizeInTBs          *float64                                                       `json:"actualUsedDataStorageSizeInTBs"`
+		DatabaseEdition                         AutonomousDatabaseSummaryDatabaseEditionEnum                   `json:"databaseEdition"`
+		DbToolsDetails                          []DatabaseTool                                                 `json:"dbToolsDetails"`
+		LocalDisasterRecoveryType               DisasterRecoveryConfigurationDisasterRecoveryTypeEnum          `json:"localDisasterRecoveryType"`
+		DisasterRecoveryRegionType              AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum        `json:"disasterRecoveryRegionType"`
+		TimeDisasterRecoveryRoleChanged         *common.SDKTime                                                `json:"timeDisasterRecoveryRoleChanged"`
+		RemoteDisasterRecoveryConfiguration     *DisasterRecoveryConfiguration                                 `json:"remoteDisasterRecoveryConfiguration"`
+		AccessTypes                             []string                                                       `json:"accessTypes"`
+		NetServicesArchitecture                 AutonomousDatabaseSummaryNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
+		Id                                      *string                                                        `json:"id"`
+		CompartmentId                           *string                                                        `json:"compartmentId"`
+		LifecycleState                          AutonomousDatabaseSummaryLifecycleStateEnum                    `json:"lifecycleState"`
+		DbName                                  *string                                                        `json:"dbName"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.VaultId = model.VaultId
+
+	m.KmsKeyLifecycleDetails = model.KmsKeyLifecycleDetails
+
+	nn, e = model.EncryptionKey.UnmarshalPolymorphicJSON(model.EncryptionKey.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKey = nn.(AutonomousDatabaseEncryptionKeyDetails)
+	} else {
+		m.EncryptionKey = nil
+	}
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.CharacterSet = model.CharacterSet
+
+	m.NcharacterSet = model.NcharacterSet
+
+	m.InMemoryPercentage = model.InMemoryPercentage
+
+	m.InMemoryAreaInGBs = model.InMemoryAreaInGBs
+
+	m.NextLongTermBackupTimeStamp = model.NextLongTermBackupTimeStamp
+
+	m.LongTermBackupSchedule = model.LongTermBackupSchedule
+
+	m.IsFreeTier = model.IsFreeTier
+
+	m.SystemTags = model.SystemTags
+
+	m.TimeReclamationOfFreeAutonomousDatabase = model.TimeReclamationOfFreeAutonomousDatabase
+
+	m.TimeDeletionOfFreeAutonomousDatabase = model.TimeDeletionOfFreeAutonomousDatabase
+
+	m.BackupConfig = model.BackupConfig
+
+	m.KeyHistoryEntry = make([]AutonomousDatabaseKeyHistoryEntry, len(model.KeyHistoryEntry))
+	copy(m.KeyHistoryEntry, model.KeyHistoryEntry)
+	m.EncryptionKeyHistoryEntry = make([]AutonomousDatabaseEncryptionKeyHistoryEntry, len(model.EncryptionKeyHistoryEntry))
+	copy(m.EncryptionKeyHistoryEntry, model.EncryptionKeyHistoryEntry)
+	m.CpuCoreCount = model.CpuCoreCount
+
+	m.LocalAdgAutoFailoverMaxDataLossLimit = model.LocalAdgAutoFailoverMaxDataLossLimit
+
+	m.ComputeModel = model.ComputeModel
+
+	m.ComputeCount = model.ComputeCount
+
+	m.BackupRetentionPeriodInDays = model.BackupRetentionPeriodInDays
+
+	m.TotalBackupStorageSizeInGBs = model.TotalBackupStorageSizeInGBs
+
+	m.OcpuCount = model.OcpuCount
+
+	m.ProvisionableCpus = make([]float32, len(model.ProvisionableCpus))
+	copy(m.ProvisionableCpus, model.ProvisionableCpus)
+	m.DataStorageSizeInTBs = model.DataStorageSizeInTBs
+
+	m.MemoryPerOracleComputeUnitInGBs = model.MemoryPerOracleComputeUnitInGBs
+
+	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
+
+	m.UsedDataStorageSizeInGBs = model.UsedDataStorageSizeInGBs
+
+	m.InfrastructureType = model.InfrastructureType
+
+	m.IsDedicated = model.IsDedicated
+
+	m.AutonomousContainerDatabaseId = model.AutonomousContainerDatabaseId
+
+	m.TimeCreated = model.TimeCreated
+
+	m.DisplayName = model.DisplayName
+
+	m.ServiceConsoleUrl = model.ServiceConsoleUrl
+
+	m.ConnectionStrings = model.ConnectionStrings
+
+	m.ConnectionUrls = model.ConnectionUrls
+
+	m.LicenseModel = model.LicenseModel
+
+	m.UsedDataStorageSizeInTBs = model.UsedDataStorageSizeInTBs
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SubnetId = model.SubnetId
+
+	m.NsgIds = make([]string, len(model.NsgIds))
+	copy(m.NsgIds, model.NsgIds)
+	m.PrivateEndpoint = model.PrivateEndpoint
+
+	m.PrivateEndpointLabel = model.PrivateEndpointLabel
+
+	m.PrivateEndpointIp = model.PrivateEndpointIp
+
+	m.DbVersion = model.DbVersion
+
+	m.IsPreview = model.IsPreview
+
+	m.DbWorkload = model.DbWorkload
+
+	m.IsDevTier = model.IsDevTier
+
+	m.IsAccessControlEnabled = model.IsAccessControlEnabled
+
+	m.WhitelistedIps = make([]string, len(model.WhitelistedIps))
+	copy(m.WhitelistedIps, model.WhitelistedIps)
+	m.ArePrimaryWhitelistedIpsUsed = model.ArePrimaryWhitelistedIpsUsed
+
+	m.StandbyWhitelistedIps = make([]string, len(model.StandbyWhitelistedIps))
+	copy(m.StandbyWhitelistedIps, model.StandbyWhitelistedIps)
+	m.ApexDetails = model.ApexDetails
+
+	m.IsAutoScalingEnabled = model.IsAutoScalingEnabled
+
+	m.DataSafeStatus = model.DataSafeStatus
+
+	m.OperationsInsightsStatus = model.OperationsInsightsStatus
+
+	m.DatabaseManagementStatus = model.DatabaseManagementStatus
+
+	m.TimeMaintenanceBegin = model.TimeMaintenanceBegin
+
+	m.TimeMaintenanceEnd = model.TimeMaintenanceEnd
+
+	m.IsRefreshableClone = model.IsRefreshableClone
+
+	m.TimeOfLastRefresh = model.TimeOfLastRefresh
+
+	m.TimeOfLastRefreshPoint = model.TimeOfLastRefreshPoint
+
+	m.TimeOfNextRefresh = model.TimeOfNextRefresh
+
+	m.OpenMode = model.OpenMode
+
+	m.RefreshableStatus = model.RefreshableStatus
+
+	m.RefreshableMode = model.RefreshableMode
+
+	m.SourceId = model.SourceId
+
+	m.PermissionLevel = model.PermissionLevel
+
+	m.IsVirtualClone = model.IsVirtualClone
+
+	m.TimeOfLastSwitchover = model.TimeOfLastSwitchover
+
+	m.TimeOfLastFailover = model.TimeOfLastFailover
+
+	m.IsDataGuardEnabled = model.IsDataGuardEnabled
+
+	m.FailedDataRecoveryInSeconds = model.FailedDataRecoveryInSeconds
+
+	m.StandbyDb = model.StandbyDb
+
+	m.IsLocalDataGuardEnabled = model.IsLocalDataGuardEnabled
+
+	m.IsRemoteDataGuardEnabled = model.IsRemoteDataGuardEnabled
+
+	m.LocalStandbyDb = model.LocalStandbyDb
+
+	m.Role = model.Role
+
+	m.AvailableUpgradeVersions = make([]string, len(model.AvailableUpgradeVersions))
+	copy(m.AvailableUpgradeVersions, model.AvailableUpgradeVersions)
+	m.KeyStoreId = model.KeyStoreId
+
+	m.KeyStoreWalletName = model.KeyStoreWalletName
+
+	m.AutoRefreshPolicy = model.AutoRefreshPolicy
+
+	m.SupportedRegionsToCloneTo = make([]string, len(model.SupportedRegionsToCloneTo))
+	copy(m.SupportedRegionsToCloneTo, model.SupportedRegionsToCloneTo)
+	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
+	copy(m.CustomerContacts, model.CustomerContacts)
+	m.TimeLocalDataGuardEnabled = model.TimeLocalDataGuardEnabled
+
+	m.DataguardRegionType = model.DataguardRegionType
+
+	m.TimeDataGuardRoleChanged = model.TimeDataGuardRoleChanged
+
+	m.PeerDbIds = make([]string, len(model.PeerDbIds))
+	copy(m.PeerDbIds, model.PeerDbIds)
+	m.IsMtlsConnectionRequired = model.IsMtlsConnectionRequired
+
+	m.TimeOfJoiningResourcePool = model.TimeOfJoiningResourcePool
+
+	m.ResourcePoolLeaderId = model.ResourcePoolLeaderId
+
+	m.ResourcePoolSummary = model.ResourcePoolSummary
+
+	m.IsReconnectCloneEnabled = model.IsReconnectCloneEnabled
+
+	m.TimeUntilReconnectCloneEnabled = model.TimeUntilReconnectCloneEnabled
+
+	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
+
+	m.IsOracleServiceGatewayAllowed = model.IsOracleServiceGatewayAllowed
+
+	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
+	copy(m.ScheduledOperations, model.ScheduledOperations)
+	m.IsAutoScalingForStorageEnabled = model.IsAutoScalingForStorageEnabled
+
+	m.AllocatedStorageSizeInTBs = model.AllocatedStorageSizeInTBs
+
+	m.ActualUsedDataStorageSizeInTBs = model.ActualUsedDataStorageSizeInTBs
+
+	m.DatabaseEdition = model.DatabaseEdition
+
+	m.DbToolsDetails = make([]DatabaseTool, len(model.DbToolsDetails))
+	copy(m.DbToolsDetails, model.DbToolsDetails)
+	m.LocalDisasterRecoveryType = model.LocalDisasterRecoveryType
+
+	m.DisasterRecoveryRegionType = model.DisasterRecoveryRegionType
+
+	m.TimeDisasterRecoveryRoleChanged = model.TimeDisasterRecoveryRoleChanged
+
+	m.RemoteDisasterRecoveryConfiguration = model.RemoteDisasterRecoveryConfiguration
+
+	m.AccessTypes = make([]string, len(model.AccessTypes))
+	copy(m.AccessTypes, model.AccessTypes)
+	m.NetServicesArchitecture = model.NetServicesArchitecture
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.LifecycleState = model.LifecycleState
+
+	m.DbName = model.DbName
+
+	return
 }
 
 // AutonomousDatabaseSummaryLifecycleStateEnum Enum with underlying type: string
@@ -1407,5 +1779,47 @@ func GetAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumStringValues() []
 // GetMappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum(val string) (AutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseSummaryDisasterRecoveryRegionTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseSummaryNetServicesArchitectureEnum Enum with underlying type: string
+type AutonomousDatabaseSummaryNetServicesArchitectureEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseSummaryNetServicesArchitectureEnum
+const (
+	AutonomousDatabaseSummaryNetServicesArchitectureDedicated AutonomousDatabaseSummaryNetServicesArchitectureEnum = "DEDICATED"
+	AutonomousDatabaseSummaryNetServicesArchitectureShared    AutonomousDatabaseSummaryNetServicesArchitectureEnum = "SHARED"
+)
+
+var mappingAutonomousDatabaseSummaryNetServicesArchitectureEnum = map[string]AutonomousDatabaseSummaryNetServicesArchitectureEnum{
+	"DEDICATED": AutonomousDatabaseSummaryNetServicesArchitectureDedicated,
+	"SHARED":    AutonomousDatabaseSummaryNetServicesArchitectureShared,
+}
+
+var mappingAutonomousDatabaseSummaryNetServicesArchitectureEnumLowerCase = map[string]AutonomousDatabaseSummaryNetServicesArchitectureEnum{
+	"dedicated": AutonomousDatabaseSummaryNetServicesArchitectureDedicated,
+	"shared":    AutonomousDatabaseSummaryNetServicesArchitectureShared,
+}
+
+// GetAutonomousDatabaseSummaryNetServicesArchitectureEnumValues Enumerates the set of values for AutonomousDatabaseSummaryNetServicesArchitectureEnum
+func GetAutonomousDatabaseSummaryNetServicesArchitectureEnumValues() []AutonomousDatabaseSummaryNetServicesArchitectureEnum {
+	values := make([]AutonomousDatabaseSummaryNetServicesArchitectureEnum, 0)
+	for _, v := range mappingAutonomousDatabaseSummaryNetServicesArchitectureEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseSummaryNetServicesArchitectureEnumStringValues Enumerates the set of values in String for AutonomousDatabaseSummaryNetServicesArchitectureEnum
+func GetAutonomousDatabaseSummaryNetServicesArchitectureEnumStringValues() []string {
+	return []string{
+		"DEDICATED",
+		"SHARED",
+	}
+}
+
+// GetMappingAutonomousDatabaseSummaryNetServicesArchitectureEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseSummaryNetServicesArchitectureEnum(val string) (AutonomousDatabaseSummaryNetServicesArchitectureEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseSummaryNetServicesArchitectureEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

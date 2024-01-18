@@ -18,6 +18,9 @@ import (
 // UpdateSchedulingPolicyDetails Describes the modification parameters for the Scheduling Policy.
 type UpdateSchedulingPolicyDetails struct {
 
+	// The user-friendly name for the Scheduling Policy. The name does not need to be unique.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
 	// The cadence period.
 	Cadence UpdateSchedulingPolicyDetailsCadenceEnum `mandatory:"false" json:"cadence,omitempty"`
 
