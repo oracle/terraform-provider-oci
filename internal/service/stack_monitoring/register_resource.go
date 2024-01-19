@@ -19,4 +19,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resources_list_member", StackMonitoringMonitoredResourcesListMemberResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resources_search", StackMonitoringMonitoredResourcesSearchResource())
 	tfresource.RegisterResource("oci_stack_monitoring_monitored_resources_search_association", StackMonitoringMonitoredResourcesSearchAssociationResource())
+	tfresource.RegisterResource("oci_stack_monitoring_process_set", StackMonitoringProcessSetResource())
 }

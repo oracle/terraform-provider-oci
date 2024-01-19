@@ -1092,6 +1092,7 @@ stack_monitoring
 * oci\_stack\_monitoring\_monitored\_resource\_type
 * oci\_stack\_monitoring\_metric\_extension
 * oci\_stack\_monitoring\_baselineable\_metric
+* oci\_stack\_monitoring\_process\_set
 
 streaming
 
