@@ -9,7 +9,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/hashicorp/go-multierror"
 	"log"
 	"os"
 	"reflect"
@@ -18,6 +17,8 @@ import (
 	"testing"
 	"text/template"
 	"time"
+
+	"github.com/hashicorp/go-multierror"
 
 	"github.com/stretchr/testify/assert"
 
