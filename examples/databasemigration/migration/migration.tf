@@ -61,11 +61,16 @@ variable "tgt_database_id" {
 variable "bucket_id" {
 }
 
+variable "source_connection_rds_id" {
+}
+
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
+  auth             = "SecurityToken"
   region           = var.region
 
 }
@@ -150,7 +155,7 @@ resource "oci_database_migration_connection" "test_connection_target" {
 }
 
 data "oci_identity_availability_domains" "test_availability_domains" {
-  compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_id
 }
 
 resource "oci_database_migration_connection" "test_connection_source" {
@@ -170,6 +175,25 @@ resource "oci_database_migration_connection" "test_connection_source" {
     sudo_location = "/usr/bin/sudo"
     user = "opc"
   }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
+
+resource "oci_database_migration_connection" "test_connection_source_rds" {
+  admin_credentials {
+    password = "ORcl##4567890"
+    username = "admin"
+  }
+  compartment_id = var.compartment_id
+  connect_descriptor {
+    connect_string = "(description=(address=(port=1521)(host=10.2.2.17))(connect_data=(service_name=pdb0107svc.dbsubnet.gghubvcn.oraclevcn.com)))"
+  }
+  database_type = "MANUAL"
+  manual_database_sub_type = "RDS_ORACLE"
+  display_name = "TF_display_test_create_source_rds"
   vault_details {
     compartment_id = var.compartment_id
     key_id = var.kms_key_id
@@ -282,6 +306,48 @@ resource "oci_database_migration_migration" "test_migration" {
   }
   source_database_connection_id = var.source_connection_id
   source_container_database_connection_id = var.source_connection_container_id
+  target_database_connection_id = var.target_connection_id
+  type = "ONLINE"
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
+
+resource "oci_database_migration_migration" "test_migration_rds" {
+  compartment_id = var.compartment_id
+
+  golden_gate_service_details {
+    settings {
+      acceptable_lag = "10"
+      extract {
+        long_trans_duration = "10"
+        performance_profile = "LOW"
+      }
+    }
+  }
+  data_transfer_medium_details_v2 {
+    type = "OBJECT_STORAGE"
+  }
+  datapump_settings {
+    export_directory_object {
+      name = "test_export_dir"
+      path = "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"
+    }
+    metadata_remaps {
+      new_value = "DATA"
+      old_value = "USERS"
+      type = "TABLESPACE"
+    }
+  }
+  exclude_objects {
+    object = ".*"
+    owner  = "owner"
+    is_omit_excluded_table_from_replication = "false"
+    type = "ALL"
+  }
+  source_database_connection_id = var.source_connection_rds_id
   target_database_connection_id = var.target_connection_id
   type = "ONLINE"
   vault_details {
