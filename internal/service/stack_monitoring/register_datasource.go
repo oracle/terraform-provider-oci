@@ -22,4 +22,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_tasks", StackMonitoringMonitoredResourceTasksDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_type", StackMonitoringMonitoredResourceTypeDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_types", StackMonitoringMonitoredResourceTypesDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_process_set", StackMonitoringProcessSetDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_process_sets", StackMonitoringProcessSetsDataSource())
 }
