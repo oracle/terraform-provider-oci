@@ -162,6 +162,12 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"manual_database_sub_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -431,6 +437,10 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if manualDatabaseSubType, ok := s.D.GetOkExists("manual_database_sub_type"); ok {
+		request.ManualDatabaseSubType = oci_database_migration.DatabaseManualConnectionSubTypesEnum(manualDatabaseSubType.(string))
+	}
+
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -516,6 +526,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) getConnectionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+
 	actionTypeEnum oci_database_migration.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
@@ -550,6 +561,7 @@ func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 }
 
 func connectionWaitForWorkRequest(wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
+
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_migration.DatabaseMigrationClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_migration")
 	retryPolicy.ShouldRetryOperation = connectionWorkRequestShouldRetryFunc(timeout)
@@ -856,6 +868,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) SetData() error {
 		nsgIds = append(nsgIds, item)
 	}
 	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+	s.D.Set("manual_database_sub_type", s.Res.ManualDatabaseSubType)
 
 	if s.Res.PrivateEndpoint != nil {
 		s.D.Set("private_endpoint", []interface{}{PrivateEndpointDetailsToMap(s.Res.PrivateEndpoint)})
@@ -934,6 +947,7 @@ func ConnectionSummaryToMap(obj oci_database_migration.ConnectionSummary) map[st
 	for _, item := range obj.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
+	result["manual_database_sub_type"] = string(obj.ManualDatabaseSubType)
 
 	result["state"] = string(obj.LifecycleState)
 
@@ -1349,7 +1363,6 @@ func (s *DatabaseMigrationConnectionResourceCrud) mapToUpdateVaultDetails(fieldK
 
 	return result, nil
 }
-
 func VaultDetailsToMap(obj *oci_database_migration.VaultDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
