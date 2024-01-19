@@ -75,6 +75,11 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 					drg_id = "${oci_core_drg.t.id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
 					display_name = "-tf-drg-attachment"
+					network_details = {
+						id              = "${oci_core_virtual_network.t.id}"
+						type            = "VCN"
+						vcn_route_type  = "VCN_CIDRS"
+					}
 				}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-drg-attachment"),

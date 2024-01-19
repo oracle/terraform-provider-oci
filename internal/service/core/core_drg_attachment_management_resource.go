@@ -432,7 +432,9 @@ func (s *CoreDrgAttachmentManagementResourceCrud) mapToDrgAttachmentNetworkUpdat
 		details := oci_core.VcnDrgAttachmentNetworkUpdateDetails{}
 		if routeTableId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "route_table_id")); ok {
 			tmp := routeTableId.(string)
-			details.RouteTableId = &tmp
+			if tmp != "" {
+				details.RouteTableId = &tmp
+			}
 		}
 		if details.RouteTableId != nil && *details.RouteTableId != "" {
 			baseObject = details
