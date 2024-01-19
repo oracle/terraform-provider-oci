@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	_ "strconv"
 	"testing"
 	"time"
 
@@ -56,7 +57,7 @@ var (
 	DatabaseData = `
 	data "oci_database_databases" "t" {
 	compartment_id = "${var.compartment_id}"
-	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"	
+	db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
 }`
 
 	ConnectionResourceConfigTarget = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, connectionRepresentationTarget)
@@ -71,7 +72,8 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionDataSourceFilterRepresentationCon}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionDataSourceFilterRepresentationCon},
+	}
 	connectionDataSourceFilterRepresentationCon = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_migration_connection.test_connection.id}`}},
@@ -115,7 +117,7 @@ var (
 		"database_type":     acctest.Representation{RepType: acctest.Required, Create: `AUTONOMOUS`},
 		"vault_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionVaultDetailsRepresentation},
 		"database_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.database_id}`},
-		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `TF_display_test_create`, Update: `TF_display_test_update`},
+		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `TF_display_test_create11`, Update: `TF_display_test_update`},
 	}
 
 	connectionRepresentationTargetOpc = map[string]interface{}{
@@ -140,15 +142,14 @@ var (
 	}
 
 	connectionRepresentationSource = map[string]interface{}{
-		"admin_credentials":  acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionAdminCredentialsRepresentation},
-		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"database_type":      acctest.Representation{RepType: acctest.Required, Create: `MANUAL`},
-		"vault_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionVaultDetailsRepresentation},
-		"connect_descriptor": acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionConnectDescriptorRepresentationMIG},
-		"database_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.database_source}`},
-		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `TF_display_test_create_source`, Update: `TF_display_test_update_source`},
-		"ssh_details":        acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionSshDetailsRepresentation},
-		"private_endpoint":   acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionPrivateEndpointRepresentation},
+		"admin_credentials":        acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionAdminCredentialsRepresentation},
+		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"database_type":            acctest.Representation{RepType: acctest.Required, Create: `MANUAL`},
+		"manual_database_sub_type": acctest.Representation{RepType: acctest.Optional, Create: `RDS_ORACLE`},
+		"vault_details":            acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionVaultDetailsRepresentation},
+		"connect_descriptor":       acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionConnectDescriptorRepresentationMIG},
+		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `TF_display_test_create_source`, Update: `TF_display_test_update_source`},
+		"private_endpoint":         acctest.RepresentationGroup{RepType: acctest.Required, Group: connectionPrivateEndpointRepresentation},
 	}
 
 	connectionRepresentationNoSshSource = map[string]interface{}{
@@ -341,11 +342,13 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 	resourceName := "oci_database_migration_connection.test_connection"
 	datasourceName := "data.oci_database_migration_connections.test_connections"
 	singularDatasourceName := "data.oci_database_migration_connection.test_connection"
+	resourceNameRDS := "oci_database_migration_connection.test_connection_rds"
 
-	var resId, resId2 string
+	var resId, resId2, resId3 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+databaseSourceStr+subnetStr+vcnIdVariableStr+KmsVaultIdVariableStr+KmsKeyIdVariableStr+sshKeyIdStr+databaseIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, DatabaseMigrationConnectionRepresentation), "databasemigration", "connection", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, DatabaseMigrationConnectionRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Create, connectionRepresentationSource), "databasemigration", "connection", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationConnectionDestroy, []resource.TestStep{
 		// verify Create
@@ -376,7 +379,8 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + databaseSourceStr + subnetStr + vcnIdVariableStr + KmsVaultIdVariableStr + KmsKeyIdVariableStr + sshKeyIdStr + databaseIdVariableStr + nsgIdStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, DatabaseMigrationConnectionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, DatabaseMigrationConnectionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Create, connectionRepresentationSource),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "Cr3dential_23#"),
@@ -404,10 +408,31 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
 
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.0.password", "Cr3dential_23#"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.0.username", "admin"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceNameRDS, "database_type", "MANUAL"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "manual_database_sub_type", "RDS_ORACLE"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_details.0.vault_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "connect_descriptor.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "display_name", "TF_display_test_create_source"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "private_endpoint.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "private_endpoint.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "private_endpoint.0.vcn_id"),
+
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					resId2, err = acctest.FromInstanceState(s, resourceNameRDS, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId3, &compartmentId, resourceNameRDS); errExport != nil {
 							return errExport
 						}
 					}
@@ -420,6 +445,10 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseIdVariableStr + KmsKeyIdVariableStr + KmsVaultIdVariableStr + vcnIdVariableStr + subnetStr + sshKeyIdStr + databaseSourceStr + nsgIdStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationConnectionRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(connectionRepresentationSource, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -449,10 +478,30 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.0.password", "Cr3dential_23#"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.0.username", "admin"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceNameRDS, "database_type", "MANUAL"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "manual_database_sub_type", "RDS_ORACLE"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_details.0.vault_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "connect_descriptor.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "display_name", "TF_display_test_create_source"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "private_endpoint.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "private_endpoint.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "private_endpoint.0.vcn_id"),
+
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					resId3, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId3 {
+						return fmt.Errorf("update to the compartment: resource %s recreated when it was supposed to be updated", resourceName)
+					}
+					resId3, err = acctest.FromInstanceState(s, resourceNameRDS, "id")
+					if resId2 != resId3 {
+						return fmt.Errorf("update to the compartment: resource %s recreated when it was supposed to be updated", resourceNameRDS)
 					}
 					return err
 				},
@@ -462,7 +511,8 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + databaseSourceStr + subnetStr + vcnIdVariableStr + KmsVaultIdVariableStr + KmsKeyIdVariableStr + sshKeyIdStr + databaseIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, DatabaseMigrationConnectionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, DatabaseMigrationConnectionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Update, connectionRepresentationSource),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "admin_credentials.0.password", "Cr3dential_23#"),
@@ -490,10 +540,30 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "vault_details.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.key_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_details.0.vault_id"),
+
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.0.password", "Cr3dential_23#"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "admin_credentials.0.username", "admin"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceNameRDS, "database_type", "MANUAL"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "manual_database_sub_type", "RDS_ORACLE"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "vault_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_details.0.key_id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_details.0.vault_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "connect_descriptor.#", "1"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "display_name", "TF_display_test_update_source"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "private_endpoint.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "private_endpoint.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "private_endpoint.0.vcn_id"),
+
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					resId3, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId3 {
+						return fmt.Errorf("updates to updatable parameters: resource %s recreated when it was supposed to be updated", resourceName)
+					}
+					resId3, err = acctest.FromInstanceState(s, resourceNameRDS, "id")
+					if resId2 != resId3 {
+						return fmt.Errorf("updates to updatable parameters: resource %s recreated when it was supposed to be updated", resourceNameRDS)
 					}
 					return err
 				},
