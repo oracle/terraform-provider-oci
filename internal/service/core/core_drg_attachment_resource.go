@@ -517,7 +517,9 @@ func (s *CoreDrgAttachmentResourceCrud) mapToDrgAttachmentNetworkUpdateDetails(f
 		details := oci_core.VcnDrgAttachmentNetworkUpdateDetails{}
 		if routeTableId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "route_table_id")); ok {
 			tmp := routeTableId.(string)
-			details.RouteTableId = &tmp
+			if tmp != "" {
+				details.RouteTableId = &tmp
+			}
 		}
 		if vcnRouteType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn_route_type")); ok {
 			details.VcnRouteType = oci_core.VcnDrgAttachmentNetworkDetailsVcnRouteTypeEnum(vcnRouteType.(string))
