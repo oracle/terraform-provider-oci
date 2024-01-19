@@ -151,6 +151,12 @@ func (s *MarketplacePublicationsDataSourceCrud) SetData() error {
 			"listing_type":   r.ListingType,
 		}
 
+		if r.DefinedTags != nil {
+			publication["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
+		publication["freeform_tags"] = r.FreeformTags
+
 		if r.Icon != nil {
 			publication["icon"] = []interface{}{UploadDataToMap(r.Icon)}
 		} else {
@@ -178,6 +184,10 @@ func (s *MarketplacePublicationsDataSourceCrud) SetData() error {
 			supportedOperatingSystems = append(supportedOperatingSystems, OperatingSystemToMap(item))
 		}
 		publication["supported_operating_systems"] = supportedOperatingSystems
+
+		if r.SystemTags != nil {
+			publication["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			publication["time_created"] = r.TimeCreated.String()
