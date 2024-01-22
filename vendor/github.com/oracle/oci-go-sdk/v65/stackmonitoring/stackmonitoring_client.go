@@ -414,6 +414,69 @@ func (client StackMonitoringClient) changeMonitoredResourceTaskCompartment(ctx c
 	return response, err
 }
 
+// ChangeProcessSetCompartment Moves a ProcessSet resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeProcessSetCompartment.go.html to see an example of how to use ChangeProcessSetCompartment API.
+// A default retry strategy applies to this operation ChangeProcessSetCompartment()
+func (client StackMonitoringClient) ChangeProcessSetCompartment(ctx context.Context, request ChangeProcessSetCompartmentRequest) (response ChangeProcessSetCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeProcessSetCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeProcessSetCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeProcessSetCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeProcessSetCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeProcessSetCompartmentResponse")
+	}
+	return
+}
+
+// changeProcessSetCompartment implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) changeProcessSetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/processSets/{processSetId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeProcessSetCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/ProcessSet/ChangeProcessSetCompartment"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ChangeProcessSetCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateBaselineableMetric Creates the specified Baseline-able metric
 //
 // # See also
@@ -859,6 +922,69 @@ func (client StackMonitoringClient) createMonitoredResourceType(ctx context.Cont
 	return response, err
 }
 
+// CreateProcessSet API to create Process Set.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateProcessSet.go.html to see an example of how to use CreateProcessSet API.
+// A default retry strategy applies to this operation CreateProcessSet()
+func (client StackMonitoringClient) CreateProcessSet(ctx context.Context, request CreateProcessSetRequest) (response CreateProcessSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createProcessSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateProcessSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateProcessSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateProcessSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateProcessSetResponse")
+	}
+	return
+}
+
+// createProcessSet implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) createProcessSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/processSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateProcessSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/ProcessSet/CreateProcessSet"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateProcessSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBaselineableMetric Deletes the Baseline-able metric for the given id
 //
 // # See also
@@ -1200,6 +1326,64 @@ func (client StackMonitoringClient) deleteMonitoredResourceType(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceType/DeleteMonitoredResourceType"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteMonitoredResourceType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteProcessSet Deletes a Process Set
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteProcessSet.go.html to see an example of how to use DeleteProcessSet API.
+// A default retry strategy applies to this operation DeleteProcessSet()
+func (client StackMonitoringClient) DeleteProcessSet(ctx context.Context, request DeleteProcessSetRequest) (response DeleteProcessSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteProcessSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteProcessSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteProcessSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteProcessSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteProcessSetResponse")
+	}
+	return
+}
+
+// deleteProcessSet implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) deleteProcessSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/processSets/{processSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteProcessSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/ProcessSet/DeleteProcessSet"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteProcessSet", apiReferenceLink)
 		return response, err
 	}
 
@@ -1988,6 +2172,64 @@ func (client StackMonitoringClient) getMonitoredResourceType(ctx context.Context
 	return response, err
 }
 
+// GetProcessSet API to get the details of a Process Set by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetProcessSet.go.html to see an example of how to use GetProcessSet API.
+// A default retry strategy applies to this operation GetProcessSet()
+func (client StackMonitoringClient) GetProcessSet(ctx context.Context, request GetProcessSetRequest) (response GetProcessSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getProcessSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetProcessSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetProcessSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetProcessSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetProcessSetResponse")
+	}
+	return
+}
+
+// getProcessSet implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) getProcessSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/processSets/{processSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetProcessSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/ProcessSet/GetProcessSet"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "GetProcessSet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets the status of the work request with the given ID.
 //
 // # See also
@@ -2508,6 +2750,64 @@ func (client StackMonitoringClient) listMonitoredResources(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResource/ListMonitoredResources"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListMonitoredResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListProcessSets API to get the details of all Process Sets.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListProcessSets.go.html to see an example of how to use ListProcessSets API.
+// A default retry strategy applies to this operation ListProcessSets()
+func (client StackMonitoringClient) ListProcessSets(ctx context.Context, request ListProcessSetsRequest) (response ListProcessSetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listProcessSets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListProcessSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListProcessSetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListProcessSetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListProcessSetsResponse")
+	}
+	return
+}
+
+// listProcessSets implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) listProcessSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/processSets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListProcessSetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/ProcessSetCollection/ListProcessSets"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ListProcessSets", apiReferenceLink)
 		return response, err
 	}
 
@@ -3596,6 +3896,64 @@ func (client StackMonitoringClient) updateMonitoredResourceType(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceType/UpdateMonitoredResourceType"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateMonitoredResourceType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateProcessSet API to update a Process Set identified by a given ocid.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateProcessSet.go.html to see an example of how to use UpdateProcessSet API.
+// A default retry strategy applies to this operation UpdateProcessSet()
+func (client StackMonitoringClient) UpdateProcessSet(ctx context.Context, request UpdateProcessSetRequest) (response UpdateProcessSetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateProcessSet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateProcessSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateProcessSetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateProcessSetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateProcessSetResponse")
+	}
+	return
+}
+
+// updateProcessSet implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) updateProcessSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/processSets/{processSetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateProcessSetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/ProcessSet/UpdateProcessSet"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateProcessSet", apiReferenceLink)
 		return response, err
 	}
 
