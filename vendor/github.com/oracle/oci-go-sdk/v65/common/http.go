@@ -1068,6 +1068,11 @@ func responseToStruct(response *http.Response, val *reflect.Value, unmarshaler P
 // Notice the current implementation only supports native types:int, strings, floats, bool as the field types
 func UnmarshalResponse(httpResponse *http.Response, responseStruct interface{}) (err error) {
 
+	// Check for text/event-stream content type, which cannot be Unmarshalled by the SDK
+	if httpResponse != nil && httpResponse.Header != nil && strings.ToLower(httpResponse.Header.Get("content-type")) == "text/event-stream" {
+		return fmt.Errorf("streaming mode is currently not supported. Please use non-streaming mode for this API instead")
+	}
+
 	var val *reflect.Value
 	if val, err = checkForValidResponseStruct(responseStruct); err != nil {
 		return
