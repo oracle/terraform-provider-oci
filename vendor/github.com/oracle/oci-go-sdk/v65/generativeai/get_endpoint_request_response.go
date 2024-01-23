@@ -14,7 +14,7 @@ import (
 // GetEndpointRequest wrapper for the GetEndpoint operation
 type GetEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Endpoint.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	EndpointId *string `mandatory:"true" contributesTo:"path" name:"endpointId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

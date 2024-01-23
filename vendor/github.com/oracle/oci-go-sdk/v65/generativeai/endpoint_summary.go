@@ -2,10 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Generative AI Service API
+// Generative AI Service Management API
 //
-// **Generative AI Service**
-// OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable LLMs that cover a wide range of use cases for text generation. Use the playground to try out the models out-of-the-box or create and host your own fine-tuned custom models based on your own data on dedicated AI clusters.
+// OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable large language models (LLMs) that cover a wide range of use cases for text generation, summarization, and text embeddings.
+// Use the Generative AI service management API to create and manage DedicatedAiCluster, Endpoint, Model, and WorkRequest in the Generative AI service. For example, create a custom model by fine-tuning an out-of-the-box model using your own data, on a fine-tuning dedicated AI cluster. Then, create a hosting dedicated AI cluster with an endpoint to host your custom model.
+// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.cloud.oracle.com/#/en/generative-ai-inference/latest/).
+// To learn more about the service, see the Generative AI documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai/home.htm).
 //
 
 package generativeai
@@ -16,26 +18,32 @@ import (
 	"strings"
 )
 
-// EndpointSummary **EndpointSummary**
-// Summary information for an endpoint resource.
+// EndpointSummary Summary information for an endpoint resource.
 type EndpointSummary struct {
 
 	// An OCID that uniquely identifies this endpoint resource.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ID of the model that's used to create this endpoint.
+	// The OCID of the model that's used to create this endpoint.
 	ModelId *string `mandatory:"true" json:"modelId"`
 
 	// The compartment OCID to create the endpoint in.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The ID of the dedicated AI cluster on which a model will be deployed to.
+	// The OCID of the dedicated AI cluster on which a model will be deployed to.
 	DedicatedAiClusterId *string `mandatory:"true" json:"dedicatedAiClusterId"`
 
-	// The time the endpoint was created in the format of an RFC3339 datetime string.
+	// The date and time that the endpoint was created in the format of an RFC3339 datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state of the endpoint.
+	// Allowed values are:
+	// - ACTIVE
+	// - CREATING
+	// - UPDATING
+	// - DELETING
+	// - DELETED
+	// - FAILED
 	LifecycleState EndpointLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -44,10 +52,10 @@ type EndpointSummary struct {
 	// An optional description of the endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The time the endpoint was updated in the format of n RFC3339 datetime string.
+	// The date and time the endpoint was updated in the format of n RFC3339 datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A message describing the current state in more detail that can provide actionable information.
+	// A message describing the current state with detail that can provide actionable information.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	ContentModerationConfig *ContentModerationConfig `mandatory:"false" json:"contentModerationConfig"`

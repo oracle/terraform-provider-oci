@@ -2,10 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Generative AI Service API
+// Generative AI Service Management API
 //
-// **Generative AI Service**
-// OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable LLMs that cover a wide range of use cases for text generation. Use the playground to try out the models out-of-the-box or create and host your own fine-tuned custom models based on your own data on dedicated AI clusters.
+// OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable large language models (LLMs) that cover a wide range of use cases for text generation, summarization, and text embeddings.
+// Use the Generative AI service management API to create and manage DedicatedAiCluster, Endpoint, Model, and WorkRequest in the Generative AI service. For example, create a custom model by fine-tuning an out-of-the-box model using your own data, on a fine-tuning dedicated AI cluster. Then, create a hosting dedicated AI cluster with an endpoint to host your custom model.
+// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.cloud.oracle.com/#/en/generative-ai-inference/latest/).
+// To learn more about the service, see the Generative AI documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai/home.htm).
 //
 
 package generativeai
@@ -17,8 +19,7 @@ import (
 	"strings"
 )
 
-// TrainingConfig **TrainingConfig**
-// The configuration that instructs the fine-tuning.
+// TrainingConfig The fine-tuning method and hyperparameters used for fine-tuning a custom model.
 type TrainingConfig interface {
 
 	// The maximum number of training epochs to run for.
@@ -36,8 +37,8 @@ type TrainingConfig interface {
 	// How much the loss must improve to prevent early stopping.
 	GetEarlyStoppingThreshold() *float64
 
-	// Determine how frequently to log model metrics.
-	// First 20 steps will be logged every step and then will follow this parameter frequency. Set to 0 to disable it.
+	// Determines how frequently to log model metrics.
+	// Every step is logged for the first 20 steps and then follows this parameter for log frequency. Set to 0 to disable logging the model metrics.
 	GetLogModelMetricsIntervalInSteps() *int
 }
 

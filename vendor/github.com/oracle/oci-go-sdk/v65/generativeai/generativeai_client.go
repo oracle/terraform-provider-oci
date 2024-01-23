@@ -2,10 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Generative AI Service API
+// Generative AI Service Management API
 //
-// **Generative AI Service**
-// OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable LLMs that cover a wide range of use cases for text generation. Use the playground to try out the models out-of-the-box or create and host your own fine-tuned custom models based on your own data on dedicated AI clusters.
+// OCI Generative AI is a fully managed service that provides a set of state-of-the-art, customizable large language models (LLMs) that cover a wide range of use cases for text generation, summarization, and text embeddings.
+// Use the Generative AI service management API to create and manage DedicatedAiCluster, Endpoint, Model, and WorkRequest in the Generative AI service. For example, create a custom model by fine-tuning an out-of-the-box model using your own data, on a fine-tuning dedicated AI cluster. Then, create a hosting dedicated AI cluster with an endpoint to host your custom model.
+// To access your custom model endpoints, or to try the out-of-the-box models to generate text, summarize, and create text embeddings see the Generative AI Inference API (https://docs.cloud.oracle.com/#/en/generative-ai-inference/latest/).
+// To learn more about the service, see the Generative AI documentation (https://docs.cloud.oracle.com/iaas/Content/generative-ai/home.htm).
 //
 
 package generativeai
@@ -92,9 +94,7 @@ func (client *GenerativeAiClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// ChangeDedicatedAiClusterCompartment **ChangeDedicatedAiClusterCompartment**
-// Moves a dedicated AI cluster into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeDedicatedAiClusterCompartment Moves a dedicated AI cluster into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeDedicatedAiClusterCompartment()
 func (client GenerativeAiClient) ChangeDedicatedAiClusterCompartment(ctx context.Context, request ChangeDedicatedAiClusterCompartmentRequest) (response ChangeDedicatedAiClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -144,7 +144,7 @@ func (client GenerativeAiClient) changeDedicatedAiClusterCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/ChangeDedicatedAiClusterCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeDedicatedAiClusterCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -153,9 +153,7 @@ func (client GenerativeAiClient) changeDedicatedAiClusterCompartment(ctx context
 	return response, err
 }
 
-// ChangeEndpointCompartment **ChangeEndpointCompartment**
-// Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between
-// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeEndpointCompartment()
 func (client GenerativeAiClient) ChangeEndpointCompartment(ctx context.Context, request ChangeEndpointCompartmentRequest) (response ChangeEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -205,7 +203,7 @@ func (client GenerativeAiClient) changeEndpointCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/ChangeEndpointCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -214,8 +212,7 @@ func (client GenerativeAiClient) changeEndpointCompartment(ctx context.Context, 
 	return response, err
 }
 
-// ChangeModelCompartment **ChangeModelCompartment**
-// Moves a custom model into a different compartment.
+// ChangeModelCompartment Moves a custom model into a different compartment. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeModelCompartment()
 func (client GenerativeAiClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -265,7 +262,7 @@ func (client GenerativeAiClient) changeModelCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/ChangeModelCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeModelCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -274,8 +271,7 @@ func (client GenerativeAiClient) changeModelCompartment(ctx context.Context, req
 	return response, err
 }
 
-// CreateDedicatedAiCluster **CreateDedicatedAiCluster**
-// Creates a dedicated AI cluster.
+// CreateDedicatedAiCluster Creates a dedicated AI cluster.
 // A default retry strategy applies to this operation CreateDedicatedAiCluster()
 func (client GenerativeAiClient) CreateDedicatedAiCluster(ctx context.Context, request CreateDedicatedAiClusterRequest) (response CreateDedicatedAiClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -325,7 +321,7 @@ func (client GenerativeAiClient) createDedicatedAiCluster(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/CreateDedicatedAiCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateDedicatedAiCluster", apiReferenceLink)
 		return response, err
 	}
@@ -334,9 +330,8 @@ func (client GenerativeAiClient) createDedicatedAiCluster(ctx context.Context, r
 	return response, err
 }
 
-// CreateEndpoint **CreateEndpoint**
-// Creates an endpoint.
-// Headers contain opc-work-request-id that identifies a WorkRequest which tracks the Endpoint creation progress.
+// CreateEndpoint Creates an endpoint.
+// The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the endpoint creation progress.
 // A default retry strategy applies to this operation CreateEndpoint()
 func (client GenerativeAiClient) CreateEndpoint(ctx context.Context, request CreateEndpointRequest) (response CreateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -386,7 +381,7 @@ func (client GenerativeAiClient) createEndpoint(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/CreateEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -395,9 +390,8 @@ func (client GenerativeAiClient) createEndpoint(ctx context.Context, request com
 	return response, err
 }
 
-// CreateModel **CreateModel**
-// Creates a custom model to use for fine-tuning.
-// Headers contain opc-work-request-id that identifies a WorkRequest which tracks the Model creation progress.
+// CreateModel Creates a custom model by fine-tuning a base model with your own dataset. You can create a new custom models or create a new version of existing custom model..
+// The header contains an opc-work-request-id, which is the id for the WorkRequest that tracks the model creation progress.
 // A default retry strategy applies to this operation CreateModel()
 func (client GenerativeAiClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -447,7 +441,7 @@ func (client GenerativeAiClient) createModel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/CreateModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateModel", apiReferenceLink)
 		return response, err
 	}
@@ -456,9 +450,8 @@ func (client GenerativeAiClient) createModel(ctx context.Context, request common
 	return response, err
 }
 
-// DeleteDedicatedAiCluster **DeleteDedicatedAiCluster**
-// Deletes a dedicated AI cluster.
-// You can only delete clusters without attached resources. Before you delete a dedicated AI cluster, you must delete the hosted models or endpoints attached to that cluster. The delete action permanently deletes the cluster. This action can't be undone.
+// DeleteDedicatedAiCluster Deletes a dedicated AI cluster.
+// You can only delete clusters without attached resources. Before you delete a hosting dedicated AI cluster, you must delete the endpoints associated to that cluster. Before you delete a fine-tuning dedicated AI cluster, you must delete the custom model on that cluster. The delete action permanently deletes the cluster. This action can't be undone.
 // A default retry strategy applies to this operation DeleteDedicatedAiCluster()
 func (client GenerativeAiClient) DeleteDedicatedAiCluster(ctx context.Context, request DeleteDedicatedAiClusterRequest) (response DeleteDedicatedAiClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -503,7 +496,7 @@ func (client GenerativeAiClient) deleteDedicatedAiCluster(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/DeleteDedicatedAiCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteDedicatedAiCluster", apiReferenceLink)
 		return response, err
 	}
@@ -512,8 +505,7 @@ func (client GenerativeAiClient) deleteDedicatedAiCluster(ctx context.Context, r
 	return response, err
 }
 
-// DeleteEndpoint **DeleteEndpoint**
-// Deletes an endpoint.
+// DeleteEndpoint Deletes an endpoint.
 // A default retry strategy applies to this operation DeleteEndpoint()
 func (client GenerativeAiClient) DeleteEndpoint(ctx context.Context, request DeleteEndpointRequest) (response DeleteEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -558,7 +550,7 @@ func (client GenerativeAiClient) deleteEndpoint(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/DeleteEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -567,8 +559,7 @@ func (client GenerativeAiClient) deleteEndpoint(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteModel **DeleteModel**
-// Deletes a custom model. A model shouldn't be deleted if there's one or more active endpoints associated with the model.
+// DeleteModel Deletes a custom model. A model shouldn't be deleted if there's one or more active endpoints associated with that model.
 // A default retry strategy applies to this operation DeleteModel()
 func (client GenerativeAiClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -613,7 +604,7 @@ func (client GenerativeAiClient) deleteModel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/DeleteModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteModel", apiReferenceLink)
 		return response, err
 	}
@@ -622,8 +613,7 @@ func (client GenerativeAiClient) deleteModel(ctx context.Context, request common
 	return response, err
 }
 
-// GetDedicatedAiCluster **GetDedicatedAiCluster**
-// Gets information about a dedicated AI cluster.
+// GetDedicatedAiCluster Gets information about a dedicated AI cluster.
 // A default retry strategy applies to this operation GetDedicatedAiCluster()
 func (client GenerativeAiClient) GetDedicatedAiCluster(ctx context.Context, request GetDedicatedAiClusterRequest) (response GetDedicatedAiClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -668,7 +658,7 @@ func (client GenerativeAiClient) getDedicatedAiCluster(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/GetDedicatedAiCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetDedicatedAiCluster", apiReferenceLink)
 		return response, err
 	}
@@ -677,8 +667,7 @@ func (client GenerativeAiClient) getDedicatedAiCluster(ctx context.Context, requ
 	return response, err
 }
 
-// GetEndpoint **GetEndpoint**
-// Gets information about an endpoint.
+// GetEndpoint Gets information about an endpoint.
 // A default retry strategy applies to this operation GetEndpoint()
 func (client GenerativeAiClient) GetEndpoint(ctx context.Context, request GetEndpointRequest) (response GetEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -723,7 +712,7 @@ func (client GenerativeAiClient) getEndpoint(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/GetEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -732,8 +721,7 @@ func (client GenerativeAiClient) getEndpoint(ctx context.Context, request common
 	return response, err
 }
 
-// GetModel **GetModel**
-// Gets information about a custom model.
+// GetModel Gets information about a custom model.
 // A default retry strategy applies to this operation GetModel()
 func (client GenerativeAiClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -778,7 +766,7 @@ func (client GenerativeAiClient) getModel(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/GetModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetModel", apiReferenceLink)
 		return response, err
 	}
@@ -787,8 +775,7 @@ func (client GenerativeAiClient) getModel(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetWorkRequest **GetWorkRequest**
-// Gets the details of a work request.
+// GetWorkRequest Gets the details of a work request.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client GenerativeAiClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -833,7 +820,7 @@ func (client GenerativeAiClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -842,8 +829,7 @@ func (client GenerativeAiClient) getWorkRequest(ctx context.Context, request com
 	return response, err
 }
 
-// ListDedicatedAiClusters **ListDedicatedAiClusters**
-// Lists the dedicated AI clusters in a specific compartment.
+// ListDedicatedAiClusters Lists the dedicated AI clusters in a specific compartment.
 // A default retry strategy applies to this operation ListDedicatedAiClusters()
 func (client GenerativeAiClient) ListDedicatedAiClusters(ctx context.Context, request ListDedicatedAiClustersRequest) (response ListDedicatedAiClustersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -888,7 +874,7 @@ func (client GenerativeAiClient) listDedicatedAiClusters(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiClusterCollection/ListDedicatedAiClusters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListDedicatedAiClusters", apiReferenceLink)
 		return response, err
 	}
@@ -897,8 +883,7 @@ func (client GenerativeAiClient) listDedicatedAiClusters(ctx context.Context, re
 	return response, err
 }
 
-// ListEndpoints **ListEndpoints**
-// List the endpoints of a specific compartment.
+// ListEndpoints Lists the endpoints of a specific compartment.
 // A default retry strategy applies to this operation ListEndpoints()
 func (client GenerativeAiClient) ListEndpoints(ctx context.Context, request ListEndpointsRequest) (response ListEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -943,7 +928,7 @@ func (client GenerativeAiClient) listEndpoints(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/EndpointCollection/ListEndpoints"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -952,9 +937,7 @@ func (client GenerativeAiClient) listEndpoints(ctx context.Context, request comm
 	return response, err
 }
 
-// ListModels **ListModels**
-// Lists the models in a specific compartment. Includes both pretrained base models and fine-tuned custom models.
-// ModelCollection is to conform to OCI API consistency guidelines.
+// ListModels Lists the models in a specific compartment. Includes pretrained base models and fine-tuned custom models.
 // A default retry strategy applies to this operation ListModels()
 func (client GenerativeAiClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -999,7 +982,7 @@ func (client GenerativeAiClient) listModels(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ModelCollection/ListModels"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListModels", apiReferenceLink)
 		return response, err
 	}
@@ -1008,8 +991,7 @@ func (client GenerativeAiClient) listModels(ctx context.Context, request common.
 	return response, err
 }
 
-// ListWorkRequestErrors **ListWorkRequestErrors**
-// Lists the errors for a work request.
+// ListWorkRequestErrors Lists the errors for a work request.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client GenerativeAiClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1054,7 +1036,7 @@ func (client GenerativeAiClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1063,8 +1045,7 @@ func (client GenerativeAiClient) listWorkRequestErrors(ctx context.Context, requ
 	return response, err
 }
 
-// ListWorkRequestLogs **ListWorkRequestLogs**
-// Lists the logs for a work request.
+// ListWorkRequestLogs Lists the logs for a work request.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client GenerativeAiClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1109,7 +1090,7 @@ func (client GenerativeAiClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1118,8 +1099,7 @@ func (client GenerativeAiClient) listWorkRequestLogs(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequests **ListWorkRequests**
-// Lists the work requests in a compartment.
+// ListWorkRequests Lists the work requests in a compartment.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client GenerativeAiClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1164,7 +1144,7 @@ func (client GenerativeAiClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1173,8 +1153,7 @@ func (client GenerativeAiClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateDedicatedAiCluster **UpdateDedicatedAiCluster**
-// Updates a dedicated AI cluster.
+// UpdateDedicatedAiCluster Updates a dedicated AI cluster.
 // A default retry strategy applies to this operation UpdateDedicatedAiCluster()
 func (client GenerativeAiClient) UpdateDedicatedAiCluster(ctx context.Context, request UpdateDedicatedAiClusterRequest) (response UpdateDedicatedAiClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1219,7 +1198,7 @@ func (client GenerativeAiClient) updateDedicatedAiCluster(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/UpdateDedicatedAiCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateDedicatedAiCluster", apiReferenceLink)
 		return response, err
 	}
@@ -1228,8 +1207,7 @@ func (client GenerativeAiClient) updateDedicatedAiCluster(ctx context.Context, r
 	return response, err
 }
 
-// UpdateEndpoint **UpdateEndpoint**
-// Updates the properties of an endpoint.
+// UpdateEndpoint Updates the properties of an endpoint.
 // A default retry strategy applies to this operation UpdateEndpoint()
 func (client GenerativeAiClient) UpdateEndpoint(ctx context.Context, request UpdateEndpointRequest) (response UpdateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1274,7 +1252,7 @@ func (client GenerativeAiClient) updateEndpoint(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/UpdateEndpoint"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1283,8 +1261,7 @@ func (client GenerativeAiClient) updateEndpoint(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateModel **UpdateModel**
-// Updates the properties of a custom model such as name, description, freeform tags and defined tags.
+// UpdateModel Updates the properties of a custom model such as name, description, version, freeform tags, and defined tags.
 // A default retry strategy applies to this operation UpdateModel()
 func (client GenerativeAiClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1329,7 +1306,7 @@ func (client GenerativeAiClient) updateModel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/UpdateModel"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateModel", apiReferenceLink)
 		return response, err
 	}

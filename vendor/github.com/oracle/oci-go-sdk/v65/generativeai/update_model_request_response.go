@@ -14,10 +14,10 @@ import (
 // UpdateModelRequest wrapper for the UpdateModel operation
 type UpdateModelRequest struct {
 
-	// model OCID
+	// The model OCID
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
-	// The information to be updated.
+	// The model information to be updated.
 	UpdateModelDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

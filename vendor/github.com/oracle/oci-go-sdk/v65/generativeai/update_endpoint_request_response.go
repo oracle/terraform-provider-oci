@@ -14,7 +14,7 @@ import (
 // UpdateEndpointRequest wrapper for the UpdateEndpoint operation
 type UpdateEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Endpoint.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	EndpointId *string `mandatory:"true" contributesTo:"path" name:"endpointId"`
 
 	// The information to be updated.

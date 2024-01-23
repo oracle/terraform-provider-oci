@@ -14,7 +14,7 @@ import (
 // DeleteModelRequest wrapper for the DeleteModel operation
 type DeleteModelRequest struct {
 
-	// model OCID
+	// The model OCID
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

@@ -14,7 +14,7 @@ import (
 // ChangeModelCompartmentRequest wrapper for the ChangeModelCompartment operation
 type ChangeModelCompartmentRequest struct {
 
-	// model OCID
+	// The model OCID
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// The information to be updated.

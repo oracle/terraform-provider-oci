@@ -14,10 +14,10 @@ import (
 // ChangeEndpointCompartmentRequest wrapper for the ChangeEndpointCompartment operation
 type ChangeEndpointCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Endpoint.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	EndpointId *string `mandatory:"true" contributesTo:"path" name:"endpointId"`
 
-	// The information to be updated.
+	// The endpoint information to be updated.
 	ChangeEndpointCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the

@@ -14,7 +14,7 @@ import (
 // GetModelRequest wrapper for the GetModel operation
 type GetModelRequest struct {
 
-	// model OCID
+	// The model OCID
 	ModelId *string `mandatory:"true" contributesTo:"path" name:"modelId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

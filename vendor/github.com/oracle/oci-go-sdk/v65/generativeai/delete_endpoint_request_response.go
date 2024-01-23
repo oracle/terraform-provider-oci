@@ -14,7 +14,7 @@ import (
 // DeleteEndpointRequest wrapper for the DeleteEndpoint operation
 type DeleteEndpointRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Endpoint.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 	EndpointId *string `mandatory:"true" contributesTo:"path" name:"endpointId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the
