@@ -1,4 +1,4 @@
-## 5.26.0 (Unreleased)
+## 5.26.0 (January 24, 2024)
 
 ### Added
 - Support for Stack Monitoring: Monitoring Custom Apps using Process Monitoring
