@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -75,6 +75,11 @@ func (s *ResourceCoreDrgAttachmentTestSuite) TestAccResourceCoreDrgAttachment_ba
 					drg_id = "${oci_core_drg.t.id}"
 					vcn_id = "${oci_core_virtual_network.t.id}"
 					display_name = "-tf-drg-attachment"
+					network_details = {
+						id              = "${oci_core_virtual_network.t.id}"
+						type            = "VCN"
+						vcn_route_type  = "VCN_CIDRS"
+					}
 				}`,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(s.ResourceName, "display_name", "-tf-drg-attachment"),

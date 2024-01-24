@@ -1,3 +1,12 @@
+## 5.26.0 (January 24, 2024)
+
+### Added
+- Support for Stack Monitoring: Monitoring Custom Apps using Process Monitoring
+- Support for Oracle Cloud AI Service Generative AI Services
+- Support for International Expansion of Paid Listings - Phase 3
+### Bug Fix
+- Fix update drg attachment when vcn_route_type provided
+
 ## 5.25.0 (January 17, 2024)
 
 ### Added

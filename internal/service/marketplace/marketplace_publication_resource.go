@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package marketplace
@@ -255,6 +255,11 @@ func MarketplacePublicationResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -562,6 +567,10 @@ func (s *MarketplacePublicationResourceCrud) SetData() error {
 		supportedOperatingSystems = append(supportedOperatingSystems, OperatingSystemToMap(item))
 	}
 	s.D.Set("supported_operating_systems", supportedOperatingSystems)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())

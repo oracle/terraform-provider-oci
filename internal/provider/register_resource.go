@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package provider
@@ -53,6 +53,7 @@ import (
 	tf_file_storage "github.com/oracle/terraform-provider-oci/internal/service/file_storage"
 	tf_functions "github.com/oracle/terraform-provider-oci/internal/service/functions"
 	tf_fusion_apps "github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
+	tf_generative_ai "github.com/oracle/terraform-provider-oci/internal/service/generative_ai"
 	tf_generic_artifacts_content "github.com/oracle/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_golden_gate "github.com/oracle/terraform-provider-oci/internal/service/golden_gate"
 	tf_health_checks "github.com/oracle/terraform-provider-oci/internal/service/health_checks"
@@ -264,6 +265,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("fusionapps") {
 		tf_fusion_apps.RegisterResource()
+	}
+	if common.CheckForEnabledServices("generativeai") {
+		tf_generative_ai.RegisterResource()
 	}
 	if common.CheckForEnabledServices("genericartifactscontent") {
 		tf_generic_artifacts_content.RegisterResource()

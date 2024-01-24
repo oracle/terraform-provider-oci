@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package core
@@ -432,7 +432,9 @@ func (s *CoreDrgAttachmentManagementResourceCrud) mapToDrgAttachmentNetworkUpdat
 		details := oci_core.VcnDrgAttachmentNetworkUpdateDetails{}
 		if routeTableId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "route_table_id")); ok {
 			tmp := routeTableId.(string)
-			details.RouteTableId = &tmp
+			if tmp != "" {
+				details.RouteTableId = &tmp
+			}
 		}
 		if details.RouteTableId != nil && *details.RouteTableId != "" {
 			baseObject = details

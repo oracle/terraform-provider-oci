@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -292,6 +292,8 @@ func TestMarketplacePublicationResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "publications.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "publications.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "publications.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "publications.0.icon.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "publications.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "publications.0.listing_type", "COMMUNITY"),
 				resource.TestCheckResourceAttr(datasourceName, "publications.0.name", "name2"),

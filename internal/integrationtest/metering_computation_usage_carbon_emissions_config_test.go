@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -43,7 +43,6 @@ func TestMeteringComputationUsageCarbonEmissionsConfigResource_basic(t *testing.
 		// verify singular datasource
 		{
 			Config: config + tenancyIdVariableStr +
-
 				acctest.GenerateDataSourceFromRepresentationMap("oci_metering_computation_usage_carbon_emissions_config", "test_usage_carbon_emissions_config", acctest.Required, acctest.Create, MeteringComputationUsageCarbonEmissionsConfigSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + MeteringComputationUsageCarbonEmissionsConfigResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
