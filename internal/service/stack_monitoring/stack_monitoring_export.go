@@ -118,12 +118,25 @@ var exportStackMonitoringBaselineableMetricHints = &tf_export.TerraformResourceH
 	},
 }
 
+var exportStackMonitoringProcessSetHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_process_set",
+	DatasourceClass:        "oci_stack_monitoring_process_sets",
+	DatasourceItemsAttr:    "process_set_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "process_set",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.LifecycleStateActive),
+	},
+}
+
 var stackMonitoringResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportStackMonitoringDiscoveryJobHints},
 		{TerraformResourceHints: exportStackMonitoringConfigHints},
 		{TerraformResourceHints: exportStackMonitoringMetricExtensionHints},
 		{TerraformResourceHints: exportStackMonitoringBaselineableMetricHints},
+		{TerraformResourceHints: exportStackMonitoringProcessSetHints},
 	},
 	"oci_stack_monitoring_monitored_resource": {
 		{

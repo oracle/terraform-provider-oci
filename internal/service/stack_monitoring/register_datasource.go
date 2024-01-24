@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package stack_monitoring
@@ -22,4 +22,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_tasks", StackMonitoringMonitoredResourceTasksDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_type", StackMonitoringMonitoredResourceTypeDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_types", StackMonitoringMonitoredResourceTypesDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_process_set", StackMonitoringProcessSetDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_process_sets", StackMonitoringProcessSetsDataSource())
 }

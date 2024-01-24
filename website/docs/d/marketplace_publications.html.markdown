@@ -70,5 +70,6 @@ The following attributes are exported:
 	* `subject` - The email subject line to use when contacting support.
 * `supported_operating_systems` - The list of operating systems supported by the listing.
 	* `name` - The name of the operating system.
+* `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `time_created` - The date and time the publication was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
