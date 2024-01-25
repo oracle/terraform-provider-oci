@@ -17,7 +17,8 @@ import (
 
 var (
 	DatabaseManagementDatabaseManagementManagedDatabaseSqlPlanBaselineConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
+		"managed_database_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
+		"opc_named_credential_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.opc_named_credential_id}`},
 	}
 
 	DatabaseManagementManagedDatabaseSqlPlanBaselineConfigurationResourceConfig = ""
@@ -30,11 +31,14 @@ func TestDatabaseManagementManagedDatabaseSqlPlanBaselineConfigurationResource_b
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	managedDbId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
-	managedDbIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", managedDbId)
+	managedDbId := utils.GetEnvSettingWithBlankDefault("dbmgmt_managed_database_id")
+	managedDbIdVariableStr := fmt.Sprintf("variable \"managed_database_id\" { default = \"%s\" }\n", managedDbId)
+
+	opcNamedCredentialId := utils.GetEnvSettingWithBlankDefault("dbmgmt_named_credential_id")
+	opcNamedCredentialIdStr := fmt.Sprintf("variable \"opc_named_credential_id\" { default = \"%s\" }\n", opcNamedCredentialId)
 
 	singularDatasourceName := "data.oci_database_management_managed_database_sql_plan_baseline_configuration.test_managed_database_sql_plan_baseline_configuration"
 
@@ -59,6 +63,16 @@ func TestDatabaseManagementManagedDatabaseSqlPlanBaselineConfigurationResource_b
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "space_budget_mb"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "space_budget_percent"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "space_used_mb"),
+			),
+		},
+		// verify datasource with named credential
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_plan_baseline_configuration", "test_managed_database_sql_plan_baseline_configuration", acctest.Optional, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSqlPlanBaselineConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managedDbIdVariableStr + opcNamedCredentialIdStr + DatabaseManagementManagedDatabaseSqlPlanBaselineConfigurationResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "opc_named_credential_id"),
 			),
 		},
 	})

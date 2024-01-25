@@ -23,6 +23,7 @@ data "oci_database_management_managed_databases_database_parameters" "test_manag
 	#Optional
 	is_allowed_values_included = var.managed_databases_database_parameter_is_allowed_values_included
 	name = var.managed_databases_database_parameter_name
+	opc_named_credential_id = var.managed_databases_database_parameter_opc_named_credential_id
 	source = var.managed_databases_database_parameter_source
 }
 ```
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `is_allowed_values_included` - (Optional) When true, results include a list of valid values for parameters (if applicable). 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `name` - (Optional) A filter to return all parameters that have the text given in their names. 
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `source` - (Optional) The source used to list database parameters. `CURRENT` is used to get the database parameters that are currently in effect for the database instance. `SPFILE` is used to list parameters from the server parameter file. Default is `CURRENT`. 
 
 

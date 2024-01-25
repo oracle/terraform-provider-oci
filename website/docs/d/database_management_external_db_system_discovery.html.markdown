@@ -69,6 +69,13 @@ The following attributes are exported:
 					* `port` - The port used to connect to the ASM instance.
 					* `protocol` - The protocol used to connect to the ASM instance.
 					* `service` - The service name of the ASM instance.
+				* `database_credential` - The credential to connect to the database to perform tablespace administration tasks.
+					* `credential_type` - The type of the credential for tablespace administration tasks.
+					* `named_credential_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential where the database password metadata is stored. 
+					* `password` - The database user's password encoded using BASE64 scheme.
+					* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database password is stored. 
+					* `role` - The role of the database user.
+					* `username` - The user to connect to the database.
 			* `connection_status` - The status of connectivity to the external DB system component.
 			* `connector_type` - The type of connector.
 			* `display_name` - The user-friendly name for the external connector. The name does not have to be unique.
@@ -100,6 +107,13 @@ The following attributes are exported:
 				* `port` - The port used to connect to the ASM instance.
 				* `protocol` - The protocol used to connect to the ASM instance.
 				* `service` - The service name of the ASM instance.
+			* `database_credential` - The credential to connect to the database to perform tablespace administration tasks.
+				* `credential_type` - The type of the credential for tablespace administration tasks.
+				* `named_credential_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential where the database password metadata is stored. 
+				* `password` - The database user's password encoded using BASE64 scheme.
+				* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database password is stored. 
+				* `role` - The role of the database user.
+				* `username` - The user to connect to the database.
 		* `connection_status` - The status of connectivity to the external DB system component.
 		* `connector_type` - The type of connector.
 		* `display_name` - The user-friendly name for the external connector. The name does not have to be unique.
@@ -164,6 +178,13 @@ The following attributes are exported:
 					* `port` - The port used to connect to the ASM instance.
 					* `protocol` - The protocol used to connect to the ASM instance.
 					* `service` - The service name of the ASM instance.
+				* `database_credential` - The credential to connect to the database to perform tablespace administration tasks.
+					* `credential_type` - The type of the credential for tablespace administration tasks.
+					* `named_credential_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential where the database password metadata is stored. 
+					* `password` - The database user's password encoded using BASE64 scheme.
+					* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database password is stored. 
+					* `role` - The role of the database user.
+					* `username` - The user to connect to the database.
 			* `connection_status` - The status of connectivity to the external DB system component.
 			* `connector_type` - The type of connector.
 			* `display_name` - The user-friendly name for the external connector. The name does not have to be unique.

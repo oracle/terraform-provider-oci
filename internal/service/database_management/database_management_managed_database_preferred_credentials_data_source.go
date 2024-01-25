@@ -45,6 +45,10 @@ func DatabaseManagementManagedDatabasePreferredCredentialsDataSource() *schema.R
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"named_credential_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"password_secret_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -149,6 +153,10 @@ func PreferredCredentialSummaryToMap(obj oci_database_management.PreferredCreden
 
 	if obj.IsAccessible != nil {
 		result["is_accessible"] = bool(*obj.IsAccessible)
+	}
+
+	if obj.NamedCredentialId != nil {
+		result["named_credential_id"] = string(*obj.NamedCredentialId)
 	}
 
 	if obj.PasswordSecretId != nil {

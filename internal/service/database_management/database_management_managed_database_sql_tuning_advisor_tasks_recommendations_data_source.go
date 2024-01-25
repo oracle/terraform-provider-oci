@@ -28,6 +28,10 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationsDataSo
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"sql_object_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -134,6 +138,11 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksRecommendationsDa
 	if managedDatabaseId, ok := s.D.GetOkExists("managed_database_id"); ok {
 		tmp := managedDatabaseId.(string)
 		request.ManagedDatabaseId = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	if sqlObjectId, ok := s.D.GetOkExists("sql_object_id"); ok {
