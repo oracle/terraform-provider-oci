@@ -570,11 +570,6 @@ func (s *DatabaseVmClusterNetworkResourceCrud) Update() error {
 
 	}
 
-	if s.D.Get("state").(string) == string(oci_database.VmClusterNetworkLifecycleStateValidated) ||
-		s.D.Get("state").(string) == string(oci_database.VmClusterNetworkLifecycleStateAllocated) {
-		return fmt.Errorf("Update not allowed on validated vm cluster network")
-	}
-
 	request := oci_database.UpdateVmClusterNetworkRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
