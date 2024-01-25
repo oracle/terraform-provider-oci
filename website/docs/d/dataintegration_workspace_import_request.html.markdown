@@ -35,6 +35,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `are_data_asset_references_included` - This field controls if the data asset references will be included during import.
 * `bucket` - The name of the Object Storage Bucket where the objects will be imported from
 * `created_by` - Name of the user who initiated import request.
 * `error_messages` - Contains key of the error
