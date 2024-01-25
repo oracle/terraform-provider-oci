@@ -26,7 +26,7 @@ data "oci_objectstorage_namespace" "ns" {
 }
 
 # Sample create entity with required parameters.
-resource "oci_log_analytics_log_analytics_entity" "entityRequired" {
+resource "oci_log_analytics_log_analytics_entity" "entityTopologyRequired" {
   compartment_id          = var.compartment_ocid
   namespace               = data.oci_objectstorage_namespace.ns.namespace
   name                    = "tf-entity-example-topo-req"
@@ -36,12 +36,27 @@ resource "oci_log_analytics_log_analytics_entity" "entityRequired" {
 # Get entity topo details of above created entity with required parameters
 data "oci_log_analytics_log_analytics_entity_topology" "entityTopoRequiredDetails" {
   namespace               = data.oci_objectstorage_namespace.ns.namespace
-  log_analytics_entity_id = oci_log_analytics_log_analytics_entity.entityRequired.id
+  log_analytics_entity_id = oci_log_analytics_log_analytics_entity.entityTopologyRequired.id
 }
 
 # Get entity topo details of above created entity with required parameters
 data "oci_log_analytics_log_analytics_entity_topology" "entityTopoOptionalDetails" {
   namespace               = data.oci_objectstorage_namespace.ns.namespace
-  log_analytics_entity_id = oci_log_analytics_log_analytics_entity.entityRequired.id
+  log_analytics_entity_id = oci_log_analytics_log_analytics_entity.entityTopologyRequired.id
   state                   = "ACTIVE"
+}
+
+# Sample create entity with optional parameters
+resource "oci_log_analytics_log_analytics_entity" "entityTopologyOptional" {
+  compartment_id          = var.compartment_ocid
+  namespace               = data.oci_objectstorage_namespace.ns.namespace
+  name                    = "tf-entity-example-opt"
+  entity_type_name        = "Host (Linux)"
+  metadata {
+    items {
+      name      = "environment"
+      type     = "infrastructure"
+      value    = "test"
+    }
+  }
 }

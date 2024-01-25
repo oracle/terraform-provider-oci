@@ -38,6 +38,10 @@ func LogAnalyticsNamespaceRulesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_service": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"rule_summary_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -97,6 +101,10 @@ func LogAnalyticsNamespaceRulesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"target_service": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -164,6 +172,11 @@ func (s *LogAnalyticsNamespaceRulesDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_log_analytics.ListRulesLifecycleStateEnum(state.(string))
+	}
+
+	if targetService, ok := s.D.GetOkExists("target_service"); ok {
+		tmp := targetService.(string)
+		request.TargetService = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
@@ -251,6 +264,10 @@ func RuleSummaryToMap(obj oci_log_analytics.RuleSummary) map[string]interface{} 
 	result["last_execution_status"] = string(obj.LastExecutionStatus)
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.TargetService != nil {
+		result["target_service"] = string(*obj.TargetService)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

@@ -103,6 +103,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
 
+	if s.Res.IsForceHistoricCollection != nil {
+		s.D.Set("is_force_historic_collection", *s.Res.IsForceHistoricCollection)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -124,6 +128,8 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleDataSourceCrud) SetData() e
 	if s.Res.LogSourceName != nil {
 		s.D.Set("log_source_name", *s.Res.LogSourceName)
 	}
+
+	s.D.Set("log_type", s.Res.LogType)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)

@@ -22,6 +22,7 @@ var (
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"kind":           acctest.Representation{RepType: acctest.Optional, Create: `INGEST_TIME`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"target_service": acctest.Representation{RepType: acctest.Optional, Create: `MONITORING`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LogAnalyticsNamespaceRulesDataSourceFilterRepresentation},
 	}
 	LogAnalyticsNamespaceRulesDataSourceFilterRepresentation = map[string]interface{}{
@@ -71,6 +72,7 @@ func TestLogAnalyticsNamespaceRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(requiredDatasourceName, "rule_summary_collection.0.items.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(requiredDatasourceName, "rule_summary_collection.0.items.0.kind", "INGEST_TIME"),
 				resource.TestCheckResourceAttr(requiredDatasourceName, "rule_summary_collection.0.items.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttr(requiredDatasourceName, "rule_summary_collection.0.items.0.target_service", "MONITORING"),
 			),
 		},
 		// delete for next test
@@ -98,6 +100,7 @@ func TestLogAnalyticsNamespaceRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(optionalDatasourceName, "rule_summary_collection.0.items.0.display_name", "displayName"),
 				resource.TestCheckResourceAttr(optionalDatasourceName, "rule_summary_collection.0.items.0.kind", "INGEST_TIME"),
 				resource.TestCheckResourceAttr(optionalDatasourceName, "rule_summary_collection.0.items.0.state", "ACTIVE"),
+				resource.TestCheckResourceAttr(optionalDatasourceName, "rule_summary_collection.0.items.0.target_service", "MONITORING"),
 			),
 		},
 		// delete before exit

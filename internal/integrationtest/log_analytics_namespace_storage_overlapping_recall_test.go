@@ -53,6 +53,8 @@ func TestLogAnalyticsNamespaceStorageOverlappingRecallResource_basic(t *testing.
 				resource.TestCheckResourceAttrSet(requiredDatasourceName, "overlapping_recall_collection.0.items.0.time_data_ended"),
 				resource.TestCheckResourceAttrSet(requiredDatasourceName, "overlapping_recall_collection.0.items.0.time_data_started"),
 				resource.TestCheckResourceAttrSet(requiredDatasourceName, "overlapping_recall_collection.0.items.0.time_started"),
+				resource.TestCheckResourceAttrSet(requiredDatasourceName, "overlapping_recall_collection.0.items.0.collection_id"),
+				resource.TestCheckResourceAttrSet(requiredDatasourceName, "overlapping_recall_collection.0.items.0.recall_id"),
 			),
 		},
 		// verify datasource with optional parameters
@@ -66,6 +68,8 @@ func TestLogAnalyticsNamespaceStorageOverlappingRecallResource_basic(t *testing.
 				resource.TestCheckResourceAttrSet(optionalDatasourceName, "overlapping_recall_collection.0.items.0.time_data_ended"),
 				resource.TestCheckResourceAttrSet(optionalDatasourceName, "overlapping_recall_collection.0.items.0.time_data_started"),
 				resource.TestCheckResourceAttrSet(optionalDatasourceName, "overlapping_recall_collection.0.items.0.time_started"),
+				resource.TestCheckResourceAttrSet(optionalDatasourceName, "overlapping_recall_collection.0.items.0.collection_id"),
+				resource.TestCheckResourceAttrSet(optionalDatasourceName, "overlapping_recall_collection.0.items.0.recall_id"),
 			),
 		},
 	})
