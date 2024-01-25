@@ -22,6 +22,16 @@ resource "oci_network_load_balancer_backend_set" "test_backend_set" {
 		protocol = var.backend_set_health_checker_protocol
 
 		#Optional
+		dns {
+			#Required
+			domain_name = oci_identity_domain.test_domain.name
+
+			#Optional
+			query_class = var.backend_set_health_checker_dns_query_class
+			query_type = var.backend_set_health_checker_dns_query_type
+			rcodes = var.backend_set_health_checker_dns_rcodes
+			transport_protocol = var.backend_set_health_checker_dns_transport_protocol
+		}
 		interval_in_millis = var.backend_set_health_checker_interval_in_millis
 		port = var.backend_set_health_checker_port
 		request_data = var.backend_set_health_checker_request_data
@@ -38,6 +48,7 @@ resource "oci_network_load_balancer_backend_set" "test_backend_set" {
 
 	#Optional
 	ip_version = var.backend_set_ip_version
+	is_fail_open = var.backend_set_is_fail_open
 	is_preserve_source = var.backend_set_is_preserve_source
 }
 ```
@@ -54,19 +65,26 @@ The following arguments are supported:
 	* `name` - (Optional) (Updatable) A read-only field showing the IP address/OCID and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0` 
 	* `port` - (Required) (Updatable) The communication port for the backend server.  Example: `8080` 
 	* `target_id` - (Optional) (Updatable) The IP OCID/Instance OCID associated with the backend server. Example: `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>` 
-	* `weight` - (Optional) (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see [How Network Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introducton.htm#Policies).  Example: `3` 
-* `health_checker` - (Required) (Updatable) The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/health-check-policy-management.htm). 
+	* `weight` - (Optional) (Updatable) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see [How Network Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
+* `health_checker` - (Required) (Updatable) The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm). 
+	* `dns` - (Optional) (Updatable) DNS healthcheck configurations.
+		* `domain_name` - (Required) (Updatable) The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query. 
+		* `query_class` - (Optional) (Updatable) The class the dns health check query to use; either IN or CH.  Example: `IN` 
+		* `query_type` - (Optional) (Updatable) The type the dns health check query to use; A, AAAA, TXT.  Example: `A` 
+		* `rcodes` - (Optional) (Updatable) An array that represents accepetable RCODE values for DNS query response. Example: ["NOERROR", "NXDOMAIN"] 
+		* `transport_protocol` - (Optional) (Updatable) DNS transport protocol; either UDP or TCP.  Example: `UDP` 
 	* `interval_in_millis` - (Optional) (Updatable) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: `10000` 
 	* `port` - (Optional) (Updatable) The backend server port against which to run the health check. If the port is not specified, then the network load balancer uses the port information from the `Backend` object. The port must be specified if the backend port is 0.  Example: `8080` 
-	* `protocol` - (Required) (Updatable) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: `HTTP` 
+	* `protocol` - (Required) (Updatable) The protocol the health check must use; either HTTP, HTTPS, UDP, TCP or DNS.  Example: `HTTP` 
 	* `request_data` - (Optional) (Updatable) Base64 encoded pattern to be sent as UDP or TCP health check probe.
 	* `response_body_regex` - (Optional) (Updatable) A regular expression for parsing the response body from the backend server.  Example: `^((?!false).|\s)*$` 
 	* `response_data` - (Optional) (Updatable) Base64 encoded pattern to be validated as UDP or TCP health check probe response.
 	* `retries` - (Optional) (Updatable) The number of retries to attempt before a backend server is considered "unhealthy". This number also applies when recovering a server to the "healthy" state. The default value is 3.  Example: `3` 
 	* `return_code` - (Optional) (Updatable) The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, then you can use common HTTP status codes such as "200".  Example: `200` 
-	* `timeout_in_millis` - (Optional) (Updatable) The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000`
+	* `timeout_in_millis` - (Optional) (Updatable) The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000` 
 	* `url_path` - (Optional) (Updatable) The path against which to run the health check.  Example: `/healthcheck`
 * `ip_version` - (Optional) (Updatable) IP version associated with the backend set.
+* `is_fail_open` - (Optional) (Updatable) If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
 * `is_preserve_source` - (Optional) (Updatable) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 * `name` - (Required) A user-friendly name for the backend set that must be unique and cannot be changed.
 
@@ -84,27 +102,34 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `backends` - Array of backends.
-	* `ip_address` - The IP address of the backend server. Example: `10.0.0.3` 
-	* `is_backup` - Whether the network load balancer should treat this server as a backup unit. If `true`, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: `false` 
-	* `is_drain` - Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: `false` 
-	* `is_offline` - Whether the network load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
-	* `name` - A read-only field showing the IP address/IP OCID and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0` 
-	* `port` - The communication port for the backend server.  Example: `8080` 
-	* `target_id` - The IP OCID/Instance OCID associated with the backend server. Example: `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>` 
-	* `weight` - The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see [How Network Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introducton.htm#Policies).  Example: `3` 
-* `health_checker` - The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/health-check-policy-management.htm). 
+* `backends` - Array of backends. 
+    * `ip_address` - The IP address of the backend server. Example: `10.0.0.3` 
+    * `is_backup` - Whether the network load balancer should treat this server as a backup unit. If `true`, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: `false` 
+    * `is_drain` - Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: `false` 
+    * `is_offline` - Whether the network load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
+    * `name` - A read-only field showing the IP address/IP OCID and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0` 
+    * `port` - The communication port for the backend server.  Example: `8080` 
+    * `target_id` - The IP OCID/Instance OCID associated with the backend server. Example: `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>` 
+    * `weight` - The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see [How Network Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
+* `health_checker` - The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm). 
+	* `dns` - DNS healthcheck configurations.
+		* `domain_name` - The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query. 
+		* `query_class` - The class the dns health check query to use; either IN or CH.  Example: `IN` 
+		* `query_type` - The type the dns health check query to use; A, AAAA, TXT.  Example: `A` 
+		* `rcodes` - An array that represents accepetable RCODE values for DNS query response. Example: ["NOERROR", "NXDOMAIN"] 
+		* `transport_protocol` - DNS transport protocol; either UDP or TCP.  Example: `UDP` 
 	* `interval_in_millis` - The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: `10000` 
 	* `port` - The backend server port against which to run the health check. If the port is not specified, then the network load balancer uses the port information from the `Backend` object. The port must be specified if the backend port is 0.  Example: `8080` 
-	* `protocol` - The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: `HTTP` 
+	* `protocol` - The protocol the health check must use; either HTTP, HTTPS, UDP, TCP or DNS.  Example: `HTTP` 
 	* `request_data` - Base64 encoded pattern to be sent as UDP or TCP health check probe.
 	* `response_body_regex` - A regular expression for parsing the response body from the backend server.  Example: `^((?!false).|\s)*$` 
 	* `response_data` - Base64 encoded pattern to be validated as UDP or TCP health check probe response.
 	* `retries` - The number of retries to attempt before a backend server is considered "unhealthy". This number also applies when recovering a server to the "healthy" state. The default value is 3.  Example: `3` 
 	* `return_code` - The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, then you can use common HTTP status codes such as "200".  Example: `200` 
-	* `timeout_in_millis` - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000`
+	* `timeout_in_millis` - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000` 
 	* `url_path` - The path against which to run the health check.  Example: `/healthcheck`
 * `ip_version` - IP version associated with the backend set.
+* `is_fail_open` - If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
 * `is_preserve_source` - If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 * `name` - A user-friendly name for the backend set that must be unique and cannot be changed.
 

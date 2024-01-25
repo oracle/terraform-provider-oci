@@ -19,17 +19,14 @@ variable "compartment_ocid" {
 variable "region" {
 }
 
-variable "instance_image_ocid" {
-  type = map(string)
-
-  default = {
-    # See https://docs.us-phoenix-1.oraclecloud.com/images/
-    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1   = ""
-    us-ashburn-1   = ""
-    eu-frankfurt-1 = ""
-    uk-london-1    = ""
-  }
+# See https://docs.oracle.com/iaas/images/
+data "oci_core_images" "test_images" {
+  compartment_id           = var.compartment_ocid
+  operating_system         = "Oracle Linux"
+  operating_system_version = "8"
+  shape                    = var.instance_shape
+  sort_by                  = "TIMECREATED"
+  sort_order               = "DESC"
 }
 
 variable "instance_shape" {
@@ -154,7 +151,7 @@ resource "oci_core_instance" "instance1" {
 
   source_details {
     source_type = "image"
-    source_id   = var.instance_image_ocid[var.region]
+    source_id   = lookup(data.oci_core_images.test_images.images[0], "id")
   }
 }
 
@@ -212,22 +209,22 @@ resource "oci_network_load_balancer_network_load_balancers_backend_sets_unified"
   }
 
   backends {
-      ip_address               = "10.0.0.3"
-      port                     = 80
-      is_backup                = false
-      is_drain                 = false
-      is_offline               = false
-      weight                   = 1
+    ip_address               = "10.0.0.3"
+    port                     = 80
+    is_backup                = false
+    is_drain                 = false
+    is_offline               = false
+    weight                   = 1
   }
 
-   backends {
-      target_id                = oci_core_instance.instance1.id
-      port                     = 20
-      is_backup                = false
-      is_drain                 = false
-      is_offline               = false
-      weight                   = 1
-   }
+  backends {
+    ip_address                = oci_core_instance.instance1.private_ip
+    port                     = 20
+    is_backup                = false
+    is_drain                 = false
+    is_offline               = false
+    weight                   = 1
+  }
   depends_on = [oci_network_load_balancer_network_load_balancer.nlb1]
 }
 
