@@ -46,10 +46,12 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - This is the array of overlapping recall requests
+	* `collection_id` - This is the id of the associated recalled data collection
 	* `created_by` - This is the user who initiated the recall request
 	* `log_sets` - This is the list of logsets associated with this recall
 	* `purpose` - This is the purpose of the recall
 	* `query_string` - This is the query associated with the recall
+	* `recall_id` - This is the id for the recall request
 	* `status` - This is the status of the recall
 	* `time_data_ended` - This is the end of the time range of the archival data
 	* `time_data_started` - This is the start of the time range of the archival data

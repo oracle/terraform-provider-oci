@@ -27,6 +27,7 @@ data "oci_log_analytics_log_analytics_entities" "test_log_analytics_entities" {
 	hostname_contains = var.log_analytics_entity_hostname_contains
 	is_management_agent_id_null = var.log_analytics_entity_is_management_agent_id_null
 	lifecycle_details_contains = var.log_analytics_entity_lifecycle_details_contains
+	metadata_equals = var.log_analytics_entity_metadata_equals
 	name = var.log_analytics_entity_name
 	name_contains = var.log_analytics_entity_name_contains
 	source_id = oci_log_analytics_source.test_source.id
@@ -45,6 +46,7 @@ The following arguments are supported:
 * `hostname_contains` - (Optional) A filter to return only log analytics entities whose hostname contains the substring given. The match is case-insensitive. 
 * `is_management_agent_id_null` - (Optional) A filter to return only those log analytics entities whose managementAgentId is null or is not null. 
 * `lifecycle_details_contains` - (Optional) A filter to return only log analytics entities whose lifecycleDetails contains the specified string. 
+* `metadata_equals` - (Optional) A filter to return only log analytics entities whose metadata name, value and type matches the specified string. Each item in the array has the format "{name}:{value}:{type}".  All inputs are case-insensitive. 
 * `name` - (Optional) A filter to return only log analytics entities whose name matches the entire name given. The match is case-insensitive. 
 * `name_contains` - (Optional) A filter to return only log analytics entities whose name contains the name given. The match is case-insensitive. 
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
@@ -75,11 +77,17 @@ The following attributes are exported:
 * `management_agent_compartment_id` - Management agent (management-agents resource kind) compartment OCID 
 * `management_agent_display_name` - Management agent (management-agents resource kind) display name 
 * `management_agent_id` - The OCID of the Management Agent. 
+* `metadata` - Details of entity metadata information.
+	* `items` - An array of entity metadata.
+		* `name` - The metadata name.
+		* `type` - The metadata type.
+		* `value` - The metadata value.
 * `name` - Log analytics entity name. 
 * `properties` - The name/value pairs for parameter values to be used in file patterns specified in log sources. 
 * `source_id` - This indicates the type of source. It is primarily for Enterprise Manager Repository ID. 
 * `state` - The current state of the log analytics entity. 
 * `time_created` - The date and time the resource was created, in the format defined by RFC3339. 
+* `time_last_discovered` - The date and time the resource was last discovered, in the format defined by RFC3339. 
 * `time_updated` - The date and time the resource was last updated, in the format defined by RFC3339. 
 * `timezone_region` - The timezone region of the log analytics entity. 
 

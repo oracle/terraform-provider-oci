@@ -5,6 +5,7 @@ package log_analytics
 
 import (
 	"context"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -121,6 +122,12 @@ func (s *LogAnalyticsLogAnalyticsEntityDataSourceCrud) SetData() error {
 		s.D.Set("management_agent_id", *s.Res.ManagementAgentId)
 	}
 
+	if s.Res.Metadata != nil {
+		s.D.Set("metadata", []interface{}{LogAnalyticsMetadataSummaryToMap(s.Res.Metadata, true)})
+	} else {
+		s.D.Set("metadata", nil)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -135,6 +142,10 @@ func (s *LogAnalyticsLogAnalyticsEntityDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLastDiscovered != nil {
+		s.D.Set("time_last_discovered", s.Res.TimeLastDiscovered.Format(time.RFC3339Nano))
 	}
 
 	if s.Res.TimeUpdated != nil {

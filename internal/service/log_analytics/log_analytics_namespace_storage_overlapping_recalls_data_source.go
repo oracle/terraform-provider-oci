@@ -5,6 +5,7 @@ package log_analytics
 
 import (
 	"context"
+	"strconv"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -52,6 +53,10 @@ func LogAnalyticsNamespaceStorageOverlappingRecallsDataSource() *schema.Resource
 									// Optional
 
 									// Computed
+									"collection_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"created_by": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -65,6 +70,10 @@ func LogAnalyticsNamespaceStorageOverlappingRecallsDataSource() *schema.Resource
 										Computed: true,
 									},
 									"query_string": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"recall_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -190,6 +199,10 @@ func (s *LogAnalyticsNamespaceStorageOverlappingRecallsDataSourceCrud) SetData()
 func OverlappingRecallSummaryToMap(obj oci_log_analytics.OverlappingRecallSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.CollectionId != nil {
+		result["collection_id"] = strconv.FormatInt(*obj.CollectionId, 10)
+	}
+
 	if obj.CreatedBy != nil {
 		result["created_by"] = string(*obj.CreatedBy)
 	}
@@ -204,6 +217,10 @@ func OverlappingRecallSummaryToMap(obj oci_log_analytics.OverlappingRecallSummar
 
 	if obj.QueryString != nil {
 		result["query_string"] = string(*obj.QueryString)
+	}
+
+	if obj.RecallId != nil {
+		result["recall_id"] = strconv.FormatInt(*obj.RecallId, 10)
 	}
 
 	result["status"] = string(obj.Status)

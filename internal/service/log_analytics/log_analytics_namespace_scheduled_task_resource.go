@@ -854,6 +854,10 @@ func ScheduledTaskSummaryToMap(obj oci_log_analytics.ScheduledTaskSummary) map[s
 
 	result["state"] = string(obj.LifecycleState)
 
+	if obj.TargetService != nil {
+		result["target_service"] = string(*obj.TargetService)
+	}
+
 	result["task_status"] = string(obj.TaskStatus)
 
 	result["task_type"] = string(obj.TaskType)

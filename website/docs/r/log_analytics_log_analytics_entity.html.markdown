@@ -28,8 +28,20 @@ resource "oci_log_analytics_log_analytics_entity" "test_log_analytics_entity" {
 	freeform_tags = {"bar-key"= "value"}
 	hostname = var.log_analytics_entity_hostname
 	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
+	metadata {
+
+		#Optional
+		items {
+
+			#Optional
+			name = var.log_analytics_entity_metadata_items_name
+			type = var.log_analytics_entity_metadata_items_type
+			value = var.log_analytics_entity_metadata_items_value
+		}
+	}
 	properties = var.log_analytics_entity_properties
 	source_id = oci_log_analytics_source.test_source.id
+	time_last_discovered = var.log_analytics_entity_time_last_discovered
 	timezone_region = var.log_analytics_entity_timezone_region
 }
 ```
@@ -45,10 +57,16 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `hostname` - (Optional) (Updatable) The hostname where the entity represented here is actually present. This would be the output one would get if they run `echo $HOSTNAME` on Linux or an equivalent OS command. This may be different from management agents host since logs may be collected remotely. 
 * `management_agent_id` - (Optional) (Updatable) The OCID of the Management Agent. 
+* `metadata` - (Optional) (Updatable) Details of Entity Metadata.
+	* `items` - (Optional) (Updatable) An array of entity metadata details.
+		* `name` - (Optional) (Updatable) The metadata name.
+		* `type` - (Optional) (Updatable) The metadata type.
+		* `value` - (Optional) (Updatable) The metadata value.
 * `name` - (Required) (Updatable) Log analytics entity name. 
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 * `properties` - (Optional) (Updatable) The name/value pairs for parameter values to be used in file patterns specified in log sources. 
 * `source_id` - (Optional) This indicates the type of source. It is primarily for Enterprise Manager Repository ID. 
+* `time_last_discovered` - (Optional) (Updatable) The date and time the resource was last discovered, in the format defined by RFC3339. 
 * `timezone_region` - (Optional) (Updatable) The timezone region of the log analytics entity. 
 
 
@@ -72,11 +90,17 @@ The following attributes are exported:
 * `management_agent_compartment_id` - Management agent (management-agents resource kind) compartment OCID 
 * `management_agent_display_name` - Management agent (management-agents resource kind) display name 
 * `management_agent_id` - The OCID of the Management Agent. 
+* `metadata` - Details of entity metadata information.
+	* `items` - An array of entity metadata.
+		* `name` - The metadata name.
+		* `type` - The metadata type.
+		* `value` - The metadata value.
 * `name` - Log analytics entity name. 
 * `properties` - The name/value pairs for parameter values to be used in file patterns specified in log sources. 
 * `source_id` - This indicates the type of source. It is primarily for Enterprise Manager Repository ID. 
 * `state` - The current state of the log analytics entity. 
 * `time_created` - The date and time the resource was created, in the format defined by RFC3339. 
+* `time_last_discovered` - The date and time the resource was last discovered, in the format defined by RFC3339. 
 * `time_updated` - The date and time the resource was last updated, in the format defined by RFC3339. 
 * `timezone_region` - The timezone region of the log analytics entity. 
 
