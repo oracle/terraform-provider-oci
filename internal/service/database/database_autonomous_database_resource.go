@@ -508,8 +508,17 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 			},
 			"is_shrink_only": {
-				Type:     schema.TypeBool,
-				Optional: true,
+				Type:          schema.TypeBool,
+				Optional:      true,
+				ConflictsWith: []string{"shrink_adb_trigger"},
+				Deprecated:    tfresource.FieldDeprecatedForAnother("is_shrink_only", "shrink_adb_trigger"),
+			},
+			"shrink_adb_trigger": {
+				Type:          schema.TypeInt,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"is_shrink_only"},
 			},
 
 			// Computed
@@ -1124,6 +1133,13 @@ func createDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 		}
 	}
 
+	if _, ok := sync.D.GetOkExists("shrink_adb_trigger"); ok {
+		err := sync.ShrinkAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable)
+		if err != nil {
+			return err
+		}
+	}
+
 	if isInactiveRequest {
 		return inactiveAutonomousDatabaseIfNeeded(d, sync)
 	}
@@ -1199,6 +1215,22 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 			if err != nil {
 				return err
 			}
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("shrink_adb_trigger"); ok && sync.D.HasChange("shrink_adb_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("shrink_adb_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ShrinkAutonomousDatabase(oci_database.AutonomousDatabaseLifecycleStateAvailable)
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("shrink_adb_trigger", oldRaw)
+			return fmt.Errorf("new value of shrink_adb_trigger should be greater than the old value")
 		}
 	}
 
