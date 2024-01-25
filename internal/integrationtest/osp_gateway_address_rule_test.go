@@ -18,7 +18,7 @@ import (
 var (
 	OspGatewayOspGatewayAddressRuleSingularDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"country_code":    acctest.Representation{RepType: acctest.Required, Create: `hu`},
+		"country_code":    acctest.Representation{RepType: acctest.Required, Create: `cl`},
 		"osp_home_region": acctest.Representation{RepType: acctest.Required, Create: `${var.home_region}`},
 	}
 
@@ -57,6 +57,7 @@ func TestOspGatewayAddressRuleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "contact.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "country_code"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "tax.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tax.0.value_set.#", "181"),
 			),
 		},
 	})
