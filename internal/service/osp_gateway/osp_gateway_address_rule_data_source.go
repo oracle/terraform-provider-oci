@@ -271,6 +271,27 @@ func OspGatewayAddressRuleDataSource() *schema.Resource {
 								},
 							},
 						},
+						"value_set": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -441,6 +462,26 @@ func TaxTypeRuleToMap(obj *oci_osp_gateway.TaxTypeRule) map[string]interface{} {
 		fields = append(fields, FieldToMap(item))
 	}
 	result["fields"] = fields
+
+	valueSet := []interface{}{}
+	for _, item := range obj.ValueSet {
+		valueSet = append(valueSet, ValueSetEntityToMap(item))
+	}
+	result["value_set"] = valueSet
+
+	return result
+}
+
+func ValueSetEntityToMap(obj oci_osp_gateway.ValueSetEntity) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
 
 	return result
 }
