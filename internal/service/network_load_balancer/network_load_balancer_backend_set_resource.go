@@ -171,11 +171,6 @@ func NetworkLoadBalancerBackendSetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"is_instant_failover_enabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-				Computed: true,
-			},
 			// Optional
 			"is_preserve_source": {
 				Type:     schema.TypeBool,
@@ -312,11 +307,6 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) Create() error {
 	if isFailOpen, ok := s.D.GetOkExists("is_fail_open"); ok {
 		tmp := isFailOpen.(bool)
 		request.IsFailOpen = &tmp
-	}
-
-	if isInstantFailoverEnabled, ok := s.D.GetOkExists("is_instant_failover_enabled"); ok {
-		tmp := isInstantFailoverEnabled.(bool)
-		request.IsInstantFailoverEnabled = &tmp
 	}
 
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
@@ -553,11 +543,6 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) Update() error {
 		request.IsFailOpen = &tmp
 	}
 
-	if isInstantFailoverEnabled, ok := s.D.GetOkExists("is_instant_failover_enabled"); ok {
-		tmp := isInstantFailoverEnabled.(bool)
-		request.IsInstantFailoverEnabled = &tmp
-	}
-
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
 		tmp := isPreserveSource.(bool)
 		request.IsPreserveSource = &tmp
@@ -633,10 +618,6 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) SetData() error {
 		s.D.Set("health_checker", nil)
 	}
 	s.D.Set("ip_version", s.Res.IpVersion)
-
-	if s.Res.IsInstantFailoverEnabled != nil {
-		s.D.Set("is_instant_failover_enabled", *s.Res.IsInstantFailoverEnabled)
-	}
 
 	if s.Res.IsFailOpen != nil {
 		s.D.Set("is_fail_open", *s.Res.IsFailOpen)
@@ -773,10 +754,6 @@ func NlbBackendSetSummaryToMap(obj oci_network_load_balancer.BackendSetSummary) 
 	}
 
 	result["ip_version"] = string(obj.IpVersion)
-
-	if obj.IsInstantFailoverEnabled != nil {
-		result["is_instant_failover_enabled"] = bool(*obj.IsInstantFailoverEnabled)
-	}
 
 	if obj.IsFailOpen != nil {
 		result["is_fail_open"] = bool(*obj.IsFailOpen)
