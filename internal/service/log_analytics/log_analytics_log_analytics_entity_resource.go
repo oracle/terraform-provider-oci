@@ -4,18 +4,22 @@
 package log_analytics
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"net/url"
 	"regexp"
 	"strings"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_log_analytics "github.com/oracle/oci-go-sdk/v65/loganalytics"
 )
 
@@ -80,6 +84,52 @@ func LogAnalyticsLogAnalyticsEntityResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"metadata": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"items": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							Set:      itemsHashCodeForSets,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 			"properties": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -91,6 +141,12 @@ func LogAnalyticsLogAnalyticsEntityResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"time_last_discovered": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			"timezone_region": {
 				Type:     schema.TypeString,
@@ -239,6 +295,17 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Create() error {
 		request.ManagementAgentId = &tmp
 	}
 
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		if tmpList := metadata.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "metadata", 0)
+			tmp, err := s.mapToLogAnalyticsMetadataDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Metadata = &tmp
+		}
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -256,6 +323,14 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Create() error {
 	if sourceId, ok := s.D.GetOkExists("source_id"); ok {
 		tmp := sourceId.(string)
 		request.SourceId = &tmp
+	}
+
+	if timeLastDiscovered, ok := s.D.GetOkExists("time_last_discovered"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeLastDiscovered.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeLastDiscovered = &oci_common.SDKTime{Time: tmp}
 	}
 
 	if timezoneRegion, ok := s.D.GetOkExists("timezone_region"); ok {
@@ -341,6 +416,17 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 		request.ManagementAgentId = &tmp
 	}
 
+	if metadata, ok := s.D.GetOkExists("metadata"); ok {
+		if tmpList := metadata.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "metadata", 0)
+			tmp, err := s.mapToLogAnalyticsMetadataDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.Metadata = &tmp
+		}
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok && s.D.HasChange("name") {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -353,6 +439,14 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) Update() error {
 
 	if properties, ok := s.D.GetOkExists("properties"); ok {
 		request.Properties = tfresource.ObjectMapToStringMap(properties.(map[string]interface{}))
+	}
+
+	if timeLastDiscovered, ok := s.D.GetOkExists("time_last_discovered"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeLastDiscovered.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeLastDiscovered = &oci_common.SDKTime{Time: tmp}
 	}
 
 	if timezoneRegion, ok := s.D.GetOkExists("timezone_region"); ok {
@@ -444,6 +538,12 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) SetData() error {
 		s.D.Set("management_agent_id", *s.Res.ManagementAgentId)
 	}
 
+	if s.Res.Metadata != nil {
+		s.D.Set("metadata", []interface{}{LogAnalyticsMetadataSummaryToMap(s.Res.Metadata, false)})
+	} else {
+		s.D.Set("metadata", nil)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -458,6 +558,10 @@ func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeLastDiscovered != nil {
+		s.D.Set("time_last_discovered", s.Res.TimeLastDiscovered.Format(time.RFC3339Nano))
 	}
 
 	if s.Res.TimeUpdated != nil {
@@ -532,6 +636,10 @@ func LogAnalyticsEntitySummaryToMap(obj oci_log_analytics.LogAnalyticsEntitySumm
 		result["management_agent_id"] = string(*obj.ManagementAgentId)
 	}
 
+	if obj.Metadata != nil {
+		result["metadata"] = []interface{}{LogAnalyticsMetadataCollectionToMap(obj.Metadata)}
+	}
+
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
@@ -546,6 +654,10 @@ func LogAnalyticsEntitySummaryToMap(obj oci_log_analytics.LogAnalyticsEntitySumm
 		result["time_created"] = obj.TimeCreated.String()
 	}
 
+	if obj.TimeLastDiscovered != nil {
+		result["time_last_discovered"] = obj.TimeLastDiscovered.String()
+	}
+
 	if obj.TimeUpdated != nil {
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
@@ -557,6 +669,111 @@ func LogAnalyticsEntitySummaryToMap(obj oci_log_analytics.LogAnalyticsEntitySumm
 	return result
 }
 
+func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) mapToLogAnalyticsMetadata(fieldKeyFormat string) (oci_log_analytics.LogAnalyticsMetadata, error) {
+	result := oci_log_analytics.LogAnalyticsMetadata{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		tmp := type_.(string)
+		result.Type = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func LogAnalyticsMetadataToMap(obj oci_log_analytics.LogAnalyticsMetadata) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Type != nil {
+		result["type"] = string(*obj.Type)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func LogAnalyticsMetadataCollectionToMap(obj *oci_log_analytics.LogAnalyticsMetadataCollection) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, LogAnalyticsMetadataToMap(item))
+	}
+	result["items"] = items
+
+	return result
+}
+
+func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) mapToLogAnalyticsMetadataDetails(fieldKeyFormat string) (oci_log_analytics.LogAnalyticsMetadataDetails, error) {
+	result := oci_log_analytics.LogAnalyticsMetadataDetails{}
+
+	if items, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "items")); ok {
+		set := items.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]oci_log_analytics.LogAnalyticsMetadata, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := itemsHashCodeForSets(interfaces[i])
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "items"), stateDataIndex)
+			converted, err := s.mapToLogAnalyticsMetadata(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "items")) {
+			result.Items = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func LogAnalyticsMetadataSummaryToMap(obj *oci_log_analytics.LogAnalyticsMetadataSummary, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	items := []interface{}{}
+	for _, item := range obj.Items {
+		items = append(items, LogAnalyticsMetadataToMap(item))
+	}
+	if datasource {
+		result["items"] = items
+	} else {
+		result["items"] = schema.NewSet(itemsHashCodeForSets, items)
+	}
+
+	return result
+}
+
+func itemsHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if name, ok := m["name"]; ok && name != "" {
+		buf.WriteString(fmt.Sprintf("%v-", name))
+	}
+	if type_, ok := m["type"]; ok && type_ != "" {
+		buf.WriteString(fmt.Sprintf("%v-", type_))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
 func (s *LogAnalyticsLogAnalyticsEntityResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_log_analytics.ChangeLogAnalyticsEntityCompartmentRequest{}
 

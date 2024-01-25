@@ -43,12 +43,14 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this rule.
 * `is_enabled` - Whether or not this rule is currently enabled. 
+* `is_force_historic_collection` - Flag to allow historic collection if poll period overlaps with existing ACTIVE collection rule 
 * `lifecycle_details` - A detailed status of the life cycle state.
 * `log_group_id` - Logging Analytics Log group OCID to associate the processed logs with.
 * `log_set` - The logSet to be associated with the processed logs. The logSet feature can be used by customers with high volume of data  and this feature has to be enabled for a given tenancy prior to its usage. When logSetExtRegex value is provided, it will take precedence over this logSet value and logSet will be computed dynamically  using logSetKey and logSetExtRegex. 
 * `log_set_ext_regex` - The regex to be applied against given logSetKey. Regex has to be in string escaped format. 
 * `log_set_key` - An optional parameter to indicate from where the logSet to be extracted using logSetExtRegex. Default value is OBJECT_PATH (e.g. /n/<namespace>/b/<bucketname>/o/<objectname>). 
 * `log_source_name` - Name of the Logging Analytics Source to use for the processing.
+* `log_type` - Type of files/objects in this object collection rule. 
 * `name` - A unique name to the rule. The name must be unique, within the tenancy, and cannot be changed.
 * `object_name_filters` - When the filters are provided, only the objects matching the filters are picked up for processing. The matchType supported is exact match and accommodates wildcard "*". For more information on filters, see [Event Filters](https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm). 
 * `os_bucket_name` - Name of the Object Storage bucket.

@@ -76,6 +76,22 @@ output "overlapping_recalls_all_status" {
   value = data.oci_log_analytics_namespace_storage_overlapping_recalls.overlapping_recalls_all.overlapping_recall_collection[0].items[0].status
 }
 
+output "overlapping_recalls_all_collection_id" {
+  value = data.oci_log_analytics_namespace_storage_overlapping_recalls.overlapping_recalls_all.overlapping_recall_collection[0].items[0].collection_id
+}
+
+output "overlapping_recalls_all_recall_id" {
+  value = data.oci_log_analytics_namespace_storage_overlapping_recalls.overlapping_recalls_all.overlapping_recall_collection[0].items[0].recall_id
+}
+
 output "overlapping_recalls_range_status" {
   value = data.oci_log_analytics_namespace_storage_overlapping_recalls.overlapping_recalls_range.overlapping_recall_collection[0].items[0].status
+}
+
+output "overlapping_recalls_range_collection_id" {
+  value = data.oci_log_analytics_namespace_storage_overlapping_recalls.overlapping_recalls_range.overlapping_recall_collection[0].items[0].collection_id
+}
+
+output "overlapping_recalls_range_recall_id" {
+  value = data.oci_log_analytics_namespace_storage_overlapping_recalls.overlapping_recalls_range.overlapping_recall_collection[0].items[0].recall_id
 }

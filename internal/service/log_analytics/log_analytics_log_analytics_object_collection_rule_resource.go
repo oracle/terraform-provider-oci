@@ -104,6 +104,12 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_force_historic_collection": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"log_set": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -118,6 +124,12 @@ func LogAnalyticsLogAnalyticsObjectCollectionRuleResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"log_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"object_name_filters": {
 				Type:     schema.TypeList,
@@ -308,6 +320,11 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() erro
 		request.IsEnabled = &tmp
 	}
 
+	if isForceHistoricCollection, ok := s.D.GetOkExists("is_force_historic_collection"); ok {
+		tmp := isForceHistoricCollection.(bool)
+		request.IsForceHistoricCollection = &tmp
+	}
+
 	if logGroupId, ok := s.D.GetOkExists("log_group_id"); ok {
 		tmp := logGroupId.(string)
 		request.LogGroupId = &tmp
@@ -330,6 +347,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) Create() erro
 	if logSourceName, ok := s.D.GetOkExists("log_source_name"); ok {
 		tmp := logSourceName.(string)
 		request.LogSourceName = &tmp
+	}
+
+	if logType, ok := s.D.GetOkExists("log_type"); ok {
+		request.LogType = oci_log_analytics.LogTypesEnum(logType.(string))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -619,6 +640,10 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() err
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
 
+	if s.Res.IsForceHistoricCollection != nil {
+		s.D.Set("is_force_historic_collection", *s.Res.IsForceHistoricCollection)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -640,6 +665,8 @@ func (s *LogAnalyticsLogAnalyticsObjectCollectionRuleResourceCrud) SetData() err
 	if s.Res.LogSourceName != nil {
 		s.D.Set("log_source_name", *s.Res.LogSourceName)
 	}
+
+	s.D.Set("log_type", s.Res.LogType)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
@@ -736,6 +763,8 @@ func LogAnalyticsObjectCollectionRuleSummaryToMap(obj oci_log_analytics.LogAnaly
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
+
+	result["log_type"] = string(obj.LogType)
 
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
