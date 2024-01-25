@@ -8,6 +8,8 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dataintegration_workspace", DataintegrationWorkspaceDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_application", DataintegrationWorkspaceApplicationDataSource())
+	tfresource.RegisterDatasource("oci_dataintegration_workspace_application_patch", DataintegrationWorkspaceApplicationPatchDataSource())
+	tfresource.RegisterDatasource("oci_dataintegration_workspace_application_patches", DataintegrationWorkspaceApplicationPatchesDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_applications", DataintegrationWorkspaceApplicationsDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_export_request", DataintegrationWorkspaceExportRequestDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_export_requests", DataintegrationWorkspaceExportRequestsDataSource())
