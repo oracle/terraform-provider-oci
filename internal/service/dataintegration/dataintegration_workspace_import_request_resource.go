@@ -48,6 +48,12 @@ func DataintegrationWorkspaceImportRequestResource() *schema.Resource {
 			},
 
 			// Optional
+			"are_data_asset_references_included": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"import_conflict_resolution": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -231,6 +237,11 @@ func (s *DataintegrationWorkspaceImportRequestResourceCrud) ID() string {
 func (s *DataintegrationWorkspaceImportRequestResourceCrud) Create() error {
 	request := oci_dataintegration.CreateImportRequestRequest{}
 
+	if areDataAssetReferencesIncluded, ok := s.D.GetOkExists("are_data_asset_references_included"); ok {
+		tmp := areDataAssetReferencesIncluded.(bool)
+		request.AreDataAssetReferencesIncluded = &tmp
+	}
+
 	if bucket, ok := s.D.GetOkExists("bucket"); ok {
 		tmp := bucket.(string)
 		request.BucketName = &tmp
@@ -362,6 +373,10 @@ func (s *DataintegrationWorkspaceImportRequestResourceCrud) SetData() error {
 		s.D.Set("workspace_id", &workspaceId)
 	} else {
 		log.Printf("[WARN] SetData() unable to parse current ID: %s", s.D.Id())
+	}
+
+	if s.Res.AreDataAssetReferencesIncluded != nil {
+		s.D.Set("are_data_asset_references_included", *s.Res.AreDataAssetReferencesIncluded)
 	}
 
 	if s.Res.BucketName != nil {
@@ -509,6 +524,10 @@ func ImportObjectMetadataSummaryToMap(obj oci_dataintegration.ImportObjectMetada
 
 func ImportRequestSummaryToMap(obj oci_dataintegration.ImportRequestSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AreDataAssetReferencesIncluded != nil {
+		result["are_data_asset_references_included"] = bool(*obj.AreDataAssetReferencesIncluded)
+	}
 
 	if obj.BucketName != nil {
 		result["bucket"] = string(*obj.BucketName)
