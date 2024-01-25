@@ -21,6 +21,10 @@ func DatabaseManagementManagedDatabaseSqlPlanBaselineDataSource() *schema.Resour
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"plan_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -114,6 +118,11 @@ func (s *DatabaseManagementManagedDatabaseSqlPlanBaselineDataSourceCrud) Get() e
 	if managedDatabaseId, ok := s.D.GetOkExists("managed_database_id"); ok {
 		tmp := managedDatabaseId.(string)
 		request.ManagedDatabaseId = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	if planName, ok := s.D.GetOkExists("plan_name"); ok {

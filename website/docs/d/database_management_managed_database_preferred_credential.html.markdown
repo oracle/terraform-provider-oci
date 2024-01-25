@@ -37,6 +37,7 @@ The following attributes are exported:
 
 * `credential_name` - The name of the preferred credential.
 * `is_accessible` - Indicates whether the preferred credential is accessible.
+* `named_credential_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Named Credential that contains the database user password metadata.
 * `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Vault service secret that contains the database user password.
 * `role` - The role of the database user.
 * `status` - The status of the preferred credential.

@@ -26,6 +26,7 @@ data "oci_database_management_managed_database_sql_tuning_advisor_tasks_findings
 	end_exec_id = oci_database_management_end_exec.test_end_exec.id
 	finding_filter = var.managed_database_sql_tuning_advisor_tasks_finding_finding_filter
 	index_hash_filter = var.managed_database_sql_tuning_advisor_tasks_finding_index_hash_filter
+	opc_named_credential_id = var.managed_database_sql_tuning_advisor_tasks_finding_opc_named_credential_id
 	search_period = var.managed_database_sql_tuning_advisor_tasks_finding_search_period
 	stats_hash_filter = var.managed_database_sql_tuning_advisor_tasks_finding_stats_hash_filter
 }
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `finding_filter` - (Optional) The filter used to display specific findings in the report.
 * `index_hash_filter` - (Optional) The hash value of the index table name.
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `search_period` - (Optional) The search period during which the API will search for begin and end exec id, if not supplied. Unused if beginExecId and endExecId optional query params are both supplied. 
 * `sql_tuning_advisor_task_id` - (Required) The SQL tuning task identifier. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `stats_hash_filter` - (Optional) The hash value of the object for the statistic finding search.

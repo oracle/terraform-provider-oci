@@ -22,6 +22,7 @@ data "oci_database_management_managed_databases_user_system_privileges" "test_ma
 
 	#Optional
 	name = var.managed_databases_user_system_privilege_name
+	opc_named_credential_id = var.managed_databases_user_system_privilege_opc_named_credential_id
 }
 ```
 
@@ -31,6 +32,7 @@ The following arguments are supported:
 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `name` - (Optional) A filter to return only resources that match the entire name.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `user_name` - (Required) The name of the user whose details are to be viewed.
 
 

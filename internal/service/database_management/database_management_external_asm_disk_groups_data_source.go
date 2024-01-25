@@ -23,6 +23,10 @@ func DatabaseManagementExternalAsmDiskGroupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"external_asm_disk_group_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -116,6 +120,11 @@ func (s *DatabaseManagementExternalAsmDiskGroupsDataSourceCrud) Get() error {
 	if externalAsmId, ok := s.D.GetOkExists("external_asm_id"); ok {
 		tmp := externalAsmId.(string)
 		request.ExternalAsmId = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
