@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// DetectorRecipe A detector recipe is a collection of rules that can be configured to trigger problems that appear on the Cloud Guard Problems page. A DetectorRecipe object contains settings for a specific detector recipe, plus a list of the detector rules (DetectorRecipeDetectorRule objects) belonging to the DetectorRecipe object.
+// DetectorRecipe A detector recipe is a collection of rules that can be configured to trigger problems that appear on the Cloud Guard Problems page. A DetectorRecipe resource contains settings for a specific detector recipe, plus a list of the detector rules (DetectorRecipeDetectorRule resources) belonging to the DetectorRecipe resource.
 type DetectorRecipe struct {
 
-	// Ocid for detector recipe
+	// OCID for detector recipe
 	Id *string `mandatory:"true" json:"id"`
 
-	// DisplayName of detector recipe.
+	// Display name of detector recipe
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// compartmentId of detector recipe
+	// Compartment OCID of detector recipe
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Recipe Ocid of the Source Recipe to be cloned
+	// Recipe OCID of the source recipe to be cloned
 	SourceDetectorRecipeId *string `mandatory:"true" json:"sourceDetectorRecipeId"`
 
 	// Owner of detector recipe
@@ -37,7 +37,7 @@ type DetectorRecipe struct {
 	// Type of detector
 	Detector DetectorEnumEnum `mandatory:"true" json:"detector"`
 
-	// Detector recipe description.
+	// Detector recipe description
 	Description *string `mandatory:"false" json:"description"`
 
 	// List of detector rules for the detector type for recipe - user input
@@ -46,13 +46,13 @@ type DetectorRecipe struct {
 	// List of effective detector rules for the detector type for recipe after applying defaults
 	EffectiveDetectorRules []DetectorRecipeDetectorRule `mandatory:"false" json:"effectiveDetectorRules"`
 
-	// The date and time the detector recipe was created. Format defined by RFC3339.
+	// The date and time the detector recipe was created Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the detector recipe was updated. Format defined by RFC3339.
+	// The date and time the detector recipe was last updated Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the resource.
+	// The current lifecycle state of the resource
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The number of days for which source data is retained
@@ -73,7 +73,7 @@ type DetectorRecipe struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The recipe attached to targets
+	// List of target IDs to which the recipe is attached
 	TargetIds []string `mandatory:"false" json:"targetIds"`
 }
 

@@ -28,6 +28,9 @@ type ListDrgsRequest struct {
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// Filter DRGs by type.
+	Type ListDrgsTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -68,6 +71,9 @@ func (request ListDrgsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListDrgsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListDrgsTypeEnum(string(request.Type)); !ok && request.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetListDrgsTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -100,4 +106,50 @@ func (response ListDrgsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListDrgsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListDrgsTypeEnum Enum with underlying type: string
+type ListDrgsTypeEnum string
+
+// Set of constants representing the allowable values for ListDrgsTypeEnum
+const (
+	ListDrgsTypeGlobal   ListDrgsTypeEnum = "GLOBAL"
+	ListDrgsTypeRegional ListDrgsTypeEnum = "REGIONAL"
+	ListDrgsTypeAll      ListDrgsTypeEnum = "ALL"
+)
+
+var mappingListDrgsTypeEnum = map[string]ListDrgsTypeEnum{
+	"GLOBAL":   ListDrgsTypeGlobal,
+	"REGIONAL": ListDrgsTypeRegional,
+	"ALL":      ListDrgsTypeAll,
+}
+
+var mappingListDrgsTypeEnumLowerCase = map[string]ListDrgsTypeEnum{
+	"global":   ListDrgsTypeGlobal,
+	"regional": ListDrgsTypeRegional,
+	"all":      ListDrgsTypeAll,
+}
+
+// GetListDrgsTypeEnumValues Enumerates the set of values for ListDrgsTypeEnum
+func GetListDrgsTypeEnumValues() []ListDrgsTypeEnum {
+	values := make([]ListDrgsTypeEnum, 0)
+	for _, v := range mappingListDrgsTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDrgsTypeEnumStringValues Enumerates the set of values in String for ListDrgsTypeEnum
+func GetListDrgsTypeEnumStringValues() []string {
+	return []string{
+		"GLOBAL",
+		"REGIONAL",
+		"ALL",
+	}
+}
+
+// GetMappingListDrgsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDrgsTypeEnum(val string) (ListDrgsTypeEnum, bool) {
+	enum, ok := mappingListDrgsTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

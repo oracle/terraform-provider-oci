@@ -14,10 +14,10 @@ import (
 // ChangeDataSourceCompartmentRequest wrapper for the ChangeDataSourceCompartment operation
 type ChangeDataSourceCompartmentRequest struct {
 
-	// DataSource OCID
+	// Data source OCID.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
-	// The compartment id of the DataSource
+	// The compartment OCID of the DataSource resource
 	ChangeDataSourceCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

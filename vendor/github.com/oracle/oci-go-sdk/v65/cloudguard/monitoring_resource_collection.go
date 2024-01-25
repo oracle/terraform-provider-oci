@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// MonitoringResourceCollection Collection of monitoring resources
+// MonitoringResourceCollection The collection of MonitoringResourceSummary resources.
 type MonitoringResourceCollection struct {
 
-	// List of monitoring resources
+	// List of MonitoringResourceSummary resources
 	Items []MonitoringResourceSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m MonitoringResourceCollection) String() string {

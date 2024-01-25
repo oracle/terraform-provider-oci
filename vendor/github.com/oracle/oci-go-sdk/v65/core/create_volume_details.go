@@ -78,6 +78,9 @@ type CreateVolumeDetails struct {
 	//       * `32768`: 32 KB
 	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
 
+	// The clusterPlacementGroup Id of the volume for volume placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -137,24 +140,25 @@ func (m CreateVolumeDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AvailabilityDomain     *string                           `json:"availabilityDomain"`
-		BackupPolicyId         *string                           `json:"backupPolicyId"`
-		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName            *string                           `json:"displayName"`
-		FreeformTags           map[string]string                 `json:"freeformTags"`
-		KmsKeyId               *string                           `json:"kmsKeyId"`
-		VpusPerGB              *int64                            `json:"vpusPerGB"`
-		IoAlignmentSizeInBytes *int                              `json:"ioAlignmentSizeInBytes"`
-		SizeInGBs              *int64                            `json:"sizeInGBs"`
-		SizeInMBs              *int64                            `json:"sizeInMBs"`
-		SourceDetails          volumesourcedetails               `json:"sourceDetails"`
-		VolumeBackupId         *string                           `json:"volumeBackupId"`
-		IsAutoTuneEnabled      *bool                             `json:"isAutoTuneEnabled"`
-		BlockVolumeReplicas    []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
-		VolumeScope            VolumeVolumeScopeEnum             `json:"volumeScope"`
-		AutotunePolicies       []autotunepolicy                  `json:"autotunePolicies"`
-		XrcKmsKeyId            *string                           `json:"xrcKmsKeyId"`
-		CompartmentId          *string                           `json:"compartmentId"`
+		AvailabilityDomain      *string                           `json:"availabilityDomain"`
+		BackupPolicyId          *string                           `json:"backupPolicyId"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName             *string                           `json:"displayName"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		KmsKeyId                *string                           `json:"kmsKeyId"`
+		VpusPerGB               *int64                            `json:"vpusPerGB"`
+		IoAlignmentSizeInBytes  *int                              `json:"ioAlignmentSizeInBytes"`
+		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		SizeInGBs               *int64                            `json:"sizeInGBs"`
+		SizeInMBs               *int64                            `json:"sizeInMBs"`
+		SourceDetails           volumesourcedetails               `json:"sourceDetails"`
+		VolumeBackupId          *string                           `json:"volumeBackupId"`
+		IsAutoTuneEnabled       *bool                             `json:"isAutoTuneEnabled"`
+		BlockVolumeReplicas     []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
+		VolumeScope             VolumeVolumeScopeEnum             `json:"volumeScope"`
+		AutotunePolicies        []autotunepolicy                  `json:"autotunePolicies"`
+		XrcKmsKeyId             *string                           `json:"xrcKmsKeyId"`
+		CompartmentId           *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -177,6 +181,8 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	m.VpusPerGB = model.VpusPerGB
 
 	m.IoAlignmentSizeInBytes = model.IoAlignmentSizeInBytes
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.SizeInGBs = model.SizeInGBs
 

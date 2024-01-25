@@ -14,10 +14,10 @@ import (
 // CreateTargetDetectorRecipeRequest wrapper for the CreateTargetDetectorRecipe operation
 type CreateTargetDetectorRecipeRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// Details for associating DetectorRecipe to Target
+	// Details for associating DetectorRecipe with Target
 	AttachTargetDetectorRecipeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

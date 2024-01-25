@@ -17,27 +17,27 @@ import (
 	"strings"
 )
 
-// DetectorDetails Details of a Detector Rule
+// DetectorDetails Detailed information for a detector.
 type DetectorDetails struct {
 
-	// Enables the control
+	// Enablement status for the rule
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// The Risk Level
+	// The risk level for the rule
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// Configuration details
+	// List of detector rule configurations
 	Configurations []DetectorConfiguration `mandatory:"false" json:"configurations"`
 
 	Condition Condition `mandatory:"false" json:"condition"`
 
-	// user defined labels for a detector rule
+	// User-defined labels for a detector rule
 	Labels []string `mandatory:"false" json:"labels"`
 
-	// configuration allowed or not
+	// Can the rule be configured?
 	IsConfigurationAllowed *bool `mandatory:"false" json:"isConfigurationAllowed"`
 
-	// Cutover point for an elevated resource Risk Score to create a Problem
+	// The point at which an elevated resource risk score creates a problem
 	ProblemThreshold *int `mandatory:"false" json:"problemThreshold"`
 
 	// List of target types for which the detector rule is applicable
@@ -46,16 +46,16 @@ type DetectorDetails struct {
 	// List of sighting types
 	SightingTypes []SightingType `mandatory:"false" json:"sightingTypes"`
 
-	// Description for DetectorRecipeDetectorRule.
+	// Description for detector recipe detector rule
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recommendation for DetectorRecipeDetectorRule
+	// Recommendation for detector recipe detector rule
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// The id of the attached DataSource.
+	// The ID of the attached data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source entities mapping for a Detector Rule
+	// Data source entities mapping for a detector rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
 }
 

@@ -14,16 +14,16 @@ import (
 // ListMitreTechniquesRequest wrapper for the ListMitreTechniques operation
 type ListMitreTechniquesRequest struct {
 
-	// unique id of the mitre tactic
+	// Unique identifier of the MITRE ATT@CK framework tactic.
 	MitreTacticId *string `mandatory:"true" contributesTo:"path" name:"mitreTacticId"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use, either 'asc' or 'desc'.
+	// The sort order to use
 	SortOrder ListMitreTechniquesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The client request ID for tracing.

@@ -16,43 +16,46 @@ import (
 	"strings"
 )
 
-// DetectorRecipeDetectorRuleSightingType SightingType associated to a Threat detector rule.
+// DetectorRecipeDetectorRuleSightingType The sighting type associated with a Threat Detector rule.
 type DetectorRecipeDetectorRuleSightingType struct {
 
-	// The unique identifier of sighting type
+	// The unique identifier of the sighting type
 	Id *string `mandatory:"true" json:"id"`
 
-	// Name of the sighting type
+	// Display name of the sighting type
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Mitre Att&ck tactic associated with a Sighting Type
+	// MITRE ATT@CK framework tactic associated with a sighting type
 	Tactic *string `mandatory:"true" json:"tactic"`
 
-	// Mitre Att&ck Techniques associated with a Sighting Type
+	// MITRE ATT@CK framework techniques associated with a sighting type
 	Techniques []string `mandatory:"true" json:"techniques"`
 
 	// Description of the sighting type
 	Description *string `mandatory:"false" json:"description"`
 
-	// Link of the sighting type
+	// MITRE ATT@CK framework link for the sighting type
 	MitreLink *string `mandatory:"false" json:"mitreLink"`
 
-	// Identifier of the associated DataSource
+	// Unique identifier of the associated data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source additional entities mapping for a Detector Rule
+	// Data source additional entities mapping for a detector rule
 	AdditionalEntitiesMapping []EntitiesMapping `mandatory:"false" json:"additionalEntitiesMapping"`
 
-	// Owner type for the sighting type.
+	// Owner type for the sighting type
 	Owner OwnerTypeEnum `mandatory:"false" json:"owner,omitempty"`
 
 	MitreDetails *MitreDetails `mandatory:"false" json:"mitreDetails"`
 
-	// The date and time the Sighting Type was created. Format defined by RFC3339.
+	// The date and time the sighting type was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the Sighting Type was updated. Format defined by RFC3339.
+	// The date and time the sighting type was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DetectorRecipeDetectorRuleSightingType) String() string {

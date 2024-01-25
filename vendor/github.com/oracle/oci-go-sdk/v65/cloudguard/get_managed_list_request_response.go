@@ -14,7 +14,7 @@ import (
 // GetManagedListRequest wrapper for the GetManagedList operation
 type GetManagedListRequest struct {
 
-	// The cloudguard list OCID to be passed in the request.
+	// The managed list OCID to be passed in the request.
 	ManagedListId *string `mandatory:"true" contributesTo:"path" name:"managedListId"`
 
 	// The client request ID for tracing.

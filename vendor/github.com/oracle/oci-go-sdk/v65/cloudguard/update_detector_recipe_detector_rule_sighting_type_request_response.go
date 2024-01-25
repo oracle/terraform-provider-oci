@@ -14,16 +14,16 @@ import (
 // UpdateDetectorRecipeDetectorRuleSightingTypeRequest wrapper for the UpdateDetectorRecipeDetectorRuleSightingType operation
 type UpdateDetectorRecipeDetectorRuleSightingTypeRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The key of Detector Rule.
+	// The unique identifier of a detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
-	// unique id of the sighting type
+	// Unique ID of the sighting type.
 	SightingTypeId *string `mandatory:"true" contributesTo:"path" name:"sightingTypeId"`
 
-	// the details by which sighting type has to be updated.
+	// The details with which the sighting type is to be updated
 	UpdateDetectorRecipeDetectorRuleSightingTypeDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

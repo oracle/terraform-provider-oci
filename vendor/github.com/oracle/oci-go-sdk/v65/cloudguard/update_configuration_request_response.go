@@ -14,10 +14,10 @@ import (
 // UpdateConfigurationRequest wrapper for the UpdateConfiguration operation
 type UpdateConfigurationRequest struct {
 
-	// Update Configuration Details of Cloud Guard for a Tenancy.
+	// Updates configuration details of Cloud Guard for a Tenancy.
 	UpdateConfigurationDetails `contributesTo:"body"`
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.

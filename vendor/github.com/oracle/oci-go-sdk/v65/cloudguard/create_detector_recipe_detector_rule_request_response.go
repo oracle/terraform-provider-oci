@@ -14,10 +14,10 @@ import (
 // CreateDetectorRecipeDetectorRuleRequest wrapper for the CreateDetectorRecipeDetectorRule operation
 type CreateDetectorRecipeDetectorRuleRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The details with which detector rule has to be created.
+	// The details with which detector rule is to be created.
 	CreateDetectorRecipeDetectorRuleDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

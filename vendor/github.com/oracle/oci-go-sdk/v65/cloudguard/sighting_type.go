@@ -16,42 +16,42 @@ import (
 	"strings"
 )
 
-// SightingType Specific behavior that can trigger a Sighting
+// SightingType Information for a sighting type
 type SightingType struct {
 
-	// The unique identifier of sighting type
+	// The unique identifier of the sighting type
 	Id *string `mandatory:"false" json:"id"`
 
-	// Name of the sighting type
+	// Display name of the sighting type
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the sighting type
 	Description *string `mandatory:"false" json:"description"`
 
-	// Link of the sighting type
+	// MITRE ATT@CK framework link for the sighting type
 	MitreLink *string `mandatory:"false" json:"mitreLink"`
 
-	// Mitre Att&ck tactic
+	// MITRE ATT@CK framework tactic for the sighting type
 	Tactic *string `mandatory:"false" json:"tactic"`
 
-	// List of Mitre Att&ck Techniques
+	// List of MITRE ATT@CK framework techniques for the sighting type
 	Techniques []string `mandatory:"false" json:"techniques"`
 
-	// Identifier of the associated DataSource
+	// Unique identifier of the associated data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source additional entities mapping for a Detector Rule
+	// Data source additional entities mapping for a detector rule
 	AdditionalEntitiesMapping []EntitiesMapping `mandatory:"false" json:"additionalEntitiesMapping"`
 
-	// Owner type for the Sighting Type.
+	// Owner type for the sighting type
 	Owner OwnerTypeEnum `mandatory:"false" json:"owner,omitempty"`
 
 	MitreDetails *MitreDetails `mandatory:"false" json:"mitreDetails"`
 
-	// The date and time the Sighting Type was created. Format defined by RFC3339.
+	// The date and time the sighting type was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the Sighting Type was updated. Format defined by RFC3339.
+	// The date and time the sighting type was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 

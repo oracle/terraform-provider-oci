@@ -14,10 +14,10 @@ import (
 // ChangeDetectorRecipeCompartmentRequest wrapper for the ChangeDetectorRecipeCompartment operation
 type ChangeDetectorRecipeCompartmentRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The target compartment id.
+	// The target compartment OCID
 	ChangeDetectorRecipeCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

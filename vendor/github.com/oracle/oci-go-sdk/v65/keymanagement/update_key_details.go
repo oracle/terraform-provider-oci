@@ -17,6 +17,10 @@ import (
 
 // UpdateKeyDetails The details of the Key that you wish to update.
 type UpdateKeyDetails struct {
+
+	// A parameter specifying whether the auto key rotation is enabled or not.
+	IsAutoRotationEnabled *bool `mandatory:"false" json:"isAutoRotationEnabled"`
+
 	AutoKeyRotationDetails *AutoKeyRotationDetails `mandatory:"false" json:"autoKeyRotationDetails"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.

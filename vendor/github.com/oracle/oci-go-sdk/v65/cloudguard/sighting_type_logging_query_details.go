@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// SightingTypeLoggingQueryDetails Additional details specific to sighting type DataSource.
+// SightingTypeLoggingQueryDetails Additional details specific to sighting type data source.
 type SightingTypeLoggingQueryDetails struct {
 
 	// Additional entities for sighting type data source

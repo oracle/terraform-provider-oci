@@ -14,10 +14,10 @@ import (
 // ChangeManagedListCompartmentRequest wrapper for the ChangeManagedListCompartment operation
 type ChangeManagedListCompartmentRequest struct {
 
-	// The cloudguard list OCID to be passed in the request.
+	// The managed list OCID to be passed in the request.
 	ManagedListId *string `mandatory:"true" contributesTo:"path" name:"managedListId"`
 
-	// The compartment id of the ManagedList
+	// The compartment OCID of the ManagedList
 	ChangeManagedListCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -14,13 +14,13 @@ import (
 // UpdateTargetDetectorRecipeRequest wrapper for the UpdateTargetDetectorRecipe operation
 type UpdateTargetDetectorRecipeRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetDetectorRecipe
+	// OCID of the target detector recipe.
 	TargetDetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetDetectorRecipeId"`
 
-	// The details to be updated.
+	// The details to be updated
 	UpdateTargetDetectorRecipeDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

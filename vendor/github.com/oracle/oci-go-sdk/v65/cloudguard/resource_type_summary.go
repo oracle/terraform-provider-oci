@@ -16,17 +16,20 @@ import (
 	"strings"
 )
 
-// ResourceTypeSummary Summary of ResourceType
+// ResourceTypeSummary A summary of detailed information on a resource type.
 type ResourceTypeSummary struct {
 
-	// name of the resource
+	// Name of the resource
 	Name *string `mandatory:"true" json:"name"`
 
-	// display name of the resource
+	// Display name of the resource
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// List of rules
 	Rules []RuleSummary `mandatory:"false" json:"rules"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResourceTypeSummary) String() string {

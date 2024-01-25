@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// UpdateTargetAdditionalDetails Additional details of a target.
+// UpdateTargetAdditionalDetails Additional details to update in a target.
 type UpdateTargetAdditionalDetails interface {
 }
 

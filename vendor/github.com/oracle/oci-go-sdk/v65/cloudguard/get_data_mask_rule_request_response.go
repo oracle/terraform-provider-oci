@@ -14,7 +14,7 @@ import (
 // GetDataMaskRuleRequest wrapper for the GetDataMaskRule operation
 type GetDataMaskRuleRequest struct {
 
-	// OCID of dataMaskRule
+	// OCID of the data mask rule
 	DataMaskRuleId *string `mandatory:"true" contributesTo:"path" name:"dataMaskRuleId"`
 
 	// The client request ID for tracing.

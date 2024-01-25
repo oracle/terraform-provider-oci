@@ -14,7 +14,7 @@ import (
 // UpdateBulkProblemStatusRequest wrapper for the UpdateBulkProblemStatus operation
 type UpdateBulkProblemStatusRequest struct {
 
-	// A list of problem ids to be passed in to update the Problem status
+	// A list of Problem IDs to be passed in to update the Problem status
 	UpdateBulkProblemStatusDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

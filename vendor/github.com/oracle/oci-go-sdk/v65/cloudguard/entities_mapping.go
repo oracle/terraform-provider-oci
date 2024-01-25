@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// EntitiesMapping Data Source Entities mappings
+// EntitiesMapping Parameters for entities mapping to data source.
 type EntitiesMapping struct {
 
 	// The entity value mapped to a data source query
 	QueryField *string `mandatory:"true" json:"queryField"`
 
-	// The display name of entity
+	// Display name of the entity
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Possible type of entity
+	// Type of entity
 	EntityType EntityTypeEnum `mandatory:"false" json:"entityType,omitempty"`
 }
 

@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// MitreTacticCollection Collection of mitre tactic summaries supported by Cloudguard
+// MitreTacticCollection Collection of summary information for MITRE ATT@CK framework tactics supported by Cloud Guard.
 type MitreTacticCollection struct {
 
-	// List of mitre tactic summary.
+	// List of MITRE ATT@CK framework tactic summaries
 	Items []MitreTacticSummary `mandatory:"true" json:"items"`
 }
 

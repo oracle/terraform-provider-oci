@@ -14,10 +14,10 @@ import (
 // GetTargetResponderRecipeRequest wrapper for the GetTargetResponderRecipe operation
 type GetTargetResponderRecipeRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetResponderRecipe
+	// OCID of the target responder recipe.
 	TargetResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetResponderRecipeId"`
 
 	// The client request ID for tracing.

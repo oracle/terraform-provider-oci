@@ -14,10 +14,10 @@ import (
 // UpdateManagedListRequest wrapper for the UpdateManagedList operation
 type UpdateManagedListRequest struct {
 
-	// The cloudguard list OCID to be passed in the request.
+	// The managed list OCID to be passed in the request.
 	ManagedListId *string `mandatory:"true" contributesTo:"path" name:"managedListId"`
 
-	// Details for the ManagedList to be updated
+	// Details for the ManagedList resource to be updated
 	UpdateManagedListDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

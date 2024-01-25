@@ -14,10 +14,10 @@ import (
 // TriggerResponderRequest wrapper for the TriggerResponder operation
 type TriggerResponderRequest struct {
 
-	// OCId of the problem.
+	// OCID of the problem.
 	ProblemId *string `mandatory:"true" contributesTo:"path" name:"problemId"`
 
-	// The responder may update the problem.
+	// The responder may update the problem
 	TriggerResponderDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

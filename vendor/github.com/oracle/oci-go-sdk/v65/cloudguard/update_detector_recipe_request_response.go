@@ -14,7 +14,7 @@ import (
 // UpdateDetectorRecipeRequest wrapper for the UpdateDetectorRecipe operation
 type UpdateDetectorRecipeRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
 	// Details for the DetectorRecipe to be updated

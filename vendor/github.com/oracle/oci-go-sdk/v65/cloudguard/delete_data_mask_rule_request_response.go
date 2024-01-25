@@ -14,7 +14,7 @@ import (
 // DeleteDataMaskRuleRequest wrapper for the DeleteDataMaskRule operation
 type DeleteDataMaskRuleRequest struct {
 
-	// OCID of dataMaskRule
+	// OCID of the data mask rule
 	DataMaskRuleId *string `mandatory:"true" contributesTo:"path" name:"dataMaskRuleId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -14,10 +14,10 @@ import (
 // UpdateProblemStatusRequest wrapper for the UpdateProblemStatus operation
 type UpdateProblemStatusRequest struct {
 
-	// OCId of the problem.
+	// OCID of the problem.
 	ProblemId *string `mandatory:"true" contributesTo:"path" name:"problemId"`
 
-	// The additional details for the problem.
+	// The additional details for the problem
 	UpdateProblemStatusDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

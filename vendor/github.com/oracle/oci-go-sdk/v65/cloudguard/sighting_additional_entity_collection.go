@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// SightingAdditionalEntityCollection The collection of sighting additional entities' details
+// SightingAdditionalEntityCollection The collection of sighting additional entities' details.
 type SightingAdditionalEntityCollection struct {
 
 	// List of sighting additional entities' details
 	Items []SightingAdditionalEntitySummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m SightingAdditionalEntityCollection) String() string {

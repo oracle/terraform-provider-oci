@@ -14,7 +14,7 @@ import (
 // GetTargetRequest wrapper for the GetTarget operation
 type GetTargetRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
 	// The client request ID for tracing.

@@ -29,7 +29,7 @@ type DeleteFileSystemRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// If the value is set to true, then the file system will be deleted by detaching its child file system, turning
-	// the child file system into an independent File System
+	// the child file system into an independent File System.
 	CanDetachChildFileSystem *bool `mandatory:"false" contributesTo:"query" name:"canDetachChildFileSystem"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

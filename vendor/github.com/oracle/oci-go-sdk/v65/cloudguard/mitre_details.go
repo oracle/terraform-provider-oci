@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// MitreDetails Mitre details for the Sighting Type
+// MitreDetails MITRE ATT@CK framework details for the sighting type.
 type MitreDetails struct {
 	TacticDetails *MitreTactic `mandatory:"false" json:"tacticDetails"`
 

@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// SecurityRecipeSummary Summary information for a security zone recipe. A security zone recipe is a collection of security zone policies. Oracle Cloud Infrastructure enforces these policies on security zones that use the recipe.
+// SecurityRecipeSummary Summary information for a Security Zones recipe.
 type SecurityRecipeSummary struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique identifier that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// The id of the compartment that contains the recipe
+	// The OCID of the compartment that contains the recipe
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The owner of the recipe
 	Owner OwnerTypeEnum `mandatory:"true" json:"owner"`
 
-	// The list of `SecurityPolicy` ids that are included in the recipe
+	// The list of security policy IDs that are included in the recipe
 	SecurityPolicies []string `mandatory:"true" json:"securityPolicies"`
 
 	// The recipe's name
@@ -43,7 +43,7 @@ type SecurityRecipeSummary struct {
 	// The time the recipe was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the recipe
+	// The current lifecycle state of the recipe
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a recipe in the `Failed` state.

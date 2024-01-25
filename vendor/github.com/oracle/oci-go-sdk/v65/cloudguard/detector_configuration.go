@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// DetectorConfiguration A single configuration applied to a detector
+// DetectorConfiguration Configuration details for a detector.
 type DetectorConfiguration struct {
 
-	// Unique name of the configuration
+	// Unique identifier of the configuration
 	ConfigKey *string `mandatory:"true" json:"configKey"`
 
-	// configuration name
+	// Configuration name
 	Name *string `mandatory:"true" json:"name"`
 
-	// configuration value
+	// Configuration value
 	Value *string `mandatory:"false" json:"value"`
 
-	// configuration data type
+	// Configuration data type
 	DataType *string `mandatory:"false" json:"dataType"`
 
 	// List of configuration values

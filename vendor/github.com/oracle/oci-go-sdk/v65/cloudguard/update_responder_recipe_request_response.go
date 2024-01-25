@@ -14,10 +14,10 @@ import (
 // UpdateResponderRecipeRequest wrapper for the UpdateResponderRecipe operation
 type UpdateResponderRecipeRequest struct {
 
-	// OCID of ResponderRecipe
+	// OCID of the responder recipe.
 	ResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"responderRecipeId"`
 
-	// The details to be updated.
+	// The details to be updated
 	UpdateResponderRecipeDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

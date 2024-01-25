@@ -14,13 +14,13 @@ import (
 // GetTargetDetectorRecipeDetectorRuleRequest wrapper for the GetTargetDetectorRecipeDetectorRule operation
 type GetTargetDetectorRecipeDetectorRuleRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetDetectorRecipe
+	// OCID of the target detector recipe.
 	TargetDetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetDetectorRecipeId"`
 
-	// The id of DetectorRule
+	// The unique identifier of the detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
 	// The client request ID for tracing.

@@ -17,18 +17,18 @@ import (
 	"strings"
 )
 
-// ResponderRuleDetails Details of ResponderRule.
+// ResponderRuleDetails Detailed information for a responder rule
 type ResponderRuleDetails struct {
 
-	// Identifies state for ResponderRule
+	// Enabled state for the responder rule
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
 	Condition Condition `mandatory:"false" json:"condition"`
 
-	// ResponderRule configurations
+	// List of responder rule configurations
 	Configurations []ResponderConfiguration `mandatory:"false" json:"configurations"`
 
-	// Execution Mode for ResponderRule
+	// Execution mode for the responder rule
 	Mode ResponderModeTypesEnum `mandatory:"false" json:"mode,omitempty"`
 }
 

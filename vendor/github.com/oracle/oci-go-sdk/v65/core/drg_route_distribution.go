@@ -104,6 +104,7 @@ const (
 	DrgRouteDistributionLifecycleStateAvailable    DrgRouteDistributionLifecycleStateEnum = "AVAILABLE"
 	DrgRouteDistributionLifecycleStateTerminating  DrgRouteDistributionLifecycleStateEnum = "TERMINATING"
 	DrgRouteDistributionLifecycleStateTerminated   DrgRouteDistributionLifecycleStateEnum = "TERMINATED"
+	DrgRouteDistributionLifecycleStateUpdating     DrgRouteDistributionLifecycleStateEnum = "UPDATING"
 )
 
 var mappingDrgRouteDistributionLifecycleStateEnum = map[string]DrgRouteDistributionLifecycleStateEnum{
@@ -111,6 +112,7 @@ var mappingDrgRouteDistributionLifecycleStateEnum = map[string]DrgRouteDistribut
 	"AVAILABLE":    DrgRouteDistributionLifecycleStateAvailable,
 	"TERMINATING":  DrgRouteDistributionLifecycleStateTerminating,
 	"TERMINATED":   DrgRouteDistributionLifecycleStateTerminated,
+	"UPDATING":     DrgRouteDistributionLifecycleStateUpdating,
 }
 
 var mappingDrgRouteDistributionLifecycleStateEnumLowerCase = map[string]DrgRouteDistributionLifecycleStateEnum{
@@ -118,6 +120,7 @@ var mappingDrgRouteDistributionLifecycleStateEnumLowerCase = map[string]DrgRoute
 	"available":    DrgRouteDistributionLifecycleStateAvailable,
 	"terminating":  DrgRouteDistributionLifecycleStateTerminating,
 	"terminated":   DrgRouteDistributionLifecycleStateTerminated,
+	"updating":     DrgRouteDistributionLifecycleStateUpdating,
 }
 
 // GetDrgRouteDistributionLifecycleStateEnumValues Enumerates the set of values for DrgRouteDistributionLifecycleStateEnum
@@ -136,6 +139,7 @@ func GetDrgRouteDistributionLifecycleStateEnumStringValues() []string {
 		"AVAILABLE",
 		"TERMINATING",
 		"TERMINATED",
+		"UPDATING",
 	}
 }
 

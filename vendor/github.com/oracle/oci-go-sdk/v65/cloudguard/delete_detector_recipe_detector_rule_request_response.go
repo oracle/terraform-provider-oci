@@ -14,10 +14,10 @@ import (
 // DeleteDetectorRecipeDetectorRuleRequest wrapper for the DeleteDetectorRecipeDetectorRule operation
 type DeleteDetectorRecipeDetectorRuleRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The key of Detector Rule.
+	// The unique identifier of a detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

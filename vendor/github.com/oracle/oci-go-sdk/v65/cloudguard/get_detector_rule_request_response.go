@@ -14,10 +14,10 @@ import (
 // GetDetectorRuleRequest wrapper for the GetDetectorRule operation
 type GetDetectorRuleRequest struct {
 
-	// The Name of Detector.
+	// Detector name.
 	DetectorId *string `mandatory:"true" contributesTo:"path" name:"detectorId"`
 
-	// The key of Detector Rule.
+	// The unique identifier of a detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
 	// The client request ID for tracing.

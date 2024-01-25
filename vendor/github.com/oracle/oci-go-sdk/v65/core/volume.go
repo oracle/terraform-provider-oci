@@ -90,6 +90,9 @@ type Volume struct {
 	// The size (in Bytes) of the blocks for this block volume, between 512B to 32KB.
 	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
 
+	// The clusterPlacementGroup Id of the volume for volume placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -146,29 +149,30 @@ func (m Volume) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AvailabilityDomain     *string                           `json:"availabilityDomain"`
-		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags           map[string]string                 `json:"freeformTags"`
-		SystemTags             map[string]map[string]interface{} `json:"systemTags"`
-		IsHydrated             *bool                             `json:"isHydrated"`
-		KmsKeyId               *string                           `json:"kmsKeyId"`
-		VpusPerGB              *int64                            `json:"vpusPerGB"`
-		IoAlignmentSizeInBytes *int                              `json:"ioAlignmentSizeInBytes"`
-		SizeInGBs              *int64                            `json:"sizeInGBs"`
-		SourceDetails          volumesourcedetails               `json:"sourceDetails"`
-		VolumeGroupId          *string                           `json:"volumeGroupId"`
-		IsAutoTuneEnabled      *bool                             `json:"isAutoTuneEnabled"`
-		AutoTunedVpusPerGB     *int64                            `json:"autoTunedVpusPerGB"`
-		BlockVolumeReplicas    []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
-		VolumeScope            VolumeVolumeScopeEnum             `json:"volumeScope"`
-		MeteringMode           VolumeMeteringModeEnum            `json:"meteringMode"`
-		AutotunePolicies       []autotunepolicy                  `json:"autotunePolicies"`
-		CompartmentId          *string                           `json:"compartmentId"`
-		DisplayName            *string                           `json:"displayName"`
-		Id                     *string                           `json:"id"`
-		LifecycleState         VolumeLifecycleStateEnum          `json:"lifecycleState"`
-		SizeInMBs              *int64                            `json:"sizeInMBs"`
-		TimeCreated            *common.SDKTime                   `json:"timeCreated"`
+		AvailabilityDomain      *string                           `json:"availabilityDomain"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
+		IsHydrated              *bool                             `json:"isHydrated"`
+		KmsKeyId                *string                           `json:"kmsKeyId"`
+		VpusPerGB               *int64                            `json:"vpusPerGB"`
+		IoAlignmentSizeInBytes  *int                              `json:"ioAlignmentSizeInBytes"`
+		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		SizeInGBs               *int64                            `json:"sizeInGBs"`
+		SourceDetails           volumesourcedetails               `json:"sourceDetails"`
+		VolumeGroupId           *string                           `json:"volumeGroupId"`
+		IsAutoTuneEnabled       *bool                             `json:"isAutoTuneEnabled"`
+		AutoTunedVpusPerGB      *int64                            `json:"autoTunedVpusPerGB"`
+		BlockVolumeReplicas     []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
+		VolumeScope             VolumeVolumeScopeEnum             `json:"volumeScope"`
+		MeteringMode            VolumeMeteringModeEnum            `json:"meteringMode"`
+		AutotunePolicies        []autotunepolicy                  `json:"autotunePolicies"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		DisplayName             *string                           `json:"displayName"`
+		Id                      *string                           `json:"id"`
+		LifecycleState          VolumeLifecycleStateEnum          `json:"lifecycleState"`
+		SizeInMBs               *int64                            `json:"sizeInMBs"`
+		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -191,6 +195,8 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.VpusPerGB = model.VpusPerGB
 
 	m.IoAlignmentSizeInBytes = model.IoAlignmentSizeInBytes
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.SizeInGBs = model.SizeInGBs
 

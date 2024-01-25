@@ -17,25 +17,25 @@ import (
 	"strings"
 )
 
-// FaTargetDetails Details about Fusion Apps Target.
+// FaTargetDetails Parameters for a Fusion Apps target's details.
 type FaTargetDetails struct {
 
-	// Resources that will be monitored
+	// List of resources that will be monitored
 	MonitoringResources []MonitoringResource `mandatory:"false" json:"monitoringResources"`
 
-	// OCI region where audit logs to be fetched by Cloud Guard
+	// OCI region where audit logs are to be fetched by Cloud Guard
 	MonitoringRegion *string `mandatory:"false" json:"monitoringRegion"`
 
-	// URL of fusion apps instance
+	// URL of Fusion Apps instance
 	FaInstanceUrl *string `mandatory:"false" json:"faInstanceUrl"`
 
-	// Service account username
+	// Service account user name
 	Username *string `mandatory:"false" json:"username"`
 
-	// Login service url
+	// Login service URL
 	LoginServiceUrl *string `mandatory:"false" json:"loginServiceUrl"`
 
-	// Login service type (eg.OAM)
+	// Login service type
 	LoginServiceType LoginServiceTypeEnum `mandatory:"false" json:"loginServiceType,omitempty"`
 }
 

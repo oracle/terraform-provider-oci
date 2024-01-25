@@ -14,7 +14,7 @@ import (
 // CreateResponderRecipeRequest wrapper for the CreateResponderRecipe operation
 type CreateResponderRecipeRequest struct {
 
-	// Details for ResponderRecipe.
+	// Details for ResponderRecipe
 	CreateResponderRecipeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

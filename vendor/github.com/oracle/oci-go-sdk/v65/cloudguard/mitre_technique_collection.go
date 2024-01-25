@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// MitreTechniqueCollection Collection of mitre technique summaries supported by Cloudguard
+// MitreTechniqueCollection Collection of summaries for MITRE ATT@CK framework techniques supported by Cloud Guard.
 type MitreTechniqueCollection struct {
 
-	// List of mitre tactic summary.
+	// List of MitreTechniqueSummary resources
 	Items []MitreTechniqueSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m MitreTechniqueCollection) String() string {

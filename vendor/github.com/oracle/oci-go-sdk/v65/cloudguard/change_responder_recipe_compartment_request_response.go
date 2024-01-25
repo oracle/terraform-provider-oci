@@ -14,10 +14,10 @@ import (
 // ChangeResponderRecipeCompartmentRequest wrapper for the ChangeResponderRecipeCompartment operation
 type ChangeResponderRecipeCompartmentRequest struct {
 
-	// OCID of ResponderRecipe
+	// OCID of the responder recipe.
 	ResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"responderRecipeId"`
 
-	// The target compartment id.
+	// The target compartment OCID
 	ChangeResponderRecipeCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

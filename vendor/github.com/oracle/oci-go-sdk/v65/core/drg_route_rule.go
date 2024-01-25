@@ -69,6 +69,16 @@ type DrgRouteRule struct {
 
 	// Additional properties for the route, computed by the service.
 	Attributes *interface{} `mandatory:"false" json:"attributes"`
+
+	// A list of ASNs in AS_Path.
+	AsPath []int `mandatory:"false" json:"asPath"`
+
+	// List of BGP Communities
+	BgpCommunities []string `mandatory:"false" json:"bgpCommunities"`
+
+	// The Oracle Cloud Infrastructure (region)[iaas/General/Concepts/regions.htm] where this route rule originates.
+	// Example: 'phx'
+	RouteRegion *string `mandatory:"false" json:"routeRegion"`
 }
 
 func (m DrgRouteRule) String() string {

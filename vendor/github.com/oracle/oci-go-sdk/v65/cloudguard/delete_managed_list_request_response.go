@@ -14,7 +14,7 @@ import (
 // DeleteManagedListRequest wrapper for the DeleteManagedList operation
 type DeleteManagedListRequest struct {
 
-	// The cloudguard list OCID to be passed in the request.
+	// The managed list OCID to be passed in the request.
 	ManagedListId *string `mandatory:"true" contributesTo:"path" name:"managedListId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

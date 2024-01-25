@@ -18,9 +18,6 @@ import (
 // AutoKeyRotationDetails The details of auto rotation schedule for the Key being create updated or imported.
 type AutoKeyRotationDetails struct {
 
-	// A parameter specifying whether the auto key rotation is enabled or not.
-	IsRotationEnabled *bool `mandatory:"false" json:"isRotationEnabled"`
-
 	// The interval of auto key rotation. For auto key rotation the interval should between 30 day and 365 days (1 year)
 	RotationIntervalInDays *int `mandatory:"false" json:"rotationIntervalInDays"`
 

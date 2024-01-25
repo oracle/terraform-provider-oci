@@ -16,11 +16,16 @@ import (
 	"strings"
 )
 
-// CredentialsValidationDetails Collection of credentials validation response
+// CredentialsValidationDetails A collection of CredentialValidationDetailsItem resources. This resource
+// contains details about the result of the credential validation call.
+// For example, it contains the URL, response status and response code.
 type CredentialsValidationDetails struct {
 
-	// List of credentials validation response
+	// List of credentials validation responses (CredentialsValidationDetailsItem resources)
 	Items []CredentialsValidationDetailsItem `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m CredentialsValidationDetails) String() string {

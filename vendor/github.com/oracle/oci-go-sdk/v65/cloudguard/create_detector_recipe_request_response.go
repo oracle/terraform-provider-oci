@@ -14,7 +14,7 @@ import (
 // CreateDetectorRecipeRequest wrapper for the CreateDetectorRecipe operation
 type CreateDetectorRecipeRequest struct {
 
-	// Details for the new DetectorRecipe.
+	// Details for the new DetectorRecipe
 	CreateDetectorRecipeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

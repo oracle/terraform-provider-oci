@@ -14,7 +14,7 @@ import (
 // GetSecurityRecipeRequest wrapper for the GetSecurityRecipe operation
 type GetSecurityRecipeRequest struct {
 
-	// The unique identifier of the security zone recipe (`SecurityRecipe`)
+	// The unique identifier of the security zone recipe. (`SecurityRecipe`)
 	SecurityRecipeId *string `mandatory:"true" contributesTo:"path" name:"securityRecipeId"`
 
 	// The client request ID for tracing.

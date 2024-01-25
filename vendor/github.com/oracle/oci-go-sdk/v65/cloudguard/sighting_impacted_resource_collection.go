@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// SightingImpactedResourceCollection Provides the summary of sighting impacted resource
+// SightingImpactedResourceCollection Collection of sighting impacted resource summaries.
 type SightingImpactedResourceCollection struct {
 
-	// List of SightingImpactedResourceSummary
+	// List of SightingImpactedResourceSummary resources
 	Items []SightingImpactedResourceSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m SightingImpactedResourceCollection) String() string {

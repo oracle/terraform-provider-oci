@@ -14,7 +14,7 @@ import (
 // DeleteDataSourceRequest wrapper for the DeleteDataSource operation
 type DeleteDataSourceRequest struct {
 
-	// DataSource OCID
+	// Data source OCID.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

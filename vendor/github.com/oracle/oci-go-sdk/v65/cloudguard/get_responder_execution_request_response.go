@@ -14,7 +14,7 @@ import (
 // GetResponderExecutionRequest wrapper for the GetResponderExecution operation
 type GetResponderExecutionRequest struct {
 
-	// The identifier of the responder execution.
+	// The unique identifier of the responder execution.
 	ResponderExecutionId *string `mandatory:"true" contributesTo:"path" name:"responderExecutionId"`
 
 	// The client request ID for tracing.

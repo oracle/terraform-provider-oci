@@ -14,16 +14,16 @@ import (
 // UpdateTargetResponderRecipeResponderRuleRequest wrapper for the UpdateTargetResponderRecipeResponderRule operation
 type UpdateTargetResponderRecipeResponderRuleRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetResponderRecipe
+	// OCID of the target responder recipe.
 	TargetResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetResponderRecipeId"`
 
-	// The id of ResponderRule
+	// Unique identifier of the responder rule.
 	ResponderRuleId *string `mandatory:"true" contributesTo:"path" name:"responderRuleId"`
 
-	// The details to be updated for ResponderRule.
+	// The details to be updated for the ResponderRule resource.
 	UpdateTargetResponderRecipeResponderRuleDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

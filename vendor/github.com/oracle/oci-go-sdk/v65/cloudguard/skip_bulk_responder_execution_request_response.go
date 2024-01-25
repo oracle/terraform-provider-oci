@@ -14,7 +14,7 @@ import (
 // SkipBulkResponderExecutionRequest wrapper for the SkipBulkResponderExecution operation
 type SkipBulkResponderExecutionRequest struct {
 
-	// A list of responder execution ids to skip the execution
+	// A list of responder execution IDs to skip the execution
 	SkipBulkResponderExecutionDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// MitreTechniqueSummary Mitre Technique summary
+// MitreTechniqueSummary Summary information for a MITRE ATT@CK framework technique.
 type MitreTechniqueSummary struct {
 
-	// Unique identifier for the mitre technique.
+	// Unique identifier for the technique
 	Id *string `mandatory:"true" json:"id"`
 
-	// Display name of the mitre technique
+	// Display name of the technique
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Mitre Url of the technique
+	// MITRE ATT@CK framework URL of the technique
 	MitreLink *string `mandatory:"true" json:"mitreLink"`
 }
 

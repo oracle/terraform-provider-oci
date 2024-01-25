@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// TargetMonitoringSignalCollection Collection of MonitoringSignal
+// TargetMonitoringSignalCollection Collection of target monitoring signals.
 type TargetMonitoringSignalCollection struct {
 
-	// List of TargetMonitoringSignalSummary
+	// List of TargetMonitoringSignalSummary resources
 	Items []TargetMonitoringSignalSummary `mandatory:"true" json:"items"`
 }
 

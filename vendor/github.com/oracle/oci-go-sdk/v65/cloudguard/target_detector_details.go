@@ -16,28 +16,28 @@ import (
 	"strings"
 )
 
-// TargetDetectorDetails Overriden settings of a Detector Rule applied on target
+// TargetDetectorDetails Overriden settings of a detector rule in recipe attached to target.
 type TargetDetectorDetails struct {
 
-	// Enables the control
+	// Enablement state of the detector rule
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// The Risk Level
+	// The risk level of the detector rule
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// Configuration details
+	// List of detector rule configurations
 	Configurations []DetectorConfiguration `mandatory:"false" json:"configurations"`
 
 	// Condition group corresponding to each compartment
 	ConditionGroups []ConditionGroup `mandatory:"false" json:"conditionGroups"`
 
-	// user defined labels for a detector rule
+	// User-defined labels for a detector rule
 	Labels []string `mandatory:"false" json:"labels"`
 
-	// configuration allowed or not
+	// Configuration allowed or not
 	IsConfigurationAllowed *bool `mandatory:"false" json:"isConfigurationAllowed"`
 
-	// Cutover point for an elevated resource Risk Score to create a Problem
+	// Point at which an elevated resource risk score creates a problem
 	ProblemThreshold *int `mandatory:"false" json:"problemThreshold"`
 
 	// List of target types for which the detector rule is applicable

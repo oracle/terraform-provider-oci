@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// MitreTacticSummary Mitre Tactic summary
+// MitreTacticSummary Summary information for a MITRE ATT@CK framework tactic.
 type MitreTacticSummary struct {
 
-	// Unique identifier for the mitre tactic.
+	// Unique identifier for the tactic
 	Id *string `mandatory:"true" json:"id"`
 
-	// Display name of the mitre tactic
+	// Display name of the tactic
 	DisplayName *string `mandatory:"true" json:"displayName"`
 }
 

@@ -14,10 +14,10 @@ import (
 // DeleteTargetResponderRecipeRequest wrapper for the DeleteTargetResponderRecipe operation
 type DeleteTargetResponderRecipeRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetResponderRecipe
+	// OCID of the target responder recipe.
 	TargetResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetResponderRecipeId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -14,7 +14,7 @@ import (
 // GetResponderRuleRequest wrapper for the GetResponderRule operation
 type GetResponderRuleRequest struct {
 
-	// The id of ResponderRule
+	// Unique identifier of the responder rule.
 	ResponderRuleId *string `mandatory:"true" contributesTo:"path" name:"responderRuleId"`
 
 	// The client request ID for tracing.

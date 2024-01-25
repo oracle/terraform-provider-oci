@@ -32,6 +32,11 @@ type ListDrgRouteRulesRequest struct {
 	// Dynamic routes are learned by the DRG from the DRG attachments through various routing protocols.
 	RouteType ListDrgRouteRulesRouteTypeEnum `mandatory:"false" contributesTo:"query" name:"routeType" omitEmpty:"true"`
 
+	// Enables filtering routes on a Global DRG route table by the Oracle Cloud
+	// Infrastructure (region)[iaas/General/Concepts/regions.htm] where this route rule originates.
+	// Example: 'phx'
+	RouteRegion *string `mandatory:"false" contributesTo:"query" name:"routeRegion"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

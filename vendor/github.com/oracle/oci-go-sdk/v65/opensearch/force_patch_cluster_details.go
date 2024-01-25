@@ -20,6 +20,9 @@ type ForcePatchClusterDetails struct {
 
 	// OCID of the Opensearch Cluster.
 	ClusterId *string `mandatory:"true" json:"clusterId"`
+
+	// flex shape name for the instances in the cluster
+	FlexShape *string `mandatory:"false" json:"flexShape"`
 }
 
 func (m ForcePatchClusterDetails) String() string {

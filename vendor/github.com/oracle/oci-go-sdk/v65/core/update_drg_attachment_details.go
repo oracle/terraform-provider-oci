@@ -29,6 +29,10 @@ type UpdateDrgAttachmentDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Indicates if transitive traffic is enabled for this DRG attachment. This field is
+	// only supported for VirtualCircuit and IPSec DRG attachments.
+	TransitiveTrafficEnabled DrgAttachmentTransitiveTrafficStateEnum `mandatory:"false" json:"transitiveTrafficEnabled,omitempty"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table that is assigned to this attachment.
 	// The DRG route table manages traffic inside the DRG.
 	// You can't remove a DRG route table from a DRG attachment, but you can reassign which
@@ -69,6 +73,9 @@ func (m UpdateDrgAttachmentDetails) String() string {
 func (m UpdateDrgAttachmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDrgAttachmentTransitiveTrafficStateEnum(string(m.TransitiveTrafficEnabled)); !ok && m.TransitiveTrafficEnabled != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransitiveTrafficEnabled: %s. Supported values are: %s.", m.TransitiveTrafficEnabled, strings.Join(GetDrgAttachmentTransitiveTrafficStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -78,13 +85,14 @@ func (m UpdateDrgAttachmentDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                  *string                           `json:"displayName"`
-		DrgRouteTableId              *string                           `json:"drgRouteTableId"`
-		NetworkDetails               drgattachmentnetworkupdatedetails `json:"networkDetails"`
-		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags                 map[string]string                 `json:"freeformTags"`
-		ExportDrgRouteDistributionId *string                           `json:"exportDrgRouteDistributionId"`
-		RouteTableId                 *string                           `json:"routeTableId"`
+		DisplayName                  *string                                 `json:"displayName"`
+		TransitiveTrafficEnabled     DrgAttachmentTransitiveTrafficStateEnum `json:"transitiveTrafficEnabled"`
+		DrgRouteTableId              *string                                 `json:"drgRouteTableId"`
+		NetworkDetails               drgattachmentnetworkupdatedetails       `json:"networkDetails"`
+		DefinedTags                  map[string]map[string]interface{}       `json:"definedTags"`
+		FreeformTags                 map[string]string                       `json:"freeformTags"`
+		ExportDrgRouteDistributionId *string                                 `json:"exportDrgRouteDistributionId"`
+		RouteTableId                 *string                                 `json:"routeTableId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -93,6 +101,8 @@ func (m *UpdateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DisplayName = model.DisplayName
+
+	m.TransitiveTrafficEnabled = model.TransitiveTrafficEnabled
 
 	m.DrgRouteTableId = model.DrgRouteTableId
 

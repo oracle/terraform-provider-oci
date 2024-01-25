@@ -14,10 +14,10 @@ import (
 // ListTargetMonitoringSignalsRequest wrapper for the ListTargetMonitoringSignals operation
 type ListTargetMonitoringSignalsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
 	// The client request ID for tracing.
@@ -26,13 +26,13 @@ type ListTargetMonitoringSignalsRequest struct {
 	// The field scan status. Only one status can be provided. Default value for scan status is failed. If no value is specified scan status is failed.
 	ScanStatus ListTargetMonitoringSignalsScanStatusEnum `mandatory:"false" contributesTo:"query" name:"scanStatus" omitEmpty:"true"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use, either 'asc' or 'desc'.
+	// The sort order to use
 	SortOrder ListTargetMonitoringSignalsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending. If no value is specified timeCreated is default.

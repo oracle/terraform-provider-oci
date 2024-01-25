@@ -14,10 +14,10 @@ import (
 // UpdateDataSourceRequest wrapper for the UpdateDataSource operation
 type UpdateDataSourceRequest struct {
 
-	// DataSource OCID
+	// Data source OCID.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
-	// Details for the DataSource to be updated
+	// Details for the DataSource resource to be updated
 	UpdateDataSourceDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

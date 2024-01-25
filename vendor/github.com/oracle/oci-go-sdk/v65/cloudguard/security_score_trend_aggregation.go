@@ -19,10 +19,10 @@ import (
 // SecurityScoreTrendAggregation Provides the dimensions and their corresponding time and security score.
 type SecurityScoreTrendAggregation struct {
 
-	// The key-value pairs of dimensions and their names.
+	// The key-value pairs of dimensions and their names
 	DimensionsMap map[string]string `mandatory:"true" json:"dimensionsMap"`
 
-	// Start Time in epoch seconds
+	// Start time in epoch seconds
 	StartTimestamp *float32 `mandatory:"true" json:"startTimestamp"`
 
 	// Duration

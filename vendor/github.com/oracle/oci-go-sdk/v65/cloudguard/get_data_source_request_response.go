@@ -14,7 +14,7 @@ import (
 // GetDataSourceRequest wrapper for the GetDataSource operation
 type GetDataSourceRequest struct {
 
-	// DataSource OCID
+	// Data source OCID.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// The client request ID for tracing.

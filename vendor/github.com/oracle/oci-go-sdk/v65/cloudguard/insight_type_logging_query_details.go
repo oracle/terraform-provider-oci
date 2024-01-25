@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// InsightTypeLoggingQueryDetails Additional details specific to insight type DataSource.
+// InsightTypeLoggingQueryDetails Additional details for Insight type queries on a data source.
 type InsightTypeLoggingQueryDetails struct {
 
 	// The key entities count used for data source query

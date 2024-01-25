@@ -16,31 +16,32 @@ import (
 	"strings"
 )
 
-// TargetMonitoringSignalSummary The target monitoring signal.
+// TargetMonitoringSignalSummary Summary information for a target monitoring signal
+// (TargetMonitoringSignal resource).
 type TargetMonitoringSignalSummary struct {
 
-	// Tenant Id associated with monitoring signal.
+	// Tenant ID associated with monitoring signal
 	TenantId *string `mandatory:"false" json:"tenantId"`
 
-	// Compartment Id associated with monitoring signal.
+	// Compartment ID associated with monitoring signal
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Target Id associated with monitoring signal.
+	// Target ID associated with monitoring signal
 	TargetId *string `mandatory:"false" json:"targetId"`
 
-	// Name of resource.
+	// Name of resource
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
-	// Scan status of resource.
+	// Scan status of resource
 	ScanStatus *string `mandatory:"false" json:"scanStatus"`
 
-	// Severity of error of associated resource.
+	// Severity of error of associated resource
 	Severity *string `mandatory:"false" json:"severity"`
 
-	// max timestamp of fetched signal in a successful run.
+	// The latest timestamp of fetched signal in a successful run
 	TimeLastSuccessful *common.SDKTime `mandatory:"false" json:"timeLastSuccessful"`
 
-	// The additional details of the monitoring signal.
+	// The additional details of the monitoring signal
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 }
 

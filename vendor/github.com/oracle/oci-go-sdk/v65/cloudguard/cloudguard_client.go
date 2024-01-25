@@ -92,7 +92,11 @@ func (client *CloudGuardClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// AddCompartment Add an existing compartment to a security zone. If you previously removed a subcompartment from a security zone, you can add it back to the same security zone. The security zone ensures that resources in the subcompartment comply with the security zone's policies.
+// AddCompartment Adds a compartment to an existing security zone (SecurityZone resource), identified by
+// securityZoneId. Specify parameters in an AddCompartmentDetails resource that you pass.
+// If you previously removed a subcompartment from a security zone, you can add it back to the
+// same security zone. The security zone ensures that resources in the subcompartment comply with
+// the security zone's policies.
 func (client CloudGuardClient) AddCompartment(ctx context.Context, request AddCompartmentRequest) (response AddCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -150,7 +154,7 @@ func (client CloudGuardClient) addCompartment(ctx context.Context, request commo
 	return response, err
 }
 
-// CancelWorkRequest Cancels the work request with the given ID.
+// CancelWorkRequest Cancels a work request identified by workRequestId.
 func (client CloudGuardClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -203,7 +207,9 @@ func (client CloudGuardClient) cancelWorkRequest(ctx context.Context, request co
 	return response, err
 }
 
-// ChangeDataSourceCompartment Moves the DataSource from current compartment to another.
+// ChangeDataSourceCompartment Moves a data source (DataSource resource), identified by parameters
+// passed in a ChangeDataSourceCompartmentDetails resource, from the current
+// compartment to another.
 func (client CloudGuardClient) ChangeDataSourceCompartment(ctx context.Context, request ChangeDataSourceCompartmentRequest) (response ChangeDataSourceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -261,7 +267,10 @@ func (client CloudGuardClient) changeDataSourceCompartment(ctx context.Context, 
 	return response, err
 }
 
-// ChangeDetectorRecipeCompartment Moves the detector recipe (DetectorRecipe object), identified by detectorRecipeId, from the current compartment to another compartment.
+// ChangeDetectorRecipeCompartment Moves the detector recipe (DetectorRecipe resource),
+// identified by detectorRecipeId, from the current compartment to
+// another compartment. When provided, If-Match is checked against
+// etag values of the resource.
 func (client CloudGuardClient) ChangeDetectorRecipeCompartment(ctx context.Context, request ChangeDetectorRecipeCompartmentRequest) (response ChangeDetectorRecipeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -319,7 +328,7 @@ func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Conte
 	return response, err
 }
 
-// ChangeManagedListCompartment Moves the managed list (ManagedList object), identified by managedListId, from the current compartment to another compartment.
+// ChangeManagedListCompartment Moves the managed list (ManagedList resource), identified by managedListId, from the current compartment to another compartment.
 func (client CloudGuardClient) ChangeManagedListCompartment(ctx context.Context, request ChangeManagedListCompartmentRequest) (response ChangeManagedListCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -377,7 +386,9 @@ func (client CloudGuardClient) changeManagedListCompartment(ctx context.Context,
 	return response, err
 }
 
-// ChangeResponderRecipeCompartment Moves the ResponderRecipe from current compartment to another.
+// ChangeResponderRecipeCompartment Moves the responder recipe (ResponderRecipe resource), identified by responderRecipeId
+// in a ChangeResponderRecipeCompartmentDetails resource, from the current compartment to another compartment.
+// When provided, if-match is checked against etag values of the resource.
 func (client CloudGuardClient) ChangeResponderRecipeCompartment(ctx context.Context, request ChangeResponderRecipeCompartmentRequest) (response ChangeResponderRecipeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -435,7 +446,9 @@ func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeSecurityRecipeCompartment Moves a security zone recipe to a different compartment. When provided, `If-Match` is checked against `ETag` values of the resource.
+// ChangeSecurityRecipeCompartment Moves the security recipe (SecurityRecipe resource), identified by securityRecipeId,
+// from the current compartment to another compartment. When provided, `if-match` is checked
+// against `etag` values of the resource.
 func (client CloudGuardClient) ChangeSecurityRecipeCompartment(ctx context.Context, request ChangeSecurityRecipeCompartmentRequest) (response ChangeSecurityRecipeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -493,7 +506,9 @@ func (client CloudGuardClient) changeSecurityRecipeCompartment(ctx context.Conte
 	return response, err
 }
 
-// ChangeSecurityZoneCompartment Moves a security zone to a different compartment. When provided, `If-Match` is checked against `ETag` values of the resource.
+// ChangeSecurityZoneCompartment Moves a security zone, identified by securityZoneId, to a different compartment.
+// Pass parameters through a ChangeSecurityZoneCompartmentDetails resource.
+// When provided, `if-match` is checked against `etag` values of the resource.
 func (client CloudGuardClient) ChangeSecurityZoneCompartment(ctx context.Context, request ChangeSecurityZoneCompartmentRequest) (response ChangeSecurityZoneCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -551,7 +566,7 @@ func (client CloudGuardClient) changeSecurityZoneCompartment(ctx context.Context
 	return response, err
 }
 
-// CreateDataMaskRule Creates a new DataMaskRule object definition.
+// CreateDataMaskRule Creates a new DataMaskRule resource definition.
 func (client CloudGuardClient) CreateDataMaskRule(ctx context.Context, request CreateDataMaskRuleRequest) (response CreateDataMaskRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -609,7 +624,8 @@ func (client CloudGuardClient) createDataMaskRule(ctx context.Context, request c
 	return response, err
 }
 
-// CreateDataSource Creates a DataSource
+// CreateDataSource Creates a data source (DataSource resource), using parameters passed
+// through a CreateDataSourceDetails resource.
 func (client CloudGuardClient) CreateDataSource(ctx context.Context, request CreateDataSourceRequest) (response CreateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -667,7 +683,7 @@ func (client CloudGuardClient) createDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// CreateDetectorRecipe Creates a new DetectorRecipe object.
+// CreateDetectorRecipe Creates a new DetectorRecipe resource.
 func (client CloudGuardClient) CreateDetectorRecipe(ctx context.Context, request CreateDetectorRecipeRequest) (response CreateDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -725,7 +741,7 @@ func (client CloudGuardClient) createDetectorRecipe(ctx context.Context, request
 	return response, err
 }
 
-// CreateDetectorRecipeDetectorRule Create the DetectorRule
+// CreateDetectorRecipeDetectorRule Creates a detector rule.
 func (client CloudGuardClient) CreateDetectorRecipeDetectorRule(ctx context.Context, request CreateDetectorRecipeDetectorRuleRequest) (response CreateDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -783,7 +799,7 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
-// CreateDetectorRecipeDetectorRuleSightingType Adds a sighting type to a detector rule
+// CreateDetectorRecipeDetectorRuleSightingType Adds a sighting type to a detector rule associated with a detector recipe.
 func (client CloudGuardClient) CreateDetectorRecipeDetectorRuleSightingType(ctx context.Context, request CreateDetectorRecipeDetectorRuleSightingTypeRequest) (response CreateDetectorRecipeDetectorRuleSightingTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -841,7 +857,7 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRuleSightingType(ctx 
 	return response, err
 }
 
-// CreateManagedList Creates a new ManagedList object.
+// CreateManagedList Creates a new ManagedList resource.
 func (client CloudGuardClient) CreateManagedList(ctx context.Context, request CreateManagedListRequest) (response CreateManagedListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -899,7 +915,8 @@ func (client CloudGuardClient) createManagedList(ctx context.Context, request co
 	return response, err
 }
 
-// CreateResponderRecipe Create a ResponderRecipe.
+// CreateResponderRecipe Creates a responder recipe (ResponderRecipe resource), from values passed in a
+// CreateResponderRecipeDetails resource.
 func (client CloudGuardClient) CreateResponderRecipe(ctx context.Context, request CreateResponderRecipeRequest) (response CreateResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -957,7 +974,8 @@ func (client CloudGuardClient) createResponderRecipe(ctx context.Context, reques
 	return response, err
 }
 
-// CreateSecurityRecipe Creates a security zone recipe. A security zone recipe is a collection of security zone policies.
+// CreateSecurityRecipe Creates a security zone recipe (SecurityRecipe resource), using parameters
+// passed in a CreateSecurityRecipeDetails resource.
 func (client CloudGuardClient) CreateSecurityRecipe(ctx context.Context, request CreateSecurityRecipeRequest) (response CreateSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1015,7 +1033,8 @@ func (client CloudGuardClient) createSecurityRecipe(ctx context.Context, request
 	return response, err
 }
 
-// CreateSecurityZone Creates a security zone for a compartment. A security zone enforces all security zone policies in a given security zone recipe. Any actions that violate a policy are denied. By default, any subcompartments are also in the same security zone.
+// CreateSecurityZone Creates a security zone (SecurityZone resource) for a compartment. Pass parameters
+// through a CreateSecurityZoneDetails resource.
 func (client CloudGuardClient) CreateSecurityZone(ctx context.Context, request CreateSecurityZoneRequest) (response CreateSecurityZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1073,7 +1092,7 @@ func (client CloudGuardClient) createSecurityZone(ctx context.Context, request c
 	return response, err
 }
 
-// CreateTarget Creates a new Target
+// CreateTarget Creates a target (Target resource), using parameters passed in a CreateTargetDetails resource.
 func (client CloudGuardClient) CreateTarget(ctx context.Context, request CreateTargetRequest) (response CreateTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1131,7 +1150,9 @@ func (client CloudGuardClient) createTarget(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateTargetDetectorRecipe Attach a DetectorRecipe with the Target
+// CreateTargetDetectorRecipe Attaches a DetectorRecipe to a target (Target resource) identified by targetId,
+// using parameters passed in a TargetAttachTargetDetectorRecipeDetails resource.
+// Attach a DetectorRecipe with the Target
 func (client CloudGuardClient) CreateTargetDetectorRecipe(ctx context.Context, request CreateTargetDetectorRecipeRequest) (response CreateTargetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1189,7 +1210,7 @@ func (client CloudGuardClient) createTargetDetectorRecipe(ctx context.Context, r
 	return response, err
 }
 
-// CreateTargetResponderRecipe Attach a ResponderRecipe with the Target
+// CreateTargetResponderRecipe Attaches a responder recipe to a target.
 func (client CloudGuardClient) CreateTargetResponderRecipe(ctx context.Context, request CreateTargetResponderRecipeRequest) (response CreateTargetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1247,7 +1268,7 @@ func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, 
 	return response, err
 }
 
-// DeleteDataMaskRule Deletes a DataMaskRule object, identified by dataMaskRuleId.
+// DeleteDataMaskRule Deletes a DataMaskRule resource, identified by dataMaskRuleId.
 func (client CloudGuardClient) DeleteDataMaskRule(ctx context.Context, request DeleteDataMaskRuleRequest) (response DeleteDataMaskRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1300,7 +1321,7 @@ func (client CloudGuardClient) deleteDataMaskRule(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteDataSource Deletes a DataSource identified by dataSourceId
+// DeleteDataSource Deletes a data source (DataSource resource) identified by dataSourceId.
 func (client CloudGuardClient) DeleteDataSource(ctx context.Context, request DeleteDataSourceRequest) (response DeleteDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1358,7 +1379,7 @@ func (client CloudGuardClient) deleteDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteDetectorRecipe Deletes a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
+// DeleteDetectorRecipe Deletes a detector recipe (DetectorRecipe resource) identified by detectorRecipeId.
 func (client CloudGuardClient) DeleteDetectorRecipe(ctx context.Context, request DeleteDetectorRecipeRequest) (response DeleteDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1416,7 +1437,7 @@ func (client CloudGuardClient) deleteDetectorRecipe(ctx context.Context, request
 	return response, err
 }
 
-// DeleteDetectorRecipeDetectorRule Deletes DetectorRecipeDetectorRule
+// DeleteDetectorRecipeDetectorRule Deletes the DetectorRecipeDetectorRule resource identified by detectorRuleId.
 func (client CloudGuardClient) DeleteDetectorRecipeDetectorRule(ctx context.Context, request DeleteDetectorRecipeDetectorRuleRequest) (response DeleteDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1469,7 +1490,7 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
-// DeleteDetectorRecipeDetectorRuleDataSource Delete the DetectorRecipeDetectorRuleDataSource resource by identifier
+// DeleteDetectorRecipeDetectorRuleDataSource Deletes the DetectorRecipeDetectorRuleDataSource resource by identifier.
 func (client CloudGuardClient) DeleteDetectorRecipeDetectorRuleDataSource(ctx context.Context, request DeleteDetectorRecipeDetectorRuleDataSourceRequest) (response DeleteDetectorRecipeDetectorRuleDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1633,7 +1654,7 @@ func (client CloudGuardClient) deleteManagedList(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteResponderRecipe Delete the ResponderRecipe resource by identifier
+// DeleteResponderRecipe Deletes a responder recipe (ResponderRecipe resource) identified by responderRecipeId.
 func (client CloudGuardClient) DeleteResponderRecipe(ctx context.Context, request DeleteResponderRecipeRequest) (response DeleteResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1686,7 +1707,7 @@ func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteSecurityRecipe Deletes a security zone recipe. The recipe can't be associated with an existing security zone.
+// DeleteSecurityRecipe Deletes a security zone recipe, identified by securityRecipeId. The recipe can't be associated with an existing security zone.
 func (client CloudGuardClient) DeleteSecurityRecipe(ctx context.Context, request DeleteSecurityRecipeRequest) (response DeleteSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1739,7 +1760,7 @@ func (client CloudGuardClient) deleteSecurityRecipe(ctx context.Context, request
 	return response, err
 }
 
-// DeleteSecurityZone Deletes an existing security zone with a given identifier.
+// DeleteSecurityZone Deletes a security zone, identified by securityZoneId.
 func (client CloudGuardClient) DeleteSecurityZone(ctx context.Context, request DeleteSecurityZoneRequest) (response DeleteSecurityZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1792,7 +1813,7 @@ func (client CloudGuardClient) deleteSecurityZone(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteTarget Deletes a Target identified by targetId
+// DeleteTarget Deletes a target (Target resource) identified by targetId.
 func (client CloudGuardClient) DeleteTarget(ctx context.Context, request DeleteTargetRequest) (response DeleteTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1845,7 +1866,8 @@ func (client CloudGuardClient) deleteTarget(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteTargetDetectorRecipe Delete the TargetDetectorRecipe resource by identifier
+// DeleteTargetDetectorRecipe Deletes the target detector recipe (TargetDetectorRecipe resource) identified by
+// targetDetectorRecipeId, from a target (Target resource) identified by targetId.
 func (client CloudGuardClient) DeleteTargetDetectorRecipe(ctx context.Context, request DeleteTargetDetectorRecipeRequest) (response DeleteTargetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1898,7 +1920,9 @@ func (client CloudGuardClient) deleteTargetDetectorRecipe(ctx context.Context, r
 	return response, err
 }
 
-// DeleteTargetResponderRecipe Delete the TargetResponderRecipe resource by identifier
+// DeleteTargetResponderRecipe Detaches a target responder recipe (TargetResponderRecipe resource)
+// identified by targetResponderRecipeId, from a target (Target resource)
+// identified by targetId.
 func (client CloudGuardClient) DeleteTargetResponderRecipe(ctx context.Context, request DeleteTargetResponderRecipeRequest) (response DeleteTargetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1951,7 +1975,7 @@ func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, 
 	return response, err
 }
 
-// DetachDetectorRecipeDetectorRuleSightingTypeDataSource Detach the DetectorRecipeDetectorRuleSightingTypeDataSource resource by identifier
+// DetachDetectorRecipeDetectorRuleSightingTypeDataSource Detach the DetectorRecipeDetectorRuleSightingTypeDataSource resource identified by ID.
 func (client CloudGuardClient) DetachDetectorRecipeDetectorRuleSightingTypeDataSource(ctx context.Context, request DetachDetectorRecipeDetectorRuleSightingTypeDataSourceRequest) (response DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2004,7 +2028,8 @@ func (client CloudGuardClient) detachDetectorRecipeDetectorRuleSightingTypeDataS
 	return response, err
 }
 
-// ExecuteResponderExecution Executes the responder execution. When provided, If-Match is checked against ETag values of the resource.
+// ExecuteResponderExecution Executes the responder execution. When provided, if-match is checked
+// against etag values of the resource.
 func (client CloudGuardClient) ExecuteResponderExecution(ctx context.Context, request ExecuteResponderExecutionRequest) (response ExecuteResponderExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2062,7 +2087,7 @@ func (client CloudGuardClient) executeResponderExecution(ctx context.Context, re
 	return response, err
 }
 
-// GetConditionMetadataType Returns a ConditionMetatDataType object with its details.
+// GetConditionMetadataType Returns a ConditionMetatDataType resource with its details.
 func (client CloudGuardClient) GetConditionMetadataType(ctx context.Context, request GetConditionMetadataTypeRequest) (response GetConditionMetadataTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2115,7 +2140,8 @@ func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, req
 	return response, err
 }
 
-// GetConfiguration Returns the configuration details for a Cloud Guard tenancy, identified by root compartment OCID.
+// GetConfiguration Returns the configuration details for a Cloud Guard tenancy,
+// identified by root compartment OCID.
 func (client CloudGuardClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2168,7 +2194,7 @@ func (client CloudGuardClient) getConfiguration(ctx context.Context, request com
 	return response, err
 }
 
-// GetDataMaskRule Returns a DataMaskRule object, identified by DataMaskRuleId.
+// GetDataMaskRule Returns a DataMaskRule resource, identified by dataMaskRuleId.
 func (client CloudGuardClient) GetDataMaskRule(ctx context.Context, request GetDataMaskRuleRequest) (response GetDataMaskRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2221,7 +2247,7 @@ func (client CloudGuardClient) getDataMaskRule(ctx context.Context, request comm
 	return response, err
 }
 
-// GetDataSource Returns a DataSource identified by dataSourceId
+// GetDataSource Returns a data source (DataSource resource) identified by dataSourceId.
 func (client CloudGuardClient) GetDataSource(ctx context.Context, request GetDataSourceRequest) (response GetDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2274,7 +2300,7 @@ func (client CloudGuardClient) getDataSource(ctx context.Context, request common
 	return response, err
 }
 
-// GetDetector Returns a Detector object, identified by detectorId.
+// GetDetector Returns a Detector resource, identified by detectorId.
 func (client CloudGuardClient) GetDetector(ctx context.Context, request GetDetectorRequest) (response GetDetectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2327,7 +2353,7 @@ func (client CloudGuardClient) getDetector(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetDetectorRecipe Returns a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
+// GetDetectorRecipe Returns a detector recipe (DetectorRecipe resource) identified by detectorRecipeId.
 func (client CloudGuardClient) GetDetectorRecipe(ctx context.Context, request GetDetectorRecipeRequest) (response GetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2380,7 +2406,7 @@ func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request co
 	return response, err
 }
 
-// GetDetectorRecipeDetectorRule Returns a detector rule (DetectorRule object) identified by detectorRuleId.
+// GetDetectorRecipeDetectorRule Returns a detector rule (DetectorRule resource) identified by detectorRuleId.
 func (client CloudGuardClient) GetDetectorRecipeDetectorRule(ctx context.Context, request GetDetectorRecipeDetectorRuleRequest) (response GetDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2433,7 +2459,7 @@ func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context
 	return response, err
 }
 
-// GetDetectorRule Returns a detector rule (DetectorRule object) identified by detectorRuleId.
+// GetDetectorRule Returns a detector rule (DetectorRule resource) identified by detectorRuleId.
 func (client CloudGuardClient) GetDetectorRule(ctx context.Context, request GetDetectorRuleRequest) (response GetDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2539,7 +2565,7 @@ func (client CloudGuardClient) getManagedList(ctx context.Context, request commo
 	return response, err
 }
 
-// GetProblem Returns the Problem object identified by a problemId.
+// GetProblem Returns the Problem resource identified by problemId.
 func (client CloudGuardClient) GetProblem(ctx context.Context, request GetProblemRequest) (response GetProblemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2592,7 +2618,7 @@ func (client CloudGuardClient) getProblem(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetResourceProfile Returns resource profile details
+// GetResourceProfile Returns details for a resource profile, identified by resourceProfileId.
 func (client CloudGuardClient) GetResourceProfile(ctx context.Context, request GetResourceProfileRequest) (response GetResourceProfileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2645,7 +2671,7 @@ func (client CloudGuardClient) getResourceProfile(ctx context.Context, request c
 	return response, err
 }
 
-// GetResponderExecution Returns a Responder Execution identified by responderExecutionId
+// GetResponderExecution Returns a responder execution identified by responderExecutionId.
 func (client CloudGuardClient) GetResponderExecution(ctx context.Context, request GetResponderExecutionRequest) (response GetResponderExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2698,7 +2724,7 @@ func (client CloudGuardClient) getResponderExecution(ctx context.Context, reques
 	return response, err
 }
 
-// GetResponderRecipe Get a ResponderRecipe by identifier
+// GetResponderRecipe Returns a responder recipe (ResponderRecipe resource) identified by responderRecipeId.
 func (client CloudGuardClient) GetResponderRecipe(ctx context.Context, request GetResponderRecipeRequest) (response GetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2751,7 +2777,7 @@ func (client CloudGuardClient) getResponderRecipe(ctx context.Context, request c
 	return response, err
 }
 
-// GetResponderRecipeResponderRule Get ResponderRule by identifier
+// GetResponderRecipeResponderRule Returns a responder rule (ResponderRule resource) identified by responderRuleId.
 func (client CloudGuardClient) GetResponderRecipeResponderRule(ctx context.Context, request GetResponderRecipeResponderRuleRequest) (response GetResponderRecipeResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2804,7 +2830,7 @@ func (client CloudGuardClient) getResponderRecipeResponderRule(ctx context.Conte
 	return response, err
 }
 
-// GetResponderRule Get a ResponderRule by identifier
+// GetResponderRule Returns a responder rule (ResponderRule resource) identified by resonderRuleId.
 func (client CloudGuardClient) GetResponderRule(ctx context.Context, request GetResponderRuleRequest) (response GetResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2857,7 +2883,9 @@ func (client CloudGuardClient) getResponderRule(ctx context.Context, request com
 	return response, err
 }
 
-// GetSecurityPolicy Gets a security zone policy using its identifier. When a policy is enabled in a security zone, then any action in the zone that attempts to violate that policy is denied.
+// GetSecurityPolicy Returns a security zone policy (SecurityPolicy resource), identified by its unique ID
+// (securityPolicyId). When a policy is enabled in a security zone, then any action in
+// the zone that attempts to violate that policy is blocked.
 func (client CloudGuardClient) GetSecurityPolicy(ctx context.Context, request GetSecurityPolicyRequest) (response GetSecurityPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2910,7 +2938,7 @@ func (client CloudGuardClient) getSecurityPolicy(ctx context.Context, request co
 	return response, err
 }
 
-// GetSecurityRecipe Gets a security zone recipe by identifier. A security zone recipe is a collection of security zone policies.
+// GetSecurityRecipe Returns a security zone recipe (SecurityRecipe resource) identified by securityRecipeId.
 func (client CloudGuardClient) GetSecurityRecipe(ctx context.Context, request GetSecurityRecipeRequest) (response GetSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2963,7 +2991,7 @@ func (client CloudGuardClient) getSecurityRecipe(ctx context.Context, request co
 	return response, err
 }
 
-// GetSecurityZone Gets a security zone by its identifier. A security zone is associated with a security zone recipe and enforces all security zone policies in the recipe. Any actions in the zone's compartments that violate a policy are denied.
+// GetSecurityZone Returns a security zone (SecurityZone resource) identified by securityZoneId.
 func (client CloudGuardClient) GetSecurityZone(ctx context.Context, request GetSecurityZoneRequest) (response GetSecurityZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3016,7 +3044,7 @@ func (client CloudGuardClient) getSecurityZone(ctx context.Context, request comm
 	return response, err
 }
 
-// GetSighting Returns Sighting details
+// GetSighting Returns a single sighting (Sighting resource) identified by sightingId.
 func (client CloudGuardClient) GetSighting(ctx context.Context, request GetSightingRequest) (response GetSightingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3069,7 +3097,7 @@ func (client CloudGuardClient) getSighting(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetTarget Returns a Target identified by targetId
+// GetTarget Returns a target (Target resource) identified by targetId.
 func (client CloudGuardClient) GetTarget(ctx context.Context, request GetTargetRequest) (response GetTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3122,7 +3150,7 @@ func (client CloudGuardClient) getTarget(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetTargetDetectorRecipe Get a TargetDetectorRecipe by identifier
+// GetTargetDetectorRecipe Returns a target detector recipe (TargetDetectorRecipe resource) identified by targetDetectorRecipeId.
 func (client CloudGuardClient) GetTargetDetectorRecipe(ctx context.Context, request GetTargetDetectorRecipeRequest) (response GetTargetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3175,7 +3203,7 @@ func (client CloudGuardClient) getTargetDetectorRecipe(ctx context.Context, requ
 	return response, err
 }
 
-// GetTargetDetectorRecipeDetectorRule Get DetectorRule by identifier
+// GetTargetDetectorRecipeDetectorRule Returns DetectorRule resource by identified by targetDetectorRecipeId.
 func (client CloudGuardClient) GetTargetDetectorRecipeDetectorRule(ctx context.Context, request GetTargetDetectorRecipeDetectorRuleRequest) (response GetTargetDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3228,7 +3256,8 @@ func (client CloudGuardClient) getTargetDetectorRecipeDetectorRule(ctx context.C
 	return response, err
 }
 
-// GetTargetResponderRecipe Get a TargetResponderRecipe by identifier
+// GetTargetResponderRecipe Returns a target responder recipe (TargetResponderRecipe) identified by
+// targetResponderRecipeId for a target (Target resource) identified by targetId.
 func (client CloudGuardClient) GetTargetResponderRecipe(ctx context.Context, request GetTargetResponderRecipeRequest) (response GetTargetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3281,7 +3310,10 @@ func (client CloudGuardClient) getTargetResponderRecipe(ctx context.Context, req
 	return response, err
 }
 
-// GetTargetResponderRecipeResponderRule Get ResponderRule by identifier
+// GetTargetResponderRecipeResponderRule Returns a responder rule (ResponderRule resource) identified by
+// responderRuleId, from a target responder recipe (TargetResponderRecipe resource)
+// identified by targetResponderRecipeId, attached to a target (Target resource)
+// identified by targetId.
 func (client CloudGuardClient) GetTargetResponderRecipeResponderRule(ctx context.Context, request GetTargetResponderRecipeResponderRuleRequest) (response GetTargetResponderRecipeResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3334,7 +3366,7 @@ func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context
 	return response, err
 }
 
-// GetWorkRequest Gets details of the work request with the given ID.
+// GetWorkRequest Returns details for a work request (WorkRequest resource) identified by workRequestId.
 func (client CloudGuardClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3387,7 +3419,7 @@ func (client CloudGuardClient) getWorkRequest(ctx context.Context, request commo
 	return response, err
 }
 
-// ListConditionMetadataTypes Returns a list of ConditionMetadataType objects.
+// ListConditionMetadataTypes Returns a list of ConditionMetadataType resources.
 func (client CloudGuardClient) ListConditionMetadataTypes(ctx context.Context, request ListConditionMetadataTypesRequest) (response ListConditionMetadataTypesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3440,7 +3472,7 @@ func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, r
 	return response, err
 }
 
-// ListDataMaskRules Returns a list of all DataMaskRule objects in the specified compartmentId (OCID) and its subcompartments.
+// ListDataMaskRules Returns a list of all DataMaskRule resources in the specified compartmentId (OCID) and its subcompartments.
 func (client CloudGuardClient) ListDataMaskRules(ctx context.Context, request ListDataMaskRulesRequest) (response ListDataMaskRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3493,7 +3525,9 @@ func (client CloudGuardClient) listDataMaskRules(ctx context.Context, request co
 	return response, err
 }
 
-// ListDataSourceEvents Returns a list of events from CloudGuard DataSource
+// ListDataSourceEvents Returns a list of data source events
+// (DataSourceEventCollection  resource) from the data source
+// (DataSource resource) identified by dataSourceId.
 func (client CloudGuardClient) ListDataSourceEvents(ctx context.Context, request ListDataSourceEventsRequest) (response ListDataSourceEventsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3546,15 +3580,17 @@ func (client CloudGuardClient) listDataSourceEvents(ctx context.Context, request
 	return response, err
 }
 
-// ListDataSources Returns a list of all Data Sources in a compartment
-// The ListDataSources operation returns only the data Sources in `compartmentId` passed.
+// ListDataSources Returns a list of all data sources (DataSource resources) for a compartment
+// identified by compartmentId. List is returned in a DataSourceCollection resource
+// with page of DataSourceSummary resources.
+// The ListAdhocQueries operation returns only the adhoc queries in 'compartmentId' passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
 // Principal doesn't have access to even one of the child compartments. This is valid only when
 // `compartmentIdInSubtree` is set to `true`.
-// The parameter `compartmentIdInSubtree` applies when you perform ListdataSources on the
+// The parameter `compartmentIdInSubtree` applies when you perform ListAdhocQueries on the
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
@@ -3610,7 +3646,7 @@ func (client CloudGuardClient) listDataSources(ctx context.Context, request comm
 	return response, err
 }
 
-// ListDetectorRecipeDetectorRuleSightingTypes Returns a list of all SightingTypes identified by the DetectorRuleId
+// ListDetectorRecipeDetectorRuleSightingTypes Returns a list of all SightingTypes identified by detectorRuleId.
 // The ListSightingTypes operation returns only sightingTypes that match the passed filters.
 func (client CloudGuardClient) ListDetectorRecipeDetectorRuleSightingTypes(ctx context.Context, request ListDetectorRecipeDetectorRuleSightingTypesRequest) (response ListDetectorRecipeDetectorRuleSightingTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3664,7 +3700,7 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRuleSightingTypes(ctx c
 	return response, err
 }
 
-// ListDetectorRecipeDetectorRules Returns a list of detector rules (DetectorRule objects) for a detector recipe (DetectorRecipe object), identified by detectorRecipeId.
+// ListDetectorRecipeDetectorRules Returns a list of detector rules (DetectorRule resources) for a detector recipe (DetectorRecipe resource), identified by detectorRecipeId.
 func (client CloudGuardClient) ListDetectorRecipeDetectorRules(ctx context.Context, request ListDetectorRecipeDetectorRulesRequest) (response ListDetectorRecipeDetectorRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3717,7 +3753,7 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Conte
 	return response, err
 }
 
-// ListDetectorRecipes Returns a list of all detector recipes (DetectorRecipe objects) in a compartment, identified by compartmentId.
+// ListDetectorRecipes Returns a list of all detector recipes (DetectorRecipe resources) in a compartment, identified by compartmentId.
 // The ListDetectorRecipes operation returns only the detector recipes in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
@@ -3781,7 +3817,7 @@ func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request 
 	return response, err
 }
 
-// ListDetectorRules Returns a list of detector rules for the DetectorRecipe object identified by detectorId.
+// ListDetectorRules Returns a list of detector rules for the DetectorRecipe resource identified by detectorId.
 func (client CloudGuardClient) ListDetectorRules(ctx context.Context, request ListDetectorRulesRequest) (response ListDetectorRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3834,7 +3870,7 @@ func (client CloudGuardClient) listDetectorRules(ctx context.Context, request co
 	return response, err
 }
 
-// ListDetectors Returns a detector catalog (DetectorCollection object) with a list of DetectorSummary objects.
+// ListDetectors Returns a detector catalog (DetectorCollection resource) with a list of DetectorSummary resources.
 func (client CloudGuardClient) ListDetectors(ctx context.Context, request ListDetectorsRequest) (response ListDetectorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3887,7 +3923,7 @@ func (client CloudGuardClient) listDetectors(ctx context.Context, request common
 	return response, err
 }
 
-// ListImpactedResources Returns a list of impacted resources for a Cloud Guard problem with a specified problem ID.
+// ListImpactedResources Returns a list of impacted resources for a problem identified by problemId.
 func (client CloudGuardClient) ListImpactedResources(ctx context.Context, request ListImpactedResourcesRequest) (response ListImpactedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3993,7 +4029,7 @@ func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request
 	return response, err
 }
 
-// ListManagedLists Returns a list of all ManagedList objects in a compartment, identified by compartmentId.
+// ListManagedLists Returns a list of all ManagedList resources in a compartment, identified by compartmentId.
 // The ListManagedLists operation returns only the managed lists in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return ManagedLists in only
@@ -4057,7 +4093,7 @@ func (client CloudGuardClient) listManagedLists(ctx context.Context, request com
 	return response, err
 }
 
-// ListMitreTactics Returns a list of cloudguard supported mitre tactics
+// ListMitreTactics Returns a list of Cloud Guard supported MITRE ATT@CK framework tactics.
 func (client CloudGuardClient) ListMitreTactics(ctx context.Context, request ListMitreTacticsRequest) (response ListMitreTacticsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4110,7 +4146,7 @@ func (client CloudGuardClient) listMitreTactics(ctx context.Context, request com
 	return response, err
 }
 
-// ListMitreTechniques Returns a list of mitre techniques associated with a tactic.
+// ListMitreTechniques Returns a list of MITRE ATT@CK framework techniques associated with a tactic.
 func (client CloudGuardClient) ListMitreTechniques(ctx context.Context, request ListMitreTechniquesRequest) (response ListMitreTechniquesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4163,7 +4199,7 @@ func (client CloudGuardClient) listMitreTechniques(ctx context.Context, request 
 	return response, err
 }
 
-// ListMonitoringResources Returns the list of Monitoring resources
+// ListMonitoringResources Returns the list of monitoring resources.
 func (client CloudGuardClient) ListMonitoringResources(ctx context.Context, request ListMonitoringResourcesRequest) (response ListMonitoringResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4322,7 +4358,7 @@ func (client CloudGuardClient) listProblemEndpoints(ctx context.Context, request
 	return response, err
 }
 
-// ListProblemEntities Returns a list of entities for a CloudGuard Problem
+// ListProblemEntities Returns a list of entities for a problem.
 func (client CloudGuardClient) ListProblemEntities(ctx context.Context, request ListProblemEntitiesRequest) (response ListProblemEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4375,7 +4411,7 @@ func (client CloudGuardClient) listProblemEntities(ctx context.Context, request 
 	return response, err
 }
 
-// ListProblemHistories Returns a list of actions taken on a Cloud Guard problem.
+// ListProblemHistories Returns a list of actions taken on a problem.
 func (client CloudGuardClient) ListProblemHistories(ctx context.Context, request ListProblemHistoriesRequest) (response ListProblemHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4492,7 +4528,8 @@ func (client CloudGuardClient) listProblems(ctx context.Context, request common.
 	return response, err
 }
 
-// ListRecommendations Returns a list of all Recommendations.
+// ListRecommendations Returns a list of recommendations (RecommendationSummaryCollection resource with a page of
+// RecommendationSummary resources) for a specified compartment OCID.
 func (client CloudGuardClient) ListRecommendations(ctx context.Context, request ListRecommendationsRequest) (response ListRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4545,7 +4582,8 @@ func (client CloudGuardClient) listRecommendations(ctx context.Context, request 
 	return response, err
 }
 
-// ListResourceProfileEndpoints Returns a list of endpoints for Cloud Guard resource profile
+// ListResourceProfileEndpoints Returns a list of endpoints (ResourceProfileEndpointCollection resource with a page of
+// ResourceProfileEndpointSummary resources) for a resource profile identified by resourceProfileId.
 func (client CloudGuardClient) ListResourceProfileEndpoints(ctx context.Context, request ListResourceProfileEndpointsRequest) (response ListResourceProfileEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4598,7 +4636,9 @@ func (client CloudGuardClient) listResourceProfileEndpoints(ctx context.Context,
 	return response, err
 }
 
-// ListResourceProfileImpactedResources Returns a list of impacted resources for Cloud Guard resource profile
+// ListResourceProfileImpactedResources Returns a list of impacted resources (ResourceProfileImpactedResourceCollection resource
+// with a page of ResourceProfileImpactedResourceSummary resources) for a resource profile
+// identified by resourceProfileId.
 func (client CloudGuardClient) ListResourceProfileImpactedResources(ctx context.Context, request ListResourceProfileImpactedResourcesRequest) (response ListResourceProfileImpactedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4651,8 +4691,8 @@ func (client CloudGuardClient) listResourceProfileImpactedResources(ctx context.
 	return response, err
 }
 
-// ListResourceProfiles Returns a list of all resource profiles identified by the Cloud Guard
-// The ListResourceProfiles operation returns only resource profiles that match the passed filters.
+// ListResourceProfiles Returns a list of all resource profile summaries (ResourceProfileCollection resource with a page of
+// ResourceProfileSummary resources) for a compartment, identified by compartmentId and filtered as specified.
 // The ListResourceProfiles operation returns only the resource profiles in `compartmentId` passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
@@ -4715,7 +4755,8 @@ func (client CloudGuardClient) listResourceProfiles(ctx context.Context, request
 	return response, err
 }
 
-// ListResourceTypes Returns a list of resource types.
+// ListResourceTypes Returns a single ResourceTypeCollection resource, containing a list of resource types,
+// identified by parameters specified.
 func (client CloudGuardClient) ListResourceTypes(ctx context.Context, request ListResourceTypesRequest) (response ListResourceTypesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4768,7 +4809,8 @@ func (client CloudGuardClient) listResourceTypes(ctx context.Context, request co
 	return response, err
 }
 
-// ListResponderActivities Returns a list of Responder activities done on CloudGuard Problem
+// ListResponderActivities Returns a list of responder activities for a problem, identified by problemId, in a
+// ResponderActivityCollection resource, with a page of ResponderActivitySummary resources.
 func (client CloudGuardClient) ListResponderActivities(ctx context.Context, request ListResponderActivitiesRequest) (response ListResponderActivitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4821,7 +4863,8 @@ func (client CloudGuardClient) listResponderActivities(ctx context.Context, requ
 	return response, err
 }
 
-// ListResponderExecutions Returns a list of Responder Executions. A Responder Execution is an entity that tracks the collective execution of multiple Responder Rule Executions for a given Problem.
+// ListResponderExecutions Returns a list of responder executions. A responder execution is an entity that tracks
+// the collective execution of multiple responder rule executions for a given problem.
 func (client CloudGuardClient) ListResponderExecutions(ctx context.Context, request ListResponderExecutionsRequest) (response ListResponderExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4874,7 +4917,9 @@ func (client CloudGuardClient) listResponderExecutions(ctx context.Context, requ
 	return response, err
 }
 
-// ListResponderRecipeResponderRules Returns a list of ResponderRule associated with ResponderRecipe.
+// ListResponderRecipeResponderRules Returns a list of responder rules (ResponderRule resources in a
+// responderRecipeResponderRuleCollection resource, with page of ResponderRuleSummary resources),
+// for a responder recipe (ResponderRecipe resource), identified by responderRecipeId.
 func (client CloudGuardClient) ListResponderRecipeResponderRules(ctx context.Context, request ListResponderRecipeResponderRulesRequest) (response ListResponderRecipeResponderRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4927,7 +4972,8 @@ func (client CloudGuardClient) listResponderRecipeResponderRules(ctx context.Con
 	return response, err
 }
 
-// ListResponderRecipes Returns a list of all ResponderRecipes in a compartment
+// ListResponderRecipes Returns a list (ResponderRecipeCollection resource, with a page of ResponderRecipeSummary resources)
+// of all responder recipes (RespponderRecipe resources) in a compartment, identified by compartmentId.
 // The ListResponderRecipe operation returns only the targets in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
@@ -4991,7 +5037,9 @@ func (client CloudGuardClient) listResponderRecipes(ctx context.Context, request
 	return response, err
 }
 
-// ListResponderRules Returns a list of ResponderRule.
+// ListResponderRules Returns a list of responder rules for the ResponderRecipe resource
+// identified by responderId. The list is contained in a ResponderRuleCollection
+// resource with a page of ResponderRuleSummary resources.
 func (client CloudGuardClient) ListResponderRules(ctx context.Context, request ListResponderRulesRequest) (response ListResponderRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5044,7 +5092,8 @@ func (client CloudGuardClient) listResponderRules(ctx context.Context, request c
 	return response, err
 }
 
-// ListSecurityPolicies Returns a list of security zone policies. Specify any compartment.
+// ListSecurityPolicies Returns a list of security zone policies (SecurityPolicySummary resources),
+// identified by compartmentId.
 func (client CloudGuardClient) ListSecurityPolicies(ctx context.Context, request ListSecurityPoliciesRequest) (response ListSecurityPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5097,7 +5146,8 @@ func (client CloudGuardClient) listSecurityPolicies(ctx context.Context, request
 	return response, err
 }
 
-// ListSecurityRecipes Gets a list of all security zone recipes in a compartment.
+// ListSecurityRecipes Returns a list of security zone recipes (SecurityRecipeSummary resources) in a
+// compartment, identified by compartmentId.
 func (client CloudGuardClient) ListSecurityRecipes(ctx context.Context, request ListSecurityRecipesRequest) (response ListSecurityRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5150,7 +5200,8 @@ func (client CloudGuardClient) listSecurityRecipes(ctx context.Context, request 
 	return response, err
 }
 
-// ListSecurityZones Gets a list of all security zones in a compartment.
+// ListSecurityZones Returns a list of security zones (SecurityZone resources) in a compartment identified by
+// compartmentId. List is contained in a page of SecurityZoneSummary resources.
 func (client CloudGuardClient) ListSecurityZones(ctx context.Context, request ListSecurityZonesRequest) (response ListSecurityZonesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5203,7 +5254,7 @@ func (client CloudGuardClient) listSecurityZones(ctx context.Context, request co
 	return response, err
 }
 
-// ListSightingAdditionalEntities Return a list of associated Additional Entities for a CloudGuard Sighting
+// ListSightingAdditionalEntities Returns a list of associated additional entities for a Cloud Guard sighting
 func (client CloudGuardClient) ListSightingAdditionalEntities(ctx context.Context, request ListSightingAdditionalEntitiesRequest) (response ListSightingAdditionalEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5256,7 +5307,9 @@ func (client CloudGuardClient) listSightingAdditionalEntities(ctx context.Contex
 	return response, err
 }
 
-// ListSightingEndpoints Returns Sighting endpoints details
+// ListSightingEndpoints Returns sighting endpoints details in a
+// SightingEndpointsCollection resource
+// with a page of SightingEndpointSummary resources.
 func (client CloudGuardClient) ListSightingEndpoints(ctx context.Context, request ListSightingEndpointsRequest) (response ListSightingEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5309,7 +5362,8 @@ func (client CloudGuardClient) listSightingEndpoints(ctx context.Context, reques
 	return response, err
 }
 
-// ListSightingImpactedResources Return a list of Impacted Resources for a CloudGuard Sighting
+// ListSightingImpactedResources Returns a list of impacted resources for a sighting, identified by sightingId, in a
+// SightingImpactedResourceCollection resource with a page of SightingImpactedResourceSummary resources.
 func (client CloudGuardClient) ListSightingImpactedResources(ctx context.Context, request ListSightingImpactedResourcesRequest) (response ListSightingImpactedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5362,8 +5416,8 @@ func (client CloudGuardClient) listSightingImpactedResources(ctx context.Context
 	return response, err
 }
 
-// ListSightings Returns a list of all Sightings identified by the Cloud Guard
-// The ListSightings operation returns only sightings that match the passed filters.
+// ListSightings For the parameters passed, returns a list of sightings
+// (SightingCollection resource) with a page of SightingSummary resources.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -5425,7 +5479,7 @@ func (client CloudGuardClient) listSightings(ctx context.Context, request common
 	return response, err
 }
 
-// ListTactics Returns a list of tactics associated with detector rules.
+// ListTactics Returns a list of TacticSummary resources for a compartment, identified by compartmentId.
 func (client CloudGuardClient) ListTactics(ctx context.Context, request ListTacticsRequest) (response ListTacticsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5531,7 +5585,9 @@ func (client CloudGuardClient) listTargetDetectorRecipeDetectorRules(ctx context
 	return response, err
 }
 
-// ListTargetDetectorRecipes Returns a list of all detector recipes associated with the target identified by targetId
+// ListTargetDetectorRecipes Returns a list of all target detector recipes (TargetDetectorRecipe resources)
+// associated with a target (Target resource), identified by targetId. The list is contained
+// in a TargetDetectorRecipeCollection resource with page of TargetDetectorRecipeSummary resources.
 func (client CloudGuardClient) ListTargetDetectorRecipes(ctx context.Context, request ListTargetDetectorRecipesRequest) (response ListTargetDetectorRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5584,7 +5640,9 @@ func (client CloudGuardClient) listTargetDetectorRecipes(ctx context.Context, re
 	return response, err
 }
 
-// ListTargetMonitoringSignals Returns Monitoring Signals
+// ListTargetMonitoringSignals Returns a list of target monitoring signals for a compartment
+// identified by compartmentId and a target identified by targetId.
+// Some values are passed in a ListTargetMonitoringSignalsList resource.
 func (client CloudGuardClient) ListTargetMonitoringSignals(ctx context.Context, request ListTargetMonitoringSignalsRequest) (response ListTargetMonitoringSignalsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5637,7 +5695,10 @@ func (client CloudGuardClient) listTargetMonitoringSignals(ctx context.Context, 
 	return response, err
 }
 
-// ListTargetResponderRecipeResponderRules Returns a list of ResponderRule associated with ResponderRecipe within a Target.
+// ListTargetResponderRecipeResponderRules Returns a list of responder rules (ResponderRule resources) associated with a
+// responder recipe (ResponderRecipe resource) attached to a Target.
+// List is returned in a TargetResponderRecipeResponderRuleCollection resource
+// with page of TargetResponderRecipeResponderRuleSummary resources.
 func (client CloudGuardClient) ListTargetResponderRecipeResponderRules(ctx context.Context, request ListTargetResponderRecipeResponderRulesRequest) (response ListTargetResponderRecipeResponderRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5690,7 +5751,9 @@ func (client CloudGuardClient) listTargetResponderRecipeResponderRules(ctx conte
 	return response, err
 }
 
-// ListTargetResponderRecipes Returns a list of all responder recipes associated with the target identified by targetId
+// ListTargetResponderRecipes Returns a list of summary information for all responder recipes
+// (TargetResponderRecipeCollection resource, with a page of TargetResponderRecipeSummary resources)
+// attached to a target identified by targetId, located in a compartment identified by compartmentId.
 func (client CloudGuardClient) ListTargetResponderRecipes(ctx context.Context, request ListTargetResponderRecipesRequest) (response ListTargetResponderRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5743,9 +5806,10 @@ func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, r
 	return response, err
 }
 
-// ListTargets Returns a list of all Targets in a compartment
-// The ListTargets operation returns only the targets in `compartmentId` passed.
-// The list does not include any subcompartments of the compartmentId passed.
+// ListTargets Returns a list of targets (TargetCollection resource with page of TargetSummary
+// resources) for the target identified by compartmentId. By default, only the target
+// associated with the compartment is returned. Setting compartmentIdInSubtree to true
+// returns the entire hierarchy of targets in subcompartments.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -5753,7 +5817,7 @@ func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, r
 // `compartmentIdInSubtree` is set to `true`.
 // The parameter `compartmentIdInSubtree` applies when you perform ListTargets on the
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
-// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// To get a full list of all targets in compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 func (client CloudGuardClient) ListTargets(ctx context.Context, request ListTargetsRequest) (response ListTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5860,7 +5924,8 @@ func (client CloudGuardClient) listTechniques(ctx context.Context, request commo
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWorkRequestErrors Returns a list of errors for a work request
+// identified by workRequestId.
 func (client CloudGuardClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5913,7 +5978,8 @@ func (client CloudGuardClient) listWorkRequestErrors(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Returns a paginated list (WorkRequestLogEntryCollection resource)
+// of log entries for a request, identified by workRequestId.
 func (client CloudGuardClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5966,7 +6032,8 @@ func (client CloudGuardClient) listWorkRequestLogs(ctx context.Context, request 
 	return response, err
 }
 
-// ListWorkRequests Lists the work requests in a compartment.
+// ListWorkRequests Returns a list of work requests (WorkRequestSummaryCollection resource),
+// in a compartment identified by compartmentId.
 func (client CloudGuardClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6019,7 +6086,10 @@ func (client CloudGuardClient) listWorkRequests(ctx context.Context, request com
 	return response, err
 }
 
-// RemoveCompartment Removes an existing compartment from a security zone. When you remove a subcompartment from a security zone, it no longer enforces security zone policies on the resources in the subcompartment. You can't remove the primary compartment that was used to create the security zone.
+// RemoveCompartment Removes a compartment from a security zone (SecurityZone resource), identified by securityZoneId.
+// Pass compartmentId of compartment to remove through a RemoveCompartmentDetails resource. When you remove a
+// subcompartment from a security zone, it no longer enforces security zone policies on the resources in the
+// subcompartment. You can't remove the primary compartment that was used to create the security zone.
 func (client CloudGuardClient) RemoveCompartment(ctx context.Context, request RemoveCompartmentRequest) (response RemoveCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6077,7 +6147,8 @@ func (client CloudGuardClient) removeCompartment(ctx context.Context, request co
 	return response, err
 }
 
-// RequestRiskScores Examines the number of problems related to the resource and the relative severity of those problems.
+// RequestRiskScores Returns a page of RiskScoreAggregation resources for a compartment,
+// identified by compartmentId.
 func (client CloudGuardClient) RequestRiskScores(ctx context.Context, request RequestRiskScoresRequest) (response RequestRiskScoresResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6130,8 +6201,8 @@ func (client CloudGuardClient) requestRiskScores(ctx context.Context, request co
 	return response, err
 }
 
-// RequestSecurityScoreSummarizedTrend Measures the number of resources examined across all regions and compares it with the
-// number of problems detected, for a given time period.
+// RequestSecurityScoreSummarizedTrend Returns a page of SecurityScoreTrendAggregation resources. These measure the number
+// of resources examined across all regions and compare it with the number of problems detected.
 func (client CloudGuardClient) RequestSecurityScoreSummarizedTrend(ctx context.Context, request RequestSecurityScoreSummarizedTrendRequest) (response RequestSecurityScoreSummarizedTrendResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6184,7 +6255,8 @@ func (client CloudGuardClient) requestSecurityScoreSummarizedTrend(ctx context.C
 	return response, err
 }
 
-// RequestSecurityScores Measures the number of resources examined across all regions and compares it with the number of problems detected.
+// RequestSecurityScores Returns a page of SecurityScoreAggregation resources. These measure the number
+// of resources examined across all regions and compare it with the number of problems detected.
 func (client CloudGuardClient) RequestSecurityScores(ctx context.Context, request RequestSecurityScoresRequest) (response RequestSecurityScoresResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6363,16 +6435,16 @@ func (client CloudGuardClient) requestSummarizedProblems(ctx context.Context, re
 	return response, err
 }
 
-// RequestSummarizedResponderExecutions Returns the number of Responder Executions, for a given set of dimensions.
-// The parameter `accessLevel` specifies whether to return only those compartments for which the
-// requestor has INSPECT permissions on at least one resource directly
-// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
-// Principal doesn't have access to even one of the child compartments. This is valid only when
-// `compartmentIdInSubtree` is set to `true`.
-// The parameter `compartmentIdInSubtree` applies when you perform summarize API on the
-// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
-// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
-// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// RequestSummarizedResponderExecutions Returns the number of responder executions, identified by parameters specified, in a page of
+// ResponderExecutionAggregation resources.
+// Setting accessLevel to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions,
+// directly or indirectly (permissions can be on a resource in a subcompartment). “Not Authorized” is returned
+// if user doesn't have access to at least one of the child compartments. When accessLevel is set to RESTRICTED,
+// permissions are checked and no partial results are displayed. This is valid only when compartmentIdInSubtree is set to true.
+// Setting accessLevel to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions, directly or
+// indirectly (permissions can be on a resource in a subcompartment). “Not Authorized” is returned if user doesn't have
+// access to at least one of the child compartments. When accessLevel is set to RESTRICTED, permissions are checked
+// and no partial results are displayed. This is valid only when compartmentIdInSubtree is set to true.
 func (client CloudGuardClient) RequestSummarizedResponderExecutions(ctx context.Context, request RequestSummarizedResponderExecutionsRequest) (response RequestSummarizedResponderExecutionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6531,7 +6603,9 @@ func (client CloudGuardClient) requestSummarizedSecurityScores(ctx context.Conte
 	return response, err
 }
 
-// RequestSummarizedTopTrendResourceProfileRiskScores Summarizes the resource profile risk score top trends for the given time range based on the search filters.
+// RequestSummarizedTopTrendResourceProfileRiskScores Returns a list of resource profile risk score aggregation summaries
+// (ResourceProfileRiskScoreAggregationSummaryCollection resource with a page of
+// ResourceProfileRiskScoreAggregationSummary resources) for a specified compartment.
 func (client CloudGuardClient) RequestSummarizedTopTrendResourceProfileRiskScores(ctx context.Context, request RequestSummarizedTopTrendResourceProfileRiskScoresRequest) (response RequestSummarizedTopTrendResourceProfileRiskScoresResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6646,7 +6720,9 @@ func (client CloudGuardClient) requestSummarizedTrendProblems(ctx context.Contex
 	return response, err
 }
 
-// RequestSummarizedTrendResourceRiskScores Summarizes the resource risk score trend for the given time range based on the search filters.
+// RequestSummarizedTrendResourceRiskScores Returns a summary of risk score trends in a  ResourceRiskScoreAggregationCollection resource,
+// with a page of ResourceRiskScoreAggregation resources, filtered by parameters that you specify
+// in a RequestSummarizedTrendResourceRiskScoresDetailsresource.
 func (client CloudGuardClient) RequestSummarizedTrendResourceRiskScores(ctx context.Context, request RequestSummarizedTrendResourceRiskScoresRequest) (response RequestSummarizedTrendResourceRiskScoresResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6814,8 +6890,7 @@ func (client CloudGuardClient) requestSummarizedTrendSecurityScores(ctx context.
 	return response, err
 }
 
-// SkipBulkResponderExecution Skips the execution for a bulk of responder executions
-// The operation is atomic in nature
+// SkipBulkResponderExecution Skips the execution for a bulk of responder executions.
 func (client CloudGuardClient) SkipBulkResponderExecution(ctx context.Context, request SkipBulkResponderExecutionRequest) (response SkipBulkResponderExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6868,7 +6943,7 @@ func (client CloudGuardClient) skipBulkResponderExecution(ctx context.Context, r
 	return response, err
 }
 
-// SkipResponderExecution Skips the execution of the responder execution. When provided, If-Match is checked against ETag values of the resource.
+// SkipResponderExecution Skips the execution of the responder execution. When provided, If-Match is checked against etag values of the resource.
 func (client CloudGuardClient) SkipResponderExecution(ctx context.Context, request SkipResponderExecutionRequest) (response SkipResponderExecutionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6926,7 +7001,8 @@ func (client CloudGuardClient) skipResponderExecution(ctx context.Context, reque
 	return response, err
 }
 
-// TriggerResponder Sends the problem identified by problemId to the responder engine, to be processed by rule that’s identified by responderRuleId, in the TriggerResponderDetails resource that’s passed.
+// TriggerResponder Sends the problem identified by problemId to the responder engine, to be processed by rule
+// that’s identified by responderRuleId, in the TriggerResponderDetails resource that’s passed.
 func (client CloudGuardClient) TriggerResponder(ctx context.Context, request TriggerResponderRequest) (response TriggerResponderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7037,7 +7113,8 @@ func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateConfiguration Update configuration details for a Cloud Guard tenancy, identified by root compartment OCID. The reporting region cannot be updated once created.
+// UpdateConfiguration Updates configuration details for a Cloud Guard tenancy, identified by root compartment OCID.
+// The reporting region cannot be updated once created.
 func (client CloudGuardClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7095,7 +7172,7 @@ func (client CloudGuardClient) updateConfiguration(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateDataMaskRule Updates a data mask rule (DataMaskRule object) identified by dataMaskRuleId.
+// UpdateDataMaskRule Updates a data mask rule (DataMaskRule resource) identified by dataMaskRuleId.
 func (client CloudGuardClient) UpdateDataMaskRule(ctx context.Context, request UpdateDataMaskRuleRequest) (response UpdateDataMaskRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7148,7 +7225,8 @@ func (client CloudGuardClient) updateDataMaskRule(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateDataSource Updates a data source identified by dataSourceId
+// UpdateDataSource Updates a data source (DataSource resource) identified by dataSourceId,
+// using values passed in an UpdateDataSourceDetails resource.
 func (client CloudGuardClient) UpdateDataSource(ctx context.Context, request UpdateDataSourceRequest) (response UpdateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7206,7 +7284,7 @@ func (client CloudGuardClient) updateDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateDetectorRecipe Updates a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
+// UpdateDetectorRecipe Updates a detector recipe (DetectorRecipe resource) identified by detectorRecipeId.
 func (client CloudGuardClient) UpdateDetectorRecipe(ctx context.Context, request UpdateDetectorRecipeRequest) (response UpdateDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7264,7 +7342,7 @@ func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request
 	return response, err
 }
 
-// UpdateDetectorRecipeDetectorRule Updates a detector rule (DetectorRule object) identified by detectorRuleId.
+// UpdateDetectorRecipeDetectorRule Updates a detector rule (DetectorRule resource) identified by detectorRuleId.
 func (client CloudGuardClient) UpdateDetectorRecipeDetectorRule(ctx context.Context, request UpdateDetectorRecipeDetectorRuleRequest) (response UpdateDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7317,7 +7395,7 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
-// UpdateDetectorRecipeDetectorRuleSightingType Updating a sighting type attached to a detector rule
+// UpdateDetectorRecipeDetectorRuleSightingType Updates a sighting type attached to a detector rule associated with a detector recipe.
 func (client CloudGuardClient) UpdateDetectorRecipeDetectorRuleSightingType(ctx context.Context, request UpdateDetectorRecipeDetectorRuleSightingTypeRequest) (response UpdateDetectorRecipeDetectorRuleSightingTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7375,7 +7453,7 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRuleSightingType(ctx 
 	return response, err
 }
 
-// UpdateManagedList Updates a ManagedList object, identified by managedList.
+// UpdateManagedList Updates a ManagedList resource, identified by managedList.
 func (client CloudGuardClient) UpdateManagedList(ctx context.Context, request UpdateManagedListRequest) (response UpdateManagedListResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7491,7 +7569,8 @@ func (client CloudGuardClient) updateProblemStatus(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateResponderRecipe Update the ResponderRecipe resource by identifier
+// UpdateResponderRecipe Updates a responder recipe (ResponderRecipe resource) identified by
+// responderRecipeId, passed in an UpdateResponderRecipeDetails resource.
 func (client CloudGuardClient) UpdateResponderRecipe(ctx context.Context, request UpdateResponderRecipeRequest) (response UpdateResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7544,7 +7623,8 @@ func (client CloudGuardClient) updateResponderRecipe(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateResponderRecipeResponderRule Update the ResponderRule by identifier
+// UpdateResponderRecipeResponderRule Updates a responder rule (ResponderRule resource) identified by responderRuleId,
+// passed in a UpdateResponderRecipeResponderRuleDetails resource.
 func (client CloudGuardClient) UpdateResponderRecipeResponderRule(ctx context.Context, request UpdateResponderRecipeResponderRuleRequest) (response UpdateResponderRecipeResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7597,7 +7677,8 @@ func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Co
 	return response, err
 }
 
-// UpdateSecurityRecipe Updates a security zone recipe. A security zone recipe is a collection of security zone policies.
+// UpdateSecurityRecipe Updates a security zone recipe (SecurityRecipe resource), identified by securityRecipeId,
+// using parameters passed in an UpdateSecurityRecipeDetails resource.
 func (client CloudGuardClient) UpdateSecurityRecipe(ctx context.Context, request UpdateSecurityRecipeRequest) (response UpdateSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7650,7 +7731,8 @@ func (client CloudGuardClient) updateSecurityRecipe(ctx context.Context, request
 	return response, err
 }
 
-// UpdateSecurityZone Updates the security zone identified by its id
+// UpdateSecurityZone Updates a security zone (SecurityZone resource) identified by securityZoneId.
+// Pass parameters through an UpdateSecurityZoneDetails resource.
 func (client CloudGuardClient) UpdateSecurityZone(ctx context.Context, request UpdateSecurityZoneRequest) (response UpdateSecurityZoneResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7703,7 +7785,8 @@ func (client CloudGuardClient) updateSecurityZone(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateTarget Updates a Target identified by targetId
+// UpdateTarget Updates a target (Target resource) identified by targetId, using parameters
+// passed in an UpdateTargetDetails resource.
 func (client CloudGuardClient) UpdateTarget(ctx context.Context, request UpdateTargetRequest) (response UpdateTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7756,7 +7839,8 @@ func (client CloudGuardClient) updateTarget(ctx context.Context, request common.
 	return response, err
 }
 
-// UpdateTargetDetectorRecipe Update the TargetDetectorRecipe resource by identifier
+// UpdateTargetDetectorRecipe Updates a target detector recipe (TargtetDetectorRecipe resource) identified by
+// targetDetectorRecipeId, using parameters passed in an UpdateTargetDetectorRecipeDetails resource.
 func (client CloudGuardClient) UpdateTargetDetectorRecipe(ctx context.Context, request UpdateTargetDetectorRecipeRequest) (response UpdateTargetDetectorRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7809,7 +7893,7 @@ func (client CloudGuardClient) updateTargetDetectorRecipe(ctx context.Context, r
 	return response, err
 }
 
-// UpdateTargetDetectorRecipeDetectorRule Update the DetectorRule by identifier
+// UpdateTargetDetectorRecipeDetectorRule Updates the DetectorRule resource identified by targetDetectorRecipeId
 func (client CloudGuardClient) UpdateTargetDetectorRecipeDetectorRule(ctx context.Context, request UpdateTargetDetectorRecipeDetectorRuleRequest) (response UpdateTargetDetectorRecipeDetectorRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7862,7 +7946,10 @@ func (client CloudGuardClient) updateTargetDetectorRecipeDetectorRule(ctx contex
 	return response, err
 }
 
-// UpdateTargetResponderRecipe Update the TargetResponderRecipe resource by identifier
+// UpdateTargetResponderRecipe Updates the target responder recipe (TargetResponderRecipe resource)
+// identified by targetResponderRecipeId, attached to a target identified
+// by targetId. Pass parameters for the update through an
+// UpdateTargetResponderRecipeDetails resource.
 func (client CloudGuardClient) UpdateTargetResponderRecipe(ctx context.Context, request UpdateTargetResponderRecipeRequest) (response UpdateTargetResponderRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7915,7 +8002,11 @@ func (client CloudGuardClient) updateTargetResponderRecipe(ctx context.Context, 
 	return response, err
 }
 
-// UpdateTargetResponderRecipeResponderRule Update the ResponderRule by identifier
+// UpdateTargetResponderRecipeResponderRule Updates a responder rule (ResponderRule resource) identified by
+// responderRuleId, for a target responder recipe (TargetResponderRecipe resource)
+// identified by targetResponderRecipeId, for a target (Target resource)
+// identified by targetId. Parameters for the update are passed through an
+// UpdateTargetResponderRecipeResponderRuleDetails resource.
 func (client CloudGuardClient) UpdateTargetResponderRecipeResponderRule(ctx context.Context, request UpdateTargetResponderRecipeResponderRuleRequest) (response UpdateTargetResponderRecipeResponderRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7968,7 +8059,9 @@ func (client CloudGuardClient) updateTargetResponderRecipeResponderRule(ctx cont
 	return response, err
 }
 
-// ValidateCredentials Validate service user credentials for Saas app. For example, Fusion Apps, etc.
+// ValidateCredentials Validates service user credentials for an SaaS applications such as Fusion Apps.
+// Returns detailed credential validation information (CredentialsValidationDetails
+// resource) for credential information passed in a ValidateCredentialsDetails resource.
 func (client CloudGuardClient) ValidateCredentials(ctx context.Context, request ValidateCredentialsRequest) (response ValidateCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

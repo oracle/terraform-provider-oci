@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// DetectorRecipeDetectorRuleSightingTypeCollection Collection of the Sighting types.
+// DetectorRecipeDetectorRuleSightingTypeCollection Collection of sighting type summaries for detector rules.
 type DetectorRecipeDetectorRuleSightingTypeCollection struct {
 
-	// List of SightingTypeSummary
+	// List of SightingTypeSummary resources
 	Items []DetectorRecipeDetectorRuleSightingTypeSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DetectorRecipeDetectorRuleSightingTypeCollection) String() string {

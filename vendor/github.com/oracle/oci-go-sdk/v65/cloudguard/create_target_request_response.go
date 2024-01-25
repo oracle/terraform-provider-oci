@@ -14,7 +14,7 @@ import (
 // CreateTargetRequest wrapper for the CreateTarget operation
 type CreateTargetRequest struct {
 
-	// Details for the new Target.
+	// Contains generic target information which is required for all target types
 	CreateTargetDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

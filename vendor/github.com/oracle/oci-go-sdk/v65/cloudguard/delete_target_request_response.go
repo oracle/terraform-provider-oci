@@ -14,7 +14,7 @@ import (
 // DeleteTargetRequest wrapper for the DeleteTarget operation
 type DeleteTargetRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

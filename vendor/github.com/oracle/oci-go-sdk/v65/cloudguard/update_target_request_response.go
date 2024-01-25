@@ -14,10 +14,10 @@ import (
 // UpdateTargetRequest wrapper for the UpdateTarget operation
 type UpdateTargetRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// The information to be updated.
+	// The information to be updated
 	UpdateTargetDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

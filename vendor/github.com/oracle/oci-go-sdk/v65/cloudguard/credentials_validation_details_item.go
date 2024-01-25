@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// CredentialsValidationDetailsItem Credentials validation response
+// CredentialsValidationDetailsItem Credentials validation response.
 type CredentialsValidationDetailsItem struct {
 
-	// Type of service (e.g. FA, OAM etc)
+	// Type of service
 	ServiceType ServiceTypeEnum `mandatory:"true" json:"serviceType"`
 
-	// URL of a service
+	// URL of service
 	Url *string `mandatory:"false" json:"url"`
 
-	// Credetial validation response code
+	// Credential validation response code
 	ResponseCode *int `mandatory:"false" json:"responseCode"`
 
-	// Credetial validation response status
+	// Credential validation response status
 	ResponseStatus *string `mandatory:"false" json:"responseStatus"`
 }
 

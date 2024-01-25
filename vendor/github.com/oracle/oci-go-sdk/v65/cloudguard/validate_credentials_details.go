@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// ValidateCredentialsDetails Collection of credentials
+// ValidateCredentialsDetails Collection of credential details to be validated.
 type ValidateCredentialsDetails struct {
 
-	// Type of resource (e.g. FUSION_APPS, COMPARTMENT etc)
+	// Type of resource
 	ResourceType ServiceTypeEnum `mandatory:"true" json:"resourceType"`
 
-	// List of credentials
+	// List of credential details (CredentialsDetailsItem resources) to validate
 	Items []CredentialsDetailsItem `mandatory:"false" json:"items"`
 }
 

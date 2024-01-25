@@ -14,7 +14,7 @@ import (
 // GetSecurityPolicyRequest wrapper for the GetSecurityPolicy operation
 type GetSecurityPolicyRequest struct {
 
-	// The unique identifier of the security zone policy (`SecurityPolicy`)
+	// The unique identifier of the security zone policy. (`SecurityPolicy`)
 	SecurityPolicyId *string `mandatory:"true" contributesTo:"path" name:"securityPolicyId"`
 
 	// The client request ID for tracing.

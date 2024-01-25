@@ -14,10 +14,10 @@ import (
 // ValidateCredentialsRequest wrapper for the ValidateCredentials operation
 type ValidateCredentialsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Credentials to be validated.
+	// Credentials to be validated
 	ValidateCredentialsDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

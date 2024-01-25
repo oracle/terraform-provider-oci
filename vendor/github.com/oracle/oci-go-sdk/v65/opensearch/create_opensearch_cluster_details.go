@@ -90,6 +90,9 @@ type CreateOpensearchClusterDetails struct {
 	// The password hash of the master user that are used to manage security config
 	SecurityMasterUserPasswordHash *string `mandatory:"false" json:"securityMasterUserPasswordHash"`
 
+	// The plain text password of the master user that are used to manage security config
+	SecurityMasterUserPassword *string `mandatory:"false" json:"securityMasterUserPassword"`
+
 	SecuritySamlConfig *SecuritySamlConfig `mandatory:"false" json:"securitySamlConfig"`
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`

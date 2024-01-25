@@ -17,22 +17,22 @@ import (
 	"strings"
 )
 
-// UpdateFusionAppsTargetAdditionalDetails Additional details about fusion apps target.
+// UpdateFusionAppsTargetAdditionalDetails Additional details to update for a Fusion Apps target.
 type UpdateFusionAppsTargetAdditionalDetails struct {
 
 	// Resources that will be monitored
 	MonitoringResources []MonitoringResource `mandatory:"false" json:"monitoringResources"`
 
-	// Service account username
+	// Service account user name
 	Username *string `mandatory:"false" json:"username"`
 
 	// Service account password
 	Password *string `mandatory:"false" json:"password"`
 
-	// URL for the login service.
+	// URL for the login service
 	LoginServiceUrl *string `mandatory:"false" json:"loginServiceUrl"`
 
-	// Login service type, for example, OAM.
+	// Login service type
 	LoginServiceType LoginServiceTypeEnum `mandatory:"false" json:"loginServiceType,omitempty"`
 }
 

@@ -14,10 +14,10 @@ import (
 // UpdateSecurityZoneRequest wrapper for the UpdateSecurityZone operation
 type UpdateSecurityZoneRequest struct {
 
-	// The unique identifier of the security zone (`SecurityZone`)
+	// The unique identifier of the security zone (`SecurityZone` resource).
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
-	// The security zone information to be updated.
+	// The security zone information to be updated
 	UpdateSecurityZoneDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

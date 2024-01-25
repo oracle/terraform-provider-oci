@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// CredentialsDetailsItem The information about credentials to be validated
+// CredentialsDetailsItem Details for the credentials to be validated.
 type CredentialsDetailsItem struct {
 
-	// Type of service (e.g. FA, OAM etc)
+	// Type of service
 	ServiceType ServiceTypeEnum `mandatory:"true" json:"serviceType"`
 
-	// URL of a service
+	// URL of service
 	Url *string `mandatory:"false" json:"url"`
 
-	// Service username
+	// Service user name
 	Username *string `mandatory:"false" json:"username"`
 
 	// Service password

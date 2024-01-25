@@ -55,6 +55,9 @@ type CreateVolumeGroupDetails struct {
 	// in the specified destination availability domains.
 	VolumeGroupReplicas []VolumeGroupReplicaDetails `mandatory:"false" json:"volumeGroupReplicas"`
 
+	// The clusterPlacementGroup Id of the volume group for volume group placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// Indicates whether the volume group is AD-local or Regional. Regional volume groups aren't restricted to any
 	// availability domain unlike AD-local volume groups. This is an optional field. The default behavior is to create
 	// AD_LOCAL volume groups.
@@ -89,16 +92,17 @@ func (m CreateVolumeGroupDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupPolicyId      *string                           `json:"backupPolicyId"`
-		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName         *string                           `json:"displayName"`
-		FreeformTags        map[string]string                 `json:"freeformTags"`
-		VolumeGroupReplicas []VolumeGroupReplicaDetails       `json:"volumeGroupReplicas"`
-		VolumeGroupScope    VolumeGroupVolumeGroupScopeEnum   `json:"volumeGroupScope"`
-		XrcKmsKeyId         *string                           `json:"xrcKmsKeyId"`
-		AvailabilityDomain  *string                           `json:"availabilityDomain"`
-		CompartmentId       *string                           `json:"compartmentId"`
-		SourceDetails       volumegroupsourcedetails          `json:"sourceDetails"`
+		BackupPolicyId          *string                           `json:"backupPolicyId"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName             *string                           `json:"displayName"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		VolumeGroupReplicas     []VolumeGroupReplicaDetails       `json:"volumeGroupReplicas"`
+		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		VolumeGroupScope        VolumeGroupVolumeGroupScopeEnum   `json:"volumeGroupScope"`
+		XrcKmsKeyId             *string                           `json:"xrcKmsKeyId"`
+		AvailabilityDomain      *string                           `json:"availabilityDomain"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		SourceDetails           volumegroupsourcedetails          `json:"sourceDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -116,6 +120,8 @@ func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.VolumeGroupReplicas = make([]VolumeGroupReplicaDetails, len(model.VolumeGroupReplicas))
 	copy(m.VolumeGroupReplicas, model.VolumeGroupReplicas)
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
 	m.VolumeGroupScope = model.VolumeGroupScope
 
 	m.XrcKmsKeyId = model.XrcKmsKeyId

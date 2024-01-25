@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// MonitoringResourceSummary Monitoring resource details
+// MonitoringResourceSummary Summary of monitoring resource information.
 type MonitoringResourceSummary struct {
 
-	// Monitoring resource id
+	// Monitoring resource ID
 	Id *string `mandatory:"false" json:"id"`
 
 	// Monitoring resource display name

@@ -14,10 +14,10 @@ import (
 // UpdateDataMaskRuleRequest wrapper for the UpdateDataMaskRule operation
 type UpdateDataMaskRuleRequest struct {
 
-	// OCID of dataMaskRule
+	// OCID of the data mask rule
 	DataMaskRuleId *string `mandatory:"true" contributesTo:"path" name:"dataMaskRuleId"`
 
-	// The information to be updated.
+	// The data mask rule information to be updated
 	UpdateDataMaskRuleDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

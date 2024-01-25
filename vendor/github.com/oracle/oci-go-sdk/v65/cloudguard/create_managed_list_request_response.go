@@ -14,7 +14,7 @@ import (
 // CreateManagedListRequest wrapper for the CreateManagedList operation
 type CreateManagedListRequest struct {
 
-	// Details for the new ManagedList.
+	// Details for the new ManagedList resources
 	CreateManagedListDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

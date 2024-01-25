@@ -14,16 +14,16 @@ import (
 // DetachDetectorRecipeDetectorRuleSightingTypeDataSourceRequest wrapper for the DetachDetectorRecipeDetectorRuleSightingTypeDataSource operation
 type DetachDetectorRecipeDetectorRuleSightingTypeDataSourceRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The key of Detector Rule.
+	// The unique identifier of a detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
-	// unique id of the sighting type
+	// Unique ID of the sighting type.
 	SightingTypeId *string `mandatory:"true" contributesTo:"path" name:"sightingTypeId"`
 
-	// DataSource OCID
+	// Data source OCID.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

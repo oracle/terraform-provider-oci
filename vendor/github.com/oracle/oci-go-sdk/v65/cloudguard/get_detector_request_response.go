@@ -14,7 +14,7 @@ import (
 // GetDetectorRequest wrapper for the GetDetector operation
 type GetDetectorRequest struct {
 
-	// The Name of Detector.
+	// Detector name.
 	DetectorId *string `mandatory:"true" contributesTo:"path" name:"detectorId"`
 
 	// The client request ID for tracing.

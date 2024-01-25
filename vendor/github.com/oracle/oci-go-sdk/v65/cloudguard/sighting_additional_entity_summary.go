@@ -16,28 +16,28 @@ import (
 	"strings"
 )
 
-// SightingAdditionalEntitySummary The information about sighting additional entities' details
+// SightingAdditionalEntitySummary Additional information about sighting additional entities' details.
 type SightingAdditionalEntitySummary struct {
 
-	// AdditionEntities region
+	// Addition entities regions
 	Regions []string `mandatory:"true" json:"regions"`
 
 	// First detected time
 	TimeFirstDetected *common.SDKTime `mandatory:"true" json:"timeFirstDetected"`
 
-	// Sighting AdditionalEntity id
+	// Sighting additional entity ID
 	Id *string `mandatory:"true" json:"id"`
 
-	// Associated sighting id
+	// Associated sighting ID
 	SightingId *string `mandatory:"true" json:"sightingId"`
 
-	// Last detected time
+	// The date and time the sighting was last detected
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// Log result query url
+	// Log result query URL
 	ResultUrl *string `mandatory:"false" json:"resultUrl"`
 
-	// The additional details of the Sighting AdditionalEntity
+	// The additional details of the sighting additional entity
 	AdditionalEntityDetails []EntityDetails `mandatory:"false" json:"additionalEntityDetails"`
 }
 

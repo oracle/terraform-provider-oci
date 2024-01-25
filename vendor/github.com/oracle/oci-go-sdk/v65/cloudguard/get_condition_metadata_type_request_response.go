@@ -14,16 +14,16 @@ import (
 // GetConditionMetadataTypeRequest wrapper for the GetConditionMetadataType operation
 type GetConditionMetadataTypeRequest struct {
 
-	// The type of the condition meta data.
+	// The type of the condition metadata.
 	ConditionMetadataTypeId GetConditionMetadataTypeConditionMetadataTypeIdEnum `mandatory:"true" contributesTo:"path" name:"conditionMetadataTypeId"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// ServiceType filter for the condition meta data.
+	// Service type filter for the condition metadata.
 	ServiceType *string `mandatory:"false" contributesTo:"query" name:"serviceType"`
 
-	// Resource filter for the condition meta data.
+	// Resource filter for the condition metadata.
 	ResourceType *string `mandatory:"false" contributesTo:"query" name:"resourceType"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// TargetSummaryAdditionalDetails Additional details of a target.
+// TargetSummaryAdditionalDetails A summary of additional details of a target.
 type TargetSummaryAdditionalDetails interface {
 }
 

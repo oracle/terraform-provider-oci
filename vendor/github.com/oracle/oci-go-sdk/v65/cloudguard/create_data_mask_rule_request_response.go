@@ -14,7 +14,7 @@ import (
 // CreateDataMaskRuleRequest wrapper for the CreateDataMaskRule operation
 type CreateDataMaskRuleRequest struct {
 
-	// Definition for the new Data Mask Rule.
+	// Definition for the new data mask rule
 	CreateDataMaskRuleDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

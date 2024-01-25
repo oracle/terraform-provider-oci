@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// CreateTargetAdditionalDetails Additional details of a target.
+// CreateTargetAdditionalDetails Additional details for creation of a new target.
 type CreateTargetAdditionalDetails interface {
 }
 

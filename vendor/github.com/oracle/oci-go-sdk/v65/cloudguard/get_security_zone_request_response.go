@@ -14,7 +14,7 @@ import (
 // GetSecurityZoneRequest wrapper for the GetSecurityZone operation
 type GetSecurityZoneRequest struct {
 
-	// The unique identifier of the security zone (`SecurityZone`)
+	// The unique identifier of the security zone (`SecurityZone` resource).
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
 	// The client request ID for tracing.

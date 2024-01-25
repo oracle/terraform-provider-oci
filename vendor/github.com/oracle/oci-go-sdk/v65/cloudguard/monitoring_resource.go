@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// MonitoringResource Resource that will be monitored
+// MonitoringResource The identifier for the resource to be monitored.
 type MonitoringResource struct {
 
-	// id
+	// The unique resource identifier
 	Id *string `mandatory:"true" json:"id"`
 }
 

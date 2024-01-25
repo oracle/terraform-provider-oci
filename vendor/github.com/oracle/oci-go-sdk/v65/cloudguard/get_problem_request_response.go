@@ -14,7 +14,7 @@ import (
 // GetProblemRequest wrapper for the GetProblem operation
 type GetProblemRequest struct {
 
-	// OCId of the problem.
+	// OCID of the problem.
 	ProblemId *string `mandatory:"true" contributesTo:"path" name:"problemId"`
 
 	// The client request ID for tracing.

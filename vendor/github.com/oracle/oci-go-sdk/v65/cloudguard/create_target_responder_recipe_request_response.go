@@ -14,10 +14,10 @@ import (
 // CreateTargetResponderRecipeRequest wrapper for the CreateTargetResponderRecipe operation
 type CreateTargetResponderRecipeRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// Details for associating ResponderRecipe to Target
+	// Details for attaching a responder recipe to a target
 	AttachTargetResponderRecipeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

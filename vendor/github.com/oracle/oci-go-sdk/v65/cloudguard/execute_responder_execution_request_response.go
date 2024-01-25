@@ -14,10 +14,10 @@ import (
 // ExecuteResponderExecutionRequest wrapper for the ExecuteResponderExecution operation
 type ExecuteResponderExecutionRequest struct {
 
-	// The identifier of the responder execution.
+	// The unique identifier of the responder execution.
 	ResponderExecutionId *string `mandatory:"true" contributesTo:"path" name:"responderExecutionId"`
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -37,7 +37,7 @@ type ExecuteResponderExecutionRequest struct {
 	// might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Details for Responder Configuration
+	// Details for responder configuration
 	ExecuteResponderExecutionDetails `contributesTo:"body"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

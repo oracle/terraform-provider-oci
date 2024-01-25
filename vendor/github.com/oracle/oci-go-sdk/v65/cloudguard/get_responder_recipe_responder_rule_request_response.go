@@ -14,10 +14,10 @@ import (
 // GetResponderRecipeResponderRuleRequest wrapper for the GetResponderRecipeResponderRule operation
 type GetResponderRecipeResponderRuleRequest struct {
 
-	// OCID of ResponderRecipe
+	// OCID of the responder recipe.
 	ResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"responderRecipeId"`
 
-	// The id of ResponderRule
+	// Unique identifier of the responder rule.
 	ResponderRuleId *string `mandatory:"true" contributesTo:"path" name:"responderRuleId"`
 
 	// The client request ID for tracing.

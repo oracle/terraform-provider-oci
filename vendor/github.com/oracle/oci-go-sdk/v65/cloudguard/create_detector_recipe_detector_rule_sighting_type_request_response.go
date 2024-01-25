@@ -14,13 +14,13 @@ import (
 // CreateDetectorRecipeDetectorRuleSightingTypeRequest wrapper for the CreateDetectorRecipeDetectorRuleSightingType operation
 type CreateDetectorRecipeDetectorRuleSightingTypeRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The key of Detector Rule.
+	// The unique identifier of a detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
-	// The details with which SightingType has to be created for a detector rule.
+	// The details with which SightingType is to be created for a detector rule
 	CreateDetectorRecipeDetectorRuleSightingTypeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

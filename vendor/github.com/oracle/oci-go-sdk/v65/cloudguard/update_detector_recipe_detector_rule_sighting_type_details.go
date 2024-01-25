@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateDetectorRecipeDetectorRuleSightingTypeDetails Details for updating new Sighting Type
+// UpdateDetectorRecipeDetectorRuleSightingTypeDetails Details for updating a sighting type.
 type UpdateDetectorRecipeDetectorRuleSightingTypeDetails struct {
 
 	// Name of the sighting type
@@ -25,16 +25,16 @@ type UpdateDetectorRecipeDetectorRuleSightingTypeDetails struct {
 	// Description of the sighting type
 	Description *string `mandatory:"false" json:"description"`
 
-	// Mitre attack tactic associated with a sighting Type
+	// MITRE ATT@CK framework tactic associated with a sighting Type
 	Tactic *string `mandatory:"false" json:"tactic"`
 
-	// Mitre Attack technique associated with a sighting type
+	// MITRE ATT@CK framework technique associated with a sighting type
 	Technique *string `mandatory:"false" json:"technique"`
 
-	// Identifier of associated dataSource
+	// Unique identifier of associated data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source additional entities mapping for a Detector Rule
+	// Data source additional entities mapping for a detector rule
 	AdditionalEntitiesMapping []EntitiesMapping `mandatory:"false" json:"additionalEntitiesMapping"`
 }
 

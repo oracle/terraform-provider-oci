@@ -14,7 +14,7 @@ import (
 // GetConfigurationRequest wrapper for the GetConfiguration operation
 type GetConfigurationRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.
