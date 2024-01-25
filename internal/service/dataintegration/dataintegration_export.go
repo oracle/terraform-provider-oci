@@ -14,6 +14,7 @@ func init() {
 	exportDataintegrationWorkspaceApplicationHints.GetIdFn = getDataintegrationWorkspaceApplicationId
 	exportDataintegrationWorkspaceImportRequestHints.GetIdFn = getDataintegrationWorkspaceImportRequestId
 	exportDataintegrationWorkspaceExportRequestHints.GetIdFn = getDataintegrationWorkspaceExportRequestId
+	exportDataintegrationWorkspaceApplicationPatchHints.GetIdFn = getDataintegrationWorkspaceApplicationPatchId
 	tf_export.RegisterCompartmentGraphs("dataintegration", dataintegrationResourceGraph)
 }
 
@@ -67,6 +68,20 @@ func getDataintegrationWorkspaceExportRequestId(resource *tf_export.OCIResource)
 	}
 	workspaceId := resource.Parent.Id
 	return GetWorkspaceExportRequestCompositeId(exportRequestKey, workspaceId), nil
+}
+
+func getDataintegrationWorkspaceApplicationPatchId(resource *tf_export.OCIResource) (string, error) {
+
+	applicationKey, ok := resource.Parent.SourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find applicationKey for Dataintegration WorkspaceApplicationPatch")
+	}
+	patchKey, ok := resource.SourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find patchKey for Dataintegration WorkspaceApplicationPatch")
+	}
+	workspaceId := resource.Parent.SourceAttributes["workspace_id"].(string)
+	return GetWorkspaceApplicationPatchCompositeId(applicationKey, patchKey, workspaceId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -129,6 +144,15 @@ var exportDataintegrationWorkspaceExportRequestHints = &tf_export.TerraformResou
 	RequireResourceRefresh: true,
 }
 
+var exportDataintegrationWorkspaceApplicationPatchHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_dataintegration_workspace_application_patch",
+	DatasourceClass:        "oci_dataintegration_workspace_application_patches",
+	DatasourceItemsAttr:    "patch_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "workspace_application_patch",
+	RequireResourceRefresh: true,
+}
+
 var dataintegrationResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataintegrationWorkspaceHints},
@@ -162,6 +186,15 @@ var dataintegrationResourceGraph = tf_export.TerraformResourceGraph{
 			TerraformResourceHints: exportDataintegrationWorkspaceProjectHints,
 			DatasourceQueryParams: map[string]string{
 				"workspace_id": "id",
+			},
+		},
+	},
+	"oci_dataintegration_workspace_application": {
+		{
+			TerraformResourceHints: exportDataintegrationWorkspaceApplicationPatchHints,
+			DatasourceQueryParams: map[string]string{
+				"application_key": "key",
+				"workspace_id":    "workspace_id",
 			},
 		},
 	},
