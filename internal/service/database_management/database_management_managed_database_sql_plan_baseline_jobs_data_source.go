@@ -26,6 +26,10 @@ func DatabaseManagementManagedDatabaseSqlPlanBaselineJobsDataSource() *schema.Re
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"sql_plan_baseline_job_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -101,6 +105,11 @@ func (s *DatabaseManagementManagedDatabaseSqlPlanBaselineJobsDataSourceCrud) Get
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")

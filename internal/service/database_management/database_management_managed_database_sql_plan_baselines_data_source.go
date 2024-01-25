@@ -26,11 +26,19 @@ func DatabaseManagementManagedDatabaseSqlPlanBaselinesDataSource() *schema.Resou
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_auto_purged": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"is_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
 			"is_fixed": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"is_never_executed": {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
@@ -41,6 +49,10 @@ func DatabaseManagementManagedDatabaseSqlPlanBaselinesDataSource() *schema.Resou
 			"managed_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"origin": {
 				Type:     schema.TypeString,
@@ -182,6 +194,11 @@ func (s *DatabaseManagementManagedDatabaseSqlPlanBaselinesDataSourceCrud) Get() 
 		request.IsAdaptive = &tmp
 	}
 
+	if isAutoPurged, ok := s.D.GetOkExists("is_auto_purged"); ok {
+		tmp := isAutoPurged.(bool)
+		request.IsAutoPurged = &tmp
+	}
+
 	if isEnabled, ok := s.D.GetOkExists("is_enabled"); ok {
 		tmp := isEnabled.(bool)
 		request.IsEnabled = &tmp
@@ -192,6 +209,11 @@ func (s *DatabaseManagementManagedDatabaseSqlPlanBaselinesDataSourceCrud) Get() 
 		request.IsFixed = &tmp
 	}
 
+	if isNeverExecuted, ok := s.D.GetOkExists("is_never_executed"); ok {
+		tmp := isNeverExecuted.(bool)
+		request.IsNeverExecuted = &tmp
+	}
+
 	if isReproduced, ok := s.D.GetOkExists("is_reproduced"); ok {
 		tmp := isReproduced.(bool)
 		request.IsReproduced = &tmp
@@ -200,6 +222,11 @@ func (s *DatabaseManagementManagedDatabaseSqlPlanBaselinesDataSourceCrud) Get() 
 	if managedDatabaseId, ok := s.D.GetOkExists("managed_database_id"); ok {
 		tmp := managedDatabaseId.(string)
 		request.ManagedDatabaseId = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	if origin, ok := s.D.GetOkExists("origin"); ok {

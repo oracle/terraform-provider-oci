@@ -6,11 +6,13 @@ package database_management
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
 )
@@ -23,9 +25,24 @@ func DatabaseManagementManagedDatabasesResetDatabaseParameterResource() *schema.
 		Delete:   deleteDatabaseManagementManagedDatabasesResetDatabaseParameter,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"credentials": {
+			"managed_database_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
+			"parameters": {
 				Type:     schema.TypeList,
 				Required: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			// Optional
+			"credentials": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
@@ -64,17 +81,64 @@ func DatabaseManagementManagedDatabasesResetDatabaseParameterResource() *schema.
 					},
 				},
 			},
-			"managed_database_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
-			"parameters": {
+			"database_credential": {
 				Type:     schema.TypeList,
-				Required: true,
+				Optional: true,
+				Computed: true,
 				ForceNew: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"credential_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"NAMED_CREDENTIAL",
+								"PASSWORD",
+								"SECRET",
+							}, true),
+						},
+
+						// Optional
+						"named_credential_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"password": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							ForceNew:  true,
+							Sensitive: true,
+						},
+						"password_secret_id": {
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							ForceNew:  true,
+							Sensitive: true,
+						},
+						"role": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"username": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
 				},
 			},
 			"scope": {
@@ -128,6 +192,17 @@ func (s *DatabaseManagementManagedDatabasesResetDatabaseParameterResourceCrud) C
 		}
 	}
 
+	if databaseCredential, ok := s.D.GetOkExists("database_credential"); ok {
+		if tmpList := databaseCredential.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database_credential", 0)
+			tmp, err := s.mapToDatabaseCredentialDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DatabaseCredential = tmp
+		}
+	}
+
 	if managedDatabaseId, ok := s.D.GetOkExists("managed_database_id"); ok {
 		tmp := managedDatabaseId.(string)
 		request.ManagedDatabaseId = &tmp
@@ -163,9 +238,59 @@ func (s *DatabaseManagementManagedDatabasesResetDatabaseParameterResourceCrud) C
 }
 
 func (s *DatabaseManagementManagedDatabasesResetDatabaseParameterResourceCrud) SetData() error {
-	s.D.Set("status", s.Res.Status)
-
 	return nil
+}
+
+func (s *DatabaseManagementManagedDatabasesResetDatabaseParameterResourceCrud) mapToDatabaseCredentialDetails(fieldKeyFormat string) (oci_database_management.DatabaseCredentialDetails, error) {
+	var baseObject oci_database_management.DatabaseCredentialDetails
+	//discriminator
+	credentialTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_type"))
+	var credentialType string
+	if ok {
+		credentialType = credentialTypeRaw.(string)
+	} else {
+		credentialType = "" // default value
+	}
+	switch strings.ToLower(credentialType) {
+	case strings.ToLower("NAMED_CREDENTIAL"):
+		details := oci_database_management.DatabaseNamedCredentialDetails{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PASSWORD"):
+		details := oci_database_management.DatabasePasswordCredentialDetails{}
+		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if role, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "role")); ok {
+			details.Role = oci_database_management.DatabasePasswordCredentialDetailsRoleEnum(role.(string))
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SECRET"):
+		details := oci_database_management.DatabaseSecretCredentialDetails{}
+		if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+			tmp := passwordSecretId.(string)
+			details.PasswordSecretId = &tmp
+		}
+		if role, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "role")); ok {
+			details.Role = oci_database_management.DatabaseSecretCredentialDetailsRoleEnum(role.(string))
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
+	}
+	return baseObject, nil
 }
 
 func (s *DatabaseManagementManagedDatabasesResetDatabaseParameterResourceCrud) mapToDatabaseCredentials(fieldKeyFormat string) (oci_database_management.DatabaseCredentials, error) {

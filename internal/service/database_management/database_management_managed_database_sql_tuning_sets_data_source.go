@@ -5,6 +5,8 @@ package database_management
 
 import (
 	"context"
+	"log"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -23,6 +25,10 @@ func DatabaseManagementManagedDatabaseSqlTuningSetsDataSource() *schema.Resource
 				Required: true,
 			},
 			"name_contains": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"opc_named_credential_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -126,6 +132,11 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningSetsDataSourceCrud) Get() err
 		request.NameContains = &tmp
 	}
 
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
+	}
+
 	if owner, ok := s.D.GetOkExists("owner"); ok {
 		tmp := owner.(string)
 		request.Owner = &tmp
@@ -180,6 +191,95 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningSetsDataSourceCrud) SetData()
 	}
 
 	return nil
+}
+
+func SqlInSqlTuningSetToMap(obj oci_database_management.SqlInSqlTuningSet) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ContainerDatabaseId != nil {
+		result["container_database_id"] = strconv.FormatInt(*obj.ContainerDatabaseId, 10)
+	}
+
+	metrics := []interface{}{}
+	for _, item := range obj.Metrics {
+		metrics = append(metrics, SqlMetricsToMap(item))
+	}
+	result["metrics"] = metrics
+
+	if obj.Module != nil {
+		result["module"] = string(*obj.Module)
+	}
+
+	if obj.PlanHashValue != nil {
+		result["plan_hash_value"] = strconv.FormatInt(*obj.PlanHashValue, 10)
+	}
+
+	if obj.Schema != nil {
+		result["schema"] = string(*obj.Schema)
+	}
+
+	if obj.SqlId != nil {
+		result["sql_id"] = string(*obj.SqlId)
+	}
+
+	if obj.SqlText != nil {
+		result["sql_text"] = string(*obj.SqlText)
+	}
+
+	return result
+}
+
+func SqlMetricsToMap(obj oci_database_management.SqlMetrics) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BufferGets != nil {
+		result["buffer_gets"] = strconv.FormatInt(*obj.BufferGets, 10)
+	}
+
+	if obj.CpuTime != nil {
+		result["cpu_time"] = strconv.FormatInt(*obj.CpuTime, 10)
+	}
+
+	if obj.DirectWrites != nil {
+		result["direct_writes"] = strconv.FormatInt(*obj.DirectWrites, 10)
+	}
+
+	if obj.DiskReads != nil {
+		result["disk_reads"] = strconv.FormatInt(*obj.DiskReads, 10)
+	}
+
+	if obj.ElapsedTime != nil {
+		result["elapsed_time"] = strconv.FormatInt(*obj.ElapsedTime, 10)
+	}
+
+	if obj.Executions != nil {
+		result["executions"] = strconv.FormatInt(*obj.Executions, 10)
+	}
+
+	return result
+}
+
+func SqlTuningSetAdminCredentialDetailsToMap(obj *oci_database_management.SqlTuningSetAdminCredentialDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_management.SqlTuningSetAdminPasswordCredentialDetails:
+		result["sql_tuning_set_admin_credential_type"] = "PASSWORD"
+
+		if v.Password != nil {
+			result["password"] = string(*v.Password)
+		}
+	case oci_database_management.SqlTuningSetAdminSecretCredentialDetails:
+		result["sql_tuning_set_admin_credential_type"] = "SECRET"
+
+		if v.SecretId != nil {
+			result["secret_id"] = string(*v.SecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'sql_tuning_set_admin_credential_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func SqlTuningSetSummaryToMap(obj oci_database_management.SqlTuningSetSummary) map[string]interface{} {

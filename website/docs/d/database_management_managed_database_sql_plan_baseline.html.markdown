@@ -20,6 +20,9 @@ data "oci_database_management_managed_database_sql_plan_baseline" "test_managed_
 	#Required
 	managed_database_id = oci_database_management_managed_database.test_managed_database.id
 	plan_name = var.managed_database_sql_plan_baseline_plan_name
+
+	#Optional
+	opc_named_credential_id = var.managed_database_sql_plan_baseline_opc_named_credential_id
 }
 ```
 
@@ -28,6 +31,7 @@ data "oci_database_management_managed_database_sql_plan_baseline" "test_managed_
 The following arguments are supported:
 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `plan_name` - (Required) The plan name of the SQL plan baseline.
 
 

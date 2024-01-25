@@ -21,6 +21,10 @@ func DatabaseManagementManagedDatabaseSqlPlanBaselineConfigurationDataSource() *
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			"auto_capture_filters": {
 				Type:     schema.TypeList,
@@ -160,6 +164,11 @@ func (s *DatabaseManagementManagedDatabaseSqlPlanBaselineConfigurationDataSource
 	if managedDatabaseId, ok := s.D.GetOkExists("managed_database_id"); ok {
 		tmp := managedDatabaseId.(string)
 		request.ManagedDatabaseId = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")

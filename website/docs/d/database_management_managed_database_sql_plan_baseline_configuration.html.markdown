@@ -21,6 +21,9 @@ SQL plan baselines, SPM Evolve Advisor task, and SQL Management Base.
 data "oci_database_management_managed_database_sql_plan_baseline_configuration" "test_managed_database_sql_plan_baseline_configuration" {
 	#Required
 	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+	#Optional
+	opc_named_credential_id = var.managed_database_sql_plan_baseline_configuration_opc_named_credential_id
 }
 ```
 
@@ -29,6 +32,7 @@ data "oci_database_management_managed_database_sql_plan_baseline_configuration" 
 The following arguments are supported:
 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 
 
 ## Attributes Reference

@@ -24,6 +24,7 @@ data "oci_database_management_managed_database_sql_tuning_advisor_tasks_summary_
 	#Optional
 	begin_exec_id_greater_than_or_equal_to = var.managed_database_sql_tuning_advisor_tasks_summary_report_begin_exec_id_greater_than_or_equal_to
 	end_exec_id_less_than_or_equal_to = var.managed_database_sql_tuning_advisor_tasks_summary_report_end_exec_id_less_than_or_equal_to
+	opc_named_credential_id = var.managed_database_sql_tuning_advisor_tasks_summary_report_opc_named_credential_id
 	search_period = var.managed_database_sql_tuning_advisor_tasks_summary_report_search_period
 	time_greater_than_or_equal_to = var.managed_database_sql_tuning_advisor_tasks_summary_report_time_greater_than_or_equal_to
 	time_less_than_or_equal_to = var.managed_database_sql_tuning_advisor_tasks_summary_report_time_less_than_or_equal_to
@@ -37,6 +38,7 @@ The following arguments are supported:
 * `begin_exec_id_greater_than_or_equal_to` - (Optional) The optional greater than or equal to filter on the execution ID related to a specific SQL Tuning Advisor task. This is applicable only for Auto SQL Tuning tasks.
 * `end_exec_id_less_than_or_equal_to` - (Optional) The optional less than or equal to query parameter to filter on the execution ID related to a specific SQL Tuning Advisor task. This is applicable only for Auto SQL Tuning tasks.
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `search_period` - (Optional) How far back the API will search for begin and end exec id. Unused if neither exec ids nor time filter query params are supplied. This is applicable only for Auto SQL Tuning tasks.
 * `sql_tuning_advisor_task_id` - (Required) The SQL tuning task identifier. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `time_greater_than_or_equal_to` - (Optional) The optional greater than or equal to query parameter to filter the timestamp. This is applicable only for Auto SQL Tuning tasks.

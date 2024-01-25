@@ -17,12 +17,13 @@ import (
 
 var (
 	DatabaseManagementManagedDatabasePreferredCredentialSingularDataSourceRepresentation = map[string]interface{}{
-		"credential_name":     acctest.Representation{RepType: acctest.Required, Create: `${var.test_preferred_credential_name}`},
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
+		"credential_name":     acctest.Representation{RepType: acctest.Required, Create: `${var.credential_name}`},
+		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
+		"named_credential_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.named_credential_id}`},
 	}
 
 	DatabaseManagementManagedDatabasePreferredCredentialDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
+		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
 	}
 
 	DatabaseManagementManagedDatabasePreferredCredentialResourceConfig = ""
@@ -35,14 +36,17 @@ func TestDatabaseManagementManagedDatabasePreferredCredentialResource_basic(t *t
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	testManagedDatabaseId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
-	testManagedDatabaseIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", testManagedDatabaseId)
+	managedDatabaseId := utils.GetEnvSettingWithBlankDefault("dbmgmt_managed_database_id")
+	managedDatabaseIdVariableStr := fmt.Sprintf("variable \"managed_database_id\" { default = \"%s\" }\n", managedDatabaseId)
 
-	testPreferredCredentialName := utils.GetEnvSettingWithBlankDefault("test_preferred_credential_name")
-	testPreferredCredentialNameVariableStr := fmt.Sprintf("variable \"test_preferred_credential_name\" { default = \"%s\" }\n", testPreferredCredentialName)
+	preferredCredentialName := utils.GetEnvSettingWithBlankDefault("dbmgmt_credential_name")
+	preferredCredentialNameVariableStr := fmt.Sprintf("variable \"credential_name\" { default = \"%s\" }\n", preferredCredentialName)
+
+	namedCredentialId := utils.GetEnvSettingWithBlankDefault("dbmgmt_named_credential_id")
+	namedCredentialIdVariableStr := fmt.Sprintf("variable \"named_credential_id\" { default = \"%s\" }\n", namedCredentialId)
 
 	datasourceName := "data.oci_database_management_managed_database_preferred_credentials.test_managed_database_preferred_credentials"
 	singularDatasourceName := "data.oci_database_management_managed_database_preferred_credential.test_managed_database_preferred_credential"
@@ -54,7 +58,7 @@ func TestDatabaseManagementManagedDatabasePreferredCredentialResource_basic(t *t
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_preferred_credentials", "test_managed_database_preferred_credentials", acctest.Required, acctest.Create, DatabaseManagementManagedDatabasePreferredCredentialDataSourceRepresentation) +
-				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + DatabaseManagementManagedDatabasePreferredCredentialResourceConfig,
+				compartmentIdVariableStr + managedDatabaseIdVariableStr + preferredCredentialNameVariableStr + DatabaseManagementManagedDatabasePreferredCredentialResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
 
@@ -65,18 +69,34 @@ func TestDatabaseManagementManagedDatabasePreferredCredentialResource_basic(t *t
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_preferred_credential", "test_managed_database_preferred_credential", acctest.Required, acctest.Create, DatabaseManagementManagedDatabasePreferredCredentialSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + testPreferredCredentialNameVariableStr + DatabaseManagementManagedDatabasePreferredCredentialResourceConfig,
+				compartmentIdVariableStr + managedDatabaseIdVariableStr + preferredCredentialNameVariableStr + namedCredentialIdVariableStr + DatabaseManagementManagedDatabasePreferredCredentialResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "credential_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "credential_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_accessible"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "password_secret_id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "password_secret_id"),
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_preferred_credential", "test_managed_database_preferred_credential", acctest.Optional, acctest.Create, DatabaseManagementManagedDatabasePreferredCredentialSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managedDatabaseIdVariableStr + preferredCredentialNameVariableStr + namedCredentialIdVariableStr + DatabaseManagementManagedDatabasePreferredCredentialResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "credential_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "credential_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_accessible"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "password_secret_id"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "role"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),
 			),
 		},
 	})

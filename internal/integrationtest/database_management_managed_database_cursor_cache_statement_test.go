@@ -17,9 +17,10 @@ import (
 
 var (
 	DatabaseManagementDatabaseManagementManagedDatabaseCursorCacheStatementDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
-		"sql_text":            acctest.Representation{RepType: acctest.Optional, Create: `sqlText`},
-		"limit":               acctest.Representation{RepType: acctest.Required, Create: `1000`},
+		"managed_database_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
+		"sql_text":                acctest.Representation{RepType: acctest.Optional, Create: `sqlText`},
+		"limit":                   acctest.Representation{RepType: acctest.Required, Create: `1000`},
+		"opc_named_credential_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.named_credential_id}`},
 	}
 
 	DatabaseManagementManagedDatabaseCursorCacheStatementResourceConfig = ""
@@ -32,11 +33,14 @@ func TestDatabaseManagementManagedDatabaseCursorCacheStatementResource_basic(t *
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	managedDatabaseId := utils.GetEnvSettingWithBlankDefault("dbmgmt_managed_database_id")
+	managedDatabaseIdvariableStr := fmt.Sprintf("variable \"managed_database_id\" { default = \"%s\" }\n", managedDatabaseId)
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	managedDbId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
-	managedDbIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", managedDbId)
+	namedCredentialId := utils.GetEnvSettingWithBlankDefault("dbmgmt_named_credential_id")
+	namedCredentialIdVariableStr := fmt.Sprintf("variable \"named_credential_id\" { default = \"%s\" }\n", namedCredentialId)
 
 	datasourceName := "data.oci_database_management_managed_database_cursor_cache_statements.test_managed_database_cursor_cache_statements"
 
@@ -47,10 +51,20 @@ func TestDatabaseManagementManagedDatabaseCursorCacheStatementResource_basic(t *
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_cursor_cache_statements", "test_managed_database_cursor_cache_statements", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseCursorCacheStatementDataSourceRepresentation) +
-				compartmentIdVariableStr + managedDbIdVariableStr + DatabaseManagementManagedDatabaseCursorCacheStatementResourceConfig,
+				compartmentIdVariableStr + managedDatabaseIdvariableStr + DatabaseManagementManagedDatabaseCursorCacheStatementResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
-
+				resource.TestCheckResourceAttrSet(datasourceName, "cursor_cache_statement_collection.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "cursor_cache_statement_collection.0.items.#"),
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_cursor_cache_statements", "test_managed_database_cursor_cache_statements", acctest.Optional, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseCursorCacheStatementDataSourceRepresentation) +
+				compartmentIdVariableStr + managedDatabaseIdvariableStr + namedCredentialIdVariableStr + DatabaseManagementManagedDatabaseCursorCacheStatementResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cursor_cache_statement_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cursor_cache_statement_collection.0.items.#"),
 			),

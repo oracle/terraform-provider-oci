@@ -22,6 +22,7 @@ data "oci_database_management_managed_database_sql_tuning_advisor_tasks" "test_m
 
 	#Optional
 	name = var.managed_database_sql_tuning_advisor_task_name
+	opc_named_credential_id = var.managed_database_sql_tuning_advisor_task_opc_named_credential_id
 	status = var.managed_database_sql_tuning_advisor_task_status
 	time_greater_than_or_equal_to = var.managed_database_sql_tuning_advisor_task_time_greater_than_or_equal_to
 	time_less_than_or_equal_to = var.managed_database_sql_tuning_advisor_task_time_less_than_or_equal_to
@@ -34,6 +35,7 @@ The following arguments are supported:
 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `name` - (Optional) The optional query parameter to filter the SQL Tuning Advisor task list by name.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `status` - (Optional) The optional query parameter to filter the SQL Tuning Advisor task list by status.
 * `time_greater_than_or_equal_to` - (Optional) The optional greater than or equal to query parameter to filter the timestamp.
 * `time_less_than_or_equal_to` - (Optional) The optional less than or equal to query parameter to filter the timestamp.
