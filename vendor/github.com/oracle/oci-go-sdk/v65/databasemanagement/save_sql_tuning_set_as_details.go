@@ -19,8 +19,8 @@ import (
 )
 
 // SaveSqlTuningSetAsDetails Save current list of Sql statements into another Sql tuning set.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type SaveSqlTuningSetAsDetails struct {
-	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// The name of the Sql tuning set.
 	Name *string `mandatory:"true" json:"name"`
@@ -33,6 +33,10 @@ type SaveSqlTuningSetAsDetails struct {
 	// 1 - Create a new Sql tuning set
 	// 0 - Do not create a new Sql tuning set
 	CreateNew *int `mandatory:"true" json:"createNew"`
+
+	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// Flag to indicate whether to save the Sql tuning set or just display the plsql used to save Sql tuning set.
 	ShowSqlOnly *int `mandatory:"false" json:"showSqlOnly"`
@@ -205,6 +209,8 @@ func (m SaveSqlTuningSetAsDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *SaveSqlTuningSetAsDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		CredentialDetails                  sqltuningsetadmincredentialdetails           `json:"credentialDetails"`
+		DatabaseCredential                 databasecredentialdetails                    `json:"databaseCredential"`
 		ShowSqlOnly                        *int                                         `json:"showSqlOnly"`
 		Owner                              *string                                      `json:"owner"`
 		DestinationSqlTuningSetDescription *string                                      `json:"destinationSqlTuningSetDescription"`
@@ -224,7 +230,6 @@ func (m *SaveSqlTuningSetAsDetails) UnmarshalJSON(data []byte) (e error) {
 		UpdateAttributes                   *string                                      `json:"updateAttributes"`
 		IsIgnoreNull                       *bool                                        `json:"isIgnoreNull"`
 		CommitRows                         *int                                         `json:"commitRows"`
-		CredentialDetails                  sqltuningsetadmincredentialdetails           `json:"credentialDetails"`
 		Name                               *string                                      `json:"name"`
 		DestinationSqlTuningSetName        *string                                      `json:"destinationSqlTuningSetName"`
 		CreateNew                          *int                                         `json:"createNew"`
@@ -235,6 +240,26 @@ func (m *SaveSqlTuningSetAsDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CredentialDetails = nn.(SqlTuningSetAdminCredentialDetails)
+	} else {
+		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
 	m.ShowSqlOnly = model.ShowSqlOnly
 
 	m.Owner = model.Owner
@@ -272,16 +297,6 @@ func (m *SaveSqlTuningSetAsDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsIgnoreNull = model.IsIgnoreNull
 
 	m.CommitRows = model.CommitRows
-
-	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.CredentialDetails = nn.(SqlTuningSetAdminCredentialDetails)
-	} else {
-		m.CredentialDetails = nil
-	}
 
 	m.Name = model.Name
 

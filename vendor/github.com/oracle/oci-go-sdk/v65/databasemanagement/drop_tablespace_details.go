@@ -19,8 +19,11 @@ import (
 )
 
 // DropTablespaceDetails The details required to drop a tablespace.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type DropTablespaceDetails struct {
-	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
+	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// Specifies whether all the contents of the tablespace being dropped should be dropped.
 	IsIncludingContents *bool `mandatory:"false" json:"isIncludingContents"`
@@ -51,10 +54,11 @@ func (m DropTablespaceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DropTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		CredentialDetails    tablespaceadmincredentialdetails `json:"credentialDetails"`
+		DatabaseCredential   databasecredentialdetails        `json:"databaseCredential"`
 		IsIncludingContents  *bool                            `json:"isIncludingContents"`
 		IsDroppingDataFiles  *bool                            `json:"isDroppingDataFiles"`
 		IsCascadeConstraints *bool                            `json:"isCascadeConstraints"`
-		CredentialDetails    tablespaceadmincredentialdetails `json:"credentialDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -62,12 +66,6 @@ func (m *DropTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.IsIncludingContents = model.IsIncludingContents
-
-	m.IsDroppingDataFiles = model.IsDroppingDataFiles
-
-	m.IsCascadeConstraints = model.IsCascadeConstraints
-
 	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
 	if e != nil {
 		return
@@ -77,6 +75,22 @@ func (m *DropTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.CredentialDetails = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.IsIncludingContents = model.IsIncludingContents
+
+	m.IsDroppingDataFiles = model.IsDroppingDataFiles
+
+	m.IsCascadeConstraints = model.IsCascadeConstraints
 
 	return
 }

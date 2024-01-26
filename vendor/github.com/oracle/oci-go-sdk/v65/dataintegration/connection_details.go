@@ -151,6 +151,10 @@ func (m *connectiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ConnectionFromRestBasicAuthDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OAUTH2_CONNECTION":
+		mm := ConnectionFromOAuth2Details{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BICC_CONNECTION":
 		mm := ConnectionFromBiccDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -279,6 +283,7 @@ const (
 	ConnectionDetailsModelTypeMysqlHeatwaveConnection       ConnectionDetailsModelTypeEnum = "MYSQL_HEATWAVE_CONNECTION"
 	ConnectionDetailsModelTypeRestNoAuthConnection          ConnectionDetailsModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	ConnectionDetailsModelTypeRestBasicAuthConnection       ConnectionDetailsModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
+	ConnectionDetailsModelTypeOauth2Connection              ConnectionDetailsModelTypeEnum = "OAUTH2_CONNECTION"
 )
 
 var mappingConnectionDetailsModelTypeEnum = map[string]ConnectionDetailsModelTypeEnum{
@@ -299,6 +304,7 @@ var mappingConnectionDetailsModelTypeEnum = map[string]ConnectionDetailsModelTyp
 	"MYSQL_HEATWAVE_CONNECTION":        ConnectionDetailsModelTypeMysqlHeatwaveConnection,
 	"REST_NO_AUTH_CONNECTION":          ConnectionDetailsModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       ConnectionDetailsModelTypeRestBasicAuthConnection,
+	"OAUTH2_CONNECTION":                ConnectionDetailsModelTypeOauth2Connection,
 }
 
 var mappingConnectionDetailsModelTypeEnumLowerCase = map[string]ConnectionDetailsModelTypeEnum{
@@ -319,6 +325,7 @@ var mappingConnectionDetailsModelTypeEnumLowerCase = map[string]ConnectionDetail
 	"mysql_heatwave_connection":        ConnectionDetailsModelTypeMysqlHeatwaveConnection,
 	"rest_no_auth_connection":          ConnectionDetailsModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       ConnectionDetailsModelTypeRestBasicAuthConnection,
+	"oauth2_connection":                ConnectionDetailsModelTypeOauth2Connection,
 }
 
 // GetConnectionDetailsModelTypeEnumValues Enumerates the set of values for ConnectionDetailsModelTypeEnum
@@ -350,6 +357,7 @@ func GetConnectionDetailsModelTypeEnumStringValues() []string {
 		"MYSQL_HEATWAVE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
+		"OAUTH2_CONNECTION",
 	}
 }
 

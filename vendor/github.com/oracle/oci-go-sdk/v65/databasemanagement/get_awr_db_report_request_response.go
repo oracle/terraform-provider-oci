@@ -62,6 +62,9 @@ type GetAwrDbReportRequest struct {
 	// might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
+	// The OCID of the Named Credential.
+	OpcNamedCredentialId *string `mandatory:"false" contributesTo:"header" name:"opc-named-credential-id"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

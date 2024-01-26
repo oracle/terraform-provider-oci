@@ -19,11 +19,15 @@ import (
 )
 
 // CreateTablespaceDetails The details required to create a tablespace.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type CreateTablespaceDetails struct {
-	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// The name of the tablespace. It must be unique within a database.
 	Name *string `mandatory:"true" json:"name"`
+
+	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// The type of tablespace.
 	Type CreateTablespaceDetailsTypeEnum `mandatory:"false" json:"type,omitempty"`
@@ -119,6 +123,8 @@ func (m CreateTablespaceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		CredentialDetails    tablespaceadmincredentialdetails             `json:"credentialDetails"`
+		DatabaseCredential   databasecredentialdetails                    `json:"databaseCredential"`
 		Type                 CreateTablespaceDetailsTypeEnum              `json:"type"`
 		IsBigfile            *bool                                        `json:"isBigfile"`
 		DataFiles            []string                                     `json:"dataFiles"`
@@ -138,7 +144,6 @@ func (m *CreateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 		ExtentUniformSize    *TablespaceStorageSize                       `json:"extentUniformSize"`
 		SegmentManagement    CreateTablespaceDetailsSegmentManagementEnum `json:"segmentManagement"`
 		IsDefault            *bool                                        `json:"isDefault"`
-		CredentialDetails    tablespaceadmincredentialdetails             `json:"credentialDetails"`
 		Name                 *string                                      `json:"name"`
 	}{}
 
@@ -147,6 +152,26 @@ func (m *CreateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CredentialDetails = nn.(TablespaceAdminCredentialDetails)
+	} else {
+		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
 	m.Type = model.Type
 
 	m.IsBigfile = model.IsBigfile
@@ -184,16 +209,6 @@ func (m *CreateTablespaceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SegmentManagement = model.SegmentManagement
 
 	m.IsDefault = model.IsDefault
-
-	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.CredentialDetails = nn.(TablespaceAdminCredentialDetails)
-	} else {
-		m.CredentialDetails = nil
-	}
 
 	m.Name = model.Name
 

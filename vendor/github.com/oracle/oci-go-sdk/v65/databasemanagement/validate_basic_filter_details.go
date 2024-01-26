@@ -19,8 +19,8 @@ import (
 )
 
 // ValidateBasicFilterDetails Validate the basic filter criteria provided by the user.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type ValidateBasicFilterDetails struct {
-	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// The owner of the Sql tuning set.
 	Owner *string `mandatory:"true" json:"owner"`
@@ -32,6 +32,10 @@ type ValidateBasicFilterDetails struct {
 	// User could use any combination of the following columns with appropriate values as Sql predicate
 	// Refer to the documentation https://docs.oracle.com/en/database/oracle/oracle-database/18/arpls/DBMS_SQLTUNE.html#GUID-1F4AFB03-7B29-46FC-B3F2-CB01EC36326C
 	BasicFilter *string `mandatory:"true" json:"basicFilter"`
+
+	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m ValidateBasicFilterDetails) String() string {
@@ -53,10 +57,11 @@ func (m ValidateBasicFilterDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ValidateBasicFilterDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CredentialDetails sqltuningsetadmincredentialdetails `json:"credentialDetails"`
-		Owner             *string                            `json:"owner"`
-		Name              *string                            `json:"name"`
-		BasicFilter       *string                            `json:"basicFilter"`
+		CredentialDetails  sqltuningsetadmincredentialdetails `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails          `json:"databaseCredential"`
+		Owner              *string                            `json:"owner"`
+		Name               *string                            `json:"name"`
+		BasicFilter        *string                            `json:"basicFilter"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -72,6 +77,16 @@ func (m *ValidateBasicFilterDetails) UnmarshalJSON(data []byte) (e error) {
 		m.CredentialDetails = nn.(SqlTuningSetAdminCredentialDetails)
 	} else {
 		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
 	}
 
 	m.Owner = model.Owner
