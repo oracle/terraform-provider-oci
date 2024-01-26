@@ -19,10 +19,13 @@ import (
 )
 
 // ExternalDatabaseConnectionInfo The details required to connect to an external Oracle Database.
+// It takes either connectionCredentials or databaseCredential. It's recommended to provide databaseCredential
 type ExternalDatabaseConnectionInfo struct {
 	ConnectionString *DatabaseConnectionString `mandatory:"true" json:"connectionString"`
 
-	ConnectionCredentials DatabaseConnectionCredentials `mandatory:"true" json:"connectionCredentials"`
+	ConnectionCredentials DatabaseConnectionCredentials `mandatory:"false" json:"connectionCredentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m ExternalDatabaseConnectionInfo) String() string {
@@ -58,8 +61,9 @@ func (m ExternalDatabaseConnectionInfo) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ExternalDatabaseConnectionInfo) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ConnectionString      *DatabaseConnectionString     `json:"connectionString"`
 		ConnectionCredentials databaseconnectioncredentials `json:"connectionCredentials"`
+		DatabaseCredential    databasecredentialdetails     `json:"databaseCredential"`
+		ConnectionString      *DatabaseConnectionString     `json:"connectionString"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -67,8 +71,6 @@ func (m *ExternalDatabaseConnectionInfo) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.ConnectionString = model.ConnectionString
-
 	nn, e = model.ConnectionCredentials.UnmarshalPolymorphicJSON(model.ConnectionCredentials.JsonData)
 	if e != nil {
 		return
@@ -78,6 +80,18 @@ func (m *ExternalDatabaseConnectionInfo) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ConnectionCredentials = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.ConnectionString = model.ConnectionString
 
 	return
 }

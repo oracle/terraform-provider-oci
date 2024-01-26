@@ -124,6 +124,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := ConnectionFromMySql{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OAUTH2_CONNECTION":
+		mm := ConnectionFromOAuth2{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "GENERIC_JDBC_CONNECTION":
 		mm := ConnectionFromJdbc{}
 		err = json.Unmarshal(data, &mm)
@@ -289,6 +293,7 @@ const (
 	ConnectionModelTypeMysqlHeatwaveConnection       ConnectionModelTypeEnum = "MYSQL_HEATWAVE_CONNECTION"
 	ConnectionModelTypeRestNoAuthConnection          ConnectionModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	ConnectionModelTypeRestBasicAuthConnection       ConnectionModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
+	ConnectionModelTypeOauth2Connection              ConnectionModelTypeEnum = "OAUTH2_CONNECTION"
 )
 
 var mappingConnectionModelTypeEnum = map[string]ConnectionModelTypeEnum{
@@ -309,6 +314,7 @@ var mappingConnectionModelTypeEnum = map[string]ConnectionModelTypeEnum{
 	"MYSQL_HEATWAVE_CONNECTION":        ConnectionModelTypeMysqlHeatwaveConnection,
 	"REST_NO_AUTH_CONNECTION":          ConnectionModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       ConnectionModelTypeRestBasicAuthConnection,
+	"OAUTH2_CONNECTION":                ConnectionModelTypeOauth2Connection,
 }
 
 var mappingConnectionModelTypeEnumLowerCase = map[string]ConnectionModelTypeEnum{
@@ -329,6 +335,7 @@ var mappingConnectionModelTypeEnumLowerCase = map[string]ConnectionModelTypeEnum
 	"mysql_heatwave_connection":        ConnectionModelTypeMysqlHeatwaveConnection,
 	"rest_no_auth_connection":          ConnectionModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       ConnectionModelTypeRestBasicAuthConnection,
+	"oauth2_connection":                ConnectionModelTypeOauth2Connection,
 }
 
 // GetConnectionModelTypeEnumValues Enumerates the set of values for ConnectionModelTypeEnum
@@ -360,6 +367,7 @@ func GetConnectionModelTypeEnumStringValues() []string {
 		"MYSQL_HEATWAVE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
+		"OAUTH2_CONNECTION",
 	}
 }
 

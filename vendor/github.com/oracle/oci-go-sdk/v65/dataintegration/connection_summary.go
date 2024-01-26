@@ -136,6 +136,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ConnectionSummaryFromAmazonS3{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OAUTH2_CONNECTION":
+		mm := ConnectionSummaryFromOAuth2{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_PEOPLESOFT_CONNECTION":
 		mm := ConnectionSummaryFromOraclePeopleSoft{}
 		err = json.Unmarshal(data, &mm)
@@ -289,6 +293,7 @@ const (
 	ConnectionSummaryModelTypeMysqlHeatwaveConnection       ConnectionSummaryModelTypeEnum = "MYSQL_HEATWAVE_CONNECTION"
 	ConnectionSummaryModelTypeRestNoAuthConnection          ConnectionSummaryModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	ConnectionSummaryModelTypeRestBasicAuthConnection       ConnectionSummaryModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
+	ConnectionSummaryModelTypeOauth2Connection              ConnectionSummaryModelTypeEnum = "OAUTH2_CONNECTION"
 )
 
 var mappingConnectionSummaryModelTypeEnum = map[string]ConnectionSummaryModelTypeEnum{
@@ -309,6 +314,7 @@ var mappingConnectionSummaryModelTypeEnum = map[string]ConnectionSummaryModelTyp
 	"MYSQL_HEATWAVE_CONNECTION":        ConnectionSummaryModelTypeMysqlHeatwaveConnection,
 	"REST_NO_AUTH_CONNECTION":          ConnectionSummaryModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       ConnectionSummaryModelTypeRestBasicAuthConnection,
+	"OAUTH2_CONNECTION":                ConnectionSummaryModelTypeOauth2Connection,
 }
 
 var mappingConnectionSummaryModelTypeEnumLowerCase = map[string]ConnectionSummaryModelTypeEnum{
@@ -329,6 +335,7 @@ var mappingConnectionSummaryModelTypeEnumLowerCase = map[string]ConnectionSummar
 	"mysql_heatwave_connection":        ConnectionSummaryModelTypeMysqlHeatwaveConnection,
 	"rest_no_auth_connection":          ConnectionSummaryModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       ConnectionSummaryModelTypeRestBasicAuthConnection,
+	"oauth2_connection":                ConnectionSummaryModelTypeOauth2Connection,
 }
 
 // GetConnectionSummaryModelTypeEnumValues Enumerates the set of values for ConnectionSummaryModelTypeEnum
@@ -360,6 +367,7 @@ func GetConnectionSummaryModelTypeEnumStringValues() []string {
 		"MYSQL_HEATWAVE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
+		"OAUTH2_CONNECTION",
 	}
 }
 

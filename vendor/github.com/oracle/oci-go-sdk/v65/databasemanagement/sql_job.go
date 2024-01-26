@@ -69,6 +69,9 @@ type SqlJob struct {
 	// then the user name should exist on all the databases in the group with the same password.
 	UserName *string `mandatory:"false" json:"userName"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credentials containing password secret.
+	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
+
 	// The type of SQL. This is a mandatory field for the EXECUTE_SQL operationType.
 	SqlType SqlJobSqlTypeEnum `mandatory:"false" json:"sqlType,omitempty"`
 
@@ -234,6 +237,7 @@ func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 		OutBinds                *JobOutBindsDetails        `json:"outBinds"`
 		UserName                *string                    `json:"userName"`
 		Role                    SqlJobRoleEnum             `json:"role"`
+		NamedCredentialId       *string                    `json:"namedCredentialId"`
 		Id                      *string                    `json:"id"`
 		CompartmentId           *string                    `json:"compartmentId"`
 		Name                    *string                    `json:"name"`
@@ -286,6 +290,8 @@ func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 	m.UserName = model.UserName
 
 	m.Role = model.Role
+
+	m.NamedCredentialId = model.NamedCredentialId
 
 	m.Id = model.Id
 

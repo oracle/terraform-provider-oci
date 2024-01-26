@@ -19,11 +19,15 @@ import (
 )
 
 // CreateSqlTuningSetDetails Create an empty Sql tuning sets.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type CreateSqlTuningSetDetails struct {
-	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// A unique Sql tuning set name.
 	Name *string `mandatory:"true" json:"name"`
+
+	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// Owner of the Sql tuning set.
 	Owner *string `mandatory:"false" json:"owner"`
@@ -54,11 +58,12 @@ func (m CreateSqlTuningSetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Owner             *string                            `json:"owner"`
-		Description       *string                            `json:"description"`
-		ShowSqlOnly       *int                               `json:"showSqlOnly"`
-		CredentialDetails sqltuningsetadmincredentialdetails `json:"credentialDetails"`
-		Name              *string                            `json:"name"`
+		CredentialDetails  sqltuningsetadmincredentialdetails `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails          `json:"databaseCredential"`
+		Owner              *string                            `json:"owner"`
+		Description        *string                            `json:"description"`
+		ShowSqlOnly        *int                               `json:"showSqlOnly"`
+		Name               *string                            `json:"name"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -66,12 +71,6 @@ func (m *CreateSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.Owner = model.Owner
-
-	m.Description = model.Description
-
-	m.ShowSqlOnly = model.ShowSqlOnly
-
 	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
 	if e != nil {
 		return
@@ -81,6 +80,22 @@ func (m *CreateSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.CredentialDetails = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.Owner = model.Owner
+
+	m.Description = model.Description
+
+	m.ShowSqlOnly = model.ShowSqlOnly
 
 	m.Name = model.Name
 

@@ -19,12 +19,11 @@ import (
 )
 
 // StartSqlTuningTaskDetails The request to start a SQL tuning task.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type StartSqlTuningTaskDetails struct {
 
 	// The name of the SQL tuning task. The name is unique per user in a database, and it is case-sensitive.
 	TaskName *string `mandatory:"true" json:"taskName"`
-
-	CredentialDetails SqlTuningTaskCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// The time limit for running the SQL tuning task.
 	TotalTimeLimitInMinutes *int `mandatory:"true" json:"totalTimeLimitInMinutes"`
@@ -36,6 +35,10 @@ type StartSqlTuningTaskDetails struct {
 
 	// The description of the SQL tuning task.
 	TaskDescription *string `mandatory:"false" json:"taskDescription"`
+
+	CredentialDetails SqlTuningTaskCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// The time limit per SQL statement (in minutes). This is for a task with the COMPREHENSIVE scope.
 	// The time limit per SQL statement should not be more than the total time limit.
@@ -78,13 +81,14 @@ func (m StartSqlTuningTaskDetails) ValidateEnumValue() (bool, error) {
 func (m *StartSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		TaskDescription             *string                            `json:"taskDescription"`
+		CredentialDetails           sqltuningtaskcredentialdetails     `json:"credentialDetails"`
+		DatabaseCredential          databasecredentialdetails          `json:"databaseCredential"`
 		StatementTimeLimitInMinutes *int                               `json:"statementTimeLimitInMinutes"`
 		SqlTuningSet                *SqlTuningSetInput                 `json:"sqlTuningSet"`
 		SqlDetails                  []SqlTuningTaskSqlDetail           `json:"sqlDetails"`
 		TimeStarted                 *common.SDKTime                    `json:"timeStarted"`
 		TimeEnded                   *common.SDKTime                    `json:"timeEnded"`
 		TaskName                    *string                            `json:"taskName"`
-		CredentialDetails           sqltuningtaskcredentialdetails     `json:"credentialDetails"`
 		TotalTimeLimitInMinutes     *int                               `json:"totalTimeLimitInMinutes"`
 		Scope                       StartSqlTuningTaskDetailsScopeEnum `json:"scope"`
 	}{}
@@ -95,6 +99,26 @@ func (m *StartSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.TaskDescription = model.TaskDescription
+
+	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.CredentialDetails = nn.(SqlTuningTaskCredentialDetails)
+	} else {
+		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
 
 	m.StatementTimeLimitInMinutes = model.StatementTimeLimitInMinutes
 
@@ -107,16 +131,6 @@ func (m *StartSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	m.TimeEnded = model.TimeEnded
 
 	m.TaskName = model.TaskName
-
-	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.CredentialDetails = nn.(SqlTuningTaskCredentialDetails)
-	} else {
-		m.CredentialDetails = nil
-	}
 
 	m.TotalTimeLimitInMinutes = model.TotalTimeLimitInMinutes
 

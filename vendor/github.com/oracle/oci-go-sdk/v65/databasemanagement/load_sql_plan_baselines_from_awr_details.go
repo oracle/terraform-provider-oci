@@ -19,6 +19,7 @@ import (
 )
 
 // LoadSqlPlanBaselinesFromAwrDetails The details required to load plans from Automatic Workload Repository (AWR).
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type LoadSqlPlanBaselinesFromAwrDetails struct {
 
 	// The name of the database job used for loading SQL plan baselines.
@@ -29,8 +30,6 @@ type LoadSqlPlanBaselinesFromAwrDetails struct {
 
 	// The end snapshot.
 	EndSnapshot *int `mandatory:"true" json:"endSnapshot"`
-
-	Credentials ManagedDatabaseCredential `mandatory:"true" json:"credentials"`
 
 	// The description of the job.
 	JobDescription *string `mandatory:"false" json:"jobDescription"`
@@ -48,6 +47,10 @@ type LoadSqlPlanBaselinesFromAwrDetails struct {
 	// Indicates whether the loaded plans are enabled (`true`) or not (`false`).
 	// By default, they are enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
+	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m LoadSqlPlanBaselinesFromAwrDetails) String() string {
@@ -69,14 +72,15 @@ func (m LoadSqlPlanBaselinesFromAwrDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *LoadSqlPlanBaselinesFromAwrDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		JobDescription *string                   `json:"jobDescription"`
-		SqlTextFilter  *string                   `json:"sqlTextFilter"`
-		IsFixed        *bool                     `json:"isFixed"`
-		IsEnabled      *bool                     `json:"isEnabled"`
-		JobName        *string                   `json:"jobName"`
-		BeginSnapshot  *int                      `json:"beginSnapshot"`
-		EndSnapshot    *int                      `json:"endSnapshot"`
-		Credentials    manageddatabasecredential `json:"credentials"`
+		JobDescription     *string                   `json:"jobDescription"`
+		SqlTextFilter      *string                   `json:"sqlTextFilter"`
+		IsFixed            *bool                     `json:"isFixed"`
+		IsEnabled          *bool                     `json:"isEnabled"`
+		Credentials        manageddatabasecredential `json:"credentials"`
+		DatabaseCredential databasecredentialdetails `json:"databaseCredential"`
+		JobName            *string                   `json:"jobName"`
+		BeginSnapshot      *int                      `json:"beginSnapshot"`
+		EndSnapshot        *int                      `json:"endSnapshot"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -92,12 +96,6 @@ func (m *LoadSqlPlanBaselinesFromAwrDetails) UnmarshalJSON(data []byte) (e error
 
 	m.IsEnabled = model.IsEnabled
 
-	m.JobName = model.JobName
-
-	m.BeginSnapshot = model.BeginSnapshot
-
-	m.EndSnapshot = model.EndSnapshot
-
 	nn, e = model.Credentials.UnmarshalPolymorphicJSON(model.Credentials.JsonData)
 	if e != nil {
 		return
@@ -107,6 +105,22 @@ func (m *LoadSqlPlanBaselinesFromAwrDetails) UnmarshalJSON(data []byte) (e error
 	} else {
 		m.Credentials = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.JobName = model.JobName
+
+	m.BeginSnapshot = model.BeginSnapshot
+
+	m.EndSnapshot = model.EndSnapshot
 
 	return
 }

@@ -20,15 +20,18 @@ type PreferredCredentialTypeEnum string
 
 // Set of constants representing the allowable values for PreferredCredentialTypeEnum
 const (
-	PreferredCredentialTypeBasic PreferredCredentialTypeEnum = "BASIC"
+	PreferredCredentialTypeBasic           PreferredCredentialTypeEnum = "BASIC"
+	PreferredCredentialTypeNamedCredential PreferredCredentialTypeEnum = "NAMED_CREDENTIAL"
 )
 
 var mappingPreferredCredentialTypeEnum = map[string]PreferredCredentialTypeEnum{
-	"BASIC": PreferredCredentialTypeBasic,
+	"BASIC":            PreferredCredentialTypeBasic,
+	"NAMED_CREDENTIAL": PreferredCredentialTypeNamedCredential,
 }
 
 var mappingPreferredCredentialTypeEnumLowerCase = map[string]PreferredCredentialTypeEnum{
-	"basic": PreferredCredentialTypeBasic,
+	"basic":            PreferredCredentialTypeBasic,
+	"named_credential": PreferredCredentialTypeNamedCredential,
 }
 
 // GetPreferredCredentialTypeEnumValues Enumerates the set of values for PreferredCredentialTypeEnum
@@ -44,6 +47,7 @@ func GetPreferredCredentialTypeEnumValues() []PreferredCredentialTypeEnum {
 func GetPreferredCredentialTypeEnumStringValues() []string {
 	return []string{
 		"BASIC",
+		"NAMED_CREDENTIAL",
 	}
 }
 

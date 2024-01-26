@@ -49,6 +49,9 @@ type UpdateSqlJobDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	SecretId *string `mandatory:"false" json:"secretId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credentials containing password secret.
+	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
+
 	SqlType SqlJobSqlTypeEnum `mandatory:"false" json:"sqlType,omitempty"`
 
 	// The role of the database user. Indicates whether the database user is a normal user or sysdba.
@@ -114,18 +117,19 @@ func (m UpdateSqlJobDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description     *string                    `json:"description"`
-		Timeout         *string                    `json:"timeout"`
-		ResultLocation  jobexecutionresultlocation `json:"resultLocation"`
-		ScheduleDetails *JobScheduleDetails        `json:"scheduleDetails"`
-		SqlText         *string                    `json:"sqlText"`
-		InBinds         *JobInBindsDetails         `json:"inBinds"`
-		OutBinds        *JobOutBindsDetails        `json:"outBinds"`
-		SqlType         SqlJobSqlTypeEnum          `json:"sqlType"`
-		UserName        *string                    `json:"userName"`
-		Password        *string                    `json:"password"`
-		SecretId        *string                    `json:"secretId"`
-		Role            SqlJobRoleEnum             `json:"role"`
+		Description       *string                    `json:"description"`
+		Timeout           *string                    `json:"timeout"`
+		ResultLocation    jobexecutionresultlocation `json:"resultLocation"`
+		ScheduleDetails   *JobScheduleDetails        `json:"scheduleDetails"`
+		SqlText           *string                    `json:"sqlText"`
+		InBinds           *JobInBindsDetails         `json:"inBinds"`
+		OutBinds          *JobOutBindsDetails        `json:"outBinds"`
+		SqlType           SqlJobSqlTypeEnum          `json:"sqlType"`
+		UserName          *string                    `json:"userName"`
+		Password          *string                    `json:"password"`
+		SecretId          *string                    `json:"secretId"`
+		NamedCredentialId *string                    `json:"namedCredentialId"`
+		Role              SqlJobRoleEnum             `json:"role"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -162,6 +166,8 @@ func (m *UpdateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Password = model.Password
 
 	m.SecretId = model.SecretId
+
+	m.NamedCredentialId = model.NamedCredentialId
 
 	m.Role = model.Role
 

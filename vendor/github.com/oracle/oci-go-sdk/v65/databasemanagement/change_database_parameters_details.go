@@ -12,14 +12,15 @@
 package databasemanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
 // ChangeDatabaseParametersDetails The details required to change database parameter values.
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type ChangeDatabaseParametersDetails struct {
-	Credentials *DatabaseCredentials `mandatory:"true" json:"credentials"`
 
 	// The clause used to specify when the parameter change takes effect.
 	// Use `MEMORY` to make the change in memory and affect it immediately.
@@ -32,6 +33,10 @@ type ChangeDatabaseParametersDetails struct {
 
 	// A list of database parameters and their values.
 	Parameters []ChangeDatabaseParameterDetails `mandatory:"true" json:"parameters"`
+
+	Credentials *DatabaseCredentials `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m ChangeDatabaseParametersDetails) String() string {
@@ -51,4 +56,37 @@ func (m ChangeDatabaseParametersDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ChangeDatabaseParametersDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Credentials        *DatabaseCredentials             `json:"credentials"`
+		DatabaseCredential databasecredentialdetails        `json:"databaseCredential"`
+		Scope              ParameterScopeEnum               `json:"scope"`
+		Parameters         []ChangeDatabaseParameterDetails `json:"parameters"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Credentials = model.Credentials
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.Scope = model.Scope
+
+	m.Parameters = make([]ChangeDatabaseParameterDetails, len(model.Parameters))
+	copy(m.Parameters, model.Parameters)
+	return
 }

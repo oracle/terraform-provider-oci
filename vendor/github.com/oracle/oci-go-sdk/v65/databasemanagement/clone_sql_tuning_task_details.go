@@ -19,6 +19,7 @@ import (
 )
 
 // CloneSqlTuningTaskDetails The request to clone and run a SQL tuning task. The new task uses the same inputs as the one being cloned.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type CloneSqlTuningTaskDetails struct {
 
 	// The name of the SQL tuning task. The name is unique per user in a database, and it is case-sensitive.
@@ -29,10 +30,12 @@ type CloneSqlTuningTaskDetails struct {
 	// ListSqlTuningAdvisorTasks.
 	OriginalTaskId *int64 `mandatory:"true" json:"originalTaskId"`
 
-	CredentialDetails SqlTuningTaskCredentialDetails `mandatory:"true" json:"credentialDetails"`
-
 	// The description of the SQL tuning task.
 	TaskDescription *string `mandatory:"false" json:"taskDescription"`
+
+	CredentialDetails SqlTuningTaskCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m CloneSqlTuningTaskDetails) String() string {
@@ -54,10 +57,11 @@ func (m CloneSqlTuningTaskDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CloneSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TaskDescription   *string                        `json:"taskDescription"`
-		TaskName          *string                        `json:"taskName"`
-		OriginalTaskId    *int64                         `json:"originalTaskId"`
-		CredentialDetails sqltuningtaskcredentialdetails `json:"credentialDetails"`
+		TaskDescription    *string                        `json:"taskDescription"`
+		CredentialDetails  sqltuningtaskcredentialdetails `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails      `json:"databaseCredential"`
+		TaskName           *string                        `json:"taskName"`
+		OriginalTaskId     *int64                         `json:"originalTaskId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -66,10 +70,6 @@ func (m *CloneSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.TaskDescription = model.TaskDescription
-
-	m.TaskName = model.TaskName
-
-	m.OriginalTaskId = model.OriginalTaskId
 
 	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
 	if e != nil {
@@ -80,6 +80,20 @@ func (m *CloneSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.CredentialDetails = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.TaskName = model.TaskName
+
+	m.OriginalTaskId = model.OriginalTaskId
 
 	return
 }

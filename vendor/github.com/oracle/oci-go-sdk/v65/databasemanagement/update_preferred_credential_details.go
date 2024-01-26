@@ -52,6 +52,10 @@ func (m *updatepreferredcredentialdetails) UnmarshalPolymorphicJSON(data []byte)
 
 	var err error
 	switch m.Type {
+	case "NAMED_CREDENTIAL":
+		mm := UpdateNamedPreferredCredentialDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "BASIC":
 		mm := UpdateBasicPreferredCredentialDetails{}
 		err = json.Unmarshal(data, &mm)

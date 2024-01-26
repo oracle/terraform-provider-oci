@@ -19,12 +19,15 @@ import (
 )
 
 // ChangeSpaceBudgetDetails The details required to change the disk space limit for the SQL Management Base.
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type ChangeSpaceBudgetDetails struct {
 
 	// The maximum percent of `SYSAUX` space that the SQL Management Base can use.
 	SpaceBudgetPercent *float64 `mandatory:"true" json:"spaceBudgetPercent"`
 
-	Credentials ManagedDatabaseCredential `mandatory:"true" json:"credentials"`
+	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m ChangeSpaceBudgetDetails) String() string {
@@ -46,8 +49,9 @@ func (m ChangeSpaceBudgetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ChangeSpaceBudgetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		SpaceBudgetPercent *float64                  `json:"spaceBudgetPercent"`
 		Credentials        manageddatabasecredential `json:"credentials"`
+		DatabaseCredential databasecredentialdetails `json:"databaseCredential"`
+		SpaceBudgetPercent *float64                  `json:"spaceBudgetPercent"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -55,8 +59,6 @@ func (m *ChangeSpaceBudgetDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.SpaceBudgetPercent = model.SpaceBudgetPercent
-
 	nn, e = model.Credentials.UnmarshalPolymorphicJSON(model.Credentials.JsonData)
 	if e != nil {
 		return
@@ -66,6 +68,18 @@ func (m *ChangeSpaceBudgetDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Credentials = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.SpaceBudgetPercent = model.SpaceBudgetPercent
 
 	return
 }

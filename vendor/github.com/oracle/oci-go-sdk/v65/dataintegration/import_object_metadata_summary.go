@@ -77,6 +77,7 @@ const (
 	ImportObjectMetadataSummaryResolutionActionRetained   ImportObjectMetadataSummaryResolutionActionEnum = "RETAINED"
 	ImportObjectMetadataSummaryResolutionActionDuplicated ImportObjectMetadataSummaryResolutionActionEnum = "DUPLICATED"
 	ImportObjectMetadataSummaryResolutionActionReplaced   ImportObjectMetadataSummaryResolutionActionEnum = "REPLACED"
+	ImportObjectMetadataSummaryResolutionActionExcluded   ImportObjectMetadataSummaryResolutionActionEnum = "EXCLUDED"
 )
 
 var mappingImportObjectMetadataSummaryResolutionActionEnum = map[string]ImportObjectMetadataSummaryResolutionActionEnum{
@@ -84,6 +85,7 @@ var mappingImportObjectMetadataSummaryResolutionActionEnum = map[string]ImportOb
 	"RETAINED":   ImportObjectMetadataSummaryResolutionActionRetained,
 	"DUPLICATED": ImportObjectMetadataSummaryResolutionActionDuplicated,
 	"REPLACED":   ImportObjectMetadataSummaryResolutionActionReplaced,
+	"EXCLUDED":   ImportObjectMetadataSummaryResolutionActionExcluded,
 }
 
 var mappingImportObjectMetadataSummaryResolutionActionEnumLowerCase = map[string]ImportObjectMetadataSummaryResolutionActionEnum{
@@ -91,6 +93,7 @@ var mappingImportObjectMetadataSummaryResolutionActionEnumLowerCase = map[string
 	"retained":   ImportObjectMetadataSummaryResolutionActionRetained,
 	"duplicated": ImportObjectMetadataSummaryResolutionActionDuplicated,
 	"replaced":   ImportObjectMetadataSummaryResolutionActionReplaced,
+	"excluded":   ImportObjectMetadataSummaryResolutionActionExcluded,
 }
 
 // GetImportObjectMetadataSummaryResolutionActionEnumValues Enumerates the set of values for ImportObjectMetadataSummaryResolutionActionEnum
@@ -109,6 +112,7 @@ func GetImportObjectMetadataSummaryResolutionActionEnumStringValues() []string {
 		"RETAINED",
 		"DUPLICATED",
 		"REPLACED",
+		"EXCLUDED",
 	}
 }
 
