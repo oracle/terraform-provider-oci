@@ -89,25 +89,31 @@ func ociVarName(attrName string) string {
 	return globalvar.OciEnvPrefix + strings.ToUpper(attrName)
 }
 
+const (
+	optionalFmt = "(Optional) %s"
+	requiredFmt = "(Required) %s"
+	authFmt     = optionalFmt + " Required if auth is set to '%s', ignored otherwise."
+)
+
 func init() {
+	authDesc := func(desc string) string {
+		return fmt.Sprintf(authFmt, desc, globalvar.AuthAPIKeySetting)
+	}
+
 	descriptions = map[string]string{
-		globalvar.AuthAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s' and '%s' and '%s'. By default, '%s' will be used.", globalvar.AuthAPIKeySetting, globalvar.AuthSecurityToken, globalvar.AuthInstancePrincipalSetting, globalvar.ResourcePrincipal, globalvar.AuthAPIKeySetting),
-		globalvar.TenancyOcidAttrName: fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
-		globalvar.UserOcidAttrName:    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
-		globalvar.FingerprintAttrName: fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
-		globalvar.RegionAttrName:      "(Required) The region for API connections (e.g. us-ashburn-1).",
-		globalvar.PrivateKeyAttrName: "(Optional) A PEM formatted RSA private key for the user.\n" +
-			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
-		globalvar.PrivateKeyPathAttrName: "(Optional) The path to the user's PEM formatted private key.\n" +
-			fmt.Sprintf("A private_key or a private_key_path must be provided if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
-		globalvar.PrivateKeyPasswordAttrName: "(Optional) The password used to secure the private key.",
-		globalvar.DisableAutoRetriesAttrName: "(Optional) Disable automatic retries for retriable errors.\n" +
-			"Automatic retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations.",
-		globalvar.RetryDurationSecondsAttrName: "(Optional) The minimum duration (in seconds) to retry a resource operation in response to an error.\n" +
-			"The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true.",
-		globalvar.ConfigFileProfileAttrName:                   "(Optional) The profile name to be used from config file, if not set it will be DEFAULT.",
-		globalvar.DefinedTagsToIgnore:                         "(Optional) List of defined tags keys that Terraform should ignore when planning creates and updates to the associated remote object",
-		globalvar.RealmSpecificServiceEndpointTemplateEnabled: "(Optional) flags to enable realm specific service endpoint.",
+		globalvar.AuthAttrName:        fmt.Sprintf(optionalFmt, "The type of auth to use. Options are '%s', '%s', '%s' and '%s'. By default, '%s' will be used.", globalvar.AuthAPIKeySetting, globalvar.AuthSecurityToken, globalvar.AuthInstancePrincipalSetting, globalvar.ResourcePrincipal, globalvar.AuthAPIKeySetting),
+		globalvar.TenancyOcidAttrName: authDesc("The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console."),
+		globalvar.UserOcidAttrName:    authDesc("The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console."),
+		globalvar.FingerprintAttrName: authDesc("The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console."),
+		globalvar.RegionAttrName:      fmt.Sprintf(requiredFmt, "The region for API connections (e.g. us-ashburn-1)."),
+		globalvar.PrivateKeyAttrName:  authDesc("A PEM formatted RSA private key for the user. A private_key or a private_key_path must be provided."),
+		globalvar.PrivateKeyPathAttrName: authDesc("The path to the user's PEM formatted private key. A private_key or a private_key_path must be provided."),
+		globalvar.PrivateKeyPasswordAttrName: fmt.Sprintf(optionalFmt, "The password used to secure the private key."),
+		globalvar.DisableAutoRetriesAttrName: fmt.Sprintf(optionalFmt, "Disable automatic retries for retriable errors. Automatic retries were introduced to solve some eventual consistency problems but it also introduced performance issues on destroy operations."),
+		globalvar.RetryDurationSecondsAttrName: fmt.Sprintf(optionalFmt, "The minimum duration (in seconds) to retry a resource operation in response to an error. The actual retry duration may be longer due to jittering of retry operations. This value is ignored if the `disable_auto_retries` field is set to true."),
+		globalvar.ConfigFileProfileAttrName: fmt.Sprintf(optionalFmt, "The profile name to be used from config file, if not set it will be DEFAULT."),
+		globalvar.DefinedTagsToIgnore: fmt.Sprintf(optionalFmt, "List of defined tags keys that Terraform should ignore when planning creates and updates to the associated remote object"),
+		globalvar.RealmSpecificServiceEndpointTemplateEnabled: fmt.Sprintf(optionalFmt, "flags to enable realm specific service endpoint."),
 	}
 }
 
@@ -223,23 +229,12 @@ func DataSourcesMap() map[string]*schema.Resource {
 		tf_resource.RegisterDatasource("oci_load_balancers", tf_load_balancer.LoadBalancerLoadBalancersDataSource())
 		tf_resource.RegisterDatasource("oci_load_balancer_backendsets", tf_load_balancer.LoadBalancerBackendSetsDataSource())
 	}
+
 	return globalvar.OciDatasources
 }
 
 // This returns a map of all resources to register with Terraform
 // The OciResource map is populated by each resource's init function being invoked before it gets here
-func ResourcesMap() map[string]*schema.Resource {
-	// Register some aliases of registered resources. These are registered for convenience and legacy reasons.
-	if oci_common.CheckForEnabledServices(globalvar.CoreService) {
-		tf_resource.RegisterResource("oci_core_virtual_network", tf_core.CoreVcnResource())
-	}
-	if oci_common.CheckForEnabledServices(globalvar.LoadBalancerService) {
-		tf_resource.RegisterResource("oci_load_balancer", tf_load_balancer.LoadBalancerLoadBalancerResource())
-		tf_resource.RegisterResource("oci_load_balancer_backendset", tf_load_balancer.LoadBalancerBackendSetResource())
-	}
-	return globalvar.OciResources
-}
-
 func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 	tf_resource.DefinedTagsToSuppress = IgnoreDefinedTags(d)
 	tf_resource.RealmSpecificServiceEndpointTemplateEnabled = realmSpecificServiceEndpointTemplateEnabled(d)
@@ -267,13 +262,12 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 
 	httpClient := BuildHttpClient()
 
-	// beware: global variable `configureClient` set here--used elsewhere outside this execution path
-	tf_client.ConfigureClientVar, err = BuildConfigureClientFn(sdkConfigProvider, httpClient)
+	err = ConfigureClient(clients, sdkConfigProvider, httpClient)
 	if err != nil {
 		return nil, err
 	}
 
-	err = tf_client.CreateSDKClients(clients, sdkConfigProvider, tf_client.ConfigureClientVar)
+	err = CreateSDKClients(clients, sdkConfigProvider, ConfigureClientVar)
 	if err != nil {
 		return nil, err
 	}
@@ -283,43 +277,22 @@ func ProviderConfig(d *schema.ResourceData) (interface{}, error) {
 	return clients, nil
 }
 
-func GetSdkConfigProvider(d *schema.ResourceData, clients *tf_client.OracleClients) (oci_common.ConfigurationProvider, error) {
-
-	auth := strings.ToLower(d.Get(globalvar.AuthAttrName).(string))
-	profile := d.Get(globalvar.ConfigFileProfileAttrName).(string)
-	clients.Configuration[globalvar.AuthAttrName] = auth
-
-	configProviders, err := getConfigProviders(d, auth)
+func ConfigureClient(clients *tf_client.OracleClients, sdkConfigProvider oci_common.ConfigurationProvider, httpClient *http.Client) error {
+	tf_client.ConfigureClientVar, err = BuildConfigureClientFn(sdkConfigProvider, httpClient)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	resourceDataConfigProvider := ResourceDataConfigProvider{d}
-	if region, error := resourceDataConfigProvider.Region(); error == nil {
-		clients.Configuration["region"] = region
-	}
-
-	//In GoSDK, the first step is to check if AuthType exists,
-	//for composite provider, we only check the first provider in the list for the AuthType.
-	//Then SDK will based on the AuthType to Create the actual provider if it's a valid value.
-	//If not, then SDK will base on the order in the composite provider list to check for necessary info (tenancyid, userID, fingerprint, region, keyID).
-	configProviders = append(configProviders, resourceDataConfigProvider)
-	if profile == "" {
-		configProviders = append(configProviders, oci_common.DefaultConfigProvider())
-	} else {
-		defaultPath := path.Join(utils.GetHomeFolder(), globalvar.DefaultConfigDirName, globalvar.DefaultConfigFileName)
-		err := utils.CheckProfile(profile, defaultPath)
-		if err != nil {
-			return nil, err
-		}
-		configProviders = append(configProviders, oci_common.CustomProfileConfigProvider(defaultPath, profile))
-	}
-	sdkConfigProvider, err := oci_common.ComposingConfigurationProvider(configProviders)
-	if err != nil {
-		return nil, err
-	}
-
-	return sdkConfigProvider, nil
+	return nil
 }
+
+func CreateSDKClients(clients *tf_client.OracleClients, sdkConfigProvider oci_common.ConfigurationProvider, configureClient tf_client.ConfigureClientFn) error {
+	err = tf_client.CreateSDKClients(clients, sdkConfigProvider, configureClient)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 
 func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.ConfigurationProvider, error) {
 	var configProviders []oci_common.ConfigurationProvider
@@ -515,7 +488,9 @@ func IgnoreDefinedTags(d schemaResourceData) []string {
 }
 func realmSpecificServiceEndpointTemplateEnabled(d schemaResourceData) string {
 	if flag, ok := d.GetOkExists(globalvar.RealmSpecificServiceEndpointTemplateEnabled); ok {
-		return strconv.FormatBool(flag.(bool))
+		if value, ok := flag.(bool); ok {
+			return strconv.FormatBool(value)
+		}
 	}
 	return ""
 }
