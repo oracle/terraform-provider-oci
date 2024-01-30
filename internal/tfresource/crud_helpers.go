@@ -590,7 +590,7 @@ func listOfMapEqualIgnoreOrderSuppressDiff(key string, d schemaResourceData) boo
 		}
 		tmp1[i] = string(s1)
 
-		map2 := oldList[i].(map[string]interface{})
+		map2 := newList[i].(map[string]interface{})
 		jsonMap2 := GenericMapToJsonMap(map2)
 		s2, err := json.Marshal(jsonMap2)
 		if err != nil {
