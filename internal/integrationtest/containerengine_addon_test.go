@@ -52,7 +52,7 @@ var (
 	ContainerengineAddonRepresentation = map[string]interface{}{
 		"cluster_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
 		"addon_name":                       acctest.Representation{RepType: acctest.Required, Create: addonName},
-		"remove_addon_resources_on_delete": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"remove_addon_resources_on_delete": acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"configurations":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineAddonConfigurationsRepresentation},
 		"version":                          acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `${data.oci_containerengine_addon_options.adddon_options_dashboard.addon_options[0].versions[0].version_number}`},
 	}
