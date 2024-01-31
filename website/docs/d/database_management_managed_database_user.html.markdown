@@ -20,6 +20,9 @@ data "oci_database_management_managed_database_user" "test_managed_database_user
 	#Required
 	managed_database_id = oci_database_management_managed_database.test_managed_database.id
 	user_name = oci_identity_user.test_user.name
+
+	#Optional
+	opc_named_credential_id = var.managed_database_user_opc_named_credential_id
 }
 ```
 
@@ -28,6 +31,7 @@ data "oci_database_management_managed_database_user" "test_managed_database_user
 The following arguments are supported:
 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `user_name` - (Required) The name of the user whose details are to be viewed.
 
 

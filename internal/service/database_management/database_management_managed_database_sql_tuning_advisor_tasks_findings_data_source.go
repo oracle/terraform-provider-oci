@@ -40,6 +40,10 @@ func DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingsDataSource() 
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"search_period": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -196,6 +200,11 @@ func (s *DatabaseManagementManagedDatabaseSqlTuningAdvisorTasksFindingsDataSourc
 	if managedDatabaseId, ok := s.D.GetOkExists("managed_database_id"); ok {
 		tmp := managedDatabaseId.(string)
 		request.ManagedDatabaseId = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	if searchPeriod, ok := s.D.GetOkExists("search_period"); ok {

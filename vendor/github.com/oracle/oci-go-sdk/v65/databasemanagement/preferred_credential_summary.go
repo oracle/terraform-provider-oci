@@ -37,6 +37,9 @@ type PreferredCredentialSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Vault service secret that contains the database user password.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credential that contains the database user password metadata.
+	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
 }
 
 func (m PreferredCredentialSummary) String() string {

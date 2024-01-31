@@ -21,6 +21,10 @@ func DatabaseManagementExternalAsmConfigurationDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			// Computed
 			"init_parameters": {
 				Type:     schema.TypeList,
@@ -93,6 +97,11 @@ func (s *DatabaseManagementExternalAsmConfigurationDataSourceCrud) Get() error {
 	if externalAsmId, ok := s.D.GetOkExists("external_asm_id"); ok {
 		tmp := externalAsmId.(string)
 		request.ExternalAsmId = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")

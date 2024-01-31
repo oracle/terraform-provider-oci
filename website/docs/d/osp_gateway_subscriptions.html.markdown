@@ -96,6 +96,7 @@ The following attributes are exported:
 * `ship_to_cust_acct_site_id` - Ship to customer account site address id.
 * `subscription_plan_number` - Subscription plan number.
 * `tax_info` - Tax details.
+	* `giro` - Companies' GIRO code
 	* `no_tax_reason_code` - Tax exemption reason code.
 	* `no_tax_reason_code_details` - Tax exemption reason description.
 	* `tax_cnpj` - Brazilian companies' CNPJ number.

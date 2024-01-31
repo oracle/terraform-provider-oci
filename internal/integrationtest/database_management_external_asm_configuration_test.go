@@ -17,7 +17,8 @@ import (
 
 var (
 	DatabaseManagementDatabaseManagementExternalAsmConfigurationSingularDataSourceRepresentation = map[string]interface{}{
-		"external_asm_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_asms.test_external_asms.external_asm_collection.0.items.0.id}`},
+		"external_asm_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.external_asm_id}`},
+		"opc_named_credential_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.opc_named_credential_id}`},
 	}
 
 	DatabaseManagementExternalAsmConfigurationResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_asms", "test_external_asms", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalAsmDataSourceRepresentation)
@@ -30,11 +31,17 @@ func TestDatabaseManagementExternalAsmConfigurationResource_basic(t *testing.T) 
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	dbSystemId := utils.GetEnvSettingWithBlankDefault("external_dbsystem_id")
+	dbSystemId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_dbsystem_id")
 	dbSystemIdVariableStr := fmt.Sprintf("variable \"external_dbsystem_id\" { default = \"%s\" }\n", dbSystemId)
+
+	externalAsmId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_asm_id")
+	externalAsmIdVariableStr := fmt.Sprintf("variable \"external_asm_id\" { default = \"%s\" }\n", externalAsmId)
+
+	opcNamedCredentialId := utils.GetEnvSettingWithBlankDefault("dbmgmt_named_credential_id")
+	opcNamedCredentialIdStr := fmt.Sprintf("variable \"opc_named_credential_id\" { default = \"%s\" }\n", opcNamedCredentialId)
 
 	singularDatasourceName := "data.oci_database_management_external_asm_configuration.test_external_asm_configuration"
 
@@ -45,11 +52,20 @@ func TestDatabaseManagementExternalAsmConfigurationResource_basic(t *testing.T) 
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_asm_configuration", "test_external_asm_configuration", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalAsmConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalAsmConfigurationResourceConfig,
+				compartmentIdVariableStr + dbSystemIdVariableStr + externalAsmIdVariableStr + DatabaseManagementExternalAsmConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_asm_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "init_parameters.#"),
+			),
+		},
+		// verify singular datasource with named credential
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_asm_configuration", "test_external_asm_configuration", acctest.Optional, acctest.Create, DatabaseManagementDatabaseManagementExternalAsmConfigurationSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + dbSystemIdVariableStr + externalAsmIdVariableStr + opcNamedCredentialIdStr + DatabaseManagementExternalAsmConfigurationResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_asm_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "opc_named_credential_id"),
 			),
 		},
 	})

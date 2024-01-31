@@ -17,7 +17,8 @@ import (
 
 var (
 	DatabaseManagementDatabaseManagementExternalAsmDiskGroupDataSourceRepresentation = map[string]interface{}{
-		"external_asm_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_asms.test_external_asms.external_asm_collection.0.items.0.id}`},
+		"external_asm_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.external_asm_id}`},
+		"opc_named_credential_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.opc_named_credential_id}`},
 	}
 
 	DatabaseManagementExternalAsmDiskGroupResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_asms", "test_external_asms", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalAsmDataSourceRepresentation)
@@ -30,11 +31,18 @@ func TestDatabaseManagementExternalAsmDiskGroupResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	dbSystemId := utils.GetEnvSettingWithBlankDefault("external_dbsystem_id")
+	dbSystemId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_dbsystem_id")
 	dbSystemIdVariableStr := fmt.Sprintf("variable \"external_dbsystem_id\" { default = \"%s\" }\n", dbSystemId)
+
+	externalAsmId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_asm_id")
+	externalAsmIdVariableStr := fmt.Sprintf("variable \"external_asm_id\" { default = \"%s\" }\n", externalAsmId)
+
+	opcNamedCredentialId := utils.GetEnvSettingWithBlankDefault("dbmgmt_named_credential_id")
+
+	opcNamedCredentialIdStr := fmt.Sprintf("variable \"opc_named_credential_id\" { default = \"%s\" }\n", opcNamedCredentialId)
 
 	datasourceName := "data.oci_database_management_external_asm_disk_groups.test_external_asm_disk_groups"
 
@@ -45,12 +53,21 @@ func TestDatabaseManagementExternalAsmDiskGroupResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_asm_disk_groups", "test_external_asm_disk_groups", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalAsmDiskGroupDataSourceRepresentation) +
-				compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalAsmDiskGroupResourceConfig,
+				compartmentIdVariableStr + dbSystemIdVariableStr + externalAsmIdVariableStr + DatabaseManagementExternalAsmDiskGroupResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "external_asm_id"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "external_asm_disk_group_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_asm_disk_group_collection.0.items.#"),
+			),
+		},
+		// verify singular datasource with named credential
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_asm_disk_groups", "test_external_asm_disk_groups", acctest.Optional, acctest.Create, DatabaseManagementDatabaseManagementExternalAsmDiskGroupDataSourceRepresentation) +
+				compartmentIdVariableStr + dbSystemIdVariableStr + externalAsmIdVariableStr + opcNamedCredentialIdStr + DatabaseManagementExternalAsmDiskGroupResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "external_asm_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "opc_named_credential_id"),
 			),
 		},
 	})

@@ -26,7 +26,7 @@ type MySqlFleetByCategory struct {
 	// The type of MySQL Database installation. Allowed values are: STANDALONE, HEATWAVE and HA
 	MdsDeploymentType *string `mandatory:"true" json:"mdsDeploymentType"`
 
-	//  The number of MySQL Databases.
+	// The number of MySQL Databases.
 	InventoryCount *int `mandatory:"true" json:"inventoryCount"`
 }
 

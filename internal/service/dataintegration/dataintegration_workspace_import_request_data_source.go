@@ -76,6 +76,10 @@ func (s *DataintegrationWorkspaceImportRequestDataSourceCrud) SetData() error {
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("DataintegrationWorkspaceImportRequestDataSource-", DataintegrationWorkspaceImportRequestDataSource(), s.D))
 
+	if s.Res.AreDataAssetReferencesIncluded != nil {
+		s.D.Set("are_data_asset_references_included", *s.Res.AreDataAssetReferencesIncluded)
+	}
+
 	if s.Res.BucketName != nil {
 		s.D.Set("bucket", *s.Res.BucketName)
 	}

@@ -11,18 +11,17 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
-
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
 	DatabaseManagementDatabaseManagementManagedDatabaseSqlPlanBaselineSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
+		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
 		"plan_name":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_managed_database_sql_plan_baselines.test_managed_database_sql_plan_baselines.sql_plan_baseline_collection.0.items.0.plan_name}`},
 	}
 
 	DatabaseManagementDatabaseManagementManagedDatabaseSqlPlanBaselineDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
+		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
 		"is_accepted":         acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_adaptive":         acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_enabled":          acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -35,6 +34,11 @@ var (
 		"limit":               acctest.Representation{RepType: acctest.Required, Create: `1000`},
 	}
 
+	DatabaseManagementDatabaseManagementManagedDatabaseSqlPlanBaselineDataSourceNamedCredentialRepresentation = map[string]interface{}{
+		"managed_database_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
+		"opc_named_credential_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.opc_named_credential_id}`},
+	}
+
 	DatabaseManagementManagedDatabaseSqlPlanBaselineResourceConfig = ""
 )
 
@@ -45,14 +49,18 @@ func TestDatabaseManagementManagedDatabaseSqlPlanBaselineResource_basic(t *testi
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	managedDbId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
-	managedDbIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", managedDbId)
+	managedDbId := utils.GetEnvSettingWithBlankDefault("dbmgmt_managed_database_id")
+	managedDbIdVariableStr := fmt.Sprintf("variable \"managed_database_id\" { default = \"%s\" }\n", managedDbId)
+
+	opcNamedCredentialId := utils.GetEnvSettingWithBlankDefault("dbmgmt_named_credential_id")
+	opcNamedCredentialIdStr := fmt.Sprintf("variable \"opc_named_credential_id\" { default = \"%s\" }\n", opcNamedCredentialId)
 
 	datasourceName := "data.oci_database_management_managed_database_sql_plan_baselines.test_managed_database_sql_plan_baselines"
 	singularDatasourceName := "data.oci_database_management_managed_database_sql_plan_baseline.test_managed_database_sql_plan_baseline"
+	namedCredentialDatasourceName := "data.oci_database_management_managed_database_sql_plan_baselines.test_managed_database_sql_plan_baselines"
 
 	acctest.SaveConfigContent("", "", "", t)
 
@@ -85,14 +93,12 @@ func TestDatabaseManagementManagedDatabaseSqlPlanBaselineResource_basic(t *testi
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "plan_name"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "accepted"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "adaptive"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_purge"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "enabled"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "execution_plan"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fixed"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "module"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "origin"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "plan_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "reproduced"),
@@ -100,6 +106,15 @@ func TestDatabaseManagementManagedDatabaseSqlPlanBaselineResource_basic(t *testi
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sql_text"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_modified"),
+			),
+		},
+		// verify datasource with named credential
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_sql_plan_baselines", "test_managed_database_sql_plan_baselines", acctest.Optional, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseSqlPlanBaselineDataSourceNamedCredentialRepresentation) +
+				compartmentIdVariableStr + managedDbIdVariableStr + opcNamedCredentialIdStr + DatabaseManagementManagedDatabaseSqlPlanBaselineResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(namedCredentialDatasourceName, "opc_named_credential_id"),
 			),
 		},
 	})

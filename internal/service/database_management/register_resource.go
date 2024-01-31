@@ -23,4 +23,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_management_managed_database_group", DatabaseManagementManagedDatabaseGroupResource())
 	tfresource.RegisterResource("oci_database_management_managed_databases_change_database_parameter", DatabaseManagementManagedDatabasesChangeDatabaseParameterResource())
 	tfresource.RegisterResource("oci_database_management_managed_databases_reset_database_parameter", DatabaseManagementManagedDatabasesResetDatabaseParameterResource())
+	tfresource.RegisterResource("oci_database_management_named_credential", DatabaseManagementNamedCredentialResource())
 }

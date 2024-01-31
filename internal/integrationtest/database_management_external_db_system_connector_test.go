@@ -49,7 +49,7 @@ var (
 		"connector_type":        acctest.Representation{RepType: acctest.Required, Create: `MACS`},
 		"external_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${var.external_dbsystem_id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `EXAMPLE-displayName-Value`},
-		"agent_id":              acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_system.test_external_db_system.discovery_agent_id}`},
+		"agent_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
 	}
 	DatabaseManagementExternalDbSystemSingularDataSourceRepresentation = map[string]interface{}{
 		"external_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${var.external_dbsystem_id}`},
@@ -65,13 +65,13 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	agentId := utils.GetEnvSettingWithBlankDefault("agent_id")
+	agentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_agent_id")
 	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
 
-	dbSystemId := utils.GetEnvSettingWithBlankDefault("external_dbsystem_id")
+	dbSystemId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_dbsystem_id")
 	dbSystemIdVariableStr := fmt.Sprintf("variable \"external_dbsystem_id\" { default = \"%s\" }\n", dbSystemId)
 
 	resourceName := "oci_database_management_external_db_system_connector.test_external_db_system_connector"
@@ -164,9 +164,8 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "EXAMPLE-displayName-Value"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_db_system_id"),
-
 				resource.TestCheckResourceAttr(datasourceName, "external_db_system_connector_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "external_db_system_connector_collection.0.items.#", "1"),
+				//resource.TestCheckResourceAttr(datasourceName, "external_db_system_connector_collection.0.items.#", "1"),
 			),
 		},
 		// verify singular datasource

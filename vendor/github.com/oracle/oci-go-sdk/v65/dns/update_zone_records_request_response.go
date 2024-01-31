@@ -46,7 +46,7 @@ type UpdateZoneRecordsRequest struct {
 	// Specifies to operate only on resources that have a matching DNS scope.
 	Scope UpdateZoneRecordsScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
 
-	// The OCID of the view the resource is associated with.
+	// The OCID of the view the zone is associated with. Required when accessing a private zone by name.
 	ViewId *string `mandatory:"false" contributesTo:"query" name:"viewId"`
 
 	// The OCID of the compartment the zone belongs to.

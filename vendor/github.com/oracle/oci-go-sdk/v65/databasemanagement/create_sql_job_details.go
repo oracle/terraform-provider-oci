@@ -63,6 +63,9 @@ type CreateSqlJobDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	SecretId *string `mandatory:"false" json:"secretId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credentials containing password secret.
+	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
+
 	// The schedule type of the job.
 	ScheduleType JobScheduleTypeEnum `mandatory:"true" json:"scheduleType"`
 
@@ -190,6 +193,7 @@ func (m *CreateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 		UserName               *string                    `json:"userName"`
 		Password               *string                    `json:"password"`
 		SecretId               *string                    `json:"secretId"`
+		NamedCredentialId      *string                    `json:"namedCredentialId"`
 		Role                   SqlJobRoleEnum             `json:"role"`
 		Name                   *string                    `json:"name"`
 		CompartmentId          *string                    `json:"compartmentId"`
@@ -237,6 +241,8 @@ func (m *CreateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Password = model.Password
 
 	m.SecretId = model.SecretId
+
+	m.NamedCredentialId = model.NamedCredentialId
 
 	m.Role = model.Role
 

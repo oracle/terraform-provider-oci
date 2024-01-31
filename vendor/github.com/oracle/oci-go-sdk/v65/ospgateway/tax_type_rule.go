@@ -20,6 +20,9 @@ type TaxTypeRule struct {
 
 	// Tax type rule fields
 	Fields []Field `mandatory:"true" json:"fields"`
+
+	// Label value pair for allowed values. Used for GIRO
+	ValueSet []ValueSetEntity `mandatory:"false" json:"valueSet"`
 }
 
 func (m TaxTypeRule) String() string {

@@ -22,11 +22,15 @@ import (
 // The basicFilter parameter specifies the Sql predicate to filter the Sql from the Sql tuning set defined on attributes of the SQLSET_ROW.
 // If a valid filter criteria is specified, then, Sql statements matching this filter criteria will be deleted from the current Sql tuning set.
 // If filter criteria is not specified, then, all Sql statements will be deleted from the current Sql tuning set.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type DropSqlsInSqlTuningSetDetails struct {
-	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// The name of the Sql tuning set.
 	Name *string `mandatory:"true" json:"name"`
+
+	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// Flag to indicate whether to drop the Sql statements or just display the plsql used to drop the Sql statements.
 	ShowSqlOnly *int `mandatory:"false" json:"showSqlOnly"`
@@ -59,11 +63,12 @@ func (m DropSqlsInSqlTuningSetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DropSqlsInSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ShowSqlOnly       *int                               `json:"showSqlOnly"`
-		Owner             *string                            `json:"owner"`
-		BasicFilter       *string                            `json:"basicFilter"`
-		CredentialDetails sqltuningsetadmincredentialdetails `json:"credentialDetails"`
-		Name              *string                            `json:"name"`
+		CredentialDetails  sqltuningsetadmincredentialdetails `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails          `json:"databaseCredential"`
+		ShowSqlOnly        *int                               `json:"showSqlOnly"`
+		Owner              *string                            `json:"owner"`
+		BasicFilter        *string                            `json:"basicFilter"`
+		Name               *string                            `json:"name"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -71,12 +76,6 @@ func (m *DropSqlsInSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.ShowSqlOnly = model.ShowSqlOnly
-
-	m.Owner = model.Owner
-
-	m.BasicFilter = model.BasicFilter
-
 	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
 	if e != nil {
 		return
@@ -86,6 +85,22 @@ func (m *DropSqlsInSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.CredentialDetails = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.ShowSqlOnly = model.ShowSqlOnly
+
+	m.Owner = model.Owner
+
+	m.BasicFilter = model.BasicFilter
 
 	m.Name = model.Name
 

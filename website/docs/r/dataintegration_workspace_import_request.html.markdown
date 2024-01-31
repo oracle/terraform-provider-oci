@@ -22,6 +22,7 @@ resource "oci_dataintegration_workspace_import_request" "test_workspace_import_r
 	workspace_id = oci_dataintegration_workspace.test_workspace.id
 
 	#Optional
+	are_data_asset_references_included = var.workspace_import_request_are_data_asset_references_included
 	import_conflict_resolution {
 		#Required
 		import_conflict_resolution_type = var.workspace_import_request_import_conflict_resolution_import_conflict_resolution_type
@@ -40,6 +41,7 @@ resource "oci_dataintegration_workspace_import_request" "test_workspace_import_r
 
 The following arguments are supported:
 
+* `are_data_asset_references_included` - (Optional) This field controls if the data asset references will be included during import.
 * `bucket` - (Required) Name of the Object Storage bucket where the object will be imported from.
 * `file_name` - (Required) Name of the zip file to be imported.
 * `import_conflict_resolution` - (Optional) Import Objects Conflict resolution.
@@ -59,6 +61,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `are_data_asset_references_included` - This field controls if the data asset references will be included during import.
 * `bucket` - The name of the Object Storage Bucket where the objects will be imported from
 * `created_by` - Name of the user who initiated import request.
 * `error_messages` - Contains key of the error

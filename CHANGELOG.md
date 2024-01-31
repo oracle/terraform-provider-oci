@@ -1,3 +1,14 @@
+## 5.27.0 (January 31, 2024)
+
+### Added
+- Support for Database Management: Database Named Credentials
+- New attribute are_data_asset_references_included in dataintegration import api
+- Upgrade and Manage Payment- Giro dataset fetch and add giro attribute to subscriptions resource
+- Support for DIS Application Patch API
+### Bug Fix
+- Validate VM Cluster tag addition failing in VALIDATED state
+- Consecutive Shrink action api calls fails.
+
 ## 5.26.0 (January 24, 2024)
 
 ### Added

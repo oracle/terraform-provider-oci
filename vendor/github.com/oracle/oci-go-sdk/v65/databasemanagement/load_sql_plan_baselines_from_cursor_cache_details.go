@@ -22,12 +22,11 @@ import (
 // the plans to load using SQL ID, plan identifier, or filterName and filterValue pair.
 // You can also control the SQL plan baseline into which the plans are loaded using either
 // SQL text or SQL handle.
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type LoadSqlPlanBaselinesFromCursorCacheDetails struct {
 
 	// The name of the database job used for loading SQL plan baselines.
 	JobName *string `mandatory:"true" json:"jobName"`
-
-	Credentials ManagedDatabaseCredential `mandatory:"true" json:"credentials"`
 
 	// The description of the job.
 	JobDescription *string `mandatory:"false" json:"jobDescription"`
@@ -65,6 +64,10 @@ type LoadSqlPlanBaselinesFromCursorCacheDetails struct {
 	// Indicates whether the loaded plans are enabled (`true`) or not (`false`).
 	// By default, they are enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
+
+	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m LoadSqlPlanBaselinesFromCursorCacheDetails) String() string {
@@ -89,17 +92,18 @@ func (m LoadSqlPlanBaselinesFromCursorCacheDetails) ValidateEnumValue() (bool, e
 // UnmarshalJSON unmarshals from json
 func (m *LoadSqlPlanBaselinesFromCursorCacheDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		JobDescription *string                                                  `json:"jobDescription"`
-		SqlId          *string                                                  `json:"sqlId"`
-		PlanHash       *float32                                                 `json:"planHash"`
-		SqlText        *string                                                  `json:"sqlText"`
-		SqlHandle      *string                                                  `json:"sqlHandle"`
-		FilterName     LoadSqlPlanBaselinesFromCursorCacheDetailsFilterNameEnum `json:"filterName"`
-		FilterValue    *string                                                  `json:"filterValue"`
-		IsFixed        *bool                                                    `json:"isFixed"`
-		IsEnabled      *bool                                                    `json:"isEnabled"`
-		JobName        *string                                                  `json:"jobName"`
-		Credentials    manageddatabasecredential                                `json:"credentials"`
+		JobDescription     *string                                                  `json:"jobDescription"`
+		SqlId              *string                                                  `json:"sqlId"`
+		PlanHash           *float32                                                 `json:"planHash"`
+		SqlText            *string                                                  `json:"sqlText"`
+		SqlHandle          *string                                                  `json:"sqlHandle"`
+		FilterName         LoadSqlPlanBaselinesFromCursorCacheDetailsFilterNameEnum `json:"filterName"`
+		FilterValue        *string                                                  `json:"filterValue"`
+		IsFixed            *bool                                                    `json:"isFixed"`
+		IsEnabled          *bool                                                    `json:"isEnabled"`
+		Credentials        manageddatabasecredential                                `json:"credentials"`
+		DatabaseCredential databasecredentialdetails                                `json:"databaseCredential"`
+		JobName            *string                                                  `json:"jobName"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -125,8 +129,6 @@ func (m *LoadSqlPlanBaselinesFromCursorCacheDetails) UnmarshalJSON(data []byte) 
 
 	m.IsEnabled = model.IsEnabled
 
-	m.JobName = model.JobName
-
 	nn, e = model.Credentials.UnmarshalPolymorphicJSON(model.Credentials.JsonData)
 	if e != nil {
 		return
@@ -136,6 +138,18 @@ func (m *LoadSqlPlanBaselinesFromCursorCacheDetails) UnmarshalJSON(data []byte) 
 	} else {
 		m.Credentials = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.JobName = model.JobName
 
 	return
 }

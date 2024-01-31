@@ -19,10 +19,13 @@ import (
 )
 
 // ConfigureAutomaticSpmEvolveAdvisorTaskDetails The configuration details of the Automatic SPM Evolve Advisor task.
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type ConfigureAutomaticSpmEvolveAdvisorTaskDetails struct {
 	TaskParameters *SpmEvolveTaskParameters `mandatory:"true" json:"taskParameters"`
 
-	Credentials ManagedDatabaseCredential `mandatory:"true" json:"credentials"`
+	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m ConfigureAutomaticSpmEvolveAdvisorTaskDetails) String() string {
@@ -44,8 +47,9 @@ func (m ConfigureAutomaticSpmEvolveAdvisorTaskDetails) ValidateEnumValue() (bool
 // UnmarshalJSON unmarshals from json
 func (m *ConfigureAutomaticSpmEvolveAdvisorTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TaskParameters *SpmEvolveTaskParameters  `json:"taskParameters"`
-		Credentials    manageddatabasecredential `json:"credentials"`
+		Credentials        manageddatabasecredential `json:"credentials"`
+		DatabaseCredential databasecredentialdetails `json:"databaseCredential"`
+		TaskParameters     *SpmEvolveTaskParameters  `json:"taskParameters"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -53,8 +57,6 @@ func (m *ConfigureAutomaticSpmEvolveAdvisorTaskDetails) UnmarshalJSON(data []byt
 		return
 	}
 	var nn interface{}
-	m.TaskParameters = model.TaskParameters
-
 	nn, e = model.Credentials.UnmarshalPolymorphicJSON(model.Credentials.JsonData)
 	if e != nil {
 		return
@@ -64,6 +66,18 @@ func (m *ConfigureAutomaticSpmEvolveAdvisorTaskDetails) UnmarshalJSON(data []byt
 	} else {
 		m.Credentials = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.TaskParameters = model.TaskParameters
 
 	return
 }

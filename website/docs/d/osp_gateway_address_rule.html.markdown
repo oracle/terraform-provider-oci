@@ -71,4 +71,7 @@ The following attributes are exported:
 			* `value` - Language token of the required label
 		* `language` - Locale code (rfc4646 format) of a forced language (e.g.: jp addresses require jp always)
 		* `name` - The field name
+	* `value_set` - Label value pair for allowed values. Used for GIRO
+		* `name` - User friendly name
+		* `value` - Value
 

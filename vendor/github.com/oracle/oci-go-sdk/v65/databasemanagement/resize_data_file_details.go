@@ -19,14 +19,18 @@ import (
 )
 
 // ResizeDataFileDetails The details required to resize a data file or temp file within the tablespace.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type ResizeDataFileDetails struct {
-	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// Specifies whether the file is a data file or temp file.
 	FileType ResizeDataFileDetailsFileTypeEnum `mandatory:"true" json:"fileType"`
 
 	// Name of the data file or temp file to be resized.
 	DataFile *string `mandatory:"true" json:"dataFile"`
+
+	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// The new size of the data file or temp file.
 	FileSize *TablespaceStorageSize `mandatory:"false" json:"fileSize"`
@@ -66,12 +70,13 @@ func (m ResizeDataFileDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ResizeDataFileDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		CredentialDetails  tablespaceadmincredentialdetails  `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails         `json:"databaseCredential"`
 		FileSize           *TablespaceStorageSize            `json:"fileSize"`
 		IsAutoExtensible   *bool                             `json:"isAutoExtensible"`
 		AutoExtendNextSize *TablespaceStorageSize            `json:"autoExtendNextSize"`
 		AutoExtendMaxSize  *TablespaceStorageSize            `json:"autoExtendMaxSize"`
 		IsMaxSizeUnlimited *bool                             `json:"isMaxSizeUnlimited"`
-		CredentialDetails  tablespaceadmincredentialdetails  `json:"credentialDetails"`
 		FileType           ResizeDataFileDetailsFileTypeEnum `json:"fileType"`
 		DataFile           *string                           `json:"dataFile"`
 	}{}
@@ -81,16 +86,6 @@ func (m *ResizeDataFileDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.FileSize = model.FileSize
-
-	m.IsAutoExtensible = model.IsAutoExtensible
-
-	m.AutoExtendNextSize = model.AutoExtendNextSize
-
-	m.AutoExtendMaxSize = model.AutoExtendMaxSize
-
-	m.IsMaxSizeUnlimited = model.IsMaxSizeUnlimited
-
 	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
 	if e != nil {
 		return
@@ -100,6 +95,26 @@ func (m *ResizeDataFileDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.CredentialDetails = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.FileSize = model.FileSize
+
+	m.IsAutoExtensible = model.IsAutoExtensible
+
+	m.AutoExtendNextSize = model.AutoExtendNextSize
+
+	m.AutoExtendMaxSize = model.AutoExtendMaxSize
+
+	m.IsMaxSizeUnlimited = model.IsMaxSizeUnlimited
 
 	m.FileType = model.FileType
 

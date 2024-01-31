@@ -19,8 +19,8 @@ import (
 )
 
 // DropSqlPlanBaselinesDetails The details required to drop SQL plan baselines.
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type DropSqlPlanBaselinesDetails struct {
-	Credentials ManagedDatabaseCredential `mandatory:"true" json:"credentials"`
 
 	// The SQL statement handle. It identifies plans associated with a SQL statement
 	// that are to be dropped. If `null` then `planName` must be specified.
@@ -29,6 +29,10 @@ type DropSqlPlanBaselinesDetails struct {
 	// The plan name. It identifies a specific plan. If `null' then all plans
 	// associated with the SQL statement identified by `sqlHandle' are dropped.
 	PlanName *string `mandatory:"false" json:"planName"`
+
+	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m DropSqlPlanBaselinesDetails) String() string {
@@ -50,9 +54,10 @@ func (m DropSqlPlanBaselinesDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DropSqlPlanBaselinesDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		SqlHandle   *string                   `json:"sqlHandle"`
-		PlanName    *string                   `json:"planName"`
-		Credentials manageddatabasecredential `json:"credentials"`
+		SqlHandle          *string                   `json:"sqlHandle"`
+		PlanName           *string                   `json:"planName"`
+		Credentials        manageddatabasecredential `json:"credentials"`
+		DatabaseCredential databasecredentialdetails `json:"databaseCredential"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -72,6 +77,16 @@ func (m *DropSqlPlanBaselinesDetails) UnmarshalJSON(data []byte) (e error) {
 		m.Credentials = nn.(ManagedDatabaseCredential)
 	} else {
 		m.Credentials = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
 	}
 
 	return

@@ -22,6 +22,7 @@ data "oci_database_management_managed_database_sql_plan_baseline_jobs" "test_man
 
 	#Optional
 	name = var.managed_database_sql_plan_baseline_job_name
+	opc_named_credential_id = var.managed_database_sql_plan_baseline_job_opc_named_credential_id
 }
 ```
 
@@ -31,6 +32,7 @@ The following arguments are supported:
 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `name` - (Optional) A filter to return the SQL plan baseline jobs that match the name.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 
 
 ## Attributes Reference

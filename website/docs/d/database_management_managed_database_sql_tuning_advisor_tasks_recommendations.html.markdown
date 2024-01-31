@@ -23,6 +23,9 @@ data "oci_database_management_managed_database_sql_tuning_advisor_tasks_recommen
 	managed_database_id = oci_database_management_managed_database.test_managed_database.id
 	sql_object_id = oci_objectstorage_object.test_object.id
 	sql_tuning_advisor_task_id = oci_database_management_sql_tuning_advisor_task.test_sql_tuning_advisor_task.id
+
+	#Optional
+	opc_named_credential_id = var.managed_database_sql_tuning_advisor_tasks_recommendation_opc_named_credential_id
 }
 ```
 
@@ -32,6 +35,7 @@ The following arguments are supported:
 
 * `execution_id` - (Required) The execution ID for an execution of a SQL tuning task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `sql_object_id` - (Required) The SQL object ID for the SQL tuning task. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `sql_tuning_advisor_task_id` - (Required) The SQL tuning task identifier. This is not the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 

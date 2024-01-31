@@ -145,6 +145,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateConnectionFromBip{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OAUTH2_CONNECTION":
+		mm := CreateConnectionFromOAuth2{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ORACLE_ADWC_CONNECTION":
 		mm := CreateConnectionFromAdwc{}
 		err = json.Unmarshal(data, &mm)
@@ -250,6 +254,7 @@ const (
 	CreateConnectionDetailsModelTypeMysqlHeatwaveConnection       CreateConnectionDetailsModelTypeEnum = "MYSQL_HEATWAVE_CONNECTION"
 	CreateConnectionDetailsModelTypeRestNoAuthConnection          CreateConnectionDetailsModelTypeEnum = "REST_NO_AUTH_CONNECTION"
 	CreateConnectionDetailsModelTypeRestBasicAuthConnection       CreateConnectionDetailsModelTypeEnum = "REST_BASIC_AUTH_CONNECTION"
+	CreateConnectionDetailsModelTypeOauth2Connection              CreateConnectionDetailsModelTypeEnum = "OAUTH2_CONNECTION"
 )
 
 var mappingCreateConnectionDetailsModelTypeEnum = map[string]CreateConnectionDetailsModelTypeEnum{
@@ -270,6 +275,7 @@ var mappingCreateConnectionDetailsModelTypeEnum = map[string]CreateConnectionDet
 	"MYSQL_HEATWAVE_CONNECTION":        CreateConnectionDetailsModelTypeMysqlHeatwaveConnection,
 	"REST_NO_AUTH_CONNECTION":          CreateConnectionDetailsModelTypeRestNoAuthConnection,
 	"REST_BASIC_AUTH_CONNECTION":       CreateConnectionDetailsModelTypeRestBasicAuthConnection,
+	"OAUTH2_CONNECTION":                CreateConnectionDetailsModelTypeOauth2Connection,
 }
 
 var mappingCreateConnectionDetailsModelTypeEnumLowerCase = map[string]CreateConnectionDetailsModelTypeEnum{
@@ -290,6 +296,7 @@ var mappingCreateConnectionDetailsModelTypeEnumLowerCase = map[string]CreateConn
 	"mysql_heatwave_connection":        CreateConnectionDetailsModelTypeMysqlHeatwaveConnection,
 	"rest_no_auth_connection":          CreateConnectionDetailsModelTypeRestNoAuthConnection,
 	"rest_basic_auth_connection":       CreateConnectionDetailsModelTypeRestBasicAuthConnection,
+	"oauth2_connection":                CreateConnectionDetailsModelTypeOauth2Connection,
 }
 
 // GetCreateConnectionDetailsModelTypeEnumValues Enumerates the set of values for CreateConnectionDetailsModelTypeEnum
@@ -321,6 +328,7 @@ func GetCreateConnectionDetailsModelTypeEnumStringValues() []string {
 		"MYSQL_HEATWAVE_CONNECTION",
 		"REST_NO_AUTH_CONNECTION",
 		"REST_BASIC_AUTH_CONNECTION",
+		"OAUTH2_CONNECTION",
 	}
 }
 

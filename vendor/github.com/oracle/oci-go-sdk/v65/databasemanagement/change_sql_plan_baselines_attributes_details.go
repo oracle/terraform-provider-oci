@@ -19,8 +19,8 @@ import (
 )
 
 // ChangeSqlPlanBaselinesAttributesDetails The details required to change SQL plan baseline attributes.
+// It takes either credentials or databaseCredential. It's recommended to provide databaseCredential
 type ChangeSqlPlanBaselinesAttributesDetails struct {
-	Credentials ManagedDatabaseCredential `mandatory:"true" json:"credentials"`
 
 	// The SQL statement handle. It identifies plans associated with a SQL statement
 	// for attribute changes. If `null` then `planName` must be specified.
@@ -38,6 +38,10 @@ type ChangeSqlPlanBaselinesAttributesDetails struct {
 
 	// Indicates whether the plan is purged if it is not used for a time period.
 	IsAutoPurged *bool `mandatory:"false" json:"isAutoPurged"`
+
+	Credentials ManagedDatabaseCredential `mandatory:"false" json:"credentials"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m ChangeSqlPlanBaselinesAttributesDetails) String() string {
@@ -59,12 +63,13 @@ func (m ChangeSqlPlanBaselinesAttributesDetails) ValidateEnumValue() (bool, erro
 // UnmarshalJSON unmarshals from json
 func (m *ChangeSqlPlanBaselinesAttributesDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		SqlHandle    *string                   `json:"sqlHandle"`
-		PlanName     *string                   `json:"planName"`
-		IsEnabled    *bool                     `json:"isEnabled"`
-		IsFixed      *bool                     `json:"isFixed"`
-		IsAutoPurged *bool                     `json:"isAutoPurged"`
-		Credentials  manageddatabasecredential `json:"credentials"`
+		SqlHandle          *string                   `json:"sqlHandle"`
+		PlanName           *string                   `json:"planName"`
+		IsEnabled          *bool                     `json:"isEnabled"`
+		IsFixed            *bool                     `json:"isFixed"`
+		IsAutoPurged       *bool                     `json:"isAutoPurged"`
+		Credentials        manageddatabasecredential `json:"credentials"`
+		DatabaseCredential databasecredentialdetails `json:"databaseCredential"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -90,6 +95,16 @@ func (m *ChangeSqlPlanBaselinesAttributesDetails) UnmarshalJSON(data []byte) (e 
 		m.Credentials = nn.(ManagedDatabaseCredential)
 	} else {
 		m.Credentials = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
 	}
 
 	return
