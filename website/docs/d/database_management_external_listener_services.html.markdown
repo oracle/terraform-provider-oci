@@ -21,6 +21,9 @@ data "oci_database_management_external_listener_services" "test_external_listene
 	#Required
 	external_listener_id = oci_database_management_external_listener.test_external_listener.id
 	managed_database_id = oci_database_management_managed_database.test_managed_database.id
+
+	#Optional
+	opc_named_credential_id = var.external_listener_service_opc_named_credential_id
 }
 ```
 
@@ -30,6 +33,7 @@ The following arguments are supported:
 
 * `external_listener_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external listener.
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 
 
 ## Attributes Reference

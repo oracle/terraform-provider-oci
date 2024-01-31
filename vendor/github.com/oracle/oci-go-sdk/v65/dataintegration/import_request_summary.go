@@ -36,6 +36,9 @@ type ImportRequestSummary struct {
 	// Key of the object inside which all the objects will be imported
 	ObjectKeyForImport *string `mandatory:"false" json:"objectKeyForImport"`
 
+	// This field controls if the data asset references will be included during import.
+	AreDataAssetReferencesIncluded *bool `mandatory:"false" json:"areDataAssetReferencesIncluded"`
+
 	ImportConflictResolution *ImportConflictResolution `mandatory:"false" json:"importConflictResolution"`
 
 	// Import Objects request status.

@@ -68,8 +68,27 @@ type ListSqlPlanBaselinesRequest struct {
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Descending order is the default order.
 	SortOrder ListSqlPlanBaselinesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// A filter to return only SQL plan baselines that are either auto-purged or not auto-purged.
+	// By default, all SQL plan baselines are returned.
+	IsAutoPurged *bool `mandatory:"false" contributesTo:"query" name:"isAutoPurged"`
+
+	// A filter to return only SQL plan baselines whose last execution time is
+	// after the specified value. By default, all SQL plan baselines are returned.
+	TimeLastExecutedGreaterThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeLastExecutedGreaterThan"`
+
+	// A filter to return only SQL plan baselines whose last execution time is
+	// before the specified value. By default, all SQL plan baselines are returned.
+	TimeLastExecutedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeLastExecutedLessThan"`
+
+	// A filter to return only SQL plan baselines that are not executed till now.
+	// By default, all SQL plan baselines are returned.
+	IsNeverExecuted *bool `mandatory:"false" contributesTo:"query" name:"isNeverExecuted"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// The OCID of the Named Credential.
+	OpcNamedCredentialId *string `mandatory:"false" contributesTo:"header" name:"opc-named-credential-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -251,16 +270,19 @@ type ListSqlPlanBaselinesSortByEnum string
 const (
 	ListSqlPlanBaselinesSortByTimecreated      ListSqlPlanBaselinesSortByEnum = "timeCreated"
 	ListSqlPlanBaselinesSortByTimelastmodified ListSqlPlanBaselinesSortByEnum = "timeLastModified"
+	ListSqlPlanBaselinesSortByTimelastexecuted ListSqlPlanBaselinesSortByEnum = "timeLastExecuted"
 )
 
 var mappingListSqlPlanBaselinesSortByEnum = map[string]ListSqlPlanBaselinesSortByEnum{
 	"timeCreated":      ListSqlPlanBaselinesSortByTimecreated,
 	"timeLastModified": ListSqlPlanBaselinesSortByTimelastmodified,
+	"timeLastExecuted": ListSqlPlanBaselinesSortByTimelastexecuted,
 }
 
 var mappingListSqlPlanBaselinesSortByEnumLowerCase = map[string]ListSqlPlanBaselinesSortByEnum{
 	"timecreated":      ListSqlPlanBaselinesSortByTimecreated,
 	"timelastmodified": ListSqlPlanBaselinesSortByTimelastmodified,
+	"timelastexecuted": ListSqlPlanBaselinesSortByTimelastexecuted,
 }
 
 // GetListSqlPlanBaselinesSortByEnumValues Enumerates the set of values for ListSqlPlanBaselinesSortByEnum
@@ -277,6 +299,7 @@ func GetListSqlPlanBaselinesSortByEnumStringValues() []string {
 	return []string{
 		"timeCreated",
 		"timeLastModified",
+		"timeLastExecuted",
 	}
 }
 

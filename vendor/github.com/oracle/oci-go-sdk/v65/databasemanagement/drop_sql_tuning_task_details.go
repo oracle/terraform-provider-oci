@@ -19,6 +19,7 @@ import (
 )
 
 // DropSqlTuningTaskDetails The request to drop a SQL tuning task.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type DropSqlTuningTaskDetails struct {
 
 	// The identifier of the SQL tuning task being dropped. This is not the OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -26,7 +27,9 @@ type DropSqlTuningTaskDetails struct {
 	// ListSqlTuningAdvisorTasks.
 	TaskId *int64 `mandatory:"true" json:"taskId"`
 
-	CredentialDetails SqlTuningTaskCredentialDetails `mandatory:"true" json:"credentialDetails"`
+	CredentialDetails SqlTuningTaskCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m DropSqlTuningTaskDetails) String() string {
@@ -48,8 +51,9 @@ func (m DropSqlTuningTaskDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DropSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TaskId            *int64                         `json:"taskId"`
-		CredentialDetails sqltuningtaskcredentialdetails `json:"credentialDetails"`
+		CredentialDetails  sqltuningtaskcredentialdetails `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails      `json:"databaseCredential"`
+		TaskId             *int64                         `json:"taskId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -57,8 +61,6 @@ func (m *DropSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.TaskId = model.TaskId
-
 	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
 	if e != nil {
 		return
@@ -68,6 +70,18 @@ func (m *DropSqlTuningTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.CredentialDetails = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.TaskId = model.TaskId
 
 	return
 }

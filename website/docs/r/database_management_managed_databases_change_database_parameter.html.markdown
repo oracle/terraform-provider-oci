@@ -30,14 +30,6 @@ a future instance.
 ```hcl
 resource "oci_database_management_managed_databases_change_database_parameter" "test_managed_databases_change_database_parameter" {
 	#Required
-	credentials {
-
-		#Optional
-		password = var.managed_databases_change_database_parameter_credentials_password
-		role = var.managed_databases_change_database_parameter_credentials_role
-		secret_id = oci_vault_secret.test_secret.id
-		user_name = oci_identity_user.test_user.name
-	}
 	managed_database_id = oci_database_management_managed_database.test_managed_database.id
 	parameters {
 		#Required
@@ -48,6 +40,27 @@ resource "oci_database_management_managed_databases_change_database_parameter" "
 		update_comment = var.managed_databases_change_database_parameter_parameters_update_comment
 	}
 	scope = var.managed_databases_change_database_parameter_scope
+
+	#Optional
+	credentials {
+
+		#Optional
+		password = var.managed_databases_change_database_parameter_credentials_password
+		role = var.managed_databases_change_database_parameter_credentials_role
+		secret_id = oci_vault_secret.test_secret.id
+		user_name = oci_identity_user.test_user.name
+	}
+	database_credential {
+		#Required
+		credential_type = var.managed_databases_change_database_parameter_database_credential_credential_type
+
+		#Optional
+		named_credential_id = oci_database_management_named_credential.test_named_credential.id
+		password = var.managed_databases_change_database_parameter_database_credential_password
+		password_secret_id = oci_vault_secret.test_secret.id
+		role = var.managed_databases_change_database_parameter_database_credential_role
+		username = var.managed_databases_change_database_parameter_database_credential_username
+	}
 }
 ```
 
@@ -55,11 +68,18 @@ resource "oci_database_management_managed_databases_change_database_parameter" "
 
 The following arguments are supported:
 
-* `credentials` - (Required) The database credentials used to perform management activity. 
+* `credentials` - (Optional) The database credentials used to perform management activity. Provide one of the following attribute set. (userName, password, role) OR (userName, secretId, role) OR (namedCredentialId) 
 	* `password` - (Optional) The password for the database user name. 
 	* `role` - (Optional) The role of the database user. Indicates whether the database user is a normal user or sysdba.
 	* `secret_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 	* `user_name` - (Optional) The database user name used to perform management activity. 
+* `database_credential` - (Optional) The credential to connect to the database to perform tablespace administration tasks.
+	* `credential_type` - (Required) The type of the credential for tablespace administration tasks.
+	* `named_credential_id` - (Required when credential_type=NAMED_CREDENTIAL) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential where the database password metadata is stored. 
+	* `password` - (Required when credential_type=PASSWORD) The database user's password encoded using BASE64 scheme.
+	* `password_secret_id` - (Required when credential_type=SECRET) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database password is stored. 
+	* `role` - (Applicable when credential_type=PASSWORD | SECRET) The role of the database user.
+	* `username` - (Applicable when credential_type=PASSWORD | SECRET) The user to connect to the database.
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `parameters` - (Required) A list of database parameters and their values.
 	* `name` - (Required) The parameter name.

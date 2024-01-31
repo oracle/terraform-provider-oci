@@ -170,6 +170,43 @@ func DatabaseManagementExternalDbSystemConnectorResource() *schema.Resource {
 								},
 							},
 						},
+						"database_credential": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"credential_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"named_credential_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"password": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"password_secret_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 					},
 				},
 			},
@@ -786,21 +823,94 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) mapToDatabaseC
 	return result, nil
 }
 
-func DatabaseConnectionStringToMap(obj *oci_database_management.DatabaseConnectionString) map[string]interface{} {
+func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) mapToDatabaseCredentialDetails(fieldKeyFormat string) (oci_database_management.DatabaseCredentialDetails, error) {
+	var baseObject oci_database_management.DatabaseCredentialDetails
+	//discriminator
+	credentialTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_type"))
+	var credentialType string
+	if ok {
+		credentialType = credentialTypeRaw.(string)
+	} else {
+		credentialType = "" // default value
+	}
+	switch strings.ToLower(credentialType) {
+	case strings.ToLower("NAMED_CREDENTIAL"):
+		details := oci_database_management.DatabaseNamedCredentialDetails{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PASSWORD"):
+		details := oci_database_management.DatabasePasswordCredentialDetails{}
+		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if role, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "role")); ok {
+			details.Role = oci_database_management.DatabasePasswordCredentialDetailsRoleEnum(role.(string))
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SECRET"):
+		details := oci_database_management.DatabaseSecretCredentialDetails{}
+		if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+			tmp := passwordSecretId.(string)
+			details.PasswordSecretId = &tmp
+		}
+		if role, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "role")); ok {
+			details.Role = oci_database_management.DatabaseSecretCredentialDetailsRoleEnum(role.(string))
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
+	}
+	return baseObject, nil
+}
+
+func DatabaseCredentialDetailsToMap(obj *oci_database_management.DatabaseCredentialDetails) map[string]interface{} {
 	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_management.DatabaseNamedCredentialDetails:
+		result["credential_type"] = "NAMED_CREDENTIAL"
 
-	if obj.HostName != nil {
-		result["host_name"] = string(*obj.HostName)
-	}
+		if v.NamedCredentialId != nil {
+			result["named_credential_id"] = string(*v.NamedCredentialId)
+		}
+	case oci_database_management.DatabasePasswordCredentialDetails:
+		result["credential_type"] = "PASSWORD"
 
-	if obj.Port != nil {
-		result["port"] = int(*obj.Port)
-	}
+		if v.Password != nil {
+			result["password"] = string(*v.Password)
+		}
 
-	result["protocol"] = string(obj.Protocol)
+		result["role"] = string(v.Role)
 
-	if obj.Service != nil {
-		result["service"] = string(*obj.Service)
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
+	case oci_database_management.DatabaseSecretCredentialDetails:
+		result["credential_type"] = "SECRET"
+
+		if v.PasswordSecretId != nil {
+			result["password_secret_id"] = string(*v.PasswordSecretId)
+		}
+
+		result["role"] = string(v.Role)
+
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
+	default:
+		log.Printf("[WARN] Received 'credential_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -862,6 +972,16 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) mapToExternalD
 				details.ConnectionString = &tmp
 			}
 		}
+		if databaseCredential, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_credential")); ok {
+			if tmpList := databaseCredential.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_credential"), 0)
+				tmp, err := s.mapToDatabaseCredentialDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert database_credential, encountered error: %v", err)
+				}
+				details.DatabaseCredential = tmp
+			}
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown component_type '%v' was specified", componentType)
@@ -899,6 +1019,14 @@ func ExternalDbSystemConnectionInfoToMap(obj *oci_database_management.ExternalDb
 
 		if v.ConnectionString != nil {
 			result["connection_string"] = []interface{}{DatabaseConnectionStringToMap(v.ConnectionString)}
+		}
+
+		if v.DatabaseCredential != nil {
+			databaseCredentialArray := []interface{}{}
+			if databaseCredentialMap := DatabaseCredentialDetailsToMap(&v.DatabaseCredential); databaseCredentialMap != nil {
+				databaseCredentialArray = append(databaseCredentialArray, databaseCredentialMap)
+			}
+			result["database_credential"] = databaseCredentialArray
 		}
 	default:
 		log.Printf("[WARN] Received 'component_type' of unknown type %v", *obj)

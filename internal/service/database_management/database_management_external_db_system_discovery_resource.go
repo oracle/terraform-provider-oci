@@ -422,6 +422,43 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 																	},
 																},
 															},
+															"database_credential": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"credential_type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"named_credential_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"password": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"password_secret_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"role": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"username": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
 														},
 													},
 												},
@@ -574,6 +611,43 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 																Computed: true,
 															},
 															"service": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"database_credential": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"credential_type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"named_credential_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"password": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"password_secret_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"role": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"username": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -888,6 +962,43 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 																			Computed: true,
 																		},
 																		"service": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"database_credential": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"credential_type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"named_credential_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"password": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"password_secret_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"role": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"username": {
 																			Type:     schema.TypeString,
 																			Computed: true,
 																		},
@@ -1570,6 +1681,78 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) mapToDatabaseC
 	}
 
 	return result, nil
+}
+
+func DatabaseConnectionStringToMap(obj *oci_database_management.DatabaseConnectionString) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.HostName != nil {
+		result["host_name"] = string(*obj.HostName)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	result["protocol"] = string(obj.Protocol)
+
+	if obj.Service != nil {
+		result["service"] = string(*obj.Service)
+	}
+
+	return result
+}
+
+func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) mapToDatabaseCredentialDetails(fieldKeyFormat string) (oci_database_management.DatabaseCredentialDetails, error) {
+	var baseObject oci_database_management.DatabaseCredentialDetails
+	//discriminator
+	credentialTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_type"))
+	var credentialType string
+	if ok {
+		credentialType = credentialTypeRaw.(string)
+	} else {
+		credentialType = "" // default value
+	}
+	switch strings.ToLower(credentialType) {
+	case strings.ToLower("NAMED_CREDENTIAL"):
+		details := oci_database_management.DatabaseNamedCredentialDetails{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PASSWORD"):
+		details := oci_database_management.DatabasePasswordCredentialDetails{}
+		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if role, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "role")); ok {
+			details.Role = oci_database_management.DatabasePasswordCredentialDetailsRoleEnum(role.(string))
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SECRET"):
+		details := oci_database_management.DatabaseSecretCredentialDetails{}
+		if passwordSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+			tmp := passwordSecretId.(string)
+			details.PasswordSecretId = &tmp
+		}
+		if role, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "role")); ok {
+			details.Role = oci_database_management.DatabaseSecretCredentialDetailsRoleEnum(role.(string))
+		}
+		if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
+	}
+	return baseObject, nil
 }
 
 func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) mapToDiscoveredExternalAsmInstance(fieldKeyFormat string) (oci_database_management.DiscoveredExternalAsmInstance, error) {
@@ -2385,6 +2568,16 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) mapToExternalD
 					return details, fmt.Errorf("unable to convert connection_string, encountered error: %v", err)
 				}
 				details.ConnectionString = &tmp
+			}
+		}
+		if databaseCredential, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_credential")); ok {
+			if tmpList := databaseCredential.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_credential"), 0)
+				tmp, err := s.mapToDatabaseCredentialDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert database_credential, encountered error: %v", err)
+				}
+				details.DatabaseCredential = tmp
 			}
 		}
 		baseObject = details

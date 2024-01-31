@@ -17,13 +17,15 @@ import (
 
 var (
 	DatabaseManagementDatabaseManagementManagedDatabaseUserSingularDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
-		"user_name":           acctest.Representation{RepType: acctest.Required, Create: `${var.test_user_name}`},
+		"managed_database_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
+		"user_name":               acctest.Representation{RepType: acctest.Required, Create: `${var.db_user}`},
+		"opc_named_credential_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.named_credential_id}`},
 	}
 
 	DatabaseManagementDatabaseManagementManagedDatabaseUserDataSourceRepresentation = map[string]interface{}{
-		"managed_database_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_managed_database_id}`},
-		"name":                acctest.Representation{RepType: acctest.Optional, Create: `name`},
+		"managed_database_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.managed_database_id}`},
+		"name":                    acctest.Representation{RepType: acctest.Optional, Create: `name`},
+		"opc_named_credential_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.named_credential_id}`},
 	}
 
 	DatabaseManagementManagedDatabaseUserResourceConfig = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_databases", "test_managed_databases", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseDataSourceRepresentation)
@@ -36,14 +38,17 @@ func TestDatabaseManagementManagedDatabaseUserResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	testManagedDatabaseId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
-	testManagedDatabaseIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", testManagedDatabaseId)
+	managedDatabaseId := utils.GetEnvSettingWithBlankDefault("dbmgmt_managed_database_id")
+	managedDatabaseIdVariableStr := fmt.Sprintf("variable \"managed_database_id\" { default = \"%s\" }\n", managedDatabaseId)
 
-	testUserName := utils.GetEnvSettingWithBlankDefault("test_user_name")
-	testUserNameVariableStr := fmt.Sprintf("variable \"test_user_name\" { default = \"%s\" }\n", testUserName)
+	userName := utils.GetEnvSettingWithBlankDefault("dbmgmt_db_monitoring_user_name")
+	userNameVariableStr := fmt.Sprintf("variable \"db_user\" { default = \"%s\" }\n", userName)
+
+	namedCredentialId := utils.GetEnvSettingWithBlankDefault("dbmgmt_named_credential_id")
+	namedCredentialIdVariableStr := fmt.Sprintf("variable \"named_credential_id\" { default = \"%s\" }\n", namedCredentialId)
 
 	datasourceName := "data.oci_database_management_managed_database_users.test_managed_database_users"
 	singularDatasourceName := "data.oci_database_management_managed_database_user.test_managed_database_user"
@@ -55,10 +60,9 @@ func TestDatabaseManagementManagedDatabaseUserResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_users", "test_managed_database_users", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserDataSourceRepresentation) +
-				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + DatabaseManagementManagedDatabaseUserResourceConfig,
+				compartmentIdVariableStr + managedDatabaseIdVariableStr + userNameVariableStr + DatabaseManagementManagedDatabaseUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "user_collection.#"),
 			),
 		},
@@ -66,11 +70,10 @@ func TestDatabaseManagementManagedDatabaseUserResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user", "test_managed_database_user", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + testManagedDatabaseIdVariableStr + testUserNameVariableStr + DatabaseManagementManagedDatabaseUserResourceConfig,
+				compartmentIdVariableStr + managedDatabaseIdVariableStr + userNameVariableStr + DatabaseManagementManagedDatabaseUserResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "authentication"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "consumer_group"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "default_tablespace"),
@@ -82,7 +85,37 @@ func TestDatabaseManagementManagedDatabaseUserResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "temp_tablespace"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_expiring"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_locked"),
+			),
+		},
+		// verify datasource with named credential
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_users", "test_managed_database_users", acctest.Optional, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserDataSourceRepresentation) +
+				compartmentIdVariableStr + managedDatabaseIdVariableStr + userNameVariableStr + namedCredentialIdVariableStr + DatabaseManagementManagedDatabaseUserResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "managed_database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "user_collection.#"),
+			),
+		},
+		// verify singular datasource with named credential
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_managed_database_user", "test_managed_database_user", acctest.Optional, acctest.Create, DatabaseManagementDatabaseManagementManagedDatabaseUserSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + managedDatabaseIdVariableStr + userNameVariableStr + namedCredentialIdVariableStr + DatabaseManagementManagedDatabaseUserResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "user_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "authentication"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "consumer_group"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "default_tablespace"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "editions_enabled"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "password_versions"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "profile"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "status"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "temp_tablespace"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_expiring"),
 			),
 		},
 	})

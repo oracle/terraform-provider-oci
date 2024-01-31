@@ -32,6 +32,9 @@ type TaxInfo struct {
 
 	// Brazilian companies' CNPJ number.
 	TaxCnpj *string `mandatory:"false" json:"taxCnpj"`
+
+	// Companies' GIRO code
+	Giro *string `mandatory:"false" json:"giro"`
 }
 
 func (m TaxInfo) String() string {

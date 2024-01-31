@@ -19,6 +19,9 @@ Lists ASM disk groups for the external ASM specified by `externalAsmId`.
 data "oci_database_management_external_asm_disk_groups" "test_external_asm_disk_groups" {
 	#Required
 	external_asm_id = oci_database_management_external_asm.test_external_asm.id
+
+	#Optional
+	opc_named_credential_id = var.external_asm_disk_group_opc_named_credential_id
 }
 ```
 
@@ -27,6 +30,7 @@ data "oci_database_management_external_asm_disk_groups" "test_external_asm_disk_
 The following arguments are supported:
 
 * `external_asm_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external ASM.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 
 
 ## Attributes Reference

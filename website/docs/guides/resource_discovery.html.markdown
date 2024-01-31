@@ -333,6 +333,15 @@ Example for specifying multiple filters
 ```
 --filter="Type=oci_core_vcn" --filter="AttrName=dns_label;Value=test"     // discover resources of type oci_core_vcn such that they have dns_label attribute value as test
 ```
+### Discover all resources
+
+If TF_DISCOVER_ALL_STATES is set to 1, then Resource Discovery will try to discover all resources irrespective of 
+their lifecycle state.
+
+```
+export TF_DISCOVER_ALL_STATES=1
+```
+
 
 ### Supported Resources
 As of this writing, the list of Terraform services and resources that can be discovered by the command is as follows.
@@ -650,6 +659,7 @@ dataintegration
 * oci\_dataintegration\_workspace\_application
 * oci\_dataintegration\_workspace\_import\_request
 * oci\_dataintegration\_workspace\_export\_request
+* oci\_dataintegration\_workspace\_application\_patch
 
 datascience
 

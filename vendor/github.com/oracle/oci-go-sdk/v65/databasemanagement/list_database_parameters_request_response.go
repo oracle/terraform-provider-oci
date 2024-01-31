@@ -43,6 +43,9 @@ type ListDatabaseParametersRequest struct {
 	// The option to sort information in ascending (‘ASC’) or descending (‘DESC’) order. Ascending order is the default order.
 	SortOrder ListDatabaseParametersSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// The OCID of the Named Credential.
+	OpcNamedCredentialId *string `mandatory:"false" contributesTo:"header" name:"opc-named-credential-id"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

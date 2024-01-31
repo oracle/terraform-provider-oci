@@ -26,6 +26,10 @@ func DatabaseManagementManagedDatabaseUserObjectPrivilegesDataSource() *schema.R
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"user_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -120,6 +124,11 @@ func (s *DatabaseManagementManagedDatabaseUserObjectPrivilegesDataSourceCrud) Ge
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	if userName, ok := s.D.GetOkExists("user_name"); ok {

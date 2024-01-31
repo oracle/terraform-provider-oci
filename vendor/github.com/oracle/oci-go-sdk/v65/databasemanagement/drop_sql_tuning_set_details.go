@@ -19,11 +19,15 @@ import (
 )
 
 // DropSqlTuningSetDetails The details required to drop a Sql tuning set.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type DropSqlTuningSetDetails struct {
-	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// A unique Sql tuning set name.
 	Name *string `mandatory:"true" json:"name"`
+
+	CredentialDetails SqlTuningSetAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 
 	// Owner of the Sql tuning set.
 	Owner *string `mandatory:"false" json:"owner"`
@@ -51,10 +55,11 @@ func (m DropSqlTuningSetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DropSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Owner             *string                            `json:"owner"`
-		ShowSqlOnly       *int                               `json:"showSqlOnly"`
-		CredentialDetails sqltuningsetadmincredentialdetails `json:"credentialDetails"`
-		Name              *string                            `json:"name"`
+		CredentialDetails  sqltuningsetadmincredentialdetails `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails          `json:"databaseCredential"`
+		Owner              *string                            `json:"owner"`
+		ShowSqlOnly        *int                               `json:"showSqlOnly"`
+		Name               *string                            `json:"name"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -62,10 +67,6 @@ func (m *DropSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.Owner = model.Owner
-
-	m.ShowSqlOnly = model.ShowSqlOnly
-
 	nn, e = model.CredentialDetails.UnmarshalPolymorphicJSON(model.CredentialDetails.JsonData)
 	if e != nil {
 		return
@@ -75,6 +76,20 @@ func (m *DropSqlTuningSetDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.CredentialDetails = nil
 	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
+	}
+
+	m.Owner = model.Owner
+
+	m.ShowSqlOnly = model.ShowSqlOnly
 
 	m.Name = model.Name
 

@@ -22,6 +22,10 @@ func DatabaseManagementManagedDatabaseCursorCacheStatementsDataSource() *schema.
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"opc_named_credential_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"sql_text": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -96,6 +100,11 @@ func (s *DatabaseManagementManagedDatabaseCursorCacheStatementsDataSourceCrud) G
 	if managedDatabaseId, ok := s.D.GetOkExists("managed_database_id"); ok {
 		tmp := managedDatabaseId.(string)
 		request.ManagedDatabaseId = &tmp
+	}
+
+	if opcNamedCredentialId, ok := s.D.GetOkExists("opc_named_credential_id"); ok {
+		tmp := opcNamedCredentialId.(string)
+		request.OpcNamedCredentialId = &tmp
 	}
 
 	if sqlText, ok := s.D.GetOkExists("sql_text"); ok {

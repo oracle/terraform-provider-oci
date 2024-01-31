@@ -307,3 +307,17 @@ output "autonomous_databases" {
   value = data.oci_database_autonomous_databases.autonomous_databases.autonomous_databases
 }
 
+
+resource "oci_database_autonomous_database" "test_autonomous_database_shrink" {
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  cpu_core_count           = "16"
+  data_storage_size_in_tbs = "16"
+  db_name                  = "adbapex18"
+  db_version               = "19c"
+  db_workload              = "OLTP"
+  license_model            = "LICENSE_INCLUDED"
+  shrink_adb_trigger       = "2"
+  is_auto_scaling_for_storage_enabled = "true"
+}
+

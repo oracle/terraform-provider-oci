@@ -19,14 +19,18 @@ import (
 )
 
 // RemoveDataFileDetails The details required to remove a data file or temp file from the tablespace.
+// It takes either credentialDetails or databaseCredential. It's recommended to provide databaseCredential
 type RemoveDataFileDetails struct {
-	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"true" json:"credentialDetails"`
 
 	// Specifies whether the file is a data file or temp file.
 	FileType RemoveDataFileDetailsFileTypeEnum `mandatory:"true" json:"fileType"`
 
 	// Name of the data file or temp file to be removed from the tablespace.
 	DataFile *string `mandatory:"true" json:"dataFile"`
+
+	CredentialDetails TablespaceAdminCredentialDetails `mandatory:"false" json:"credentialDetails"`
+
+	DatabaseCredential DatabaseCredentialDetails `mandatory:"false" json:"databaseCredential"`
 }
 
 func (m RemoveDataFileDetails) String() string {
@@ -51,9 +55,10 @@ func (m RemoveDataFileDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *RemoveDataFileDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CredentialDetails tablespaceadmincredentialdetails  `json:"credentialDetails"`
-		FileType          RemoveDataFileDetailsFileTypeEnum `json:"fileType"`
-		DataFile          *string                           `json:"dataFile"`
+		CredentialDetails  tablespaceadmincredentialdetails  `json:"credentialDetails"`
+		DatabaseCredential databasecredentialdetails         `json:"databaseCredential"`
+		FileType           RemoveDataFileDetailsFileTypeEnum `json:"fileType"`
+		DataFile           *string                           `json:"dataFile"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -69,6 +74,16 @@ func (m *RemoveDataFileDetails) UnmarshalJSON(data []byte) (e error) {
 		m.CredentialDetails = nn.(TablespaceAdminCredentialDetails)
 	} else {
 		m.CredentialDetails = nil
+	}
+
+	nn, e = model.DatabaseCredential.UnmarshalPolymorphicJSON(model.DatabaseCredential.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.DatabaseCredential = nn.(DatabaseCredentialDetails)
+	} else {
+		m.DatabaseCredential = nil
 	}
 
 	m.FileType = model.FileType

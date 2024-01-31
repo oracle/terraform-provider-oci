@@ -48,13 +48,14 @@ var (
 	}
 
 	DataintegrationWorkspaceImportRequestRepresentation = map[string]interface{}{
-		"bucket":                     acctest.Representation{RepType: acctest.Required, Create: `${var.bucket_name}`},
-		"file_name":                  acctest.Representation{RepType: acctest.Required, Create: `MyExportObjects.zip`},
-		"workspace_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.workspace_id}`},
-		"import_conflict_resolution": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataintegrationWorkspaceImportRequestImportConflictResolutionRepresentation},
-		"object_key_for_import":      acctest.Representation{RepType: acctest.Optional, Create: nil},
-		"object_storage_region":      acctest.Representation{RepType: acctest.Optional, Create: `${var.region_name}`},
-		"object_storage_tenancy_id":  acctest.Representation{RepType: acctest.Optional, Create: `${var.tenancy_id}`},
+		"bucket":                             acctest.Representation{RepType: acctest.Required, Create: `${var.bucket_name}`},
+		"file_name":                          acctest.Representation{RepType: acctest.Required, Create: `MyExportObjects.zip`},
+		"workspace_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.workspace_id}`},
+		"are_data_asset_references_included": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"import_conflict_resolution":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataintegrationWorkspaceImportRequestImportConflictResolutionRepresentation},
+		"object_key_for_import":              acctest.Representation{RepType: acctest.Optional, Create: nil},
+		"object_storage_region":              acctest.Representation{RepType: acctest.Optional, Create: `${var.region_name}`},
+		"object_storage_tenancy_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_id}`},
 	}
 	DataintegrationWorkspaceImportRequestImportConflictResolutionRepresentation = map[string]interface{}{
 		"import_conflict_resolution_type": acctest.Representation{RepType: acctest.Required, Create: `REPLACE`},
@@ -125,6 +126,7 @@ func TestDataintegrationWorkspaceImportRequestResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + workspaceIdVariableStr + tenancyIdVariableStr + regionVariableStr + bucketVariableStr + DataintegrationWorkspaceImportRequestResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataintegration_workspace_import_request", "test_workspace_import_request", acctest.Optional, acctest.Create, DataintegrationWorkspaceImportRequestRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "are_data_asset_references_included", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "file_name", "MyExportObjects.zip"),
 				resource.TestCheckResourceAttr(resourceName, "import_conflict_resolution.#", "1"),
@@ -172,6 +174,7 @@ func TestDataintegrationWorkspaceImportRequestResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "import_request_key"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "workspace_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "are_data_asset_references_included", "false"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_name", "MyExportObjects.zip"),

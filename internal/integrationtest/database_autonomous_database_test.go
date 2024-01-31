@@ -111,6 +111,9 @@ var (
 
 	autonomousDatabaseRepresentationBYOL = acctest.GetUpdatedRepresentationCopy("license_model", acctest.Representation{RepType: acctest.Optional, Create: `BRING_YOUR_OWN_LICENSE`}, DatabaseAutonomousDatabaseRepresentation)
 
+	autonomousDatabaseRepresentationData = acctest.GetUpdatedRepresentationCopy("cpu_core_count", acctest.Representation{RepType: acctest.Optional, Create: `32`}, autonomousDatabaseRepresentationBYOL)
+	autonomousDatabaseRepresentationCpu  = acctest.GetUpdatedRepresentationCopy("data_storage_size_in_tbs", acctest.Representation{RepType: acctest.Optional, Create: `32`}, autonomousDatabaseRepresentationData)
+
 	autonomousDatabaseRepresentationAutoScale = acctest.GetUpdatedRepresentationCopy("is_auto_scaling_enabled", acctest.Representation{RepType: acctest.Required, Create: `true`}, DatabaseAutonomousDatabaseRepresentation)
 
 	autonomousDatabaseRepresentationECPU = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation,

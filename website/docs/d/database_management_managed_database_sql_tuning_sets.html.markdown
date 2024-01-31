@@ -22,6 +22,7 @@ data "oci_database_management_managed_database_sql_tuning_sets" "test_managed_da
 
 	#Optional
 	name_contains = var.managed_database_sql_tuning_set_name_contains
+	opc_named_credential_id = var.managed_database_sql_tuning_set_opc_named_credential_id
 	owner = var.managed_database_sql_tuning_set_owner
 }
 ```
@@ -32,6 +33,7 @@ The following arguments are supported:
 
 * `managed_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 * `name_contains` - (Optional) Allow searching the name of the SQL tuning set by partial matching. The search is case insensitive.
+* `opc_named_credential_id` - (Optional) The OCID of the Named Credential.
 * `owner` - (Optional) The owner of the SQL tuning set.
 
 
