@@ -3,9 +3,10 @@
 
 resource "oci_kms_key" "test_key" {
   #Required
-  compartment_id      = var.compartment_id
-  display_name        = var.key_display_name
-  management_endpoint = data.oci_kms_vault.test_vault.management_endpoint
+  compartment_id         = var.compartment_id
+  display_name           = var.key_display_name
+  management_endpoint    = data.oci_kms_vault.test_vault.management_endpoint
+  schedule_deletion_days = var.schedule_deletion_days
 
   key_shape {
     #Required

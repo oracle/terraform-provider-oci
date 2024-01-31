@@ -74,6 +74,7 @@ The following arguments are supported:
     * `uri` - (Optional) (Updatable) Pre-authenticated-request-uri of the backup* `restore_trigger` - (Optional) (Updatable) An optional property when flipped triggers restore from restore option provided in config file. 
 * `vault_type` - (Required) The type of vault to create. Each type of vault stores the key with different degrees of isolation and has different options and pricing. 
 * `time_of_deletion` - (Optional) (Updatable) An optional property for the deletion time of the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z`
+* `schedule_deletion_days` - (Optional) (Updatable) An optional property used to define the number of days a deletion will be scheduled for. `time_of_deletion` takes precedence if set. Must be between 7 and 30 days. Default: `30`.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -99,7 +100,8 @@ The following attributes are exported:
 * `management_endpoint` - The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations. 
 * `replica_details` - Vault replica details 
 	* `replication_id` - ReplicationId associated with a vault operation 
-* `restored_from_vault_id` - The OCID of the vault from which this vault was restored, if it was restored from a backup file. If you restore a vault to the same region, the vault retains the same OCID that it had when you backed up the vault. 
+* `restored_from_vault_id` - The OCID of the vault from which this vault was restored, if it was restored from a backup file. If you restore a vault to the same region, the vault retains the same OCID that it had when you backed up the vault.
+* `schedule_deletion_days` - An optional property used to define the number of days a deletion will be scheduled for. `time_of_deletion` takes precedence if set. Must be between 7 and 30 days. Default: `30`.
 * `state` - The vault's current lifecycle state.  Example: `DELETED` 
 * `time_created` - The date and time this vault was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: `2018-04-03T21:10:29.600Z` 
 * `time_of_deletion` - An optional property to indicate when to delete the vault, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2018-04-03T21:10:29.600Z` 

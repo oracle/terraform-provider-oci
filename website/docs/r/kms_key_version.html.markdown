@@ -40,6 +40,7 @@ The following arguments are supported:
 * `key_id` - (Required) The OCID of the key.
 * `management_endpoint` - (Required) The service endpoint to perform management operations against. Management operations include 'Create,' 'Update,' 'List,' 'Get,' and 'Delete' operations. See Vault Management endpoint.
 * `time_of_deletion` - (Optional) (Updatable) An optional property for the deletion time of the key version, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z`
+* `schedule_deletion_days` - (Optional) (Updatable) An optional property used to define the number of days a deletion will be scheduled for. `time_of_deletion` takes precedence if set. Must be between 7 and 30 days. Default: `30`.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -59,6 +60,7 @@ The following attributes are exported:
 * `replica_details` - KeyVersion replica details 
 	* `replication_id` - ReplicationId associated with a key version operation 
 * `restored_from_key_version_id` - The OCID of the key version from which this key version was restored.
+* `schedule_deletion_days` - An optional property used to define the number of days a deletion will be scheduled for. `time_of_deletion` takes precedence if set. Must be between 7 and 30 days. Default: `30`.
 * `state` - The key version's current lifecycle state.  Example: `ENABLED` 
 * `time_created` - The date and time this key version was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.  Example: "2018-04-03T21:10:29.600Z" 
 * `time_of_deletion` - An optional property to indicate when to delete the key version, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
