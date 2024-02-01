@@ -131,6 +131,12 @@ func (s *MysqlReplicaDataSourceCrud) SetData() error {
 		s.D.Set("replica_overrides", nil)
 	}
 
+	if s.Res.SecureConnections != nil {
+		s.D.Set("secure_connections", []interface{}{SecureConnectionDetailsToMap(s.Res.SecureConnections)})
+	} else {
+		s.D.Set("secure_connections", nil)
+	}
+
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape_name", *s.Res.ShapeName)
 	}

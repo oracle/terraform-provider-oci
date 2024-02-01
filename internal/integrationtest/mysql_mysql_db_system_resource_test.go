@@ -117,6 +117,11 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation)
 
 	MysqlDbSystemSourcePitrResourceDependencies = MysqlMysqlDbSystemResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_pitr_db_system", acctest.Optional, acctest.Update, MysqlMysqlDbSystemRepresentation)
+
+	MysqlMysqlDbSystemSecureConnectionsWithBYOCRepresentation = map[string]interface{}{
+		"certificate_generation_type": acctest.Representation{RepType: acctest.Required, Create: `SYSTEM`, Update: `BYOC`},
+		"certificate_id":              acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `${var.certificate_id}`},
+	}
 )
 
 func TestMysqlMysqlDbSystemResource_sourcePitr(t *testing.T) {
@@ -799,7 +804,7 @@ func TestMysqlMysqlDbSystemResource_databaseManagement(t *testing.T) {
 
 	var resId, resId2 string
 
-	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("database_management", acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("database_management", acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`, Update: `ENABLED`},
 		acctest.RepresentationCopyWithNewProperties(MysqlMysqlDbSystemRepresentation, map[string]interface{}{
 			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
 		}))
@@ -810,7 +815,7 @@ func TestMysqlMysqlDbSystemResource_databaseManagement(t *testing.T) {
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "database_management", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -824,7 +829,66 @@ func TestMysqlMysqlDbSystemResource_databaseManagement(t *testing.T) {
 			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "database_management", "ENABLED"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: mysql/default
+func TestMysqlMysqlDbSystemResource_secureConnections(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_secureConnections")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	certificateId := utils.GetEnvSettingWithBlankDefault("certificate_ocid")
+	certificateIdVariableStr := fmt.Sprintf("variable \"certificate_id\" { default = \"%s\" }\n", certificateId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	var resId, resId2 string
+
+	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("secure_connections", acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemSecureConnectionsWithBYOCRepresentation},
+		acctest.RepresentationCopyWithNewProperties(MysqlMysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		}))
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create with optional fields
+		{
+			Config: config + compartmentIdVariableStr + certificateIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + certificateIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secure_connections.0.certificate_generation_type", "BYOC"),
+				resource.TestCheckResourceAttrSet(resourceName, "secure_connections.0.certificate_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
