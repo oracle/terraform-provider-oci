@@ -85,6 +85,12 @@ func (s *MediaServicesMediaAssetDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.MasterMediaAssetId != nil {
 		s.D.Set("master_media_asset_id", *s.Res.MasterMediaAssetId)
 	}

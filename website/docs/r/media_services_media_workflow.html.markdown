@@ -24,6 +24,16 @@ resource "oci_media_services_media_workflow" "test_media_workflow" {
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	locks {
+		#Required
+		compartment_id = var.compartment_id
+		type = var.media_workflow_locks_type
+
+		#Optional
+		message = var.media_workflow_locks_message
+		related_resource_id = oci_usage_proxy_resource.test_resource.id
+		time_created = var.media_workflow_locks_time_created
+	}
 	media_workflow_configuration_ids = var.media_workflow_media_workflow_configuration_ids
 	parameters = var.media_workflow_parameters
 	tasks {
@@ -49,6 +59,12 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) Name for the MediaWorkflow. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `locks` - (Optional) Locks associated with this resource.
+	* `compartment_id` - (Required) (Updatable) The compartment ID of the lock.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 * `media_workflow_configuration_ids` - (Optional) (Updatable) Configurations to be applied to all the jobs for this workflow. Parameters in these configurations are overridden by parameters in the MediaWorkflowConfigurations of the MediaWorkflowJob and the parameters of the MediaWorkflowJob. 
 * `parameters` - (Optional) (Updatable) JSON object representing named parameters and their default values that can be referenced throughout this workflow. The values declared here can be overridden by the MediaWorkflowConfigurations or parameters supplied when creating MediaWorkflowJobs from this MediaWorkflow. 
 * `tasks` - (Optional) (Updatable) The processing to be done in this workflow. Each key of the MediaWorkflowTasks in this array must be unique within the array. The order of tasks given here will be preserved. 
@@ -74,6 +90,12 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier that is immutable on creation.
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The compartment ID of the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `media_workflow_configuration_ids` - Configurations to be applied to all the runs of this workflow. Parameters in these configurations are overridden by parameters in the MediaWorkflowConfigurations of the MediaWorkflowJob and the parameters of the MediaWorkflowJob. If the same parameter appears in multiple configurations, the values that appear in the configuration at the highest index will be used. 
 * `parameters` - JSON object representing named parameters and their default values that can be referenced throughout this workflow. The values declared here can be overridden by the MediaWorkflowConfigurations or parameters supplied when creating MediaWorkflowJobs from this MediaWorkflow. 
 * `state` - The current state of the MediaWorkflow.

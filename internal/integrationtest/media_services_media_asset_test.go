@@ -48,6 +48,7 @@ var (
 		"state":                         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"type":                          acctest.Representation{RepType: acctest.Optional, Create: `AUDIO`, Update: `VIDEO`},
 		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: MediaServicesMediaAssetDataSourceFilterRepresentation}}
+
 	MediaServicesMediaAssetDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_media_services_media_asset.test_media_asset.id}`}},
@@ -56,10 +57,12 @@ var (
 	MediaServicesMediaAssetRepresentation = map[string]interface{}{
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":                          acctest.Representation{RepType: acctest.Required, Create: `AUDIO`, Update: `VIDEO`},
+		"is_lock_override":              acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"bucket":                        acctest.Representation{RepType: acctest.Optional, Create: `bucket`},
 		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: MediaServicesMediaAssetLocksRepresentation},
 		"media_asset_tags":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: MediaServicesMediaAssetMediaAssetTagsRepresentation},
 		"media_workflow_job_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_media_services_media_workflow_job.test_media_workflow_job.id}`},
 		"metadata":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: MediaServicesMediaAssetMetadataRepresentation},
@@ -70,12 +73,20 @@ var (
 		"segment_range_start_index":     acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"source_media_workflow_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_media_services_media_workflow.test_media_workflow.id}`},
 		"source_media_workflow_version": acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreDefinedTags},
+		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreDefinedTagsAndLocks},
 	}
+
+	MediaServicesMediaAssetLocksRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"type":           acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message":        acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
 	MediaServicesMediaAssetMediaAssetTagsRepresentation = map[string]interface{}{
 		"value": acctest.Representation{RepType: acctest.Required, Create: `value`, Update: `value2`},
 		"type":  acctest.Representation{RepType: acctest.Optional, Create: `USER`, Update: `SYSTEM`},
 	}
+
 	MediaServicesMediaAssetMetadataRepresentation = map[string]interface{}{
 		"metadata": acctest.Representation{RepType: acctest.Required, Create: `{\"some\":\"json\"}`, Update: `{\"some\":\"json2\"}`},
 	}
@@ -289,11 +300,13 @@ func TestMediaServicesMediaAssetResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + MediaServicesMediaAssetRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + MediaServicesMediaAssetRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"is_lock_override",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -54,6 +54,18 @@ variable "accepted_state" {
   default = "ACCEPTED"
 }
 
+variable "locks_type" {
+  default = "FULL"
+}
+
+variable "locks_message" {
+  default = "message"
+}
+
+variable "is_lock_override" {
+  default = true
+}
+
 resource "oci_identity_tag_namespace" "tag-namespace1" {
   compartment_id = var.tenancy_ocid
   description    = "example tag namespace"
@@ -68,23 +80,3 @@ resource "oci_identity_tag" "tag1" {
   is_cost_tracking = false
   is_retired       = false
 }
-
-variable "kms_vault_id" {}
-
-data "oci_kms_vault" "test_vault" {
-  #Required
-  vault_id = var.kms_vault_id
-}
-
-data "oci_kms_keys" "test_keys_dependency_RSA" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  management_endpoint = data.oci_kms_vault.test_vault.management_endpoint
-  algorithm = "RSA"
-
-  filter {
-    name = "state"
-    values = ["ENABLED", "UPDATING"]
-  }
-}
-
