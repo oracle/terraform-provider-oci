@@ -85,6 +85,12 @@ func (s *MediaServicesMediaWorkflowJobDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	s.D.Set("media_workflow_configuration_ids", s.Res.MediaWorkflowConfigurationIds)
 
 	if s.Res.MediaWorkflowId != nil {

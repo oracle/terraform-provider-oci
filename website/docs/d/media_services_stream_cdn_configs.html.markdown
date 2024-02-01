@@ -67,6 +67,12 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation.
 * `is_enabled` - Whether publishing to CDN is enabled.
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The compartment ID of the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `state` - The current state of the CDN Configuration.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time when the CDN Config was created. An RFC3339 formatted datetime string.

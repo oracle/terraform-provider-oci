@@ -80,6 +80,18 @@ resource "oci_media_services_stream_cdn_config" "test_stream_cdn_config" {
   defined_tags  = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tags_value}")
   freeform_tags = var.freeform_tags
   is_enabled    = var.stream_cdn_config_is_enabled
+  locks {
+    #Required
+    compartment_id = var.compartment_id
+    type = var.locks_type
+
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
+  lifecycle {
+    ignore_changes = [defined_tags, locks, system_tags, lifecyle_details, config, is_lock_override]
+  }
 }
 
 data "oci_media_services_stream_cdn_configs" "test_stream_cdn_configs" {

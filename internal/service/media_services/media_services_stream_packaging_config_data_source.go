@@ -107,6 +107,12 @@ func (s *MediaServicesStreamPackagingConfigDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		if v.SegmentTimeInSeconds != nil {
 			s.D.Set("segment_time_in_seconds", *v.SegmentTimeInSeconds)
 		}
@@ -138,6 +144,12 @@ func (s *MediaServicesStreamPackagingConfigDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		if v.SegmentTimeInSeconds != nil {
 			s.D.Set("segment_time_in_seconds", *v.SegmentTimeInSeconds)

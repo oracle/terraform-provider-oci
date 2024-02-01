@@ -8,10 +8,12 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_media_services "github.com/oracle/oci-go-sdk/v65/mediaservices"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -134,6 +136,55 @@ func MediaServicesStreamCdnConfigResource() *schema.Resource {
 				Elem:     schema.TypeString,
 			},
 			"is_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"time_created": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"is_lock_override": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -275,6 +326,23 @@ func (s *MediaServicesStreamCdnConfigResourceCrud) Create() error {
 		request.IsEnabled = &tmp
 	}
 
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_media_services.ResourceLock, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToResourceLock(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "media_services")
 
 	response, err := s.Client.CreateStreamCdnConfig(context.Background(), request)
@@ -339,6 +407,11 @@ func (s *MediaServicesStreamCdnConfigResourceCrud) Update() error {
 		request.IsEnabled = &tmp
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.StreamCdnConfigId = &tmp
 
@@ -355,6 +428,11 @@ func (s *MediaServicesStreamCdnConfigResourceCrud) Update() error {
 
 func (s *MediaServicesStreamCdnConfigResourceCrud) Delete() error {
 	request := oci_media_services.DeleteStreamCdnConfigRequest{}
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	tmp := s.D.Id()
 	request.StreamCdnConfigId = &tmp
@@ -402,6 +480,12 @@ func (s *MediaServicesStreamCdnConfigResourceCrud) SetData() error {
 		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -417,6 +501,39 @@ func (s *MediaServicesStreamCdnConfigResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *MediaServicesStreamCdnConfigResourceCrud) mapToResourceLock(fieldKeyFormat string) (oci_media_services.ResourceLock, error) {
+	result := oci_media_services.ResourceLock{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if relatedResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "related_resource_id")); ok {
+		tmp := relatedResourceId.(string)
+		result.RelatedResourceId = &tmp
+	}
+
+	if timeCreated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_created")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeCreated.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeCreated = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_media_services.ResourceLockTypeEnum(type_.(string))
+	}
+
+	return result, nil
 }
 
 func (s *MediaServicesStreamCdnConfigResourceCrud) mapToStreamCdnConfigSection(fieldKeyFormat string) (oci_media_services.StreamCdnConfigSection, error) {
@@ -571,6 +688,12 @@ func StreamCdnConfigSummaryToMap(obj oci_media_services.StreamCdnConfigSummary) 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
+
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	result["locks"] = locks
 
 	result["state"] = string(obj.LifecycleState)
 

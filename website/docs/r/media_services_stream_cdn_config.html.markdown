@@ -42,6 +42,16 @@ resource "oci_media_services_stream_cdn_config" "test_stream_cdn_config" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	is_enabled = var.stream_cdn_config_is_enabled
+	locks {
+		#Required
+		compartment_id = var.compartment_id
+		type = var.stream_cdn_config_locks_type
+
+		#Optional
+		message = var.stream_cdn_config_locks_message
+		related_resource_id = oci_usage_proxy_resource.test_resource.id
+		time_created = var.stream_cdn_config_locks_time_created
+	}
 }
 ```
 
@@ -67,6 +77,12 @@ The following arguments are supported:
 * `distribution_channel_id` - (Required) Distribution Channel Identifier.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_enabled` - (Optional) (Updatable) Whether publishing to CDN is enabled.
+* `locks` - (Optional) Locks associated with this resource.
+	* `compartment_id` - (Required) The compartment ID of the lock.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 
 
 ** IMPORTANT **
@@ -97,6 +113,12 @@ The following attributes are exported:
 * `id` - Unique identifier that is immutable on creation.
 * `is_enabled` - Whether publishing to CDN is enabled.
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The compartment ID of the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `state` - The current state of the CDN Configuration.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time when the CDN Config was created. An RFC3339 formatted datetime string.

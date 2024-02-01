@@ -6,9 +6,12 @@ package media_services
 import (
 	"context"
 	"encoding/json"
+	"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_media_services "github.com/oracle/oci-go-sdk/v65/mediaservices"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -55,7 +58,54 @@ func MediaServicesMediaWorkflowConfigurationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
 
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"time_created": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			// Computed
 			"lifecyle_details": {
 				Type:     schema.TypeString,
@@ -172,6 +222,23 @@ func (s *MediaServicesMediaWorkflowConfigurationResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_media_services.ResourceLock, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToResourceLock(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
+	}
+
 	if parameters, ok := s.D.GetOkExists("parameters"); ok {
 		err := json.Unmarshal([]byte(parameters.(string)), &request.Parameters)
 		if err != nil {
@@ -236,6 +303,11 @@ func (s *MediaServicesMediaWorkflowConfigurationResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.MediaWorkflowConfigurationId = &tmp
 
@@ -259,6 +331,11 @@ func (s *MediaServicesMediaWorkflowConfigurationResourceCrud) Update() error {
 
 func (s *MediaServicesMediaWorkflowConfigurationResourceCrud) Delete() error {
 	request := oci_media_services.DeleteMediaWorkflowConfigurationRequest{}
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	tmp := s.D.Id()
 	request.MediaWorkflowConfigurationId = &tmp
@@ -287,6 +364,12 @@ func (s *MediaServicesMediaWorkflowConfigurationResourceCrud) SetData() error {
 	if s.Res.LifecyleDetails != nil {
 		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
 	}
+
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
 
 	if s.Res.Parameters != nil {
 		jsonStr, err := json.Marshal(s.Res.Parameters)
@@ -328,6 +411,7 @@ func MediaWorkflowConfigurationSummaryToMap(obj oci_media_services.MediaWorkflow
 	}
 
 	result["freeform_tags"] = obj.FreeformTags
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -335,6 +419,12 @@ func MediaWorkflowConfigurationSummaryToMap(obj oci_media_services.MediaWorkflow
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
+
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	result["locks"] = locks
 
 	result["state"] = string(obj.LifecycleState)
 
@@ -353,11 +443,49 @@ func MediaWorkflowConfigurationSummaryToMap(obj oci_media_services.MediaWorkflow
 	return result
 }
 
+func (s *MediaServicesMediaWorkflowConfigurationResourceCrud) mapToResourceLock(fieldKeyFormat string) (oci_media_services.ResourceLock, error) {
+	result := oci_media_services.ResourceLock{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if relatedResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "related_resource_id")); ok {
+		tmp := relatedResourceId.(string)
+		result.RelatedResourceId = &tmp
+	}
+
+	if timeCreated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_created")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeCreated.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeCreated = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_media_services.ResourceLockTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
 func (s *MediaServicesMediaWorkflowConfigurationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_media_services.ChangeMediaWorkflowConfigurationCompartmentRequest{}
 
 	compartmentTmp := compartment.(string)
 	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.MediaWorkflowConfigurationId = &idTmp
