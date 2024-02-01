@@ -8,6 +8,8 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_management_agent_management_agent", ManagementAgentManagementAgentDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_available_histories", ManagementAgentManagementAgentAvailableHistoriesDataSource())
+	tfresource.RegisterDatasource("oci_management_agent_management_agent_data_source", ManagementAgentManagementAgentDataSourceDataSource())
+	tfresource.RegisterDatasource("oci_management_agent_management_agent_data_sources", ManagementAgentManagementAgentDataSourcesDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_count", ManagementAgentManagementAgentCountDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_get_auto_upgradable_config", ManagementAgentManagementAgentGetAutoUpgradableConfigDataSource())
 	tfresource.RegisterDatasource("oci_management_agent_management_agent_images", ManagementAgentManagementAgentImagesDataSource())

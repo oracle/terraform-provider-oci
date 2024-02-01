@@ -34,6 +34,17 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"data_source_name": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"data_source_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -129,6 +140,23 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
 		tmp := compartmentIdInSubtree.(bool)
 		request.CompartmentIdInSubtree = &tmp
+	}
+
+	if dataSourceName, ok := s.D.GetOkExists("data_source_name"); ok {
+		interfaces := dataSourceName.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("data_source_name") {
+			request.DataSourceName = tmp
+		}
+	}
+
+	if dataSourceType, ok := s.D.GetOkExists("data_source_type"); ok {
+		request.DataSourceType = oci_management_agent.ListManagementAgentsDataSourceTypeEnum(dataSourceType.(string))
 	}
 
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
@@ -243,6 +271,12 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) SetData() error {
 		}
 
 		managementAgent["availability_status"] = r.AvailabilityStatus
+
+		dataSourceSummaryList := []interface{}{}
+		for _, item := range r.DataSourceSummaryList {
+			dataSourceSummaryList = append(dataSourceSummaryList, DataSourceSummaryItemToMap(item))
+		}
+		managementAgent["data_source_summary_list"] = dataSourceSummaryList
 
 		if r.DefinedTags != nil {
 			managementAgent["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
