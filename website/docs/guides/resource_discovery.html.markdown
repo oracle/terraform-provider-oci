@@ -903,6 +903,7 @@ management_agent
 
 * oci\_management\_agent\_management\_agent
 * oci\_management\_agent\_management\_agent\_install\_key
+* oci\_management\_agent\_management\_agent\_data\_source
 
 marketplace
 

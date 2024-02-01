@@ -154,6 +154,11 @@ func TestManagementAgentManagementAgentResource_gatewayId(t *testing.T) {
 
 // issue-routing-tag: management_agent/default
 func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
+
+	//  Basic test performs the following
+	//  1. List all agents in compartment (env:TF_VAR_compartment_ocid) with status=ACTIVE and displayName=terraformTest
+	//  2.  Verifies the first response contains the values defined managementAgentDataSourceRepresentation above
+	//
 	httpreplay.SetScenario("TestManagementAgentManagementAgentResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -162,6 +167,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	//  1. List all agents in compartment (env:TF_VAR_compartment_ocid) with status=ACTIVE and displayName=terraformTest
 	managementAgentIds, err := getManagementAgentIds(compartmentId)
 	if err != nil {
 		t.Errorf("Failed to get agents in compartment %s", err)
@@ -282,6 +288,8 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_list.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
