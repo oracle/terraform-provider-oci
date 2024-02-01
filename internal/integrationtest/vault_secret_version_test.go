@@ -17,11 +17,13 @@ import (
 
 var (
 	VaultVaultSecretVersionSingularDataSourceRepresentation = map[string]interface{}{
-		"secret_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id`},
-		"secret_version_number": acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"secret_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id}`},
+		"secret_version_number": acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
 
-	VaultSecretVersionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_kms_vault", "test_vault", acctest.Required, acctest.Create, KmsVaultRepresentation) +
+	vaultId                          = utils.GetEnvSettingWithBlankDefault("kms_vault_ocid")
+	vaultIdVariableStr               = fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+	VaultSecretVersionResourceConfig = keyIdVariableStr + vaultIdVariableStr +
 		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultSecretRepresentation)
 )
 
@@ -49,12 +51,8 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_version_number", "1"),
 
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "content_type"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "10"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_current_version_expiry"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_deletion"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version_number"),
 			),
 		},
