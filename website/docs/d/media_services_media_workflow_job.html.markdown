@@ -38,6 +38,12 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier for this run of the workflow.
 * `lifecycle_details` - The lifecyle details.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The compartment ID of the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `media_workflow_configuration_ids` - Configurations to be applied to this run of the workflow.
 * `media_workflow_id` - The workflow to execute.
 * `outputs` - A list of JobOutput for the workflowJob.

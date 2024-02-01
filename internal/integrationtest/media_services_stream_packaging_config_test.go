@@ -51,21 +51,24 @@ var (
 		"distribution_channel_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_media_services_stream_distribution_channel.test_stream_distribution_channel.id}`},
 		"segment_time_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`},
 		"stream_packaging_format": acctest.Representation{RepType: acctest.Required, Create: `HLS`},
+		"is_lock_override":        acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"encryption":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: MediaServicesStreamPackagingConfigEncryptionRepresentation},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsSystemTags},
+		"locks":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: MediaServicesStreamPackagingConfigLocksRepresentation},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsSystemTagsAndLocks},
 	}
-	ignoreDefinedTagsSystemTags                                = map[string]interface{}{"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}}}
-	MediaServicesStreamPackagingConfigEncryptionRepresentation = map[string]interface{}{
-		"algorithm":  acctest.Representation{RepType: acctest.Required, Create: `AES`},
-		"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+
+	ignoreDefinedTagsSystemTagsAndLocks = map[string]interface{}{"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`, `locks`}}}
+
+	MediaServicesStreamPackagingConfigLocksRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"type":           acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message":        acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
 	MediaServicesStreamPackagingConfigResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_media_services_stream_distribution_channel", "test_stream_distribution_channel", acctest.Required, acctest.Create, MediaServicesStreamDistributionChannelRepresentation) +
 		AvailabilityDomainConfig +
-		DefinedTagsDependencies +
-		KeyResourceDependencyConfig
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: media_services/default
@@ -117,9 +120,6 @@ func TestMediaServicesStreamPackagingConfigResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "distribution_channel_id"),
-				resource.TestCheckResourceAttr(resourceName, "encryption.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "encryption.0.algorithm", "AES"),
-				resource.TestCheckResourceAttrSet(resourceName, "encryption.0.kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "segment_time_in_seconds", "10"),
@@ -145,9 +145,6 @@ func TestMediaServicesStreamPackagingConfigResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "distribution_channel_id"),
-				resource.TestCheckResourceAttr(resourceName, "encryption.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "encryption.0.algorithm", "AES"),
-				resource.TestCheckResourceAttrSet(resourceName, "encryption.0.kms_key_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "segment_time_in_seconds", "10"),
@@ -187,8 +184,6 @@ func TestMediaServicesStreamPackagingConfigResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stream_packaging_config_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "encryption.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "encryption.0.algorithm", "AES"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "segment_time_in_seconds", "10"),
@@ -200,11 +195,13 @@ func TestMediaServicesStreamPackagingConfigResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + MediaServicesStreamPackagingConfigRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + MediaServicesStreamPackagingConfigRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"is_lock_override",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

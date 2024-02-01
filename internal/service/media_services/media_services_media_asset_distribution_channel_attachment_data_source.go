@@ -36,6 +36,48 @@ func MediaServicesMediaAssetDistributionChannelAttachmentDataSource() *schema.Re
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"media_workflow_job_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -114,6 +156,12 @@ func (s *MediaServicesMediaAssetDistributionChannelAttachmentDataSourceCrud) Set
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.MediaWorkflowJobId != nil {
 		s.D.Set("media_workflow_job_id", *s.Res.MediaWorkflowJobId)
 	}
@@ -141,6 +189,12 @@ func MediaAssetDistributionChannelAttachmentSummaryToMap(obj oci_media_services.
 	if obj.DistributionChannelId != nil {
 		result["distribution_channel_id"] = string(*obj.DistributionChannelId)
 	}
+
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	result["locks"] = locks
 
 	if obj.MediaAssetId != nil {
 		result["media_asset_id"] = string(*obj.MediaAssetId)

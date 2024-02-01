@@ -71,6 +71,18 @@ resource "oci_media_services_media_asset" "test_media_asset" {
   segment_range_start_index     = var.media_asset_segment_range_start_index
   source_media_workflow_id      = oci_media_services_media_workflow.test_media_workflow.id
   source_media_workflow_version = var.media_asset_source_media_workflow_version
+  locks {
+    #Required
+    compartment_id = var.compartment_id
+    type = var.locks_type
+
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
+  lifecycle {
+    ignore_changes = [defined_tags, locks, is_lock_override]
+  }
 }
 
 data "oci_media_services_media_assets" "test_media_assets" {

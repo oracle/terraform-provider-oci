@@ -27,6 +27,18 @@ resource "oci_media_services_media_workflow_job" "test_media_workflow_job" {
   media_workflow_id                = oci_media_services_media_workflow.test_media_workflow.id
   media_workflow_name              = oci_media_services_media_workflow.test_media_workflow.display_name
   parameters                       = var.media_workflow_job_parameters
+  locks {
+    #Required
+    compartment_id = var.compartment_id
+    type = var.locks_type
+
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
+  lifecycle {
+    ignore_changes = [defined_tags, locks, is_lock_override]
+  }
 }
 
 data "oci_media_services_media_workflow_jobs" "test_media_workflow_jobs" {

@@ -26,6 +26,16 @@ resource "oci_media_services_media_asset" "test_media_asset" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	display_name = var.media_asset_display_name
 	freeform_tags = {"bar-key"= "value"}
+	locks {
+		#Required
+		compartment_id = var.compartment_id
+		type = var.media_asset_locks_type
+
+		#Optional
+		message = var.media_asset_locks_message
+		related_resource_id = oci_usage_proxy_resource.test_resource.id
+		time_created = var.media_asset_locks_time_created
+	}
 	master_media_asset_id = oci_media_services_media_asset.test_media_asset.id
 	media_asset_tags {
 		#Required
@@ -59,6 +69,12 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Optional) (Updatable) Display name for the Media Asset. Does not have to be unique. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `locks` - (Optional) Locks associated with this resource.
+	* `compartment_id` - (Required) (Updatable) The compartment ID of the lock.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 * `master_media_asset_id` - (Optional) (Updatable) The ID of the senior most asset from which this asset is derived.
 * `media_asset_tags` - (Optional) (Updatable) list of tags for the MediaAsset.
 	* `type` - (Optional) (Updatable) Type of the tag.
@@ -90,6 +106,12 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier that is immutable on creation.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The compartment ID of the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `master_media_asset_id` - The ID of the senior most asset from which this asset is derived.
 * `media_asset_tags` - List of tags for the MediaAsset.
 	* `type` - Type of the tag.
