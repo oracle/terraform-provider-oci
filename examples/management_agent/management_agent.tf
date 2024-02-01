@@ -72,7 +72,7 @@ resource "oci_management_agent_management_agent_install_key" "test_management_ag
   #Optional
   allowed_key_install_count = "200"
   display_name              = "terraformTest"
-  time_expires              = "2023-05-27T17:27:44.398Z"
+  time_expires              = "2024-09-27T17:27:44.398Z"
 }
 
 resource "oci_management_agent_management_agent_install_key" "test_management_agent_install_key_unlimited" {

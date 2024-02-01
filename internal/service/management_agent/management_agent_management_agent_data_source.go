@@ -72,6 +72,12 @@ func (s *ManagementAgentManagementAgentDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	dataSourceList := []interface{}{}
+	for _, item := range s.Res.DataSourceList {
+		dataSourceList = append(dataSourceList, DataSourceToMap(item))
+	}
+	s.D.Set("data_source_list", dataSourceList)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
