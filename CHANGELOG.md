@@ -1,4 +1,4 @@
-## 5.27.0 (Unreleased)
+## 5.27.0 (January 31, 2024)
 
 ### Added
 - Support for Database Management: Database Named Credentials
