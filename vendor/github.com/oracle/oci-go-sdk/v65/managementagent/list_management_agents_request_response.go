@@ -72,6 +72,12 @@ type ListManagementAgentsRequest struct {
 	// When the value is "ACCESSIBLE", insufficient permissions for a compartment will filter out resources in that compartment without rejecting the request.
 	AccessLevel *string `mandatory:"false" contributesTo:"query" name:"accessLevel"`
 
+	// The type of the dataSource.
+	DataSourceType ListManagementAgentsDataSourceTypeEnum `mandatory:"false" contributesTo:"query" name:"dataSourceType" omitEmpty:"true"`
+
+	// Unique name of the dataSource.
+	DataSourceName []string `contributesTo:"query" name:"dataSourceName" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -128,6 +134,9 @@ func (request ListManagementAgentsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListManagementAgentsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListManagementAgentsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListManagementAgentsDataSourceTypeEnum(string(request.DataSourceType)); !ok && request.DataSourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSourceType: %s. Supported values are: %s.", request.DataSourceType, strings.Join(GetListManagementAgentsDataSourceTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -418,5 +427,47 @@ func GetListManagementAgentsSortByEnumStringValues() []string {
 // GetMappingListManagementAgentsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListManagementAgentsSortByEnum(val string) (ListManagementAgentsSortByEnum, bool) {
 	enum, ok := mappingListManagementAgentsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListManagementAgentsDataSourceTypeEnum Enum with underlying type: string
+type ListManagementAgentsDataSourceTypeEnum string
+
+// Set of constants representing the allowable values for ListManagementAgentsDataSourceTypeEnum
+const (
+	ListManagementAgentsDataSourceTypeKubernetesCluster ListManagementAgentsDataSourceTypeEnum = "KUBERNETES_CLUSTER"
+	ListManagementAgentsDataSourceTypePrometheusEmitter ListManagementAgentsDataSourceTypeEnum = "PROMETHEUS_EMITTER"
+)
+
+var mappingListManagementAgentsDataSourceTypeEnum = map[string]ListManagementAgentsDataSourceTypeEnum{
+	"KUBERNETES_CLUSTER": ListManagementAgentsDataSourceTypeKubernetesCluster,
+	"PROMETHEUS_EMITTER": ListManagementAgentsDataSourceTypePrometheusEmitter,
+}
+
+var mappingListManagementAgentsDataSourceTypeEnumLowerCase = map[string]ListManagementAgentsDataSourceTypeEnum{
+	"kubernetes_cluster": ListManagementAgentsDataSourceTypeKubernetesCluster,
+	"prometheus_emitter": ListManagementAgentsDataSourceTypePrometheusEmitter,
+}
+
+// GetListManagementAgentsDataSourceTypeEnumValues Enumerates the set of values for ListManagementAgentsDataSourceTypeEnum
+func GetListManagementAgentsDataSourceTypeEnumValues() []ListManagementAgentsDataSourceTypeEnum {
+	values := make([]ListManagementAgentsDataSourceTypeEnum, 0)
+	for _, v := range mappingListManagementAgentsDataSourceTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListManagementAgentsDataSourceTypeEnumStringValues Enumerates the set of values in String for ListManagementAgentsDataSourceTypeEnum
+func GetListManagementAgentsDataSourceTypeEnumStringValues() []string {
+	return []string{
+		"KUBERNETES_CLUSTER",
+		"PROMETHEUS_EMITTER",
+	}
+}
+
+// GetMappingListManagementAgentsDataSourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListManagementAgentsDataSourceTypeEnum(val string) (ListManagementAgentsDataSourceTypeEnum, bool) {
+	enum, ok := mappingListManagementAgentsDataSourceTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

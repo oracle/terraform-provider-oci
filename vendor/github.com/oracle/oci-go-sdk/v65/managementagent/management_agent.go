@@ -11,6 +11,7 @@
 package managementagent
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -92,6 +93,9 @@ type ManagementAgent struct {
 	// Additional properties for this Management Agent
 	ManagementAgentProperties []ManagementAgentProperty `mandatory:"false" json:"managementAgentProperties"`
 
+	// list of dataSources associated with the agent
+	DataSourceList []DataSource `mandatory:"false" json:"dataSourceList"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -127,4 +131,105 @@ func (m ManagementAgent) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ManagementAgent) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		InstallKeyId              *string                           `json:"installKeyId"`
+		DisplayName               *string                           `json:"displayName"`
+		PlatformType              PlatformTypesEnum                 `json:"platformType"`
+		PlatformName              *string                           `json:"platformName"`
+		PlatformVersion           *string                           `json:"platformVersion"`
+		ResourceArtifactVersion   *string                           `json:"resourceArtifactVersion"`
+		Host                      *string                           `json:"host"`
+		HostId                    *string                           `json:"hostId"`
+		InstallPath               *string                           `json:"installPath"`
+		PluginList                []ManagementAgentPluginDetails    `json:"pluginList"`
+		IsAgentAutoUpgradable     *bool                             `json:"isAgentAutoUpgradable"`
+		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated               *common.SDKTime                   `json:"timeUpdated"`
+		TimeLastHeartbeat         *common.SDKTime                   `json:"timeLastHeartbeat"`
+		AvailabilityStatus        AvailabilityStatusEnum            `json:"availabilityStatus"`
+		LifecycleState            LifecycleStatesEnum               `json:"lifecycleState"`
+		LifecycleDetails          *string                           `json:"lifecycleDetails"`
+		IsCustomerDeployed        *bool                             `json:"isCustomerDeployed"`
+		InstallType               InstallTypesEnum                  `json:"installType"`
+		ManagementAgentProperties []ManagementAgentProperty         `json:"managementAgentProperties"`
+		DataSourceList            []datasource                      `json:"dataSourceList"`
+		FreeformTags              map[string]string                 `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		Id                        *string                           `json:"id"`
+		Version                   *string                           `json:"version"`
+		CompartmentId             *string                           `json:"compartmentId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.InstallKeyId = model.InstallKeyId
+
+	m.DisplayName = model.DisplayName
+
+	m.PlatformType = model.PlatformType
+
+	m.PlatformName = model.PlatformName
+
+	m.PlatformVersion = model.PlatformVersion
+
+	m.ResourceArtifactVersion = model.ResourceArtifactVersion
+
+	m.Host = model.Host
+
+	m.HostId = model.HostId
+
+	m.InstallPath = model.InstallPath
+
+	m.PluginList = make([]ManagementAgentPluginDetails, len(model.PluginList))
+	copy(m.PluginList, model.PluginList)
+	m.IsAgentAutoUpgradable = model.IsAgentAutoUpgradable
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.TimeLastHeartbeat = model.TimeLastHeartbeat
+
+	m.AvailabilityStatus = model.AvailabilityStatus
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.IsCustomerDeployed = model.IsCustomerDeployed
+
+	m.InstallType = model.InstallType
+
+	m.ManagementAgentProperties = make([]ManagementAgentProperty, len(model.ManagementAgentProperties))
+	copy(m.ManagementAgentProperties, model.ManagementAgentProperties)
+	m.DataSourceList = make([]DataSource, len(model.DataSourceList))
+	for i, n := range model.DataSourceList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.DataSourceList[i] = nn.(DataSource)
+		} else {
+			m.DataSourceList[i] = nil
+		}
+	}
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.Id = model.Id
+
+	m.Version = model.Version
+
+	m.CompartmentId = model.CompartmentId
+
+	return
 }

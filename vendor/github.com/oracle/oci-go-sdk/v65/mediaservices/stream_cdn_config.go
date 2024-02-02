@@ -60,6 +60,9 @@ type StreamCdnConfig struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m StreamCdnConfig) String() string {
@@ -91,6 +94,7 @@ func (m *StreamCdnConfig) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags          map[string]string                 `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags            map[string]map[string]interface{} `json:"systemTags"`
+		Locks                 []ResourceLock                    `json:"locks"`
 		Id                    *string                           `json:"id"`
 		DisplayName           *string                           `json:"displayName"`
 		CompartmentId         *string                           `json:"compartmentId"`
@@ -118,6 +122,8 @@ func (m *StreamCdnConfig) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName

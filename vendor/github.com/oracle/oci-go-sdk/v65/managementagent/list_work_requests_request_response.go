@@ -37,7 +37,7 @@ type ListWorkRequestsRequest struct {
 	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
 	// The OperationType of the workRequest
-	Type ListWorkRequestsTypeEnum `mandatory:"false" contributesTo:"query" name:"type" omitEmpty:"true"`
+	Type []OperationTypesEnum `contributesTo:"query" name:"type" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Filter for items with timeCreated greater or equal to provided value.
 	// given `timeCreatedGreaterThanOrEqualTo` to the current time, in "YYYY-MM-ddThh:mmZ" format with a
@@ -89,9 +89,12 @@ func (request ListWorkRequestsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListWorkRequestsStatusEnum(string(request.Status)); !ok && request.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListWorkRequestsStatusEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingListWorkRequestsTypeEnum(string(request.Type)); !ok && request.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", request.Type, strings.Join(GetListWorkRequestsTypeEnumStringValues(), ",")))
+	for _, val := range request.Type {
+		if _, ok := GetMappingOperationTypesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", val, strings.Join(GetOperationTypesEnumStringValues(), ",")))
+		}
 	}
+
 	if _, ok := GetMappingListWorkRequestsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListWorkRequestsSortOrderEnumStringValues(), ",")))
 	}
@@ -191,56 +194,6 @@ func GetListWorkRequestsStatusEnumStringValues() []string {
 // GetMappingListWorkRequestsStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListWorkRequestsStatusEnum(val string) (ListWorkRequestsStatusEnum, bool) {
 	enum, ok := mappingListWorkRequestsStatusEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ListWorkRequestsTypeEnum Enum with underlying type: string
-type ListWorkRequestsTypeEnum string
-
-// Set of constants representing the allowable values for ListWorkRequestsTypeEnum
-const (
-	ListWorkRequestsTypeDeployPlugin         ListWorkRequestsTypeEnum = "DEPLOY_PLUGIN"
-	ListWorkRequestsTypeUpgradePlugin        ListWorkRequestsTypeEnum = "UPGRADE_PLUGIN"
-	ListWorkRequestsTypeCreateUpgradePlugins ListWorkRequestsTypeEnum = "CREATE_UPGRADE_PLUGINS"
-	ListWorkRequestsTypeAgentimageUpgrade    ListWorkRequestsTypeEnum = "AGENTIMAGE_UPGRADE"
-)
-
-var mappingListWorkRequestsTypeEnum = map[string]ListWorkRequestsTypeEnum{
-	"DEPLOY_PLUGIN":          ListWorkRequestsTypeDeployPlugin,
-	"UPGRADE_PLUGIN":         ListWorkRequestsTypeUpgradePlugin,
-	"CREATE_UPGRADE_PLUGINS": ListWorkRequestsTypeCreateUpgradePlugins,
-	"AGENTIMAGE_UPGRADE":     ListWorkRequestsTypeAgentimageUpgrade,
-}
-
-var mappingListWorkRequestsTypeEnumLowerCase = map[string]ListWorkRequestsTypeEnum{
-	"deploy_plugin":          ListWorkRequestsTypeDeployPlugin,
-	"upgrade_plugin":         ListWorkRequestsTypeUpgradePlugin,
-	"create_upgrade_plugins": ListWorkRequestsTypeCreateUpgradePlugins,
-	"agentimage_upgrade":     ListWorkRequestsTypeAgentimageUpgrade,
-}
-
-// GetListWorkRequestsTypeEnumValues Enumerates the set of values for ListWorkRequestsTypeEnum
-func GetListWorkRequestsTypeEnumValues() []ListWorkRequestsTypeEnum {
-	values := make([]ListWorkRequestsTypeEnum, 0)
-	for _, v := range mappingListWorkRequestsTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListWorkRequestsTypeEnumStringValues Enumerates the set of values in String for ListWorkRequestsTypeEnum
-func GetListWorkRequestsTypeEnumStringValues() []string {
-	return []string{
-		"DEPLOY_PLUGIN",
-		"UPGRADE_PLUGIN",
-		"CREATE_UPGRADE_PLUGINS",
-		"AGENTIMAGE_UPGRADE",
-	}
-}
-
-// GetMappingListWorkRequestsTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListWorkRequestsTypeEnum(val string) (ListWorkRequestsTypeEnum, bool) {
-	enum, ok := mappingListWorkRequestsTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

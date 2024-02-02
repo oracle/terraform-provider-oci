@@ -50,11 +50,28 @@ type SecretSummary struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
 	KeyId *string `mandatory:"false" json:"keyId"`
 
 	// Additional information about the secret's current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	RotationConfig *RotationConfig `mandatory:"false" json:"rotationConfig"`
+
+	// Additional information about the status of the secret rotation
+	RotationStatus SecretRotationStatusEnum `mandatory:"false" json:"rotationStatus,omitempty"`
+
+	// A property indicating when the secret was last rotated successfully, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-04-03T21:10:29.600Z`
+	LastRotationTime *common.SDKTime `mandatory:"false" json:"lastRotationTime"`
+
+	// A property indicating when the secret is scheduled to be rotated, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
+	// Example: `2019-04-03T21:10:29.600Z`
+	NextRotationTime *common.SDKTime `mandatory:"false" json:"nextRotationTime"`
 
 	// An optional property indicating when the current secret version will expire, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
 	// Example: `2019-04-03T21:10:29.600Z`
@@ -78,6 +95,9 @@ func (m SecretSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetSecretSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingSecretRotationStatusEnum(string(m.RotationStatus)); !ok && m.RotationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RotationStatus: %s. Supported values are: %s.", m.RotationStatus, strings.Join(GetSecretRotationStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

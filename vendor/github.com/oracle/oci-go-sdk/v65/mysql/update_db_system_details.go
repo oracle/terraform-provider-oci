@@ -120,6 +120,8 @@ type UpdateDbSystemDetails struct {
 
 	// Whether to enable monitoring via the Database Management service.
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
+
+	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
 }
 
 func (m UpdateDbSystemDetails) String() string {

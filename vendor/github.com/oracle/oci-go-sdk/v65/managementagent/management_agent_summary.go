@@ -11,6 +11,7 @@
 package managementagent
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -86,6 +87,9 @@ type ManagementAgentSummary struct {
 	// The install type, either AGENT or GATEWAY
 	InstallType InstallTypesEnum `mandatory:"false" json:"installType,omitempty"`
 
+	// list of dataSources summaries associated with the agent
+	DataSourceSummaryList []DataSourceSummaryItem `mandatory:"false" json:"dataSourceSummaryList"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -121,4 +125,99 @@ func (m ManagementAgentSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ManagementAgentSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		InstallKeyId            *string                           `json:"installKeyId"`
+		DisplayName             *string                           `json:"displayName"`
+		PlatformType            PlatformTypesEnum                 `json:"platformType"`
+		PlatformName            *string                           `json:"platformName"`
+		PlatformVersion         *string                           `json:"platformVersion"`
+		ResourceArtifactVersion *string                           `json:"resourceArtifactVersion"`
+		IsAgentAutoUpgradable   *bool                             `json:"isAgentAutoUpgradable"`
+		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
+		Host                    *string                           `json:"host"`
+		HostId                  *string                           `json:"hostId"`
+		PluginList              []ManagementAgentPluginDetails    `json:"pluginList"`
+		TimeLastHeartbeat       *common.SDKTime                   `json:"timeLastHeartbeat"`
+		AvailabilityStatus      AvailabilityStatusEnum            `json:"availabilityStatus"`
+		LifecycleState          LifecycleStatesEnum               `json:"lifecycleState"`
+		LifecycleDetails        *string                           `json:"lifecycleDetails"`
+		IsCustomerDeployed      *bool                             `json:"isCustomerDeployed"`
+		InstallType             InstallTypesEnum                  `json:"installType"`
+		DataSourceSummaryList   []datasourcesummaryitem           `json:"dataSourceSummaryList"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		Id                      *string                           `json:"id"`
+		Version                 *string                           `json:"version"`
+		CompartmentId           *string                           `json:"compartmentId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.InstallKeyId = model.InstallKeyId
+
+	m.DisplayName = model.DisplayName
+
+	m.PlatformType = model.PlatformType
+
+	m.PlatformName = model.PlatformName
+
+	m.PlatformVersion = model.PlatformVersion
+
+	m.ResourceArtifactVersion = model.ResourceArtifactVersion
+
+	m.IsAgentAutoUpgradable = model.IsAgentAutoUpgradable
+
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.Host = model.Host
+
+	m.HostId = model.HostId
+
+	m.PluginList = make([]ManagementAgentPluginDetails, len(model.PluginList))
+	copy(m.PluginList, model.PluginList)
+	m.TimeLastHeartbeat = model.TimeLastHeartbeat
+
+	m.AvailabilityStatus = model.AvailabilityStatus
+
+	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.IsCustomerDeployed = model.IsCustomerDeployed
+
+	m.InstallType = model.InstallType
+
+	m.DataSourceSummaryList = make([]DataSourceSummaryItem, len(model.DataSourceSummaryList))
+	for i, n := range model.DataSourceSummaryList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.DataSourceSummaryList[i] = nn.(DataSourceSummaryItem)
+		} else {
+			m.DataSourceSummaryList[i] = nil
+		}
+	}
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.Id = model.Id
+
+	m.Version = model.Version
+
+	m.CompartmentId = model.CompartmentId
+
+	return
 }

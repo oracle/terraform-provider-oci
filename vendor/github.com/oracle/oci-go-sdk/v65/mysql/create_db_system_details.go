@@ -120,6 +120,8 @@ type CreateDbSystemDetails struct {
 
 	// Whether to enable monitoring via the Database Management service.
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
+
+	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
 }
 
 func (m CreateDbSystemDetails) String() string {
@@ -169,6 +171,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		DeletionPolicy       *CreateDeletionPolicyDetails      `json:"deletionPolicy"`
 		CrashRecovery        CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		DatabaseManagement   DatabaseManagementStatusEnum      `json:"databaseManagement"`
+		SecureConnections    *SecureConnectionDetails          `json:"secureConnections"`
 		CompartmentId        *string                           `json:"compartmentId"`
 		ShapeName            *string                           `json:"shapeName"`
 		SubnetId             *string                           `json:"subnetId"`
@@ -230,6 +233,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.CrashRecovery = model.CrashRecovery
 
 	m.DatabaseManagement = model.DatabaseManagement
+
+	m.SecureConnections = model.SecureConnections
 
 	m.CompartmentId = model.CompartmentId
 

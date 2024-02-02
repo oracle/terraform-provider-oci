@@ -41,6 +41,9 @@ type CreateStreamPackagingConfigDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m CreateStreamPackagingConfigDetails) String() string {
@@ -68,6 +71,7 @@ func (m *CreateStreamPackagingConfigDetails) UnmarshalJSON(data []byte) (e error
 		Encryption            streampackagingconfigencryption                             `json:"encryption"`
 		FreeformTags          map[string]string                                           `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{}                           `json:"definedTags"`
+		Locks                 []ResourceLock                                              `json:"locks"`
 		DistributionChannelId *string                                                     `json:"distributionChannelId"`
 		DisplayName           *string                                                     `json:"displayName"`
 		StreamPackagingFormat CreateStreamPackagingConfigDetailsStreamPackagingFormatEnum `json:"streamPackagingFormat"`
@@ -93,6 +97,8 @@ func (m *CreateStreamPackagingConfigDetails) UnmarshalJSON(data []byte) (e error
 
 	m.DefinedTags = model.DefinedTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.DistributionChannelId = model.DistributionChannelId
 
 	m.DisplayName = model.DisplayName

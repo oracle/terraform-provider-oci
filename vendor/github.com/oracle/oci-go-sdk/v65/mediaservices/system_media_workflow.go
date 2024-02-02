@@ -35,6 +35,9 @@ type SystemMediaWorkflow struct {
 	// The values declared here can be overridden by the MediaWorkflowConfigurations or parameters supplied when creating
 	// MediaWorkflowJobs from this MediaWorkflow.
 	Parameters map[string]interface{} `mandatory:"false" json:"parameters"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m SystemMediaWorkflow) String() string {
