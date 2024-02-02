@@ -36,6 +36,9 @@ type MediaAssetDistributionChannelAttachment struct {
 
 	// The ingest MediaWorkflowJob ID that created this attachment.
 	MediaWorkflowJobId *string `mandatory:"false" json:"mediaWorkflowJobId"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m MediaAssetDistributionChannelAttachment) String() string {

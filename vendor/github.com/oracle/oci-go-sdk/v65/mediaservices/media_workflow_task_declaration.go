@@ -34,6 +34,9 @@ type MediaWorkflowTaskDeclaration struct {
 	// JSON schema similar to the parameterSchema, but permits parameter values to refer to other parameters using the
 	// ${/path/to/another/parmeter} syntax.  This is used to validate task parameters when workflows are created.
 	ParametersSchemaAllowingReferences map[string]interface{} `mandatory:"true" json:"parametersSchemaAllowingReferences"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m MediaWorkflowTaskDeclaration) String() string {

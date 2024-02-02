@@ -44,6 +44,9 @@ type CreateMediaWorkflowJobByNameDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Name of the system MediaWorkflow that should be run.
 	MediaWorkflowName *string `mandatory:"false" json:"mediaWorkflowName"`
 }
@@ -76,6 +79,11 @@ func (m CreateMediaWorkflowJobByNameDetails) GetFreeformTags() map[string]string
 // GetDefinedTags returns DefinedTags
 func (m CreateMediaWorkflowJobByNameDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetLocks returns Locks
+func (m CreateMediaWorkflowJobByNameDetails) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m CreateMediaWorkflowJobByNameDetails) String() string {

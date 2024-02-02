@@ -55,6 +55,9 @@ type HlsStreamPackagingConfig struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The current state of the Packaging Configuration.
 	LifecycleState StreamPackagingConfigLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
@@ -119,6 +122,11 @@ func (m HlsStreamPackagingConfig) GetSystemTags() map[string]map[string]interfac
 	return m.SystemTags
 }
 
+// GetLocks returns Locks
+func (m HlsStreamPackagingConfig) GetLocks() []ResourceLock {
+	return m.Locks
+}
+
 func (m HlsStreamPackagingConfig) String() string {
 	return common.PointerString(m)
 }
@@ -162,6 +170,7 @@ func (m *HlsStreamPackagingConfig) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags          map[string]string                       `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{}       `json:"definedTags"`
 		SystemTags            map[string]map[string]interface{}       `json:"systemTags"`
+		Locks                 []ResourceLock                          `json:"locks"`
 		Id                    *string                                 `json:"id"`
 		CompartmentId         *string                                 `json:"compartmentId"`
 		DistributionChannelId *string                                 `json:"distributionChannelId"`
@@ -196,6 +205,8 @@ func (m *HlsStreamPackagingConfig) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId

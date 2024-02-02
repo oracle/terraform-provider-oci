@@ -21,6 +21,9 @@ type DeleteMediaWorkflowRequest struct {
 	// Unique MediaWorkflow identifier.
 	MediaWorkflowId *string `mandatory:"true" contributesTo:"path" name:"mediaWorkflowId"`
 
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

@@ -92,6 +92,447 @@ func (client *MediaServicesClient) ConfigurationProvider() *common.Configuration
 	return client.config
 }
 
+// AddMediaAssetLock Add a lock to an MediaAsset.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaAssetLock.go.html to see an example of how to use AddMediaAssetLock API.
+// A default retry strategy applies to this operation AddMediaAssetLock()
+func (client MediaServicesClient) AddMediaAssetLock(ctx context.Context, request AddMediaAssetLockRequest) (response AddMediaAssetLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addMediaAssetLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddMediaAssetLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddMediaAssetLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddMediaAssetLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddMediaAssetLockResponse")
+	}
+	return
+}
+
+// addMediaAssetLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) addMediaAssetLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mediaAssets/{mediaAssetId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddMediaAssetLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAsset/AddMediaAssetLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "AddMediaAssetLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddMediaWorkflowConfigurationLock Add a lock to a MediaWorkflowConfiguration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowConfigurationLock.go.html to see an example of how to use AddMediaWorkflowConfigurationLock API.
+// A default retry strategy applies to this operation AddMediaWorkflowConfigurationLock()
+func (client MediaServicesClient) AddMediaWorkflowConfigurationLock(ctx context.Context, request AddMediaWorkflowConfigurationLockRequest) (response AddMediaWorkflowConfigurationLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addMediaWorkflowConfigurationLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddMediaWorkflowConfigurationLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddMediaWorkflowConfigurationLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddMediaWorkflowConfigurationLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddMediaWorkflowConfigurationLockResponse")
+	}
+	return
+}
+
+// addMediaWorkflowConfigurationLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) addMediaWorkflowConfigurationLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mediaWorkflowConfigurations/{mediaWorkflowConfigurationId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddMediaWorkflowConfigurationLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfiguration/AddMediaWorkflowConfigurationLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "AddMediaWorkflowConfigurationLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddMediaWorkflowJobLock Add a lock to a MediaWorkflowJob.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowJobLock.go.html to see an example of how to use AddMediaWorkflowJobLock API.
+// A default retry strategy applies to this operation AddMediaWorkflowJobLock()
+func (client MediaServicesClient) AddMediaWorkflowJobLock(ctx context.Context, request AddMediaWorkflowJobLockRequest) (response AddMediaWorkflowJobLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addMediaWorkflowJobLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddMediaWorkflowJobLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddMediaWorkflowJobLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddMediaWorkflowJobLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddMediaWorkflowJobLockResponse")
+	}
+	return
+}
+
+// addMediaWorkflowJobLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) addMediaWorkflowJobLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mediaWorkflowJobs/{mediaWorkflowJobId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddMediaWorkflowJobLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJob/AddMediaWorkflowJobLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "AddMediaWorkflowJobLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddMediaWorkflowLock Add a lock to a MediaWorkflow.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowLock.go.html to see an example of how to use AddMediaWorkflowLock API.
+// A default retry strategy applies to this operation AddMediaWorkflowLock()
+func (client MediaServicesClient) AddMediaWorkflowLock(ctx context.Context, request AddMediaWorkflowLockRequest) (response AddMediaWorkflowLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addMediaWorkflowLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddMediaWorkflowLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddMediaWorkflowLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddMediaWorkflowLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddMediaWorkflowLockResponse")
+	}
+	return
+}
+
+// addMediaWorkflowLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) addMediaWorkflowLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mediaWorkflows/{mediaWorkflowId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddMediaWorkflowLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/AddMediaWorkflowLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "AddMediaWorkflowLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddStreamCdnConfigLock Add a lock to a StreamCdnConfig.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamCdnConfigLock.go.html to see an example of how to use AddStreamCdnConfigLock API.
+// A default retry strategy applies to this operation AddStreamCdnConfigLock()
+func (client MediaServicesClient) AddStreamCdnConfigLock(ctx context.Context, request AddStreamCdnConfigLockRequest) (response AddStreamCdnConfigLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addStreamCdnConfigLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddStreamCdnConfigLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddStreamCdnConfigLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddStreamCdnConfigLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddStreamCdnConfigLockResponse")
+	}
+	return
+}
+
+// addStreamCdnConfigLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) addStreamCdnConfigLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streamCdnConfigs/{streamCdnConfigId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddStreamCdnConfigLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamCdnConfig/AddStreamCdnConfigLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "AddStreamCdnConfigLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddStreamDistributionChannelLock Add a lock to a StreamDistributionChannel.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamDistributionChannelLock.go.html to see an example of how to use AddStreamDistributionChannelLock API.
+// A default retry strategy applies to this operation AddStreamDistributionChannelLock()
+func (client MediaServicesClient) AddStreamDistributionChannelLock(ctx context.Context, request AddStreamDistributionChannelLockRequest) (response AddStreamDistributionChannelLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addStreamDistributionChannelLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddStreamDistributionChannelLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddStreamDistributionChannelLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddStreamDistributionChannelLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddStreamDistributionChannelLockResponse")
+	}
+	return
+}
+
+// addStreamDistributionChannelLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) addStreamDistributionChannelLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streamDistributionChannels/{streamDistributionChannelId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddStreamDistributionChannelLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/AddStreamDistributionChannelLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "AddStreamDistributionChannelLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddStreamPackagingConfigLock Add a lock to a StreamPackagingConfig.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamPackagingConfigLock.go.html to see an example of how to use AddStreamPackagingConfigLock API.
+// A default retry strategy applies to this operation AddStreamPackagingConfigLock()
+func (client MediaServicesClient) AddStreamPackagingConfigLock(ctx context.Context, request AddStreamPackagingConfigLockRequest) (response AddStreamPackagingConfigLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addStreamPackagingConfigLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddStreamPackagingConfigLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddStreamPackagingConfigLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddStreamPackagingConfigLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddStreamPackagingConfigLockResponse")
+	}
+	return
+}
+
+// addStreamPackagingConfigLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) addStreamPackagingConfigLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streamPackagingConfigs/{streamPackagingConfigId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddStreamPackagingConfigLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamPackagingConfig/AddStreamPackagingConfigLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "AddStreamPackagingConfigLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &streampackagingconfig{})
+	return response, err
+}
+
 // ChangeMediaAssetCompartment Moves a MediaAsset resource from one compartment identifier to another.
 //
 // # See also
@@ -1602,64 +2043,6 @@ func (client MediaServicesClient) getMediaWorkflowJob(ctx context.Context, reque
 	return response, err
 }
 
-// GetMediaWorkflowJobFact Get the MediaWorkflowJobFact identified by the mediaWorkflowJobId and Fact ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflowJobFact.go.html to see an example of how to use GetMediaWorkflowJobFact API.
-// A default retry strategy applies to this operation GetMediaWorkflowJobFact()
-func (client MediaServicesClient) GetMediaWorkflowJobFact(ctx context.Context, request GetMediaWorkflowJobFactRequest) (response GetMediaWorkflowJobFactResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getMediaWorkflowJobFact, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetMediaWorkflowJobFactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetMediaWorkflowJobFactResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetMediaWorkflowJobFactResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetMediaWorkflowJobFactResponse")
-	}
-	return
-}
-
-// getMediaWorkflowJobFact implements the OCIOperation interface (enables retrying operations)
-func (client MediaServicesClient) getMediaWorkflowJobFact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mediaWorkflowJobs/{mediaWorkflowJobId}/facts/{key}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetMediaWorkflowJobFactResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJobFact/GetMediaWorkflowJobFact"
-		err = common.PostProcessServiceError(err, "MediaServices", "GetMediaWorkflowJobFact", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetStreamCdnConfig Gets a StreamCdnConfig by identifier.
 //
 // # See also
@@ -2071,64 +2454,6 @@ func (client MediaServicesClient) listMediaWorkflowConfigurations(ctx context.Co
 	return response, err
 }
 
-// ListMediaWorkflowJobFacts Internal API to get a point-in-time snapshot of a MediaWorkflowJob.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowJobFacts.go.html to see an example of how to use ListMediaWorkflowJobFacts API.
-// A default retry strategy applies to this operation ListMediaWorkflowJobFacts()
-func (client MediaServicesClient) ListMediaWorkflowJobFacts(ctx context.Context, request ListMediaWorkflowJobFactsRequest) (response ListMediaWorkflowJobFactsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listMediaWorkflowJobFacts, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListMediaWorkflowJobFactsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListMediaWorkflowJobFactsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListMediaWorkflowJobFactsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListMediaWorkflowJobFactsResponse")
-	}
-	return
-}
-
-// listMediaWorkflowJobFacts implements the OCIOperation interface (enables retrying operations)
-func (client MediaServicesClient) listMediaWorkflowJobFacts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mediaWorkflowJobs/{mediaWorkflowJobId}/facts", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListMediaWorkflowJobFactsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJobFact/ListMediaWorkflowJobFacts"
-		err = common.PostProcessServiceError(err, "MediaServices", "ListMediaWorkflowJobFacts", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListMediaWorkflowJobs Lists the MediaWorkflowJobs.
 //
 // # See also
@@ -2532,6 +2857,447 @@ func (client MediaServicesClient) listSystemMediaWorkflows(ctx context.Context, 
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveMediaAssetLock Remove a lock to an MediaAsset.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaAssetLock.go.html to see an example of how to use RemoveMediaAssetLock API.
+// A default retry strategy applies to this operation RemoveMediaAssetLock()
+func (client MediaServicesClient) RemoveMediaAssetLock(ctx context.Context, request RemoveMediaAssetLockRequest) (response RemoveMediaAssetLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeMediaAssetLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveMediaAssetLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveMediaAssetLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveMediaAssetLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveMediaAssetLockResponse")
+	}
+	return
+}
+
+// removeMediaAssetLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) removeMediaAssetLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mediaAssets/{mediaAssetId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveMediaAssetLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaAsset/RemoveMediaAssetLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "RemoveMediaAssetLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveMediaWorkflowConfigurationLock Remove a lock from a MediaWorkflowConfiguration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowConfigurationLock.go.html to see an example of how to use RemoveMediaWorkflowConfigurationLock API.
+// A default retry strategy applies to this operation RemoveMediaWorkflowConfigurationLock()
+func (client MediaServicesClient) RemoveMediaWorkflowConfigurationLock(ctx context.Context, request RemoveMediaWorkflowConfigurationLockRequest) (response RemoveMediaWorkflowConfigurationLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeMediaWorkflowConfigurationLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveMediaWorkflowConfigurationLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveMediaWorkflowConfigurationLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveMediaWorkflowConfigurationLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveMediaWorkflowConfigurationLockResponse")
+	}
+	return
+}
+
+// removeMediaWorkflowConfigurationLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) removeMediaWorkflowConfigurationLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mediaWorkflowConfigurations/{mediaWorkflowConfigurationId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveMediaWorkflowConfigurationLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowConfiguration/RemoveMediaWorkflowConfigurationLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "RemoveMediaWorkflowConfigurationLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveMediaWorkflowJobLock Remove a lock from a MediaWorkflowJob.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowJobLock.go.html to see an example of how to use RemoveMediaWorkflowJobLock API.
+// A default retry strategy applies to this operation RemoveMediaWorkflowJobLock()
+func (client MediaServicesClient) RemoveMediaWorkflowJobLock(ctx context.Context, request RemoveMediaWorkflowJobLockRequest) (response RemoveMediaWorkflowJobLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeMediaWorkflowJobLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveMediaWorkflowJobLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveMediaWorkflowJobLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveMediaWorkflowJobLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveMediaWorkflowJobLockResponse")
+	}
+	return
+}
+
+// removeMediaWorkflowJobLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) removeMediaWorkflowJobLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mediaWorkflowJobs/{mediaWorkflowJobId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveMediaWorkflowJobLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflowJob/RemoveMediaWorkflowJobLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "RemoveMediaWorkflowJobLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveMediaWorkflowLock Remove a lock from a MediaWorkflow.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowLock.go.html to see an example of how to use RemoveMediaWorkflowLock API.
+// A default retry strategy applies to this operation RemoveMediaWorkflowLock()
+func (client MediaServicesClient) RemoveMediaWorkflowLock(ctx context.Context, request RemoveMediaWorkflowLockRequest) (response RemoveMediaWorkflowLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeMediaWorkflowLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveMediaWorkflowLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveMediaWorkflowLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveMediaWorkflowLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveMediaWorkflowLockResponse")
+	}
+	return
+}
+
+// removeMediaWorkflowLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) removeMediaWorkflowLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mediaWorkflows/{mediaWorkflowId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveMediaWorkflowLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/MediaWorkflow/RemoveMediaWorkflowLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "RemoveMediaWorkflowLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveStreamCdnConfigLock Remove a lock from a StreamCdnConfig.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamCdnConfigLock.go.html to see an example of how to use RemoveStreamCdnConfigLock API.
+// A default retry strategy applies to this operation RemoveStreamCdnConfigLock()
+func (client MediaServicesClient) RemoveStreamCdnConfigLock(ctx context.Context, request RemoveStreamCdnConfigLockRequest) (response RemoveStreamCdnConfigLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeStreamCdnConfigLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveStreamCdnConfigLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveStreamCdnConfigLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveStreamCdnConfigLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveStreamCdnConfigLockResponse")
+	}
+	return
+}
+
+// removeStreamCdnConfigLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) removeStreamCdnConfigLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streamCdnConfigs/{streamCdnConfigId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveStreamCdnConfigLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamCdnConfig/RemoveStreamCdnConfigLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "RemoveStreamCdnConfigLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveStreamDistributionChannelLock Remove a lock to a StreamDistributionChannel.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamDistributionChannelLock.go.html to see an example of how to use RemoveStreamDistributionChannelLock API.
+// A default retry strategy applies to this operation RemoveStreamDistributionChannelLock()
+func (client MediaServicesClient) RemoveStreamDistributionChannelLock(ctx context.Context, request RemoveStreamDistributionChannelLockRequest) (response RemoveStreamDistributionChannelLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeStreamDistributionChannelLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveStreamDistributionChannelLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveStreamDistributionChannelLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveStreamDistributionChannelLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveStreamDistributionChannelLockResponse")
+	}
+	return
+}
+
+// removeStreamDistributionChannelLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) removeStreamDistributionChannelLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streamDistributionChannels/{streamDistributionChannelId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveStreamDistributionChannelLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamDistributionChannel/RemoveStreamDistributionChannelLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "RemoveStreamDistributionChannelLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveStreamPackagingConfigLock Remove a lock from a StreamPackagingConfig.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamPackagingConfigLock.go.html to see an example of how to use RemoveStreamPackagingConfigLock API.
+// A default retry strategy applies to this operation RemoveStreamPackagingConfigLock()
+func (client MediaServicesClient) RemoveStreamPackagingConfigLock(ctx context.Context, request RemoveStreamPackagingConfigLockRequest) (response RemoveStreamPackagingConfigLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeStreamPackagingConfigLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveStreamPackagingConfigLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveStreamPackagingConfigLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveStreamPackagingConfigLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveStreamPackagingConfigLockResponse")
+	}
+	return
+}
+
+// removeStreamPackagingConfigLock implements the OCIOperation interface (enables retrying operations)
+func (client MediaServicesClient) removeStreamPackagingConfigLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streamPackagingConfigs/{streamPackagingConfigId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveStreamPackagingConfigLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dms/20211101/StreamPackagingConfig/RemoveStreamPackagingConfigLock"
+		err = common.PostProcessServiceError(err, "MediaServices", "RemoveStreamPackagingConfigLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &streampackagingconfig{})
 	return response, err
 }
 
