@@ -23,14 +23,19 @@ resource "oci_media_services_stream_packaging_config" "test_stream_packaging_con
 
   #Optional
   defined_tags = map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "${var.defined_tags_value}")
-  encryption {
+  freeform_tags = var.freeform_tags
+  locks {
     #Required
-    algorithm = var.stream_packaging_config_encryption_algorithm
+    compartment_id = var.compartment_id
+    type = var.locks_type
 
     #Optional
-    kms_key_id = data.oci_kms_keys.test_keys_dependency_RSA.keys[0].id
+    message = var.locks_message
   }
-  freeform_tags = var.freeform_tags
+  is_lock_override = var.is_lock_override
+  lifecycle {
+    ignore_changes = [defined_tags, locks, system_tags, encryption, is_lock_override]
+  }
 }
 
 data "oci_media_services_stream_packaging_configs" "test_stream_packaging_configs" {

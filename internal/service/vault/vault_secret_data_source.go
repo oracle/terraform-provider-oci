@@ -89,11 +89,27 @@ func (s *VaultSecretDataSourceCrud) SetData() error {
 		s.D.Set("key_id", *s.Res.KeyId)
 	}
 
+	if s.Res.LastRotationTime != nil {
+		s.D.Set("last_rotation_time", s.Res.LastRotationTime.String())
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	s.D.Set("metadata", s.Res.Metadata)
+
+	if s.Res.NextRotationTime != nil {
+		s.D.Set("next_rotation_time", s.Res.NextRotationTime.String())
+	}
+
+	if s.Res.RotationConfig != nil {
+		s.D.Set("rotation_config", []interface{}{RotationConfigToMap(s.Res.RotationConfig)})
+	} else {
+		s.D.Set("rotation_config", nil)
+	}
+
+	s.D.Set("rotation_status", s.Res.RotationStatus)
 
 	if s.Res.SecretName != nil {
 		s.D.Set("secret_name", *s.Res.SecretName)

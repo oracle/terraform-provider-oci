@@ -21,6 +21,9 @@ type DeleteStreamPackagingConfigRequest struct {
 	// Unique Stream Packaging Configuration path identifier.
 	StreamPackagingConfigId *string `mandatory:"true" contributesTo:"path" name:"streamPackagingConfigId"`
 
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

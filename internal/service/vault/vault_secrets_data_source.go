@@ -137,15 +137,35 @@ func (s *VaultSecretsDataSourceCrud) SetData() error {
 			secret["key_id"] = *r.KeyId
 		}
 
+		if r.LastRotationTime != nil {
+			secret["last_rotation_time"] = r.LastRotationTime.String()
+		}
+
 		if r.LifecycleDetails != nil {
 			secret["lifecycle_details"] = *r.LifecycleDetails
 		}
+
+		if r.NextRotationTime != nil {
+			secret["next_rotation_time"] = r.NextRotationTime.String()
+		}
+
+		if r.RotationConfig != nil {
+			secret["rotation_config"] = []interface{}{RotationConfigToMap(r.RotationConfig)}
+		} else {
+			secret["rotation_config"] = nil
+		}
+
+		secret["rotation_status"] = r.RotationStatus
 
 		if r.SecretName != nil {
 			secret["secret_name"] = *r.SecretName
 		}
 
 		secret["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			secret["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			secret["time_created"] = r.TimeCreated.String()

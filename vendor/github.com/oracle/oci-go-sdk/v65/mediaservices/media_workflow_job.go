@@ -69,6 +69,9 @@ type MediaWorkflowJob struct {
 	// Time when the job finished. An RFC3339 formatted datetime string.
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -109,6 +112,7 @@ const (
 	MediaWorkflowJobLifecycleStateAccepted   MediaWorkflowJobLifecycleStateEnum = "ACCEPTED"
 	MediaWorkflowJobLifecycleStateInProgress MediaWorkflowJobLifecycleStateEnum = "IN_PROGRESS"
 	MediaWorkflowJobLifecycleStateWaiting    MediaWorkflowJobLifecycleStateEnum = "WAITING"
+	MediaWorkflowJobLifecycleStateRejected   MediaWorkflowJobLifecycleStateEnum = "REJECTED"
 	MediaWorkflowJobLifecycleStateFailed     MediaWorkflowJobLifecycleStateEnum = "FAILED"
 	MediaWorkflowJobLifecycleStateSucceeded  MediaWorkflowJobLifecycleStateEnum = "SUCCEEDED"
 	MediaWorkflowJobLifecycleStateCanceling  MediaWorkflowJobLifecycleStateEnum = "CANCELING"
@@ -119,6 +123,7 @@ var mappingMediaWorkflowJobLifecycleStateEnum = map[string]MediaWorkflowJobLifec
 	"ACCEPTED":    MediaWorkflowJobLifecycleStateAccepted,
 	"IN_PROGRESS": MediaWorkflowJobLifecycleStateInProgress,
 	"WAITING":     MediaWorkflowJobLifecycleStateWaiting,
+	"REJECTED":    MediaWorkflowJobLifecycleStateRejected,
 	"FAILED":      MediaWorkflowJobLifecycleStateFailed,
 	"SUCCEEDED":   MediaWorkflowJobLifecycleStateSucceeded,
 	"CANCELING":   MediaWorkflowJobLifecycleStateCanceling,
@@ -129,6 +134,7 @@ var mappingMediaWorkflowJobLifecycleStateEnumLowerCase = map[string]MediaWorkflo
 	"accepted":    MediaWorkflowJobLifecycleStateAccepted,
 	"in_progress": MediaWorkflowJobLifecycleStateInProgress,
 	"waiting":     MediaWorkflowJobLifecycleStateWaiting,
+	"rejected":    MediaWorkflowJobLifecycleStateRejected,
 	"failed":      MediaWorkflowJobLifecycleStateFailed,
 	"succeeded":   MediaWorkflowJobLifecycleStateSucceeded,
 	"canceling":   MediaWorkflowJobLifecycleStateCanceling,
@@ -150,6 +156,7 @@ func GetMediaWorkflowJobLifecycleStateEnumStringValues() []string {
 		"ACCEPTED",
 		"IN_PROGRESS",
 		"WAITING",
+		"REJECTED",
 		"FAILED",
 		"SUCCEEDED",
 		"CANCELING",

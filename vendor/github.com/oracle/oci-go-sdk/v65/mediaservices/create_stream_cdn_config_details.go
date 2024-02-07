@@ -38,6 +38,9 @@ type CreateStreamCdnConfigDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m CreateStreamCdnConfigDetails) String() string {
@@ -62,6 +65,7 @@ func (m *CreateStreamCdnConfigDetails) UnmarshalJSON(data []byte) (e error) {
 		IsEnabled             *bool                             `json:"isEnabled"`
 		FreeformTags          map[string]string                 `json:"freeformTags"`
 		DefinedTags           map[string]map[string]interface{} `json:"definedTags"`
+		Locks                 []ResourceLock                    `json:"locks"`
 		DisplayName           *string                           `json:"displayName"`
 		DistributionChannelId *string                           `json:"distributionChannelId"`
 		Config                streamcdnconfigsection            `json:"config"`
@@ -78,6 +82,8 @@ func (m *CreateStreamCdnConfigDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.DisplayName = model.DisplayName
 
 	m.DistributionChannelId = model.DistributionChannelId

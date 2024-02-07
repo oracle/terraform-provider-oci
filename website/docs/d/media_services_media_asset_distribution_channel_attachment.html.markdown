@@ -40,6 +40,12 @@ The following attributes are exported:
 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `distribution_channel_id` - OCID of associated Distribution Channel.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The compartment ID of the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `media_workflow_job_id` - The ingest MediaWorkflowJob ID that created this attachment.
 * `metadata_ref` - The identifier for the metadata.
 * `state` - Lifecycle state of the attachment.

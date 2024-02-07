@@ -38,6 +38,10 @@ type SignDataDetails struct {
 	// Denotes whether the value of the message parameter is a raw message or a message digest.
 	// The default value, `RAW`, indicates a message. To indicate a message digest, use `DIGEST`.
 	MessageType SignDataDetailsMessageTypeEnum `mandatory:"false" json:"messageType,omitempty"`
+
+	// Information that can be used to provide context for audit logging. It is a map that contains any additional
+	// data that you provide to include with audit logs, if audit logging is enabled.
+	LoggingContext map[string]string `mandatory:"false" json:"loggingContext"`
 }
 
 func (m SignDataDetails) String() string {
