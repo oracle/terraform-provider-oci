@@ -47,12 +47,24 @@ var (
 	}
 
 	MediaServicesMediaWorkflowConfigurationRepresentation = map[string]interface{}{
+		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"parameters":       acctest.Representation{RepType: acctest.Required, Create: `{\"storage\":{\"inputbucket\":\"myvideobucket\",\"outputbucket\":\"myoutputBucket\"}}`, Update: `{\"storage\":{\"inputbucket\":\"myvideobucket1\",\"outputbucket\":\"myoutputBucket1\"}}`},
+		"is_lock_override": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: MediaServicesMediaWorkflowConfigurationLocksRepresentation},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreDefinedTagsAndLocks},
+	}
+
+	ignoreDefinedTagsAndLocks = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`locks`, `defined_tags`, `is_lock_override`}},
+	}
+
+	MediaServicesMediaWorkflowConfigurationLocksRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"parameters":     acctest.Representation{RepType: acctest.Required, Create: `{\"storage\":{\"inputbucket\":\"myvideobucket\",\"outputbucket\":\"myoutputBucket\"}}`, Update: `{\"storage\":{\"inputbucket\":\"myvideobucket1\",\"outputbucket\":\"myoutputBucket1\"}}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreDefinedTags},
+		"type":           acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message":        acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
 	MediaServicesMediaWorkflowConfigurationResourceDependencies = DefinedTagsDependencies
@@ -100,6 +112,7 @@ func TestMediaServicesMediaWorkflowConfigurationResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + MediaServicesMediaWorkflowConfigurationResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + MediaServicesMediaWorkflowConfigurationResourceDependencies +
@@ -135,6 +148,7 @@ func TestMediaServicesMediaWorkflowConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "parameters", "{\"storage\":{\"inputbucket\":\"myvideobucket\",\"outputbucket\":\"myoutputBucket\"}}"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -192,7 +206,7 @@ func TestMediaServicesMediaWorkflowConfigurationResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "parameters", "{\"storage\":{\"inputbucket\":\"myvideobucket1\",\"outputbucket\":\"myoutputBucket1\"}}"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "parameters", "{\"storage\":{\"inputbucket\":\"myvideobucket1\",\"outputbucket\":\"myoutputBucket1\"}}"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -202,11 +216,13 @@ func TestMediaServicesMediaWorkflowConfigurationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + MediaServicesMediaWorkflowConfigurationRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + MediaServicesMediaWorkflowConfigurationRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"is_lock_override",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

@@ -24,6 +24,16 @@ resource "oci_media_services_media_workflow_job" "test_media_workflow_job" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	display_name = var.media_workflow_job_display_name
 	freeform_tags = {"bar-key"= "value"}
+	locks {
+		#Required
+		compartment_id = var.compartment_id
+		type = var.media_workflow_job_locks_type
+
+		#Optional
+		message = var.media_workflow_job_locks_message
+		related_resource_id = oci_usage_proxy_resource.test_resource.id
+		time_created = var.media_workflow_job_locks_time_created
+	}
 	media_workflow_configuration_ids = var.media_workflow_job_media_workflow_configuration_ids
 	media_workflow_id = oci_media_services_media_workflow.test_media_workflow.id
 	media_workflow_name = oci_media_services_media_workflow.test_media_workflow.name
@@ -39,6 +49,12 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Optional) (Updatable) Name of the Media Workflow Job. Does not have to be unique. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `locks` - (Optional) Locks associated with this resource.
+	* `compartment_id` - (Required) (Updatable) The compartment ID of the lock.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 * `media_workflow_configuration_ids` - (Optional) Configurations to be applied to this run of the workflow.
 * `media_workflow_id` - (Applicable when workflow_identifier_type=ID) OCID of the MediaWorkflow that should be run.
 * `media_workflow_name` - (Applicable when workflow_identifier_type=NAME) Name of the system MediaWorkflow that should be run.
@@ -59,6 +75,12 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier for this run of the workflow.
 * `lifecycle_details` - The lifecyle details.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The compartment ID of the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `media_workflow_configuration_ids` - Configurations to be applied to this run of the workflow.
 * `media_workflow_id` - The workflow to execute.
 * `outputs` - A list of JobOutput for the workflowJob.

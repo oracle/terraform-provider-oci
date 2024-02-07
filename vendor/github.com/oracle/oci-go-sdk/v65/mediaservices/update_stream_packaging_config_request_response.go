@@ -24,6 +24,9 @@ type UpdateStreamPackagingConfigRequest struct {
 	// The information to be updated.
 	UpdateStreamPackagingConfigDetails `contributesTo:"body"`
 
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
 	// etag from a previous GET or POST response for that resource.
@@ -87,9 +90,6 @@ type UpdateStreamPackagingConfigResponse struct {
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
-
-	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

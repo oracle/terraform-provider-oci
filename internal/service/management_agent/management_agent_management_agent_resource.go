@@ -78,6 +78,132 @@ func ManagementAgentManagementAgentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"data_source_list": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"allow_metrics": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"connection_timeout": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"is_daemon_set": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"metric_dimensions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"proxy_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"read_data_limit": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"read_timeout": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"resource_group": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"schedule_mins": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"data_source_summary_list": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"key": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_daemon_set": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"host": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -511,6 +637,14 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	dataSourceList := []interface{}{}
+	for _, item := range s.Res.DataSourceList {
+		dataSourceList = append(dataSourceList, DataSourceToMap(item))
+	}
+	s.D.Set("data_source_list", dataSourceList)
+
+	s.D.Set("data_source_summary_list", []string{})
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -598,6 +732,140 @@ func (s *ManagementAgentManagementAgentResourceCrud) SetData() error {
 	return nil
 }
 
+func DataSourceToMap(obj oci_management_agent.DataSource) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_management_agent.KubernetesClusterDataSource:
+		result["type"] = "KUBERNETES_CLUSTER"
+
+		if v.IsDaemonSet != nil {
+			result["is_daemon_set"] = bool(*v.IsDaemonSet)
+		}
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.Key != nil {
+			result["key"] = string(*v.Key)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+
+		result["state"] = string(v.State)
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+	case oci_management_agent.PrometheusEmitterDataSource:
+		result["type"] = "PROMETHEUS_EMITTER"
+
+		if v.AllowMetrics != nil {
+			result["allow_metrics"] = string(*v.AllowMetrics)
+		}
+
+		if v.ConnectionTimeout != nil {
+			result["connection_timeout"] = int(*v.ConnectionTimeout)
+		}
+
+		metricDimensions := []interface{}{}
+		for _, item := range v.MetricDimensions {
+			metricDimensions = append(metricDimensions, MetricDimensionToMap(item))
+		}
+		result["metric_dimensions"] = metricDimensions
+
+		if v.Namespace != nil {
+			result["namespace"] = string(*v.Namespace)
+		}
+
+		if v.ProxyUrl != nil {
+			result["proxy_url"] = string(*v.ProxyUrl)
+		}
+
+		if v.ReadDataLimit != nil {
+			result["read_data_limit"] = int(*v.ReadDataLimit)
+		}
+
+		if v.ReadTimeout != nil {
+			result["read_timeout"] = int(*v.ReadTimeout)
+		}
+
+		if v.ResourceGroup != nil {
+			result["resource_group"] = string(*v.ResourceGroup)
+		}
+
+		if v.ScheduleMins != nil {
+			result["schedule_mins"] = int(*v.ScheduleMins)
+		}
+
+		if v.Url != nil {
+			result["url"] = string(*v.Url)
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.Key != nil {
+			result["key"] = string(*v.Key)
+		}
+
+		if v.Name != nil {
+			result["name"] = string(*v.Name)
+		}
+
+		result["state"] = string(v.State)
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func DataSourceSummaryItemToMap(obj oci_management_agent.DataSourceSummaryItem) map[string]interface{} {
+	result := map[string]interface{}{}
+	if obj.GetKey() != nil {
+		result["key"] = string(*obj.GetKey())
+	}
+	if obj.GetName() != nil {
+		result["name"] = string(*obj.GetName())
+	}
+	switch v := (obj).(type) {
+	case oci_management_agent.KubernetesClusterDataSourceSummaryItem:
+		result["type"] = "KUBERNETES_CLUSTER"
+
+		if v.IsDaemonSet != nil {
+			result["is_daemon_set"] = bool(*v.IsDaemonSet)
+		}
+	case oci_management_agent.PrometheusEmitterDataSourceSummaryItem:
+		result["type"] = "PROMETHEUS_EMITTER"
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func ManagementAgentPluginDetailsToMap(obj oci_management_agent.ManagementAgentPluginDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -642,6 +910,22 @@ func ManagementAgentPropertyToMap(obj oci_management_agent.ManagementAgentProper
 	result["values"] = obj.Values
 
 	return result
+}
+
+func (s *ManagementAgentManagementAgentResourceCrud) mapToMetricDimension(fieldKeyFormat string) (oci_management_agent.MetricDimension, error) {
+	result := oci_management_agent.MetricDimension{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *ManagementAgentManagementAgentResourceCrud) Create() error {

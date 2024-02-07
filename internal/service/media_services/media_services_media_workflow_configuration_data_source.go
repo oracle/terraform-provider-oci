@@ -85,6 +85,12 @@ func (s *MediaServicesMediaWorkflowConfigurationDataSourceCrud) SetData() error 
 		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.Parameters != nil {
 		jsonStr, err := json.Marshal(s.Res.Parameters)
 		if err == nil {

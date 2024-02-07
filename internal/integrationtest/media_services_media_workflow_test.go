@@ -49,12 +49,20 @@ var (
 	MediaServicesMediaWorkflowRepresentation = map[string]interface{}{
 		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"is_lock_override":                 acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                            acctest.RepresentationGroup{RepType: acctest.Optional, Group: MediaServicesMediaWorkflowLocksRepresentation},
 		"media_workflow_configuration_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_media_services_media_workflow_configuration.test_media_workflow_configuration.id}`}, Update: []string{`${oci_media_services_media_workflow_configuration.test_media_workflow_configuration.id}`}},
 		"parameters":                       acctest.Representation{RepType: acctest.Optional, Create: `{\"inputs\":{\"namespace\":\"axjagzvlc4vi\"}}`, Update: `{\"inputs\":{\"namespace\":\"axjagzvlc4vi\"}}`},
 		"tasks":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: MediaServicesMediaWorkflowTasksRepresentation},
-		"lifecycle":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreDefinedTags},
+		"lifecycle":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreDefinedTagsAndLocks},
+	}
+
+	MediaServicesMediaWorkflowLocksRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"type":           acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message":        acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
 	MediaServicesMediaWorkflowTasksRepresentation = map[string]interface{}{
@@ -65,7 +73,8 @@ var (
 		"parameters":    acctest.Representation{RepType: acctest.Required, Create: `{\"taskParameters\":[{\"bucketName\":\"tf_testing\",\"namespaceName\":\"axjagzvlc4vi\",\"objectName\":\"$${/videos/inputObject}\",\"storageType\":\"objectStorage\",\"target\":\"video.mp4\"}]}`, Update: `{\"taskParameters\":[{\"bucketName\":\"tf_testing\",\"namespaceName\":\"axjagzvlc4vi\",\"objectName\":\"horseInSuit.mp4\",\"storageType\":\"objectStorage\",\"target\":\"video.mp4\"}]}`},
 	}
 
-	MediaServicesMediaWorkflowResourceDependencies = DefinedTagsDependencies + acctest.GenerateResourceFromRepresentationMap("oci_media_services_media_workflow_configuration", "test_media_workflow_configuration", acctest.Required, acctest.Create, MediaServicesMediaWorkflowConfigurationRepresentation)
+	MediaServicesMediaWorkflowResourceDependencies = DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_media_services_media_workflow_configuration", "test_media_workflow_configuration", acctest.Required, acctest.Create, MediaServicesMediaWorkflowConfigurationRepresentation)
 )
 
 // issue-routing-tag: media_services/default
@@ -238,11 +247,13 @@ func TestMediaServicesMediaWorkflowResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + MediaServicesMediaWorkflowRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + MediaServicesMediaWorkflowRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"is_lock_override",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

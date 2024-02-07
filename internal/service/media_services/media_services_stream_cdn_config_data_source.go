@@ -102,6 +102,12 @@ func (s *MediaServicesStreamCdnConfigDataSourceCrud) SetData() error {
 		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

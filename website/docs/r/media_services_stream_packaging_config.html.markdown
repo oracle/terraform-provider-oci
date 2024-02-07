@@ -33,6 +33,16 @@ resource "oci_media_services_stream_packaging_config" "test_stream_packaging_con
 		kms_key_id = oci_kms_key.test_key.id
 	}
 	freeform_tags = {"bar-key"= "value"}
+	locks {
+		#Required
+		compartment_id = var.compartment_id
+		type = var.stream_packaging_config_locks_type
+
+		#Optional
+		message = var.stream_packaging_config_locks_message
+		related_resource_id = oci_usage_proxy_resource.test_resource.id
+		time_created = var.stream_packaging_config_locks_time_created
+	}
 }
 ```
 
@@ -47,6 +57,12 @@ The following arguments are supported:
 	* `algorithm` - (Required) The encryption algorithm for the stream packaging configuration.
 	* `kms_key_id` - (Applicable when algorithm=AES128) The identifier of the customer managed Vault KMS symmetric encryption key (null if Oracle managed).
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `locks` - (Optional) Locks associated with this resource.
+	* `compartment_id` - (Required) The compartment ID of the lock.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 * `segment_time_in_seconds` - (Required) The duration in seconds for each fragment.
 * `stream_packaging_format` - (Required) The output format for the package.
 
@@ -67,6 +83,12 @@ The following attributes are exported:
 	* `kms_key_id` - The identifier of the customer managed Vault KMS symmetric encryption key (null if Oracle managed).
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier that is immutable on creation.
+* `locks` - Locks associated with this resource.
+	* `compartment_id` - The compartment ID of the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `segment_time_in_seconds` - The duration in seconds for each fragment.
 * `state` - The current state of the Packaging Configuration.
 * `stream_packaging_format` - The output format for the package.

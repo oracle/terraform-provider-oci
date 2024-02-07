@@ -24,6 +24,9 @@ type UpdateMediaWorkflowRequest struct {
 	// The information to be updated.
 	UpdateMediaWorkflowDetails `contributesTo:"body"`
 
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
 	// etag from a previous GET or POST response for that resource.

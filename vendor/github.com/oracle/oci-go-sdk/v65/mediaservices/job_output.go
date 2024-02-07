@@ -67,6 +67,7 @@ const (
 	JobOutputAssetTypeTranscriptionJob JobOutputAssetTypeEnum = "TRANSCRIPTION_JOB"
 	JobOutputAssetTypeVisionJob        JobOutputAssetTypeEnum = "VISION_JOB"
 	JobOutputAssetTypeTextAnalysis     JobOutputAssetTypeEnum = "TEXT_ANALYSIS"
+	JobOutputAssetTypeInputFile        JobOutputAssetTypeEnum = "INPUT_FILE"
 	JobOutputAssetTypeOther            JobOutputAssetTypeEnum = "OTHER"
 )
 
@@ -79,6 +80,7 @@ var mappingJobOutputAssetTypeEnum = map[string]JobOutputAssetTypeEnum{
 	"TRANSCRIPTION_JOB": JobOutputAssetTypeTranscriptionJob,
 	"VISION_JOB":        JobOutputAssetTypeVisionJob,
 	"TEXT_ANALYSIS":     JobOutputAssetTypeTextAnalysis,
+	"INPUT_FILE":        JobOutputAssetTypeInputFile,
 	"OTHER":             JobOutputAssetTypeOther,
 }
 
@@ -91,6 +93,7 @@ var mappingJobOutputAssetTypeEnumLowerCase = map[string]JobOutputAssetTypeEnum{
 	"transcription_job": JobOutputAssetTypeTranscriptionJob,
 	"vision_job":        JobOutputAssetTypeVisionJob,
 	"text_analysis":     JobOutputAssetTypeTextAnalysis,
+	"input_file":        JobOutputAssetTypeInputFile,
 	"other":             JobOutputAssetTypeOther,
 }
 
@@ -114,6 +117,7 @@ func GetJobOutputAssetTypeEnumStringValues() []string {
 		"TRANSCRIPTION_JOB",
 		"VISION_JOB",
 		"TEXT_ANALYSIS",
+		"INPUT_FILE",
 		"OTHER",
 	}
 }

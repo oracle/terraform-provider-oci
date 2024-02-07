@@ -38,7 +38,7 @@ var (
 	MysqlMysqlMysqlDbSystemDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"configuration_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.MysqlConfigurationOCID[var.region]}`},
-		"database_management":           acctest.Representation{RepType: acctest.Optional, Create: []oci_mysql.ListDbSystemsDatabaseManagementEnum{`ENABLED`}},
+		"database_management":           acctest.Representation{RepType: acctest.Optional, Create: []oci_mysql.ListDbSystemsDatabaseManagementEnum{`DISABLED`}},
 		"db_system_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_mysql_mysql_db_system.test_mysql_db_system.id}`},
 		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `DBSystem001`, Update: `displayName2`},
 		"is_heat_wave_cluster_attached": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -61,7 +61,7 @@ var (
 		"backup_policy":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemBackupPolicyRepresentation},
 		"crash_recovery":          acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
 		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `50`},
-		"database_management":     acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`},
+		"database_management":     acctest.Representation{RepType: acctest.Optional, Create: `DISABLED`},
 		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"deletion_policy":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: mysqlDbSystemDeletionPolicyRepresentation},
 		"description":             acctest.Representation{RepType: acctest.Optional, Create: `MySQL Database Service`, Update: `description2`},
@@ -74,6 +74,7 @@ var (
 		"maintenance":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemMaintenanceRepresentation},
 		"port":                    acctest.Representation{RepType: acctest.Optional, Create: `3306`},
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
+		"secure_connections":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemSecureConnectionsRepresentation},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepBasic},
 	}
 
@@ -118,6 +119,10 @@ var (
 
 	MysqlMysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
 		"window_start_time": acctest.Representation{RepType: acctest.Required, Create: `sun 01:00`},
+	}
+
+	MysqlMysqlDbSystemSecureConnectionsRepresentation = map[string]interface{}{
+		"certificate_generation_type": acctest.Representation{RepType: acctest.Required, Create: `SYSTEM`},
 	}
 
 	MysqlMysqlDbSystemResourceDependencies = MysqlMysqlConfigurationResourceConfig +
@@ -190,7 +195,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
 				resource.TestCheckResourceAttr(resourceName, "crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
-				resource.TestCheckResourceAttr(resourceName, "database_management", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.0.automatic_backup_retention", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.0.final_backup", "SKIP_FINAL_BACKUP"),
@@ -207,6 +212,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
 				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
@@ -246,7 +253,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "configuration_id"),
 				resource.TestCheckResourceAttr(resourceName, "crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_gb", "50"),
-				resource.TestCheckResourceAttr(resourceName, "database_management", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "database_management", "DISABLED"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.0.automatic_backup_retention", "RETAIN"),
 				resource.TestCheckResourceAttr(resourceName, "deletion_policy.0.final_backup", "REQUIRE_FINAL_BACKUP"),
@@ -262,6 +269,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
 				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.source_type", "NONE"),
@@ -305,7 +314,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.current_placement.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.database_management", "ENABLED"),
+				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.database_management", "DISABLED"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.deletion_policy.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.deletion_policy.0.automatic_backup_retention", "RETAIN"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.deletion_policy.0.final_backup", "REQUIRE_FINAL_BACKUP"),
@@ -347,7 +356,7 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "crash_recovery", "ENABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "current_placement.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_size_in_gb", "50"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "database_management", "ENABLED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_management", "DISABLED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deletion_policy.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deletion_policy.0.automatic_backup_retention", "RETAIN"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deletion_policy.0.final_backup", "REQUIRE_FINAL_BACKUP"),
@@ -368,6 +377,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mysql_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.source_type", "NONE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

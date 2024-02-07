@@ -63,12 +63,10 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, DatabaseMigrationjobSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.status", "COMPLETED"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.issue", ""),
-				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.action", ""),
-				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.1.status", "FAILED"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "progress.0.phases.1.issue"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "progress.0.phases.1.action"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.status", "FAILED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.issue", "An attempt to migrate a database was rejected because the lifecycle state of the database on Oracle Cloud Infrastructure (OCI) with the specified Oracle Cloud identifier (OCID) was not ''Available''."),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.action", "Ensure that the lifecycle state of the specified database on OCI is ''Available'', and then retry the operation."),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.1.status", "PENDING"),
 			),
 		},
 	})

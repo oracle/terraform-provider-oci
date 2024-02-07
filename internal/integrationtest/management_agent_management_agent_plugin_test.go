@@ -20,6 +20,7 @@ var (
 		"agent_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.test_agent_id}`},
 		"platform_type":  acctest.Representation{RepType: acctest.Optional, Create: []string{`LINUX`}},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Test Plugin`},
 	}
 
 	ManagementAgentPluginResourceConfig = ""

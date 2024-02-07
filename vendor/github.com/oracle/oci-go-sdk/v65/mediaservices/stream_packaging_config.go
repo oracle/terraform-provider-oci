@@ -57,6 +57,9 @@ type StreamPackagingConfig interface {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	GetSystemTags() map[string]map[string]interface{}
+
+	// Locks associated with this resource.
+	GetLocks() []ResourceLock
 }
 
 type streampackagingconfig struct {
@@ -68,6 +71,7 @@ type streampackagingconfig struct {
 	FreeformTags          map[string]string                       `mandatory:"false" json:"freeformTags"`
 	DefinedTags           map[string]map[string]interface{}       `mandatory:"false" json:"definedTags"`
 	SystemTags            map[string]map[string]interface{}       `mandatory:"false" json:"systemTags"`
+	Locks                 []ResourceLock                          `mandatory:"false" json:"locks"`
 	Id                    *string                                 `mandatory:"true" json:"id"`
 	CompartmentId         *string                                 `mandatory:"true" json:"compartmentId"`
 	DistributionChannelId *string                                 `mandatory:"true" json:"distributionChannelId"`
@@ -99,6 +103,7 @@ func (m *streampackagingconfig) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
+	m.Locks = s.Model.Locks
 	m.StreamPackagingFormat = s.Model.StreamPackagingFormat
 
 	return err
@@ -160,6 +165,11 @@ func (m streampackagingconfig) GetDefinedTags() map[string]map[string]interface{
 // GetSystemTags returns SystemTags
 func (m streampackagingconfig) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetLocks returns Locks
+func (m streampackagingconfig) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetId returns Id

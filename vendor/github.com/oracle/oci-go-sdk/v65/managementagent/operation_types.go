@@ -23,6 +23,9 @@ const (
 	OperationTypesUpgradePlugin        OperationTypesEnum = "UPGRADE_PLUGIN"
 	OperationTypesCreateUpgradePlugins OperationTypesEnum = "CREATE_UPGRADE_PLUGINS"
 	OperationTypesAgentimageUpgrade    OperationTypesEnum = "AGENTIMAGE_UPGRADE"
+	OperationTypesCreateDataSource     OperationTypesEnum = "CREATE_DATA_SOURCE"
+	OperationTypesUpdateDataSource     OperationTypesEnum = "UPDATE_DATA_SOURCE"
+	OperationTypesDeleteDataSource     OperationTypesEnum = "DELETE_DATA_SOURCE"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -30,6 +33,9 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPGRADE_PLUGIN":         OperationTypesUpgradePlugin,
 	"CREATE_UPGRADE_PLUGINS": OperationTypesCreateUpgradePlugins,
 	"AGENTIMAGE_UPGRADE":     OperationTypesAgentimageUpgrade,
+	"CREATE_DATA_SOURCE":     OperationTypesCreateDataSource,
+	"UPDATE_DATA_SOURCE":     OperationTypesUpdateDataSource,
+	"DELETE_DATA_SOURCE":     OperationTypesDeleteDataSource,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -37,6 +43,9 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"upgrade_plugin":         OperationTypesUpgradePlugin,
 	"create_upgrade_plugins": OperationTypesCreateUpgradePlugins,
 	"agentimage_upgrade":     OperationTypesAgentimageUpgrade,
+	"create_data_source":     OperationTypesCreateDataSource,
+	"update_data_source":     OperationTypesUpdateDataSource,
+	"delete_data_source":     OperationTypesDeleteDataSource,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -55,6 +64,9 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPGRADE_PLUGIN",
 		"CREATE_UPGRADE_PLUGINS",
 		"AGENTIMAGE_UPGRADE",
+		"CREATE_DATA_SOURCE",
+		"UPDATE_DATA_SOURCE",
+		"DELETE_DATA_SOURCE",
 	}
 }
 

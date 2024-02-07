@@ -31,7 +31,7 @@ type MediaWorkflow struct {
 	// The processing to be done in this workflow. Each key of the MediaWorkflowTasks in this array is unique
 	// within the array.  The order of the items is preserved from the order of the tasks array in
 	// CreateMediaWorkflowDetails or UpdateMediaWorkflowDetails.
-	Tasks []MediaWorkflowTask `mandatory:"false" json:"tasks"`
+	Tasks []MediaWorkflowTask `mandatory:"true" json:"tasks"`
 
 	// Configurations to be applied to all the runs of this workflow. Parameters in these configurations are
 	// overridden by parameters in the MediaWorkflowConfigurations of the MediaWorkflowJob and the
@@ -58,6 +58,9 @@ type MediaWorkflow struct {
 
 	// The version of the MediaWorkflow.
 	Version *int64 `mandatory:"false" json:"version"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

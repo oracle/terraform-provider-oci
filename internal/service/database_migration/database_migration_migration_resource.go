@@ -1345,6 +1345,7 @@ func (s *DatabaseMigrationMigrationResourceCrud) Create() error {
 }
 
 func (s *DatabaseMigrationMigrationResourceCrud) getMigrationFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+
 	actionTypeEnum oci_database_migration.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
@@ -1379,6 +1380,7 @@ func migrationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 }
 
 func migrationWaitForWorkRequest(wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
+
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_migration.DatabaseMigrationClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_migration")
 	retryPolicy.ShouldRetryOperation = migrationWorkRequestShouldRetryFunc(timeout)
@@ -2504,6 +2506,7 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateGoldenGateDetails(fi
 
 	return result, nil
 }
+
 func GoldenGateDetailsToMap(obj *oci_database_migration.GoldenGateDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -2810,6 +2813,7 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateGoldenGateServiceDet
 }
 
 // func GoldenGateServiceDetailsToMap(obj *oci_database_migration.CreateGoldenGateServiceDetails) map[string]interface{} {
+
 func GoldenGateServiceDetailsToMap(obj *oci_database_migration.GoldenGateServiceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -3483,7 +3487,6 @@ func MetadataRemapToMap(obj oci_database_migration.MetadataRemap) map[string]int
 
 	return result
 }
-
 func MigrationSummaryToMap(obj oci_database_migration.MigrationSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 

@@ -37,45 +37,6 @@ func VaultSecretResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"secret_content": {
-				Type:     schema.TypeList,
-				Required: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"content_type": {
-							Type:             schema.TypeString,
-							Required:         true,
-							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-							ValidateFunc: validation.StringInSlice([]string{
-								"BASE64",
-							}, true),
-						},
-
-						// Optional
-						"content": {
-							Type: schema.TypeString,
-							//Optional: true,
-							//Computed: true,
-							Required: true,
-						},
-						"name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-						"stage": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-					},
-				},
-			},
 			"secret_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -118,6 +79,105 @@ func VaultSecretResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"rotation_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"target_system_details": {
+							Type:     schema.TypeList,
+							Required: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"target_system_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"ADB",
+											"FUNCTION",
+										}, true),
+									},
+
+									// Optional
+									"adb_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"function_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+						"is_scheduled_rotation_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"rotation_interval": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"secret_content": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"content_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"BASE64",
+							}, true),
+						},
+
+						// Optional
+						"content": {
+							Type:     schema.TypeString,
+							Optional: true,
+							//Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"stage": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"secret_rules": {
 				Type:     schema.TypeList,
@@ -169,7 +229,19 @@ func VaultSecretResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"last_rotation_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"next_rotation_time": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"rotation_status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -296,6 +368,17 @@ func (s *VaultSecretResourceCrud) Create() error {
 		request.Metadata = metadata.(map[string]interface{})
 	}
 
+	if rotationConfig, ok := s.D.GetOkExists("rotation_config"); ok {
+		if tmpList := rotationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rotation_config", 0)
+			tmp, err := s.mapToRotationConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.RotationConfig = &tmp
+		}
+	}
+
 	if secretContent, ok := s.D.GetOkExists("secret_content"); ok {
 		if tmpList := secretContent.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secret_content", 0)
@@ -404,6 +487,17 @@ func (s *VaultSecretResourceCrud) Update() error {
 		request.Metadata = metadata.(map[string]interface{})
 	}
 
+	if rotationConfig, ok := s.D.GetOkExists("rotation_config"); ok {
+		if tmpList := rotationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "rotation_config", 0)
+			tmp, err := s.mapToRotationConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.RotationConfig = &tmp
+		}
+	}
+
 	if secretContent, ok := s.D.GetOkExists("secret_content"); ok && s.D.HasChange("secret_content") {
 		if tmpList := secretContent.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secret_content", 0)
@@ -481,11 +575,27 @@ func (s *VaultSecretResourceCrud) SetData() error {
 		s.D.Set("key_id", *s.Res.KeyId)
 	}
 
+	if s.Res.LastRotationTime != nil {
+		s.D.Set("last_rotation_time", s.Res.LastRotationTime.String())
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	s.D.Set("metadata", s.Res.Metadata)
+
+	if s.Res.NextRotationTime != nil {
+		s.D.Set("next_rotation_time", s.Res.NextRotationTime.String())
+	}
+
+	if s.Res.RotationConfig != nil {
+		s.D.Set("rotation_config", []interface{}{RotationConfigToMap(s.Res.RotationConfig)})
+	} else {
+		s.D.Set("rotation_config", nil)
+	}
+
+	s.D.Set("rotation_status", s.Res.RotationStatus)
 
 	if s.Res.SecretName != nil {
 		s.D.Set("secret_name", *s.Res.SecretName)
@@ -516,6 +626,55 @@ func (s *VaultSecretResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *VaultSecretResourceCrud) mapToRotationConfig(fieldKeyFormat string) (oci_vault.RotationConfig, error) {
+	result := oci_vault.RotationConfig{}
+
+	if isScheduledRotationEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_scheduled_rotation_enabled")); ok {
+		tmp := isScheduledRotationEnabled.(bool)
+		result.IsScheduledRotationEnabled = &tmp
+	}
+
+	if rotationInterval, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rotation_interval")); ok {
+		tmp := rotationInterval.(string)
+		result.RotationInterval = &tmp
+	}
+
+	if targetSystemDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_system_details")); ok {
+		if tmpList := targetSystemDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "target_system_details"), 0)
+			tmp, err := s.mapToTargetSystemDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert target_system_details, encountered error: %v", err)
+			}
+			result.TargetSystemDetails = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func RotationConfigToMap(obj *oci_vault.RotationConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsScheduledRotationEnabled != nil {
+		result["is_scheduled_rotation_enabled"] = bool(*obj.IsScheduledRotationEnabled)
+	}
+
+	if obj.RotationInterval != nil {
+		result["rotation_interval"] = string(*obj.RotationInterval)
+	}
+
+	if obj.TargetSystemDetails != nil {
+		targetSystemDetailsArray := []interface{}{}
+		if targetSystemDetailsMap := TargetSystemDetailsToMap(&obj.TargetSystemDetails); targetSystemDetailsMap != nil {
+			targetSystemDetailsArray = append(targetSystemDetailsArray, targetSystemDetailsMap)
+		}
+		result["target_system_details"] = targetSystemDetailsArray
+	}
+
+	return result
 }
 
 func (s *VaultSecretResourceCrud) mapToSecretContentDetails(fieldKeyFormat string) (oci_vault.SecretContentDetails, error) {
@@ -633,6 +792,60 @@ func SecretRuleToMap(obj oci_vault.SecretRule) map[string]interface{} {
 		}
 	default:
 		log.Printf("[WARN] Received 'rule_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *VaultSecretResourceCrud) mapToTargetSystemDetails(fieldKeyFormat string) (oci_vault.TargetSystemDetails, error) {
+	var baseObject oci_vault.TargetSystemDetails
+	//discriminator
+	targetSystemTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target_system_type"))
+	var targetSystemType string
+	if ok {
+		targetSystemType = targetSystemTypeRaw.(string)
+	} else {
+		targetSystemType = "" // default value
+	}
+	switch strings.ToLower(targetSystemType) {
+	case strings.ToLower("ADB"):
+		details := oci_vault.AdbTargetSystemDetails{}
+		if adbId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "adb_id")); ok {
+			tmp := adbId.(string)
+			details.AdbId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("FUNCTION"):
+		details := oci_vault.FunctionTargetSystemDetails{}
+		if functionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function_id")); ok {
+			tmp := functionId.(string)
+			details.FunctionId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown target_system_type '%v' was specified", targetSystemType)
+	}
+	return baseObject, nil
+}
+
+func TargetSystemDetailsToMap(obj *oci_vault.TargetSystemDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_vault.AdbTargetSystemDetails:
+		result["target_system_type"] = "ADB"
+
+		if v.AdbId != nil {
+			result["adb_id"] = string(*v.AdbId)
+		}
+	case oci_vault.FunctionTargetSystemDetails:
+		result["target_system_type"] = "FUNCTION"
+
+		if v.FunctionId != nil {
+			result["function_id"] = string(*v.FunctionId)
+		}
+	default:
+		log.Printf("[WARN] Received 'target_system_type' of unknown type %v", *obj)
 		return nil
 	}
 

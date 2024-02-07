@@ -64,6 +64,13 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	}
 	port = var.mysql_db_system_port
 	port_x = var.mysql_db_system_port_x
+	secure_connections {
+		#Required
+		certificate_generation_type = var.mysql_db_system_secure_connections_certificate_generation_type
+
+		#Optional
+		certificate_id = oci_apigateway_certificate.test_certificate.id
+	}
 	source {
 		#Required
 		source_type = var.mysql_db_system_source_source_type
@@ -146,6 +153,9 @@ The following arguments are supported:
 * `mysql_version` - (Optional) The specific MySQL version identifier.
 * `port` - (Optional) The port for primary endpoint of the DB System to listen on.
 * `port_x` - (Optional) The TCP network port on which X Plugin listens for connections. This is the X Plugin equivalent of port. 
+* `secure_connections` - (Optional) (Updatable) Secure connection configuration details. 
+	* `certificate_generation_type` - (Required) (Updatable) Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
+	* `certificate_id` - (Optional) (Updatable) The OCID of the certificate to use.
 * `shape_name` - (Required) (Updatable) The name of the shape. The shape determines the resources allocated
 	* CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `source` - (Optional) Parameters detailing how to provision the initial data of the system. 
@@ -294,6 +304,9 @@ The following attributes are exported:
 	* `time_latest_recovery_point` - Latest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `port` - The port for primary endpoint of the DB System to listen on.
 * `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 
+* `secure_connections` - Secure connection configuration details. 
+	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
+	* `certificate_id` - The OCID of the certificate to use.
 * `shape_name` - The shape of the primary instances of the DB System. The shape determines resources allocated to a DB System - CPU cores and memory for VM shapes; CPU cores, memory and storage for non-VM (or bare metal) shapes. To get a list of shapes, use (the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20181021/ShapeSummary/ListShapes) operation. 
 * `source` - Parameters detailing how to provision the initial data of the DB System. 
 	* `backup_id` - The OCID of the backup to be used as the source for the new DB System. 

@@ -1,3 +1,14 @@
+## 5.28.0 (February 07, 2024)
+
+### Added
+Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_resource
+- Support for MySQL Database Service: Bring Your Own Certs (BYOC)
+- Support for secret rotation feature in SiV
+- Support for Configuration of Prometheus exporter for Management Agent
+- Support for Digital Media Services - Resource Locking
+### Bug Fix
+- Fix the document for how to update volumes in oci_core_volume_group
+
 ## 5.27.0 (January 31, 2024)
 
 ### Added

@@ -148,7 +148,7 @@ func (client GenerativeAiClient) changeDedicatedAiClusterCompartment(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/ChangeDedicatedAiClusterCompartment"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeDedicatedAiClusterCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -211,7 +211,7 @@ func (client GenerativeAiClient) changeEndpointCompartment(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/ChangeEndpointCompartment"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeEndpointCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -274,7 +274,7 @@ func (client GenerativeAiClient) changeModelCompartment(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/ChangeModelCompartment"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ChangeModelCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -337,7 +337,7 @@ func (client GenerativeAiClient) createDedicatedAiCluster(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/CreateDedicatedAiCluster"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateDedicatedAiCluster", apiReferenceLink)
 		return response, err
 	}
@@ -401,7 +401,7 @@ func (client GenerativeAiClient) createEndpoint(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/CreateEndpoint"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -465,7 +465,7 @@ func (client GenerativeAiClient) createModel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/CreateModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "CreateModel", apiReferenceLink)
 		return response, err
 	}
@@ -524,7 +524,7 @@ func (client GenerativeAiClient) deleteDedicatedAiCluster(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/DeleteDedicatedAiCluster"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteDedicatedAiCluster", apiReferenceLink)
 		return response, err
 	}
@@ -582,7 +582,7 @@ func (client GenerativeAiClient) deleteEndpoint(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/DeleteEndpoint"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -640,7 +640,7 @@ func (client GenerativeAiClient) deleteModel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/DeleteModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "DeleteModel", apiReferenceLink)
 		return response, err
 	}
@@ -698,7 +698,7 @@ func (client GenerativeAiClient) getDedicatedAiCluster(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/GetDedicatedAiCluster"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetDedicatedAiCluster", apiReferenceLink)
 		return response, err
 	}
@@ -756,7 +756,7 @@ func (client GenerativeAiClient) getEndpoint(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/GetEndpoint"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -814,7 +814,7 @@ func (client GenerativeAiClient) getModel(ctx context.Context, request common.OC
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/GetModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetModel", apiReferenceLink)
 		return response, err
 	}
@@ -872,7 +872,7 @@ func (client GenerativeAiClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -930,7 +930,7 @@ func (client GenerativeAiClient) listDedicatedAiClusters(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiClusterCollection/ListDedicatedAiClusters"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListDedicatedAiClusters", apiReferenceLink)
 		return response, err
 	}
@@ -988,7 +988,7 @@ func (client GenerativeAiClient) listEndpoints(ctx context.Context, request comm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/EndpointCollection/ListEndpoints"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListEndpoints", apiReferenceLink)
 		return response, err
 	}
@@ -1046,7 +1046,7 @@ func (client GenerativeAiClient) listModels(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/ModelCollection/ListModels"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListModels", apiReferenceLink)
 		return response, err
 	}
@@ -1104,7 +1104,7 @@ func (client GenerativeAiClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1162,7 +1162,7 @@ func (client GenerativeAiClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1220,7 +1220,7 @@ func (client GenerativeAiClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1278,7 +1278,7 @@ func (client GenerativeAiClient) updateDedicatedAiCluster(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/DedicatedAiCluster/UpdateDedicatedAiCluster"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateDedicatedAiCluster", apiReferenceLink)
 		return response, err
 	}
@@ -1336,7 +1336,7 @@ func (client GenerativeAiClient) updateEndpoint(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Endpoint/UpdateEndpoint"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateEndpoint", apiReferenceLink)
 		return response, err
 	}
@@ -1394,7 +1394,7 @@ func (client GenerativeAiClient) updateModel(ctx context.Context, request common
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/generative-ai/20231130/Model/UpdateModel"
 		err = common.PostProcessServiceError(err, "GenerativeAi", "UpdateModel", apiReferenceLink)
 		return response, err
 	}

@@ -26,6 +26,8 @@ data "oci_management_agent_management_agents" "test_management_agents" {
 	access_level = var.management_agent_access_level
 	availability_status = var.management_agent_availability_status
 	compartment_id_in_subtree = var.management_agent_compartment_id_in_subtree
+	data_source_name = oci_management_agent_management_agent_data_source.test_management_agent_data_source.name
+	data_source_type = var.management_agent_data_source_type
 	display_name = var.management_agent_display_name
 	gateway_id = oci_apigateway_gateway.test_gateway.id
 	host_id = oci_management_agent_host.test_host.id
@@ -46,6 +48,8 @@ The following arguments are supported:
 * `availability_status` - (Optional) Filter to return only Management Agents in the particular availability status.
 * `compartment_id` - (Required) The OCID of the compartment to which a request will be scoped.
 * `compartment_id_in_subtree` - (Optional) if set to true then it fetches resources for all compartments where user has access to else only on the compartment specified.
+* `data_source_name` - (Optional) Unique name of the dataSource.
+* `data_source_type` - (Optional) The type of the dataSource.
 * `display_name` - (Optional) Filter to return only Management Agents having the particular display name.
 * `gateway_id` - (Optional) Filter to return only results having the particular gatewayId.
 * `host_id` - (Optional) Filter to return only Management Agents having the particular agent host id.
@@ -69,6 +73,11 @@ The following attributes are exported:
 
 * `availability_status` - The current availability status of managementAgent
 * `compartment_id` - Compartment Identifier
+* `data_source_summary_list` - list of dataSources associated with the agent
+    * `is_daemon_set` - If the Kubernetes cluster type is Daemon set then this will be set to true.
+	* `key` - Identifier for DataSource. This represents the type and name for the data source associated with the Management Agent.
+	* `name` - Unique name of the DataSource.
+	* `type` - The type of the DataSource.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Management Agent Name
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 

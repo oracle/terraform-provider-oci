@@ -20,6 +20,9 @@ import (
 // processing, and any processing that must be completed before this processing begins.
 type MediaWorkflowTask struct {
 
+	// The type of process to run at this task. Refers to the name of a MediaWorkflowTaskDeclaration.
+	Type *string `mandatory:"true" json:"type"`
+
 	// The version of the MediaWorkflowTaskDeclaration.
 	Version *int64 `mandatory:"true" json:"version"`
 
@@ -27,8 +30,10 @@ type MediaWorkflowTask struct {
 	// and MediaWorkflowJobs. Tasks are referenced as prerequisites and to track output and state.
 	Key *string `mandatory:"true" json:"key"`
 
-	// The type of process to run at this task. Refers to the name of a MediaWorkflowTaskDeclaration.
-	Type *string `mandatory:"false" json:"type"`
+	// Data specifiying how this task is to be run. The data is a JSON object that must conform to the JSON Schema
+	// specified by the parameters of the MediaWorkflowTaskDeclaration this task references. The parameters may
+	// contain values or references to other parameters.
+	Parameters map[string]interface{} `mandatory:"true" json:"parameters"`
 
 	// Keys to the other tasks in this workflow that must be completed before execution of this task can begin.
 	Prerequisites []string `mandatory:"false" json:"prerequisites"`
@@ -43,11 +48,6 @@ type MediaWorkflowTask struct {
 	// enableParameterReference is equal to the value of this property. This property must be prenset if and only if
 	// a enableParameterReference is given. The value is a JSON node.
 	EnableWhenReferencedParameterEquals map[string]interface{} `mandatory:"false" json:"enableWhenReferencedParameterEquals"`
-
-	// Data specifiying how this task is to be run. The data is a JSON object that must conform to the JSON Schema
-	// specified by the parameters of the MediaWorkflowTaskDeclaration this task references. The parameters may
-	// contain values or references to other parameters.
-	Parameters map[string]interface{} `mandatory:"false" json:"parameters"`
 }
 
 func (m MediaWorkflowTask) String() string {

@@ -22,9 +22,9 @@ resource "oci_vault_secret" "test_secret" {
 	secret_content {
 		#Required
 		content_type = var.secret_secret_content_content_type
-		content = var.secret_secret_content_content		
 
 		#Optional
+		content = var.secret_secret_content_content
 		name = var.secret_secret_content_name
 		stage = var.secret_secret_content_stage
 	}
@@ -37,6 +37,30 @@ resource "oci_vault_secret" "test_secret" {
 	freeform_tags = {"Department"= "Finance"}
 	key_id = oci_kms_key.test_key.id
 	metadata = var.secret_metadata
+	rotation_config {
+		#Required
+		target_system_details {
+			#Required
+			target_system_type = var.secret_rotation_config_target_system_details_target_system_type
+
+			#Optional
+			adb_id = oci_vault_adb.test_adb.id
+			function_id = oci_functions_function.test_function.id
+		}
+
+		#Optional
+		is_scheduled_rotation_enabled = var.secret_rotation_config_is_scheduled_rotation_enabled
+		rotation_interval = var.secret_rotation_config_rotation_interval
+	}
+	secret_content {
+		#Required
+		content_type = var.secret_secret_content_content_type
+
+		#Optional
+		content = var.secret_secret_content_content
+		name = var.secret_secret_content_name
+		stage = var.secret_secret_content_stage
+	}
 	secret_rules {
 		#Required
 		rule_type = var.secret_secret_rules_rule_type
@@ -58,19 +82,26 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) A brief description of the secret. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `key_id` - (Optional) The OCID of the master encryption key that is used to encrypt the secret.
-* `metadata` - (Optional) (Updatable) Additional metadata that you can use to provide context about how to use the secret during rotation or other administrative tasks. For example, for a secret that you use to connect to a database, the additional metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs. 
-* `secret_content` - (Required) (Updatable) The content of the secret and metadata to help identify it.
-	* `content` - (Required) (Updatable) The base64-encoded content of the secret.
-	* `content_type` - (Required) (Updatable) content type . Example `BASE64` .
+* `key_id` - (Optional) The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify. 
+* `metadata` - (Optional) (Updatable) Additional metadata that you can use to provide context about how to use the secret during rotation or other administrative tasks. For example, for a secret that you use to connect to a database, the additional metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs.
+* `rotation_config` - (Optional) (Updatable) Defines the frequency of the rotation and the information about the target system
+	* `is_scheduled_rotation_enabled` - (Optional) (Updatable) Enables auto rotation, when set to true rotationInterval must be set. 
+	* `rotation_interval` - (Optional) (Updatable) The time interval that indicates the frequency for rotating secret data, as described in ISO 8601 format. The minimum value is 1 day and maximum value is 360 days. For example, if you want to set the time interval for rotating a secret data as 30 days, the duration is expressed as "P30D." 
+	* `target_system_details` - (Required) (Updatable) The TargetSystemDetails provides the targetSystem type and type-specific connection metadata 
+		* `adb_id` - (Required when target_system_type=ADB) (Updatable) The unique identifier (OCID) for the autonomous database that Vault Secret connects to. 
+		* `function_id` - (Required when target_system_type=FUNCTION) (Updatable) The unique identifier (OCID) of the Oracle Cloud Infrastructure Functions that vault secret connects to. 
+		* `target_system_type` - (Required) (Updatable) Unique identifier of the target system that Vault Secret connects to. 
+* `secret_content` - (Optional) (Updatable) The content of the secret and metadata to help identify it.
+	* `content` - (Optional) (Updatable) The base64-encoded content of the secret.
+	* `content_type` - (Optional) (Updatable) The base64-encoded content of the secret.
 	* `name` - (Optional) (Updatable) Names should be unique within a secret. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
-	* `stage` - (Optional) (Updatable) The rotation state of the secret content. The default is `CURRENT`, meaning that the secret is currently in use. A secret version that you mark as `PENDING` is staged and available for use, but you don't yet want to rotate it into current, active use. For example, you might create or update a secret and mark its rotation state as `PENDING` if you haven't yet updated the secret on the target system. When creating a secret, only the value `CURRENT` is applicable, although the value `LATEST` is also automatically applied. When updating  a secret, you can specify a version's rotation state as either `CURRENT` or `PENDING`. 
+	* `stage` - (Optional) (Updatable) The rotation state of the secret content. The default is `CURRENT`, meaning that the secret is currently in use. A secret version that you mark as `PENDING` is staged and available for use, but you don't yet want to rotate it into current, active use. For example, you might create or update a secret and mark its rotation state as `PENDING` if you haven't yet updated the secret on the target system. When creating a secret, only the value `CURRENT` is applicable, although the value `LATEST` is also automatically applied. When updating a secret, you can specify a version's rotation state as either `CURRENT` or `PENDING`. 
 * `secret_name` - (Required) A user-friendly name for the secret. Secret names should be unique within a vault. Avoid entering confidential information. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods. 
 * `secret_rules` - (Optional) (Updatable) A list of rules to control how the secret is used and managed.
 	* `is_enforced_on_deleted_secret_versions` - (Applicable when rule_type=SECRET_REUSE_RULE) (Updatable) A property indicating whether the rule is applied even if the secret version with the content you are trying to reuse was deleted. 
 	* `is_secret_content_retrieval_blocked_on_expiry` - (Applicable when rule_type=SECRET_EXPIRY_RULE) (Updatable) A property indicating whether to block retrieval of the secret content, on expiry. The default is false. If the secret has already expired and you would like to retrieve the secret contents, you need to edit the secret rule to disable this property, to allow reading the secret content. 
 	* `rule_type` - (Required) (Updatable) The type of rule, which either controls when the secret contents expire or whether they can be reused.
-	* `secret_version_expiry_interval` - (Applicable when rule_type=SECRET_EXPIRY_RULE) (Updatable) A property indicating how long the secret contents will be considered valid, expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. The secret needs to be updated when the secret content expires. No enforcement mechanism exists at this time, but audit logs record the expiration on the appropriate date, according to the time interval specified in the rule. The timer resets after you update the secret contents. The minimum value is 1 day and the maximum value is 90 days for this property. Currently, only intervals expressed in days are supported. For example, pass `P3D` to have the secret version expire every 3 days. 
+	* `secret_version_expiry_interval` - (Applicable when rule_type=SECRET_EXPIRY_RULE) (Updatable) A property indicating how long the secret contents will be considered valid, expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. The secret needs to be updated when the secret content expires. The timer resets after you update the secret contents. The minimum value is 1 day and the maximum value is 90 days for this property. Currently, only intervals expressed in days are supported. For example, pass `P3D` to have the secret version expire every 3 days. 
 	* `time_of_absolute_expiry` - (Applicable when rule_type=SECRET_EXPIRY_RULE) (Updatable) An optional property indicating the absolute time when this secret will expire, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. The minimum number of days from current time is 1 day and the maximum number of days from current time is 365 days. Example: `2019-04-03T21:10:29.600Z` 
 * `vault_id` - (Required) The OCID of the vault where you want to create the secret.
 
@@ -88,15 +119,25 @@ The following attributes are exported:
 * `description` - A brief description of the secret. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the secret.
-* `key_id` - The OCID of the master encryption key that is used to encrypt the secret.
+* `key_id` - The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify. 
+* `last_rotation_time` - A property indicating when the secret was last rotated successfully, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 * `lifecycle_details` - Additional information about the current lifecycle state of the secret.
 * `metadata` - Additional metadata that you can use to provide context about how to use the secret or during rotation or other administrative tasks. For example, for a secret that you use to connect to a database, the additional metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs. 
+* `next_rotation_time` - A property indicating when the secret is scheduled to be rotated, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
+* `rotation_config` - Defines the frequency of the rotation and the information about the target system
+	* `is_scheduled_rotation_enabled` - Enables auto rotation, when set to true rotationInterval must be set. 
+	* `rotation_interval` - The time interval that indicates the frequency for rotating secret data, as described in ISO 8601 format. The minimum value is 1 day and maximum value is 360 days. For example, if you want to set the time interval for rotating a secret data as 30 days, the duration is expressed as "P30D." 
+	* `target_system_details` - The TargetSystemDetails provides the targetSystem type and type-specific connection metadata 
+		* `adb_id` - The unique identifier (OCID) for the autonomous database that Vault Secret connects to. 
+		* `function_id` - The unique identifier (OCID) of the Oracle Cloud Infrastructure Functions that vault secret connects to. 
+		* `target_system_type` - Unique identifier of the target system that Vault Secret connects to. 
+* `rotation_status` - Additional information about the status of the secret rotation
 * `secret_name` - The user-friendly name of the secret. Avoid entering confidential information.
 * `secret_rules` - A list of rules that control how the secret is used and managed.
 	* `is_enforced_on_deleted_secret_versions` - A property indicating whether the rule is applied even if the secret version with the content you are trying to reuse was deleted. 
 	* `is_secret_content_retrieval_blocked_on_expiry` - A property indicating whether to block retrieval of the secret content, on expiry. The default is false. If the secret has already expired and you would like to retrieve the secret contents, you need to edit the secret rule to disable this property, to allow reading the secret content. 
 	* `rule_type` - The type of rule, which either controls when the secret contents expire or whether they can be reused.
-	* `secret_version_expiry_interval` - A property indicating how long the secret contents will be considered valid, expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. The secret needs to be updated when the secret content expires. No enforcement mechanism exists at this time, but audit logs record the expiration on the appropriate date, according to the time interval specified in the rule. The timer resets after you update the secret contents. The minimum value is 1 day and the maximum value is 90 days for this property. Currently, only intervals expressed in days are supported. For example, pass `P3D` to have the secret version expire every 3 days. 
+	* `secret_version_expiry_interval` - A property indicating how long the secret contents will be considered valid, expressed in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601#Time_intervals) format. The secret needs to be updated when the secret content expires. The timer resets after you update the secret contents. The minimum value is 1 day and the maximum value is 90 days for this property. Currently, only intervals expressed in days are supported. For example, pass `P3D` to have the secret version expire every 3 days. 
 	* `time_of_absolute_expiry` - An optional property indicating the absolute time when this secret will expire, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. The minimum number of days from current time is 1 day and the maximum number of days from current time is 365 days. Example: `2019-04-03T21:10:29.600Z` 
 * `state` - The current lifecycle state of the secret.
 * `time_created` - A property indicating when the secret was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 

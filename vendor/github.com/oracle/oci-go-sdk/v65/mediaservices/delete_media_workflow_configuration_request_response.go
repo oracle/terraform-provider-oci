@@ -21,6 +21,9 @@ type DeleteMediaWorkflowConfigurationRequest struct {
 	// Unique MediaWorkflowConfiguration identifier.
 	MediaWorkflowConfigurationId *string `mandatory:"true" contributesTo:"path" name:"mediaWorkflowConfigurationId"`
 
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
 	// etag from a previous GET or POST response for that resource.
@@ -78,9 +81,6 @@ type DeleteMediaWorkflowConfigurationResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
-
-	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

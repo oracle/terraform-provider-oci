@@ -72,6 +72,9 @@ The following attributes are exported:
 	* `configuration_id` - The OCID of the Configuration to be used by the read replica.
 	* `mysql_version` - The MySQL version to be used by the read replica.
 	* `shape_name` - The shape to be used by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
+* `secure_connections` - Secure connection configuration details. 
+	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
+	* `certificate_id` - The OCID of the certificate to use.
 * `shape_name` - The shape currently in use by the read replica. The shape determines the resources allocated:  CPU cores and memory for VM shapes, CPU cores, memory and storage for non-VM (bare metal) shapes.  To get a list of shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/mysql/20190415/ShapeSummary/ListShapes) operation. 
 * `state` - The state of the read replica.
 * `time_created` - The date and time the read replica was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 

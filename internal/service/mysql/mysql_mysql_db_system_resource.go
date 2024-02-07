@@ -266,6 +266,31 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"secure_connections": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"certificate_generation_type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"certificate_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"source": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -951,6 +976,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.PortX = &tmp
 	}
 
+	if secureConnections, ok := s.D.GetOkExists("secure_connections"); ok {
+		if tmpList := secureConnections.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secure_connections", 0)
+			tmp, err := s.mapToSecureConnectionDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecureConnections = &tmp
+		}
+	}
+
 	if shapeName, ok := s.D.GetOkExists("shape_name"); ok {
 		tmp := shapeName.(string)
 		request.ShapeName = &tmp
@@ -1081,6 +1117,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 				return err
 			}
 			request.Maintenance = &tmp
+		}
+	}
+
+	if secureConnections, ok := s.D.GetOkExists("secure_connections"); ok && s.D.HasChange("secure_connections") {
+		if tmpList := secureConnections.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secure_connections", 0)
+			tmp, err := s.mapToSecureConnectionDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecureConnections = &tmp
 		}
 	}
 
@@ -1228,6 +1275,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.PortX != nil {
 		s.D.Set("port_x", *s.Res.PortX)
+	}
+
+	if s.Res.SecureConnections != nil {
+		s.D.Set("secure_connections", []interface{}{SecureConnectionDetailsToMap(s.Res.SecureConnections)})
+	} else {
+		s.D.Set("secure_connections", nil)
 	}
 
 	if s.Res.ShapeName != nil {
@@ -1820,6 +1873,33 @@ func PointInTimeRecoveryDetailsToMap(obj *oci_mysql.PointInTimeRecoveryDetails) 
 
 	if obj.TimeLatestRecoveryPoint != nil {
 		result["time_latest_recovery_point"] = obj.TimeLatestRecoveryPoint.String()
+	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToSecureConnectionDetails(fieldKeyFormat string) (oci_mysql.SecureConnectionDetails, error) {
+	result := oci_mysql.SecureConnectionDetails{}
+
+	if certificateGenerationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_generation_type")); ok {
+		result.CertificateGenerationType = oci_mysql.CertificateGenerationTypeEnum(certificateGenerationType.(string))
+	}
+
+	if certificateId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "certificate_id")); ok {
+		tmp := certificateId.(string)
+		result.CertificateId = &tmp
+	}
+
+	return result, nil
+}
+
+func SecureConnectionDetailsToMap(obj *oci_mysql.SecureConnectionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["certificate_generation_type"] = string(obj.CertificateGenerationType)
+
+	if obj.CertificateId != nil {
+		result["certificate_id"] = string(*obj.CertificateId)
 	}
 
 	return result
