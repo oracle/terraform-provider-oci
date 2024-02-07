@@ -1,4 +1,4 @@
-## 5.28.0 (Unreleased)
+## 5.28.0 (February 07, 2024)
 
 ### Added
 Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_resource
