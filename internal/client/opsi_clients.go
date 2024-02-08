@@ -5,7 +5,7 @@ package client
 
 import (
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-	oci_opsi "github.com/oracle/oci-go-sdk/v65/operationsinsights"
+	oci_opsi "github.com/oracle/oci-go-sdk/v65/opsi"
 )
 
 func init() {
