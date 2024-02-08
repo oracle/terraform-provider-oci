@@ -518,6 +518,10 @@ func (t *OciTestT) Error(args ...interface{}) {
 	t.ErrorMessages = append(t.ErrorMessages, str)
 }
 
+func (t *OciTestT) Cleanup(f func()) {
+	t.T.Cleanup(f)
+}
+
 func (t *OciTestT) Errorf(format string, args ...interface{}) {
 	t.T.Errorf(format, args...)
 	str := fmt.Sprintf("%v", args)
