@@ -12,6 +12,10 @@ import (
 )
 
 // GetDatasetRequest wrapper for the GetDataset operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/GetDataset.go.html to see an example of how to use GetDatasetRequest.
 type GetDatasetRequest struct {
 
 	// Unique Dataset OCID

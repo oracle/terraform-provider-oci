@@ -12,6 +12,10 @@ import (
 )
 
 // AggregateNetworkDataRequest wrapper for the AggregateNetworkData operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/AggregateNetworkData.go.html to see an example of how to use AggregateNetworkDataRequest.
 type AggregateNetworkDataRequest struct {
 
 	// The APM domain ID the request is intended for.

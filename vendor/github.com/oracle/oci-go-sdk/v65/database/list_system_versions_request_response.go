@@ -12,6 +12,10 @@ import (
 )
 
 // ListSystemVersionsRequest wrapper for the ListSystemVersions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListSystemVersions.go.html to see an example of how to use ListSystemVersionsRequest.
 type ListSystemVersionsRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -34,12 +38,6 @@ type ListSystemVersionsRequest struct {
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// The number of nodes in the Exadata VM cluster on Exascale Infrastructure.
-	NodeCount *int `mandatory:"false" contributesTo:"query" name:"nodeCount"`
-
-	// The number of nodes in the Exadata VM cluster on Exascale Infrastructure.
-	TotalCpuCoreCount *int `mandatory:"false" contributesTo:"query" name:"totalCpuCoreCount"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

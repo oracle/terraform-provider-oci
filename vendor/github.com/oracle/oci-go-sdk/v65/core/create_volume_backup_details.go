@@ -33,9 +33,6 @@ type CreateVolumeBackupDetails struct {
 	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID of the compartment that contains the backup. If omitted, the backup will be created in the compartment of the source volume.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`

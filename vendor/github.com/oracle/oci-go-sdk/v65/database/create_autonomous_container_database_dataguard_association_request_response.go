@@ -12,6 +12,10 @@ import (
 )
 
 // CreateAutonomousContainerDatabaseDataguardAssociationRequest wrapper for the CreateAutonomousContainerDatabaseDataguardAssociation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateAutonomousContainerDatabaseDataguardAssociation.go.html to see an example of how to use CreateAutonomousContainerDatabaseDataguardAssociationRequest.
 type CreateAutonomousContainerDatabaseDataguardAssociationRequest struct {
 
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

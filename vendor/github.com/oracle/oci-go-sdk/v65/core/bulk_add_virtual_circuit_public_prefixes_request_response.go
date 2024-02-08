@@ -12,6 +12,10 @@ import (
 )
 
 // BulkAddVirtualCircuitPublicPrefixesRequest wrapper for the BulkAddVirtualCircuitPublicPrefixes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/BulkAddVirtualCircuitPublicPrefixes.go.html to see an example of how to use BulkAddVirtualCircuitPublicPrefixesRequest.
 type BulkAddVirtualCircuitPublicPrefixesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit.

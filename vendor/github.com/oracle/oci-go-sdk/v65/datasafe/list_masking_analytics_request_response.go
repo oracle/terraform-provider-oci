@@ -12,6 +12,10 @@ import (
 )
 
 // ListMaskingAnalyticsRequest wrapper for the ListMaskingAnalytics operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingAnalytics.go.html to see an example of how to use ListMaskingAnalyticsRequest.
 type ListMaskingAnalyticsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

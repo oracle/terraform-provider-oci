@@ -12,6 +12,10 @@ import (
 )
 
 // VerifyRequest wrapper for the Verify operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Verify.go.html to see an example of how to use VerifyRequest.
 type VerifyRequest struct {
 
 	// The Logging Analytics namespace used for the request.

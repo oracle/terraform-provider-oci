@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteEndpointRequest wrapper for the DeleteEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DeleteEndpoint.go.html to see an example of how to use DeleteEndpointRequest.
 type DeleteEndpointRequest struct {
 
 	// The OCID of the endpoint.

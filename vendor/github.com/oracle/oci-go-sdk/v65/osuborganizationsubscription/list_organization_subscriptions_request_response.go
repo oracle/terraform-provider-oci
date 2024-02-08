@@ -12,6 +12,10 @@ import (
 )
 
 // ListOrganizationSubscriptionsRequest wrapper for the ListOrganizationSubscriptions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osuborganizationsubscription/ListOrganizationSubscriptions.go.html to see an example of how to use ListOrganizationSubscriptionsRequest.
 type ListOrganizationSubscriptionsRequest struct {
 
 	// The OCID of the compartment.

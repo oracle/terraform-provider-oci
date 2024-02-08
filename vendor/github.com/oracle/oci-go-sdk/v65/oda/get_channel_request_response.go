@@ -12,6 +12,10 @@ import (
 )
 
 // GetChannelRequest wrapper for the GetChannel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetChannel.go.html to see an example of how to use GetChannelRequest.
 type GetChannelRequest struct {
 
 	// Unique Digital Assistant instance identifier.

@@ -12,6 +12,10 @@ import (
 )
 
 // ListAnnotationFormatsRequest wrapper for the ListAnnotationFormats operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/ListAnnotationFormats.go.html to see an example of how to use ListAnnotationFormatsRequest.
 type ListAnnotationFormatsRequest struct {
 
 	// The ID of the compartment in which to list resources.

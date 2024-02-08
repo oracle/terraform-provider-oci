@@ -12,6 +12,10 @@ import (
 )
 
 // ListRulesRequest wrapper for the ListRules operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListRules.go.html to see an example of how to use ListRulesRequest.
 type ListRulesRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -27,9 +31,6 @@ type ListRulesRequest struct {
 	// The rule kind used for filtering. Only rules of the specified
 	// kind will be returned.
 	Kind ListRulesKindEnum `mandatory:"false" contributesTo:"query" name:"kind" omitEmpty:"true"`
-
-	// The target service to use for filtering.
-	TargetService *string `mandatory:"false" contributesTo:"query" name:"targetService"`
 
 	// The rule lifecycle state used for filtering. Currently supported
 	// values are ACTIVE and DELETED.

@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeManagementDashboardsCompartmentRequest wrapper for the ChangeManagementDashboardsCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ChangeManagementDashboardsCompartment.go.html to see an example of how to use ChangeManagementDashboardsCompartmentRequest.
 type ChangeManagementDashboardsCompartmentRequest struct {
 
 	// A unique dashboard identifier.

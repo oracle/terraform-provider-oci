@@ -33,9 +33,6 @@ type Plugin struct {
 	// The current state of the plugin.
 	LifecycleState PluginLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Plugin displayName for console.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
 	// State to which the customer wants the plugin to move to.
 	DesiredState PluginDesiredStateEnum `mandatory:"false" json:"desiredState,omitempty"`
 

@@ -12,6 +12,10 @@ import (
 )
 
 // ListExternalDbNodesRequest wrapper for the ListExternalDbNodes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalDbNodes.go.html to see an example of how to use ListExternalDbNodesRequest.
 type ListExternalDbNodesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

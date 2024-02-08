@@ -12,6 +12,10 @@ import (
 )
 
 // ListPipelineValidationsRequest wrapper for the ListPipelineValidations operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListPipelineValidations.go.html to see an example of how to use ListPipelineValidationsRequest.
 type ListPipelineValidationsRequest struct {
 
 	// The workspace ID.

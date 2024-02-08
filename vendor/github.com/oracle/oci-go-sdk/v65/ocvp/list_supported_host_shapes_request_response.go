@@ -12,6 +12,10 @@ import (
 )
 
 // ListSupportedHostShapesRequest wrapper for the ListSupportedHostShapes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedHostShapes.go.html to see an example of how to use ListSupportedHostShapesRequest.
 type ListSupportedHostShapesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

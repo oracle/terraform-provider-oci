@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateSensitiveTypeRequest wrapper for the UpdateSensitiveType operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSensitiveType.go.html to see an example of how to use UpdateSensitiveTypeRequest.
 type UpdateSensitiveTypeRequest struct {
 
 	// The OCID of the sensitive type.

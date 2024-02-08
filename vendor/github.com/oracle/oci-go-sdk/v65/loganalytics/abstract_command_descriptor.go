@@ -96,10 +96,6 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := TailCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "SEQUENCE":
-		mm := SequenceCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "OUTLIER":
 		mm := OutlierCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
@@ -186,10 +182,6 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		return mm, err
 	case "MULTI_SEARCH":
 		mm := MultiSearchCommandDescriptor{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "CREATETABLE":
-		mm := CreateTableCommandDescriptor{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "COMPARE":
@@ -388,8 +380,6 @@ const (
 	AbstractCommandDescriptorNameWhere           AbstractCommandDescriptorNameEnum = "WHERE"
 	AbstractCommandDescriptorNameClusterCompare  AbstractCommandDescriptorNameEnum = "CLUSTER_COMPARE"
 	AbstractCommandDescriptorNameDelete          AbstractCommandDescriptorNameEnum = "DELETE"
-	AbstractCommandDescriptorNameCreatetable     AbstractCommandDescriptorNameEnum = "CREATETABLE"
-	AbstractCommandDescriptorNameSequence        AbstractCommandDescriptorNameEnum = "SEQUENCE"
 	AbstractCommandDescriptorNameDelta           AbstractCommandDescriptorNameEnum = "DELTA"
 	AbstractCommandDescriptorNameDistinct        AbstractCommandDescriptorNameEnum = "DISTINCT"
 	AbstractCommandDescriptorNameSearchLookup    AbstractCommandDescriptorNameEnum = "SEARCH_LOOKUP"
@@ -446,8 +436,6 @@ var mappingAbstractCommandDescriptorNameEnum = map[string]AbstractCommandDescrip
 	"WHERE":            AbstractCommandDescriptorNameWhere,
 	"CLUSTER_COMPARE":  AbstractCommandDescriptorNameClusterCompare,
 	"DELETE":           AbstractCommandDescriptorNameDelete,
-	"CREATETABLE":      AbstractCommandDescriptorNameCreatetable,
-	"SEQUENCE":         AbstractCommandDescriptorNameSequence,
 	"DELTA":            AbstractCommandDescriptorNameDelta,
 	"DISTINCT":         AbstractCommandDescriptorNameDistinct,
 	"SEARCH_LOOKUP":    AbstractCommandDescriptorNameSearchLookup,
@@ -504,8 +492,6 @@ var mappingAbstractCommandDescriptorNameEnumLowerCase = map[string]AbstractComma
 	"where":            AbstractCommandDescriptorNameWhere,
 	"cluster_compare":  AbstractCommandDescriptorNameClusterCompare,
 	"delete":           AbstractCommandDescriptorNameDelete,
-	"createtable":      AbstractCommandDescriptorNameCreatetable,
-	"sequence":         AbstractCommandDescriptorNameSequence,
 	"delta":            AbstractCommandDescriptorNameDelta,
 	"distinct":         AbstractCommandDescriptorNameDistinct,
 	"search_lookup":    AbstractCommandDescriptorNameSearchLookup,
@@ -573,8 +559,6 @@ func GetAbstractCommandDescriptorNameEnumStringValues() []string {
 		"WHERE",
 		"CLUSTER_COMPARE",
 		"DELETE",
-		"CREATETABLE",
-		"SEQUENCE",
 		"DELTA",
 		"DISTINCT",
 		"SEARCH_LOOKUP",

@@ -12,6 +12,10 @@ import (
 )
 
 // GetMaskingPolicyRequest wrapper for the GetMaskingPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetMaskingPolicy.go.html to see an example of how to use GetMaskingPolicyRequest.
 type GetMaskingPolicyRequest struct {
 
 	// The OCID of the masking policy.

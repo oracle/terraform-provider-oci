@@ -17,9 +17,7 @@ import (
 	"strings"
 )
 
-// DataSourceEventInfo This resource can have multiple subtypes, depending on the dataSourceFeedProvider
-// value. For example, if dataSourceFeedProvider is LOGGINGQUERY, this resource
-// will be of type LoggingEventInfo.
+// DataSourceEventInfo Event info of a data source.
 type DataSourceEventInfo interface {
 }
 

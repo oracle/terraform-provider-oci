@@ -12,6 +12,10 @@ import (
 )
 
 // CreateNetworkLoadBalancerRequest wrapper for the CreateNetworkLoadBalancer operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/CreateNetworkLoadBalancer.go.html to see an example of how to use CreateNetworkLoadBalancerRequest.
 type CreateNetworkLoadBalancerRequest struct {
 
 	// Details for the new network load balancer.

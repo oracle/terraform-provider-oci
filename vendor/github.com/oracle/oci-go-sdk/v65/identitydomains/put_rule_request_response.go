@@ -12,6 +12,10 @@ import (
 )
 
 // PutRuleRequest wrapper for the PutRule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutRule.go.html to see an example of how to use PutRuleRequest.
 type PutRuleRequest struct {
 
 	// ID of the resource

@@ -12,6 +12,10 @@ import (
 )
 
 // GetWebAppAccelerationRequest wrapper for the GetWebAppAcceleration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/GetWebAppAcceleration.go.html to see an example of how to use GetWebAppAccelerationRequest.
 type GetWebAppAccelerationRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.

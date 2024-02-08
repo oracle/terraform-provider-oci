@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDrgAttachmentRequest wrapper for the UpdateDrgAttachment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDrgAttachment.go.html to see an example of how to use UpdateDrgAttachmentRequest.
 type UpdateDrgAttachmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.

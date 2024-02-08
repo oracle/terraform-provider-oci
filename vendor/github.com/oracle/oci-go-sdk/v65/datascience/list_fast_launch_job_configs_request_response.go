@@ -12,6 +12,10 @@ import (
 )
 
 // ListFastLaunchJobConfigsRequest wrapper for the ListFastLaunchJobConfigs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListFastLaunchJobConfigs.go.html to see an example of how to use ListFastLaunchJobConfigsRequest.
 type ListFastLaunchJobConfigsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

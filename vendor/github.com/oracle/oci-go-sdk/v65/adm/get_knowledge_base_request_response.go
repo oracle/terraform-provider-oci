@@ -12,6 +12,10 @@ import (
 )
 
 // GetKnowledgeBaseRequest wrapper for the GetKnowledgeBase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetKnowledgeBase.go.html to see an example of how to use GetKnowledgeBaseRequest.
 type GetKnowledgeBaseRequest struct {
 
 	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Knowledge Base, as a URL path parameter.

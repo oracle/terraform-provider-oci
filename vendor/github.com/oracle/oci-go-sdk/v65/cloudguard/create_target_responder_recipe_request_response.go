@@ -12,12 +12,16 @@ import (
 )
 
 // CreateTargetResponderRecipeRequest wrapper for the CreateTargetResponderRecipe operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateTargetResponderRecipe.go.html to see an example of how to use CreateTargetResponderRecipeRequest.
 type CreateTargetResponderRecipeRequest struct {
 
-	// OCID of the target
+	// OCID of target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// Details for attaching a responder recipe to a target
+	// Details for associating ResponderRecipe to Target
 	AttachTargetResponderRecipeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -12,6 +12,10 @@ import (
 )
 
 // SetKmsKeyRequest wrapper for the SetKmsKey operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/SetKmsKey.go.html to see an example of how to use SetKmsKeyRequest.
 type SetKmsKeyRequest struct {
 
 	// The OCID of the AnalyticsInstance.

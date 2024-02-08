@@ -12,12 +12,16 @@ import (
 )
 
 // ChangeSecurityRecipeCompartmentRequest wrapper for the ChangeSecurityRecipeCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeSecurityRecipeCompartment.go.html to see an example of how to use ChangeSecurityRecipeCompartmentRequest.
 type ChangeSecurityRecipeCompartmentRequest struct {
 
-	// The unique identifier of the security zone recipe. (`SecurityRecipe`)
+	// The unique identifier of the security zone recipe (`SecurityRecipe`)
 	SecurityRecipeId *string `mandatory:"true" contributesTo:"path" name:"securityRecipeId"`
 
-	// The compartment to which you want to move the `SecurityRecipe` resource
+	// The compartment to which you want to move the recipe.
 	ChangeSecurityRecipeCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

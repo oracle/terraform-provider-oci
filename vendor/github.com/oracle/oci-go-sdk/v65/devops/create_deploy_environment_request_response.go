@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDeployEnvironmentRequest wrapper for the CreateDeployEnvironment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployEnvironment.go.html to see an example of how to use CreateDeployEnvironmentRequest.
 type CreateDeployEnvironmentRequest struct {
 
 	// Details for the new deployment environment.

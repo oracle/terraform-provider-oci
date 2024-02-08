@@ -12,6 +12,10 @@ import (
 )
 
 // CreateContainerImageSignatureRequest wrapper for the CreateContainerImageSignature operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/CreateContainerImageSignature.go.html to see an example of how to use CreateContainerImageSignatureRequest.
 type CreateContainerImageSignatureRequest struct {
 
 	// Upload container image signature details

@@ -12,6 +12,10 @@ import (
 )
 
 // ListRateCardsRequest wrapper for the ListRateCards operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListRateCards.go.html to see an example of how to use ListRateCardsRequest.
 type ListRateCardsRequest struct {
 
 	// Line level Subscription Id

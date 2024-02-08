@@ -12,6 +12,10 @@ import (
 )
 
 // ListTrailFilesRequest wrapper for the ListTrailFiles operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListTrailFiles.go.html to see an example of how to use ListTrailFilesRequest.
 type ListTrailFilesRequest struct {
 
 	// A unique Deployment identifier.

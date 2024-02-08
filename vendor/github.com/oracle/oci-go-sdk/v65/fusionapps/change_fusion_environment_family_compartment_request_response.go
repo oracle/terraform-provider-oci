@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeFusionEnvironmentFamilyCompartmentRequest wrapper for the ChangeFusionEnvironmentFamilyCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ChangeFusionEnvironmentFamilyCompartment.go.html to see an example of how to use ChangeFusionEnvironmentFamilyCompartmentRequest.
 type ChangeFusionEnvironmentFamilyCompartmentRequest struct {
 
 	// The unique identifier (OCID) of the FusionEnvironmentFamily.

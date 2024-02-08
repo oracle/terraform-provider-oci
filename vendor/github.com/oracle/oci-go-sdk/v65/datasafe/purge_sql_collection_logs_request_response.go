@@ -12,6 +12,10 @@ import (
 )
 
 // PurgeSqlCollectionLogsRequest wrapper for the PurgeSqlCollectionLogs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PurgeSqlCollectionLogs.go.html to see an example of how to use PurgeSqlCollectionLogsRequest.
 type PurgeSqlCollectionLogsRequest struct {
 
 	// The OCID of the SQL collection resource.

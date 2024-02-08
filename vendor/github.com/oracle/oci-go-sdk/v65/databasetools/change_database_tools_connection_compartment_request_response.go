@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeDatabaseToolsConnectionCompartmentRequest wrapper for the ChangeDatabaseToolsConnectionCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/ChangeDatabaseToolsConnectionCompartment.go.html to see an example of how to use ChangeDatabaseToolsConnectionCompartmentRequest.
 type ChangeDatabaseToolsConnectionCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools connection.

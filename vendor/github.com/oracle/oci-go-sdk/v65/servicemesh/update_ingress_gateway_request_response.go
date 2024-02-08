@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateIngressGatewayRequest wrapper for the UpdateIngressGateway operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/UpdateIngressGateway.go.html to see an example of how to use UpdateIngressGatewayRequest.
 type UpdateIngressGatewayRequest struct {
 
 	// Unique IngressGateway identifier.

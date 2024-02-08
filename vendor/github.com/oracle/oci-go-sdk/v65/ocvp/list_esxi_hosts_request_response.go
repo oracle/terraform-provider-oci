@@ -12,12 +12,16 @@ import (
 )
 
 // ListEsxiHostsRequest wrapper for the ListEsxiHosts operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListEsxiHosts.go.html to see an example of how to use ListEsxiHostsRequest.
 type ListEsxiHostsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.
 	SddcId *string `mandatory:"false" contributesTo:"query" name:"sddcId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC Cluster.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cluster.
 	ClusterId *string `mandatory:"false" contributesTo:"query" name:"clusterId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Compute instance.

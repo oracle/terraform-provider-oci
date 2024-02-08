@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateExternalDbSystemConnectorRequest wrapper for the UpdateExternalDbSystemConnector operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalDbSystemConnector.go.html to see an example of how to use UpdateExternalDbSystemConnectorRequest.
 type UpdateExternalDbSystemConnectorRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external connector.

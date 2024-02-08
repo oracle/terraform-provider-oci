@@ -12,6 +12,10 @@ import (
 )
 
 // ScheduleCertificateAuthorityDeletionRequest wrapper for the ScheduleCertificateAuthorityDeletion operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ScheduleCertificateAuthorityDeletion.go.html to see an example of how to use ScheduleCertificateAuthorityDeletionRequest.
 type ScheduleCertificateAuthorityDeletionRequest struct {
 
 	// The OCID of the certificate authority (CA).

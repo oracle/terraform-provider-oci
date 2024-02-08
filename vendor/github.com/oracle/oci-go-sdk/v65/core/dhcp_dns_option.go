@@ -45,15 +45,6 @@ type DhcpDnsOption struct {
 	// * **CustomDnsServer:** Instances use a DNS server of your choice (three
 	// maximum).
 	ServerType DhcpDnsOptionServerTypeEnum `mandatory:"true" json:"serverType"`
-
-	// * **EnableForVcnAndInternet:** This is the default configutation in the
-	// default set of DHCP options in the VCN. Can be selected when the serverType
-	// is "VcnLocalPlusInternet" or "CustomDnsServer".
-	// * **DisableVcnResolver:** Disables the DNS listener on 169.254.169.254 or fe80::c1:a9fe:a9fe
-	// on the instance and does not forward any DNS resolution request through the listener.
-	// * **EnableForInternetOnly:** Reserved for backward compatibility. Not configurable
-	// for new DhcpOption.
-	VcnResolverConfiguration DhcpDnsOptionVcnResolverConfigurationEnum `mandatory:"false" json:"vcnResolverConfiguration,omitempty"`
 }
 
 func (m DhcpDnsOption) String() string {
@@ -67,9 +58,6 @@ func (m DhcpDnsOption) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingDhcpDnsOptionServerTypeEnum(string(m.ServerType)); !ok && m.ServerType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServerType: %s. Supported values are: %s.", m.ServerType, strings.Join(GetDhcpDnsOptionServerTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingDhcpDnsOptionVcnResolverConfigurationEnum(string(m.VcnResolverConfiguration)); !ok && m.VcnResolverConfiguration != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VcnResolverConfiguration: %s. Supported values are: %s.", m.VcnResolverConfiguration, strings.Join(GetDhcpDnsOptionVcnResolverConfigurationEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
@@ -135,51 +123,5 @@ func GetDhcpDnsOptionServerTypeEnumStringValues() []string {
 // GetMappingDhcpDnsOptionServerTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDhcpDnsOptionServerTypeEnum(val string) (DhcpDnsOptionServerTypeEnum, bool) {
 	enum, ok := mappingDhcpDnsOptionServerTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// DhcpDnsOptionVcnResolverConfigurationEnum Enum with underlying type: string
-type DhcpDnsOptionVcnResolverConfigurationEnum string
-
-// Set of constants representing the allowable values for DhcpDnsOptionVcnResolverConfigurationEnum
-const (
-	DhcpDnsOptionVcnResolverConfigurationEnableforvcnandinternet DhcpDnsOptionVcnResolverConfigurationEnum = "EnableForVcnAndInternet"
-	DhcpDnsOptionVcnResolverConfigurationDisablevcnresolver      DhcpDnsOptionVcnResolverConfigurationEnum = "DisableVcnResolver"
-	DhcpDnsOptionVcnResolverConfigurationEnableforinternetonly   DhcpDnsOptionVcnResolverConfigurationEnum = "EnableForInternetOnly"
-)
-
-var mappingDhcpDnsOptionVcnResolverConfigurationEnum = map[string]DhcpDnsOptionVcnResolverConfigurationEnum{
-	"EnableForVcnAndInternet": DhcpDnsOptionVcnResolverConfigurationEnableforvcnandinternet,
-	"DisableVcnResolver":      DhcpDnsOptionVcnResolverConfigurationDisablevcnresolver,
-	"EnableForInternetOnly":   DhcpDnsOptionVcnResolverConfigurationEnableforinternetonly,
-}
-
-var mappingDhcpDnsOptionVcnResolverConfigurationEnumLowerCase = map[string]DhcpDnsOptionVcnResolverConfigurationEnum{
-	"enableforvcnandinternet": DhcpDnsOptionVcnResolverConfigurationEnableforvcnandinternet,
-	"disablevcnresolver":      DhcpDnsOptionVcnResolverConfigurationDisablevcnresolver,
-	"enableforinternetonly":   DhcpDnsOptionVcnResolverConfigurationEnableforinternetonly,
-}
-
-// GetDhcpDnsOptionVcnResolverConfigurationEnumValues Enumerates the set of values for DhcpDnsOptionVcnResolverConfigurationEnum
-func GetDhcpDnsOptionVcnResolverConfigurationEnumValues() []DhcpDnsOptionVcnResolverConfigurationEnum {
-	values := make([]DhcpDnsOptionVcnResolverConfigurationEnum, 0)
-	for _, v := range mappingDhcpDnsOptionVcnResolverConfigurationEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetDhcpDnsOptionVcnResolverConfigurationEnumStringValues Enumerates the set of values in String for DhcpDnsOptionVcnResolverConfigurationEnum
-func GetDhcpDnsOptionVcnResolverConfigurationEnumStringValues() []string {
-	return []string{
-		"EnableForVcnAndInternet",
-		"DisableVcnResolver",
-		"EnableForInternetOnly",
-	}
-}
-
-// GetMappingDhcpDnsOptionVcnResolverConfigurationEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingDhcpDnsOptionVcnResolverConfigurationEnum(val string) (DhcpDnsOptionVcnResolverConfigurationEnum, bool) {
-	enum, ok := mappingDhcpDnsOptionVcnResolverConfigurationEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

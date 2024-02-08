@@ -4,9 +4,11 @@
 
 // Autoscaling API
 //
-// Use the Autoscaling API to dynamically scale compute resources to meet application requirements. For more information about
+// APIs for dynamically scaling Compute resources to meet application requirements. For more information about
 // autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Compute (https://docs.cloud.oracle.com/Content/Compute/home.htm).
+// Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// **Note:** Autoscaling is not available in US Government Cloud tenancies. For more information, see
+// Oracle Cloud Infrastructure US Government Cloud (https://docs.cloud.oracle.com/Content/General/Concepts/govoverview.htm).
 //
 
 package autoscaling
@@ -49,9 +51,6 @@ type CreateAutoScalingConfigurationDetails struct {
 
 	// Whether the autoscaling configuration is enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
-
-	// An immutable field that delegates the scaling action when set to True.
-	IsScalingActionDelegated *bool `mandatory:"false" json:"isScalingActionDelegated"`
 }
 
 func (m CreateAutoScalingConfigurationDetails) String() string {
@@ -73,15 +72,14 @@ func (m CreateAutoScalingConfigurationDetails) ValidateEnumValue() (bool, error)
 // UnmarshalJSON unmarshals from json
 func (m *CreateAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName              *string                           `json:"displayName"`
-		FreeformTags             map[string]string                 `json:"freeformTags"`
-		CoolDownInSeconds        *int                              `json:"coolDownInSeconds"`
-		IsEnabled                *bool                             `json:"isEnabled"`
-		IsScalingActionDelegated *bool                             `json:"isScalingActionDelegated"`
-		CompartmentId            *string                           `json:"compartmentId"`
-		Policies                 []createautoscalingpolicydetails  `json:"policies"`
-		Resource                 resource                          `json:"resource"`
+		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName       *string                           `json:"displayName"`
+		FreeformTags      map[string]string                 `json:"freeformTags"`
+		CoolDownInSeconds *int                              `json:"coolDownInSeconds"`
+		IsEnabled         *bool                             `json:"isEnabled"`
+		CompartmentId     *string                           `json:"compartmentId"`
+		Policies          []createautoscalingpolicydetails  `json:"policies"`
+		Resource          resource                          `json:"resource"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -98,8 +96,6 @@ func (m *CreateAutoScalingConfigurationDetails) UnmarshalJSON(data []byte) (e er
 	m.CoolDownInSeconds = model.CoolDownInSeconds
 
 	m.IsEnabled = model.IsEnabled
-
-	m.IsScalingActionDelegated = model.IsScalingActionDelegated
 
 	m.CompartmentId = model.CompartmentId
 

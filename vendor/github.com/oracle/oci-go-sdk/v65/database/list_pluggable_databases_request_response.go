@@ -12,6 +12,10 @@ import (
 )
 
 // ListPluggableDatabasesRequest wrapper for the ListPluggableDatabases operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListPluggableDatabases.go.html to see an example of how to use ListPluggableDatabasesRequest.
 type ListPluggableDatabasesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

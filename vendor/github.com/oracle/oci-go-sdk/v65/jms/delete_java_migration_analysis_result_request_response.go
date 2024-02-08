@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteJavaMigrationAnalysisResultRequest wrapper for the DeleteJavaMigrationAnalysisResult operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteJavaMigrationAnalysisResult.go.html to see an example of how to use DeleteJavaMigrationAnalysisResultRequest.
 type DeleteJavaMigrationAnalysisResultRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

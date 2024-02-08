@@ -12,6 +12,10 @@ import (
 )
 
 // ListCloudExadataInfrastructuresRequest wrapper for the ListCloudExadataInfrastructures operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListCloudExadataInfrastructures.go.html to see an example of how to use ListCloudExadataInfrastructuresRequest.
 type ListCloudExadataInfrastructuresRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -37,9 +41,6 @@ type ListCloudExadataInfrastructuresRequest struct {
 
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
-
-	// A filter to return only resources that match the given cluster placement group ID exactly.
-	ClusterPlacementGroupId *string `mandatory:"false" contributesTo:"query" name:"clusterPlacementGroupId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

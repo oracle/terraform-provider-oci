@@ -22,7 +22,6 @@ const (
 	TargetResourceTypeCompartment  TargetResourceTypeEnum = "COMPARTMENT"
 	TargetResourceTypeErpcloud     TargetResourceTypeEnum = "ERPCLOUD"
 	TargetResourceTypeHcmcloud     TargetResourceTypeEnum = "HCMCLOUD"
-	TargetResourceTypeFacloud      TargetResourceTypeEnum = "FACLOUD"
 	TargetResourceTypeSecurityZone TargetResourceTypeEnum = "SECURITY_ZONE"
 )
 
@@ -30,7 +29,6 @@ var mappingTargetResourceTypeEnum = map[string]TargetResourceTypeEnum{
 	"COMPARTMENT":   TargetResourceTypeCompartment,
 	"ERPCLOUD":      TargetResourceTypeErpcloud,
 	"HCMCLOUD":      TargetResourceTypeHcmcloud,
-	"FACLOUD":       TargetResourceTypeFacloud,
 	"SECURITY_ZONE": TargetResourceTypeSecurityZone,
 }
 
@@ -38,7 +36,6 @@ var mappingTargetResourceTypeEnumLowerCase = map[string]TargetResourceTypeEnum{
 	"compartment":   TargetResourceTypeCompartment,
 	"erpcloud":      TargetResourceTypeErpcloud,
 	"hcmcloud":      TargetResourceTypeHcmcloud,
-	"facloud":       TargetResourceTypeFacloud,
 	"security_zone": TargetResourceTypeSecurityZone,
 }
 
@@ -57,7 +54,6 @@ func GetTargetResourceTypeEnumStringValues() []string {
 		"COMPARTMENT",
 		"ERPCLOUD",
 		"HCMCLOUD",
-		"FACLOUD",
 		"SECURITY_ZONE",
 	}
 }

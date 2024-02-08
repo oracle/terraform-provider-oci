@@ -12,6 +12,10 @@ import (
 )
 
 // RefreshHcxLicenseStatusRequest wrapper for the RefreshHcxLicenseStatus operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/RefreshHcxLicenseStatus.go.html to see an example of how to use RefreshHcxLicenseStatusRequest.
 type RefreshHcxLicenseStatusRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC.

@@ -12,6 +12,10 @@ import (
 )
 
 // CreateCertificateAuthorityRequest wrapper for the CreateCertificateAuthority operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CreateCertificateAuthority.go.html to see an example of how to use CreateCertificateAuthorityRequest.
 type CreateCertificateAuthorityRequest struct {
 
 	// The details of the request to create a new CA.

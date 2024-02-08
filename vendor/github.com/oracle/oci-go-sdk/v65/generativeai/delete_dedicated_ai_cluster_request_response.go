@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDedicatedAiClusterRequest wrapper for the DeleteDedicatedAiCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/DeleteDedicatedAiCluster.go.html to see an example of how to use DeleteDedicatedAiClusterRequest.
 type DeleteDedicatedAiClusterRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.

@@ -12,6 +12,10 @@ import (
 )
 
 // ListProductsRequest wrapper for the ListProducts operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListProducts.go.html to see an example of how to use ListProductsRequest.
 type ListProductsRequest struct {
 
 	// The OCID of the tenancy.

@@ -19,11 +19,8 @@ import (
 // ProblemEntityCollection The collection of problem entities detail related to a data source.
 type ProblemEntityCollection struct {
 
-	// List of entity details related to a data source
+	// List of problem entities summaries related to a data source.
 	Items []ProblemEntitySummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ProblemEntityCollection) String() string {

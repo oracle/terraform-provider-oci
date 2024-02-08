@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDataGuardAssociationRequest wrapper for the UpdateDataGuardAssociation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateDataGuardAssociation.go.html to see an example of how to use UpdateDataGuardAssociationRequest.
 type UpdateDataGuardAssociationRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

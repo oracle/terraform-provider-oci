@@ -25,16 +25,18 @@ import (
 // AttachParavirtualizedVolumeDetails The representation of AttachParavirtualizedVolumeDetails
 type AttachParavirtualizedVolumeDetails struct {
 
+	// The OCID of the instance.
+	InstanceId *string `mandatory:"true" json:"instanceId"`
+
+	// The OCID of the volume.
+	VolumeId *string `mandatory:"true" json:"volumeId"`
+
 	// The device name. To retrieve a list of devices for a given instance, see ListInstanceDevices.
 	Device *string `mandatory:"false" json:"device"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
-
-	// The OCID of the instance. For AttachVolume operation, this is a required field for the request,
-	// see AttachVolume.
-	InstanceId *string `mandatory:"false" json:"instanceId"`
 
 	// Whether the attachment was created in read-only mode.
 	IsReadOnly *bool `mandatory:"false" json:"isReadOnly"`
@@ -44,18 +46,6 @@ type AttachParavirtualizedVolumeDetails struct {
 	// that they also create their attachments in shareable mode. Only certain volume types can
 	// be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `mandatory:"false" json:"isShareable"`
-
-	// When launching from a Compute Image, it is possible for more than one volume to be defined in the Image definition.
-	// If the relative index of one of these volumes is provided in this field, then the provided createVolumeDetails
-	// descriptor will be utilized to modify the default creation/attachment parameters for this volume rather than the
-	// defaults.
-	// If this field is provided, then CreateVolumeDetails must be specified.
-	ImageVolumeIndex *int `mandatory:"false" json:"imageVolumeIndex"`
-
-	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
-	VolumeId *string `mandatory:"false" json:"volumeId"`
-
-	CreateVolumeDetails *CreateVolumeDetails `mandatory:"false" json:"createVolumeDetails"`
 
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
@@ -86,19 +76,9 @@ func (m AttachParavirtualizedVolumeDetails) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
-// GetImageVolumeIndex returns ImageVolumeIndex
-func (m AttachParavirtualizedVolumeDetails) GetImageVolumeIndex() *int {
-	return m.ImageVolumeIndex
-}
-
 // GetVolumeId returns VolumeId
 func (m AttachParavirtualizedVolumeDetails) GetVolumeId() *string {
 	return m.VolumeId
-}
-
-// GetCreateVolumeDetails returns CreateVolumeDetails
-func (m AttachParavirtualizedVolumeDetails) GetCreateVolumeDetails() *CreateVolumeDetails {
-	return m.CreateVolumeDetails
 }
 
 func (m AttachParavirtualizedVolumeDetails) String() string {

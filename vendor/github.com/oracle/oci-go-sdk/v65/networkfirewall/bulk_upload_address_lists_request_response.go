@@ -13,6 +13,10 @@ import (
 )
 
 // BulkUploadAddressListsRequest wrapper for the BulkUploadAddressLists operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/BulkUploadAddressLists.go.html to see an example of how to use BulkUploadAddressListsRequest.
 type BulkUploadAddressListsRequest struct {
 
 	// Unique Network Firewall Policy identifier

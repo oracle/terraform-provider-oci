@@ -12,6 +12,10 @@ import (
 )
 
 // CreateMyOAuth2ClientCredentialRequest wrapper for the CreateMyOAuth2ClientCredential operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyOAuth2ClientCredential.go.html to see an example of how to use CreateMyOAuth2ClientCredentialRequest.
 type CreateMyOAuth2ClientCredentialRequest struct {
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.

@@ -16,28 +16,28 @@ import (
 	"strings"
 )
 
-// TargetResponderRecipeResponderRuleSummary Summary information for a target responder recipe responder rule.
+// TargetResponderRecipeResponderRuleSummary Summary of ResponderRule.
 type TargetResponderRecipeResponderRuleSummary struct {
 
-	// Unique identifier for the responder rule
+	// Identifier for ResponderRule.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Responder rule display name
+	// ResponderRule Display Name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Responder rule description
+	// ResponderRule Description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Type of responder
+	// Type of Responder
 	Type ResponderTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// List of policies
+	// List of Policy
 	Policies []string `mandatory:"false" json:"policies"`
 
-	// Supported execution modes for the responder rule
+	// Supported Execution Modes
 	SupportedModes []TargetResponderRecipeResponderRuleSummarySupportedModesEnum `mandatory:"false" json:"supportedModes,omitempty"`
 
 	Details *ResponderRuleDetails `mandatory:"false" json:"details"`
@@ -45,10 +45,10 @@ type TargetResponderRecipeResponderRuleSummary struct {
 	// The date and time the target responder recipe rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target responder recipe rule was last updated. Format defined by RFC3339.
+	// The date and time the target responder recipe rule was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the responder rule
+	// The current state of the ResponderRule.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

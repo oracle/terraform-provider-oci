@@ -12,6 +12,10 @@ import (
 )
 
 // CreateJobRunRequest wrapper for the CreateJobRun operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateJobRun.go.html to see an example of how to use CreateJobRunRequest.
 type CreateJobRunRequest struct {
 
 	// Details for creating a new job run.
@@ -22,9 +26,6 @@ type CreateJobRunRequest struct {
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or server error without risk of executing that same action again. Retry tokens expire after 24 hours, but can be invalidated before then due to conflicting operations. For example, if a resource has been deleted and purged from the system, then a retry of the original creation request might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
-
-	// URL to fetch the Resource Principal Token from the parent resource.
-	OpcParentRptUrl *string `mandatory:"false" contributesTo:"header" name:"opc-parent-rpt-url"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

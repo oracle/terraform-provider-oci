@@ -12,6 +12,10 @@ import (
 )
 
 // GetSqlExecutionPlanRequest wrapper for the GetSqlExecutionPlan operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlExecutionPlan.go.html to see an example of how to use GetSqlExecutionPlanRequest.
 type GetSqlExecutionPlanRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

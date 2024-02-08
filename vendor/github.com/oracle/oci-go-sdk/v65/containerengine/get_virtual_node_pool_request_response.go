@@ -12,6 +12,10 @@ import (
 )
 
 // GetVirtualNodePoolRequest wrapper for the GetVirtualNodePool operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetVirtualNodePool.go.html to see an example of how to use GetVirtualNodePoolRequest.
 type GetVirtualNodePoolRequest struct {
 
 	// The OCID of the virtual node pool.

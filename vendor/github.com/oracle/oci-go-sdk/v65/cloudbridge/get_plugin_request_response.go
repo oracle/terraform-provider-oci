@@ -12,6 +12,10 @@ import (
 )
 
 // GetPluginRequest wrapper for the GetPlugin operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetPlugin.go.html to see an example of how to use GetPluginRequest.
 type GetPluginRequest struct {
 
 	// Unique Agent identifier path parameter.

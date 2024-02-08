@@ -12,6 +12,10 @@ import (
 )
 
 // GetCloudAutonomousVmClusterRequest wrapper for the GetCloudAutonomousVmCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetCloudAutonomousVmCluster.go.html to see an example of how to use GetCloudAutonomousVmClusterRequest.
 type GetCloudAutonomousVmClusterRequest struct {
 
 	// The Cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

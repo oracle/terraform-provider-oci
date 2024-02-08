@@ -93,27 +93,21 @@ type DiscoveryJobDiscoveryTypeEnum string
 
 // Set of constants representing the allowable values for DiscoveryJobDiscoveryTypeEnum
 const (
-	DiscoveryJobDiscoveryTypeAdd             DiscoveryJobDiscoveryTypeEnum = "ADD"
-	DiscoveryJobDiscoveryTypeAddWithRetry    DiscoveryJobDiscoveryTypeEnum = "ADD_WITH_RETRY"
-	DiscoveryJobDiscoveryTypeRefresh         DiscoveryJobDiscoveryTypeEnum = "REFRESH"
-	DiscoveryJobDiscoveryTypePrereq          DiscoveryJobDiscoveryTypeEnum = "PREREQ"
-	DiscoveryJobDiscoveryTypePrereqWithRetry DiscoveryJobDiscoveryTypeEnum = "PREREQ_WITH_RETRY"
+	DiscoveryJobDiscoveryTypeAdd          DiscoveryJobDiscoveryTypeEnum = "ADD"
+	DiscoveryJobDiscoveryTypeAddWithRetry DiscoveryJobDiscoveryTypeEnum = "ADD_WITH_RETRY"
+	DiscoveryJobDiscoveryTypeRefresh      DiscoveryJobDiscoveryTypeEnum = "REFRESH"
 )
 
 var mappingDiscoveryJobDiscoveryTypeEnum = map[string]DiscoveryJobDiscoveryTypeEnum{
-	"ADD":               DiscoveryJobDiscoveryTypeAdd,
-	"ADD_WITH_RETRY":    DiscoveryJobDiscoveryTypeAddWithRetry,
-	"REFRESH":           DiscoveryJobDiscoveryTypeRefresh,
-	"PREREQ":            DiscoveryJobDiscoveryTypePrereq,
-	"PREREQ_WITH_RETRY": DiscoveryJobDiscoveryTypePrereqWithRetry,
+	"ADD":            DiscoveryJobDiscoveryTypeAdd,
+	"ADD_WITH_RETRY": DiscoveryJobDiscoveryTypeAddWithRetry,
+	"REFRESH":        DiscoveryJobDiscoveryTypeRefresh,
 }
 
 var mappingDiscoveryJobDiscoveryTypeEnumLowerCase = map[string]DiscoveryJobDiscoveryTypeEnum{
-	"add":               DiscoveryJobDiscoveryTypeAdd,
-	"add_with_retry":    DiscoveryJobDiscoveryTypeAddWithRetry,
-	"refresh":           DiscoveryJobDiscoveryTypeRefresh,
-	"prereq":            DiscoveryJobDiscoveryTypePrereq,
-	"prereq_with_retry": DiscoveryJobDiscoveryTypePrereqWithRetry,
+	"add":            DiscoveryJobDiscoveryTypeAdd,
+	"add_with_retry": DiscoveryJobDiscoveryTypeAddWithRetry,
+	"refresh":        DiscoveryJobDiscoveryTypeRefresh,
 }
 
 // GetDiscoveryJobDiscoveryTypeEnumValues Enumerates the set of values for DiscoveryJobDiscoveryTypeEnum
@@ -131,8 +125,6 @@ func GetDiscoveryJobDiscoveryTypeEnumStringValues() []string {
 		"ADD",
 		"ADD_WITH_RETRY",
 		"REFRESH",
-		"PREREQ",
-		"PREREQ_WITH_RETRY",
 	}
 }
 
@@ -147,33 +139,30 @@ type DiscoveryJobStatusEnum string
 
 // Set of constants representing the allowable values for DiscoveryJobStatusEnum
 const (
-	DiscoveryJobStatusSuccess        DiscoveryJobStatusEnum = "SUCCESS"
-	DiscoveryJobStatusFailure        DiscoveryJobStatusEnum = "FAILURE"
-	DiscoveryJobStatusInprogress     DiscoveryJobStatusEnum = "INPROGRESS"
-	DiscoveryJobStatusInactive       DiscoveryJobStatusEnum = "INACTIVE"
-	DiscoveryJobStatusCreated        DiscoveryJobStatusEnum = "CREATED"
-	DiscoveryJobStatusDeleted        DiscoveryJobStatusEnum = "DELETED"
-	DiscoveryJobStatusNeedsAttention DiscoveryJobStatusEnum = "NEEDS_ATTENTION"
+	DiscoveryJobStatusSuccess    DiscoveryJobStatusEnum = "SUCCESS"
+	DiscoveryJobStatusFailure    DiscoveryJobStatusEnum = "FAILURE"
+	DiscoveryJobStatusInprogress DiscoveryJobStatusEnum = "INPROGRESS"
+	DiscoveryJobStatusInactive   DiscoveryJobStatusEnum = "INACTIVE"
+	DiscoveryJobStatusCreated    DiscoveryJobStatusEnum = "CREATED"
+	DiscoveryJobStatusDeleted    DiscoveryJobStatusEnum = "DELETED"
 )
 
 var mappingDiscoveryJobStatusEnum = map[string]DiscoveryJobStatusEnum{
-	"SUCCESS":         DiscoveryJobStatusSuccess,
-	"FAILURE":         DiscoveryJobStatusFailure,
-	"INPROGRESS":      DiscoveryJobStatusInprogress,
-	"INACTIVE":        DiscoveryJobStatusInactive,
-	"CREATED":         DiscoveryJobStatusCreated,
-	"DELETED":         DiscoveryJobStatusDeleted,
-	"NEEDS_ATTENTION": DiscoveryJobStatusNeedsAttention,
+	"SUCCESS":    DiscoveryJobStatusSuccess,
+	"FAILURE":    DiscoveryJobStatusFailure,
+	"INPROGRESS": DiscoveryJobStatusInprogress,
+	"INACTIVE":   DiscoveryJobStatusInactive,
+	"CREATED":    DiscoveryJobStatusCreated,
+	"DELETED":    DiscoveryJobStatusDeleted,
 }
 
 var mappingDiscoveryJobStatusEnumLowerCase = map[string]DiscoveryJobStatusEnum{
-	"success":         DiscoveryJobStatusSuccess,
-	"failure":         DiscoveryJobStatusFailure,
-	"inprogress":      DiscoveryJobStatusInprogress,
-	"inactive":        DiscoveryJobStatusInactive,
-	"created":         DiscoveryJobStatusCreated,
-	"deleted":         DiscoveryJobStatusDeleted,
-	"needs_attention": DiscoveryJobStatusNeedsAttention,
+	"success":    DiscoveryJobStatusSuccess,
+	"failure":    DiscoveryJobStatusFailure,
+	"inprogress": DiscoveryJobStatusInprogress,
+	"inactive":   DiscoveryJobStatusInactive,
+	"created":    DiscoveryJobStatusCreated,
+	"deleted":    DiscoveryJobStatusDeleted,
 }
 
 // GetDiscoveryJobStatusEnumValues Enumerates the set of values for DiscoveryJobStatusEnum
@@ -194,7 +183,6 @@ func GetDiscoveryJobStatusEnumStringValues() []string {
 		"INACTIVE",
 		"CREATED",
 		"DELETED",
-		"NEEDS_ATTENTION",
 	}
 }
 

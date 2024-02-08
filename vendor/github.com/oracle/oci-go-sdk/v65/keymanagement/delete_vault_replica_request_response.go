@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteVaultReplicaRequest wrapper for the DeleteVaultReplica operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DeleteVaultReplica.go.html to see an example of how to use DeleteVaultReplicaRequest.
 type DeleteVaultReplicaRequest struct {
 
 	// The OCID of the vault.

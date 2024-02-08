@@ -12,6 +12,10 @@ import (
 )
 
 // ListSensitiveObjectsRequest wrapper for the ListSensitiveObjects operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveObjects.go.html to see an example of how to use ListSensitiveObjectsRequest.
 type ListSensitiveObjectsRequest struct {
 
 	// The OCID of the sensitive data model.

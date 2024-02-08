@@ -54,11 +54,7 @@ func extractTenancyIDFromCertificate(cert *x509.Certificate) string {
 	for _, nameAttr := range cert.Subject.Names {
 		value := nameAttr.Value.(string)
 		if strings.HasPrefix(value, "opc-tenant:") {
-			// instance principal cert
 			return value[len("opc-tenant:"):]
-		} else if strings.HasPrefix(value, "opc-identity:") {
-			// service principal cert
-			return value[len("opc-identity:"):]
 		}
 	}
 	return ""
@@ -92,6 +88,8 @@ func GetGenericConfigurationProvider(configProvider common.ConfigurationProvider
 				return InstancePrincipalDelegationTokenConfigurationProviderForRegion(authConfig.OboToken, common.StringToRegion(region))
 			}
 			return InstancePrincipalDelegationTokenConfigurationProvider(authConfig.OboToken)
+		case common.InstancePrincipal:
+			return InstancePrincipalConfigurationProvider()
 		case common.UserPrincipal:
 			return configProvider, nil
 		}

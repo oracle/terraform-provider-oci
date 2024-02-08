@@ -12,9 +12,13 @@ import (
 )
 
 // DeleteVcnRequest wrapper for the DeleteVcn operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteVcn.go.html to see an example of how to use DeleteVcnRequest.
 type DeleteVcnRequest struct {
 
-	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"path" name:"vcnId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

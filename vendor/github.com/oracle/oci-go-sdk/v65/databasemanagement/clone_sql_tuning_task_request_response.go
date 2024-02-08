@@ -12,6 +12,10 @@ import (
 )
 
 // CloneSqlTuningTaskRequest wrapper for the CloneSqlTuningTask operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CloneSqlTuningTask.go.html to see an example of how to use CloneSqlTuningTaskRequest.
 type CloneSqlTuningTaskRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

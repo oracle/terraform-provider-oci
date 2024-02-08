@@ -92,6 +92,10 @@ func (client *SubscribedServiceClient) ConfigurationProvider() *common.Configura
 }
 
 // GetSubscribedService This API returns the subscribed service details corresponding to the id provided
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetSubscribedService.go.html to see an example of how to use GetSubscribedService API.
 func (client SubscribedServiceClient) GetSubscribedService(ctx context.Context, request GetSubscribedServiceRequest) (response GetSubscribedServiceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,6 +149,10 @@ func (client SubscribedServiceClient) getSubscribedService(ctx context.Context, 
 }
 
 // ListSubscribedServices This list API returns all subscribed services for given Subscription ID
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListSubscribedServices.go.html to see an example of how to use ListSubscribedServices API.
 func (client SubscribedServiceClient) ListSubscribedServices(ctx context.Context, request ListSubscribedServicesRequest) (response ListSubscribedServicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

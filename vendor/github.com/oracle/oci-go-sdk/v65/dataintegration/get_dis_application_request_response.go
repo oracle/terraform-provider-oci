@@ -12,6 +12,10 @@ import (
 )
 
 // GetDisApplicationRequest wrapper for the GetDisApplication operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetDisApplication.go.html to see an example of how to use GetDisApplicationRequest.
 type GetDisApplicationRequest struct {
 
 	// The workspace ID.

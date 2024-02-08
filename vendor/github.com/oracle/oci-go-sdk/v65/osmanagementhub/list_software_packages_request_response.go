@@ -12,6 +12,10 @@ import (
 )
 
 // ListSoftwarePackagesRequest wrapper for the ListSoftwarePackages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwarePackages.go.html to see an example of how to use ListSoftwarePackagesRequest.
 type ListSoftwarePackagesRequest struct {
 
 	// The software source OCID.

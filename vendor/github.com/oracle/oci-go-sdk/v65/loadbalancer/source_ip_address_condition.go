@@ -18,25 +18,12 @@ import (
 )
 
 // SourceIpAddressCondition A rule condition that checks client source IP against specified IP address or address range.
-// The IP Address can be specified either as a single CIDR by value or referenced via a named CidrBlocks.
-// If latter is used, then CidrBlocks must be created in the context of this Load Balancer.
-// Condition evaluation depends on operator:
-// *  **IN_RANGE** - The condition is determined to be true if the source IP address belongs to the CIDR or CidrBlocks referenced in *attributeValue*.
-// *  **NOT_IN_RANGE** - The condition is determined to be true if the source IP address does not belong to the CIDR or CidrBlocks referenced in *attributeValue*.
 type SourceIpAddressCondition struct {
 
 	// An IPv4 or IPv6 address range that the source IP address of an incoming packet must match.
 	// The service accepts only classless inter-domain routing (CIDR) format (x.x.x.x/y or x:x::x/y) strings.
 	// Specify 0.0.0.0/0 or ::/0 to match all incoming traffic.
-	// Besides IP ranges or IPs you can match against multiple CIDR blocks by creating a CidrBlocks resource with
-	// a list of CIDR blocks and mentioning the name of CidrBlocks resource.
-	// example: "192.168.0.0/16 or MySourceIPCidrBlocks"
 	AttributeValue *string `mandatory:"true" json:"attributeValue"`
-
-	// Operator which has to be appplied to this condition.
-	// *  **IN_RANGE** - The condition is determined to be true if the source IP address belongs to the CIDR or CidrBlocks referenced in *attributeValue*.
-	// *  **NOT_IN_RANGE** - The condition is determined to be true if the source IP address does not belong to the CIDR or CidrBlocks referenced in *attributeValue*.
-	Operator SourceIpAddressConditionOperatorEnum `mandatory:"false" json:"operator,omitempty"`
 }
 
 func (m SourceIpAddressCondition) String() string {
@@ -48,9 +35,6 @@ func (m SourceIpAddressCondition) String() string {
 // Not recommended for calling this function directly
 func (m SourceIpAddressCondition) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingSourceIpAddressConditionOperatorEnum(string(m.Operator)); !ok && m.Operator != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetSourceIpAddressConditionOperatorEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -70,46 +54,4 @@ func (m SourceIpAddressCondition) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
-}
-
-// SourceIpAddressConditionOperatorEnum Enum with underlying type: string
-type SourceIpAddressConditionOperatorEnum string
-
-// Set of constants representing the allowable values for SourceIpAddressConditionOperatorEnum
-const (
-	SourceIpAddressConditionOperatorInRange    SourceIpAddressConditionOperatorEnum = "IN_RANGE"
-	SourceIpAddressConditionOperatorNotInRange SourceIpAddressConditionOperatorEnum = "NOT_IN_RANGE"
-)
-
-var mappingSourceIpAddressConditionOperatorEnum = map[string]SourceIpAddressConditionOperatorEnum{
-	"IN_RANGE":     SourceIpAddressConditionOperatorInRange,
-	"NOT_IN_RANGE": SourceIpAddressConditionOperatorNotInRange,
-}
-
-var mappingSourceIpAddressConditionOperatorEnumLowerCase = map[string]SourceIpAddressConditionOperatorEnum{
-	"in_range":     SourceIpAddressConditionOperatorInRange,
-	"not_in_range": SourceIpAddressConditionOperatorNotInRange,
-}
-
-// GetSourceIpAddressConditionOperatorEnumValues Enumerates the set of values for SourceIpAddressConditionOperatorEnum
-func GetSourceIpAddressConditionOperatorEnumValues() []SourceIpAddressConditionOperatorEnum {
-	values := make([]SourceIpAddressConditionOperatorEnum, 0)
-	for _, v := range mappingSourceIpAddressConditionOperatorEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSourceIpAddressConditionOperatorEnumStringValues Enumerates the set of values in String for SourceIpAddressConditionOperatorEnum
-func GetSourceIpAddressConditionOperatorEnumStringValues() []string {
-	return []string{
-		"IN_RANGE",
-		"NOT_IN_RANGE",
-	}
-}
-
-// GetMappingSourceIpAddressConditionOperatorEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSourceIpAddressConditionOperatorEnum(val string) (SourceIpAddressConditionOperatorEnum, bool) {
-	enum, ok := mappingSourceIpAddressConditionOperatorEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

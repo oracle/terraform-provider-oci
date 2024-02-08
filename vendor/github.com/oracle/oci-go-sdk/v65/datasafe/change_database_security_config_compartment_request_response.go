@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeDatabaseSecurityConfigCompartmentRequest wrapper for the ChangeDatabaseSecurityConfigCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeDatabaseSecurityConfigCompartment.go.html to see an example of how to use ChangeDatabaseSecurityConfigCompartmentRequest.
 type ChangeDatabaseSecurityConfigCompartmentRequest struct {
 
 	// The OCID of the database security configuration resource.

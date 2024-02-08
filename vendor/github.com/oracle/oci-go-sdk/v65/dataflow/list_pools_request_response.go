@@ -12,6 +12,10 @@ import (
 )
 
 // ListPoolsRequest wrapper for the ListPools operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListPools.go.html to see an example of how to use ListPoolsRequest.
 type ListPoolsRequest struct {
 
 	// The OCID of the compartment.

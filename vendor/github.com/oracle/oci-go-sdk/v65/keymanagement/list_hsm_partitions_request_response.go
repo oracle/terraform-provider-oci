@@ -12,6 +12,10 @@ import (
 )
 
 // ListHsmPartitionsRequest wrapper for the ListHsmPartitions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListHsmPartitions.go.html to see an example of how to use ListHsmPartitionsRequest.
 type ListHsmPartitionsRequest struct {
 
 	// The OCID of the HSM Cluster.

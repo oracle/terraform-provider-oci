@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// TacticCollection Collection of tactic summaries.
+// TacticCollection Collection of tactic summaries in Cloud Guard
 type TacticCollection struct {
 
-	// List of TacticSummay resources
+	// List of tactic summary.
 	Items []TacticSummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TacticCollection) String() string {

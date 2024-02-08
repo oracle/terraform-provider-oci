@@ -12,6 +12,10 @@ import (
 )
 
 // CheckExternalDatabaseConnectorConnectionStatusRequest wrapper for the CheckExternalDatabaseConnectorConnectionStatus operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CheckExternalDatabaseConnectorConnectionStatus.go.html to see an example of how to use CheckExternalDatabaseConnectorConnectionStatusRequest.
 type CheckExternalDatabaseConnectorConnectionStatusRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the

@@ -142,7 +142,7 @@ func PostProcessServiceError(err error, service string, method string, apiRefere
 }
 
 func (se servicefailure) Error() string {
-	return fmt.Sprintf(`Error returned by %s Service. Http Status Code: %d. Error Code: %s. Opc request id: %s. Message: %s.
+	return fmt.Sprintf(`Error returned by %s Service. Http Status Code: %d. Error Code: %s. Opc request id: %s. Message: %s
 Operation Name: %s
 Timestamp: %s
 Client Version: %s

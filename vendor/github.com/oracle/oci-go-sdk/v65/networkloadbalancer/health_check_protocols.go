@@ -22,7 +22,6 @@ const (
 	HealthCheckProtocolsHttps HealthCheckProtocolsEnum = "HTTPS"
 	HealthCheckProtocolsTcp   HealthCheckProtocolsEnum = "TCP"
 	HealthCheckProtocolsUdp   HealthCheckProtocolsEnum = "UDP"
-	HealthCheckProtocolsDns   HealthCheckProtocolsEnum = "DNS"
 )
 
 var mappingHealthCheckProtocolsEnum = map[string]HealthCheckProtocolsEnum{
@@ -30,7 +29,6 @@ var mappingHealthCheckProtocolsEnum = map[string]HealthCheckProtocolsEnum{
 	"HTTPS": HealthCheckProtocolsHttps,
 	"TCP":   HealthCheckProtocolsTcp,
 	"UDP":   HealthCheckProtocolsUdp,
-	"DNS":   HealthCheckProtocolsDns,
 }
 
 var mappingHealthCheckProtocolsEnumLowerCase = map[string]HealthCheckProtocolsEnum{
@@ -38,7 +36,6 @@ var mappingHealthCheckProtocolsEnumLowerCase = map[string]HealthCheckProtocolsEn
 	"https": HealthCheckProtocolsHttps,
 	"tcp":   HealthCheckProtocolsTcp,
 	"udp":   HealthCheckProtocolsUdp,
-	"dns":   HealthCheckProtocolsDns,
 }
 
 // GetHealthCheckProtocolsEnumValues Enumerates the set of values for HealthCheckProtocolsEnum
@@ -57,7 +54,6 @@ func GetHealthCheckProtocolsEnumStringValues() []string {
 		"HTTPS",
 		"TCP",
 		"UDP",
-		"DNS",
 	}
 }
 

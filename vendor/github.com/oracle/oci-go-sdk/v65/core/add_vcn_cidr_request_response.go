@@ -12,9 +12,13 @@ import (
 )
 
 // AddVcnCidrRequest wrapper for the AddVcnCidr operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddVcnCidr.go.html to see an example of how to use AddVcnCidrRequest.
 type AddVcnCidrRequest struct {
 
-	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"path" name:"vcnId"`
 
 	// Details object for deleting a VCN CIDR.

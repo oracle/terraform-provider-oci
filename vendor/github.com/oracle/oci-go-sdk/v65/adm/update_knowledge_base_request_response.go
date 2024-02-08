@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateKnowledgeBaseRequest wrapper for the UpdateKnowledgeBase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateKnowledgeBase.go.html to see an example of how to use UpdateKnowledgeBaseRequest.
 type UpdateKnowledgeBaseRequest struct {
 
 	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Knowledge Base, as a URL path parameter.

@@ -12,6 +12,10 @@ import (
 )
 
 // ListRuntimeOperatorsRequest wrapper for the ListRuntimeOperators operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListRuntimeOperators.go.html to see an example of how to use ListRuntimeOperatorsRequest.
 type ListRuntimeOperatorsRequest struct {
 
 	// The workspace ID.

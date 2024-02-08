@@ -12,6 +12,10 @@ import (
 )
 
 // ListDiscoverySchedulesRequest wrapper for the ListDiscoverySchedules operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListDiscoverySchedules.go.html to see an example of how to use ListDiscoverySchedulesRequest.
 type ListDiscoverySchedulesRequest struct {
 
 	// The ID of the compartment in which to list resources.

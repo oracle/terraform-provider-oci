@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// TargetIdsSelected Target selection on basis of target IDs.
+// TargetIdsSelected Target selection on basis of TargetIds.
 type TargetIdsSelected struct {
 
-	// IDs of targets
+	// Ids of Target
 	Values []string `mandatory:"false" json:"values"`
 }
 

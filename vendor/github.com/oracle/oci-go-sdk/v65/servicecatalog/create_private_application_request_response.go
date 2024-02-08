@@ -12,6 +12,10 @@ import (
 )
 
 // CreatePrivateApplicationRequest wrapper for the CreatePrivateApplication operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/CreatePrivateApplication.go.html to see an example of how to use CreatePrivateApplicationRequest.
 type CreatePrivateApplicationRequest struct {
 
 	// Private application creation details.

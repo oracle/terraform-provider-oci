@@ -16,40 +16,28 @@ import (
 	"strings"
 )
 
-// TargetResponderRecipeResponderRule A TargetResponderRecipeResponderRule resource contains a specific instance of a
-// single responder rule.
-// A TargetResponderRecipeRule resource:
-// * Is effectively a copy of a ResponderRecipeRule resource in which users can
-// make certain changes if it’s Oracle-managed, and other changes if it’s user-managed.
-// * Is visible on the Cloud Guard Targets, Target Details page.
-// * Is effectively located in a specific OCI compartment, through the
-// ThreatResponderRecipe resource to which it belongs.
-// * Can be modified by users, programmatically or through the UI.
-// * Changes that can be made here apply locally, to resources in OCI compartments mapped
-// to the target that attaches the associated responder recipe (in a TargetResponderRecipe
-// resource), and override any changes made in rules associated with the corresponding
-// ResponderRecipe resource.
+// TargetResponderRecipeResponderRule Details of ResponderRule.
 type TargetResponderRecipeResponderRule struct {
 
-	// Unique identifier for the responder rule
+	// Unique ResponderRule identifier.
 	ResponderRuleId *string `mandatory:"true" json:"responderRuleId"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Responder rule display name
+	// ResponderRule display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Responder rule description
+	// ResponderRule description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Type of responder
+	// Type of Responder
 	Type ResponderTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// List of policies
+	// List of Policy
 	Policies []string `mandatory:"false" json:"policies"`
 
-	// Supported execution modes for the responder rule
+	// Supported Execution Modes
 	SupportedModes []TargetResponderRecipeResponderRuleSupportedModesEnum `mandatory:"false" json:"supportedModes,omitempty"`
 
 	Details *ResponderRuleDetails `mandatory:"false" json:"details"`
@@ -57,10 +45,10 @@ type TargetResponderRecipeResponderRule struct {
 	// The date and time the target responder recipe rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target responder recipe rule was last updated. Format defined by RFC3339.
+	// The date and time the target responder recipe rule was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the responder rule
+	// The current state of the ResponderRule.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

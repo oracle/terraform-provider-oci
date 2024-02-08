@@ -12,6 +12,10 @@ import (
 )
 
 // ListModelDeploymentsRequest wrapper for the ListModelDeployments operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModelDeployments.go.html to see an example of how to use ListModelDeploymentsRequest.
 type ListModelDeploymentsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

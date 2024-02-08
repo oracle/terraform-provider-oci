@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeDataAssetCompartmentRequest wrapper for the ChangeDataAssetCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/ChangeDataAssetCompartment.go.html to see an example of how to use ChangeDataAssetCompartmentRequest.
 type ChangeDataAssetCompartmentRequest struct {
 
 	// The OCID of the Data Asset.

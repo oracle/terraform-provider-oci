@@ -12,6 +12,10 @@ import (
 )
 
 // GetMediaAssetDistributionChannelAttachmentRequest wrapper for the GetMediaAssetDistributionChannelAttachment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaAssetDistributionChannelAttachment.go.html to see an example of how to use GetMediaAssetDistributionChannelAttachmentRequest.
 type GetMediaAssetDistributionChannelAttachmentRequest struct {
 
 	// Unique MediaAsset identifier

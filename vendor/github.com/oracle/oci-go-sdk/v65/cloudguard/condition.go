@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// Condition The base condition resource.
+// Condition Base condition object
 type Condition interface {
 }
 

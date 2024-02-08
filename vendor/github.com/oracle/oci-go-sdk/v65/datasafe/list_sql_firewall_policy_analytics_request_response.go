@@ -12,6 +12,10 @@ import (
 )
 
 // ListSqlFirewallPolicyAnalyticsRequest wrapper for the ListSqlFirewallPolicyAnalytics operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallPolicyAnalytics.go.html to see an example of how to use ListSqlFirewallPolicyAnalyticsRequest.
 type ListSqlFirewallPolicyAnalyticsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

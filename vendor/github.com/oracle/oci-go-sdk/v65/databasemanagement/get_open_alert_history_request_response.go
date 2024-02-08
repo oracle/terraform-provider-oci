@@ -12,6 +12,10 @@ import (
 )
 
 // GetOpenAlertHistoryRequest wrapper for the GetOpenAlertHistory operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOpenAlertHistory.go.html to see an example of how to use GetOpenAlertHistoryRequest.
 type GetOpenAlertHistoryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata storage server.

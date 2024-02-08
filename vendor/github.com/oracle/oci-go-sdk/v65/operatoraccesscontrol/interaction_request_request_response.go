@@ -12,6 +12,10 @@ import (
 )
 
 // InteractionRequestRequest wrapper for the InteractionRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/InteractionRequest.go.html to see an example of how to use InteractionRequestRequest.
 type InteractionRequestRequest struct {
 
 	// unique AccessRequest identifier

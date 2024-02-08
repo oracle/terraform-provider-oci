@@ -12,6 +12,10 @@ import (
 )
 
 // SummarizeExadataMembersRequest wrapper for the SummarizeExadataMembers operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataMembers.go.html to see an example of how to use SummarizeExadataMembersRequest.
 type SummarizeExadataMembersRequest struct {
 
 	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of exadata insight resource.

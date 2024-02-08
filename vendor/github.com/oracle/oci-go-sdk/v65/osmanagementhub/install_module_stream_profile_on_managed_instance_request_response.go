@@ -12,6 +12,10 @@ import (
 )
 
 // InstallModuleStreamProfileOnManagedInstanceRequest wrapper for the InstallModuleStreamProfileOnManagedInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallModuleStreamProfileOnManagedInstance.go.html to see an example of how to use InstallModuleStreamProfileOnManagedInstanceRequest.
 type InstallModuleStreamProfileOnManagedInstanceRequest struct {
 
 	// The OCID of the managed instance.

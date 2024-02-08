@@ -62,7 +62,7 @@ type Cluster struct {
 	// Metadata about the cluster.
 	Metadata *ClusterMetadata `mandatory:"false" json:"metadata"`
 
-	// The state of the cluster masters. For more information, see Monitoring Clusters (https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm)
+	// The state of the cluster masters.
 	LifecycleState ClusterLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Details about the state of the cluster masters.

@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeSecurityPolicyDeploymentCompartmentRequest wrapper for the ChangeSecurityPolicyDeploymentCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityPolicyDeploymentCompartment.go.html to see an example of how to use ChangeSecurityPolicyDeploymentCompartmentRequest.
 type ChangeSecurityPolicyDeploymentCompartmentRequest struct {
 
 	// The OCID of the security policy deployment resource.

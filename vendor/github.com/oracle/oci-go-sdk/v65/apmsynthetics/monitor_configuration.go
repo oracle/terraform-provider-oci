@@ -59,20 +59,12 @@ func (m *monitorconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{
 
 	var err error
 	switch m.ConfigType {
-	case "FTP_CONFIG":
-		mm := FtpMonitorConfiguration{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DNSSEC_CONFIG":
 		mm := DnsSecMonitorConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DNS_TRACE_CONFIG":
 		mm := DnsTraceMonitorConfiguration{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "SQL_CONFIG":
-		mm := SqlMonitorConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SCRIPTED_REST_CONFIG":
@@ -144,8 +136,6 @@ const (
 	MonitorConfigurationConfigTypeDnsServerConfig       MonitorConfigurationConfigTypeEnum = "DNS_SERVER_CONFIG"
 	MonitorConfigurationConfigTypeDnsTraceConfig        MonitorConfigurationConfigTypeEnum = "DNS_TRACE_CONFIG"
 	MonitorConfigurationConfigTypeDnssecConfig          MonitorConfigurationConfigTypeEnum = "DNSSEC_CONFIG"
-	MonitorConfigurationConfigTypeFtpConfig             MonitorConfigurationConfigTypeEnum = "FTP_CONFIG"
-	MonitorConfigurationConfigTypeSqlConfig             MonitorConfigurationConfigTypeEnum = "SQL_CONFIG"
 )
 
 var mappingMonitorConfigurationConfigTypeEnum = map[string]MonitorConfigurationConfigTypeEnum{
@@ -157,8 +147,6 @@ var mappingMonitorConfigurationConfigTypeEnum = map[string]MonitorConfigurationC
 	"DNS_SERVER_CONFIG":       MonitorConfigurationConfigTypeDnsServerConfig,
 	"DNS_TRACE_CONFIG":        MonitorConfigurationConfigTypeDnsTraceConfig,
 	"DNSSEC_CONFIG":           MonitorConfigurationConfigTypeDnssecConfig,
-	"FTP_CONFIG":              MonitorConfigurationConfigTypeFtpConfig,
-	"SQL_CONFIG":              MonitorConfigurationConfigTypeSqlConfig,
 }
 
 var mappingMonitorConfigurationConfigTypeEnumLowerCase = map[string]MonitorConfigurationConfigTypeEnum{
@@ -170,8 +158,6 @@ var mappingMonitorConfigurationConfigTypeEnumLowerCase = map[string]MonitorConfi
 	"dns_server_config":       MonitorConfigurationConfigTypeDnsServerConfig,
 	"dns_trace_config":        MonitorConfigurationConfigTypeDnsTraceConfig,
 	"dnssec_config":           MonitorConfigurationConfigTypeDnssecConfig,
-	"ftp_config":              MonitorConfigurationConfigTypeFtpConfig,
-	"sql_config":              MonitorConfigurationConfigTypeSqlConfig,
 }
 
 // GetMonitorConfigurationConfigTypeEnumValues Enumerates the set of values for MonitorConfigurationConfigTypeEnum
@@ -194,8 +180,6 @@ func GetMonitorConfigurationConfigTypeEnumStringValues() []string {
 		"DNS_SERVER_CONFIG",
 		"DNS_TRACE_CONFIG",
 		"DNSSEC_CONFIG",
-		"FTP_CONFIG",
-		"SQL_CONFIG",
 	}
 }
 

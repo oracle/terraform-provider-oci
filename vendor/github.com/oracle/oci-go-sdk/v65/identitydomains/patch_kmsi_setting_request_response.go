@@ -12,6 +12,10 @@ import (
 )
 
 // PatchKmsiSettingRequest wrapper for the PatchKmsiSetting operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchKmsiSetting.go.html to see an example of how to use PatchKmsiSettingRequest.
 type PatchKmsiSettingRequest struct {
 
 	// ID of the resource

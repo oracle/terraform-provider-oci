@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDigitalAssistantRequest wrapper for the DeleteDigitalAssistant operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteDigitalAssistant.go.html to see an example of how to use DeleteDigitalAssistantRequest.
 type DeleteDigitalAssistantRequest struct {
 
 	// Unique Digital Assistant instance identifier.

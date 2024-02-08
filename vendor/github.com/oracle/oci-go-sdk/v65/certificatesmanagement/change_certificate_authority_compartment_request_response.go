@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeCertificateAuthorityCompartmentRequest wrapper for the ChangeCertificateAuthorityCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ChangeCertificateAuthorityCompartment.go.html to see an example of how to use ChangeCertificateAuthorityCompartmentRequest.
 type ChangeCertificateAuthorityCompartmentRequest struct {
 
 	// The OCID of the certificate authority (CA).

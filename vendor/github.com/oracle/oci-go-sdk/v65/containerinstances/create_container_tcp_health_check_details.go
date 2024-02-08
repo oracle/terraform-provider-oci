@@ -25,12 +25,6 @@ type CreateContainerTcpHealthCheckDetails struct {
 	// Health check name.
 	Name *string `mandatory:"false" json:"name"`
 
-	// If set to true, this health check runs first while other HealthChecks wait for this one to complete.
-	// If this becomes Healthy then other health checks are started.
-	// If it becomes Unhealthy the container is killed.
-	// At max only 1 healthCheck can have this field set to true.
-	IsStartupCheck *bool `mandatory:"false" json:"isStartupCheck"`
-
 	// The initial delay in seconds before start checking container health status.
 	InitialDelayInSeconds *int `mandatory:"false" json:"initialDelayInSeconds"`
 
@@ -54,11 +48,6 @@ type CreateContainerTcpHealthCheckDetails struct {
 // GetName returns Name
 func (m CreateContainerTcpHealthCheckDetails) GetName() *string {
 	return m.Name
-}
-
-// GetIsStartupCheck returns IsStartupCheck
-func (m CreateContainerTcpHealthCheckDetails) GetIsStartupCheck() *bool {
-	return m.IsStartupCheck
 }
 
 // GetInitialDelayInSeconds returns InitialDelayInSeconds

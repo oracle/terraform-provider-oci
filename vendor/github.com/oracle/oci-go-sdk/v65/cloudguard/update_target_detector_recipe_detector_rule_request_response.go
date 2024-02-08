@@ -12,18 +12,22 @@ import (
 )
 
 // UpdateTargetDetectorRecipeDetectorRuleRequest wrapper for the UpdateTargetDetectorRecipeDetectorRule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateTargetDetectorRecipeDetectorRule.go.html to see an example of how to use UpdateTargetDetectorRecipeDetectorRuleRequest.
 type UpdateTargetDetectorRecipeDetectorRuleRequest struct {
 
-	// OCID of the target
+	// OCID of target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of the target detector recipe.
+	// OCID of TargetDetectorRecipe
 	TargetDetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetDetectorRecipeId"`
 
-	// The unique identifier of the detector rule.
+	// The id of DetectorRule
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
-	// The details to be updated for the detector rule
+	// The details to be updated for DetectorRule.
 	UpdateTargetDetectorRecipeDetectorRuleDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

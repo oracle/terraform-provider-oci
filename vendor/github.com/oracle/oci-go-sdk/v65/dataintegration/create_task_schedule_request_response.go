@@ -12,6 +12,10 @@ import (
 )
 
 // CreateTaskScheduleRequest wrapper for the CreateTaskSchedule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateTaskSchedule.go.html to see an example of how to use CreateTaskScheduleRequest.
 type CreateTaskScheduleRequest struct {
 
 	// The workspace ID.

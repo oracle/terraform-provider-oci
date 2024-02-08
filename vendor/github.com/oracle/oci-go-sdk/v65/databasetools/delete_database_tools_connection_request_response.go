@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDatabaseToolsConnectionRequest wrapper for the DeleteDatabaseToolsConnection operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/DeleteDatabaseToolsConnection.go.html to see an example of how to use DeleteDatabaseToolsConnectionRequest.
 type DeleteDatabaseToolsConnectionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools connection.

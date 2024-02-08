@@ -12,6 +12,10 @@ import (
 )
 
 // RefreshTargetDatabaseRequest wrapper for the RefreshTargetDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshTargetDatabase.go.html to see an example of how to use RefreshTargetDatabaseRequest.
 type RefreshTargetDatabaseRequest struct {
 
 	// The OCID of the Data Safe target database.

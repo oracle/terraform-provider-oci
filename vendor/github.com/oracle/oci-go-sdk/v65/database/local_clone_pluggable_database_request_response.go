@@ -12,6 +12,10 @@ import (
 )
 
 // LocalClonePluggableDatabaseRequest wrapper for the LocalClonePluggableDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/LocalClonePluggableDatabase.go.html to see an example of how to use LocalClonePluggableDatabaseRequest.
 type LocalClonePluggableDatabaseRequest struct {
 
 	// Request to clone a pluggable database locally.

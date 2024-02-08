@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// TechniqueSummary Summary information for a technique.
+// TechniqueSummary Technique summary.
 type TechniqueSummary struct {
 
-	// Unique identifier for the technique
+	// Unique identifier for the technique.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Display name of the technique

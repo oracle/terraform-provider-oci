@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteQueryRequest wrapper for the DeleteQuery operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteQuery.go.html to see an example of how to use DeleteQueryRequest.
 type DeleteQueryRequest struct {
 
 	// The query unique OCID.

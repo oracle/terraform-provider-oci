@@ -94,6 +94,10 @@ func (client *DiagnosabilityClient) ConfigurationProvider() *common.Configuratio
 }
 
 // ListAlertLogs Lists the alert logs for the specified Managed Database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListAlertLogs.go.html to see an example of how to use ListAlertLogs API.
 func (client DiagnosabilityClient) ListAlertLogs(ctx context.Context, request ListAlertLogsRequest) (response ListAlertLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -147,6 +151,10 @@ func (client DiagnosabilityClient) listAlertLogs(ctx context.Context, request co
 }
 
 // ListAttentionLogs Lists the attention logs for the specified Managed Database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListAttentionLogs.go.html to see an example of how to use ListAttentionLogs API.
 func (client DiagnosabilityClient) ListAttentionLogs(ctx context.Context, request ListAttentionLogsRequest) (response ListAttentionLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -200,6 +208,10 @@ func (client DiagnosabilityClient) listAttentionLogs(ctx context.Context, reques
 }
 
 // SummarizeAlertLogCounts Get the counts of alert logs for the specified Managed Database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAlertLogCounts.go.html to see an example of how to use SummarizeAlertLogCounts API.
 func (client DiagnosabilityClient) SummarizeAlertLogCounts(ctx context.Context, request SummarizeAlertLogCountsRequest) (response SummarizeAlertLogCountsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -253,6 +265,10 @@ func (client DiagnosabilityClient) summarizeAlertLogCounts(ctx context.Context, 
 }
 
 // SummarizeAttentionLogCounts Get the counts of attention logs for the specified Managed Database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAttentionLogCounts.go.html to see an example of how to use SummarizeAttentionLogCounts API.
 func (client DiagnosabilityClient) SummarizeAttentionLogCounts(ctx context.Context, request SummarizeAttentionLogCountsRequest) (response SummarizeAttentionLogCountsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

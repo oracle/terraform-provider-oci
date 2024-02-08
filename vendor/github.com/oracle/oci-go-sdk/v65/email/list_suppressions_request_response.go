@@ -12,6 +12,10 @@ import (
 )
 
 // ListSuppressionsRequest wrapper for the ListSuppressions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSuppressions.go.html to see an example of how to use ListSuppressionsRequest.
 type ListSuppressionsRequest struct {
 
 	// The OCID for the compartment.
@@ -28,7 +32,7 @@ type ListSuppressionsRequest struct {
 	// returned list (inclusive). Specifying this parameter without the
 	// corresponding `timeCreatedLessThan` parameter will retrieve suppressions created from the
 	// given `timeCreatedGreaterThanOrEqualTo` to the current time, in "YYYY-MM-ddThh:mmZ" format with a
-	// Z offset, as defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// Z offset, as defined by RFC 3339.
 	// **Example:** 2016-12-19T16:39:57.600Z
 	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
 
@@ -37,7 +41,7 @@ type ListSuppressionsRequest struct {
 	// list (exclusive). Specifying this parameter without the corresponding
 	// `timeCreatedGreaterThanOrEqualTo` parameter will retrieve all suppressions created before the
 	// specified end date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as
-	// defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// defined by RFC 3339.
 	// **Example:** 2016-12-19T16:39:57.600Z
 	TimeCreatedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedLessThan"`
 

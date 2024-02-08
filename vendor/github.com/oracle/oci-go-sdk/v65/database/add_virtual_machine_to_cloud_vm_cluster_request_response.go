@@ -12,6 +12,10 @@ import (
 )
 
 // AddVirtualMachineToCloudVmClusterRequest wrapper for the AddVirtualMachineToCloudVmCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/AddVirtualMachineToCloudVmCluster.go.html to see an example of how to use AddVirtualMachineToCloudVmClusterRequest.
 type AddVirtualMachineToCloudVmClusterRequest struct {
 
 	// Request to add Virtual Machines to the Cloud VM cluster.

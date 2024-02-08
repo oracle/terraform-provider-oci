@@ -12,6 +12,10 @@ import (
 )
 
 // EstimateReplicationRequest wrapper for the EstimateReplication operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/EstimateReplication.go.html to see an example of how to use EstimateReplicationRequest.
 type EstimateReplicationRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.

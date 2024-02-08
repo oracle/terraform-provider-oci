@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateNamedCredentialRequest wrapper for the UpdateNamedCredential operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateNamedCredential.go.html to see an example of how to use UpdateNamedCredentialRequest.
 type UpdateNamedCredentialRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.

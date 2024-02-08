@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateInstancePoolRequest wrapper for the UpdateInstancePool operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInstancePool.go.html to see an example of how to use UpdateInstancePoolRequest.
 type UpdateInstancePoolRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.

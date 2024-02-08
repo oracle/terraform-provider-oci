@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateExportSettingRequest wrapper for the UpdateExportSetting operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateExportSetting.go.html to see an example of how to use UpdateExportSettingRequest.
 type UpdateExportSettingRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

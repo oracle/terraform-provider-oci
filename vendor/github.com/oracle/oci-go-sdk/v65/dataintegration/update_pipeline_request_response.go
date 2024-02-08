@@ -12,6 +12,10 @@ import (
 )
 
 // UpdatePipelineRequest wrapper for the UpdatePipeline operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdatePipeline.go.html to see an example of how to use UpdatePipelineRequest.
 type UpdatePipelineRequest struct {
 
 	// The workspace ID.

@@ -16,37 +16,37 @@ import (
 	"strings"
 )
 
-// ResponderRecipeSummary Summary information for a responder recipe.
+// ResponderRecipeSummary Summary of the ResponderRecipe.
 type ResponderRecipeSummary struct {
 
-	// Unique identifier for the responder recipe
+	// Identifier for ResponderRecipe.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Responder recipe display name
+	// ResponderRecipe display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Responder recipe description
+	// ResponderRecipe description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Responder recipe description
+	// Owner of ResponderRecipe
 	Owner OwnerTypeEnum `mandatory:"false" json:"owner,omitempty"`
 
-	// List of responder rules associated with the responder recipe
+	// List of responder rules associated with the recipe
 	ResponderRules []ResponderRecipeResponderRule `mandatory:"false" json:"responderRules"`
 
-	// Unique identifier of the source responder recipe
+	// The id of the source responder recipe.
 	SourceResponderRecipeId *string `mandatory:"false" json:"sourceResponderRecipeId"`
 
 	// The date and time the responder recipe was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the responder recipe was last updated. Format defined by RFC3339.
+	// The date and time the responder recipe was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the example
+	// The current state of the Example.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

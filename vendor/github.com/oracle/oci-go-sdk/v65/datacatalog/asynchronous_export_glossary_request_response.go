@@ -12,6 +12,10 @@ import (
 )
 
 // AsynchronousExportGlossaryRequest wrapper for the AsynchronousExportGlossary operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AsynchronousExportGlossary.go.html to see an example of how to use AsynchronousExportGlossaryRequest.
 type AsynchronousExportGlossaryRequest struct {
 
 	// Unique catalog identifier.

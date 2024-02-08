@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteLibraryMaskingFormatRequest wrapper for the DeleteLibraryMaskingFormat operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteLibraryMaskingFormat.go.html to see an example of how to use DeleteLibraryMaskingFormatRequest.
 type DeleteLibraryMaskingFormatRequest struct {
 
 	// The OCID of the library masking format.

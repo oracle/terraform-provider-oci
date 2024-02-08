@@ -12,6 +12,10 @@ import (
 )
 
 // GetExternalPluggableDatabaseRequest wrapper for the GetExternalPluggableDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExternalPluggableDatabase.go.html to see an example of how to use GetExternalPluggableDatabaseRequest.
 type GetExternalPluggableDatabaseRequest struct {
 
 	// The ExternalPluggableDatabaseId OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

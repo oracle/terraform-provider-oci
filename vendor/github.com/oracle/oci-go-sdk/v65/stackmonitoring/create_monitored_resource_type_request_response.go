@@ -12,6 +12,10 @@ import (
 )
 
 // CreateMonitoredResourceTypeRequest wrapper for the CreateMonitoredResourceType operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResourceType.go.html to see an example of how to use CreateMonitoredResourceTypeRequest.
 type CreateMonitoredResourceTypeRequest struct {
 
 	// Details for the new monitored resource type.

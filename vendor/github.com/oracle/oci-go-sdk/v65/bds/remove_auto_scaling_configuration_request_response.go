@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveAutoScalingConfigurationRequest wrapper for the RemoveAutoScalingConfiguration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveAutoScalingConfiguration.go.html to see an example of how to use RemoveAutoScalingConfigurationRequest.
 type RemoveAutoScalingConfigurationRequest struct {
 
 	// The OCID of the cluster.

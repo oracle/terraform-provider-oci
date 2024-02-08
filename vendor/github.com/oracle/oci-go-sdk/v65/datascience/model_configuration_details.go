@@ -28,9 +28,6 @@ type ModelConfigurationDetails struct {
 
 	// The minimum network bandwidth for the model deployment.
 	BandwidthMbps *int `mandatory:"false" json:"bandwidthMbps"`
-
-	// The maximum network bandwidth for the model deployment.
-	MaximumBandwidthMbps *int `mandatory:"false" json:"maximumBandwidthMbps"`
 }
 
 func (m ModelConfigurationDetails) String() string {
@@ -54,7 +51,6 @@ func (m *ModelConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		ScalingPolicy         scalingpolicy          `json:"scalingPolicy"`
 		BandwidthMbps         *int                   `json:"bandwidthMbps"`
-		MaximumBandwidthMbps  *int                   `json:"maximumBandwidthMbps"`
 		ModelId               *string                `json:"modelId"`
 		InstanceConfiguration *InstanceConfiguration `json:"instanceConfiguration"`
 	}{}
@@ -75,8 +71,6 @@ func (m *ModelConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.BandwidthMbps = model.BandwidthMbps
-
-	m.MaximumBandwidthMbps = model.MaximumBandwidthMbps
 
 	m.ModelId = model.ModelId
 

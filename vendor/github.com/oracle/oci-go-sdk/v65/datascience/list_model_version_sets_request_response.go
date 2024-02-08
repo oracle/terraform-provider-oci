@@ -12,6 +12,10 @@ import (
 )
 
 // ListModelVersionSetsRequest wrapper for the ListModelVersionSets operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModelVersionSets.go.html to see an example of how to use ListModelVersionSetsRequest.
 type ListModelVersionSetsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

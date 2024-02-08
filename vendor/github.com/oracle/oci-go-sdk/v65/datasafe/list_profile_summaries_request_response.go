@@ -12,6 +12,10 @@ import (
 )
 
 // ListProfileSummariesRequest wrapper for the ListProfileSummaries operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListProfileSummaries.go.html to see an example of how to use ListProfileSummariesRequest.
 type ListProfileSummariesRequest struct {
 
 	// The OCID of the user assessment.

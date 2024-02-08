@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteProjectRequest wrapper for the DeleteProject operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteProject.go.html to see an example of how to use DeleteProjectRequest.
 type DeleteProjectRequest struct {
 
 	// Unique project identifier.

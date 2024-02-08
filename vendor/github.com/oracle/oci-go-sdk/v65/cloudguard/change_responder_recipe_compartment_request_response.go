@@ -12,12 +12,16 @@ import (
 )
 
 // ChangeResponderRecipeCompartmentRequest wrapper for the ChangeResponderRecipeCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeResponderRecipeCompartment.go.html to see an example of how to use ChangeResponderRecipeCompartmentRequest.
 type ChangeResponderRecipeCompartmentRequest struct {
 
-	// OCID of the responder recipe.
+	// OCID of ResponderRecipe
 	ResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"responderRecipeId"`
 
-	// The target compartment OCID
+	// The target compartment id.
 	ChangeResponderRecipeCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

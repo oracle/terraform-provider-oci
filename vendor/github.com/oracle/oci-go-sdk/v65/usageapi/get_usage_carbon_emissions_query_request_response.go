@@ -12,6 +12,10 @@ import (
 )
 
 // GetUsageCarbonEmissionsQueryRequest wrapper for the GetUsageCarbonEmissionsQuery operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetUsageCarbonEmissionsQuery.go.html to see an example of how to use GetUsageCarbonEmissionsQueryRequest.
 type GetUsageCarbonEmissionsQueryRequest struct {
 
 	// The query unique OCID.

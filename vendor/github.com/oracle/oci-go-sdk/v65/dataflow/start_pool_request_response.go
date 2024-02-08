@@ -12,6 +12,10 @@ import (
 )
 
 // StartPoolRequest wrapper for the StartPool operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/StartPool.go.html to see an example of how to use StartPoolRequest.
 type StartPoolRequest struct {
 
 	// The unique ID for a pool.

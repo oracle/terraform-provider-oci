@@ -12,6 +12,10 @@ import (
 )
 
 // GetDeploymentRequest wrapper for the GetDeployment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployment.go.html to see an example of how to use GetDeploymentRequest.
 type GetDeploymentRequest struct {
 
 	// Unique deployment identifier.

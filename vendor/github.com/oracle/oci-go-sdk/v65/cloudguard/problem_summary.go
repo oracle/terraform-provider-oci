@@ -16,34 +16,34 @@ import (
 	"strings"
 )
 
-// ProblemSummary Summary information for a problem.
+// ProblemSummary Summary of the Problem.
 type ProblemSummary struct {
 
-	// Unique identifier that can't be changed after creation
+	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID where the resource is created
+	// Compartment Identifier where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Unique identifier of the detector rule
+	// Identifier of the rule
 	DetectorRuleId *string `mandatory:"false" json:"detectorRuleId"`
 
-	// The risk level of the problem
+	// The Risk Level
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// The risk score for the problem
+	// Risk Score for the problem
 	RiskScore *float64 `mandatory:"false" json:"riskScore"`
 
-	// Unique identifier of the resource that's impacted by the problem
+	// Identifier of the Resource
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// Display name of the resource impacted by the problem
+	// DisplayName of the Resource
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
-	// Type of the resource impacted by the problem
+	// Type of the Resource
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// User-defined labels on the problem
+	// user defined labels on the problem
 	Labels []string `mandatory:"false" json:"labels"`
 
 	// The date and time the problem was first detected. Format defined by RFC3339.
@@ -52,26 +52,23 @@ type ProblemSummary struct {
 	// The date and time the problem was last detected. Format defined by RFC3339.
 	TimeLastDetected *common.SDKTime `mandatory:"false" json:"timeLastDetected"`
 
-	// The current lifecycle state of the problem
+	// The current state of the Problem.
 	LifecycleState ProblemLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Additional details on the substate of the lifecycle state
+	// The lifecycleDetail will give more detail on the substate of the lifecycleState.
 	LifecycleDetail ProblemLifecycleDetailEnum `mandatory:"false" json:"lifecycleDetail,omitempty"`
 
-	// Unique identifier of the detector associated with the problem
+	// Id of detector associated with the Problem.
 	DetectorId DetectorEnumEnum `mandatory:"false" json:"detectorId,omitempty"`
 
 	// DEPRECATED
 	Region *string `mandatory:"false" json:"region"`
 
-	// List of regions where the problem is found
+	// Regions where the problem is found
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// Unique target identifier associated with the problem
+	// targetId associated with the problem.
 	TargetId *string `mandatory:"false" json:"targetId"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ProblemSummary) String() string {

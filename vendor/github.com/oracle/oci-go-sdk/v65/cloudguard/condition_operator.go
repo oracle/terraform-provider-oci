@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// ConditionOperator Conditions related to the parameter data type.
+// ConditionOperator Conditions related to the parameter data type
 type ConditionOperator struct {
 
-	// Operator name
+	// operator name
 	Name ConditionOperatorNameEnum `mandatory:"true" json:"name"`
 
-	// Display name of the operator
+	// display name of the operator
 	DisplayName *string `mandatory:"true" json:"displayName"`
 }
 

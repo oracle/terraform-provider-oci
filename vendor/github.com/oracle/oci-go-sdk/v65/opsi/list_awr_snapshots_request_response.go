@@ -12,6 +12,10 @@ import (
 )
 
 // ListAwrSnapshotsRequest wrapper for the ListAwrSnapshots operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrSnapshots.go.html to see an example of how to use ListAwrSnapshotsRequest.
 type ListAwrSnapshotsRequest struct {
 
 	// Unique Awr Hub identifier

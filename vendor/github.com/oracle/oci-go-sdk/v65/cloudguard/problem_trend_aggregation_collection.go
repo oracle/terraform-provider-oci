@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ProblemTrendAggregationCollection Collection of problem trend aggregations
+// ProblemTrendAggregationCollection Problem Trend Aggregation Collection.
 type ProblemTrendAggregationCollection struct {
 
-	// List of problem trend aggregations (ProblemTrendAggregation resources)
+	// The items consist of all the ProblemTrendAggregation objects.
 	Items []ProblemTrendAggregation `mandatory:"true" json:"items"`
 }
 

@@ -12,6 +12,10 @@ import (
 )
 
 // CancelPipelineRunRequest wrapper for the CancelPipelineRun operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CancelPipelineRun.go.html to see an example of how to use CancelPipelineRunRequest.
 type CancelPipelineRunRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline run.
@@ -29,9 +33,6 @@ type CancelPipelineRunRequest struct {
 	// The resource is updated or deleted only if the `etag` you
 	// provide matches the resource's current `etag` value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
-
-	// A boolean value to specify whether to terminate pipeline run gracefully.
-	TerminateGracefully *bool `mandatory:"false" contributesTo:"query" name:"terminateGracefully"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

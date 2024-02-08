@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveMediaAssetLockRequest wrapper for the RemoveMediaAssetLock operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaAssetLock.go.html to see an example of how to use RemoveMediaAssetLockRequest.
 type RemoveMediaAssetLockRequest struct {
 
 	// The details to be updated for the RemoveLock.

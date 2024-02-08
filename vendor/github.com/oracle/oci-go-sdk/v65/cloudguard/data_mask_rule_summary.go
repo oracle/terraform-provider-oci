@@ -17,27 +17,27 @@ import (
 	"strings"
 )
 
-// DataMaskRuleSummary Summary information for a data mask rule.
+// DataMaskRuleSummary Summary of DataMaskRule.
 type DataMaskRuleSummary struct {
 
-	// Unique identifier that can't be changed after creation
+	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID where the resource is created
+	// Compartment Identifier where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// IAM group ID associated with the data mask rule
+	// IAM Group id associated with the data mask rule
 	IamGroupId *string `mandatory:"true" json:"iamGroupId"`
 
 	TargetSelected TargetSelected `mandatory:"true" json:"targetSelected"`
 
-	// Data mask rule display name
+	// Data Mask Rule Name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The data mask rule description
+	// The data mask rule description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of data mask rule categories
+	// Data Mask Categories
 	DataMaskCategories []DataMaskCategoryEnum `mandatory:"false" json:"dataMaskCategories,omitempty"`
 
 	// The date and time the target was created. Format defined by RFC3339.
@@ -46,10 +46,10 @@ type DataMaskRuleSummary struct {
 	// The date and time the target was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current status of the data mask rule
+	// The status of the dataMaskRule.
 	DataMaskRuleStatus DataMaskRuleStatusEnum `mandatory:"false" json:"dataMaskRuleStatus,omitempty"`
 
-	// The current lifecycle state of the data mask rule
+	// The current state of the DataMaskRule.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

@@ -12,6 +12,10 @@ import (
 )
 
 // StartVbInstanceRequest wrapper for the StartVbInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/StartVbInstance.go.html to see an example of how to use StartVbInstanceRequest.
 type StartVbInstanceRequest struct {
 
 	// Unique Vb Instance identifier.

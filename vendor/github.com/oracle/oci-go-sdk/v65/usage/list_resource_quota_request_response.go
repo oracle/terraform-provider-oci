@@ -12,6 +12,10 @@ import (
 )
 
 // ListResourceQuotaRequest wrapper for the ListResourceQuota operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResourceQuota.go.html to see an example of how to use ListResourceQuotaRequest.
 type ListResourceQuotaRequest struct {
 
 	// Service Name.

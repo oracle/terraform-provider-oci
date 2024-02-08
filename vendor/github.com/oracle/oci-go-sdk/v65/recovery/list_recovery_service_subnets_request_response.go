@@ -12,12 +12,23 @@ import (
 )
 
 // ListRecoveryServiceSubnetsRequest wrapper for the ListRecoveryServiceSubnets operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListRecoveryServiceSubnets.go.html to see an example of how to use ListRecoveryServiceSubnetsRequest.
 type ListRecoveryServiceSubnetsRequest struct {
 
 	// The compartment OCID.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only the resources that match the specified lifecycle state.
+	// Allowed values are:
+	//   - CREATING
+	//   - UPDATING
+	//   - ACTIVE
+	//   - DELETING
+	//   - DELETED
+	//   - FAILED
 	LifecycleState ListRecoveryServiceSubnetsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire 'displayname' given.
@@ -134,33 +145,30 @@ type ListRecoveryServiceSubnetsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListRecoveryServiceSubnetsLifecycleStateEnum
 const (
-	ListRecoveryServiceSubnetsLifecycleStateCreating        ListRecoveryServiceSubnetsLifecycleStateEnum = "CREATING"
-	ListRecoveryServiceSubnetsLifecycleStateUpdating        ListRecoveryServiceSubnetsLifecycleStateEnum = "UPDATING"
-	ListRecoveryServiceSubnetsLifecycleStateActive          ListRecoveryServiceSubnetsLifecycleStateEnum = "ACTIVE"
-	ListRecoveryServiceSubnetsLifecycleStateDeleteScheduled ListRecoveryServiceSubnetsLifecycleStateEnum = "DELETE_SCHEDULED"
-	ListRecoveryServiceSubnetsLifecycleStateDeleting        ListRecoveryServiceSubnetsLifecycleStateEnum = "DELETING"
-	ListRecoveryServiceSubnetsLifecycleStateDeleted         ListRecoveryServiceSubnetsLifecycleStateEnum = "DELETED"
-	ListRecoveryServiceSubnetsLifecycleStateFailed          ListRecoveryServiceSubnetsLifecycleStateEnum = "FAILED"
+	ListRecoveryServiceSubnetsLifecycleStateCreating ListRecoveryServiceSubnetsLifecycleStateEnum = "CREATING"
+	ListRecoveryServiceSubnetsLifecycleStateUpdating ListRecoveryServiceSubnetsLifecycleStateEnum = "UPDATING"
+	ListRecoveryServiceSubnetsLifecycleStateActive   ListRecoveryServiceSubnetsLifecycleStateEnum = "ACTIVE"
+	ListRecoveryServiceSubnetsLifecycleStateDeleting ListRecoveryServiceSubnetsLifecycleStateEnum = "DELETING"
+	ListRecoveryServiceSubnetsLifecycleStateDeleted  ListRecoveryServiceSubnetsLifecycleStateEnum = "DELETED"
+	ListRecoveryServiceSubnetsLifecycleStateFailed   ListRecoveryServiceSubnetsLifecycleStateEnum = "FAILED"
 )
 
 var mappingListRecoveryServiceSubnetsLifecycleStateEnum = map[string]ListRecoveryServiceSubnetsLifecycleStateEnum{
-	"CREATING":         ListRecoveryServiceSubnetsLifecycleStateCreating,
-	"UPDATING":         ListRecoveryServiceSubnetsLifecycleStateUpdating,
-	"ACTIVE":           ListRecoveryServiceSubnetsLifecycleStateActive,
-	"DELETE_SCHEDULED": ListRecoveryServiceSubnetsLifecycleStateDeleteScheduled,
-	"DELETING":         ListRecoveryServiceSubnetsLifecycleStateDeleting,
-	"DELETED":          ListRecoveryServiceSubnetsLifecycleStateDeleted,
-	"FAILED":           ListRecoveryServiceSubnetsLifecycleStateFailed,
+	"CREATING": ListRecoveryServiceSubnetsLifecycleStateCreating,
+	"UPDATING": ListRecoveryServiceSubnetsLifecycleStateUpdating,
+	"ACTIVE":   ListRecoveryServiceSubnetsLifecycleStateActive,
+	"DELETING": ListRecoveryServiceSubnetsLifecycleStateDeleting,
+	"DELETED":  ListRecoveryServiceSubnetsLifecycleStateDeleted,
+	"FAILED":   ListRecoveryServiceSubnetsLifecycleStateFailed,
 }
 
 var mappingListRecoveryServiceSubnetsLifecycleStateEnumLowerCase = map[string]ListRecoveryServiceSubnetsLifecycleStateEnum{
-	"creating":         ListRecoveryServiceSubnetsLifecycleStateCreating,
-	"updating":         ListRecoveryServiceSubnetsLifecycleStateUpdating,
-	"active":           ListRecoveryServiceSubnetsLifecycleStateActive,
-	"delete_scheduled": ListRecoveryServiceSubnetsLifecycleStateDeleteScheduled,
-	"deleting":         ListRecoveryServiceSubnetsLifecycleStateDeleting,
-	"deleted":          ListRecoveryServiceSubnetsLifecycleStateDeleted,
-	"failed":           ListRecoveryServiceSubnetsLifecycleStateFailed,
+	"creating": ListRecoveryServiceSubnetsLifecycleStateCreating,
+	"updating": ListRecoveryServiceSubnetsLifecycleStateUpdating,
+	"active":   ListRecoveryServiceSubnetsLifecycleStateActive,
+	"deleting": ListRecoveryServiceSubnetsLifecycleStateDeleting,
+	"deleted":  ListRecoveryServiceSubnetsLifecycleStateDeleted,
+	"failed":   ListRecoveryServiceSubnetsLifecycleStateFailed,
 }
 
 // GetListRecoveryServiceSubnetsLifecycleStateEnumValues Enumerates the set of values for ListRecoveryServiceSubnetsLifecycleStateEnum
@@ -178,7 +186,6 @@ func GetListRecoveryServiceSubnetsLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
-		"DELETE_SCHEDULED",
 		"DELETING",
 		"DELETED",
 		"FAILED",

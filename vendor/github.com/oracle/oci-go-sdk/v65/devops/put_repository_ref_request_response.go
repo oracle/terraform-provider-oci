@@ -12,6 +12,10 @@ import (
 )
 
 // PutRepositoryRefRequest wrapper for the PutRepositoryRef operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/PutRepositoryRef.go.html to see an example of how to use PutRepositoryRefRequest.
 type PutRepositoryRefRequest struct {
 
 	// Unique repository identifier.
@@ -94,9 +98,6 @@ type PutRepositoryRefResponse struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/actions/createOrUpdateGitRef".
-	Sunset *string `presentIn:"header" name:"sunset"`
 }
 
 func (response PutRepositoryRefResponse) String() string {

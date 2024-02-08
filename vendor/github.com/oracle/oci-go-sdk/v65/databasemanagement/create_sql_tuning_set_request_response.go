@@ -12,6 +12,10 @@ import (
 )
 
 // CreateSqlTuningSetRequest wrapper for the CreateSqlTuningSet operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateSqlTuningSet.go.html to see an example of how to use CreateSqlTuningSetRequest.
 type CreateSqlTuningSetRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

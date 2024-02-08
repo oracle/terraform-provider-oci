@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteBdsMetastoreConfigurationRequest wrapper for the DeleteBdsMetastoreConfiguration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/DeleteBdsMetastoreConfiguration.go.html to see an example of how to use DeleteBdsMetastoreConfigurationRequest.
 type DeleteBdsMetastoreConfigurationRequest struct {
 
 	// The OCID of the cluster.

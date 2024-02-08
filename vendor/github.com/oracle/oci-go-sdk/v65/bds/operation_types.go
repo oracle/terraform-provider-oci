@@ -45,12 +45,6 @@ const (
 	OperationTypesUpdateMetastoreConfig       OperationTypesEnum = "UPDATE_METASTORE_CONFIG"
 	OperationTypesActivateMetastoreConfig     OperationTypesEnum = "ACTIVATE_METASTORE_CONFIG"
 	OperationTypesTestMetastoreConfig         OperationTypesEnum = "TEST_METASTORE_CONFIG"
-	OperationTypesCreateLakeConfig            OperationTypesEnum = "CREATE_LAKE_CONFIG"
-	OperationTypesDeleteLakeConfig            OperationTypesEnum = "DELETE_LAKE_CONFIG"
-	OperationTypesUpdateLakeConfig            OperationTypesEnum = "UPDATE_LAKE_CONFIG"
-	OperationTypesActivateLakeConfig          OperationTypesEnum = "ACTIVATE_LAKE_CONFIG"
-	OperationTypesDeactivateLakeConfig        OperationTypesEnum = "DEACTIVATE_LAKE_CONFIG"
-	OperationTypesTestLakeConfig              OperationTypesEnum = "TEST_LAKE_CONFIG"
 	OperationTypesPatchBds                    OperationTypesEnum = "PATCH_BDS"
 	OperationTypesPatchOdh                    OperationTypesEnum = "PATCH_ODH"
 	OperationTypesPatchOs                     OperationTypesEnum = "PATCH_OS"
@@ -90,12 +84,6 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"UPDATE_METASTORE_CONFIG":        OperationTypesUpdateMetastoreConfig,
 	"ACTIVATE_METASTORE_CONFIG":      OperationTypesActivateMetastoreConfig,
 	"TEST_METASTORE_CONFIG":          OperationTypesTestMetastoreConfig,
-	"CREATE_LAKE_CONFIG":             OperationTypesCreateLakeConfig,
-	"DELETE_LAKE_CONFIG":             OperationTypesDeleteLakeConfig,
-	"UPDATE_LAKE_CONFIG":             OperationTypesUpdateLakeConfig,
-	"ACTIVATE_LAKE_CONFIG":           OperationTypesActivateLakeConfig,
-	"DEACTIVATE_LAKE_CONFIG":         OperationTypesDeactivateLakeConfig,
-	"TEST_LAKE_CONFIG":               OperationTypesTestLakeConfig,
 	"PATCH_BDS":                      OperationTypesPatchBds,
 	"PATCH_ODH":                      OperationTypesPatchOdh,
 	"PATCH_OS":                       OperationTypesPatchOs,
@@ -135,12 +123,6 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"update_metastore_config":        OperationTypesUpdateMetastoreConfig,
 	"activate_metastore_config":      OperationTypesActivateMetastoreConfig,
 	"test_metastore_config":          OperationTypesTestMetastoreConfig,
-	"create_lake_config":             OperationTypesCreateLakeConfig,
-	"delete_lake_config":             OperationTypesDeleteLakeConfig,
-	"update_lake_config":             OperationTypesUpdateLakeConfig,
-	"activate_lake_config":           OperationTypesActivateLakeConfig,
-	"deactivate_lake_config":         OperationTypesDeactivateLakeConfig,
-	"test_lake_config":               OperationTypesTestLakeConfig,
 	"patch_bds":                      OperationTypesPatchBds,
 	"patch_odh":                      OperationTypesPatchOdh,
 	"patch_os":                       OperationTypesPatchOs,
@@ -191,12 +173,6 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_METASTORE_CONFIG",
 		"ACTIVATE_METASTORE_CONFIG",
 		"TEST_METASTORE_CONFIG",
-		"CREATE_LAKE_CONFIG",
-		"DELETE_LAKE_CONFIG",
-		"UPDATE_LAKE_CONFIG",
-		"ACTIVATE_LAKE_CONFIG",
-		"DEACTIVATE_LAKE_CONFIG",
-		"TEST_LAKE_CONFIG",
 		"PATCH_BDS",
 		"PATCH_ODH",
 		"PATCH_OS",

@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeNewsReportCompartmentRequest wrapper for the ChangeNewsReportCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeNewsReportCompartment.go.html to see an example of how to use ChangeNewsReportCompartmentRequest.
 type ChangeNewsReportCompartmentRequest struct {
 
 	// Unique news report identifier.

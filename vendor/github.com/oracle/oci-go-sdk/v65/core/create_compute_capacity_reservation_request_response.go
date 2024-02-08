@@ -12,6 +12,10 @@ import (
 )
 
 // CreateComputeCapacityReservationRequest wrapper for the CreateComputeCapacityReservation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityReservation.go.html to see an example of how to use CreateComputeCapacityReservationRequest.
 type CreateComputeCapacityReservationRequest struct {
 
 	// Details for creating a new compute capacity reservation.

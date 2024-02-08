@@ -17,7 +17,7 @@ import (
 )
 
 // Subscription The subscription's configuration. For general information about subscriptions, see
-// Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptiondefinition).
+// Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 type Subscription struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription.
@@ -36,7 +36,7 @@ type Subscription struct {
 	//   * `SLACK`
 	//   * `SMS`
 	// For information about subscription protocols, see
-	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
+	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
 	Protocol *string `mandatory:"true" json:"protocol"`
 
 	// A locator that corresponds to the subscription protocol.

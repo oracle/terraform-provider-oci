@@ -16,28 +16,28 @@ import (
 	"strings"
 )
 
-// WorkRequestSummary Summary information about a work request.
+// WorkRequestSummary A summary of the status of a work request.
 type WorkRequestSummary struct {
 
 	// Type of the work request
 	OperationType OperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Status of current work request
+	// Status of current work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
-	// Unique identifier of the work request
+	// The id of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment that contains the work request. Work requests should be scoped to
+	// The ocid of the compartment that contains the work request. Work requests should be scoped to
 	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
 	// and those resources are not in the same compartment, it is up to the service team to pick the primary
-	// resource whose compartment should be used.
+	// resource whose compartment should be used
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// List of resources affected by this work request
+	// The resources affected by this work request.
 	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
 
-	// Percentage of work request completed
+	// Percentage of the request completed.
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
 	// The date and time the request was created
@@ -46,7 +46,7 @@ type WorkRequestSummary struct {
 	// The date and time the request was started
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the request was finished
+	// The date and time the object was finished
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 

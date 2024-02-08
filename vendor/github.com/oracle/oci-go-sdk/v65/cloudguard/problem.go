@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// Problem Problems are at the core of Cloud Guard’s functionality. A Problem resource is created whenever an action or a configuration on a resource triggers a rule in a detector that’s attached to the target containing the compartment where the resource is located. Each Problem resource contains all the details for a single problem. This is the information for the problem that appears on the Cloud Guard Problems page.
+// Problem Problem Definition.
 type Problem struct {
 
-	// Unique identifier that can't be changed after creation
+	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID where the resource is created
+	// Compartment Identifier where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Unique identifier of the detector rule that triggered the problem
+	// Identifier of the rule
 	DetectorRuleId *string `mandatory:"false" json:"detectorRuleId"`
 
 	// DEPRECATED
@@ -34,13 +34,13 @@ type Problem struct {
 	// Regions where the problem is found
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// The risk level for the problem
+	// The Risk Level
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// The risk score for the problem
+	// Risk Score for the problem
 	RiskScore *float64 `mandatory:"false" json:"riskScore"`
 
-	// The date and time for the peak risk score that is observed for the problem. Format defined by RFC3339.
+	// The date and time for the peak risk score that is observed. Format defined by RFC3339.
 	PeakRiskScoreDate *string `mandatory:"false" json:"peakRiskScoreDate"`
 
 	// Peak risk score for the problem
@@ -52,16 +52,16 @@ type Problem struct {
 	// Number of days for which peak score is calculated for the problem
 	PeakRiskScoreLookupPeriodInDays *int `mandatory:"false" json:"peakRiskScoreLookupPeriodInDays"`
 
-	// Unique identifier of the resource affected by the problem
+	// Identifier of the Resource
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// Display name of the affected resource
+	// DisplayName of the Resource
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
-	// Type of the affected resource
+	// Type of the Resource
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// User-defined labels on the problem
+	// user defined labels on the problem
 	Labels []string `mandatory:"false" json:"labels"`
 
 	// The date and time the problem was last detected. Format defined by RFC3339.
@@ -70,19 +70,19 @@ type Problem struct {
 	// The date and time the problem was first detected. Format defined by RFC3339.
 	TimeFirstDetected *common.SDKTime `mandatory:"false" json:"timeFirstDetected"`
 
-	// The current lifecycle state of the problem
+	// The current state of the Problem.
 	LifecycleState ProblemLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Additional details on the substate of the lifecycle state
+	// The lifecycleDetail will give more detail on the substate of the lifecycleState.
 	LifecycleDetail ProblemLifecycleDetailEnum `mandatory:"false" json:"lifecycleDetail,omitempty"`
 
-	// Unique identifier of the detector rule that triggered the problem
+	// Id of the detector associated with the Problem.
 	DetectorId DetectorEnumEnum `mandatory:"false" json:"detectorId,omitempty"`
 
-	// Unique identifier of the target associated with the problem
+	// targetId of the problem
 	TargetId *string `mandatory:"false" json:"targetId"`
 
-	// The additional details of the problem
+	// The additional details of the Problem
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 
 	// Description of the problem
@@ -91,20 +91,17 @@ type Problem struct {
 	// Recommendation for the problem
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// User comments on the problem
+	// User Comments
 	Comment *string `mandatory:"false" json:"comment"`
 
-	// Unique identifier of the resource impacted by the problem
+	// Identifier of the impacted Resource
 	ImpactedResourceId *string `mandatory:"false" json:"impactedResourceId"`
 
-	// Display name of the impacted resource
+	// DisplayName of the impacted  Resource
 	ImpactedResourceName *string `mandatory:"false" json:"impactedResourceName"`
 
-	// Type of the impacted resource
+	// Type of the impacted Resource
 	ImpactedResourceType *string `mandatory:"false" json:"impactedResourceType"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m Problem) String() string {

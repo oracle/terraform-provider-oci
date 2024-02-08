@@ -53,11 +53,6 @@ type BastionSummary struct {
 	// A message describing the current state in more detail.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Define whether to save bastion recordings in custom buckets
-	IsRecordingEnabled *bool `mandatory:"false" json:"isRecordingEnabled"`
-
-	BastionRecordingConfig *BastionRecordingConfig `mandatory:"false" json:"bastionRecordingConfig"`
-
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

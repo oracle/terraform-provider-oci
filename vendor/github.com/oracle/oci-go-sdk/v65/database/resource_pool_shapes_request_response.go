@@ -12,6 +12,10 @@ import (
 )
 
 // ResourcePoolShapesRequest wrapper for the ResourcePoolShapes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ResourcePoolShapes.go.html to see an example of how to use ResourcePoolShapesRequest.
 type ResourcePoolShapesRequest struct {
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

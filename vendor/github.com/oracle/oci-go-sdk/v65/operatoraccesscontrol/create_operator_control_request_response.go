@@ -12,6 +12,10 @@ import (
 )
 
 // CreateOperatorControlRequest wrapper for the CreateOperatorControl operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/CreateOperatorControl.go.html to see an example of how to use CreateOperatorControlRequest.
 type CreateOperatorControlRequest struct {
 
 	// Details for the new Operator Control.

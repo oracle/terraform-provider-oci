@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateExternalClusterInstanceRequest wrapper for the UpdateExternalClusterInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalClusterInstance.go.html to see an example of how to use UpdateExternalClusterInstanceRequest.
 type UpdateExternalClusterInstanceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster instance.

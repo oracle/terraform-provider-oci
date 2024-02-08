@@ -12,6 +12,10 @@ import (
 )
 
 // PatchUserAttributesSettingRequest wrapper for the PatchUserAttributesSetting operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchUserAttributesSetting.go.html to see an example of how to use PatchUserAttributesSettingRequest.
 type PatchUserAttributesSettingRequest struct {
 
 	// ID of the resource

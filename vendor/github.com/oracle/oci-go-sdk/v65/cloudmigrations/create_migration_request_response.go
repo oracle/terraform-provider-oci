@@ -12,6 +12,10 @@ import (
 )
 
 // CreateMigrationRequest wrapper for the CreateMigration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/CreateMigration.go.html to see an example of how to use CreateMigrationRequest.
 type CreateMigrationRequest struct {
 
 	// Details for the new migration.

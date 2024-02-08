@@ -12,6 +12,10 @@ import (
 )
 
 // ListWarehouseDataObjectsRequest wrapper for the ListWarehouseDataObjects operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListWarehouseDataObjects.go.html to see an example of how to use ListWarehouseDataObjectsRequest.
 type ListWarehouseDataObjectsRequest struct {
 
 	// Type of the Warehouse.

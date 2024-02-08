@@ -16,43 +16,26 @@ import (
 	"strings"
 )
 
-// SightingType Information for a sighting type
+// SightingType Specific behavior that can trigger a Sighting
 type SightingType struct {
 
-	// The unique identifier of the sighting type
+	// The unique identifier of sighting type
 	Id *string `mandatory:"false" json:"id"`
 
-	// Display name of the sighting type
+	// Name of the sighting type
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the sighting type
 	Description *string `mandatory:"false" json:"description"`
 
-	// MITRE ATT@CK framework link for the sighting type
+	// Link of the sighting type
 	MitreLink *string `mandatory:"false" json:"mitreLink"`
 
-	// MITRE ATT@CK framework tactic for the sighting type
+	// Mitre Att&ck tactic
 	Tactic *string `mandatory:"false" json:"tactic"`
 
-	// List of MITRE ATT@CK framework techniques for the sighting type
+	// List of Mitre Att&ck Techniques
 	Techniques []string `mandatory:"false" json:"techniques"`
-
-	// Unique identifier of the associated data source
-	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
-
-	// Data source additional entities mapping for a detector rule
-	AdditionalEntitiesMapping []EntitiesMapping `mandatory:"false" json:"additionalEntitiesMapping"`
-
-	// Owner type for the sighting type
-	Owner OwnerTypeEnum `mandatory:"false" json:"owner,omitempty"`
-
-	MitreDetails *MitreDetails `mandatory:"false" json:"mitreDetails"`
-
-	// The date and time the sighting type was created. Format defined by RFC3339.
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
-
-	// The date and time the sighting type was updated. Format defined by RFC3339.
-	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 
 func (m SightingType) String() string {
@@ -65,9 +48,6 @@ func (m SightingType) String() string {
 func (m SightingType) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingOwnerTypeEnum(string(m.Owner)); !ok && m.Owner != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Owner: %s. Supported values are: %s.", m.Owner, strings.Join(GetOwnerTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

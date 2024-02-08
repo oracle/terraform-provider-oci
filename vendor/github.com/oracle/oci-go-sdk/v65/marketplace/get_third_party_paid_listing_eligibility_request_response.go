@@ -12,6 +12,10 @@ import (
 )
 
 // GetThirdPartyPaidListingEligibilityRequest wrapper for the GetThirdPartyPaidListingEligibility operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetThirdPartyPaidListingEligibility.go.html to see an example of how to use GetThirdPartyPaidListingEligibilityRequest.
 type GetThirdPartyPaidListingEligibilityRequest struct {
 
 	// The unique identifier for the compartment.

@@ -41,9 +41,6 @@ type UpdateIpv6Details struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to reassign the IPv6 to.
 	// The VNIC must be in the same subnet as the current VNIC.
 	VnicId *string `mandatory:"false" json:"vnicId"`
-
-	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
-	Hostname *string `mandatory:"false" json:"hostname"`
 }
 
 func (m UpdateIpv6Details) String() string {

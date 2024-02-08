@@ -94,6 +94,10 @@ func (client *SqlTuningClient) ConfigurationProvider() *common.ConfigurationProv
 }
 
 // CloneSqlTuningTask Clones and runs a SQL tuning task in the database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CloneSqlTuningTask.go.html to see an example of how to use CloneSqlTuningTask API.
 func (client SqlTuningClient) CloneSqlTuningTask(ctx context.Context, request CloneSqlTuningTaskRequest) (response CloneSqlTuningTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -152,6 +156,10 @@ func (client SqlTuningClient) cloneSqlTuningTask(ctx context.Context, request co
 }
 
 // CreateSqlTuningSet Creates an empty Sql tuning set within the Managed Database specified by managedDatabaseId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateSqlTuningSet.go.html to see an example of how to use CreateSqlTuningSet API.
 // A default retry strategy applies to this operation CreateSqlTuningSet()
 func (client SqlTuningClient) CreateSqlTuningSet(ctx context.Context, request CreateSqlTuningSetRequest) (response CreateSqlTuningSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -211,6 +219,10 @@ func (client SqlTuningClient) createSqlTuningSet(ctx context.Context, request co
 }
 
 // DropSqlTuningSet Drops the Sql tuning set specified by sqlTuningSet within the Managed Database specified by managedDatabaseId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DropSqlTuningSet.go.html to see an example of how to use DropSqlTuningSet API.
 // A default retry strategy applies to this operation DropSqlTuningSet()
 func (client SqlTuningClient) DropSqlTuningSet(ctx context.Context, request DropSqlTuningSetRequest) (response DropSqlTuningSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -270,6 +282,10 @@ func (client SqlTuningClient) dropSqlTuningSet(ctx context.Context, request comm
 }
 
 // DropSqlTuningTask Drops a SQL tuning task and its related results from the database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DropSqlTuningTask.go.html to see an example of how to use DropSqlTuningTask API.
 func (client SqlTuningClient) DropSqlTuningTask(ctx context.Context, request DropSqlTuningTaskRequest) (response DropSqlTuningTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -329,6 +345,10 @@ func (client SqlTuningClient) dropSqlTuningTask(ctx context.Context, request com
 
 // DropSqlsInSqlTuningSet Deletes the Sqls in the specified Sql tuning set that matches the filter criteria provided in the basicFilter.
 // If basicFilter criteria is not provided, then entire Sqls in the Sql tuning set is deleted.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DropSqlsInSqlTuningSet.go.html to see an example of how to use DropSqlsInSqlTuningSet API.
 // A default retry strategy applies to this operation DropSqlsInSqlTuningSet()
 func (client SqlTuningClient) DropSqlsInSqlTuningSet(ctx context.Context, request DropSqlsInSqlTuningSetRequest) (response DropSqlsInSqlTuningSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -388,6 +408,10 @@ func (client SqlTuningClient) dropSqlsInSqlTuningSet(ctx context.Context, reques
 }
 
 // FetchSqlTuningSet Fetch the details of Sql statements in the Sql tuning set specified by name, owner and optional filter parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/FetchSqlTuningSet.go.html to see an example of how to use FetchSqlTuningSet API.
 // A default retry strategy applies to this operation FetchSqlTuningSet()
 func (client SqlTuningClient) FetchSqlTuningSet(ctx context.Context, request FetchSqlTuningSetRequest) (response FetchSqlTuningSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -449,6 +473,10 @@ func (client SqlTuningClient) fetchSqlTuningSet(ctx context.Context, request com
 // GetExecutionPlanStatsComparision Retrieves a comparison of the existing SQL execution plan and a new plan.
 // A SQL tuning task may suggest a new execution plan for a SQL,
 // and this API retrieves the comparison report of the statistics of the two plans.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExecutionPlanStatsComparision.go.html to see an example of how to use GetExecutionPlanStatsComparision API.
 func (client SqlTuningClient) GetExecutionPlanStatsComparision(ctx context.Context, request GetExecutionPlanStatsComparisionRequest) (response GetExecutionPlanStatsComparisionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -502,6 +530,10 @@ func (client SqlTuningClient) getExecutionPlanStatsComparision(ctx context.Conte
 }
 
 // GetSqlExecutionPlan Retrieves a SQL execution plan for the SQL being tuned.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlExecutionPlan.go.html to see an example of how to use GetSqlExecutionPlan API.
 func (client SqlTuningClient) GetSqlExecutionPlan(ctx context.Context, request GetSqlExecutionPlanRequest) (response GetSqlExecutionPlanResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -555,6 +587,10 @@ func (client SqlTuningClient) getSqlExecutionPlan(ctx context.Context, request c
 }
 
 // GetSqlTuningAdvisorTaskSummaryReport Gets the summary report for the specified SQL Tuning Advisor task.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlTuningAdvisorTaskSummaryReport.go.html to see an example of how to use GetSqlTuningAdvisorTaskSummaryReport API.
 func (client SqlTuningClient) GetSqlTuningAdvisorTaskSummaryReport(ctx context.Context, request GetSqlTuningAdvisorTaskSummaryReportRequest) (response GetSqlTuningAdvisorTaskSummaryReportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -608,6 +644,10 @@ func (client SqlTuningClient) getSqlTuningAdvisorTaskSummaryReport(ctx context.C
 }
 
 // ListSqlTuningAdvisorTaskFindings Gets an array of the details of the findings that match specific filters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlTuningAdvisorTaskFindings.go.html to see an example of how to use ListSqlTuningAdvisorTaskFindings API.
 func (client SqlTuningClient) ListSqlTuningAdvisorTaskFindings(ctx context.Context, request ListSqlTuningAdvisorTaskFindingsRequest) (response ListSqlTuningAdvisorTaskFindingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -662,6 +702,10 @@ func (client SqlTuningClient) listSqlTuningAdvisorTaskFindings(ctx context.Conte
 
 // ListSqlTuningAdvisorTaskRecommendations Gets the findings and possible actions for a given object in a SQL tuning task.
 // The task ID and object ID are used to retrieve the findings and recommendations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlTuningAdvisorTaskRecommendations.go.html to see an example of how to use ListSqlTuningAdvisorTaskRecommendations API.
 func (client SqlTuningClient) ListSqlTuningAdvisorTaskRecommendations(ctx context.Context, request ListSqlTuningAdvisorTaskRecommendationsRequest) (response ListSqlTuningAdvisorTaskRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -715,6 +759,10 @@ func (client SqlTuningClient) listSqlTuningAdvisorTaskRecommendations(ctx contex
 }
 
 // ListSqlTuningAdvisorTasks Lists the SQL Tuning Advisor tasks for the specified Managed Database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlTuningAdvisorTasks.go.html to see an example of how to use ListSqlTuningAdvisorTasks API.
 func (client SqlTuningClient) ListSqlTuningAdvisorTasks(ctx context.Context, request ListSqlTuningAdvisorTasksRequest) (response ListSqlTuningAdvisorTasksResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -768,6 +816,10 @@ func (client SqlTuningClient) listSqlTuningAdvisorTasks(ctx context.Context, req
 }
 
 // ListSqlTuningSets Lists the SQL tuning sets for the specified Managed Database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlTuningSets.go.html to see an example of how to use ListSqlTuningSets API.
 func (client SqlTuningClient) ListSqlTuningSets(ctx context.Context, request ListSqlTuningSetsRequest) (response ListSqlTuningSetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -821,6 +873,10 @@ func (client SqlTuningClient) listSqlTuningSets(ctx context.Context, request com
 }
 
 // LoadSqlTuningSet Load Sql statements into the Sql tuning set specified by name and optional filter parameters within the Managed Database specified by managedDatabaseId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/LoadSqlTuningSet.go.html to see an example of how to use LoadSqlTuningSet API.
 // A default retry strategy applies to this operation LoadSqlTuningSet()
 func (client SqlTuningClient) LoadSqlTuningSet(ctx context.Context, request LoadSqlTuningSetRequest) (response LoadSqlTuningSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -880,6 +936,10 @@ func (client SqlTuningClient) loadSqlTuningSet(ctx context.Context, request comm
 }
 
 // SaveSqlTuningSetAs Saves the specified list of Sqls statements into another new Sql tuning set or loads into an existing Sql tuning set'.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SaveSqlTuningSetAs.go.html to see an example of how to use SaveSqlTuningSetAs API.
 // A default retry strategy applies to this operation SaveSqlTuningSetAs()
 func (client SqlTuningClient) SaveSqlTuningSetAs(ctx context.Context, request SaveSqlTuningSetAsRequest) (response SaveSqlTuningSetAsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -939,6 +999,10 @@ func (client SqlTuningClient) saveSqlTuningSetAs(ctx context.Context, request co
 }
 
 // StartSqlTuningTask Starts a SQL tuning task for a given set of SQL statements from the active session history top SQL statements.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/StartSqlTuningTask.go.html to see an example of how to use StartSqlTuningTask API.
 func (client SqlTuningClient) StartSqlTuningTask(ctx context.Context, request StartSqlTuningTaskRequest) (response StartSqlTuningTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -997,6 +1061,10 @@ func (client SqlTuningClient) startSqlTuningTask(ctx context.Context, request co
 }
 
 // ValidateBasicFilter Executes a SQL query to check whether user entered basic filter criteria is valid or not.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ValidateBasicFilter.go.html to see an example of how to use ValidateBasicFilter API.
 // A default retry strategy applies to this operation ValidateBasicFilter()
 func (client SqlTuningClient) ValidateBasicFilter(ctx context.Context, request ValidateBasicFilterRequest) (response ValidateBasicFilterResponse, err error) {
 	var ociResponse common.OCIResponse

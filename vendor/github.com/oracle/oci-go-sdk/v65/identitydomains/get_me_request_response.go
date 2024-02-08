@@ -12,6 +12,10 @@ import (
 )
 
 // GetMeRequest wrapper for the GetMe operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMe.go.html to see an example of how to use GetMeRequest.
 type GetMeRequest struct {
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.

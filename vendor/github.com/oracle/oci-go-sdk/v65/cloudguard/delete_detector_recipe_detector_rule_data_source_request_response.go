@@ -12,15 +12,19 @@ import (
 )
 
 // DeleteDetectorRecipeDetectorRuleDataSourceRequest wrapper for the DeleteDetectorRecipeDetectorRuleDataSource operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteDetectorRecipeDetectorRuleDataSource.go.html to see an example of how to use DeleteDetectorRecipeDetectorRuleDataSourceRequest.
 type DeleteDetectorRecipeDetectorRuleDataSourceRequest struct {
 
-	// Detector recipe OCID
+	// DetectorRecipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The unique identifier of a detector rule.
+	// The key of Detector Rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
-	// Data source OCID.
+	// DataSource OCID
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -12,6 +12,10 @@ import (
 )
 
 // AddHeatWaveClusterRequest wrapper for the AddHeatWaveCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/AddHeatWaveCluster.go.html to see an example of how to use AddHeatWaveClusterRequest.
 type AddHeatWaveClusterRequest struct {
 
 	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

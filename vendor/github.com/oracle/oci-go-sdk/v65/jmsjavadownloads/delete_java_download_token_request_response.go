@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteJavaDownloadTokenRequest wrapper for the DeleteJavaDownloadToken operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaDownloadToken.go.html to see an example of how to use DeleteJavaDownloadTokenRequest.
 type DeleteJavaDownloadTokenRequest struct {
 
 	// Unique JavaDownloadToken identifier.

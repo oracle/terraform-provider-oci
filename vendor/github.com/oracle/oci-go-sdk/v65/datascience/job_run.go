@@ -53,21 +53,12 @@ type JobRun struct {
 	// A user-friendly display name for the resource.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	JobEnvironmentConfigurationOverrideDetails JobEnvironmentConfigurationDetails `mandatory:"false" json:"jobEnvironmentConfigurationOverrideDetails"`
-
 	JobLogConfigurationOverrideDetails *JobLogConfigurationDetails `mandatory:"false" json:"jobLogConfigurationOverrideDetails"`
 
 	// Collection of JobStorageMountConfigurationDetails.
 	JobStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
 
 	LogDetails *JobRunLogDetails `mandatory:"false" json:"logDetails"`
-
-	JobInfrastructureConfigurationOverrideDetails JobInfrastructureConfigurationDetails `mandatory:"false" json:"jobInfrastructureConfigurationOverrideDetails"`
-
-	JobNodeConfigurationOverrideDetails JobNodeConfigurationDetails `mandatory:"false" json:"jobNodeConfigurationOverrideDetails"`
-
-	// Collection of NodeGroupDetails
-	NodeGroupDetailsList []NodeGroupDetails `mandatory:"false" json:"nodeGroupDetailsList"`
 
 	// Details of the state of the job run.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -103,28 +94,24 @@ func (m JobRun) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *JobRun) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeStarted                                   *common.SDKTime                       `json:"timeStarted"`
-		TimeFinished                                  *common.SDKTime                       `json:"timeFinished"`
-		DisplayName                                   *string                               `json:"displayName"`
-		JobEnvironmentConfigurationOverrideDetails    jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationOverrideDetails"`
-		JobLogConfigurationOverrideDetails            *JobLogConfigurationDetails           `json:"jobLogConfigurationOverrideDetails"`
-		JobStorageMountConfigurationDetailsList       []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
-		LogDetails                                    *JobRunLogDetails                     `json:"logDetails"`
-		JobInfrastructureConfigurationOverrideDetails jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationOverrideDetails"`
-		JobNodeConfigurationOverrideDetails           jobnodeconfigurationdetails           `json:"jobNodeConfigurationOverrideDetails"`
-		NodeGroupDetailsList                          []NodeGroupDetails                    `json:"nodeGroupDetailsList"`
-		LifecycleDetails                              *string                               `json:"lifecycleDetails"`
-		FreeformTags                                  map[string]string                     `json:"freeformTags"`
-		DefinedTags                                   map[string]map[string]interface{}     `json:"definedTags"`
-		Id                                            *string                               `json:"id"`
-		TimeAccepted                                  *common.SDKTime                       `json:"timeAccepted"`
-		CreatedBy                                     *string                               `json:"createdBy"`
-		ProjectId                                     *string                               `json:"projectId"`
-		CompartmentId                                 *string                               `json:"compartmentId"`
-		JobId                                         *string                               `json:"jobId"`
-		JobConfigurationOverrideDetails               jobconfigurationdetails               `json:"jobConfigurationOverrideDetails"`
-		JobInfrastructureConfigurationDetails         jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationDetails"`
-		LifecycleState                                JobRunLifecycleStateEnum              `json:"lifecycleState"`
+		TimeStarted                             *common.SDKTime                       `json:"timeStarted"`
+		TimeFinished                            *common.SDKTime                       `json:"timeFinished"`
+		DisplayName                             *string                               `json:"displayName"`
+		JobLogConfigurationOverrideDetails      *JobLogConfigurationDetails           `json:"jobLogConfigurationOverrideDetails"`
+		JobStorageMountConfigurationDetailsList []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
+		LogDetails                              *JobRunLogDetails                     `json:"logDetails"`
+		LifecycleDetails                        *string                               `json:"lifecycleDetails"`
+		FreeformTags                            map[string]string                     `json:"freeformTags"`
+		DefinedTags                             map[string]map[string]interface{}     `json:"definedTags"`
+		Id                                      *string                               `json:"id"`
+		TimeAccepted                            *common.SDKTime                       `json:"timeAccepted"`
+		CreatedBy                               *string                               `json:"createdBy"`
+		ProjectId                               *string                               `json:"projectId"`
+		CompartmentId                           *string                               `json:"compartmentId"`
+		JobId                                   *string                               `json:"jobId"`
+		JobConfigurationOverrideDetails         jobconfigurationdetails               `json:"jobConfigurationOverrideDetails"`
+		JobInfrastructureConfigurationDetails   jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationDetails"`
+		LifecycleState                          JobRunLifecycleStateEnum              `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -137,16 +124,6 @@ func (m *JobRun) UnmarshalJSON(data []byte) (e error) {
 	m.TimeFinished = model.TimeFinished
 
 	m.DisplayName = model.DisplayName
-
-	nn, e = model.JobEnvironmentConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.JobEnvironmentConfigurationOverrideDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.JobEnvironmentConfigurationOverrideDetails = nn.(JobEnvironmentConfigurationDetails)
-	} else {
-		m.JobEnvironmentConfigurationOverrideDetails = nil
-	}
 
 	m.JobLogConfigurationOverrideDetails = model.JobLogConfigurationOverrideDetails
 
@@ -164,28 +141,6 @@ func (m *JobRun) UnmarshalJSON(data []byte) (e error) {
 	}
 	m.LogDetails = model.LogDetails
 
-	nn, e = model.JobInfrastructureConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.JobInfrastructureConfigurationOverrideDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.JobInfrastructureConfigurationOverrideDetails = nn.(JobInfrastructureConfigurationDetails)
-	} else {
-		m.JobInfrastructureConfigurationOverrideDetails = nil
-	}
-
-	nn, e = model.JobNodeConfigurationOverrideDetails.UnmarshalPolymorphicJSON(model.JobNodeConfigurationOverrideDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.JobNodeConfigurationOverrideDetails = nn.(JobNodeConfigurationDetails)
-	} else {
-		m.JobNodeConfigurationOverrideDetails = nil
-	}
-
-	m.NodeGroupDetailsList = make([]NodeGroupDetails, len(model.NodeGroupDetailsList))
-	copy(m.NodeGroupDetailsList, model.NodeGroupDetailsList)
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

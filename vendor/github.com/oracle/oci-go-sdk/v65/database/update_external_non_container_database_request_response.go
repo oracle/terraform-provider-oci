@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateExternalNonContainerDatabaseRequest wrapper for the UpdateExternalNonContainerDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateExternalNonContainerDatabase.go.html to see an example of how to use UpdateExternalNonContainerDatabaseRequest.
 type UpdateExternalNonContainerDatabaseRequest struct {
 
 	// The external non-container database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

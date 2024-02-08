@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDeploymentBackupRequest wrapper for the UpdateDeploymentBackup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDeploymentBackup.go.html to see an example of how to use UpdateDeploymentBackupRequest.
 type UpdateDeploymentBackupRequest struct {
 
 	// A unique DeploymentBackup identifier.

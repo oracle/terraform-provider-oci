@@ -12,6 +12,10 @@ import (
 )
 
 // GetCopyObjectRequestRequest wrapper for the GetCopyObjectRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetCopyObjectRequest.go.html to see an example of how to use GetCopyObjectRequestRequest.
 type GetCopyObjectRequestRequest struct {
 
 	// The workspace ID.

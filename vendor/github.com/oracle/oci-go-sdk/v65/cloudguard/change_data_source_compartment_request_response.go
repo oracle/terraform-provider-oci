@@ -12,12 +12,16 @@ import (
 )
 
 // ChangeDataSourceCompartmentRequest wrapper for the ChangeDataSourceCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeDataSourceCompartment.go.html to see an example of how to use ChangeDataSourceCompartmentRequest.
 type ChangeDataSourceCompartmentRequest struct {
 
-	// Data source OCID.
+	// DataSource OCID
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
-	// The compartment OCID of the DataSource resource
+	// The compartment id of the DataSource
 	ChangeDataSourceCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

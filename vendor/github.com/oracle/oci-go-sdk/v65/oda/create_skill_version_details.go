@@ -34,9 +34,6 @@ type CreateSkillVersionDetails struct {
 	// The ODA Platform Version for this resource.
 	PlatformVersion *string `mandatory:"false" json:"platformVersion"`
 
-	// The resource's dialog version.
-	DialogVersion *string `mandatory:"false" json:"dialogVersion"`
-
 	// The primary language for the resource.
 	PrimaryLanguageTag *string `mandatory:"false" json:"primaryLanguageTag"`
 
@@ -65,11 +62,6 @@ func (m CreateSkillVersionDetails) GetDescription() *string {
 // GetPlatformVersion returns PlatformVersion
 func (m CreateSkillVersionDetails) GetPlatformVersion() *string {
 	return m.PlatformVersion
-}
-
-// GetDialogVersion returns DialogVersion
-func (m CreateSkillVersionDetails) GetDialogVersion() *string {
-	return m.DialogVersion
 }
 
 // GetMultilingualMode returns MultilingualMode

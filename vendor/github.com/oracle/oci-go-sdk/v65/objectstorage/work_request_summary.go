@@ -81,24 +81,18 @@ type WorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
 const (
-	WorkRequestSummaryOperationTypeCopyObject      WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
-	WorkRequestSummaryOperationTypeReencrypt       WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
-	WorkRequestSummaryOperationTypeBulkCopyObjects WorkRequestSummaryOperationTypeEnum = "BULK_COPY_OBJECTS"
-	WorkRequestSummaryOperationTypePrefixRename    WorkRequestSummaryOperationTypeEnum = "PREFIX_RENAME"
+	WorkRequestSummaryOperationTypeCopyObject WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
+	WorkRequestSummaryOperationTypeReencrypt  WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
-	"COPY_OBJECT":       WorkRequestSummaryOperationTypeCopyObject,
-	"REENCRYPT":         WorkRequestSummaryOperationTypeReencrypt,
-	"BULK_COPY_OBJECTS": WorkRequestSummaryOperationTypeBulkCopyObjects,
-	"PREFIX_RENAME":     WorkRequestSummaryOperationTypePrefixRename,
+	"COPY_OBJECT": WorkRequestSummaryOperationTypeCopyObject,
+	"REENCRYPT":   WorkRequestSummaryOperationTypeReencrypt,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
-	"copy_object":       WorkRequestSummaryOperationTypeCopyObject,
-	"reencrypt":         WorkRequestSummaryOperationTypeReencrypt,
-	"bulk_copy_objects": WorkRequestSummaryOperationTypeBulkCopyObjects,
-	"prefix_rename":     WorkRequestSummaryOperationTypePrefixRename,
+	"copy_object": WorkRequestSummaryOperationTypeCopyObject,
+	"reencrypt":   WorkRequestSummaryOperationTypeReencrypt,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -115,8 +109,6 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 	return []string{
 		"COPY_OBJECT",
 		"REENCRYPT",
-		"BULK_COPY_OBJECTS",
-		"PREFIX_RENAME",
 	}
 }
 

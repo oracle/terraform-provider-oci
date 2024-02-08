@@ -12,6 +12,10 @@ import (
 )
 
 // GetDetectAnomalyJobRequest wrapper for the GetDetectAnomalyJob operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetDetectAnomalyJob.go.html to see an example of how to use GetDetectAnomalyJobRequest.
 type GetDetectAnomalyJobRequest struct {
 
 	// Unique asynchronous job identifier.

@@ -12,6 +12,10 @@ import (
 )
 
 // PatchTargetAlertPolicyAssociationRequest wrapper for the PatchTargetAlertPolicyAssociation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchTargetAlertPolicyAssociation.go.html to see an example of how to use PatchTargetAlertPolicyAssociationRequest.
 type PatchTargetAlertPolicyAssociationRequest struct {
 
 	// The details used to patch the target-alert policy associations.

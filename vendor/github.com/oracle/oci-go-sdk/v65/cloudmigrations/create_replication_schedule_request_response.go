@@ -12,6 +12,10 @@ import (
 )
 
 // CreateReplicationScheduleRequest wrapper for the CreateReplicationSchedule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/CreateReplicationSchedule.go.html to see an example of how to use CreateReplicationScheduleRequest.
 type CreateReplicationScheduleRequest struct {
 
 	// Details for the new replication schedule.

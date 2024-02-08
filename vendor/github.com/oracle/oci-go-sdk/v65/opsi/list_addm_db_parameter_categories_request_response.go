@@ -12,6 +12,10 @@ import (
 )
 
 // ListAddmDbParameterCategoriesRequest wrapper for the ListAddmDbParameterCategories operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbParameterCategories.go.html to see an example of how to use ListAddmDbParameterCategoriesRequest.
 type ListAddmDbParameterCategoriesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

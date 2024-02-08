@@ -4,10 +4,11 @@
 
 // Email Delivery API
 //
-// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
-// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// API for the Email Delivery service. Use this API to send high-volume, application-generated
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//
+// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -26,7 +27,6 @@ const (
 	ActionTypeDeleted    ActionTypeEnum = "DELETED"
 	ActionTypeInProgress ActionTypeEnum = "IN_PROGRESS"
 	ActionTypeRelated    ActionTypeEnum = "RELATED"
-	ActionTypeFailed     ActionTypeEnum = "FAILED"
 )
 
 var mappingActionTypeEnum = map[string]ActionTypeEnum{
@@ -35,7 +35,6 @@ var mappingActionTypeEnum = map[string]ActionTypeEnum{
 	"DELETED":     ActionTypeDeleted,
 	"IN_PROGRESS": ActionTypeInProgress,
 	"RELATED":     ActionTypeRelated,
-	"FAILED":      ActionTypeFailed,
 }
 
 var mappingActionTypeEnumLowerCase = map[string]ActionTypeEnum{
@@ -44,7 +43,6 @@ var mappingActionTypeEnumLowerCase = map[string]ActionTypeEnum{
 	"deleted":     ActionTypeDeleted,
 	"in_progress": ActionTypeInProgress,
 	"related":     ActionTypeRelated,
-	"failed":      ActionTypeFailed,
 }
 
 // GetActionTypeEnumValues Enumerates the set of values for ActionTypeEnum
@@ -64,7 +62,6 @@ func GetActionTypeEnumStringValues() []string {
 		"DELETED",
 		"IN_PROGRESS",
 		"RELATED",
-		"FAILED",
 	}
 }
 

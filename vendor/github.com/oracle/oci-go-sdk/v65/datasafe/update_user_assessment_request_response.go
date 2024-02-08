@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateUserAssessmentRequest wrapper for the UpdateUserAssessment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateUserAssessment.go.html to see an example of how to use UpdateUserAssessmentRequest.
 type UpdateUserAssessmentRequest struct {
 
 	// The OCID of the user assessment.

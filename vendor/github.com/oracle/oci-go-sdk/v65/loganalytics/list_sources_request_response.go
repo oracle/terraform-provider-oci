@@ -12,6 +12,10 @@ import (
 )
 
 // ListSourcesRequest wrapper for the ListSources operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSources.go.html to see an example of how to use ListSourcesRequest.
 type ListSourcesRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -52,9 +56,6 @@ type ListSourcesRequest struct {
 	// A filter to return only log analytics entities whose name matches the entire name given. The match
 	// is case-insensitive.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
-
-	// The source type.
-	SourceType *string `mandatory:"false" contributesTo:"query" name:"sourceType"`
 
 	// A comma-separated list of categories used for filtering
 	Categories *string `mandatory:"false" contributesTo:"query" name:"categories"`

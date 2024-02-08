@@ -12,6 +12,10 @@ import (
 )
 
 // UpdatePrivateIpRequest wrapper for the UpdatePrivateIp operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdatePrivateIp.go.html to see an example of how to use UpdatePrivateIpRequest.
 type UpdatePrivateIpRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP or IPv6.

@@ -12,6 +12,10 @@ import (
 )
 
 // RefreshDatabaseSecurityConfigurationRequest wrapper for the RefreshDatabaseSecurityConfiguration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshDatabaseSecurityConfiguration.go.html to see an example of how to use RefreshDatabaseSecurityConfigurationRequest.
 type RefreshDatabaseSecurityConfigurationRequest struct {
 
 	// The OCID of the database security configuration resource.

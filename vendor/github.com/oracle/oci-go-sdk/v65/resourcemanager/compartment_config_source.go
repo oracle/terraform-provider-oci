@@ -45,16 +45,6 @@ type CompartmentConfigSource struct {
 	// The specified services must be in scope of the given compartment OCID (tenancy level for root compartment, compartment level otherwise).
 	// If not specified, then all services at the scope of the given compartment OCID are used.
 	ServicesToDiscover []string `mandatory:"false" json:"servicesToDiscover"`
-
-	// Filters to choose what to discover via resource discovery.
-	// If not specified, then all resources will show up in resource discovery result.
-	Filters []string `mandatory:"false" json:"filters"`
-
-	// List of resource-level attributes to export as variables.
-	VariablesGlobalLevel []string `mandatory:"false" json:"variablesGlobalLevel"`
-
-	// List of top-level attributes to export as variables.
-	VariablesResourceLevel []string `mandatory:"false" json:"variablesResourceLevel"`
 }
 
 // GetWorkingDirectory returns WorkingDirectory

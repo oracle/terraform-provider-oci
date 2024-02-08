@@ -12,6 +12,10 @@ import (
 )
 
 // GetVcnTopologyRequest wrapper for the GetVcnTopology operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVcnTopology.go.html to see an example of how to use GetVcnTopologyRequest.
 type GetVcnTopologyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

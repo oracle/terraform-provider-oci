@@ -92,66 +92,11 @@ func (client *FileStorageClient) ConfigurationProvider() *common.ConfigurationPr
 	return client.config
 }
 
-// AddQuotaRule Add an FS level, user or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
-// `isHardQuota` parameters.
-func (client FileStorageClient) AddQuotaRule(ctx context.Context, request AddQuotaRuleRequest) (response AddQuotaRuleResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.addQuotaRule, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AddQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = AddQuotaRuleResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(AddQuotaRuleResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AddQuotaRuleResponse")
-	}
-	return
-}
-
-// addQuotaRule implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) addQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/addQuotaRule", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response AddQuotaRuleResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/AddQuotaRule"
-		err = common.PostProcessServiceError(err, "FileStorage", "AddQuotaRule", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeFileSystemCompartment Moves a file system and its associated snapshots into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeFileSystemCompartment.go.html to see an example of how to use ChangeFileSystemCompartment API.
 func (client FileStorageClient) ChangeFileSystemCompartment(ctx context.Context, request ChangeFileSystemCompartmentRequest) (response ChangeFileSystemCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -205,6 +150,10 @@ func (client FileStorageClient) changeFileSystemCompartment(ctx context.Context,
 }
 
 // ChangeFilesystemSnapshotPolicyCompartment Moves a file system snapshot policy into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeFilesystemSnapshotPolicyCompartment.go.html to see an example of how to use ChangeFilesystemSnapshotPolicyCompartment API.
 func (client FileStorageClient) ChangeFilesystemSnapshotPolicyCompartment(ctx context.Context, request ChangeFilesystemSnapshotPolicyCompartmentRequest) (response ChangeFilesystemSnapshotPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -258,6 +207,10 @@ func (client FileStorageClient) changeFilesystemSnapshotPolicyCompartment(ctx co
 }
 
 // ChangeMountTargetCompartment Moves a mount target and its associated export set or share set into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeMountTargetCompartment.go.html to see an example of how to use ChangeMountTargetCompartment API.
 func (client FileStorageClient) ChangeMountTargetCompartment(ctx context.Context, request ChangeMountTargetCompartmentRequest) (response ChangeMountTargetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -313,6 +266,10 @@ func (client FileStorageClient) changeMountTargetCompartment(ctx context.Context
 // ChangeOutboundConnectorCompartment Moves an outbound connector into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeOutboundConnectorCompartment.go.html to see an example of how to use ChangeOutboundConnectorCompartment API.
 func (client FileStorageClient) ChangeOutboundConnectorCompartment(ctx context.Context, request ChangeOutboundConnectorCompartmentRequest) (response ChangeOutboundConnectorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -367,6 +324,10 @@ func (client FileStorageClient) changeOutboundConnectorCompartment(ctx context.C
 
 // ChangeReplicationCompartment Moves a replication and its replication target into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeReplicationCompartment.go.html to see an example of how to use ChangeReplicationCompartment API.
 func (client FileStorageClient) ChangeReplicationCompartment(ctx context.Context, request ChangeReplicationCompartmentRequest) (response ChangeReplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -419,115 +380,12 @@ func (client FileStorageClient) changeReplicationCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangeReplicationTargetCompartment Moves a replication target into a different compartment within the same tenancy.
-// To be used internal only.
-func (client FileStorageClient) ChangeReplicationTargetCompartment(ctx context.Context, request ChangeReplicationTargetCompartmentRequest) (response ChangeReplicationTargetCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.changeReplicationTargetCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeReplicationTargetCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeReplicationTargetCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeReplicationTargetCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeReplicationTargetCompartmentResponse")
-	}
-	return
-}
-
-// changeReplicationTargetCompartment implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) changeReplicationTargetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replicationTargets/{replicationTargetId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeReplicationTargetCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/ChangeReplicationTargetCompartment"
-		err = common.PostProcessServiceError(err, "FileStorage", "ChangeReplicationTargetCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CheckReconciliation Check if provided provenance id is present in source FS.
-func (client FileStorageClient) CheckReconciliation(ctx context.Context, request CheckReconciliationRequest) (response CheckReconciliationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.checkReconciliation, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CheckReconciliationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CheckReconciliationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CheckReconciliationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CheckReconciliationResponse")
-	}
-	return
-}
-
-// checkReconciliation implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) checkReconciliation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replications/actions/checkReconciliation", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CheckReconciliationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Replication/CheckReconciliation"
-		err = common.PostProcessServiceError(err, "FileStorage", "CheckReconciliation", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateExport Creates a new export in the specified export set, path, and
 // file system.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateExport.go.html to see an example of how to use CreateExport API.
 func (client FileStorageClient) CreateExport(ctx context.Context, request CreateExportRequest) (response CreateExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -609,6 +467,10 @@ func (client FileStorageClient) createExport(ctx context.Context, request common
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type or by viewing the resource in the Console.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateFileSystem.go.html to see an example of how to use CreateFileSystem API.
 func (client FileStorageClient) CreateFileSystem(ctx context.Context, request CreateFileSystemRequest) (response CreateFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -670,6 +532,10 @@ func (client FileStorageClient) createFileSystem(ctx context.Context, request co
 // availability domain.
 // After you create a file system snapshot policy, you can associate it with
 // file systems.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateFilesystemSnapshotPolicy.go.html to see an example of how to use CreateFilesystemSnapshotPolicy API.
 func (client FileStorageClient) CreateFilesystemSnapshotPolicy(ctx context.Context, request CreateFilesystemSnapshotPolicyRequest) (response CreateFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -755,6 +621,10 @@ func (client FileStorageClient) createFilesystemSnapshotPolicy(ctx context.Conte
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateMountTarget.go.html to see an example of how to use CreateMountTarget API.
 func (client FileStorageClient) CreateMountTarget(ctx context.Context, request CreateMountTargetRequest) (response CreateMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -829,6 +699,10 @@ func (client FileStorageClient) createMountTarget(ctx context.Context, request c
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateOutboundConnector.go.html to see an example of how to use CreateOutboundConnector API.
 func (client FileStorageClient) CreateOutboundConnector(ctx context.Context, request CreateOutboundConnectorRequest) (response CreateOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -910,6 +784,10 @@ func (client FileStorageClient) createOutboundConnector(ctx context.Context, req
 // When you create a resource, you can find its OCID in the response.
 // You can also retrieve a resource's OCID by using a List API operation on that resource
 // type, or by viewing the resource in the Console.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateReplication.go.html to see an example of how to use CreateReplication API.
 func (client FileStorageClient) CreateReplication(ctx context.Context, request CreateReplicationRequest) (response CreateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -967,126 +845,12 @@ func (client FileStorageClient) createReplication(ctx context.Context, request c
 	return response, err
 }
 
-// CreateReplicationTarget Creates a new replication target in the specified compartment.
-// To be used for internal only purposes.
-func (client FileStorageClient) CreateReplicationTarget(ctx context.Context, request CreateReplicationTargetRequest) (response CreateReplicationTargetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createReplicationTarget, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateReplicationTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateReplicationTargetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateReplicationTargetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateReplicationTargetResponse")
-	}
-	return
-}
-
-// createReplicationTarget implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) createReplicationTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replicationTargets", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateReplicationTargetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/CreateReplicationTarget"
-		err = common.PostProcessServiceError(err, "FileStorage", "CreateReplicationTarget", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateShare Creates a new share in the specified share set and
-// file system.
-func (client FileStorageClient) CreateShare(ctx context.Context, request CreateShareRequest) (response CreateShareResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createShare, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateShareResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateShareResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateShareResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateShareResponse")
-	}
-	return
-}
-
-// createShare implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) createShare(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/shares", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateShareResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Share/CreateShare"
-		err = common.PostProcessServiceError(err, "FileStorage", "CreateShare", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateSnapshot Creates a new snapshot of the specified file system. You
 // can access the snapshot at `.snapshot/<name>`.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateSnapshot.go.html to see an example of how to use CreateSnapshot API.
 func (client FileStorageClient) CreateSnapshot(ctx context.Context, request CreateSnapshotRequest) (response CreateSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1145,6 +909,10 @@ func (client FileStorageClient) createSnapshot(ctx context.Context, request comm
 }
 
 // DeleteExport Deletes the specified export.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteExport.go.html to see an example of how to use DeleteExport API.
 func (client FileStorageClient) DeleteExport(ctx context.Context, request DeleteExportRequest) (response DeleteExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1200,6 +968,10 @@ func (client FileStorageClient) deleteExport(ctx context.Context, request common
 // DeleteFileSystem Deletes the specified file system. Before you delete the file system,
 // verify that no remaining export resources still reference it. Deleting a
 // file system also deletes all of its snapshots.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteFileSystem.go.html to see an example of how to use DeleteFileSystem API.
 func (client FileStorageClient) DeleteFileSystem(ctx context.Context, request DeleteFileSystemRequest) (response DeleteFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1253,6 +1025,10 @@ func (client FileStorageClient) deleteFileSystem(ctx context.Context, request co
 }
 
 // DeleteFilesystemSnapshotPolicy Deletes the specified file system snapshot policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteFilesystemSnapshotPolicy.go.html to see an example of how to use DeleteFilesystemSnapshotPolicy API.
 func (client FileStorageClient) DeleteFilesystemSnapshotPolicy(ctx context.Context, request DeleteFilesystemSnapshotPolicyRequest) (response DeleteFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1307,6 +1083,10 @@ func (client FileStorageClient) deleteFilesystemSnapshotPolicy(ctx context.Conte
 
 // DeleteMountTarget Deletes the specified mount target. This operation also deletes the
 // mount target's VNICs.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteMountTarget.go.html to see an example of how to use DeleteMountTarget API.
 func (client FileStorageClient) DeleteMountTarget(ctx context.Context, request DeleteMountTargetRequest) (response DeleteMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1360,6 +1140,10 @@ func (client FileStorageClient) deleteMountTarget(ctx context.Context, request c
 }
 
 // DeleteOutboundConnector Deletes the specified outbound connector.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteOutboundConnector.go.html to see an example of how to use DeleteOutboundConnector API.
 func (client FileStorageClient) DeleteOutboundConnector(ctx context.Context, request DeleteOutboundConnectorRequest) (response DeleteOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1413,6 +1197,10 @@ func (client FileStorageClient) deleteOutboundConnector(ctx context.Context, req
 }
 
 // DeleteReplication Deletes the specified replication and the the associated replication target.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteReplication.go.html to see an example of how to use DeleteReplication API.
 func (client FileStorageClient) DeleteReplication(ctx context.Context, request DeleteReplicationRequest) (response DeleteReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1469,6 +1257,10 @@ func (client FileStorageClient) deleteReplication(ctx context.Context, request c
 // This operation causes the immediate release of the target file system if there are currently no delta application operations.
 // If there is any current delta being applied the delete operation is blocked until the current
 // delta has been completely applied.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteReplicationTarget.go.html to see an example of how to use DeleteReplicationTarget API.
 func (client FileStorageClient) DeleteReplicationTarget(ctx context.Context, request DeleteReplicationTargetRequest) (response DeleteReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1521,60 +1313,11 @@ func (client FileStorageClient) deleteReplicationTarget(ctx context.Context, req
 	return response, err
 }
 
-// DeleteShare Deletes the specified share.
-func (client FileStorageClient) DeleteShare(ctx context.Context, request DeleteShareRequest) (response DeleteShareResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteShare, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteShareResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteShareResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteShareResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteShareResponse")
-	}
-	return
-}
-
-// deleteShare implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) deleteShare(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/shares/{shareId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteShareResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Share/DeleteShare"
-		err = common.PostProcessServiceError(err, "FileStorage", "DeleteShare", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteSnapshot Deletes the specified snapshot.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteSnapshot.go.html to see an example of how to use DeleteSnapshot API.
 func (client FileStorageClient) DeleteSnapshot(ctx context.Context, request DeleteSnapshotRequest) (response DeleteSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1627,60 +1370,11 @@ func (client FileStorageClient) deleteSnapshot(ctx context.Context, request comm
 	return response, err
 }
 
-// DetachClone Detaches the file system from its parent file system
-func (client FileStorageClient) DetachClone(ctx context.Context, request DetachCloneRequest) (response DetachCloneResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.detachClone, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DetachCloneResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DetachCloneResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DetachCloneResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DetachCloneResponse")
-	}
-	return
-}
-
-// detachClone implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) detachClone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/detachClone", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DetachCloneResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/DetachClone"
-		err = common.PostProcessServiceError(err, "FileStorage", "DetachClone", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // EstimateReplication Provides estimates for replication created using specific file system.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/EstimateReplication.go.html to see an example of how to use EstimateReplication API.
 func (client FileStorageClient) EstimateReplication(ctx context.Context, request EstimateReplicationRequest) (response EstimateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1733,60 +1427,11 @@ func (client FileStorageClient) estimateReplication(ctx context.Context, request
 	return response, err
 }
 
-// FailoverMountTarget Execute a planned failover of the mount target.
-func (client FileStorageClient) FailoverMountTarget(ctx context.Context, request FailoverMountTargetRequest) (response FailoverMountTargetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.failoverMountTarget, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = FailoverMountTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = FailoverMountTargetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(FailoverMountTargetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into FailoverMountTargetResponse")
-	}
-	return
-}
-
-// failoverMountTarget implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) failoverMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/failover", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response FailoverMountTargetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/FailoverMountTarget"
-		err = common.PostProcessServiceError(err, "FileStorage", "FailoverMountTarget", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetExport Gets the specified export's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExport.go.html to see an example of how to use GetExport API.
 func (client FileStorageClient) GetExport(ctx context.Context, request GetExportRequest) (response GetExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1840,6 +1485,10 @@ func (client FileStorageClient) getExport(ctx context.Context, request common.OC
 }
 
 // GetExportSet Gets the specified export set's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetExportSet.go.html to see an example of how to use GetExportSet API.
 func (client FileStorageClient) GetExportSet(ctx context.Context, request GetExportSetRequest) (response GetExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1893,6 +1542,10 @@ func (client FileStorageClient) getExportSet(ctx context.Context, request common
 }
 
 // GetFileSystem Gets the specified file system's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetFileSystem.go.html to see an example of how to use GetFileSystem API.
 func (client FileStorageClient) GetFileSystem(ctx context.Context, request GetFileSystemRequest) (response GetFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1946,6 +1599,10 @@ func (client FileStorageClient) getFileSystem(ctx context.Context, request commo
 }
 
 // GetFilesystemSnapshotPolicy Gets the specified file system snapshot policy's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetFilesystemSnapshotPolicy.go.html to see an example of how to use GetFilesystemSnapshotPolicy API.
 func (client FileStorageClient) GetFilesystemSnapshotPolicy(ctx context.Context, request GetFilesystemSnapshotPolicyRequest) (response GetFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1999,6 +1656,10 @@ func (client FileStorageClient) getFilesystemSnapshotPolicy(ctx context.Context,
 }
 
 // GetMountTarget Gets the specified mount target's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetMountTarget.go.html to see an example of how to use GetMountTarget API.
 func (client FileStorageClient) GetMountTarget(ctx context.Context, request GetMountTargetRequest) (response GetMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2052,6 +1713,10 @@ func (client FileStorageClient) getMountTarget(ctx context.Context, request comm
 }
 
 // GetOutboundConnector Gets the specified outbound connector's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetOutboundConnector.go.html to see an example of how to use GetOutboundConnector API.
 func (client FileStorageClient) GetOutboundConnector(ctx context.Context, request GetOutboundConnectorRequest) (response GetOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2104,61 +1769,11 @@ func (client FileStorageClient) getOutboundConnector(ctx context.Context, reques
 	return response, err
 }
 
-// GetQuotaRule Get an FS level, user or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
-// `isHardQuota` parameters.
-func (client FileStorageClient) GetQuotaRule(ctx context.Context, request GetQuotaRuleRequest) (response GetQuotaRuleResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getQuotaRule, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetQuotaRuleResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetQuotaRuleResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetQuotaRuleResponse")
-	}
-	return
-}
-
-// getQuotaRule implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}/actions/quotaRule", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetQuotaRuleResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/GetQuotaRule"
-		err = common.PostProcessServiceError(err, "FileStorage", "GetQuotaRule", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetReplication Gets the specified replication's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetReplication.go.html to see an example of how to use GetReplication API.
 func (client FileStorageClient) GetReplication(ctx context.Context, request GetReplicationRequest) (response GetReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2212,6 +1827,10 @@ func (client FileStorageClient) getReplication(ctx context.Context, request comm
 }
 
 // GetReplicationTarget Gets the specified replication target's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetReplicationTarget.go.html to see an example of how to use GetReplicationTarget API.
 func (client FileStorageClient) GetReplicationTarget(ctx context.Context, request GetReplicationTargetRequest) (response GetReplicationTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2264,166 +1883,11 @@ func (client FileStorageClient) getReplicationTarget(ctx context.Context, reques
 	return response, err
 }
 
-// GetReplicationTargetProgress Get ReplicationTarget's progress in a remote region.
-func (client FileStorageClient) GetReplicationTargetProgress(ctx context.Context, request GetReplicationTargetProgressRequest) (response GetReplicationTargetProgressResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getReplicationTargetProgress, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetReplicationTargetProgressResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetReplicationTargetProgressResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetReplicationTargetProgressResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetReplicationTargetProgressResponse")
-	}
-	return
-}
-
-// getReplicationTargetProgress implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getReplicationTargetProgress(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/replicationTargets/actions/replicationTargetProgress", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetReplicationTargetProgressResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/GetReplicationTargetProgress"
-		err = common.PostProcessServiceError(err, "FileStorage", "GetReplicationTargetProgress", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetShare Gets the specified share's information.
-func (client FileStorageClient) GetShare(ctx context.Context, request GetShareRequest) (response GetShareResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getShare, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetShareResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetShareResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetShareResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetShareResponse")
-	}
-	return
-}
-
-// getShare implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getShare(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shares/{shareId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetShareResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Share/GetShare"
-		err = common.PostProcessServiceError(err, "FileStorage", "GetShare", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetShareSet Gets the specified share set's information.
-func (client FileStorageClient) GetShareSet(ctx context.Context, request GetShareSetRequest) (response GetShareSetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getShareSet, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetShareSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetShareSetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetShareSetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetShareSetResponse")
-	}
-	return
-}
-
-// getShareSet implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getShareSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shareSets/{shareSetId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetShareSetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ShareSet/GetShareSet"
-		err = common.PostProcessServiceError(err, "FileStorage", "GetShareSet", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetSnapshot Gets the specified snapshot's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetSnapshot.go.html to see an example of how to use GetSnapshot API.
 func (client FileStorageClient) GetSnapshot(ctx context.Context, request GetSnapshotRequest) (response GetSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2476,60 +1940,11 @@ func (client FileStorageClient) getSnapshot(ctx context.Context, request common.
 	return response, err
 }
 
-// GetTagSlug gets the tagSlug value for a resource.
-func (client FileStorageClient) GetTagSlug(ctx context.Context, request GetTagSlugRequest) (response GetTagSlugResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getTagSlug, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetTagSlugResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetTagSlugResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetTagSlugResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetTagSlugResponse")
-	}
-	return
-}
-
-// getTagSlug implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) getTagSlug(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tagSlug/{resourceId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetTagSlugResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Tagslug/GetTagSlug"
-		err = common.PostProcessServiceError(err, "FileStorage", "GetTagSlug", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListExportSets Lists the export set resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExportSets.go.html to see an example of how to use ListExportSets API.
 func (client FileStorageClient) ListExportSets(ctx context.Context, request ListExportSetsRequest) (response ListExportSetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2585,6 +2000,10 @@ func (client FileStorageClient) listExportSets(ctx context.Context, request comm
 // ListExports Lists export resources by compartment, file system, or export
 // set. You must specify an export set ID, a file system ID, and
 // / or a compartment ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExports.go.html to see an example of how to use ListExports API.
 func (client FileStorageClient) ListExports(ctx context.Context, request ListExportsRequest) (response ListExportsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2639,6 +2058,10 @@ func (client FileStorageClient) listExports(ctx context.Context, request common.
 
 // ListFileSystems Lists the file system resources in the specified compartment, or by the specified compartment and
 // file system snapshot policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFileSystems.go.html to see an example of how to use ListFileSystems API.
 func (client FileStorageClient) ListFileSystems(ctx context.Context, request ListFileSystemsRequest) (response ListFileSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2692,6 +2115,10 @@ func (client FileStorageClient) listFileSystems(ctx context.Context, request com
 }
 
 // ListFilesystemSnapshotPolicies Lists file system snapshot policies in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListFilesystemSnapshotPolicies.go.html to see an example of how to use ListFilesystemSnapshotPolicies API.
 func (client FileStorageClient) ListFilesystemSnapshotPolicies(ctx context.Context, request ListFilesystemSnapshotPoliciesRequest) (response ListFilesystemSnapshotPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2745,6 +2172,10 @@ func (client FileStorageClient) listFilesystemSnapshotPolicies(ctx context.Conte
 }
 
 // ListMountTargets Lists the mount target resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListMountTargets.go.html to see an example of how to use ListMountTargets API.
 func (client FileStorageClient) ListMountTargets(ctx context.Context, request ListMountTargetsRequest) (response ListMountTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2814,6 +2245,10 @@ func (m *listoutboundconnectorsummary) UnmarshalPolymorphicJSON(data []byte) (in
 }
 
 // ListOutboundConnectors Lists the outbound connector resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListOutboundConnectors.go.html to see an example of how to use ListOutboundConnectors API.
 func (client FileStorageClient) ListOutboundConnectors(ctx context.Context, request ListOutboundConnectorsRequest) (response ListOutboundConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2867,6 +2302,10 @@ func (client FileStorageClient) listOutboundConnectors(ctx context.Context, requ
 }
 
 // ListReplicationTargets Lists the replication target resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListReplicationTargets.go.html to see an example of how to use ListReplicationTargets API.
 func (client FileStorageClient) ListReplicationTargets(ctx context.Context, request ListReplicationTargetsRequest) (response ListReplicationTargetsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2920,6 +2359,10 @@ func (client FileStorageClient) listReplicationTargets(ctx context.Context, requ
 }
 
 // ListReplications Lists the replication resources in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListReplications.go.html to see an example of how to use ListReplications API.
 func (client FileStorageClient) ListReplications(ctx context.Context, request ListReplicationsRequest) (response ListReplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2972,119 +2415,15 @@ func (client FileStorageClient) listReplications(ctx context.Context, request co
 	return response, err
 }
 
-// ListShareSets Lists the share set resources in the specified compartment.
-func (client FileStorageClient) ListShareSets(ctx context.Context, request ListShareSetsRequest) (response ListShareSetsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listShareSets, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListShareSetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListShareSetsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListShareSetsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListShareSetsResponse")
-	}
-	return
-}
-
-// listShareSets implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) listShareSets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shareSets", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListShareSetsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ShareSetSummary/ListShareSets"
-		err = common.PostProcessServiceError(err, "FileStorage", "ListShareSets", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListShares Lists share resources by compartment, file system, or share set.
-// You must specify a share set ID, a file system ID, and
-// / or a compartment ID.
-func (client FileStorageClient) ListShares(ctx context.Context, request ListSharesRequest) (response ListSharesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listShares, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListSharesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListSharesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListSharesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListSharesResponse")
-	}
-	return
-}
-
-// listShares implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) listShares(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/shares", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListSharesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ShareSummary/ListShares"
-		err = common.PostProcessServiceError(err, "FileStorage", "ListShares", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListSnapshots Lists snapshots of the specified file system, or by file system snapshot policy and compartment,
 // or by file system snapshot policy and file system.
 // If file system ID is not specified, a file system snapshot policy ID and compartment ID must be specified.
 // Users can only sort by time created when listing snapshots by file system snapshot policy ID and compartment ID
 // (sort by name is NOT supported for listing snapshots by policy and compartment).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListSnapshots.go.html to see an example of how to use ListSnapshots API.
 func (client FileStorageClient) ListSnapshots(ctx context.Context, request ListSnapshotsRequest) (response ListSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3137,118 +2476,15 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 	return response, err
 }
 
-// ListUsagesAndQuotas List user or group usages and their quota rules by certain principal type.
-func (client FileStorageClient) ListUsagesAndQuotas(ctx context.Context, request ListUsagesAndQuotasRequest) (response ListUsagesAndQuotasResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listUsagesAndQuotas, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListUsagesAndQuotasResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListUsagesAndQuotasResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListUsagesAndQuotasResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListUsagesAndQuotasResponse")
-	}
-	return
-}
-
-// listUsagesAndQuotas implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) listUsagesAndQuotas(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/{fileSystemId}/actions/usageAndQuota", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListUsagesAndQuotasResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ListUsagesAndQuotas"
-		err = common.PostProcessServiceError(err, "FileStorage", "ListUsagesAndQuotas", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ModifyQuotaRule Edit an FS level, user or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
-// `isHardQuota` parameters.
-func (client FileStorageClient) ModifyQuotaRule(ctx context.Context, request ModifyQuotaRuleRequest) (response ModifyQuotaRuleResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.modifyQuotaRule, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ModifyQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ModifyQuotaRuleResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ModifyQuotaRuleResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ModifyQuotaRuleResponse")
-	}
-	return
-}
-
-// modifyQuotaRule implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) modifyQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/modifyQuotaRule", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ModifyQuotaRuleResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ModifyQuotaRule"
-		err = common.PostProcessServiceError(err, "FileStorage", "ModifyQuotaRule", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // PauseFilesystemSnapshotPolicy This operation pauses the scheduled snapshot creation and snapshot deletion of the policy and updates the lifecycle state of the file system
 // snapshot policy from ACTIVE to INACTIVE. When a file system snapshot policy is paused, file systems that are associated with the
 // policy will not have scheduled snapshots created or deleted.
 // If the policy is already paused, or in the INACTIVE state, you cannot pause it again. You can't pause a policy
 // that is in a DELETING, DELETED, FAILED, CREATING or INACTIVE state; attempts to pause a policy in these states result in a 409 conflict error.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/PauseFilesystemSnapshotPolicy.go.html to see an example of how to use PauseFilesystemSnapshotPolicy API.
 func (client FileStorageClient) PauseFilesystemSnapshotPolicy(ctx context.Context, request PauseFilesystemSnapshotPolicyRequest) (response PauseFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3301,871 +2537,14 @@ func (client FileStorageClient) pauseFilesystemSnapshotPolicy(ctx context.Contex
 	return response, err
 }
 
-// RemoveQuotaRule Remove an FS level, user or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
-// `isHardQuota` parameters.
-func (client FileStorageClient) RemoveQuotaRule(ctx context.Context, request RemoveQuotaRuleRequest) (response RemoveQuotaRuleResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.removeQuotaRule, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RemoveQuotaRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = RemoveQuotaRuleResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(RemoveQuotaRuleResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RemoveQuotaRuleResponse")
-	}
-	return
-}
-
-// removeQuotaRule implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) removeQuotaRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/removeQuotaRule", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response RemoveQuotaRuleResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/RemoveQuotaRule"
-		err = common.PostProcessServiceError(err, "FileStorage", "RemoveQuotaRule", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReplicationFail Update Replication to FAILED state in a remote region. This API is called as part of Replication Lifecycle Management.
-func (client FileStorageClient) ReplicationFail(ctx context.Context, request ReplicationFailRequest) (response ReplicationFailResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.replicationFail, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReplicationFailResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReplicationFailResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReplicationFailResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReplicationFailResponse")
-	}
-	return
-}
-
-// replicationFail implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) replicationFail(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replications/actions/replicationFail", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReplicationFailResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Replication/ReplicationFail"
-		err = common.PostProcessServiceError(err, "FileStorage", "ReplicationFail", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReplicationStatusUpdate Update Replication Status of Replication in a remote region. This API is called as part of Replication Lifecycle Management.
-func (client FileStorageClient) ReplicationStatusUpdate(ctx context.Context, request ReplicationStatusUpdateRequest) (response ReplicationStatusUpdateResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.replicationStatusUpdate, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReplicationStatusUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReplicationStatusUpdateResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReplicationStatusUpdateResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReplicationStatusUpdateResponse")
-	}
-	return
-}
-
-// replicationStatusUpdate implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) replicationStatusUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replications/actions/replicationStatusUpdate", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReplicationStatusUpdateResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Replication/ReplicationStatusUpdate"
-		err = common.PostProcessServiceError(err, "FileStorage", "ReplicationStatusUpdate", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReplicationTargetDelete Delete ReplicationTarget in a remote region. This API is called as part of Replication Lifecycle Management.
-func (client FileStorageClient) ReplicationTargetDelete(ctx context.Context, request ReplicationTargetDeleteRequest) (response ReplicationTargetDeleteResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.replicationTargetDelete, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReplicationTargetDeleteResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReplicationTargetDeleteResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReplicationTargetDeleteResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReplicationTargetDeleteResponse")
-	}
-	return
-}
-
-// replicationTargetDelete implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) replicationTargetDelete(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replicationTargets/actions/replicationTargetDelete", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReplicationTargetDeleteResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/ReplicationTargetDelete"
-		err = common.PostProcessServiceError(err, "FileStorage", "ReplicationTargetDelete", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReplicationTargetFail Update ReplicationTarget to FAILED state in a remote region. This API is called as part of Replication Lifecycle Management.
-func (client FileStorageClient) ReplicationTargetFail(ctx context.Context, request ReplicationTargetFailRequest) (response ReplicationTargetFailResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.replicationTargetFail, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReplicationTargetFailResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReplicationTargetFailResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReplicationTargetFailResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReplicationTargetFailResponse")
-	}
-	return
-}
-
-// replicationTargetFail implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) replicationTargetFail(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replicationTargets/actions/replicationTargetFail", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReplicationTargetFailResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/ReplicationTargetFail"
-		err = common.PostProcessServiceError(err, "FileStorage", "ReplicationTargetFail", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReplicationTargetFileSystemGet Get Target Filesystem in a remote region.
-func (client FileStorageClient) ReplicationTargetFileSystemGet(ctx context.Context, request ReplicationTargetFileSystemGetRequest) (response ReplicationTargetFileSystemGetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.replicationTargetFileSystemGet, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReplicationTargetFileSystemGetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReplicationTargetFileSystemGetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReplicationTargetFileSystemGetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReplicationTargetFileSystemGetResponse")
-	}
-	return
-}
-
-// replicationTargetFileSystemGet implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) replicationTargetFileSystemGet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/replications/actions/getTargetFileSystem", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReplicationTargetFileSystemGetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ReplicationTargetFileSystemGet"
-		err = common.PostProcessServiceError(err, "FileStorage", "ReplicationTargetFileSystemGet", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReplicationTargetGet Gets the specified replication target's information.
-func (client FileStorageClient) ReplicationTargetGet(ctx context.Context, request ReplicationTargetGetRequest) (response ReplicationTargetGetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.replicationTargetGet, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReplicationTargetGetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReplicationTargetGetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReplicationTargetGetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReplicationTargetGetResponse")
-	}
-	return
-}
-
-// replicationTargetGet implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) replicationTargetGet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/replicationTargets/actions/replicationTargetGet", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReplicationTargetGetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/ReplicationTargetGet"
-		err = common.PostProcessServiceError(err, "FileStorage", "ReplicationTargetGet", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReplicationTargetStatusUpdate Update Replication Status of ReplicationTarget in a remote region. This API is called as part of Replication Lifecycle Management.
-func (client FileStorageClient) ReplicationTargetStatusUpdate(ctx context.Context, request ReplicationTargetStatusUpdateRequest) (response ReplicationTargetStatusUpdateResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.replicationTargetStatusUpdate, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReplicationTargetStatusUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReplicationTargetStatusUpdateResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReplicationTargetStatusUpdateResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReplicationTargetStatusUpdateResponse")
-	}
-	return
-}
-
-// replicationTargetStatusUpdate implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) replicationTargetStatusUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replicationTargets/actions/replicationTargetStatusUpdate", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReplicationTargetStatusUpdateResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/ReplicationTargetStatusUpdate"
-		err = common.PostProcessServiceError(err, "FileStorage", "ReplicationTargetStatusUpdate", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReserveTargetNum Reserve ReplicationTarget num in a remote region. This API is called as part of Create Replication.
-func (client FileStorageClient) ReserveTargetNum(ctx context.Context, request ReserveTargetNumRequest) (response ReserveTargetNumResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.reserveTargetNum, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReserveTargetNumResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReserveTargetNumResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReserveTargetNumResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReserveTargetNumResponse")
-	}
-	return
-}
-
-// reserveTargetNum implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) reserveTargetNum(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replicationTargets/actions/reserveTargetNum", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReserveTargetNumResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/ReserveTargetNum"
-		err = common.PostProcessServiceError(err, "FileStorage", "ReserveTargetNum", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ShareSetJoinDomain Perform a join domain operation for the mount target share set to a domain controller for SMB access.
-func (client FileStorageClient) ShareSetJoinDomain(ctx context.Context, request ShareSetJoinDomainRequest) (response ShareSetJoinDomainResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.shareSetJoinDomain, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ShareSetJoinDomainResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ShareSetJoinDomainResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ShareSetJoinDomainResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ShareSetJoinDomainResponse")
-	}
-	return
-}
-
-// shareSetJoinDomain implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) shareSetJoinDomain(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/shareSets/{shareSetId}/actions/joinDomain", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ShareSetJoinDomainResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ShareSet/ShareSetJoinDomain"
-		err = common.PostProcessServiceError(err, "FileStorage", "ShareSetJoinDomain", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// SourceTriggeredDelete Notify target region that a delete replication request has been received in source. This API will be part of Delete Replication
-func (client FileStorageClient) SourceTriggeredDelete(ctx context.Context, request SourceTriggeredDeleteRequest) (response SourceTriggeredDeleteResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.sourceTriggeredDelete, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = SourceTriggeredDeleteResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = SourceTriggeredDeleteResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(SourceTriggeredDeleteResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into SourceTriggeredDeleteResponse")
-	}
-	return
-}
-
-// sourceTriggeredDelete implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) sourceTriggeredDelete(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/replicationTargets/{replicationTargetId}/actions/sourceTriggeredDelete", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response SourceTriggeredDeleteResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/SourceTriggeredDelete"
-		err = common.PostProcessServiceError(err, "FileStorage", "SourceTriggeredDelete", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// StartLoggingMt Notifies FSS to enable logging for the Mount Target resource.
-func (client FileStorageClient) StartLoggingMt(ctx context.Context, request StartLoggingMtRequest) (response StartLoggingMtResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.startLoggingMt, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = StartLoggingMtResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = StartLoggingMtResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(StartLoggingMtResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into StartLoggingMtResponse")
-	}
-	return
-}
-
-// startLoggingMt implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) startLoggingMt(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/20190909/logging", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response StartLoggingMtResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OciServiceLoggingConfig/StartLoggingMt"
-		err = common.PostProcessServiceError(err, "FileStorage", "StartLoggingMt", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// StopLoggingMt Disable logging to the log object.
-func (client FileStorageClient) StopLoggingMt(ctx context.Context, request StopLoggingMtRequest) (response StopLoggingMtResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.stopLoggingMt, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = StopLoggingMtResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = StopLoggingMtResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(StopLoggingMtResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into StopLoggingMtResponse")
-	}
-	return
-}
-
-// stopLoggingMt implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) stopLoggingMt(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/mountTargets/20190909/logging/{logId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response StopLoggingMtResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OciServiceLoggingConfig/StopLoggingMt"
-		err = common.PostProcessServiceError(err, "FileStorage", "StopLoggingMt", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// StopMountTargetRebalancing Stops auto rebalancing of mount targets.
-func (client FileStorageClient) StopMountTargetRebalancing(ctx context.Context, request StopMountTargetRebalancingRequest) (response StopMountTargetRebalancingResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.stopMountTargetRebalancing, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = StopMountTargetRebalancingResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = StopMountTargetRebalancingResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(StopMountTargetRebalancingResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into StopMountTargetRebalancingResponse")
-	}
-	return
-}
-
-// stopMountTargetRebalancing implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) stopMountTargetRebalancing(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/stopMountTargetRebalancing", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response StopMountTargetRebalancingResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/StopMountTargetRebalancing"
-		err = common.PostProcessServiceError(err, "FileStorage", "StopMountTargetRebalancing", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// TargetFileSystemGet Get Target Filesystem in a remote region.
-func (client FileStorageClient) TargetFileSystemGet(ctx context.Context, request TargetFileSystemGetRequest) (response TargetFileSystemGetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.targetFileSystemGet, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = TargetFileSystemGetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = TargetFileSystemGetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(TargetFileSystemGetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into TargetFileSystemGetResponse")
-	}
-	return
-}
-
-// targetFileSystemGet implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) targetFileSystemGet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/fileSystems/actions/getTargetFileSystem", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response TargetFileSystemGetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/TargetFileSystemGet"
-		err = common.PostProcessServiceError(err, "FileStorage", "TargetFileSystemGet", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ToggleQuotaRules Enable or disable quota enforcement for the file system.
-// If `areQuotaRulesEnabled` = true, then the quota enforcement will be enabled.
-// If `areQuotaRulesEnabled` = false, then the quota enforcement will be disabled.
-func (client FileStorageClient) ToggleQuotaRules(ctx context.Context, request ToggleQuotaRulesRequest) (response ToggleQuotaRulesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.toggleQuotaRules, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ToggleQuotaRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ToggleQuotaRulesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ToggleQuotaRulesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ToggleQuotaRulesResponse")
-	}
-	return
-}
-
-// toggleQuotaRules implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) toggleQuotaRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fileSystems/{fileSystemId}/actions/toggleQuotaRules", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ToggleQuotaRulesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/FileSystem/ToggleQuotaRules"
-		err = common.PostProcessServiceError(err, "FileStorage", "ToggleQuotaRules", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UnpauseFilesystemSnapshotPolicy This operation unpauses a paused file system snapshot policy and updates the lifecycle state of the file system snapshot policy from
 // INACTIVE to ACTIVE. By default, file system snapshot policies are in the ACTIVE state. When a file system snapshot policy is not paused, or in the ACTIVE state, file systems that are associated with the
 // policy will have snapshots created and deleted according to the schedules defined in the policy.
 // If the policy is already in the ACTIVE state, you cannot unpause it. You can't unpause a policy that is in a DELETING, DELETED, FAILED, CREATING, or ACTIVE state; attempts to unpause a policy in these states result in a 409 conflict error.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UnpauseFilesystemSnapshotPolicy.go.html to see an example of how to use UnpauseFilesystemSnapshotPolicy API.
 func (client FileStorageClient) UnpauseFilesystemSnapshotPolicy(ctx context.Context, request UnpauseFilesystemSnapshotPolicyRequest) (response UnpauseFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4219,6 +2598,10 @@ func (client FileStorageClient) unpauseFilesystemSnapshotPolicy(ctx context.Cont
 }
 
 // UpdateExport Updates the specified export's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExport.go.html to see an example of how to use UpdateExport API.
 func (client FileStorageClient) UpdateExport(ctx context.Context, request UpdateExportRequest) (response UpdateExportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4272,6 +2655,10 @@ func (client FileStorageClient) updateExport(ctx context.Context, request common
 }
 
 // UpdateExportSet Updates the specified export set's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExportSet.go.html to see an example of how to use UpdateExportSet API.
 func (client FileStorageClient) UpdateExportSet(ctx context.Context, request UpdateExportSetRequest) (response UpdateExportSetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4326,6 +2713,10 @@ func (client FileStorageClient) updateExportSet(ctx context.Context, request com
 
 // UpdateFileSystem Updates the specified file system's information.
 // You can use this operation to rename a file system.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateFileSystem.go.html to see an example of how to use UpdateFileSystem API.
 func (client FileStorageClient) UpdateFileSystem(ctx context.Context, request UpdateFileSystemRequest) (response UpdateFileSystemResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4379,6 +2770,10 @@ func (client FileStorageClient) updateFileSystem(ctx context.Context, request co
 }
 
 // UpdateFilesystemSnapshotPolicy Updates the specified file system snapshot policy's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateFilesystemSnapshotPolicy.go.html to see an example of how to use UpdateFilesystemSnapshotPolicy API.
 func (client FileStorageClient) UpdateFilesystemSnapshotPolicy(ctx context.Context, request UpdateFilesystemSnapshotPolicyRequest) (response UpdateFilesystemSnapshotPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4431,65 +2826,11 @@ func (client FileStorageClient) updateFilesystemSnapshotPolicy(ctx context.Conte
 	return response, err
 }
 
-// UpdateLoggingMt Updates category parameters in the logging for Mount Target resource.
-func (client FileStorageClient) UpdateLoggingMt(ctx context.Context, request UpdateLoggingMtRequest) (response UpdateLoggingMtResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateLoggingMt, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateLoggingMtResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateLoggingMtResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateLoggingMtResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateLoggingMtResponse")
-	}
-	return
-}
-
-// updateLoggingMt implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateLoggingMt(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mountTargets/20190909/logging", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateLoggingMtResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/OciServiceLoggingConfig/UpdateLoggingMt"
-		err = common.PostProcessServiceError(err, "FileStorage", "UpdateLoggingMt", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateMountTarget Updates the specified mount target's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateMountTarget.go.html to see an example of how to use UpdateMountTarget API.
 func (client FileStorageClient) UpdateMountTarget(ctx context.Context, request UpdateMountTargetRequest) (response UpdateMountTargetResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4543,6 +2884,10 @@ func (client FileStorageClient) updateMountTarget(ctx context.Context, request c
 }
 
 // UpdateOutboundConnector Updates the specified outbound connector's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateOutboundConnector.go.html to see an example of how to use UpdateOutboundConnector API.
 func (client FileStorageClient) UpdateOutboundConnector(ctx context.Context, request UpdateOutboundConnectorRequest) (response UpdateOutboundConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4596,6 +2941,10 @@ func (client FileStorageClient) updateOutboundConnector(ctx context.Context, req
 }
 
 // UpdateReplication Updates the information for the specified replication and its associated replication target.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateReplication.go.html to see an example of how to use UpdateReplication API.
 func (client FileStorageClient) UpdateReplication(ctx context.Context, request UpdateReplicationRequest) (response UpdateReplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4648,167 +2997,11 @@ func (client FileStorageClient) updateReplication(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateReplicationTarget Updates the specified replication target's information.
-// To be used internal only.
-func (client FileStorageClient) UpdateReplicationTarget(ctx context.Context, request UpdateReplicationTargetRequest) (response UpdateReplicationTargetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateReplicationTarget, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateReplicationTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateReplicationTargetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateReplicationTargetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateReplicationTargetResponse")
-	}
-	return
-}
-
-// updateReplicationTarget implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateReplicationTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/replicationTargets/{replicationTargetId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateReplicationTargetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ReplicationTarget/UpdateReplicationTarget"
-		err = common.PostProcessServiceError(err, "FileStorage", "UpdateReplicationTarget", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateShare Updates the specified share's information.
-func (client FileStorageClient) UpdateShare(ctx context.Context, request UpdateShareRequest) (response UpdateShareResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateShare, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateShareResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateShareResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateShareResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateShareResponse")
-	}
-	return
-}
-
-// updateShare implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateShare(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/shares/{shareId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateShareResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Share/UpdateShare"
-		err = common.PostProcessServiceError(err, "FileStorage", "UpdateShare", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateShareSet Updates the specified share set's information.
-func (client FileStorageClient) UpdateShareSet(ctx context.Context, request UpdateShareSetRequest) (response UpdateShareSetResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateShareSet, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateShareSetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateShareSetResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateShareSetResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateShareSetResponse")
-	}
-	return
-}
-
-// updateShareSet implements the OCIOperation interface (enables retrying operations)
-func (client FileStorageClient) updateShareSet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/shareSets/{shareSetId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateShareSetResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/ShareSet/UpdateShareSet"
-		err = common.PostProcessServiceError(err, "FileStorage", "UpdateShareSet", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateSnapshot Updates the specified snapshot's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateSnapshot.go.html to see an example of how to use UpdateSnapshot API.
 func (client FileStorageClient) UpdateSnapshot(ctx context.Context, request UpdateSnapshotRequest) (response UpdateSnapshotResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4864,6 +3057,10 @@ func (client FileStorageClient) updateSnapshot(ctx context.Context, request comm
 // ValidateKeyTabs Validates keytab contents for the secret details passed on the request or validte keytab contents associated with
 // the mount target passed in the request. The keytabs are deserialized, the contents are validated for compatibility
 // and the principal, key version number and encryption type of each entry is provided as part of the response.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ValidateKeyTabs.go.html to see an example of how to use ValidateKeyTabs API.
 func (client FileStorageClient) ValidateKeyTabs(ctx context.Context, request ValidateKeyTabsRequest) (response ValidateKeyTabsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

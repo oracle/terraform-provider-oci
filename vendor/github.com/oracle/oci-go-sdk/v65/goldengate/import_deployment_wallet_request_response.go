@@ -12,6 +12,10 @@ import (
 )
 
 // ImportDeploymentWalletRequest wrapper for the ImportDeploymentWallet operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ImportDeploymentWallet.go.html to see an example of how to use ImportDeploymentWalletRequest.
 type ImportDeploymentWalletRequest struct {
 
 	// A unique Deployment identifier.

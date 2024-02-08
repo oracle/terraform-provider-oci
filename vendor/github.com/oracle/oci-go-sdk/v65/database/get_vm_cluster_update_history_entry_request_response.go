@@ -12,6 +12,10 @@ import (
 )
 
 // GetVmClusterUpdateHistoryEntryRequest wrapper for the GetVmClusterUpdateHistoryEntry operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetVmClusterUpdateHistoryEntry.go.html to see an example of how to use GetVmClusterUpdateHistoryEntryRequest.
 type GetVmClusterUpdateHistoryEntryRequest struct {
 
 	// The VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -92,6 +92,10 @@ func (client *ReportingManagedInstanceClient) ConfigurationProvider() *common.Co
 }
 
 // GetManagedInstanceAnalyticContent Returns a CSV format report of managed instances matching the given filters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceAnalyticContent.go.html to see an example of how to use GetManagedInstanceAnalyticContent API.
 // A default retry strategy applies to this operation GetManagedInstanceAnalyticContent()
 func (client ReportingManagedInstanceClient) GetManagedInstanceAnalyticContent(ctx context.Context, request GetManagedInstanceAnalyticContentRequest) (response GetManagedInstanceAnalyticContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -145,6 +149,10 @@ func (client ReportingManagedInstanceClient) getManagedInstanceAnalyticContent(c
 }
 
 // GetManagedInstanceContent Returns a CSV format report of a single managed instance whose associated Erratas match the given filters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceContent.go.html to see an example of how to use GetManagedInstanceContent API.
 // A default retry strategy applies to this operation GetManagedInstanceContent()
 func (client ReportingManagedInstanceClient) GetManagedInstanceContent(ctx context.Context, request GetManagedInstanceContentRequest) (response GetManagedInstanceContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -198,6 +206,10 @@ func (client ReportingManagedInstanceClient) getManagedInstanceContent(ctx conte
 }
 
 // SummarizeManagedInstanceAnalytics Returns a list of user specified metrics for a collection of managed instances.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SummarizeManagedInstanceAnalytics.go.html to see an example of how to use SummarizeManagedInstanceAnalytics API.
 // A default retry strategy applies to this operation SummarizeManagedInstanceAnalytics()
 func (client ReportingManagedInstanceClient) SummarizeManagedInstanceAnalytics(ctx context.Context, request SummarizeManagedInstanceAnalyticsRequest) (response SummarizeManagedInstanceAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse

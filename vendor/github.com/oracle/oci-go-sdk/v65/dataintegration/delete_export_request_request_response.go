@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteExportRequestRequest wrapper for the DeleteExportRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteExportRequest.go.html to see an example of how to use DeleteExportRequestRequest.
 type DeleteExportRequestRequest struct {
 
 	// The workspace ID.

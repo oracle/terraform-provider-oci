@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDecryptionRuleRequest wrapper for the CreateDecryptionRule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateDecryptionRule.go.html to see an example of how to use CreateDecryptionRuleRequest.
 type CreateDecryptionRuleRequest struct {
 
 	// Unique Network Firewall Policy identifier

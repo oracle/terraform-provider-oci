@@ -96,6 +96,10 @@ func (client *ComputeClient) ConfigurationProvider() *common.ConfigurationProvid
 }
 
 // AcceptShieldedIntegrityPolicy Accept the changes to the PCR values in the measured boot report.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AcceptShieldedIntegrityPolicy.go.html to see an example of how to use AcceptShieldedIntegrityPolicy API.
 func (client ComputeClient) AcceptShieldedIntegrityPolicy(ctx context.Context, request AcceptShieldedIntegrityPolicyRequest) (response AcceptShieldedIntegrityPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -154,6 +158,10 @@ func (client ComputeClient) acceptShieldedIntegrityPolicy(ctx context.Context, r
 }
 
 // AddImageShapeCompatibilityEntry Adds a shape to the compatible shapes list for the image.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddImageShapeCompatibilityEntry.go.html to see an example of how to use AddImageShapeCompatibilityEntry API.
 func (client ComputeClient) AddImageShapeCompatibilityEntry(ctx context.Context, request AddImageShapeCompatibilityEntryRequest) (response AddImageShapeCompatibilityEntryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -207,6 +215,10 @@ func (client ComputeClient) addImageShapeCompatibilityEntry(ctx context.Context,
 }
 
 // AttachBootVolume Attaches the specified boot volume to the specified instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachBootVolume.go.html to see an example of how to use AttachBootVolume API.
 func (client ComputeClient) AttachBootVolume(ctx context.Context, request AttachBootVolumeRequest) (response AttachBootVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -267,6 +279,10 @@ func (client ComputeClient) attachBootVolume(ctx context.Context, request common
 // AttachVnic Creates a secondary VNIC and attaches it to the specified instance.
 // For more information about secondary VNICs, see
 // Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachVnic.go.html to see an example of how to use AttachVnic API.
 func (client ComputeClient) AttachVnic(ctx context.Context, request AttachVnicRequest) (response AttachVnicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -325,6 +341,10 @@ func (client ComputeClient) attachVnic(ctx context.Context, request common.OCIRe
 }
 
 // AttachVolume Attaches the specified storage volume to the specified instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachVolume.go.html to see an example of how to use AttachVolume API.
 func (client ComputeClient) AttachVolume(ctx context.Context, request AttachVolumeRequest) (response AttachVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -397,6 +417,10 @@ func (client ComputeClient) attachVolume(ctx context.Context, request common.OCI
 // metadata).
 // 4. Optionally, use `DeleteConsoleHistory` to delete the console history metadata
 // and the console history data.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CaptureConsoleHistory.go.html to see an example of how to use CaptureConsoleHistory API.
 func (client ComputeClient) CaptureConsoleHistory(ctx context.Context, request CaptureConsoleHistoryRequest) (response CaptureConsoleHistoryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -457,6 +481,10 @@ func (client ComputeClient) captureConsoleHistory(ctx context.Context, request c
 // ChangeComputeCapacityReservationCompartment Moves a compute capacity reservation into a different compartment. For information about
 // moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeCapacityReservationCompartment.go.html to see an example of how to use ChangeComputeCapacityReservationCompartment API.
 func (client ComputeClient) ChangeComputeCapacityReservationCompartment(ctx context.Context, request ChangeComputeCapacityReservationCompartmentRequest) (response ChangeComputeCapacityReservationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -516,6 +544,10 @@ func (client ComputeClient) changeComputeCapacityReservationCompartment(ctx cont
 
 // ChangeComputeCapacityTopologyCompartment Moves a compute capacity topology into a different compartment. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeCapacityTopologyCompartment.go.html to see an example of how to use ChangeComputeCapacityTopologyCompartment API.
 // A default retry strategy applies to this operation ChangeComputeCapacityTopologyCompartment()
 func (client ComputeClient) ChangeComputeCapacityTopologyCompartment(ctx context.Context, request ChangeComputeCapacityTopologyCompartmentRequest) (response ChangeComputeCapacityTopologyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -578,6 +610,10 @@ func (client ComputeClient) changeComputeCapacityTopologyCompartment(ctx context
 // A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeClusterCompartment.go.html to see an example of how to use ChangeComputeClusterCompartment API.
 func (client ComputeClient) ChangeComputeClusterCompartment(ctx context.Context, request ChangeComputeClusterCompartmentRequest) (response ChangeComputeClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -640,6 +676,9 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 //
 //	Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeImageCapabilitySchemaCompartment.go.html to see an example of how to use ChangeComputeImageCapabilitySchemaCompartment API.
 // A default retry strategy applies to this operation ChangeComputeImageCapabilitySchemaCompartment()
 func (client ComputeClient) ChangeComputeImageCapabilitySchemaCompartment(ctx context.Context, request ChangeComputeImageCapabilitySchemaCompartmentRequest) (response ChangeComputeImageCapabilitySchemaCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -699,6 +738,10 @@ func (client ComputeClient) changeComputeImageCapabilitySchemaCompartment(ctx co
 }
 
 // ChangeDedicatedVmHostCompartment Moves a dedicated virtual machine host from one compartment to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeDedicatedVmHostCompartment.go.html to see an example of how to use ChangeDedicatedVmHostCompartment API.
 func (client ComputeClient) ChangeDedicatedVmHostCompartment(ctx context.Context, request ChangeDedicatedVmHostCompartmentRequest) (response ChangeDedicatedVmHostCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -759,6 +802,10 @@ func (client ComputeClient) changeDedicatedVmHostCompartment(ctx context.Context
 // ChangeImageCompartment Moves an image into a different compartment within the same tenancy. For information about moving
 // resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeImageCompartment.go.html to see an example of how to use ChangeImageCompartment API.
 // A default retry strategy applies to this operation ChangeImageCompartment()
 func (client ComputeClient) ChangeImageCompartment(ctx context.Context, request ChangeImageCompartmentRequest) (response ChangeImageCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -822,6 +869,10 @@ func (client ComputeClient) changeImageCompartment(ctx context.Context, request 
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When you move an instance to a different compartment, associated resources such as boot volumes and VNICs
 // are not moved.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeInstanceCompartment.go.html to see an example of how to use ChangeInstanceCompartment API.
 func (client ComputeClient) ChangeInstanceCompartment(ctx context.Context, request ChangeInstanceCompartmentRequest) (response ChangeInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -880,6 +931,10 @@ func (client ComputeClient) changeInstanceCompartment(ctx context.Context, reque
 }
 
 // CreateAppCatalogSubscription Create a subscription for listing resource version for a compartment. It will take some time to propagate to all regions.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateAppCatalogSubscription.go.html to see an example of how to use CreateAppCatalogSubscription API.
 // A default retry strategy applies to this operation CreateAppCatalogSubscription()
 func (client ComputeClient) CreateAppCatalogSubscription(ctx context.Context, request CreateAppCatalogSubscriptionRequest) (response CreateAppCatalogSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -938,70 +993,15 @@ func (client ComputeClient) createAppCatalogSubscription(ctx context.Context, re
 	return response, err
 }
 
-// CreateBigDataBmToVmInstanceMigration Creates bigData-bm-to-vm-instance-migration for given BM instance
-// A default retry strategy applies to this operation CreateBigDataBmToVmInstanceMigration()
-func (client ComputeClient) CreateBigDataBmToVmInstanceMigration(ctx context.Context, request CreateBigDataBmToVmInstanceMigrationRequest) (response CreateBigDataBmToVmInstanceMigrationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createBigDataBmToVmInstanceMigration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateBigDataBmToVmInstanceMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateBigDataBmToVmInstanceMigrationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateBigDataBmToVmInstanceMigrationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateBigDataBmToVmInstanceMigrationResponse")
-	}
-	return
-}
-
-// createBigDataBmToVmInstanceMigration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createBigDataBmToVmInstanceMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bigDataBmToVmInstanceMigrations", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateBigDataBmToVmInstanceMigrationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigration/CreateBigDataBmToVmInstanceMigration"
-		err = common.PostProcessServiceError(err, "Compute", "CreateBigDataBmToVmInstanceMigration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateComputeCapacityReport Generates a report of the host capacity within an availability domain that is available for you
 // to create compute instances. Host capacity is the physical infrastructure that resources such as compute
 // instances run on.
 // Use the capacity report to determine whether sufficient capacity is available for a shape before
 // you create an instance or change the shape of an instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityReport.go.html to see an example of how to use CreateComputeCapacityReport API.
 // A default retry strategy applies to this operation CreateComputeCapacityReport()
 func (client ComputeClient) CreateComputeCapacityReport(ctx context.Context, request CreateComputeCapacityReportRequest) (response CreateComputeCapacityReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1065,6 +1065,10 @@ func (client ComputeClient) createComputeCapacityReport(ctx context.Context, req
 // When you launch an instance using this reservation, you are assured that you have enough space for your instance,
 // and you won't get out of capacity errors.
 // For more information, see Reserved Capacity (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityReservation.go.html to see an example of how to use CreateComputeCapacityReservation API.
 func (client ComputeClient) CreateComputeCapacityReservation(ctx context.Context, request CreateComputeCapacityReservationRequest) (response CreateComputeCapacityReservationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1126,6 +1130,10 @@ func (client ComputeClient) createComputeCapacityReservation(ctx context.Context
 // Compute capacity topologies provide the RDMA network topology of your bare metal hosts so that you can launch
 // instances on your bare metal hosts with targeted network locations.
 // Compute capacity topologies report the health status of your bare metal hosts.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityTopology.go.html to see an example of how to use CreateComputeCapacityTopology API.
 // A default retry strategy applies to this operation CreateComputeCapacityTopology()
 func (client ComputeClient) CreateComputeCapacityTopology(ctx context.Context, request CreateComputeCapacityTopologyRequest) (response CreateComputeCapacityTopologyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1194,6 +1202,10 @@ func (client ComputeClient) createComputeCapacityTopology(ctx context.Context, r
 // If you want predictable capacity for a specific number of identical instances that are managed as a group,
 // create a cluster network that uses instance pools by using the
 // CreateClusterNetwork operation.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCluster.go.html to see an example of how to use CreateComputeCluster API.
 func (client ComputeClient) CreateComputeCluster(ctx context.Context, request CreateComputeClusterRequest) (response CreateComputeClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1252,6 +1264,10 @@ func (client ComputeClient) createComputeCluster(ctx context.Context, request co
 }
 
 // CreateComputeImageCapabilitySchema Creates compute image capability schema.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeImageCapabilitySchema.go.html to see an example of how to use CreateComputeImageCapabilitySchema API.
 // A default retry strategy applies to this operation CreateComputeImageCapabilitySchema()
 func (client ComputeClient) CreateComputeImageCapabilitySchema(ctx context.Context, request CreateComputeImageCapabilitySchemaRequest) (response CreateComputeImageCapabilitySchemaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1314,6 +1330,10 @@ func (client ComputeClient) createComputeImageCapabilitySchema(ctx context.Conte
 // Dedicated virtual machine hosts enable you to run your Compute virtual machine (VM) instances on dedicated servers
 // that are a single tenant and not shared with other customers.
 // For more information, see Dedicated Virtual Machine Hosts (https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/dedicatedvmhosts.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateDedicatedVmHost.go.html to see an example of how to use CreateDedicatedVmHost API.
 func (client ComputeClient) CreateDedicatedVmHost(ctx context.Context, request CreateDedicatedVmHostRequest) (response CreateDedicatedVmHostResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1371,67 +1391,6 @@ func (client ComputeClient) createDedicatedVmHost(ctx context.Context, request c
 	return response, err
 }
 
-// CreateFirmwareReport Creates a firmware report resource matching the passed parameters.
-// The passed parameters will determine the type of report and any
-// filters applied to the results.
-// A default retry strategy applies to this operation CreateFirmwareReport()
-func (client ComputeClient) CreateFirmwareReport(ctx context.Context, request CreateFirmwareReportRequest) (response CreateFirmwareReportResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createFirmwareReport, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateFirmwareReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateFirmwareReportResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateFirmwareReportResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateFirmwareReportResponse")
-	}
-	return
-}
-
-// createFirmwareReport implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createFirmwareReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/firmwareReports", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateFirmwareReportResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReport/CreateFirmwareReport"
-		err = common.PostProcessServiceError(err, "Compute", "CreateFirmwareReport", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateImage Creates a boot disk image for the specified instance or imports an exported image from the Oracle Cloud Infrastructure Object Storage service.
 // When creating a new image, you must provide the OCID of the instance you want to use as the basis for the image, and
 // the OCID of the compartment containing that instance. For more information about images,
@@ -1449,6 +1408,10 @@ func (client ComputeClient) createFirmwareReport(ctx context.Context, request co
 // You may optionally specify a *display name* for the image, which is simply a friendly name or description.
 // It does not have to be unique, and you can change it. See UpdateImage.
 // Avoid entering confidential information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateImage.go.html to see an example of how to use CreateImage API.
 // A default retry strategy applies to this operation CreateImage()
 func (client ComputeClient) CreateImage(ctx context.Context, request CreateImageRequest) (response CreateImageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1511,6 +1474,10 @@ func (client ComputeClient) createImage(ctx context.Context, request common.OCIR
 // After the console connection has been created and is available,
 // you connect to the console using SSH.
 // For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateInstanceConsoleConnection.go.html to see an example of how to use CreateInstanceConsoleConnection API.
 func (client ComputeClient) CreateInstanceConsoleConnection(ctx context.Context, request CreateInstanceConsoleConnectionRequest) (response CreateInstanceConsoleConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1568,72 +1535,11 @@ func (client ComputeClient) createInstanceConsoleConnection(ctx context.Context,
 	return response, err
 }
 
-// CreateInstanceScreenshot Captures the most recent screenshot data for the specified instance.
-// The `createInstanceScreenshot` operation works with the other screenshot operations
-// as described below.
-// 1. Use `createInstanceScreenshot` to request the capture of the current instance
-// screen state. The object will have a state of CREATING.
-// 2. Optionally, use `GetInstanceScreenshot` to get the metadata of the screen capture.
-// 3. Use `GetInstanceScreenshotContent` to get the actual screenshot data in base64
-// encoded string.
-func (client ComputeClient) CreateInstanceScreenshot(ctx context.Context, request CreateInstanceScreenshotRequest) (response CreateInstanceScreenshotResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createInstanceScreenshot, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateInstanceScreenshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateInstanceScreenshotResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateInstanceScreenshotResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateInstanceScreenshotResponse")
-	}
-	return
-}
-
-// createInstanceScreenshot implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) createInstanceScreenshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/instances/{instanceId}/screenshots", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateInstanceScreenshotResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/CreateInstanceScreenshot"
-		err = common.PostProcessServiceError(err, "Compute", "CreateInstanceScreenshot", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteAppCatalogSubscription Delete a subscription for a listing resource version for a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteAppCatalogSubscription.go.html to see an example of how to use DeleteAppCatalogSubscription API.
 func (client ComputeClient) DeleteAppCatalogSubscription(ctx context.Context, request DeleteAppCatalogSubscriptionRequest) (response DeleteAppCatalogSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1687,6 +1593,10 @@ func (client ComputeClient) deleteAppCatalogSubscription(ctx context.Context, re
 }
 
 // DeleteComputeCapacityReservation Deletes the specified compute capacity reservation.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCapacityReservation.go.html to see an example of how to use DeleteComputeCapacityReservation API.
 func (client ComputeClient) DeleteComputeCapacityReservation(ctx context.Context, request DeleteComputeCapacityReservationRequest) (response DeleteComputeCapacityReservationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1740,6 +1650,10 @@ func (client ComputeClient) deleteComputeCapacityReservation(ctx context.Context
 }
 
 // DeleteComputeCapacityTopology Deletes the specified compute capacity topology.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCapacityTopology.go.html to see an example of how to use DeleteComputeCapacityTopology API.
 // A default retry strategy applies to this operation DeleteComputeCapacityTopology()
 func (client ComputeClient) DeleteComputeCapacityTopology(ctx context.Context, request DeleteComputeCapacityTopologyRequest) (response DeleteComputeCapacityTopologyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1797,6 +1711,10 @@ func (client ComputeClient) deleteComputeCapacityTopology(ctx context.Context, r
 // remote direct memory access (RDMA) network group.
 // Before you delete a compute cluster, first delete all instances in the cluster by using
 // the TerminateInstance operation.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCluster.go.html to see an example of how to use DeleteComputeCluster API.
 func (client ComputeClient) DeleteComputeCluster(ctx context.Context, request DeleteComputeClusterRequest) (response DeleteComputeClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1850,6 +1768,10 @@ func (client ComputeClient) deleteComputeCluster(ctx context.Context, request co
 }
 
 // DeleteComputeImageCapabilitySchema Deletes the specified Compute Image Capability Schema
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeImageCapabilitySchema.go.html to see an example of how to use DeleteComputeImageCapabilitySchema API.
 func (client ComputeClient) DeleteComputeImageCapabilitySchema(ctx context.Context, request DeleteComputeImageCapabilitySchemaRequest) (response DeleteComputeImageCapabilitySchemaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1903,6 +1825,10 @@ func (client ComputeClient) deleteComputeImageCapabilitySchema(ctx context.Conte
 }
 
 // DeleteConsoleHistory Deletes the specified console history metadata and the console history data.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteConsoleHistory.go.html to see an example of how to use DeleteConsoleHistory API.
 func (client ComputeClient) DeleteConsoleHistory(ctx context.Context, request DeleteConsoleHistoryRequest) (response DeleteConsoleHistoryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1958,6 +1884,10 @@ func (client ComputeClient) deleteConsoleHistory(ctx context.Context, request co
 // DeleteDedicatedVmHost Deletes the specified dedicated virtual machine host.
 // If any VM instances are assigned to the dedicated virtual machine host,
 // the delete operation will fail and the service will return a 409 response code.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteDedicatedVmHost.go.html to see an example of how to use DeleteDedicatedVmHost API.
 func (client ComputeClient) DeleteDedicatedVmHost(ctx context.Context, request DeleteDedicatedVmHostRequest) (response DeleteDedicatedVmHostResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2010,61 +1940,11 @@ func (client ComputeClient) deleteDedicatedVmHost(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteFirmwareReport Deletes a FirmwareReport.
-// A default retry strategy applies to this operation DeleteFirmwareReport()
-func (client ComputeClient) DeleteFirmwareReport(ctx context.Context, request DeleteFirmwareReportRequest) (response DeleteFirmwareReportResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteFirmwareReport, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteFirmwareReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteFirmwareReportResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteFirmwareReportResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteFirmwareReportResponse")
-	}
-	return
-}
-
-// deleteFirmwareReport implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) deleteFirmwareReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/firmwareReports/{firmwareReportId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteFirmwareReportResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReport/DeleteFirmwareReport"
-		err = common.PostProcessServiceError(err, "Compute", "DeleteFirmwareReport", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteImage Deletes an image.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteImage.go.html to see an example of how to use DeleteImage API.
 func (client ComputeClient) DeleteImage(ctx context.Context, request DeleteImageRequest) (response DeleteImageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2118,6 +1998,10 @@ func (client ComputeClient) deleteImage(ctx context.Context, request common.OCIR
 }
 
 // DeleteInstanceConsoleConnection Deletes the specified instance console connection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteInstanceConsoleConnection.go.html to see an example of how to use DeleteInstanceConsoleConnection API.
 func (client ComputeClient) DeleteInstanceConsoleConnection(ctx context.Context, request DeleteInstanceConsoleConnectionRequest) (response DeleteInstanceConsoleConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2173,6 +2057,10 @@ func (client ComputeClient) deleteInstanceConsoleConnection(ctx context.Context,
 // DetachBootVolume Detaches a boot volume from an instance. You must specify the OCID of the boot volume attachment.
 // This is an asynchronous operation. The attachment's `lifecycleState` will change to DETACHING temporarily
 // until the attachment is completely removed.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachBootVolume.go.html to see an example of how to use DetachBootVolume API.
 func (client ComputeClient) DetachBootVolume(ctx context.Context, request DetachBootVolumeRequest) (response DetachBootVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2234,6 +2122,10 @@ func (client ComputeClient) detachBootVolume(ctx context.Context, request common
 // target of a route rule (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip),
 // deleting the VNIC causes that route rule to blackhole and the traffic
 // will be dropped.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachVnic.go.html to see an example of how to use DetachVnic API.
 func (client ComputeClient) DetachVnic(ctx context.Context, request DetachVnicRequest) (response DetachVnicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2289,6 +2181,10 @@ func (client ComputeClient) detachVnic(ctx context.Context, request common.OCIRe
 // DetachVolume Detaches a storage volume from an instance. You must specify the OCID of the volume attachment.
 // This is an asynchronous operation. The attachment's `lifecycleState` will change to DETACHING temporarily
 // until the attachment is completely removed.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DetachVolume.go.html to see an example of how to use DetachVolume API.
 func (client ComputeClient) DetachVolume(ctx context.Context, request DetachVolumeRequest) (response DetachVolumeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2348,6 +2244,10 @@ func (client ComputeClient) detachVolume(ctx context.Context, request common.OCI
 // see Let Users Write Objects to Object Storage Buckets (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/commonpolicies.htm#Let4).
 // See Object Storage URLs (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/imageimportexport.htm#URLs) and Using Pre-Authenticated Requests (https://docs.cloud.oracle.com/iaas/Content/Object/Tasks/usingpreauthenticatedrequests.htm)
 // for constructing URLs for image import/export.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ExportImage.go.html to see an example of how to use ExportImage API.
 // A default retry strategy applies to this operation ExportImage()
 func (client ComputeClient) ExportImage(ctx context.Context, request ExportImageRequest) (response ExportImageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2407,6 +2307,10 @@ func (client ComputeClient) exportImage(ctx context.Context, request common.OCIR
 }
 
 // GetAppCatalogListing Gets the specified listing.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAppCatalogListing.go.html to see an example of how to use GetAppCatalogListing API.
 // A default retry strategy applies to this operation GetAppCatalogListing()
 func (client ComputeClient) GetAppCatalogListing(ctx context.Context, request GetAppCatalogListingRequest) (response GetAppCatalogListingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2461,6 +2365,10 @@ func (client ComputeClient) getAppCatalogListing(ctx context.Context, request co
 }
 
 // GetAppCatalogListingAgreements Retrieves the agreements for a particular resource version of a listing.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAppCatalogListingAgreements.go.html to see an example of how to use GetAppCatalogListingAgreements API.
 // A default retry strategy applies to this operation GetAppCatalogListingAgreements()
 func (client ComputeClient) GetAppCatalogListingAgreements(ctx context.Context, request GetAppCatalogListingAgreementsRequest) (response GetAppCatalogListingAgreementsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2515,6 +2423,10 @@ func (client ComputeClient) getAppCatalogListingAgreements(ctx context.Context, 
 }
 
 // GetAppCatalogListingResourceVersion Gets the specified listing resource version.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAppCatalogListingResourceVersion.go.html to see an example of how to use GetAppCatalogListingResourceVersion API.
 // A default retry strategy applies to this operation GetAppCatalogListingResourceVersion()
 func (client ComputeClient) GetAppCatalogListingResourceVersion(ctx context.Context, request GetAppCatalogListingResourceVersionRequest) (response GetAppCatalogListingResourceVersionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2568,61 +2480,11 @@ func (client ComputeClient) getAppCatalogListingResourceVersion(ctx context.Cont
 	return response, err
 }
 
-// GetBigDataBmToVmInstanceMigration Gets the bigData-bm-to-vm-instance migrations for the given migration id.
-// A default retry strategy applies to this operation GetBigDataBmToVmInstanceMigration()
-func (client ComputeClient) GetBigDataBmToVmInstanceMigration(ctx context.Context, request GetBigDataBmToVmInstanceMigrationRequest) (response GetBigDataBmToVmInstanceMigrationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getBigDataBmToVmInstanceMigration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetBigDataBmToVmInstanceMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetBigDataBmToVmInstanceMigrationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetBigDataBmToVmInstanceMigrationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetBigDataBmToVmInstanceMigrationResponse")
-	}
-	return
-}
-
-// getBigDataBmToVmInstanceMigration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getBigDataBmToVmInstanceMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bigDataBmToVmInstanceMigrations/{bigDataBmToVmInstanceMigrationId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetBigDataBmToVmInstanceMigrationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigration/GetBigDataBmToVmInstanceMigration"
-		err = common.PostProcessServiceError(err, "Compute", "GetBigDataBmToVmInstanceMigration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetBootVolumeAttachment Gets information about the specified boot volume attachment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetBootVolumeAttachment.go.html to see an example of how to use GetBootVolumeAttachment API.
 func (client ComputeClient) GetBootVolumeAttachment(ctx context.Context, request GetBootVolumeAttachmentRequest) (response GetBootVolumeAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2676,6 +2538,10 @@ func (client ComputeClient) getBootVolumeAttachment(ctx context.Context, request
 }
 
 // GetComputeCapacityReservation Gets information about the specified compute capacity reservation.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeCapacityReservation.go.html to see an example of how to use GetComputeCapacityReservation API.
 func (client ComputeClient) GetComputeCapacityReservation(ctx context.Context, request GetComputeCapacityReservationRequest) (response GetComputeCapacityReservationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2729,6 +2595,10 @@ func (client ComputeClient) getComputeCapacityReservation(ctx context.Context, r
 }
 
 // GetComputeCapacityTopology Gets information about the specified compute capacity topology.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeCapacityTopology.go.html to see an example of how to use GetComputeCapacityTopology API.
 // A default retry strategy applies to this operation GetComputeCapacityTopology()
 func (client ComputeClient) GetComputeCapacityTopology(ctx context.Context, request GetComputeCapacityTopologyRequest) (response GetComputeCapacityTopologyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2784,6 +2654,10 @@ func (client ComputeClient) getComputeCapacityTopology(ctx context.Context, requ
 
 // GetComputeCluster Gets information about a compute cluster. A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm)
 // is a remote direct memory access (RDMA) network group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeCluster.go.html to see an example of how to use GetComputeCluster API.
 func (client ComputeClient) GetComputeCluster(ctx context.Context, request GetComputeClusterRequest) (response GetComputeClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2837,6 +2711,10 @@ func (client ComputeClient) getComputeCluster(ctx context.Context, request commo
 }
 
 // GetComputeGlobalImageCapabilitySchema Gets the specified Compute Global Image Capability Schema
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeGlobalImageCapabilitySchema.go.html to see an example of how to use GetComputeGlobalImageCapabilitySchema API.
 // A default retry strategy applies to this operation GetComputeGlobalImageCapabilitySchema()
 func (client ComputeClient) GetComputeGlobalImageCapabilitySchema(ctx context.Context, request GetComputeGlobalImageCapabilitySchemaRequest) (response GetComputeGlobalImageCapabilitySchemaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2891,6 +2769,10 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchema(ctx context.Co
 }
 
 // GetComputeGlobalImageCapabilitySchemaVersion Gets the specified Compute Global Image Capability Schema Version
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeGlobalImageCapabilitySchemaVersion.go.html to see an example of how to use GetComputeGlobalImageCapabilitySchemaVersion API.
 // A default retry strategy applies to this operation GetComputeGlobalImageCapabilitySchemaVersion()
 func (client ComputeClient) GetComputeGlobalImageCapabilitySchemaVersion(ctx context.Context, request GetComputeGlobalImageCapabilitySchemaVersionRequest) (response GetComputeGlobalImageCapabilitySchemaVersionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2945,6 +2827,10 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchemaVersion(ctx con
 }
 
 // GetComputeImageCapabilitySchema Gets the specified Compute Image Capability Schema
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeImageCapabilitySchema.go.html to see an example of how to use GetComputeImageCapabilitySchema API.
 // A default retry strategy applies to this operation GetComputeImageCapabilitySchema()
 func (client ComputeClient) GetComputeImageCapabilitySchema(ctx context.Context, request GetComputeImageCapabilitySchemaRequest) (response GetComputeImageCapabilitySchemaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3001,6 +2887,10 @@ func (client ComputeClient) getComputeImageCapabilitySchema(ctx context.Context,
 // GetConsoleHistory Shows the metadata for the specified console history.
 // See CaptureConsoleHistory
 // for details about using the console history operations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetConsoleHistory.go.html to see an example of how to use GetConsoleHistory API.
 func (client ComputeClient) GetConsoleHistory(ctx context.Context, request GetConsoleHistoryRequest) (response GetConsoleHistoryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3056,6 +2946,10 @@ func (client ComputeClient) getConsoleHistory(ctx context.Context, request commo
 // GetConsoleHistoryContent Gets the actual console history data (not the metadata).
 // See CaptureConsoleHistory
 // for details about using the console history operations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetConsoleHistoryContent.go.html to see an example of how to use GetConsoleHistoryContent API.
 func (client ComputeClient) GetConsoleHistoryContent(ctx context.Context, request GetConsoleHistoryContentRequest) (response GetConsoleHistoryContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3109,6 +3003,10 @@ func (client ComputeClient) getConsoleHistoryContent(ctx context.Context, reques
 }
 
 // GetDedicatedVmHost Gets information about the specified dedicated virtual machine host.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDedicatedVmHost.go.html to see an example of how to use GetDedicatedVmHost API.
 func (client ComputeClient) GetDedicatedVmHost(ctx context.Context, request GetDedicatedVmHostRequest) (response GetDedicatedVmHostResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3161,61 +3059,11 @@ func (client ComputeClient) getDedicatedVmHost(ctx context.Context, request comm
 	return response, err
 }
 
-// GetFirmwareReport Gets information about the specified FirmwareReport.
-// A default retry strategy applies to this operation GetFirmwareReport()
-func (client ComputeClient) GetFirmwareReport(ctx context.Context, request GetFirmwareReportRequest) (response GetFirmwareReportResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getFirmwareReport, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetFirmwareReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetFirmwareReportResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetFirmwareReportResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetFirmwareReportResponse")
-	}
-	return
-}
-
-// getFirmwareReport implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getFirmwareReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/firmwareReports/{firmwareReportId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetFirmwareReportResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReport/GetFirmwareReport"
-		err = common.PostProcessServiceError(err, "Compute", "GetFirmwareReport", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetImage Gets the specified image.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetImage.go.html to see an example of how to use GetImage API.
 // A default retry strategy applies to this operation GetImage()
 func (client ComputeClient) GetImage(ctx context.Context, request GetImageRequest) (response GetImageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3270,6 +3118,10 @@ func (client ComputeClient) getImage(ctx context.Context, request common.OCIRequ
 }
 
 // GetImageShapeCompatibilityEntry Retrieves an image shape compatibility entry.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetImageShapeCompatibilityEntry.go.html to see an example of how to use GetImageShapeCompatibilityEntry API.
 // A default retry strategy applies to this operation GetImageShapeCompatibilityEntry()
 func (client ComputeClient) GetImageShapeCompatibilityEntry(ctx context.Context, request GetImageShapeCompatibilityEntryRequest) (response GetImageShapeCompatibilityEntryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3326,6 +3178,10 @@ func (client ComputeClient) getImageShapeCompatibilityEntry(ctx context.Context,
 // GetInstance Gets information about the specified instance.
 // **Note:** To retrieve public and private IP addresses for an instance, use the ListVnicAttachments
 // operation to get the VNIC ID for the instance, and then call GetVnic with the VNIC ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstance.go.html to see an example of how to use GetInstance API.
 func (client ComputeClient) GetInstance(ctx context.Context, request GetInstanceRequest) (response GetInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3379,6 +3235,10 @@ func (client ComputeClient) getInstance(ctx context.Context, request common.OCIR
 }
 
 // GetInstanceConsoleConnection Gets the specified instance console connection's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstanceConsoleConnection.go.html to see an example of how to use GetInstanceConsoleConnection API.
 func (client ComputeClient) GetInstanceConsoleConnection(ctx context.Context, request GetInstanceConsoleConnectionRequest) (response GetInstanceConsoleConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3431,61 +3291,12 @@ func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, re
 	return response, err
 }
 
-// GetInstanceMaintenanceEvent Gets the maintenance event for the given instance.
-func (client ComputeClient) GetInstanceMaintenanceEvent(ctx context.Context, request GetInstanceMaintenanceEventRequest) (response GetInstanceMaintenanceEventResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getInstanceMaintenanceEvent, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetInstanceMaintenanceEventResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetInstanceMaintenanceEventResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetInstanceMaintenanceEventResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetInstanceMaintenanceEventResponse")
-	}
-	return
-}
-
-// getInstanceMaintenanceEvent implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getInstanceMaintenanceEvent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceMaintenanceEvents/{instanceMaintenanceEventId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetInstanceMaintenanceEventResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceMaintenanceEvent/GetInstanceMaintenanceEvent"
-		err = common.PostProcessServiceError(err, "Compute", "GetInstanceMaintenanceEvent", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetInstanceMaintenanceReboot Gets the maximum possible date that a maintenance reboot can be extended. For more information, see
 // Infrastructure Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstanceMaintenanceReboot.go.html to see an example of how to use GetInstanceMaintenanceReboot API.
 func (client ComputeClient) GetInstanceMaintenanceReboot(ctx context.Context, request GetInstanceMaintenanceRebootRequest) (response GetInstanceMaintenanceRebootResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3538,112 +3349,11 @@ func (client ComputeClient) getInstanceMaintenanceReboot(ctx context.Context, re
 	return response, err
 }
 
-// GetInstanceScreenshot Retrieves the metadata of the specified screenshot taken for the specified instance.
-func (client ComputeClient) GetInstanceScreenshot(ctx context.Context, request GetInstanceScreenshotRequest) (response GetInstanceScreenshotResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getInstanceScreenshot, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetInstanceScreenshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetInstanceScreenshotResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetInstanceScreenshotResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetInstanceScreenshotResponse")
-	}
-	return
-}
-
-// getInstanceScreenshot implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getInstanceScreenshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/screenshots/{instanceScreenshotId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetInstanceScreenshotResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceScreenshot/GetInstanceScreenshot"
-		err = common.PostProcessServiceError(err, "Compute", "GetInstanceScreenshot", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetInstanceScreenshotContent Retrieves the data of the specified screenshot taken for the specified instance.
-func (client ComputeClient) GetInstanceScreenshotContent(ctx context.Context, request GetInstanceScreenshotContentRequest) (response GetInstanceScreenshotContentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getInstanceScreenshotContent, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetInstanceScreenshotContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetInstanceScreenshotContentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetInstanceScreenshotContentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetInstanceScreenshotContentResponse")
-	}
-	return
-}
-
-// getInstanceScreenshotContent implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) getInstanceScreenshotContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/screenshots/{instanceScreenshotId}/content", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetInstanceScreenshotContentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "Compute", "GetInstanceScreenshotContent", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetMeasuredBootReport Gets the measured boot report for this shielded instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetMeasuredBootReport.go.html to see an example of how to use GetMeasuredBootReport API.
 func (client ComputeClient) GetMeasuredBootReport(ctx context.Context, request GetMeasuredBootReportRequest) (response GetMeasuredBootReportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3697,6 +3407,10 @@ func (client ComputeClient) getMeasuredBootReport(ctx context.Context, request c
 }
 
 // GetVnicAttachment Gets the information for the specified VNIC attachment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVnicAttachment.go.html to see an example of how to use GetVnicAttachment API.
 func (client ComputeClient) GetVnicAttachment(ctx context.Context, request GetVnicAttachmentRequest) (response GetVnicAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3750,6 +3464,10 @@ func (client ComputeClient) getVnicAttachment(ctx context.Context, request commo
 }
 
 // GetVolumeAttachment Gets information about the specified volume attachment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVolumeAttachment.go.html to see an example of how to use GetVolumeAttachment API.
 func (client ComputeClient) GetVolumeAttachment(ctx context.Context, request GetVolumeAttachmentRequest) (response GetVolumeAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3804,6 +3522,10 @@ func (client ComputeClient) getVolumeAttachment(ctx context.Context, request com
 
 // GetWindowsInstanceInitialCredentials Gets the generated credentials for the instance. Only works for instances that require a password to log in, such as Windows.
 // For certain operating systems, users will be forced to change the initial credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetWindowsInstanceInitialCredentials.go.html to see an example of how to use GetWindowsInstanceInitialCredentials API.
 func (client ComputeClient) GetWindowsInstanceInitialCredentials(ctx context.Context, request GetWindowsInstanceInitialCredentialsRequest) (response GetWindowsInstanceInitialCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3868,16 +3590,13 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 // - **SOFTRESET** - Gracefully reboots the instance by sending a shutdown command to the operating system.
 // After waiting 15 minutes for the OS to shut down, the instance is powered off and
 // then powered back on.
-// - **SUSPEND** - Powers off the instance and saves the contents from the instance's memory.
+//
 // - **SENDDIAGNOSTICINTERRUPT** - For advanced users. **Caution: Sending a diagnostic interrupt to a live system can
 // cause data corruption or system failure.** Sends a diagnostic interrupt that causes the instance's
 // OS to crash and then reboot. Before you send a diagnostic interrupt, you must configure the instance to generate a
 // crash dump file when it crashes. The crash dump captures information about the state of the OS at the time of
 // the crash. After the OS restarts, you can analyze the crash dump to diagnose the issue. For more information, see
 // Sending a Diagnostic Interrupt (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/sendingdiagnosticinterrupt.htm).
-//   - **EXTENDSCHEDULEDSTOP** - Extends the scheduled stop time of instance.
-//   - **VALIDATELIVEMIGRATE** - Live migrate the instance to validate impact on the customer workload.
-//     Live migrating an instance moves it to a different physical host while the instance is running.
 //
 // - **DIAGNOSTICREBOOT** - Powers off the instance, rebuilds it, and then powers it back on.
 // Before you send a diagnostic reboot, restart the instance's OS, confirm that the instance and networking settings are configured
@@ -3890,6 +3609,10 @@ func (client ComputeClient) getWindowsInstanceInitialCredentials(ctx context.Con
 //
 // For more information about managing instance lifecycle states, see
 // Stopping and Starting an Instance (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/restartinginstance.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/InstanceAction.go.html to see an example of how to use InstanceAction API.
 func (client ComputeClient) InstanceAction(ctx context.Context, request InstanceActionRequest) (response InstanceActionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3982,6 +3705,10 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 // To determine whether capacity is available for a specific shape before you create an instance,
 // use the CreateComputeCapacityReport
 // operation.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/LaunchInstance.go.html to see an example of how to use LaunchInstance API.
 func (client ComputeClient) LaunchInstance(ctx context.Context, request LaunchInstanceRequest) (response LaunchInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4040,6 +3767,10 @@ func (client ComputeClient) launchInstance(ctx context.Context, request common.O
 }
 
 // ListAppCatalogListingResourceVersions Gets all resource versions for a particular listing.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAppCatalogListingResourceVersions.go.html to see an example of how to use ListAppCatalogListingResourceVersions API.
 // A default retry strategy applies to this operation ListAppCatalogListingResourceVersions()
 func (client ComputeClient) ListAppCatalogListingResourceVersions(ctx context.Context, request ListAppCatalogListingResourceVersionsRequest) (response ListAppCatalogListingResourceVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4094,6 +3825,10 @@ func (client ComputeClient) listAppCatalogListingResourceVersions(ctx context.Co
 }
 
 // ListAppCatalogListings Lists the published listings.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAppCatalogListings.go.html to see an example of how to use ListAppCatalogListings API.
 // A default retry strategy applies to this operation ListAppCatalogListings()
 func (client ComputeClient) ListAppCatalogListings(ctx context.Context, request ListAppCatalogListingsRequest) (response ListAppCatalogListingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4148,6 +3883,10 @@ func (client ComputeClient) listAppCatalogListings(ctx context.Context, request 
 }
 
 // ListAppCatalogSubscriptions Lists subscriptions for a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListAppCatalogSubscriptions.go.html to see an example of how to use ListAppCatalogSubscriptions API.
 // A default retry strategy applies to this operation ListAppCatalogSubscriptions()
 func (client ComputeClient) ListAppCatalogSubscriptions(ctx context.Context, request ListAppCatalogSubscriptionsRequest) (response ListAppCatalogSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4201,62 +3940,12 @@ func (client ComputeClient) listAppCatalogSubscriptions(ctx context.Context, req
 	return response, err
 }
 
-// ListBigDataBmToVmInstanceMigrations List bigData BM to VM instance migration summary that match search criteria
-// A default retry strategy applies to this operation ListBigDataBmToVmInstanceMigrations()
-func (client ComputeClient) ListBigDataBmToVmInstanceMigrations(ctx context.Context, request ListBigDataBmToVmInstanceMigrationsRequest) (response ListBigDataBmToVmInstanceMigrationsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listBigDataBmToVmInstanceMigrations, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListBigDataBmToVmInstanceMigrationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListBigDataBmToVmInstanceMigrationsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListBigDataBmToVmInstanceMigrationsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListBigDataBmToVmInstanceMigrationsResponse")
-	}
-	return
-}
-
-// listBigDataBmToVmInstanceMigrations implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listBigDataBmToVmInstanceMigrations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bigDataBmToVmInstanceMigrations", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListBigDataBmToVmInstanceMigrationsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigrationCollection/ListBigDataBmToVmInstanceMigrations"
-		err = common.PostProcessServiceError(err, "Compute", "ListBigDataBmToVmInstanceMigrations", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListBootVolumeAttachments Lists the boot volume attachments in the specified compartment. You can filter the
 // list by specifying an instance OCID, boot volume OCID, or both.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListBootVolumeAttachments.go.html to see an example of how to use ListBootVolumeAttachments API.
 func (client ComputeClient) ListBootVolumeAttachments(ctx context.Context, request ListBootVolumeAttachmentsRequest) (response ListBootVolumeAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4310,6 +3999,10 @@ func (client ComputeClient) listBootVolumeAttachments(ctx context.Context, reque
 }
 
 // ListComputeCapacityReservationInstanceShapes Lists the shapes that can be reserved within the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservationInstanceShapes.go.html to see an example of how to use ListComputeCapacityReservationInstanceShapes API.
 func (client ComputeClient) ListComputeCapacityReservationInstanceShapes(ctx context.Context, request ListComputeCapacityReservationInstanceShapesRequest) (response ListComputeCapacityReservationInstanceShapesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4363,6 +4056,10 @@ func (client ComputeClient) listComputeCapacityReservationInstanceShapes(ctx con
 }
 
 // ListComputeCapacityReservationInstances Lists the instances launched under a capacity reservation. You can filter results by specifying criteria.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservationInstances.go.html to see an example of how to use ListComputeCapacityReservationInstances API.
 func (client ComputeClient) ListComputeCapacityReservationInstances(ctx context.Context, request ListComputeCapacityReservationInstancesRequest) (response ListComputeCapacityReservationInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4418,6 +4115,10 @@ func (client ComputeClient) listComputeCapacityReservationInstances(ctx context.
 // ListComputeCapacityReservations Lists the compute capacity reservations that match the specified criteria and compartment.
 // You can limit the list by specifying a compute capacity reservation display name
 // (the list will include all the identically-named compute capacity reservations in the compartment).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservations.go.html to see an example of how to use ListComputeCapacityReservations API.
 func (client ComputeClient) ListComputeCapacityReservations(ctx context.Context, request ListComputeCapacityReservationsRequest) (response ListComputeCapacityReservationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4472,6 +4173,10 @@ func (client ComputeClient) listComputeCapacityReservations(ctx context.Context,
 
 // ListComputeCapacityTopologies Lists the compute capacity topologies in the specified compartment. You can filter the list by a compute
 // capacity topology display name.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityTopologies.go.html to see an example of how to use ListComputeCapacityTopologies API.
 // A default retry strategy applies to this operation ListComputeCapacityTopologies()
 func (client ComputeClient) ListComputeCapacityTopologies(ctx context.Context, request ListComputeCapacityTopologiesRequest) (response ListComputeCapacityTopologiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4526,6 +4231,10 @@ func (client ComputeClient) listComputeCapacityTopologies(ctx context.Context, r
 }
 
 // ListComputeCapacityTopologyComputeBareMetalHosts Lists compute bare metal hosts in the specified compute capacity topology.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityTopologyComputeBareMetalHosts.go.html to see an example of how to use ListComputeCapacityTopologyComputeBareMetalHosts API.
 // A default retry strategy applies to this operation ListComputeCapacityTopologyComputeBareMetalHosts()
 func (client ComputeClient) ListComputeCapacityTopologyComputeBareMetalHosts(ctx context.Context, request ListComputeCapacityTopologyComputeBareMetalHostsRequest) (response ListComputeCapacityTopologyComputeBareMetalHostsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4580,6 +4289,10 @@ func (client ComputeClient) listComputeCapacityTopologyComputeBareMetalHosts(ctx
 }
 
 // ListComputeCapacityTopologyComputeHpcIslands Lists compute HPC islands in the specified compute capacity topology.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityTopologyComputeHpcIslands.go.html to see an example of how to use ListComputeCapacityTopologyComputeHpcIslands API.
 // A default retry strategy applies to this operation ListComputeCapacityTopologyComputeHpcIslands()
 func (client ComputeClient) ListComputeCapacityTopologyComputeHpcIslands(ctx context.Context, request ListComputeCapacityTopologyComputeHpcIslandsRequest) (response ListComputeCapacityTopologyComputeHpcIslandsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4634,6 +4347,10 @@ func (client ComputeClient) listComputeCapacityTopologyComputeHpcIslands(ctx con
 }
 
 // ListComputeCapacityTopologyComputeNetworkBlocks Lists compute network blocks in the specified compute capacity topology.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityTopologyComputeNetworkBlocks.go.html to see an example of how to use ListComputeCapacityTopologyComputeNetworkBlocks API.
 // A default retry strategy applies to this operation ListComputeCapacityTopologyComputeNetworkBlocks()
 func (client ComputeClient) ListComputeCapacityTopologyComputeNetworkBlocks(ctx context.Context, request ListComputeCapacityTopologyComputeNetworkBlocksRequest) (response ListComputeCapacityTopologyComputeNetworkBlocksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4689,6 +4406,10 @@ func (client ComputeClient) listComputeCapacityTopologyComputeNetworkBlocks(ctx 
 
 // ListComputeClusters Lists the compute clusters in the specified compartment.
 // A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory access (RDMA) network group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeClusters.go.html to see an example of how to use ListComputeClusters API.
 func (client ComputeClient) ListComputeClusters(ctx context.Context, request ListComputeClustersRequest) (response ListComputeClustersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4742,6 +4463,10 @@ func (client ComputeClient) listComputeClusters(ctx context.Context, request com
 }
 
 // ListComputeGlobalImageCapabilitySchemaVersions Lists Compute Global Image Capability Schema versions in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeGlobalImageCapabilitySchemaVersions.go.html to see an example of how to use ListComputeGlobalImageCapabilitySchemaVersions API.
 // A default retry strategy applies to this operation ListComputeGlobalImageCapabilitySchemaVersions()
 func (client ComputeClient) ListComputeGlobalImageCapabilitySchemaVersions(ctx context.Context, request ListComputeGlobalImageCapabilitySchemaVersionsRequest) (response ListComputeGlobalImageCapabilitySchemaVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4796,6 +4521,10 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemaVersions(ctx c
 }
 
 // ListComputeGlobalImageCapabilitySchemas Lists Compute Global Image Capability Schema in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeGlobalImageCapabilitySchemas.go.html to see an example of how to use ListComputeGlobalImageCapabilitySchemas API.
 // A default retry strategy applies to this operation ListComputeGlobalImageCapabilitySchemas()
 func (client ComputeClient) ListComputeGlobalImageCapabilitySchemas(ctx context.Context, request ListComputeGlobalImageCapabilitySchemasRequest) (response ListComputeGlobalImageCapabilitySchemasResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4850,6 +4579,10 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemas(ctx context.
 }
 
 // ListComputeImageCapabilitySchemas Lists Compute Image Capability Schema in the specified compartment. You can also query by a specific imageId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeImageCapabilitySchemas.go.html to see an example of how to use ListComputeImageCapabilitySchemas API.
 // A default retry strategy applies to this operation ListComputeImageCapabilitySchemas()
 func (client ComputeClient) ListComputeImageCapabilitySchemas(ctx context.Context, request ListComputeImageCapabilitySchemasRequest) (response ListComputeImageCapabilitySchemasResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4904,6 +4637,10 @@ func (client ComputeClient) listComputeImageCapabilitySchemas(ctx context.Contex
 }
 
 // ListConsoleHistories Lists the console history metadata for the specified compartment or instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListConsoleHistories.go.html to see an example of how to use ListConsoleHistories API.
 func (client ComputeClient) ListConsoleHistories(ctx context.Context, request ListConsoleHistoriesRequest) (response ListConsoleHistoriesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4958,6 +4695,10 @@ func (client ComputeClient) listConsoleHistories(ctx context.Context, request co
 
 // ListDedicatedVmHostInstanceShapes Lists the shapes that can be used to launch a virtual machine instance on a dedicated virtual machine host within the specified compartment.
 // You can filter the list by compatibility with a specific dedicated virtual machine host shape.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHostInstanceShapes.go.html to see an example of how to use ListDedicatedVmHostInstanceShapes API.
 func (client ComputeClient) ListDedicatedVmHostInstanceShapes(ctx context.Context, request ListDedicatedVmHostInstanceShapesRequest) (response ListDedicatedVmHostInstanceShapesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5011,6 +4752,10 @@ func (client ComputeClient) listDedicatedVmHostInstanceShapes(ctx context.Contex
 }
 
 // ListDedicatedVmHostInstances Returns the list of instances on the dedicated virtual machine hosts that match the specified criteria.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHostInstances.go.html to see an example of how to use ListDedicatedVmHostInstances API.
 func (client ComputeClient) ListDedicatedVmHostInstances(ctx context.Context, request ListDedicatedVmHostInstancesRequest) (response ListDedicatedVmHostInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5064,6 +4809,10 @@ func (client ComputeClient) listDedicatedVmHostInstances(ctx context.Context, re
 }
 
 // ListDedicatedVmHostShapes Lists the shapes that can be used to launch a dedicated virtual machine host within the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHostShapes.go.html to see an example of how to use ListDedicatedVmHostShapes API.
 func (client ComputeClient) ListDedicatedVmHostShapes(ctx context.Context, request ListDedicatedVmHostShapesRequest) (response ListDedicatedVmHostShapesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5119,6 +4868,10 @@ func (client ComputeClient) listDedicatedVmHostShapes(ctx context.Context, reque
 // ListDedicatedVmHosts Returns the list of dedicated virtual machine hosts that match the specified criteria in the specified compartment.
 // You can limit the list by specifying a dedicated virtual machine host display name. The list will include all the identically-named
 // dedicated virtual machine hosts in the compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDedicatedVmHosts.go.html to see an example of how to use ListDedicatedVmHosts API.
 func (client ComputeClient) ListDedicatedVmHosts(ctx context.Context, request ListDedicatedVmHostsRequest) (response ListDedicatedVmHostsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5171,61 +4924,11 @@ func (client ComputeClient) listDedicatedVmHosts(ctx context.Context, request co
 	return response, err
 }
 
-// ListFirmwareReports Returns a list of FirmwareReport.
-// A default retry strategy applies to this operation ListFirmwareReports()
-func (client ComputeClient) ListFirmwareReports(ctx context.Context, request ListFirmwareReportsRequest) (response ListFirmwareReportsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listFirmwareReports, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListFirmwareReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListFirmwareReportsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListFirmwareReportsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListFirmwareReportsResponse")
-	}
-	return
-}
-
-// listFirmwareReports implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listFirmwareReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/firmwareReports", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListFirmwareReportsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReportCollection/ListFirmwareReports"
-		err = common.PostProcessServiceError(err, "Compute", "ListFirmwareReports", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListImageShapeCompatibilityEntries Lists the compatible shapes for the specified image.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListImageShapeCompatibilityEntries.go.html to see an example of how to use ListImageShapeCompatibilityEntries API.
 // A default retry strategy applies to this operation ListImageShapeCompatibilityEntries()
 func (client ComputeClient) ListImageShapeCompatibilityEntries(ctx context.Context, request ListImageShapeCompatibilityEntriesRequest) (response ListImageShapeCompatibilityEntriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5288,6 +4991,10 @@ func (client ComputeClient) listImageShapeCompatibilityEntries(ctx context.Conte
 // then all of the custom images.
 // **Caution:** Platform images are refreshed regularly. When new images are released, older versions are replaced.
 // The image OCIDs remain available, but when the platform image is replaced, the image OCIDs are no longer returned as part of the platform image list.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListImages.go.html to see an example of how to use ListImages API.
 // A default retry strategy applies to this operation ListImages()
 func (client ComputeClient) ListImages(ctx context.Context, request ListImagesRequest) (response ListImagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5343,6 +5050,10 @@ func (client ComputeClient) listImages(ctx context.Context, request common.OCIRe
 
 // ListInstanceConsoleConnections Lists the console connections for the specified compartment or instance.
 // For more information about instance console connections, see Troubleshooting Instances Using Instance Console Connections (https://docs.cloud.oracle.com/iaas/Content/Compute/References/serialconsole.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstanceConsoleConnections.go.html to see an example of how to use ListInstanceConsoleConnections API.
 func (client ComputeClient) ListInstanceConsoleConnections(ctx context.Context, request ListInstanceConsoleConnectionsRequest) (response ListInstanceConsoleConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5396,6 +5107,10 @@ func (client ComputeClient) listInstanceConsoleConnections(ctx context.Context, 
 }
 
 // ListInstanceDevices Gets a list of all the devices for given instance. You can optionally filter results by device availability.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstanceDevices.go.html to see an example of how to use ListInstanceDevices API.
 func (client ComputeClient) ListInstanceDevices(ctx context.Context, request ListInstanceDevicesRequest) (response ListInstanceDevicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5448,225 +5163,15 @@ func (client ComputeClient) listInstanceDevices(ctx context.Context, request com
 	return response, err
 }
 
-// ListInstanceFirmwareHistories List historical information about firmware for a bare metal instance.
-// A default retry strategy applies to this operation ListInstanceFirmwareHistories()
-func (client ComputeClient) ListInstanceFirmwareHistories(ctx context.Context, request ListInstanceFirmwareHistoriesRequest) (response ListInstanceFirmwareHistoriesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listInstanceFirmwareHistories, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListInstanceFirmwareHistoriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListInstanceFirmwareHistoriesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListInstanceFirmwareHistoriesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceFirmwareHistoriesResponse")
-	}
-	return
-}
-
-// listInstanceFirmwareHistories implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listInstanceFirmwareHistories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/firmwareHistory", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListInstanceFirmwareHistoriesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceFirmwareHistoryCollection/ListInstanceFirmwareHistories"
-		err = common.PostProcessServiceError(err, "Compute", "ListInstanceFirmwareHistories", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListInstanceFirmwares List information about firmware for a bare metal instance.
-// A default retry strategy applies to this operation ListInstanceFirmwares()
-func (client ComputeClient) ListInstanceFirmwares(ctx context.Context, request ListInstanceFirmwaresRequest) (response ListInstanceFirmwaresResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listInstanceFirmwares, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListInstanceFirmwaresResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListInstanceFirmwaresResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListInstanceFirmwaresResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceFirmwaresResponse")
-	}
-	return
-}
-
-// listInstanceFirmwares implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listInstanceFirmwares(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/firmware", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListInstanceFirmwaresResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceFirmwareCollection/ListInstanceFirmwares"
-		err = common.PostProcessServiceError(err, "Compute", "ListInstanceFirmwares", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListInstanceMaintenanceEvents Gets a list of all the maintenance events for the given instance.
-func (client ComputeClient) ListInstanceMaintenanceEvents(ctx context.Context, request ListInstanceMaintenanceEventsRequest) (response ListInstanceMaintenanceEventsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listInstanceMaintenanceEvents, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListInstanceMaintenanceEventsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListInstanceMaintenanceEventsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListInstanceMaintenanceEventsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceMaintenanceEventsResponse")
-	}
-	return
-}
-
-// listInstanceMaintenanceEvents implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listInstanceMaintenanceEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceMaintenanceEvents", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListInstanceMaintenanceEventsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceMaintenanceEventSummary/ListInstanceMaintenanceEvents"
-		err = common.PostProcessServiceError(err, "Compute", "ListInstanceMaintenanceEvents", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListInstanceScreenshots Lists the last screenshots taken for the specified instance.
-func (client ComputeClient) ListInstanceScreenshots(ctx context.Context, request ListInstanceScreenshotsRequest) (response ListInstanceScreenshotsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listInstanceScreenshots, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListInstanceScreenshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListInstanceScreenshotsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListInstanceScreenshotsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceScreenshotsResponse")
-	}
-	return
-}
-
-// listInstanceScreenshots implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) listInstanceScreenshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instances/{instanceId}/screenshots", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListInstanceScreenshotsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/ListInstanceScreenshots"
-		err = common.PostProcessServiceError(err, "Compute", "ListInstanceScreenshots", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListInstances Lists the instances in the specified compartment and the specified availability domain.
 // You can filter the results by specifying an instance name (the list will include all the identically-named
 // instances in the compartment).
 // **Note:** To retrieve public and private IP addresses for an instance, use the ListVnicAttachments
 // operation to get the VNIC ID for the instance, and then call GetVnic with the VNIC ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstances.go.html to see an example of how to use ListInstances API.
 func (client ComputeClient) ListInstances(ctx context.Context, request ListInstancesRequest) (response ListInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5721,6 +5226,10 @@ func (client ComputeClient) listInstances(ctx context.Context, request common.OC
 
 // ListShapes Lists the shapes that can be used to launch an instance within the specified compartment. You can
 // filter the list by compatibility with a specific image.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListShapes.go.html to see an example of how to use ListShapes API.
 func (client ComputeClient) ListShapes(ctx context.Context, request ListShapesRequest) (response ListShapesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5776,6 +5285,10 @@ func (client ComputeClient) listShapes(ctx context.Context, request common.OCIRe
 // ListVnicAttachments Lists the VNIC attachments in the specified compartment. A VNIC attachment
 // resides in the same compartment as the attached instance. The list can be
 // filtered by instance, VNIC, or availability domain.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVnicAttachments.go.html to see an example of how to use ListVnicAttachments API.
 func (client ComputeClient) ListVnicAttachments(ctx context.Context, request ListVnicAttachmentsRequest) (response ListVnicAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5848,6 +5361,10 @@ func (m *listvolumeattachment) UnmarshalPolymorphicJSON(data []byte) (interface{
 // list by specifying an instance OCID, volume OCID, or both.
 // Currently, the only supported volume attachment type are IScsiVolumeAttachment and
 // ParavirtualizedVolumeAttachment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeAttachments.go.html to see an example of how to use ListVolumeAttachments API.
 func (client ComputeClient) ListVolumeAttachments(ctx context.Context, request ListVolumeAttachmentsRequest) (response ListVolumeAttachmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5901,6 +5418,10 @@ func (client ComputeClient) listVolumeAttachments(ctx context.Context, request c
 }
 
 // RemoveImageShapeCompatibilityEntry Removes a shape from the compatible shapes list for the image.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveImageShapeCompatibilityEntry.go.html to see an example of how to use RemoveImageShapeCompatibilityEntry API.
 func (client ComputeClient) RemoveImageShapeCompatibilityEntry(ctx context.Context, request RemoveImageShapeCompatibilityEntryRequest) (response RemoveImageShapeCompatibilityEntryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5953,74 +5474,17 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 	return response, err
 }
 
-// RetryBigDataBmToVmInstanceMigration Retry BM to VM instance migration for given migration resource
-// A default retry strategy applies to this operation RetryBigDataBmToVmInstanceMigration()
-func (client ComputeClient) RetryBigDataBmToVmInstanceMigration(ctx context.Context, request RetryBigDataBmToVmInstanceMigrationRequest) (response RetryBigDataBmToVmInstanceMigrationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.retryBigDataBmToVmInstanceMigration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RetryBigDataBmToVmInstanceMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = RetryBigDataBmToVmInstanceMigrationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(RetryBigDataBmToVmInstanceMigrationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RetryBigDataBmToVmInstanceMigrationResponse")
-	}
-	return
-}
-
-// retryBigDataBmToVmInstanceMigration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) retryBigDataBmToVmInstanceMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bigDataBmToVmInstanceMigrations/{bigDataBmToVmInstanceMigrationId}/actions/retry", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response RetryBigDataBmToVmInstanceMigrationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigration/RetryBigDataBmToVmInstanceMigration"
-		err = common.PostProcessServiceError(err, "Compute", "RetryBigDataBmToVmInstanceMigration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // TerminateInstance Permanently terminates (deletes) the specified instance. Any attached VNICs and volumes are automatically detached
 // when the instance terminates.
 // To preserve the boot volume associated with the instance, specify `true` for `PreserveBootVolumeQueryParam`.
 // To delete the boot volume when the instance is deleted, specify `false` or do not specify a value for `PreserveBootVolumeQueryParam`.
-// To preserve data volumes created with the instance, specify `true` or do not specify a value for `PreserveDataVolumesQueryParam`.
-// To delete the data volumes when the instance itself is deleted, specify `false` for `PreserveDataVolumesQueryParam`.
 // This is an asynchronous operation. The instance's `lifecycleState` changes to TERMINATING temporarily
 // until the instance is completely deleted. After the instance is deleted, the record remains visible in the list of instances
 // with the state TERMINATED for at least 12 hours, but no further action is needed.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/TerminateInstance.go.html to see an example of how to use TerminateInstance API.
 func (client ComputeClient) TerminateInstance(ctx context.Context, request TerminateInstanceRequest) (response TerminateInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6073,68 +5537,13 @@ func (client ComputeClient) terminateInstance(ctx context.Context, request commo
 	return response, err
 }
 
-// UpdateBigDataBmToVmInstanceMigration Update the BigDataBmToVmInstanceMigration resource for the given migration id.
-// A default retry strategy applies to this operation UpdateBigDataBmToVmInstanceMigration()
-func (client ComputeClient) UpdateBigDataBmToVmInstanceMigration(ctx context.Context, request UpdateBigDataBmToVmInstanceMigrationRequest) (response UpdateBigDataBmToVmInstanceMigrationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateBigDataBmToVmInstanceMigration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateBigDataBmToVmInstanceMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateBigDataBmToVmInstanceMigrationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateBigDataBmToVmInstanceMigrationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateBigDataBmToVmInstanceMigrationResponse")
-	}
-	return
-}
-
-// updateBigDataBmToVmInstanceMigration implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateBigDataBmToVmInstanceMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bigDataBmToVmInstanceMigrations/{bigDataBmToVmInstanceMigrationId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateBigDataBmToVmInstanceMigrationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/BigDataBmToVmInstanceMigration/UpdateBigDataBmToVmInstanceMigration"
-		err = common.PostProcessServiceError(err, "Compute", "UpdateBigDataBmToVmInstanceMigration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateComputeCapacityReservation Updates the specified capacity reservation and its associated capacity configurations.
 // Fields that are not provided in the request will not be updated. Capacity configurations that are not included will be deleted.
 // Avoid entering confidential information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCapacityReservation.go.html to see an example of how to use UpdateComputeCapacityReservation API.
 func (client ComputeClient) UpdateComputeCapacityReservation(ctx context.Context, request UpdateComputeCapacityReservationRequest) (response UpdateComputeCapacityReservationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6188,6 +5597,10 @@ func (client ComputeClient) updateComputeCapacityReservation(ctx context.Context
 }
 
 // UpdateComputeCapacityTopology Updates the specified compute capacity topology. Fields that are not provided in the request will not be updated.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCapacityTopology.go.html to see an example of how to use UpdateComputeCapacityTopology API.
 // A default retry strategy applies to this operation UpdateComputeCapacityTopology()
 func (client ComputeClient) UpdateComputeCapacityTopology(ctx context.Context, request UpdateComputeCapacityTopologyRequest) (response UpdateComputeCapacityTopologyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6247,6 +5660,10 @@ func (client ComputeClient) updateComputeCapacityTopology(ctx context.Context, r
 // operation.
 // To delete instances from a compute cluster, use the TerminateInstance
 // operation.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCluster.go.html to see an example of how to use UpdateComputeCluster API.
 func (client ComputeClient) UpdateComputeCluster(ctx context.Context, request UpdateComputeClusterRequest) (response UpdateComputeClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6305,6 +5722,10 @@ func (client ComputeClient) updateComputeCluster(ctx context.Context, request co
 }
 
 // UpdateComputeImageCapabilitySchema Updates the specified Compute Image Capability Schema
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeImageCapabilitySchema.go.html to see an example of how to use UpdateComputeImageCapabilitySchema API.
 func (client ComputeClient) UpdateComputeImageCapabilitySchema(ctx context.Context, request UpdateComputeImageCapabilitySchemaRequest) (response UpdateComputeImageCapabilitySchemaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6358,6 +5779,10 @@ func (client ComputeClient) updateComputeImageCapabilitySchema(ctx context.Conte
 }
 
 // UpdateConsoleHistory Updates the specified console history metadata.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateConsoleHistory.go.html to see an example of how to use UpdateConsoleHistory API.
 func (client ComputeClient) UpdateConsoleHistory(ctx context.Context, request UpdateConsoleHistoryRequest) (response UpdateConsoleHistoryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6412,6 +5837,10 @@ func (client ComputeClient) updateConsoleHistory(ctx context.Context, request co
 
 // UpdateDedicatedVmHost Updates the displayName, freeformTags, and definedTags attributes for the specified dedicated virtual machine host.
 // If an attribute value is not included, it will not be updated.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDedicatedVmHost.go.html to see an example of how to use UpdateDedicatedVmHost API.
 func (client ComputeClient) UpdateDedicatedVmHost(ctx context.Context, request UpdateDedicatedVmHostRequest) (response UpdateDedicatedVmHostResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6469,61 +5898,11 @@ func (client ComputeClient) updateDedicatedVmHost(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateFirmwareReport Updates information about the specified FirmwareReport.
-// A default retry strategy applies to this operation UpdateFirmwareReport()
-func (client ComputeClient) UpdateFirmwareReport(ctx context.Context, request UpdateFirmwareReportRequest) (response UpdateFirmwareReportResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateFirmwareReport, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateFirmwareReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateFirmwareReportResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateFirmwareReportResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateFirmwareReportResponse")
-	}
-	return
-}
-
-// updateFirmwareReport implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateFirmwareReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/firmwareReports/{firmwareReportId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateFirmwareReportResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/FirmwareReport/UpdateFirmwareReport"
-		err = common.PostProcessServiceError(err, "Compute", "UpdateFirmwareReport", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateImage Updates the display name of the image. Avoid entering confidential information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateImage.go.html to see an example of how to use UpdateImage API.
 func (client ComputeClient) UpdateImage(ctx context.Context, request UpdateImageRequest) (response UpdateImageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6586,6 +5965,10 @@ func (client ComputeClient) updateImage(ctx context.Context, request common.OCIR
 // Changes to metadata fields will be reflected in the instance metadata service (this may take
 // up to a minute).
 // The OCID of the instance remains the same.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInstance.go.html to see an example of how to use UpdateInstance API.
 func (client ComputeClient) UpdateInstance(ctx context.Context, request UpdateInstanceRequest) (response UpdateInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6644,6 +6027,10 @@ func (client ComputeClient) updateInstance(ctx context.Context, request common.O
 }
 
 // UpdateInstanceConsoleConnection Updates the defined tags and free-form tags for the specified instance console connection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInstanceConsoleConnection.go.html to see an example of how to use UpdateInstanceConsoleConnection API.
 func (client ComputeClient) UpdateInstanceConsoleConnection(ctx context.Context, request UpdateInstanceConsoleConnectionRequest) (response UpdateInstanceConsoleConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6696,66 +6083,11 @@ func (client ComputeClient) updateInstanceConsoleConnection(ctx context.Context,
 	return response, err
 }
 
-// UpdateInstanceMaintenanceEvent Updates the maintenance event for the given instance.
-// A default retry strategy applies to this operation UpdateInstanceMaintenanceEvent()
-func (client ComputeClient) UpdateInstanceMaintenanceEvent(ctx context.Context, request UpdateInstanceMaintenanceEventRequest) (response UpdateInstanceMaintenanceEventResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateInstanceMaintenanceEvent, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateInstanceMaintenanceEventResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateInstanceMaintenanceEventResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateInstanceMaintenanceEventResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateInstanceMaintenanceEventResponse")
-	}
-	return
-}
-
-// updateInstanceMaintenanceEvent implements the OCIOperation interface (enables retrying operations)
-func (client ComputeClient) updateInstanceMaintenanceEvent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instanceMaintenanceEvents/{instanceMaintenanceEventId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateInstanceMaintenanceEventResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceMaintenanceEvent/UpdateInstanceMaintenanceEvent"
-		err = common.PostProcessServiceError(err, "Compute", "UpdateInstanceMaintenanceEvent", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateVolumeAttachment Updates information about the specified volume attachment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVolumeAttachment.go.html to see an example of how to use UpdateVolumeAttachment API.
 func (client ComputeClient) UpdateVolumeAttachment(ctx context.Context, request UpdateVolumeAttachmentRequest) (response UpdateVolumeAttachmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

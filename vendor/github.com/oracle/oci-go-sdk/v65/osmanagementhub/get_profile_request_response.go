@@ -12,6 +12,10 @@ import (
 )
 
 // GetProfileRequest wrapper for the GetProfile operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetProfile.go.html to see an example of how to use GetProfileRequest.
 type GetProfileRequest struct {
 
 	// The OCID of the registration profile.

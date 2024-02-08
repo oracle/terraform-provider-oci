@@ -12,6 +12,10 @@ import (
 )
 
 // GetSecurityPolicyEntryStateRequest wrapper for the GetSecurityPolicyEntryState operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicyEntryState.go.html to see an example of how to use GetSecurityPolicyEntryStateRequest.
 type GetSecurityPolicyEntryStateRequest struct {
 
 	// The OCID of the security policy deployment resource.

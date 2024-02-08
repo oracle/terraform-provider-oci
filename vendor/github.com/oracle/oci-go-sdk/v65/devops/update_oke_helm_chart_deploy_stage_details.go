@@ -36,8 +36,6 @@ type UpdateOkeHelmChartDeployStageDetails struct {
 	// Kubernetes cluster environment OCID for deployment.
 	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
 
-	OkeEnvironmentDetails OkeEnvironmentDetails `mandatory:"false" json:"okeEnvironmentDetails"`
-
 	// Helm chart artifact OCID.
 	HelmChartDeployArtifactId *string `mandatory:"false" json:"helmChartDeployArtifactId"`
 
@@ -46,12 +44,6 @@ type UpdateOkeHelmChartDeployStageDetails struct {
 
 	// Name of the Helm chart release.
 	ReleaseName *string `mandatory:"false" json:"releaseName"`
-
-	// Uninstall the Helm chart release on deleting the stage.
-	IsUninstallOnStageDelete *bool `mandatory:"false" json:"isUninstallOnStageDelete"`
-
-	// List of Helm command artifact OCIDs.
-	HelmCommandArtifactIds []string `mandatory:"false" json:"helmCommandArtifactIds"`
 
 	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
 	Namespace *string `mandatory:"false" json:"namespace"`
@@ -94,9 +86,6 @@ type UpdateOkeHelmChartDeployStageDetails struct {
 
 	// Enables helm --debug option to stream output to tf stdout. Set to false by default.
 	IsDebugEnabled *bool `mandatory:"false" json:"isDebugEnabled"`
-
-	// The purpose of running this Helm stage
-	Purpose UpdateOkeHelmChartDeployStageDetailsPurposeEnum `mandatory:"false" json:"purpose,omitempty"`
 }
 
 // GetDescription returns Description
@@ -133,9 +122,6 @@ func (m UpdateOkeHelmChartDeployStageDetails) String() string {
 // Not recommended for calling this function directly
 func (m UpdateOkeHelmChartDeployStageDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingUpdateOkeHelmChartDeployStageDetailsPurposeEnum(string(m.Purpose)); !ok && m.Purpose != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Purpose: %s. Supported values are: %s.", m.Purpose, strings.Join(GetUpdateOkeHelmChartDeployStageDetailsPurposeEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -160,34 +146,30 @@ func (m UpdateOkeHelmChartDeployStageDetails) MarshalJSON() (buff []byte, e erro
 // UnmarshalJSON unmarshals from json
 func (m *UpdateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description                      *string                                         `json:"description"`
-		DisplayName                      *string                                         `json:"displayName"`
-		DeployStagePredecessorCollection *DeployStagePredecessorCollection               `json:"deployStagePredecessorCollection"`
-		FreeformTags                     map[string]string                               `json:"freeformTags"`
-		DefinedTags                      map[string]map[string]interface{}               `json:"definedTags"`
-		OkeClusterDeployEnvironmentId    *string                                         `json:"okeClusterDeployEnvironmentId"`
-		OkeEnvironmentDetails            okeenvironmentdetails                           `json:"okeEnvironmentDetails"`
-		HelmChartDeployArtifactId        *string                                         `json:"helmChartDeployArtifactId"`
-		ValuesArtifactIds                []string                                        `json:"valuesArtifactIds"`
-		ReleaseName                      *string                                         `json:"releaseName"`
-		IsUninstallOnStageDelete         *bool                                           `json:"isUninstallOnStageDelete"`
-		HelmCommandArtifactIds           []string                                        `json:"helmCommandArtifactIds"`
-		Purpose                          UpdateOkeHelmChartDeployStageDetailsPurposeEnum `json:"purpose"`
-		Namespace                        *string                                         `json:"namespace"`
-		TimeoutInSeconds                 *int                                            `json:"timeoutInSeconds"`
-		RollbackPolicy                   deploystagerollbackpolicy                       `json:"rollbackPolicy"`
-		SetValues                        *HelmSetValueCollection                         `json:"setValues"`
-		SetString                        *HelmSetValueCollection                         `json:"setString"`
-		AreHooksEnabled                  *bool                                           `json:"areHooksEnabled"`
-		ShouldReuseValues                *bool                                           `json:"shouldReuseValues"`
-		ShouldResetValues                *bool                                           `json:"shouldResetValues"`
-		IsForceEnabled                   *bool                                           `json:"isForceEnabled"`
-		ShouldCleanupOnFail              *bool                                           `json:"shouldCleanupOnFail"`
-		MaxHistory                       *int                                            `json:"maxHistory"`
-		ShouldSkipCrds                   *bool                                           `json:"shouldSkipCrds"`
-		ShouldSkipRenderSubchartNotes    *bool                                           `json:"shouldSkipRenderSubchartNotes"`
-		ShouldNotWait                    *bool                                           `json:"shouldNotWait"`
-		IsDebugEnabled                   *bool                                           `json:"isDebugEnabled"`
+		Description                      *string                           `json:"description"`
+		DisplayName                      *string                           `json:"displayName"`
+		DeployStagePredecessorCollection *DeployStagePredecessorCollection `json:"deployStagePredecessorCollection"`
+		FreeformTags                     map[string]string                 `json:"freeformTags"`
+		DefinedTags                      map[string]map[string]interface{} `json:"definedTags"`
+		OkeClusterDeployEnvironmentId    *string                           `json:"okeClusterDeployEnvironmentId"`
+		HelmChartDeployArtifactId        *string                           `json:"helmChartDeployArtifactId"`
+		ValuesArtifactIds                []string                          `json:"valuesArtifactIds"`
+		ReleaseName                      *string                           `json:"releaseName"`
+		Namespace                        *string                           `json:"namespace"`
+		TimeoutInSeconds                 *int                              `json:"timeoutInSeconds"`
+		RollbackPolicy                   deploystagerollbackpolicy         `json:"rollbackPolicy"`
+		SetValues                        *HelmSetValueCollection           `json:"setValues"`
+		SetString                        *HelmSetValueCollection           `json:"setString"`
+		AreHooksEnabled                  *bool                             `json:"areHooksEnabled"`
+		ShouldReuseValues                *bool                             `json:"shouldReuseValues"`
+		ShouldResetValues                *bool                             `json:"shouldResetValues"`
+		IsForceEnabled                   *bool                             `json:"isForceEnabled"`
+		ShouldCleanupOnFail              *bool                             `json:"shouldCleanupOnFail"`
+		MaxHistory                       *int                              `json:"maxHistory"`
+		ShouldSkipCrds                   *bool                             `json:"shouldSkipCrds"`
+		ShouldSkipRenderSubchartNotes    *bool                             `json:"shouldSkipRenderSubchartNotes"`
+		ShouldNotWait                    *bool                             `json:"shouldNotWait"`
+		IsDebugEnabled                   *bool                             `json:"isDebugEnabled"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -207,27 +189,11 @@ func (m *UpdateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 
 	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
 
-	nn, e = model.OkeEnvironmentDetails.UnmarshalPolymorphicJSON(model.OkeEnvironmentDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.OkeEnvironmentDetails = nn.(OkeEnvironmentDetails)
-	} else {
-		m.OkeEnvironmentDetails = nil
-	}
-
 	m.HelmChartDeployArtifactId = model.HelmChartDeployArtifactId
 
 	m.ValuesArtifactIds = make([]string, len(model.ValuesArtifactIds))
 	copy(m.ValuesArtifactIds, model.ValuesArtifactIds)
 	m.ReleaseName = model.ReleaseName
-
-	m.IsUninstallOnStageDelete = model.IsUninstallOnStageDelete
-
-	m.HelmCommandArtifactIds = make([]string, len(model.HelmCommandArtifactIds))
-	copy(m.HelmCommandArtifactIds, model.HelmCommandArtifactIds)
-	m.Purpose = model.Purpose
 
 	m.Namespace = model.Namespace
 
@@ -268,46 +234,4 @@ func (m *UpdateOkeHelmChartDeployStageDetails) UnmarshalJSON(data []byte) (e err
 	m.IsDebugEnabled = model.IsDebugEnabled
 
 	return
-}
-
-// UpdateOkeHelmChartDeployStageDetailsPurposeEnum Enum with underlying type: string
-type UpdateOkeHelmChartDeployStageDetailsPurposeEnum string
-
-// Set of constants representing the allowable values for UpdateOkeHelmChartDeployStageDetailsPurposeEnum
-const (
-	UpdateOkeHelmChartDeployStageDetailsPurposeUpgrade UpdateOkeHelmChartDeployStageDetailsPurposeEnum = "EXECUTE_HELM_UPGRADE"
-	UpdateOkeHelmChartDeployStageDetailsPurposeCommand UpdateOkeHelmChartDeployStageDetailsPurposeEnum = "EXECUTE_HELM_COMMAND"
-)
-
-var mappingUpdateOkeHelmChartDeployStageDetailsPurposeEnum = map[string]UpdateOkeHelmChartDeployStageDetailsPurposeEnum{
-	"EXECUTE_HELM_UPGRADE": UpdateOkeHelmChartDeployStageDetailsPurposeUpgrade,
-	"EXECUTE_HELM_COMMAND": UpdateOkeHelmChartDeployStageDetailsPurposeCommand,
-}
-
-var mappingUpdateOkeHelmChartDeployStageDetailsPurposeEnumLowerCase = map[string]UpdateOkeHelmChartDeployStageDetailsPurposeEnum{
-	"execute_helm_upgrade": UpdateOkeHelmChartDeployStageDetailsPurposeUpgrade,
-	"execute_helm_command": UpdateOkeHelmChartDeployStageDetailsPurposeCommand,
-}
-
-// GetUpdateOkeHelmChartDeployStageDetailsPurposeEnumValues Enumerates the set of values for UpdateOkeHelmChartDeployStageDetailsPurposeEnum
-func GetUpdateOkeHelmChartDeployStageDetailsPurposeEnumValues() []UpdateOkeHelmChartDeployStageDetailsPurposeEnum {
-	values := make([]UpdateOkeHelmChartDeployStageDetailsPurposeEnum, 0)
-	for _, v := range mappingUpdateOkeHelmChartDeployStageDetailsPurposeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetUpdateOkeHelmChartDeployStageDetailsPurposeEnumStringValues Enumerates the set of values in String for UpdateOkeHelmChartDeployStageDetailsPurposeEnum
-func GetUpdateOkeHelmChartDeployStageDetailsPurposeEnumStringValues() []string {
-	return []string{
-		"EXECUTE_HELM_UPGRADE",
-		"EXECUTE_HELM_COMMAND",
-	}
-}
-
-// GetMappingUpdateOkeHelmChartDeployStageDetailsPurposeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingUpdateOkeHelmChartDeployStageDetailsPurposeEnum(val string) (UpdateOkeHelmChartDeployStageDetailsPurposeEnum, bool) {
-	enum, ok := mappingUpdateOkeHelmChartDeployStageDetailsPurposeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

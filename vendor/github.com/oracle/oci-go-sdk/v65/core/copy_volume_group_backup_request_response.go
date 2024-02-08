@@ -12,6 +12,10 @@ import (
 )
 
 // CopyVolumeGroupBackupRequest wrapper for the CopyVolumeGroupBackup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CopyVolumeGroupBackup.go.html to see an example of how to use CopyVolumeGroupBackupRequest.
 type CopyVolumeGroupBackupRequest struct {
 
 	// The Oracle Cloud ID (OCID) that uniquely identifies the volume group backup.

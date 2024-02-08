@@ -12,6 +12,10 @@ import (
 )
 
 // ResizeOpensearchClusterVerticalRequest wrapper for the ResizeOpensearchClusterVertical operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ResizeOpensearchClusterVertical.go.html to see an example of how to use ResizeOpensearchClusterVerticalRequest.
 type ResizeOpensearchClusterVerticalRequest struct {
 
 	// unique OpensearchCluster identifier

@@ -103,11 +103,6 @@ type IpSecConnection struct {
 
 	// The transport type used for the IPSec connection.
 	TransportType IpSecConnectionTransportTypeEnum `mandatory:"false" json:"transportType,omitempty"`
-
-	MigrationStatus *IpSecConnectionMigrationStatus `mandatory:"false" json:"migrationStatus"`
-
-	// Ipsec Connection's version which is "1" for Juniper or "2" for NextGen.
-	IpsecConnectionVersion *int `mandatory:"false" json:"ipsecConnectionVersion"`
 }
 
 func (m IpSecConnection) String() string {

@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDatabaseToolsConnectionRequest wrapper for the UpdateDatabaseToolsConnection operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/UpdateDatabaseToolsConnection.go.html to see an example of how to use UpdateDatabaseToolsConnectionRequest.
 type UpdateDatabaseToolsConnectionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools connection.

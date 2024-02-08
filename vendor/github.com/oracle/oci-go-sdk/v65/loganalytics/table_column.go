@@ -40,9 +40,6 @@ type TableColumn struct {
 	// Identifies if this column can be used as an expression parameter in any command that accepts querylanguage expressions.
 	IsEvaluable *bool `mandatory:"false" json:"isEvaluable"`
 
-	// Identifies if this column should be hidden by default but can be displayed in the UI on demand.
-	IsHidden *bool `mandatory:"false" json:"isHidden"`
-
 	// Same as displayName unless column renamed in which case this will hold the original display name for the column.
 	OriginalDisplayName *string `mandatory:"false" json:"originalDisplayName"`
 
@@ -54,9 +51,6 @@ type TableColumn struct {
 
 	// Results data of the table.
 	Result []map[string]interface{} `mandatory:"false" json:"result"`
-
-	// True if query did not complete processing all data.
-	ArePartialResults *bool `mandatory:"false" json:"arePartialResults"`
 
 	// Subsystem column belongs to.
 	SubSystem SubSystemNameEnum `mandatory:"false" json:"subSystem,omitempty"`
@@ -103,11 +97,6 @@ func (m TableColumn) GetIsGroupable() *bool {
 // GetIsEvaluable returns IsEvaluable
 func (m TableColumn) GetIsEvaluable() *bool {
 	return m.IsEvaluable
-}
-
-// GetIsHidden returns IsHidden
-func (m TableColumn) GetIsHidden() *bool {
-	return m.IsHidden
 }
 
 // GetValueType returns ValueType
@@ -172,13 +161,11 @@ func (m *TableColumn) UnmarshalJSON(data []byte) (e error) {
 		IsCaseSensitive     *bool                    `json:"isCaseSensitive"`
 		IsGroupable         *bool                    `json:"isGroupable"`
 		IsEvaluable         *bool                    `json:"isEvaluable"`
-		IsHidden            *bool                    `json:"isHidden"`
 		ValueType           ValueTypeEnum            `json:"valueType"`
 		OriginalDisplayName *string                  `json:"originalDisplayName"`
 		InternalName        *string                  `json:"internalName"`
 		Columns             []abstractcolumn         `json:"columns"`
 		Result              []map[string]interface{} `json:"result"`
-		ArePartialResults   *bool                    `json:"arePartialResults"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -202,8 +189,6 @@ func (m *TableColumn) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsEvaluable = model.IsEvaluable
 
-	m.IsHidden = model.IsHidden
-
 	m.ValueType = model.ValueType
 
 	m.OriginalDisplayName = model.OriginalDisplayName
@@ -224,7 +209,5 @@ func (m *TableColumn) UnmarshalJSON(data []byte) (e error) {
 	}
 	m.Result = make([]map[string]interface{}, len(model.Result))
 	copy(m.Result, model.Result)
-	m.ArePartialResults = model.ArePartialResults
-
 	return
 }

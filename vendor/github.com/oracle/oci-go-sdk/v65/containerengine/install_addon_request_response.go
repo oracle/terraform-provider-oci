@@ -12,6 +12,10 @@ import (
 )
 
 // InstallAddonRequest wrapper for the InstallAddon operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/InstallAddon.go.html to see an example of how to use InstallAddonRequest.
 type InstallAddonRequest struct {
 
 	// The OCID of the cluster.

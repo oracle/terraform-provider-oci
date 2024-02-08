@@ -16,41 +16,38 @@ import (
 	"strings"
 )
 
-// ProblemHistorySummary Problem history definition.
+// ProblemHistorySummary Problem History Definition.
 type ProblemHistorySummary struct {
 
 	// Unique identifier for the history record
 	Id *string `mandatory:"true" json:"id"`
 
-	// Problem ID with which history is associated
+	// problemId for which history is associated to.
 	ProblemId *string `mandatory:"true" json:"problemId"`
 
-	// Type of actor who performed the operation
+	// Actor type who performed the operation
 	ActorType ActorTypeEnum `mandatory:"true" json:"actorType"`
 
-	// Resource name who performed the activity
+	// Resource Name who performed activity
 	ActorName *string `mandatory:"true" json:"actorName"`
 
 	// Activity explanation details
 	Explanation *string `mandatory:"true" json:"explanation"`
 
-	// Additional details on the substate of the lifecycle state
+	// Problem Lifecycle Detail Status
 	LifecycleDetail ProblemLifecycleDetailEnum `mandatory:"true" json:"lifecycleDetail"`
 
-	// Date and time the problem was created
+	// Type of the Entity
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Impacted resource names in a comma-separated string
+	// Impacted Resource Names in a comma-separated string.
 	Delta *string `mandatory:"true" json:"delta"`
 
 	// Event status
 	EventStatus EventStatusEnum `mandatory:"false" json:"eventStatus,omitempty"`
 
-	// User-defined comments
+	// User Defined Comments
 	Comment *string `mandatory:"false" json:"comment"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ProblemHistorySummary) String() string {

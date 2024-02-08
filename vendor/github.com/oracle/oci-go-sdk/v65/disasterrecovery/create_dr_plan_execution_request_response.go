@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDrPlanExecutionRequest wrapper for the CreateDrPlanExecution operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/CreateDrPlanExecution.go.html to see an example of how to use CreateDrPlanExecutionRequest.
 type CreateDrPlanExecutionRequest struct {
 
 	// Details for creating the DR plan execution.

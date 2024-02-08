@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// ResponderRuleCollection Collection of responder rule summaries.
+// ResponderRuleCollection Summary of the ResponderRule.
 type ResponderRuleCollection struct {
 
-	// List of ResponderRuleSummary resources
+	// List of ResponderRuleSummary
 	Items []ResponderRuleSummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResponderRuleCollection) String() string {

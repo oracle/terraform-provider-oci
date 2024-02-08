@@ -12,6 +12,10 @@ import (
 )
 
 // CreateModelRequest wrapper for the CreateModel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateModel.go.html to see an example of how to use CreateModelRequest.
 type CreateModelRequest struct {
 
 	// Details for the new model.

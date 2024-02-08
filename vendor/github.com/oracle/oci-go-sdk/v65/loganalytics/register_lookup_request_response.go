@@ -13,12 +13,16 @@ import (
 )
 
 // RegisterLookupRequest wrapper for the RegisterLookup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RegisterLookup.go.html to see an example of how to use RegisterLookupRequest.
 type RegisterLookupRequest struct {
 
 	// The Logging Analytics namespace used for the request.
 	NamespaceName *string `mandatory:"true" contributesTo:"path" name:"namespaceName"`
 
-	// The lookup type.  Valid values are Lookup, Dictionary or Module.
+	// The lookup type.  Valid values are Lookup or Dictionary.
 	Type RegisterLookupTypeEnum `mandatory:"true" contributesTo:"query" name:"type" omitEmpty:"true"`
 
 	// file containing data for lookup creation
@@ -131,19 +135,16 @@ type RegisterLookupTypeEnum string
 const (
 	RegisterLookupTypeLookup     RegisterLookupTypeEnum = "Lookup"
 	RegisterLookupTypeDictionary RegisterLookupTypeEnum = "Dictionary"
-	RegisterLookupTypeModule     RegisterLookupTypeEnum = "Module"
 )
 
 var mappingRegisterLookupTypeEnum = map[string]RegisterLookupTypeEnum{
 	"Lookup":     RegisterLookupTypeLookup,
 	"Dictionary": RegisterLookupTypeDictionary,
-	"Module":     RegisterLookupTypeModule,
 }
 
 var mappingRegisterLookupTypeEnumLowerCase = map[string]RegisterLookupTypeEnum{
 	"lookup":     RegisterLookupTypeLookup,
 	"dictionary": RegisterLookupTypeDictionary,
-	"module":     RegisterLookupTypeModule,
 }
 
 // GetRegisterLookupTypeEnumValues Enumerates the set of values for RegisterLookupTypeEnum
@@ -160,7 +161,6 @@ func GetRegisterLookupTypeEnumStringValues() []string {
 	return []string{
 		"Lookup",
 		"Dictionary",
-		"Module",
 	}
 }
 

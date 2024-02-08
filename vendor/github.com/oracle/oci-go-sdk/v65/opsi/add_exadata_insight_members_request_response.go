@@ -12,6 +12,10 @@ import (
 )
 
 // AddExadataInsightMembersRequest wrapper for the AddExadataInsightMembers operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/AddExadataInsightMembers.go.html to see an example of how to use AddExadataInsightMembersRequest.
 type AddExadataInsightMembersRequest struct {
 
 	// Details for the members (e.g. databases and hosts) of an Exadata system to be added in Operations Insights.

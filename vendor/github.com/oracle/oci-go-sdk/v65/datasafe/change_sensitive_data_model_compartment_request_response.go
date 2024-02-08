@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeSensitiveDataModelCompartmentRequest wrapper for the ChangeSensitiveDataModelCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSensitiveDataModelCompartment.go.html to see an example of how to use ChangeSensitiveDataModelCompartmentRequest.
 type ChangeSensitiveDataModelCompartmentRequest struct {
 
 	// The OCID of the sensitive data model.

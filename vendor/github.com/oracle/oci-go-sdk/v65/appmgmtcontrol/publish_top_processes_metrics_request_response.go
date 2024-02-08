@@ -12,6 +12,10 @@ import (
 )
 
 // PublishTopProcessesMetricsRequest wrapper for the PublishTopProcessesMetrics operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/appmgmtcontrol/PublishTopProcessesMetrics.go.html to see an example of how to use PublishTopProcessesMetricsRequest.
 type PublishTopProcessesMetricsRequest struct {
 
 	// OCID of monitored instance.

@@ -93,6 +93,10 @@ func (client *ConfigClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // CreateConfig Creates a new configuration item.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/CreateConfig.go.html to see an example of how to use CreateConfig API.
 // A default retry strategy applies to this operation CreateConfig()
 func (client ConfigClient) CreateConfig(ctx context.Context, request CreateConfigRequest) (response CreateConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -152,6 +156,10 @@ func (client ConfigClient) createConfig(ctx context.Context, request common.OCIR
 }
 
 // DeleteConfig Deletes the configuration item identified by the OCID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/DeleteConfig.go.html to see an example of how to use DeleteConfig API.
 // A default retry strategy applies to this operation DeleteConfig()
 func (client ConfigClient) DeleteConfig(ctx context.Context, request DeleteConfigRequest) (response DeleteConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -206,6 +214,10 @@ func (client ConfigClient) deleteConfig(ctx context.Context, request common.OCIR
 }
 
 // GetConfig Gets the configuration item identified by the OCID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/GetConfig.go.html to see an example of how to use GetConfig API.
 // A default retry strategy applies to this operation GetConfig()
 func (client ConfigClient) GetConfig(ctx context.Context, request GetConfigRequest) (response GetConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -260,6 +272,10 @@ func (client ConfigClient) getConfig(ctx context.Context, request common.OCIRequ
 }
 
 // ListConfigs Returns all configuration items, which can optionally be filtered by configuration type.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ListConfigs.go.html to see an example of how to use ListConfigs API.
 // A default retry strategy applies to this operation ListConfigs()
 func (client ConfigClient) ListConfigs(ctx context.Context, request ListConfigsRequest) (response ListConfigsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -314,6 +330,10 @@ func (client ConfigClient) listConfigs(ctx context.Context, request common.OCIRe
 }
 
 // RetrieveNamespaceMetrics Returns all metrics associated with the specified namespace.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/RetrieveNamespaceMetrics.go.html to see an example of how to use RetrieveNamespaceMetrics API.
 // A default retry strategy applies to this operation RetrieveNamespaceMetrics()
 func (client ConfigClient) RetrieveNamespaceMetrics(ctx context.Context, request RetrieveNamespaceMetricsRequest) (response RetrieveNamespaceMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -368,6 +388,10 @@ func (client ConfigClient) retrieveNamespaceMetrics(ctx context.Context, request
 }
 
 // RetrieveNamespaces Returns all namespaces available in APM.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/RetrieveNamespaces.go.html to see an example of how to use RetrieveNamespaces API.
 // A default retry strategy applies to this operation RetrieveNamespaces()
 func (client ConfigClient) RetrieveNamespaces(ctx context.Context, request RetrieveNamespacesRequest) (response RetrieveNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -421,62 +445,11 @@ func (client ConfigClient) retrieveNamespaces(ctx context.Context, request commo
 	return response, err
 }
 
-// Test Tests a data processing operation on the provided input, returning the potentially modified
-// input as output. Returns 200 on success, 422 when the input can not be processed.
-// A default retry strategy applies to this operation Test()
-func (client ConfigClient) Test(ctx context.Context, request TestRequest) (response TestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.test, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = TestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = TestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(TestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into TestResponse")
-	}
-	return
-}
-
-// test implements the OCIOperation interface (enables retrying operations)
-func (client ConfigClient) test(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/test", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response TestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/TestOutput/Test"
-		err = common.PostProcessServiceError(err, "Config", "Test", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &testoutput{})
-	return response, err
-}
-
 // UpdateConfig Updates the details of the configuration item identified by the OCID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/UpdateConfig.go.html to see an example of how to use UpdateConfig API.
 // A default retry strategy applies to this operation UpdateConfig()
 func (client ConfigClient) UpdateConfig(ctx context.Context, request UpdateConfigRequest) (response UpdateConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -532,6 +505,10 @@ func (client ConfigClient) updateConfig(ctx context.Context, request common.OCIR
 
 // ValidateSpanFilterPattern Validates the Span Filter pattern (filterText) for syntactic correctness.
 // Returns 204 on success, 422 when validation fails.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ValidateSpanFilterPattern.go.html to see an example of how to use ValidateSpanFilterPattern API.
 // A default retry strategy applies to this operation ValidateSpanFilterPattern()
 func (client ConfigClient) ValidateSpanFilterPattern(ctx context.Context, request ValidateSpanFilterPatternRequest) (response ValidateSpanFilterPatternResponse, err error) {
 	var ociResponse common.OCIResponse

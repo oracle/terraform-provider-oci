@@ -21,8 +21,6 @@ type TcpVirtualServiceTrafficRouteRule struct {
 
 	// The destination of the request.
 	Destinations []VirtualDeploymentTrafficRuleTarget `mandatory:"true" json:"destinations"`
-
-	RetryConfiguration *TcpRetryConfiguration `mandatory:"false" json:"retryConfiguration"`
 }
 
 // GetDestinations returns Destinations

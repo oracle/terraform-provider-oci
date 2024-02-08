@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateAnnouncementsPreferenceRequest wrapper for the UpdateAnnouncementsPreference operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementsPreference.go.html to see an example of how to use UpdateAnnouncementsPreferenceRequest.
 type UpdateAnnouncementsPreferenceRequest struct {
 
 	// The ID of the preference.

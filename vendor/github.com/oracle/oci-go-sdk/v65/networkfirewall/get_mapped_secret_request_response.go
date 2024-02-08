@@ -12,6 +12,10 @@ import (
 )
 
 // GetMappedSecretRequest wrapper for the GetMappedSecret operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetMappedSecret.go.html to see an example of how to use GetMappedSecretRequest.
 type GetMappedSecretRequest struct {
 
 	// Unique Network Firewall Policy identifier

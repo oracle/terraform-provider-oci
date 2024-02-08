@@ -12,6 +12,10 @@ import (
 )
 
 // GetAuthenticationFactorSettingRequest wrapper for the GetAuthenticationFactorSetting operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAuthenticationFactorSetting.go.html to see an example of how to use GetAuthenticationFactorSettingRequest.
 type GetAuthenticationFactorSettingRequest struct {
 
 	// ID of the resource

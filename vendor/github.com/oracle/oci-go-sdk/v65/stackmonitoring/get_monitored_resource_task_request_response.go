@@ -12,6 +12,10 @@ import (
 )
 
 // GetMonitoredResourceTaskRequest wrapper for the GetMonitoredResourceTask operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMonitoredResourceTask.go.html to see an example of how to use GetMonitoredResourceTaskRequest.
 type GetMonitoredResourceTaskRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of stack monitoring resource task.

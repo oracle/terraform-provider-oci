@@ -78,7 +78,6 @@ const (
 	DiscoveryDetailsResourceTypeApacheHttpServer DiscoveryDetailsResourceTypeEnum = "APACHE_HTTP_SERVER"
 	DiscoveryDetailsResourceTypeOracleGoldengate DiscoveryDetailsResourceTypeEnum = "ORACLE_GOLDENGATE"
 	DiscoveryDetailsResourceTypeCustomResource   DiscoveryDetailsResourceTypeEnum = "CUSTOM_RESOURCE"
-	DiscoveryDetailsResourceTypeOracleHttpServer DiscoveryDetailsResourceTypeEnum = "ORACLE_HTTP_SERVER"
 )
 
 var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -96,7 +95,6 @@ var mappingDiscoveryDetailsResourceTypeEnum = map[string]DiscoveryDetailsResourc
 	"APACHE_HTTP_SERVER": DiscoveryDetailsResourceTypeApacheHttpServer,
 	"ORACLE_GOLDENGATE":  DiscoveryDetailsResourceTypeOracleGoldengate,
 	"CUSTOM_RESOURCE":    DiscoveryDetailsResourceTypeCustomResource,
-	"ORACLE_HTTP_SERVER": DiscoveryDetailsResourceTypeOracleHttpServer,
 }
 
 var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetailsResourceTypeEnum{
@@ -114,7 +112,6 @@ var mappingDiscoveryDetailsResourceTypeEnumLowerCase = map[string]DiscoveryDetai
 	"apache_http_server": DiscoveryDetailsResourceTypeApacheHttpServer,
 	"oracle_goldengate":  DiscoveryDetailsResourceTypeOracleGoldengate,
 	"custom_resource":    DiscoveryDetailsResourceTypeCustomResource,
-	"oracle_http_server": DiscoveryDetailsResourceTypeOracleHttpServer,
 }
 
 // GetDiscoveryDetailsResourceTypeEnumValues Enumerates the set of values for DiscoveryDetailsResourceTypeEnum
@@ -143,7 +140,6 @@ func GetDiscoveryDetailsResourceTypeEnumStringValues() []string {
 		"APACHE_HTTP_SERVER",
 		"ORACLE_GOLDENGATE",
 		"CUSTOM_RESOURCE",
-		"ORACLE_HTTP_SERVER",
 	}
 }
 

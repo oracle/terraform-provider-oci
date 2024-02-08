@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteOneoffPatchRequest wrapper for the DeleteOneoffPatch operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteOneoffPatch.go.html to see an example of how to use DeleteOneoffPatchRequest.
 type DeleteOneoffPatchRequest struct {
 
 	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

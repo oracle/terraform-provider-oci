@@ -12,6 +12,10 @@ import (
 )
 
 // GetConnectionDetailsRequest wrapper for the GetConnectionDetails operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetConnectionDetails.go.html to see an example of how to use GetConnectionDetailsRequest.
 type GetConnectionDetailsRequest struct {
 
 	// A unique identifier for the database system.

@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteMyTrustedUserAgentRequest wrapper for the DeleteMyTrustedUserAgent operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyTrustedUserAgent.go.html to see an example of how to use DeleteMyTrustedUserAgentRequest.
 type DeleteMyTrustedUserAgentRequest struct {
 
 	// ID of the resource

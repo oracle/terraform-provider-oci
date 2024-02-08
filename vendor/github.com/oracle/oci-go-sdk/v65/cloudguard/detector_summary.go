@@ -16,20 +16,17 @@ import (
 	"strings"
 )
 
-// DetectorSummary Summary information for a detector.
+// DetectorSummary Summary of the Detector.
 type DetectorSummary struct {
 
-	// Unique identifier for the detector
+	// detector Identifier
 	Id *string `mandatory:"true" json:"id"`
 
-	// Detector description
+	// detector description
 	Description *string `mandatory:"false" json:"description"`
 
-	// The current lifecycle state of the resource
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DetectorSummary) String() string {

@@ -12,6 +12,10 @@ import (
 )
 
 // GetRedisClusterRequest wrapper for the GetRedisCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/GetRedisCluster.go.html to see an example of how to use GetRedisClusterRequest.
 type GetRedisClusterRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Redis cluster.

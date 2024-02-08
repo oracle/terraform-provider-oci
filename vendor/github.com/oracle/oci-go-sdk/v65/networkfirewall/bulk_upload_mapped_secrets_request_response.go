@@ -13,6 +13,10 @@ import (
 )
 
 // BulkUploadMappedSecretsRequest wrapper for the BulkUploadMappedSecrets operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/BulkUploadMappedSecrets.go.html to see an example of how to use BulkUploadMappedSecretsRequest.
 type BulkUploadMappedSecretsRequest struct {
 
 	// Unique Network Firewall Policy identifier

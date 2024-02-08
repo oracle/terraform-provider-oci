@@ -12,6 +12,10 @@ import (
 )
 
 // DeletePreferredCredentialRequest wrapper for the DeletePreferredCredential operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeletePreferredCredential.go.html to see an example of how to use DeletePreferredCredentialRequest.
 type DeletePreferredCredentialRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

@@ -12,6 +12,10 @@ import (
 )
 
 // RequestCleanEnergyUsageRequest wrapper for the RequestCleanEnergyUsage operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/RequestCleanEnergyUsage.go.html to see an example of how to use RequestCleanEnergyUsageRequest.
 type RequestCleanEnergyUsageRequest struct {
 
 	// The region.

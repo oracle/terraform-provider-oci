@@ -16,17 +16,14 @@ import (
 	"strings"
 )
 
-// DataSourceMappingInfo Details of the detector recipe and detector rule mapped to the data source.
+// DataSourceMappingInfo Detail of resources which are mapped to DataSource.
 type DataSourceMappingInfo struct {
 
-	// ID of the detector recipe attached to the data source
+	// Id of the attached detectorRecipeId to the Data Source.
 	DetectorRecipeId *string `mandatory:"true" json:"detectorRecipeId"`
 
-	// ID of the detector rule attached to the data source
+	// Id of the attached detectorRuleId to the Data Source.
 	DetectorRuleId *string `mandatory:"true" json:"detectorRuleId"`
-
-	// ID of the sighting type attached to the data source
-	SightingTypeId *string `mandatory:"false" json:"sightingTypeId"`
 }
 
 func (m DataSourceMappingInfo) String() string {

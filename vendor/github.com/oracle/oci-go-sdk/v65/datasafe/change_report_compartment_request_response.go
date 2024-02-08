@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeReportCompartmentRequest wrapper for the ChangeReportCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeReportCompartment.go.html to see an example of how to use ChangeReportCompartmentRequest.
 type ChangeReportCompartmentRequest struct {
 
 	// Unique report identifier

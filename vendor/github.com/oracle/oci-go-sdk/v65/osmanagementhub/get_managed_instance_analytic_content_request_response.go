@@ -13,6 +13,10 @@ import (
 )
 
 // GetManagedInstanceAnalyticContentRequest wrapper for the GetManagedInstanceAnalyticContent operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceAnalyticContent.go.html to see an example of how to use GetManagedInstanceAnalyticContentRequest.
 type GetManagedInstanceAnalyticContentRequest struct {
 
 	// This compartmentId is used to list managed instances within a compartment.

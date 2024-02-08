@@ -12,6 +12,10 @@ import (
 )
 
 // ValidateSpanFilterPatternRequest wrapper for the ValidateSpanFilterPattern operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ValidateSpanFilterPattern.go.html to see an example of how to use ValidateSpanFilterPatternRequest.
 type ValidateSpanFilterPatternRequest struct {
 
 	// The APM Domain ID the request is intended for.

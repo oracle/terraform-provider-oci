@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateMonitoredResourceTypeRequest wrapper for the UpdateMonitoredResourceType operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMonitoredResourceType.go.html to see an example of how to use UpdateMonitoredResourceTypeRequest.
 type UpdateMonitoredResourceTypeRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource type.

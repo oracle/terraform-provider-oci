@@ -12,6 +12,10 @@ import (
 )
 
 // GetApplicationGroupRequest wrapper for the GetApplicationGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetApplicationGroup.go.html to see an example of how to use GetApplicationGroupRequest.
 type GetApplicationGroupRequest struct {
 
 	// Unique Network Firewall Policy identifier

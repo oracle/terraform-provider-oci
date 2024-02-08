@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteSensitiveDataModelRequest wrapper for the DeleteSensitiveDataModel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSensitiveDataModel.go.html to see an example of how to use DeleteSensitiveDataModelRequest.
 type DeleteSensitiveDataModelRequest struct {
 
 	// The OCID of the sensitive data model.

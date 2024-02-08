@@ -12,12 +12,16 @@ import (
 )
 
 // RequestSecurityScoresRequest wrapper for the RequestSecurityScores operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSecurityScores.go.html to see an example of how to use RequestSecurityScoresRequest.
 type RequestSecurityScoresRequest struct {
 
-	// The OCID of the compartment in which to list resources.
+	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The maximum number of items to return
+	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.

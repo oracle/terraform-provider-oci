@@ -12,6 +12,10 @@ import (
 )
 
 // ListAlertsRequest wrapper for the ListAlerts operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAlerts.go.html to see an example of how to use ListAlertsRequest.
 type ListAlertsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

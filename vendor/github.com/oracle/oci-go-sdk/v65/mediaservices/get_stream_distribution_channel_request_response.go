@@ -12,6 +12,10 @@ import (
 )
 
 // GetStreamDistributionChannelRequest wrapper for the GetStreamDistributionChannel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamDistributionChannel.go.html to see an example of how to use GetStreamDistributionChannelRequest.
 type GetStreamDistributionChannelRequest struct {
 
 	// Unique Stream Distribution Channel path identifier.

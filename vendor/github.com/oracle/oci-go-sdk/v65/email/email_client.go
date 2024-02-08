@@ -4,10 +4,11 @@
 
 // Email Delivery API
 //
-// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
-// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// API for the Email Delivery service. Use this API to send high-volume, application-generated
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//
+// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -94,11 +95,15 @@ func (client *EmailClient) ConfigurationProvider() *common.ConfigurationProvider
 	return client.config
 }
 
-// ChangeEmailDomainCompartment Moves an email domain into a different compartment.
+// ChangeEmailDomainCompartment Moves a email domain into a different compartment.
 // When provided, If-Match is checked against ETag value of the resource.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-// **Note:** All DKIM objects associated with this email domain will also be moved into the provided compartment.
+// **Note:** All Dkim objects associated with this email domain will also be moved into the provided compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ChangeEmailDomainCompartment.go.html to see an example of how to use ChangeEmailDomainCompartment API.
 func (client EmailClient) ChangeEmailDomainCompartment(ctx context.Context, request ChangeEmailDomainCompartmentRequest) (response ChangeEmailDomainCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -156,123 +161,11 @@ func (client EmailClient) changeEmailDomainCompartment(ctx context.Context, requ
 	return response, err
 }
 
-// ChangeEmailPrivateEndpointCompartment Moves a resource into a different compartment. When provided, 'If-Match' is checked against 'ETag' values of the resource.
-func (client EmailClient) ChangeEmailPrivateEndpointCompartment(ctx context.Context, request ChangeEmailPrivateEndpointCompartmentRequest) (response ChangeEmailPrivateEndpointCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeEmailPrivateEndpointCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeEmailPrivateEndpointCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeEmailPrivateEndpointCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeEmailPrivateEndpointCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeEmailPrivateEndpointCompartmentResponse")
-	}
-	return
-}
-
-// changeEmailPrivateEndpointCompartment implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) changeEmailPrivateEndpointCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailPrivateEndpoints/{emailPrivateEndpointId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeEmailPrivateEndpointCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/ChangeEmailPrivateEndpointCompartment"
-		err = common.PostProcessServiceError(err, "Email", "ChangeEmailPrivateEndpointCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ChangeEmailTrackConfigCompartment Moves email tracking configuration resource into a different compartment.
-func (client EmailClient) ChangeEmailTrackConfigCompartment(ctx context.Context, request ChangeEmailTrackConfigCompartmentRequest) (response ChangeEmailTrackConfigCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeEmailTrackConfigCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeEmailTrackConfigCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeEmailTrackConfigCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeEmailTrackConfigCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeEmailTrackConfigCompartmentResponse")
-	}
-	return
-}
-
-// changeEmailTrackConfigCompartment implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) changeEmailTrackConfigCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailTrackConfigs/{emailTrackConfigId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeEmailTrackConfigCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailTrackConfig/ChangeEmailTrackConfigCompartment"
-		err = common.PostProcessServiceError(err, "Email", "ChangeEmailTrackConfigCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeSenderCompartment Moves a sender into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ChangeSenderCompartment.go.html to see an example of how to use ChangeSenderCompartment API.
 func (client EmailClient) ChangeSenderCompartment(ctx context.Context, request ChangeSenderCompartmentRequest) (response ChangeSenderCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -325,11 +218,15 @@ func (client EmailClient) changeSenderCompartment(ctx context.Context, request c
 	return response, err
 }
 
-// CreateDkim Creates a new DKIM for an email domain.
-// This DKIM signs all approved senders in the tenancy that are in this email domain.
+// CreateDkim Creates a new DKIM for a email domain.
+// This DKIM will sign all approved senders in the tenancy that are in this email domain.
 // Best security practices indicate to periodically rotate the DKIM that is doing the signing.
-// When a second DKIM is applied, all senders seamlessly pick up the new key
+// When a second DKIM is applied, all senders will seamlessly pick up the new key
 // without interruption in signing.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateDkim.go.html to see an example of how to use CreateDkim API.
 func (client EmailClient) CreateDkim(ctx context.Context, request CreateDkimRequest) (response CreateDkimResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -388,6 +285,10 @@ func (client EmailClient) createDkim(ctx context.Context, request common.OCIRequ
 }
 
 // CreateEmailDomain Creates a new email domain. Avoid entering confidential information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateEmailDomain.go.html to see an example of how to use CreateEmailDomain API.
 func (client EmailClient) CreateEmailDomain(ctx context.Context, request CreateEmailDomainRequest) (response CreateEmailDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -445,181 +346,11 @@ func (client EmailClient) createEmailDomain(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateEmailPrivateEndpoint Create a new private connection endpoint.
-func (client EmailClient) CreateEmailPrivateEndpoint(ctx context.Context, request CreateEmailPrivateEndpointRequest) (response CreateEmailPrivateEndpointResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createEmailPrivateEndpoint, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateEmailPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateEmailPrivateEndpointResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateEmailPrivateEndpointResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailPrivateEndpointResponse")
-	}
-	return
-}
-
-// createEmailPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createEmailPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailPrivateEndpoints", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateEmailPrivateEndpointResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/CreateEmailPrivateEndpoint"
-		err = common.PostProcessServiceError(err, "Email", "CreateEmailPrivateEndpoint", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateEmailReturnPath Creates a new email return path. Avoid entering confidential information.
-func (client EmailClient) CreateEmailReturnPath(ctx context.Context, request CreateEmailReturnPathRequest) (response CreateEmailReturnPathResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createEmailReturnPath, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateEmailReturnPathResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateEmailReturnPathResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateEmailReturnPathResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailReturnPathResponse")
-	}
-	return
-}
-
-// createEmailReturnPath implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createEmailReturnPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailReturnPaths", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateEmailReturnPathResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/CreateEmailReturnPath"
-		err = common.PostProcessServiceError(err, "Email", "CreateEmailReturnPath", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateEmailTrackConfig Create email tracking configuration resource used to configure email open tracking, click tracking, and addition of List-Unsubscribe header.
-func (client EmailClient) CreateEmailTrackConfig(ctx context.Context, request CreateEmailTrackConfigRequest) (response CreateEmailTrackConfigResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createEmailTrackConfig, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateEmailTrackConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateEmailTrackConfigResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateEmailTrackConfigResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailTrackConfigResponse")
-	}
-	return
-}
-
-// createEmailTrackConfig implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) createEmailTrackConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/emailTrackConfigs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateEmailTrackConfigResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailTrackConfig/CreateEmailTrackConfig"
-		err = common.PostProcessServiceError(err, "Email", "CreateEmailTrackConfig", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateSender Creates a sender for a tenancy in a given compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateSender.go.html to see an example of how to use CreateSender API.
 func (client EmailClient) CreateSender(ctx context.Context, request CreateSenderRequest) (response CreateSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -629,11 +360,6 @@ func (client EmailClient) CreateSender(ctx context.Context, request CreateSender
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.createSender, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -681,6 +407,10 @@ func (client EmailClient) createSender(ctx context.Context, request common.OCIRe
 // Addresses added to the suppression list via the API are denoted as
 // "MANUAL" in the `reason` field. *Note:* All email addresses added to the
 // suppression list are normalized to include only lowercase letters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateSuppression.go.html to see an example of how to use CreateSuppression API.
 func (client EmailClient) CreateSuppression(ctx context.Context, request CreateSuppressionRequest) (response CreateSuppressionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -690,11 +420,6 @@ func (client EmailClient) CreateSuppression(ctx context.Context, request CreateS
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.createSuppression, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -743,7 +468,11 @@ func (client EmailClient) createSuppression(ctx context.Context, request common.
 // will stop signing the domain's outgoing mail.
 // DKIM keys are left in DELETING state for about a day to allow DKIM signatures on
 // in-transit mail to be validated.
-// Consider creating a new DKIM for this domain so the signing can be rotated to it instead of deletion.
+// Consider instead of deletion creating a new DKIM for this domain so the signing can be rotated to it.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteDkim.go.html to see an example of how to use DeleteDkim API.
 func (client EmailClient) DeleteDkim(ctx context.Context, request DeleteDkimRequest) (response DeleteDkimResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -796,7 +525,11 @@ func (client EmailClient) deleteDkim(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
-// DeleteEmailDomain Deletes an email domain.
+// DeleteEmailDomain Deletes a email domain.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteEmailDomain.go.html to see an example of how to use DeleteEmailDomain API.
 func (client EmailClient) DeleteEmailDomain(ctx context.Context, request DeleteEmailDomainRequest) (response DeleteEmailDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -849,167 +582,12 @@ func (client EmailClient) deleteEmailDomain(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteEmailPrivateEndpoint Deletes a private endpoint by identifier.
-func (client EmailClient) DeleteEmailPrivateEndpoint(ctx context.Context, request DeleteEmailPrivateEndpointRequest) (response DeleteEmailPrivateEndpointResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteEmailPrivateEndpoint, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteEmailPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteEmailPrivateEndpointResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteEmailPrivateEndpointResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailPrivateEndpointResponse")
-	}
-	return
-}
-
-// deleteEmailPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteEmailPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailPrivateEndpoints/{emailPrivateEndpointId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteEmailPrivateEndpointResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/DeleteEmailPrivateEndpoint"
-		err = common.PostProcessServiceError(err, "Email", "DeleteEmailPrivateEndpoint", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteEmailReturnPath Deletes an email return path.
-func (client EmailClient) DeleteEmailReturnPath(ctx context.Context, request DeleteEmailReturnPathRequest) (response DeleteEmailReturnPathResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteEmailReturnPath, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteEmailReturnPathResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteEmailReturnPathResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteEmailReturnPathResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailReturnPathResponse")
-	}
-	return
-}
-
-// deleteEmailReturnPath implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteEmailReturnPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailReturnPaths/{emailReturnPathId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteEmailReturnPathResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/DeleteEmailReturnPath"
-		err = common.PostProcessServiceError(err, "Email", "DeleteEmailReturnPath", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteEmailTrackConfig Deletes email tracking configuration resource by identifier.
-func (client EmailClient) DeleteEmailTrackConfig(ctx context.Context, request DeleteEmailTrackConfigRequest) (response DeleteEmailTrackConfigResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteEmailTrackConfig, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteEmailTrackConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteEmailTrackConfigResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteEmailTrackConfigResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailTrackConfigResponse")
-	}
-	return
-}
-
-// deleteEmailTrackConfig implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) deleteEmailTrackConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/emailTrackConfigs/{emailTrackConfigId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteEmailTrackConfigResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailTrackConfig/DeleteEmailTrackConfig"
-		err = common.PostProcessServiceError(err, "Email", "DeleteEmailTrackConfig", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteSender Deletes an approved sender for a tenancy in a given compartment for a
 // provided `senderId`.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteSender.go.html to see an example of how to use DeleteSender API.
 func (client EmailClient) DeleteSender(ctx context.Context, request DeleteSenderRequest) (response DeleteSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1064,6 +642,10 @@ func (client EmailClient) deleteSender(ctx context.Context, request common.OCIRe
 
 // DeleteSuppression Removes a suppressed recipient email address from the suppression list
 // for a tenancy in a given compartment for a provided `suppressionId`.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteSuppression.go.html to see an example of how to use DeleteSuppression API.
 func (client EmailClient) DeleteSuppression(ctx context.Context, request DeleteSuppressionRequest) (response DeleteSuppressionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1117,6 +699,10 @@ func (client EmailClient) deleteSuppression(ctx context.Context, request common.
 }
 
 // GetDkim Retrieves the specified DKIM.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetDkim.go.html to see an example of how to use GetDkim API.
 func (client EmailClient) GetDkim(ctx context.Context, request GetDkimRequest) (response GetDkimResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1169,60 +755,11 @@ func (client EmailClient) getDkim(ctx context.Context, request common.OCIRequest
 	return response, err
 }
 
-// GetEmailConfiguration Returns  email configuration associated with the specified compartment.
-func (client EmailClient) GetEmailConfiguration(ctx context.Context, request GetEmailConfigurationRequest) (response GetEmailConfigurationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getEmailConfiguration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetEmailConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetEmailConfigurationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetEmailConfigurationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetEmailConfigurationResponse")
-	}
-	return
-}
-
-// getEmailConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getEmailConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetEmailConfigurationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Configuration/GetEmailConfiguration"
-		err = common.PostProcessServiceError(err, "Email", "GetEmailConfiguration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetEmailDomain Retrieves the specified email domain.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetEmailDomain.go.html to see an example of how to use GetEmailDomain API.
 func (client EmailClient) GetEmailDomain(ctx context.Context, request GetEmailDomainRequest) (response GetEmailDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1275,166 +812,11 @@ func (client EmailClient) getEmailDomain(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetEmailPrivateEndpoint Gets a specific private reverse connection by identifier.
-func (client EmailClient) GetEmailPrivateEndpoint(ctx context.Context, request GetEmailPrivateEndpointRequest) (response GetEmailPrivateEndpointResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getEmailPrivateEndpoint, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetEmailPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetEmailPrivateEndpointResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetEmailPrivateEndpointResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetEmailPrivateEndpointResponse")
-	}
-	return
-}
-
-// getEmailPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getEmailPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailPrivateEndpoints/{emailPrivateEndpointId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetEmailPrivateEndpointResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/GetEmailPrivateEndpoint"
-		err = common.PostProcessServiceError(err, "Email", "GetEmailPrivateEndpoint", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetEmailReturnPath Retrieves the specified email return path.
-func (client EmailClient) GetEmailReturnPath(ctx context.Context, request GetEmailReturnPathRequest) (response GetEmailReturnPathResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getEmailReturnPath, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetEmailReturnPathResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetEmailReturnPathResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetEmailReturnPathResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetEmailReturnPathResponse")
-	}
-	return
-}
-
-// getEmailReturnPath implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getEmailReturnPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailReturnPaths/{emailReturnPathId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetEmailReturnPathResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/GetEmailReturnPath"
-		err = common.PostProcessServiceError(err, "Email", "GetEmailReturnPath", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetEmailTrackConfig Get email tracking configuration resource by identifier.
-func (client EmailClient) GetEmailTrackConfig(ctx context.Context, request GetEmailTrackConfigRequest) (response GetEmailTrackConfigResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getEmailTrackConfig, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetEmailTrackConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetEmailTrackConfigResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetEmailTrackConfigResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetEmailTrackConfigResponse")
-	}
-	return
-}
-
-// getEmailTrackConfig implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) getEmailTrackConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailTrackConfigs/{emailTrackConfigId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetEmailTrackConfigResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailTrackConfig/GetEmailTrackConfig"
-		err = common.PostProcessServiceError(err, "Email", "GetEmailTrackConfig", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetSender Gets an approved sender for a given `senderId`.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetSender.go.html to see an example of how to use GetSender API.
 func (client EmailClient) GetSender(ctx context.Context, request GetSenderRequest) (response GetSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1489,6 +871,10 @@ func (client EmailClient) getSender(ctx context.Context, request common.OCIReque
 
 // GetSuppression Gets the details of a suppressed recipient email address for a given
 // `suppressionId`. Each suppression is given a unique OCID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetSuppression.go.html to see an example of how to use GetSuppression API.
 func (client EmailClient) GetSuppression(ctx context.Context, request GetSuppressionRequest) (response GetSuppressionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1542,6 +928,10 @@ func (client EmailClient) getSuppression(ctx context.Context, request common.OCI
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client EmailClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1594,7 +984,11 @@ func (client EmailClient) getWorkRequest(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListDkims Lists DKIMs for an email domain.
+// ListDkims Lists DKIMs for a email domain.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListDkims.go.html to see an example of how to use ListDkims API.
 func (client EmailClient) ListDkims(ctx context.Context, request ListDkimsRequest) (response ListDkimsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1648,6 +1042,10 @@ func (client EmailClient) listDkims(ctx context.Context, request common.OCIReque
 }
 
 // ListEmailDomains Lists email domains in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListEmailDomains.go.html to see an example of how to use ListEmailDomains API.
 func (client EmailClient) ListEmailDomains(ctx context.Context, request ListEmailDomainsRequest) (response ListEmailDomainsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1700,166 +1098,11 @@ func (client EmailClient) listEmailDomains(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListEmailPrivateEndpoints Returns a list of all the email private endpoints in the specified compartment.
-func (client EmailClient) ListEmailPrivateEndpoints(ctx context.Context, request ListEmailPrivateEndpointsRequest) (response ListEmailPrivateEndpointsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listEmailPrivateEndpoints, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListEmailPrivateEndpointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListEmailPrivateEndpointsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListEmailPrivateEndpointsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListEmailPrivateEndpointsResponse")
-	}
-	return
-}
-
-// listEmailPrivateEndpoints implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listEmailPrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailPrivateEndpoints", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListEmailPrivateEndpointsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/ListEmailPrivateEndpoints"
-		err = common.PostProcessServiceError(err, "Email", "ListEmailPrivateEndpoints", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListEmailReturnPaths Lists email return paths in the specified compartment or emaildomain.
-func (client EmailClient) ListEmailReturnPaths(ctx context.Context, request ListEmailReturnPathsRequest) (response ListEmailReturnPathsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listEmailReturnPaths, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListEmailReturnPathsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListEmailReturnPathsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListEmailReturnPathsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListEmailReturnPathsResponse")
-	}
-	return
-}
-
-// listEmailReturnPaths implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listEmailReturnPaths(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailReturnPaths", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListEmailReturnPathsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/ListEmailReturnPaths"
-		err = common.PostProcessServiceError(err, "Email", "ListEmailReturnPaths", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListEmailTrackConfigs Returns a list of email tracking configuration resources in the specified compartment.
-func (client EmailClient) ListEmailTrackConfigs(ctx context.Context, request ListEmailTrackConfigsRequest) (response ListEmailTrackConfigsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listEmailTrackConfigs, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListEmailTrackConfigsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListEmailTrackConfigsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListEmailTrackConfigsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListEmailTrackConfigsResponse")
-	}
-	return
-}
-
-// listEmailTrackConfigs implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) listEmailTrackConfigs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/emailTrackConfigs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListEmailTrackConfigsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailTrackConfig/ListEmailTrackConfigs"
-		err = common.PostProcessServiceError(err, "Email", "ListEmailTrackConfigs", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListSenders Gets a collection of approved sender email addresses and sender IDs.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSenders.go.html to see an example of how to use ListSenders API.
 func (client EmailClient) ListSenders(ctx context.Context, request ListSendersRequest) (response ListSendersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1915,6 +1158,10 @@ func (client EmailClient) listSenders(ctx context.Context, request common.OCIReq
 // ListSuppressions Gets a list of suppressed recipient email addresses for a user. The
 // `compartmentId` for suppressions must be a tenancy OCID. The returned list
 // is sorted by creation time in descending order.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListSuppressions.go.html to see an example of how to use ListSuppressions API.
 func (client EmailClient) ListSuppressions(ctx context.Context, request ListSuppressionsRequest) (response ListSuppressionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1968,6 +1215,10 @@ func (client EmailClient) listSuppressions(ctx context.Context, request common.O
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client EmailClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2021,6 +1272,10 @@ func (client EmailClient) listWorkRequestErrors(ctx context.Context, request com
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client EmailClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2074,6 +1329,10 @@ func (client EmailClient) listWorkRequestLogs(ctx context.Context, request commo
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client EmailClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2127,6 +1386,10 @@ func (client EmailClient) listWorkRequests(ctx context.Context, request common.O
 }
 
 // UpdateDkim Modifies a DKIM.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateDkim.go.html to see an example of how to use UpdateDkim API.
 func (client EmailClient) UpdateDkim(ctx context.Context, request UpdateDkimRequest) (response UpdateDkimResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2179,7 +1442,11 @@ func (client EmailClient) updateDkim(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
-// UpdateEmailDomain Modifies an email domain.
+// UpdateEmailDomain Modifies a email domain.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateEmailDomain.go.html to see an example of how to use UpdateEmailDomain API.
 func (client EmailClient) UpdateEmailDomain(ctx context.Context, request UpdateEmailDomainRequest) (response UpdateEmailDomainResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2232,169 +1499,14 @@ func (client EmailClient) updateEmailDomain(ctx context.Context, request common.
 	return response, err
 }
 
-// UpdateEmailPrivateEndpoint Updates the private reverse connection endpoint.
-func (client EmailClient) UpdateEmailPrivateEndpoint(ctx context.Context, request UpdateEmailPrivateEndpointRequest) (response UpdateEmailPrivateEndpointResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateEmailPrivateEndpoint, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateEmailPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateEmailPrivateEndpointResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateEmailPrivateEndpointResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailPrivateEndpointResponse")
-	}
-	return
-}
-
-// updateEmailPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) updateEmailPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailPrivateEndpoints/{emailPrivateEndpointId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateEmailPrivateEndpointResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailPrivateEndpoint/UpdateEmailPrivateEndpoint"
-		err = common.PostProcessServiceError(err, "Email", "UpdateEmailPrivateEndpoint", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateEmailReturnPath Modifies an email return path.
-func (client EmailClient) UpdateEmailReturnPath(ctx context.Context, request UpdateEmailReturnPathRequest) (response UpdateEmailReturnPathResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateEmailReturnPath, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateEmailReturnPathResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateEmailReturnPathResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateEmailReturnPathResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailReturnPathResponse")
-	}
-	return
-}
-
-// updateEmailReturnPath implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) updateEmailReturnPath(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailReturnPaths/{emailReturnPathId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateEmailReturnPathResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailReturnPath/UpdateEmailReturnPath"
-		err = common.PostProcessServiceError(err, "Email", "UpdateEmailReturnPath", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateEmailTrackConfig Update email tracking configuration identified by id.
-func (client EmailClient) UpdateEmailTrackConfig(ctx context.Context, request UpdateEmailTrackConfigRequest) (response UpdateEmailTrackConfigResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateEmailTrackConfig, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateEmailTrackConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateEmailTrackConfigResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateEmailTrackConfigResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailTrackConfigResponse")
-	}
-	return
-}
-
-// updateEmailTrackConfig implements the OCIOperation interface (enables retrying operations)
-func (client EmailClient) updateEmailTrackConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/emailTrackConfigs/{emailTrackConfigId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateEmailTrackConfigResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/EmailTrackConfig/UpdateEmailTrackConfig"
-		err = common.PostProcessServiceError(err, "Email", "UpdateEmailTrackConfig", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateSender Replaces the set of tags for a sender with the tags provided. If either freeform
 // or defined tags are omitted, the tags for that set remain the same. Each set must
 // include the full set of tags for the sender, partial updates are not permitted.
 // For more information about tagging, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/UpdateSender.go.html to see an example of how to use UpdateSender API.
 func (client EmailClient) UpdateSender(ctx context.Context, request UpdateSenderRequest) (response UpdateSenderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -61,9 +61,6 @@ type StackSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m StackSummary) String() string {

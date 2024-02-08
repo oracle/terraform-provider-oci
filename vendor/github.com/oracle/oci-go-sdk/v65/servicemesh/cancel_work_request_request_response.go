@@ -12,6 +12,10 @@ import (
 )
 
 // CancelWorkRequestRequest wrapper for the CancelWorkRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequestRequest.
 type CancelWorkRequestRequest struct {
 
 	// The ID of the asynchronous request.

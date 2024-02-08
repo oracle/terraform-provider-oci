@@ -68,12 +68,6 @@ type MonitoredResource struct {
 	// License edition of the monitored resource.
 	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
 
-	// Source type to indicate if the resource is stack monitoring discovered, OCI native resource, etc.
-	SourceType SourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
-
-	// Resource Category to indicate the kind of resource type.
-	ResourceCategory ResourceCategoryEnum `mandatory:"false" json:"resourceCategory,omitempty"`
-
 	// List of monitored resource properties.
 	Properties []MonitoredResourceProperty `mandatory:"false" json:"properties"`
 
@@ -112,12 +106,6 @@ func (m MonitoredResource) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingSourceTypeEnum(string(m.SourceType)); !ok && m.SourceType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetSourceTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingResourceCategoryEnum(string(m.ResourceCategory)); !ok && m.ResourceCategory != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceCategory: %s. Supported values are: %s.", m.ResourceCategory, strings.Join(GetResourceCategoryEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -136,8 +124,6 @@ func (m *MonitoredResource) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated               *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleState            ResourceLifecycleStateEnum        `json:"lifecycleState"`
 		License                   LicenseTypeEnum                   `json:"license"`
-		SourceType                SourceTypeEnum                    `json:"sourceType"`
-		ResourceCategory          ResourceCategoryEnum              `json:"resourceCategory"`
 		Properties                []MonitoredResourceProperty       `json:"properties"`
 		DatabaseConnectionDetails *ConnectionDetails                `json:"databaseConnectionDetails"`
 		Credentials               monitoredresourcecredential       `json:"credentials"`
@@ -174,10 +160,6 @@ func (m *MonitoredResource) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleState = model.LifecycleState
 
 	m.License = model.License
-
-	m.SourceType = model.SourceType
-
-	m.ResourceCategory = model.ResourceCategory
 
 	m.Properties = make([]MonitoredResourceProperty, len(model.Properties))
 	copy(m.Properties, model.Properties)

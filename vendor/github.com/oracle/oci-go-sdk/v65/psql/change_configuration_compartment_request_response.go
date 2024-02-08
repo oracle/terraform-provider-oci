@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeConfigurationCompartmentRequest wrapper for the ChangeConfigurationCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ChangeConfigurationCompartment.go.html to see an example of how to use ChangeConfigurationCompartmentRequest.
 type ChangeConfigurationCompartmentRequest struct {
 
 	// A unique identifier for the configuration.

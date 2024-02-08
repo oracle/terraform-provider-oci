@@ -12,9 +12,13 @@ import (
 )
 
 // DeleteTargetRequest wrapper for the DeleteTarget operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteTarget.go.html to see an example of how to use DeleteTargetRequest.
 type DeleteTargetRequest struct {
 
-	// OCID of the target
+	// OCID of target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

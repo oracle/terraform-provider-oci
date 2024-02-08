@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// UpdateSecurityRecipeDetails Parameters to be used to update a Security Zones security recipe.
+// UpdateSecurityRecipeDetails Information to update in an existing security zone recipe
 type UpdateSecurityRecipeDetails struct {
 
-	// The recipe's display name
+	// The recipe's name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The recipe's description
 	Description *string `mandatory:"false" json:"description"`
 
-	// The list of security policy IDs to include in the recipe
+	// The list of `SecurityPolicy` ids to include in the recipe
 	SecurityPolicies []string `mandatory:"false" json:"securityPolicies"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

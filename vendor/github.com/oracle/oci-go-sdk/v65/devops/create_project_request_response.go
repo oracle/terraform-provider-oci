@@ -12,6 +12,10 @@ import (
 )
 
 // CreateProjectRequest wrapper for the CreateProject operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateProject.go.html to see an example of how to use CreateProjectRequest.
 type CreateProjectRequest struct {
 
 	// Details for the new project.

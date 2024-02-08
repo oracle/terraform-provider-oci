@@ -17,19 +17,14 @@ import (
 	"strings"
 )
 
-// LoggingEventInfo Information for a logging event for a data source.
+// LoggingEventInfo The information about new Logging event detail of DataSource.
 type LoggingEventInfo struct {
-
-	// Observed value of DataSource for a Problem
 	ObservedValue *string `mandatory:"false" json:"observedValue"`
 
-	// Triggered value of DataSource for a Problem
 	TriggerValue *string `mandatory:"false" json:"triggerValue"`
 
-	// Operator details of DataSource for a Problem
 	Operator *string `mandatory:"false" json:"operator"`
 
-	// Log result details of DataSource for a Problem
 	LogResult *string `mandatory:"false" json:"logResult"`
 }
 

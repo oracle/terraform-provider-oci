@@ -11,22 +11,21 @@
 package cloudguard
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// TargetSummary Summary information for a target.
+// TargetSummary Summary of the Target.
 type TargetSummary struct {
 
-	// Unique identifier for target that can't be changed after creation
+	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID where the resource is created
+	// Compartment Identifier where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of resource that's associated with the target(compartment/HCMCloud/ERPCloud)
+	// possible type of targets(compartment/HCMCloud/ERPCloud)
 	TargetResourceType TargetResourceTypeEnum `mandatory:"true" json:"targetResourceType"`
 
 	// Resource ID which the target uses to monitor
@@ -35,21 +34,16 @@ type TargetSummary struct {
 	// Total number of recipes attached to target
 	RecipeCount *int `mandatory:"true" json:"recipeCount"`
 
-	// Target display name
+	// DetectorTemplate Identifier, can be renamed
 	DisplayName *string `mandatory:"false" json:"displayName"`
-
-	// When a problems is triggered on a resource that the target monitors, should an event be emitted to the OCI Events service?
-	DoesEmitProblemsToEvents *bool `mandatory:"false" json:"doesEmitProblemsToEvents"`
-
-	TargetSummaryAdditionalDetails TargetSummaryAdditionalDetails `mandatory:"false" json:"targetSummaryAdditionalDetails"`
 
 	// The date and time the target was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target was last updated. Format defined by RFC3339.
+	// The date and time the target was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the resource
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -91,70 +85,4 @@ func (m TargetSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *TargetSummary) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		DisplayName                    *string                           `json:"displayName"`
-		DoesEmitProblemsToEvents       *bool                             `json:"doesEmitProblemsToEvents"`
-		TargetSummaryAdditionalDetails targetsummaryadditionaldetails    `json:"targetSummaryAdditionalDetails"`
-		TimeCreated                    *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated                    *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState                 LifecycleStateEnum                `json:"lifecycleState"`
-		LifecyleDetails                *string                           `json:"lifecyleDetails"`
-		FreeformTags                   map[string]string                 `json:"freeformTags"`
-		DefinedTags                    map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                     map[string]map[string]interface{} `json:"systemTags"`
-		Id                             *string                           `json:"id"`
-		CompartmentId                  *string                           `json:"compartmentId"`
-		TargetResourceType             TargetResourceTypeEnum            `json:"targetResourceType"`
-		TargetResourceId               *string                           `json:"targetResourceId"`
-		RecipeCount                    *int                              `json:"recipeCount"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.DisplayName = model.DisplayName
-
-	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents
-
-	nn, e = model.TargetSummaryAdditionalDetails.UnmarshalPolymorphicJSON(model.TargetSummaryAdditionalDetails.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.TargetSummaryAdditionalDetails = nn.(TargetSummaryAdditionalDetails)
-	} else {
-		m.TargetSummaryAdditionalDetails = nil
-	}
-
-	m.TimeCreated = model.TimeCreated
-
-	m.TimeUpdated = model.TimeUpdated
-
-	m.LifecycleState = model.LifecycleState
-
-	m.LifecyleDetails = model.LifecyleDetails
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.SystemTags = model.SystemTags
-
-	m.Id = model.Id
-
-	m.CompartmentId = model.CompartmentId
-
-	m.TargetResourceType = model.TargetResourceType
-
-	m.TargetResourceId = model.TargetResourceId
-
-	m.RecipeCount = model.RecipeCount
-
-	return
 }

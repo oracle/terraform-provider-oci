@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDhcpOptionsRequest wrapper for the DeleteDhcpOptions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteDhcpOptions.go.html to see an example of how to use DeleteDhcpOptionsRequest.
 type DeleteDhcpOptionsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the set of DHCP options.

@@ -42,12 +42,6 @@ type UpdateBucketDetails struct {
 	// on the bucket, public access is allowed for the `GetObject` and `HeadObject` operations.
 	PublicAccessType UpdateBucketDetailsPublicAccessTypeEnum `mandatory:"false" json:"publicAccessType,omitempty"`
 
-	// The type of requests for which object-level audit logging is enabled on this bucket.
-	// This property is set to `Disabled` by default, so no audit logs will be produced at the object level for this
-	// bucket. If the property is set to `Write`, audit logs will be produced for operations such as `Put Object`. If the
-	// property is set to `ReadWrite`, audit logs will be produced for operations such as `Put Object` and `Get Object`.
-	ObjectLevelAuditMode UpdateBucketDetailsObjectLevelAuditModeEnum `mandatory:"false" json:"objectLevelAuditMode,omitempty"`
-
 	// Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is
 	// set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
 	// about events, see Overview of Events (https://docs.cloud.oracle.com/Content/Events/Concepts/eventsoverview.htm).
@@ -78,9 +72,6 @@ type UpdateBucketDetails struct {
 	// automatically between the 'Standard' and 'InfrequentAccess' tiers based on the access pattern of the objects.
 	// When auto tiering is `Disabled`, there will be no automatic transitions between storage tiers.
 	AutoTiering BucketAutoTieringEnum `mandatory:"false" json:"autoTiering,omitempty"`
-
-	// The ID of the ACL Group that contains the network restriction rules to be applied to this bucket.
-	AclGroupId *string `mandatory:"false" json:"aclGroupId"`
 }
 
 func (m UpdateBucketDetails) String() string {
@@ -95,9 +86,6 @@ func (m UpdateBucketDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingUpdateBucketDetailsPublicAccessTypeEnum(string(m.PublicAccessType)); !ok && m.PublicAccessType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PublicAccessType: %s. Supported values are: %s.", m.PublicAccessType, strings.Join(GetUpdateBucketDetailsPublicAccessTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingUpdateBucketDetailsObjectLevelAuditModeEnum(string(m.ObjectLevelAuditMode)); !ok && m.ObjectLevelAuditMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ObjectLevelAuditMode: %s. Supported values are: %s.", m.ObjectLevelAuditMode, strings.Join(GetUpdateBucketDetailsObjectLevelAuditModeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingUpdateBucketDetailsVersioningEnum(string(m.Versioning)); !ok && m.Versioning != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Versioning: %s. Supported values are: %s.", m.Versioning, strings.Join(GetUpdateBucketDetailsVersioningEnumStringValues(), ",")))
@@ -154,52 +142,6 @@ func GetUpdateBucketDetailsPublicAccessTypeEnumStringValues() []string {
 // GetMappingUpdateBucketDetailsPublicAccessTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateBucketDetailsPublicAccessTypeEnum(val string) (UpdateBucketDetailsPublicAccessTypeEnum, bool) {
 	enum, ok := mappingUpdateBucketDetailsPublicAccessTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// UpdateBucketDetailsObjectLevelAuditModeEnum Enum with underlying type: string
-type UpdateBucketDetailsObjectLevelAuditModeEnum string
-
-// Set of constants representing the allowable values for UpdateBucketDetailsObjectLevelAuditModeEnum
-const (
-	UpdateBucketDetailsObjectLevelAuditModeDisabled  UpdateBucketDetailsObjectLevelAuditModeEnum = "Disabled"
-	UpdateBucketDetailsObjectLevelAuditModeWrite     UpdateBucketDetailsObjectLevelAuditModeEnum = "Write"
-	UpdateBucketDetailsObjectLevelAuditModeReadwrite UpdateBucketDetailsObjectLevelAuditModeEnum = "ReadWrite"
-)
-
-var mappingUpdateBucketDetailsObjectLevelAuditModeEnum = map[string]UpdateBucketDetailsObjectLevelAuditModeEnum{
-	"Disabled":  UpdateBucketDetailsObjectLevelAuditModeDisabled,
-	"Write":     UpdateBucketDetailsObjectLevelAuditModeWrite,
-	"ReadWrite": UpdateBucketDetailsObjectLevelAuditModeReadwrite,
-}
-
-var mappingUpdateBucketDetailsObjectLevelAuditModeEnumLowerCase = map[string]UpdateBucketDetailsObjectLevelAuditModeEnum{
-	"disabled":  UpdateBucketDetailsObjectLevelAuditModeDisabled,
-	"write":     UpdateBucketDetailsObjectLevelAuditModeWrite,
-	"readwrite": UpdateBucketDetailsObjectLevelAuditModeReadwrite,
-}
-
-// GetUpdateBucketDetailsObjectLevelAuditModeEnumValues Enumerates the set of values for UpdateBucketDetailsObjectLevelAuditModeEnum
-func GetUpdateBucketDetailsObjectLevelAuditModeEnumValues() []UpdateBucketDetailsObjectLevelAuditModeEnum {
-	values := make([]UpdateBucketDetailsObjectLevelAuditModeEnum, 0)
-	for _, v := range mappingUpdateBucketDetailsObjectLevelAuditModeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetUpdateBucketDetailsObjectLevelAuditModeEnumStringValues Enumerates the set of values in String for UpdateBucketDetailsObjectLevelAuditModeEnum
-func GetUpdateBucketDetailsObjectLevelAuditModeEnumStringValues() []string {
-	return []string{
-		"Disabled",
-		"Write",
-		"ReadWrite",
-	}
-}
-
-// GetMappingUpdateBucketDetailsObjectLevelAuditModeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingUpdateBucketDetailsObjectLevelAuditModeEnum(val string) (UpdateBucketDetailsObjectLevelAuditModeEnum, bool) {
-	enum, ok := mappingUpdateBucketDetailsObjectLevelAuditModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

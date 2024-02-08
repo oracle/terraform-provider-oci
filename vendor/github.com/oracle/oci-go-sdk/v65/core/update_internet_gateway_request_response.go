@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateInternetGatewayRequest wrapper for the UpdateInternetGateway operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInternetGateway.go.html to see an example of how to use UpdateInternetGatewayRequest.
 type UpdateInternetGatewayRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internet gateway.

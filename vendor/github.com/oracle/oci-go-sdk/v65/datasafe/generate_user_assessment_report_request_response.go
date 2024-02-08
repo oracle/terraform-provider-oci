@@ -12,6 +12,10 @@ import (
 )
 
 // GenerateUserAssessmentReportRequest wrapper for the GenerateUserAssessmentReport operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateUserAssessmentReport.go.html to see an example of how to use GenerateUserAssessmentReportRequest.
 type GenerateUserAssessmentReportRequest struct {
 
 	// The OCID of the user assessment.

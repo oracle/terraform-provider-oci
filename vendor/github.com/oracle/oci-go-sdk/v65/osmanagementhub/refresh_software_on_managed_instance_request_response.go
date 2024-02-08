@@ -12,6 +12,10 @@ import (
 )
 
 // RefreshSoftwareOnManagedInstanceRequest wrapper for the RefreshSoftwareOnManagedInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RefreshSoftwareOnManagedInstance.go.html to see an example of how to use RefreshSoftwareOnManagedInstanceRequest.
 type RefreshSoftwareOnManagedInstanceRequest struct {
 
 	// The OCID of the managed instance.

@@ -13,6 +13,10 @@ import (
 )
 
 // DownloadPdfContentRequest wrapper for the DownloadPdfContent operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/DownloadPdfContent.go.html to see an example of how to use DownloadPdfContentRequest.
 type DownloadPdfContentRequest struct {
 
 	// The home region's public name of the logged in user.

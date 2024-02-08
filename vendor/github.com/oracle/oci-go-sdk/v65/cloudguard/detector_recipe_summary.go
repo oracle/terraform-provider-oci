@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// DetectorRecipeSummary Summary information for a detector recipe.
+// DetectorRecipeSummary Summary of Detector recipe
 type DetectorRecipeSummary struct {
 
-	// OCID for detector recipe
+	// Ocid for detector recipe
 	Id *string `mandatory:"true" json:"id"`
 
-	// Display name for detector recipe
+	// DisplayName of detector recipe
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment OCID of detector recipe
+	// compartmentId of detector recipe
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Owner of the detector recipe
+	// Owner of detector recipe
 	Owner OwnerTypeEnum `mandatory:"true" json:"owner"`
 
 	// Type of detector
@@ -37,19 +37,19 @@ type DetectorRecipeSummary struct {
 	// Detector recipe description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recipe OCID of the source recipe to be cloned
+	// Recipe Ocid of the Source Recipe to be cloned
 	SourceDetectorRecipeId *string `mandatory:"false" json:"sourceDetectorRecipeId"`
 
-	// List of detector rules for the detector type
+	// List of detetor rules for the detector type
 	DetectorRules []DetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
 
 	// The date and time the detector recipe was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the detector recipe was last updated. Format defined by RFC3339.
+	// The date and time the detector recipe was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the resource
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The number of days for which source data is retained

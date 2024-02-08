@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateBackupRequest wrapper for the UpdateBackup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateBackup.go.html to see an example of how to use UpdateBackupRequest.
 type UpdateBackupRequest struct {
 
 	// A unique identifier for the backup.

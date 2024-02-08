@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdateSecurityPolicyDetails Parameters to be used to update a security policy.
+// UpdateSecurityPolicyDetails The information to be updated.
 type UpdateSecurityPolicyDetails struct {
 
-	// Dis;lay name for the security policy
+	// SecurityPolicy Identifier
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

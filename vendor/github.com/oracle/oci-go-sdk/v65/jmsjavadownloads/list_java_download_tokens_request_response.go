@@ -12,6 +12,10 @@ import (
 )
 
 // ListJavaDownloadTokensRequest wrapper for the ListJavaDownloadTokens operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaDownloadTokens.go.html to see an example of how to use ListJavaDownloadTokensRequest.
 type ListJavaDownloadTokensRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenancy.

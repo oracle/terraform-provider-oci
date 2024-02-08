@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// ProblemCollection Collection of summary information for problems.
+// ProblemCollection Collection of Problem
 type ProblemCollection struct {
 
-	// List of ProblemSummary resources
+	// List of ProblemSummary
 	Items []ProblemSummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ProblemCollection) String() string {

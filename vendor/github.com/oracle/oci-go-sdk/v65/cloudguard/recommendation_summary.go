@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// RecommendationSummary Recommendation definition.
+// RecommendationSummary Recommendation Definition.
 type RecommendationSummary struct {
 
-	// Unique identifier for the recommendation
+	// Unique identifier for Recommendation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Target ID associated with the problem
+	// targetId associated with the problem
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// Recommendation details
@@ -34,31 +34,31 @@ type RecommendationSummary struct {
 	// Count number of the problem
 	ProblemCount *int64 `mandatory:"true" json:"problemCount"`
 
-	// The current lifecycle state of the recommendation
+	// The current state of the Recommendation.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// Additional details on the substate of the lifecycle state
+	// The lifecycleDetail will give more detail on the substate of the lifecycleState.
 	LifecycleDetail RecommendationLifecycleDetailEnum `mandatory:"true" json:"lifecycleDetail"`
 
-	// Recommendation string that appears in the UI for the problem
+	// recommendation string showing on UX
 	Name *string `mandatory:"true" json:"name"`
 
-	// Description of the recommendation
+	// description of the recommendation
 	Description *string `mandatory:"true" json:"description"`
 
 	// Recommendation type
 	Type RecommendationTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// Tenant identifier
+	// Tenant Identifier
 	TenantId *string `mandatory:"false" json:"tenantId"`
 
-	// The risk level of the problem
+	// The Risk Level
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// The date and time the problem was first created
+	// problem creating time
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the problem was last updated
+	// problem updating time
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 }
 

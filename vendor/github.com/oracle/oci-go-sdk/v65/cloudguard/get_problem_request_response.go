@@ -12,9 +12,13 @@ import (
 )
 
 // GetProblemRequest wrapper for the GetProblem operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetProblem.go.html to see an example of how to use GetProblemRequest.
 type GetProblemRequest struct {
 
-	// OCID of the problem.
+	// OCId of the problem.
 	ProblemId *string `mandatory:"true" contributesTo:"path" name:"problemId"`
 
 	// The client request ID for tracing.

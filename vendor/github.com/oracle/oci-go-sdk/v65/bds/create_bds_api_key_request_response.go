@@ -12,6 +12,10 @@ import (
 )
 
 // CreateBdsApiKeyRequest wrapper for the CreateBdsApiKey operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateBdsApiKey.go.html to see an example of how to use CreateBdsApiKeyRequest.
 type CreateBdsApiKeyRequest struct {
 
 	// The OCID of the cluster.

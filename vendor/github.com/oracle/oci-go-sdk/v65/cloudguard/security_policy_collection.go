@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// SecurityPolicyCollection Results of a security policy search.
+// SecurityPolicyCollection Results of a security policy search. Contains `SecurityPolicySummary` items.
 type SecurityPolicyCollection struct {
 
-	// A list of SecurityPolicySummary resources
+	// A list of security policy summaries
 	Items []SecurityPolicySummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m SecurityPolicyCollection) String() string {

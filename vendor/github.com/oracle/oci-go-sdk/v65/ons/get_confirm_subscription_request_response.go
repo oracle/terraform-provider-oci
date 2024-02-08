@@ -12,6 +12,10 @@ import (
 )
 
 // GetConfirmSubscriptionRequest wrapper for the GetConfirmSubscription operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/GetConfirmSubscription.go.html to see an example of how to use GetConfirmSubscriptionRequest.
 type GetConfirmSubscriptionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription to get the confirmation details for.
@@ -30,7 +34,7 @@ type GetConfirmSubscriptionRequest struct {
 	//   * `SLACK`
 	//   * `SMS`
 	// For information about subscription protocols, see
-	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
+	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
 	Protocol *string `mandatory:"true" contributesTo:"query" name:"protocol"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

@@ -12,6 +12,10 @@ import (
 )
 
 // SummarizeAwrDatabaseParametersRequest wrapper for the SummarizeAwrDatabaseParameters operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseParameters.go.html to see an example of how to use SummarizeAwrDatabaseParametersRequest.
 type SummarizeAwrDatabaseParametersRequest struct {
 
 	// Unique Awr Hub identifier

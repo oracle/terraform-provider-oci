@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDrgRouteDistributionRequest wrapper for the UpdateDrgRouteDistribution operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateDrgRouteDistribution.go.html to see an example of how to use UpdateDrgRouteDistributionRequest.
 type UpdateDrgRouteDistributionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.

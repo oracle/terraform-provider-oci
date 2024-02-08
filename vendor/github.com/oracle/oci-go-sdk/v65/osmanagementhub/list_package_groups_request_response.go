@@ -12,6 +12,10 @@ import (
 )
 
 // ListPackageGroupsRequest wrapper for the ListPackageGroups operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListPackageGroups.go.html to see an example of how to use ListPackageGroupsRequest.
 type ListPackageGroupsRequest struct {
 
 	// The software source OCID.

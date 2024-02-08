@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteHeatWaveClusterRequest wrapper for the DeleteHeatWaveCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteHeatWaveCluster.go.html to see an example of how to use DeleteHeatWaveClusterRequest.
 type DeleteHeatWaveClusterRequest struct {
 
 	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

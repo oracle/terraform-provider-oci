@@ -67,7 +67,7 @@ func newUsagelimitsClientFromBaseClient(baseClient common.BaseClient, configProv
 
 // SetRegion overrides the region of this client.
 func (client *UsagelimitsClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("identity", "https://identity.{region}.oci.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("usage", "https://identity.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,6 +92,10 @@ func (client *UsagelimitsClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // ListUsageLimits Returns the list of usage limit for the subscription ID and tenant ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListUsageLimits.go.html to see an example of how to use ListUsageLimits API.
 // A default retry strategy applies to this operation ListUsageLimits()
 func (client UsagelimitsClient) ListUsageLimits(ctx context.Context, request ListUsageLimitsRequest) (response ListUsageLimitsResponse, err error) {
 	var ociResponse common.OCIResponse

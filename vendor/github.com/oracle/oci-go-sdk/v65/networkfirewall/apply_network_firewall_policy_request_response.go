@@ -12,6 +12,10 @@ import (
 )
 
 // ApplyNetworkFirewallPolicyRequest wrapper for the ApplyNetworkFirewallPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ApplyNetworkFirewallPolicy.go.html to see an example of how to use ApplyNetworkFirewallPolicyRequest.
 type ApplyNetworkFirewallPolicyRequest struct {
 
 	// Unique Network Firewall Policy identifier

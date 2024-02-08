@@ -17,13 +17,12 @@ import (
 	"strings"
 )
 
-// CompositeCondition Composite condition resource with nested condition.
+// CompositeCondition Composite Condition object with nested Condition
 type CompositeCondition struct {
 	LeftOperand Condition `mandatory:"false" json:"leftOperand"`
 
 	RightOperand Condition `mandatory:"false" json:"rightOperand"`
 
-	// Composite condition operator
 	CompositeOperator CompositeConditionCompositeOperatorEnum `mandatory:"false" json:"compositeOperator,omitempty"`
 }
 

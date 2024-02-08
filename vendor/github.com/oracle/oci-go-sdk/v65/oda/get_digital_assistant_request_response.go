@@ -12,6 +12,10 @@ import (
 )
 
 // GetDigitalAssistantRequest wrapper for the GetDigitalAssistant operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetDigitalAssistant.go.html to see an example of how to use GetDigitalAssistantRequest.
 type GetDigitalAssistantRequest struct {
 
 	// Unique Digital Assistant instance identifier.

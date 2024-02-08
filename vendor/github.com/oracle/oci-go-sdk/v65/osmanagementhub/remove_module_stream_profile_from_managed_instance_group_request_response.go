@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveModuleStreamProfileFromManagedInstanceGroupRequest wrapper for the RemoveModuleStreamProfileFromManagedInstanceGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemoveModuleStreamProfileFromManagedInstanceGroup.go.html to see an example of how to use RemoveModuleStreamProfileFromManagedInstanceGroupRequest.
 type RemoveModuleStreamProfileFromManagedInstanceGroupRequest struct {
 
 	// The managed instance group OCID.

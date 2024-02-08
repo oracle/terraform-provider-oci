@@ -12,6 +12,10 @@ import (
 )
 
 // ListCustomTablesRequest wrapper for the ListCustomTables operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListCustomTables.go.html to see an example of how to use ListCustomTablesRequest.
 type ListCustomTablesRequest struct {
 
 	// The compartment ID in which to list resources.

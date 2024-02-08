@@ -12,6 +12,10 @@ import (
 )
 
 // CreatePluggableDatabaseRequest wrapper for the CreatePluggableDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreatePluggableDatabase.go.html to see an example of how to use CreatePluggableDatabaseRequest.
 type CreatePluggableDatabaseRequest struct {
 
 	// Request to create pluggable database.

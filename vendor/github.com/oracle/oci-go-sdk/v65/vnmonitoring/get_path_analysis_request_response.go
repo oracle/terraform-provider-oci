@@ -12,6 +12,10 @@ import (
 )
 
 // GetPathAnalysisRequest wrapper for the GetPathAnalysis operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/GetPathAnalysis.go.html to see an example of how to use GetPathAnalysisRequest.
 type GetPathAnalysisRequest struct {
 
 	// Details for the path analysis query.

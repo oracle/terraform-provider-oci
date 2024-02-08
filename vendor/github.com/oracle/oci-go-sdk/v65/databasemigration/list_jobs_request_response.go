@@ -12,6 +12,10 @@ import (
 )
 
 // ListJobsRequest wrapper for the ListJobs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListJobs.go.html to see an example of how to use ListJobsRequest.
 type ListJobsRequest struct {
 
 	// The ID of the migration in which to list resources.

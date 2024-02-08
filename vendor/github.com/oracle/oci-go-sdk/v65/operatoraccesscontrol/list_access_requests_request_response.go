@@ -12,6 +12,10 @@ import (
 )
 
 // ListAccessRequestsRequest wrapper for the ListAccessRequests operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ListAccessRequests.go.html to see an example of how to use ListAccessRequestsRequest.
 type ListAccessRequestsRequest struct {
 
 	// The ID of the compartment in which to list resources.

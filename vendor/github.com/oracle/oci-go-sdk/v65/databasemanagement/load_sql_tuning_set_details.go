@@ -605,21 +605,18 @@ type LoadSqlTuningSetDetailsUpdateConditionEnum string
 
 // Set of constants representing the allowable values for LoadSqlTuningSetDetailsUpdateConditionEnum
 const (
-	LoadSqlTuningSetDetailsUpdateConditionOld  LoadSqlTuningSetDetailsUpdateConditionEnum = "OLD"
-	LoadSqlTuningSetDetailsUpdateConditionNew  LoadSqlTuningSetDetailsUpdateConditionEnum = "NEW"
-	LoadSqlTuningSetDetailsUpdateConditionNull LoadSqlTuningSetDetailsUpdateConditionEnum = "NULL"
+	LoadSqlTuningSetDetailsUpdateConditionOld LoadSqlTuningSetDetailsUpdateConditionEnum = "OLD"
+	LoadSqlTuningSetDetailsUpdateConditionNew LoadSqlTuningSetDetailsUpdateConditionEnum = "NEW"
 )
 
 var mappingLoadSqlTuningSetDetailsUpdateConditionEnum = map[string]LoadSqlTuningSetDetailsUpdateConditionEnum{
-	"OLD":  LoadSqlTuningSetDetailsUpdateConditionOld,
-	"NEW":  LoadSqlTuningSetDetailsUpdateConditionNew,
-	"NULL": LoadSqlTuningSetDetailsUpdateConditionNull,
+	"OLD": LoadSqlTuningSetDetailsUpdateConditionOld,
+	"NEW": LoadSqlTuningSetDetailsUpdateConditionNew,
 }
 
 var mappingLoadSqlTuningSetDetailsUpdateConditionEnumLowerCase = map[string]LoadSqlTuningSetDetailsUpdateConditionEnum{
-	"old":  LoadSqlTuningSetDetailsUpdateConditionOld,
-	"new":  LoadSqlTuningSetDetailsUpdateConditionNew,
-	"null": LoadSqlTuningSetDetailsUpdateConditionNull,
+	"old": LoadSqlTuningSetDetailsUpdateConditionOld,
+	"new": LoadSqlTuningSetDetailsUpdateConditionNew,
 }
 
 // GetLoadSqlTuningSetDetailsUpdateConditionEnumValues Enumerates the set of values for LoadSqlTuningSetDetailsUpdateConditionEnum
@@ -636,7 +633,6 @@ func GetLoadSqlTuningSetDetailsUpdateConditionEnumStringValues() []string {
 	return []string{
 		"OLD",
 		"NEW",
-		"NULL",
 	}
 }
 

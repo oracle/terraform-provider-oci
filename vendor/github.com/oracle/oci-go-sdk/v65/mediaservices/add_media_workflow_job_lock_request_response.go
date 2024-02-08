@@ -12,6 +12,10 @@ import (
 )
 
 // AddMediaWorkflowJobLockRequest wrapper for the AddMediaWorkflowJobLock operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowJobLock.go.html to see an example of how to use AddMediaWorkflowJobLockRequest.
 type AddMediaWorkflowJobLockRequest struct {
 
 	// The details to be updated for the AddLock.

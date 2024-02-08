@@ -12,6 +12,10 @@ import (
 )
 
 // GetWebAppFirewallPolicyRequest wrapper for the GetWebAppFirewallPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/GetWebAppFirewallPolicy.go.html to see an example of how to use GetWebAppFirewallPolicyRequest.
 type GetWebAppFirewallPolicyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.

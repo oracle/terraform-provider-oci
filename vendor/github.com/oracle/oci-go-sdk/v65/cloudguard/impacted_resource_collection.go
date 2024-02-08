@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// ImpactedResourceCollection Collection of impacted resource summaries.
+// ImpactedResourceCollection Provides the summary of impacted resources
 type ImpactedResourceCollection struct {
 
-	// List of ImpactedResourceSummary resources
+	// List of ImpactedResourceSummary
 	Items []ImpactedResourceSummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ImpactedResourceCollection) String() string {

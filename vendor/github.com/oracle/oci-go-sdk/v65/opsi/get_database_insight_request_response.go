@@ -12,6 +12,10 @@ import (
 )
 
 // GetDatabaseInsightRequest wrapper for the GetDatabaseInsight operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetDatabaseInsight.go.html to see an example of how to use GetDatabaseInsightRequest.
 type GetDatabaseInsightRequest struct {
 
 	// Unique database insight identifier

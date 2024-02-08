@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteBackupRequest wrapper for the DeleteBackup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/DeleteBackup.go.html to see an example of how to use DeleteBackupRequest.
 type DeleteBackupRequest struct {
 
 	// A unique identifier for the backup.

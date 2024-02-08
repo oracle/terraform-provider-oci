@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeBackupCompartmentRequest wrapper for the ChangeBackupCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ChangeBackupCompartment.go.html to see an example of how to use ChangeBackupCompartmentRequest.
 type ChangeBackupCompartmentRequest struct {
 
 	// A unique identifier for the backup.

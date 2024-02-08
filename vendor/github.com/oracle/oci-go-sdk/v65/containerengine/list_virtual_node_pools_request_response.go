@@ -12,6 +12,10 @@ import (
 )
 
 // ListVirtualNodePoolsRequest wrapper for the ListVirtualNodePools operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListVirtualNodePools.go.html to see an example of how to use ListVirtualNodePoolsRequest.
 type ListVirtualNodePoolsRequest struct {
 
 	// The OCID of the compartment.

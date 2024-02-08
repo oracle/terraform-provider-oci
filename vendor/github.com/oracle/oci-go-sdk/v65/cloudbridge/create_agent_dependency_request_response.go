@@ -12,6 +12,10 @@ import (
 )
 
 // CreateAgentDependencyRequest wrapper for the CreateAgentDependency operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateAgentDependency.go.html to see an example of how to use CreateAgentDependencyRequest.
 type CreateAgentDependencyRequest struct {
 
 	// Details for the new AgentDependency.

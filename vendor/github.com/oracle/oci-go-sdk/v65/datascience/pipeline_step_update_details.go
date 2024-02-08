@@ -72,10 +72,6 @@ func (m *pipelinestepupdatedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 		mm := PipelineCustomScriptStepUpdateDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "CONTAINER":
-		mm := PipelineContainerStepUpdateDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for PipelineStepUpdateDetails: %s.", m.StepType)
 		return *m, nil
@@ -120,19 +116,16 @@ type PipelineStepUpdateDetailsStepTypeEnum string
 const (
 	PipelineStepUpdateDetailsStepTypeMlJob        PipelineStepUpdateDetailsStepTypeEnum = "ML_JOB"
 	PipelineStepUpdateDetailsStepTypeCustomScript PipelineStepUpdateDetailsStepTypeEnum = "CUSTOM_SCRIPT"
-	PipelineStepUpdateDetailsStepTypeContainer    PipelineStepUpdateDetailsStepTypeEnum = "CONTAINER"
 )
 
 var mappingPipelineStepUpdateDetailsStepTypeEnum = map[string]PipelineStepUpdateDetailsStepTypeEnum{
 	"ML_JOB":        PipelineStepUpdateDetailsStepTypeMlJob,
 	"CUSTOM_SCRIPT": PipelineStepUpdateDetailsStepTypeCustomScript,
-	"CONTAINER":     PipelineStepUpdateDetailsStepTypeContainer,
 }
 
 var mappingPipelineStepUpdateDetailsStepTypeEnumLowerCase = map[string]PipelineStepUpdateDetailsStepTypeEnum{
 	"ml_job":        PipelineStepUpdateDetailsStepTypeMlJob,
 	"custom_script": PipelineStepUpdateDetailsStepTypeCustomScript,
-	"container":     PipelineStepUpdateDetailsStepTypeContainer,
 }
 
 // GetPipelineStepUpdateDetailsStepTypeEnumValues Enumerates the set of values for PipelineStepUpdateDetailsStepTypeEnum
@@ -149,7 +142,6 @@ func GetPipelineStepUpdateDetailsStepTypeEnumStringValues() []string {
 	return []string{
 		"ML_JOB",
 		"CUSTOM_SCRIPT",
-		"CONTAINER",
 	}
 }
 

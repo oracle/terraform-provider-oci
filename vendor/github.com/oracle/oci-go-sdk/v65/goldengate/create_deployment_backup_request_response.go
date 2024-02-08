@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDeploymentBackupRequest wrapper for the CreateDeploymentBackup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDeploymentBackup.go.html to see an example of how to use CreateDeploymentBackupRequest.
 type CreateDeploymentBackupRequest struct {
 
 	// Specification of the DeploymentBackup to create.

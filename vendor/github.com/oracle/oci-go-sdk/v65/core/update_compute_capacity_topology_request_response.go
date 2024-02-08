@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateComputeCapacityTopologyRequest wrapper for the UpdateComputeCapacityTopology operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCapacityTopology.go.html to see an example of how to use UpdateComputeCapacityTopologyRequest.
 type UpdateComputeCapacityTopologyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity topology.

@@ -23,7 +23,7 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
-// federationClient is a client to retrieve the security token necessary to sign a request.
+// federationClient is a client to retrieve the security token for an instance principal necessary to sign a request.
 // It also provides the private key whose corresponding public key is used to retrieve the security token.
 type federationClient interface {
 	ClaimHolder
@@ -142,18 +142,13 @@ type x509FederationClient struct {
 	securityToken                     securityToken
 	authClient                        *common.BaseClient
 	mux                               sync.Mutex
-	skipTenancyValidation             bool
-	tokenPurpose                      string
 }
 
-func newX509FederationClientWithPurpose(region common.Region, tenancyID string, leafCertificateRetriever x509CertificateRetriever, intermediateCertificateRetrievers []x509CertificateRetriever,
-	skipTenancyValidation bool, modifier dispatcherModifier, purpose string) (federationClient, error) {
+func newX509FederationClient(region common.Region, tenancyID string, leafCertificateRetriever x509CertificateRetriever, intermediateCertificateRetrievers []x509CertificateRetriever, modifier dispatcherModifier) (federationClient, error) {
 	client := &x509FederationClient{
 		tenancyID:                         tenancyID,
 		leafCertificateRetriever:          leafCertificateRetriever,
 		intermediateCertificateRetrievers: intermediateCertificateRetrievers,
-		skipTenancyValidation:             skipTenancyValidation,
-		tokenPurpose:                      purpose,
 	}
 	client.sessionKeySupplier = newSessionKeySupplier()
 	authClient := newAuthClient(region, client)
@@ -169,30 +164,7 @@ func newX509FederationClientWithPurpose(region common.Region, tenancyID string, 
 	return client, nil
 }
 
-func newX509FederationClientWithURLOrFileBasedCerts(region common.Region, tenancyID string, leafCertificateRetriever x509CertificateRetriever,
-	intermediateRetrievers []x509CertificateRetriever, modifier dispatcherModifier, purpose string) (federationClient, error) {
-	client := &x509FederationClient{
-		tenancyID:                         tenancyID,
-		leafCertificateRetriever:          leafCertificateRetriever,
-		intermediateCertificateRetrievers: intermediateRetrievers,
-		tokenPurpose:                      purpose,
-	}
-	client.sessionKeySupplier = newSessionKeySupplier()
-	authClient := newAuthClient(region, client)
-
-	var err error
-
-	if authClient.HTTPClient, err = modifier.Modify(authClient.HTTPClient); err != nil {
-		err = fmt.Errorf("failed to modify client: %s", err.Error())
-		return nil, err
-	}
-
-	client.authClient = authClient
-	return client, nil
-}
-
-func newX509FederationClientWithCerts(region common.Region, tenancyID string, leafCertificate, leafPassphrase, leafPrivateKey []byte,
-	intermediateCertificates [][]byte, modifier dispatcherModifier, purpose string) (federationClient, error) {
+func newX509FederationClientWithCerts(region common.Region, tenancyID string, leafCertificate, leafPassphrase, leafPrivateKey []byte, intermediateCertificates [][]byte, modifier dispatcherModifier) (federationClient, error) {
 	intermediateRetrievers := make([]x509CertificateRetriever, len(intermediateCertificates))
 	for i, c := range intermediateCertificates {
 		intermediateRetrievers[i] = &staticCertificateRetriever{Passphrase: []byte(""), CertificatePem: c, PrivateKeyPem: nil}
@@ -202,7 +174,6 @@ func newX509FederationClientWithCerts(region common.Region, tenancyID string, le
 		tenancyID:                         tenancyID,
 		leafCertificateRetriever:          &staticCertificateRetriever{Passphrase: leafPassphrase, CertificatePem: leafCertificate, PrivateKeyPem: leafPrivateKey},
 		intermediateCertificateRetrievers: intermediateRetrievers,
-		tokenPurpose:                      purpose,
 	}
 	client.sessionKeySupplier = newSessionKeySupplier()
 	authClient := newAuthClient(region, client)
@@ -290,12 +261,10 @@ func (c *x509FederationClient) renewSecurityToken() (err error) {
 		return fmt.Errorf("failed to refresh leaf certificate: %s", err.Error())
 	}
 
-	if !c.skipTenancyValidation {
-		updatedTenancyID := extractTenancyIDFromCertificate(c.leafCertificateRetriever.Certificate())
-		if c.tenancyID != updatedTenancyID {
-			err = fmt.Errorf("unexpected update of tenancy OCID in the leaf certificate. Previous tenancy: %s, Updated: %s", c.tenancyID, updatedTenancyID)
-			return
-		}
+	updatedTenancyID := extractTenancyIDFromCertificate(c.leafCertificateRetriever.Certificate())
+	if c.tenancyID != updatedTenancyID {
+		err = fmt.Errorf("unexpected update of tenancy OCID in the leaf certificate. Previous tenancy: %s, Updated: %s", c.tenancyID, updatedTenancyID)
+		return
 	}
 
 	for _, retriever := range c.intermediateCertificateRetrievers {
@@ -364,7 +333,6 @@ type X509FederationDetails struct {
 	Certificate              string   `mandatory:"true" json:"certificate,omitempty"`
 	PublicKey                string   `mandatory:"true" json:"publicKey,omitempty"`
 	IntermediateCertificates []string `mandatory:"false" json:"intermediateCertificates,omitempty"`
-	Purpose                  string   `mandatory:"true" json:"purpose,omitempty"`
 }
 
 type x509FederationResponse struct {
@@ -388,7 +356,6 @@ func (c *x509FederationClient) makeX509FederationRequest() *x509FederationReques
 		Certificate:              certificate,
 		PublicKey:                publicKey,
 		IntermediateCertificates: intermediateCertificates,
-		Purpose:                  c.tokenPurpose,
 	}
 	return &x509FederationRequest{details}
 }

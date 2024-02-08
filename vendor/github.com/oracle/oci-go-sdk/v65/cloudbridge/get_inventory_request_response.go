@@ -12,6 +12,10 @@ import (
 )
 
 // GetInventoryRequest wrapper for the GetInventory operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetInventory.go.html to see an example of how to use GetInventoryRequest.
 type GetInventoryRequest struct {
 
 	// Inventory OCID.

@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteContainerImageSignatureRequest wrapper for the DeleteContainerImageSignature operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteContainerImageSignature.go.html to see an example of how to use DeleteContainerImageSignatureRequest.
 type DeleteContainerImageSignatureRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image signature.

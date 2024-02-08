@@ -107,19 +107,16 @@ type PatchHistorySummaryPatchTypeEnum string
 
 // Set of constants representing the allowable values for PatchHistorySummaryPatchTypeEnum
 const (
-	PatchHistorySummaryPatchTypeDp  PatchHistorySummaryPatchTypeEnum = "DP"
 	PatchHistorySummaryPatchTypeOdh PatchHistorySummaryPatchTypeEnum = "ODH"
 	PatchHistorySummaryPatchTypeOs  PatchHistorySummaryPatchTypeEnum = "OS"
 )
 
 var mappingPatchHistorySummaryPatchTypeEnum = map[string]PatchHistorySummaryPatchTypeEnum{
-	"DP":  PatchHistorySummaryPatchTypeDp,
 	"ODH": PatchHistorySummaryPatchTypeOdh,
 	"OS":  PatchHistorySummaryPatchTypeOs,
 }
 
 var mappingPatchHistorySummaryPatchTypeEnumLowerCase = map[string]PatchHistorySummaryPatchTypeEnum{
-	"dp":  PatchHistorySummaryPatchTypeDp,
 	"odh": PatchHistorySummaryPatchTypeOdh,
 	"os":  PatchHistorySummaryPatchTypeOs,
 }
@@ -136,7 +133,6 @@ func GetPatchHistorySummaryPatchTypeEnumValues() []PatchHistorySummaryPatchTypeE
 // GetPatchHistorySummaryPatchTypeEnumStringValues Enumerates the set of values in String for PatchHistorySummaryPatchTypeEnum
 func GetPatchHistorySummaryPatchTypeEnumStringValues() []string {
 	return []string{
-		"DP",
 		"ODH",
 		"OS",
 	}

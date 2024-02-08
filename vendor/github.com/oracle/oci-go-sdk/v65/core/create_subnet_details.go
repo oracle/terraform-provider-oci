@@ -24,6 +24,12 @@ import (
 // CreateSubnetDetails The representation of CreateSubnetDetails
 type CreateSubnetDetails struct {
 
+	// The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
+	// a. The CIDR block is valid and correctly formatted.
+	// b. The new range is within one of the parent VCN ranges.
+	// Example: `10.0.1.0/24`
+	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the subnet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -41,12 +47,6 @@ type CreateSubnetDetails struct {
 	// created in that availability domain.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
-
-	// The CIDR IP address range of the subnet. The CIDR must maintain the following rules -
-	// a. The CIDR block is valid and correctly formatted.
-	// b. The new range is within one of the parent VCN ranges.
-	// Example: `10.0.1.0/24`
-	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -91,17 +91,6 @@ type CreateSubnetDetails struct {
 	// - Multiple prefixes must not overlap each other or the on-premises network prefix.
 	// - The number of prefixes must not exceed the limit of IPv6 prefixes allowed to a subnet.
 	Ipv6CidrBlocks []string `mandatory:"false" json:"ipv6CidrBlocks"`
-
-	// Indicates whether learning mode is enabled for this subnet. The default is `false`.
-	// **Note:** When a subnet has learning mode enabled, only certain types
-	// of resources can be launched in the subnet.
-	// Example: `true`
-	IsLearningEnabled *bool `mandatory:"false" json:"isLearningEnabled"`
-
-	// The VLAN tag to associate with every VNIC Attachment within this Subnet, available only
-	// on BareMetal secondary VNICs within learning enabled Subnets.
-	// **Note:** If the Subnet is learning enabled, the vlanTag value has to be passed in and cannot be empty.
-	VlanTag *int `mandatory:"false" json:"vlanTag"`
 
 	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
 	// For IPv6, if `prohibitInternetIngress` is set to `true`, internet access is not allowed for any

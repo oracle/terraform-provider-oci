@@ -33,20 +33,12 @@ type CreateDeploymentDetails struct {
 	// Deployment (https://docs.cloud.oracle.com/iaas/Content/APIGateway/Tasks/apigatewaycreatingdeployment.htm).
 	PathPrefix *string `mandatory:"true" json:"pathPrefix"`
 
+	Specification *ApiSpecification `mandatory:"true" json:"specification"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" json:"displayName"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of API Catalog resource
-	CatalogId *string `mandatory:"false" json:"catalogId"`
-
-	Specification *ApiSpecification `mandatory:"false" json:"specification"`
-
-	Catalog *CatalogSpecification `mandatory:"false" json:"catalog"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see

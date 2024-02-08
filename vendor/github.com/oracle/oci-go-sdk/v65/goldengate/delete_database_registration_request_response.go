@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDatabaseRegistrationRequest wrapper for the DeleteDatabaseRegistration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteDatabaseRegistration.go.html to see an example of how to use DeleteDatabaseRegistrationRequest.
 type DeleteDatabaseRegistrationRequest struct {
 
 	// A unique DatabaseRegistration identifier.

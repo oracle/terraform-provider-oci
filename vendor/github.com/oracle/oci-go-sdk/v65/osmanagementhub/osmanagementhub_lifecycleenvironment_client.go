@@ -93,6 +93,10 @@ func (client *LifecycleEnvironmentClient) ConfigurationProvider() *common.Config
 
 // AttachManagedInstancesToLifecycleStage Attach(add) managed instances to a lifecycle stage.
 // Once added operations can be applied to all managed instances in the lifecycle stage.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachManagedInstancesToLifecycleStage.go.html to see an example of how to use AttachManagedInstancesToLifecycleStage API.
 // A default retry strategy applies to this operation AttachManagedInstancesToLifecycleStage()
 func (client LifecycleEnvironmentClient) AttachManagedInstancesToLifecycleStage(ctx context.Context, request AttachManagedInstancesToLifecycleStageRequest) (response AttachManagedInstancesToLifecycleStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -152,6 +156,10 @@ func (client LifecycleEnvironmentClient) attachManagedInstancesToLifecycleStage(
 }
 
 // CreateLifecycleEnvironment Creates a new lifecycle environment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateLifecycleEnvironment.go.html to see an example of how to use CreateLifecycleEnvironment API.
 // A default retry strategy applies to this operation CreateLifecycleEnvironment()
 func (client LifecycleEnvironmentClient) CreateLifecycleEnvironment(ctx context.Context, request CreateLifecycleEnvironmentRequest) (response CreateLifecycleEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -211,6 +219,10 @@ func (client LifecycleEnvironmentClient) createLifecycleEnvironment(ctx context.
 }
 
 // DeleteLifecycleEnvironment Deletes a lifecycle environment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteLifecycleEnvironment.go.html to see an example of how to use DeleteLifecycleEnvironment API.
 // A default retry strategy applies to this operation DeleteLifecycleEnvironment()
 func (client LifecycleEnvironmentClient) DeleteLifecycleEnvironment(ctx context.Context, request DeleteLifecycleEnvironmentRequest) (response DeleteLifecycleEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -265,6 +277,10 @@ func (client LifecycleEnvironmentClient) deleteLifecycleEnvironment(ctx context.
 }
 
 // DetachManagedInstancesFromLifecycleStage Detach(remove) managed instance from a lifecycle stage.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachManagedInstancesFromLifecycleStage.go.html to see an example of how to use DetachManagedInstancesFromLifecycleStage API.
 // A default retry strategy applies to this operation DetachManagedInstancesFromLifecycleStage()
 func (client LifecycleEnvironmentClient) DetachManagedInstancesFromLifecycleStage(ctx context.Context, request DetachManagedInstancesFromLifecycleStageRequest) (response DetachManagedInstancesFromLifecycleStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -324,6 +340,10 @@ func (client LifecycleEnvironmentClient) detachManagedInstancesFromLifecycleStag
 }
 
 // GetLifecycleEnvironment Gets information about the specified lifecycle environment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetLifecycleEnvironment.go.html to see an example of how to use GetLifecycleEnvironment API.
 // A default retry strategy applies to this operation GetLifecycleEnvironment()
 func (client LifecycleEnvironmentClient) GetLifecycleEnvironment(ctx context.Context, request GetLifecycleEnvironmentRequest) (response GetLifecycleEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -378,6 +398,10 @@ func (client LifecycleEnvironmentClient) getLifecycleEnvironment(ctx context.Con
 }
 
 // GetLifecycleStage Gets information about the specified lifecycle stage.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetLifecycleStage.go.html to see an example of how to use GetLifecycleStage API.
 // A default retry strategy applies to this operation GetLifecycleStage()
 func (client LifecycleEnvironmentClient) GetLifecycleStage(ctx context.Context, request GetLifecycleStageRequest) (response GetLifecycleStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -433,6 +457,10 @@ func (client LifecycleEnvironmentClient) getLifecycleStage(ctx context.Context, 
 
 // ListLifecycleEnvironments Lists lifecycle environments that match the specified compartment or lifecycle environment OCID. Filter the list
 // against a variety of criteria including but not limited to its name, status, architecture, and OS family.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleEnvironments.go.html to see an example of how to use ListLifecycleEnvironments API.
 // A default retry strategy applies to this operation ListLifecycleEnvironments()
 func (client LifecycleEnvironmentClient) ListLifecycleEnvironments(ctx context.Context, request ListLifecycleEnvironmentsRequest) (response ListLifecycleEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -488,6 +516,10 @@ func (client LifecycleEnvironmentClient) listLifecycleEnvironments(ctx context.C
 
 // ListLifecycleStageInstalledPackages Lists installed packages on managed instances in a specified lifecycle stage. Filter the list against a variety
 // of criteria including but not limited to the package name.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleStageInstalledPackages.go.html to see an example of how to use ListLifecycleStageInstalledPackages API.
 // A default retry strategy applies to this operation ListLifecycleStageInstalledPackages()
 func (client LifecycleEnvironmentClient) ListLifecycleStageInstalledPackages(ctx context.Context, request ListLifecycleStageInstalledPackagesRequest) (response ListLifecycleStageInstalledPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -543,6 +575,10 @@ func (client LifecycleEnvironmentClient) listLifecycleStageInstalledPackages(ctx
 
 // ListLifecycleStages Lists lifecycle stages that match the specified compartment or lifecycle stage OCID. Filter the list against
 // a variety of criteria including but not limited to its name, status, architecture, and OS family.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleStages.go.html to see an example of how to use ListLifecycleStages API.
 // A default retry strategy applies to this operation ListLifecycleStages()
 func (client LifecycleEnvironmentClient) ListLifecycleStages(ctx context.Context, request ListLifecycleStagesRequest) (response ListLifecycleStagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -598,6 +634,10 @@ func (client LifecycleEnvironmentClient) listLifecycleStages(ctx context.Context
 
 // PromoteSoftwareSourceToLifecycleStage Updates the versioned custom software source content
 // for specified lifecycle stage.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/PromoteSoftwareSourceToLifecycleStage.go.html to see an example of how to use PromoteSoftwareSourceToLifecycleStage API.
 // A default retry strategy applies to this operation PromoteSoftwareSourceToLifecycleStage()
 func (client LifecycleEnvironmentClient) PromoteSoftwareSourceToLifecycleStage(ctx context.Context, request PromoteSoftwareSourceToLifecycleStageRequest) (response PromoteSoftwareSourceToLifecycleStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -657,6 +697,10 @@ func (client LifecycleEnvironmentClient) promoteSoftwareSourceToLifecycleStage(c
 }
 
 // UpdateLifecycleEnvironment Updates the specified lifecycle environment's name, description, stages, or tags.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateLifecycleEnvironment.go.html to see an example of how to use UpdateLifecycleEnvironment API.
 // A default retry strategy applies to this operation UpdateLifecycleEnvironment()
 func (client LifecycleEnvironmentClient) UpdateLifecycleEnvironment(ctx context.Context, request UpdateLifecycleEnvironmentRequest) (response UpdateLifecycleEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse

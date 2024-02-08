@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteIngressGatewayRequest wrapper for the DeleteIngressGateway operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteIngressGateway.go.html to see an example of how to use DeleteIngressGatewayRequest.
 type DeleteIngressGatewayRequest struct {
 
 	// Unique IngressGateway identifier.

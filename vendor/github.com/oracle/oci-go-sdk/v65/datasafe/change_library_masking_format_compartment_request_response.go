@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeLibraryMaskingFormatCompartmentRequest wrapper for the ChangeLibraryMaskingFormatCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeLibraryMaskingFormatCompartment.go.html to see an example of how to use ChangeLibraryMaskingFormatCompartmentRequest.
 type ChangeLibraryMaskingFormatCompartmentRequest struct {
 
 	// The OCID of the library masking format.

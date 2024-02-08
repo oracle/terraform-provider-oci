@@ -42,9 +42,6 @@ type ScheduledTaskSummary struct {
 	// No trailing spaces allowed.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Target Service
-	TargetService *string `mandatory:"false" json:"targetService"`
-
 	// Status of the scheduled task.
 	TaskStatus ScheduledTaskSummaryTaskStatusEnum `mandatory:"false" json:"taskStatus,omitempty"`
 

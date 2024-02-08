@@ -67,10 +67,6 @@ func (m *rulecondition) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := SourceVcnIpAddressCondition{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "REAL_IP_ADDRESS":
-		mm := RealIpAddressCondition{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for RuleCondition: %s.", m.AttributeName)
 		return *m, nil
@@ -102,7 +98,6 @@ const (
 	RuleConditionAttributeNameSourceVcnId        RuleConditionAttributeNameEnum = "SOURCE_VCN_ID"
 	RuleConditionAttributeNameSourceVcnIpAddress RuleConditionAttributeNameEnum = "SOURCE_VCN_IP_ADDRESS"
 	RuleConditionAttributeNamePath               RuleConditionAttributeNameEnum = "PATH"
-	RuleConditionAttributeNameRealIpAddress      RuleConditionAttributeNameEnum = "REAL_IP_ADDRESS"
 )
 
 var mappingRuleConditionAttributeNameEnum = map[string]RuleConditionAttributeNameEnum{
@@ -110,7 +105,6 @@ var mappingRuleConditionAttributeNameEnum = map[string]RuleConditionAttributeNam
 	"SOURCE_VCN_ID":         RuleConditionAttributeNameSourceVcnId,
 	"SOURCE_VCN_IP_ADDRESS": RuleConditionAttributeNameSourceVcnIpAddress,
 	"PATH":                  RuleConditionAttributeNamePath,
-	"REAL_IP_ADDRESS":       RuleConditionAttributeNameRealIpAddress,
 }
 
 var mappingRuleConditionAttributeNameEnumLowerCase = map[string]RuleConditionAttributeNameEnum{
@@ -118,7 +112,6 @@ var mappingRuleConditionAttributeNameEnumLowerCase = map[string]RuleConditionAtt
 	"source_vcn_id":         RuleConditionAttributeNameSourceVcnId,
 	"source_vcn_ip_address": RuleConditionAttributeNameSourceVcnIpAddress,
 	"path":                  RuleConditionAttributeNamePath,
-	"real_ip_address":       RuleConditionAttributeNameRealIpAddress,
 }
 
 // GetRuleConditionAttributeNameEnumValues Enumerates the set of values for RuleConditionAttributeNameEnum
@@ -137,7 +130,6 @@ func GetRuleConditionAttributeNameEnumStringValues() []string {
 		"SOURCE_VCN_ID",
 		"SOURCE_VCN_IP_ADDRESS",
 		"PATH",
-		"REAL_IP_ADDRESS",
 	}
 }
 

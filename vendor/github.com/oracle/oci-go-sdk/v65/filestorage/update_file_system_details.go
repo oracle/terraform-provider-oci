@@ -35,9 +35,6 @@ type UpdateFileSystemDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Not used by File Systems but required for SPLAT tag integration.
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Key Management master encryption key to associate with the specified file system.
 	// If this value is empty, the Update operation will remove the associated key, if there is one, from the file system.
 	// (The file system will continue to be encrypted, but with an encryption key managed by Oracle.)

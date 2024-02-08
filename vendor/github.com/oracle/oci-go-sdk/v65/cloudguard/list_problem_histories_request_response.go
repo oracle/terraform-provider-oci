@@ -12,21 +12,25 @@ import (
 )
 
 // ListProblemHistoriesRequest wrapper for the ListProblemHistories operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListProblemHistories.go.html to see an example of how to use ListProblemHistoriesRequest.
 type ListProblemHistoriesRequest struct {
 
-	// The OCID of the compartment in which to list resources.
+	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// OCID of the problem.
+	// OCId of the problem.
 	ProblemId *string `mandatory:"true" contributesTo:"path" name:"problemId"`
 
-	// The maximum number of items to return
+	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use
+	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListProblemHistoriesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. If no value is specified timeCreated is default.

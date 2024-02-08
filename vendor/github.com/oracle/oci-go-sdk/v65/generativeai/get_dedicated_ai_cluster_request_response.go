@@ -12,6 +12,10 @@ import (
 )
 
 // GetDedicatedAiClusterRequest wrapper for the GetDedicatedAiCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetDedicatedAiCluster.go.html to see an example of how to use GetDedicatedAiClusterRequest.
 type GetDedicatedAiClusterRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.

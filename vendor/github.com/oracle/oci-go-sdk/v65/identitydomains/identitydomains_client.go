@@ -81,6 +81,10 @@ func (client *IdentityDomainsClient) ConfigurationProvider() *common.Configurati
 }
 
 // CreateApiKey Create a user's API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateApiKey.go.html to see an example of how to use CreateApiKey API.
 func (client IdentityDomainsClient) CreateApiKey(ctx context.Context, request CreateApiKeyRequest) (response CreateApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -139,6 +143,10 @@ func (client IdentityDomainsClient) createApiKey(ctx context.Context, request co
 }
 
 // CreateApp Create an App
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateApp.go.html to see an example of how to use CreateApp API.
 func (client IdentityDomainsClient) CreateApp(ctx context.Context, request CreateAppRequest) (response CreateAppResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -197,6 +205,10 @@ func (client IdentityDomainsClient) createApp(ctx context.Context, request commo
 }
 
 // CreateAppRole Create an AppRole
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateAppRole.go.html to see an example of how to use CreateAppRole API.
 func (client IdentityDomainsClient) CreateAppRole(ctx context.Context, request CreateAppRoleRequest) (response CreateAppRoleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -255,6 +267,10 @@ func (client IdentityDomainsClient) createAppRole(ctx context.Context, request c
 }
 
 // CreateApprovalWorkflow Create ApprovalWorkflow
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateApprovalWorkflow.go.html to see an example of how to use CreateApprovalWorkflow API.
 func (client IdentityDomainsClient) CreateApprovalWorkflow(ctx context.Context, request CreateApprovalWorkflowRequest) (response CreateApprovalWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -313,6 +329,10 @@ func (client IdentityDomainsClient) createApprovalWorkflow(ctx context.Context, 
 }
 
 // CreateApprovalWorkflowAssignment Create Approval Workflow Assignment
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateApprovalWorkflowAssignment.go.html to see an example of how to use CreateApprovalWorkflowAssignment API.
 func (client IdentityDomainsClient) CreateApprovalWorkflowAssignment(ctx context.Context, request CreateApprovalWorkflowAssignmentRequest) (response CreateApprovalWorkflowAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -371,6 +391,10 @@ func (client IdentityDomainsClient) createApprovalWorkflowAssignment(ctx context
 }
 
 // CreateApprovalWorkflowStep Create ApprovalWorkflowStep
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateApprovalWorkflowStep.go.html to see an example of how to use CreateApprovalWorkflowStep API.
 func (client IdentityDomainsClient) CreateApprovalWorkflowStep(ctx context.Context, request CreateApprovalWorkflowStepRequest) (response CreateApprovalWorkflowStepResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -429,6 +453,10 @@ func (client IdentityDomainsClient) createApprovalWorkflowStep(ctx context.Conte
 }
 
 // CreateAuthToken Create a user's Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateAuthToken.go.html to see an example of how to use CreateAuthToken API.
 func (client IdentityDomainsClient) CreateAuthToken(ctx context.Context, request CreateAuthTokenRequest) (response CreateAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -487,6 +515,10 @@ func (client IdentityDomainsClient) createAuthToken(ctx context.Context, request
 }
 
 // CreateAuthenticationFactorsRemover Remove All Authentication Factor Channels for a User
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateAuthenticationFactorsRemover.go.html to see an example of how to use CreateAuthenticationFactorsRemover API.
 func (client IdentityDomainsClient) CreateAuthenticationFactorsRemover(ctx context.Context, request CreateAuthenticationFactorsRemoverRequest) (response CreateAuthenticationFactorsRemoverResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -545,6 +577,10 @@ func (client IdentityDomainsClient) createAuthenticationFactorsRemover(ctx conte
 }
 
 // CreateCloudGate Create a Cloud Gate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateCloudGate.go.html to see an example of how to use CreateCloudGate API.
 func (client IdentityDomainsClient) CreateCloudGate(ctx context.Context, request CreateCloudGateRequest) (response CreateCloudGateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -603,6 +639,10 @@ func (client IdentityDomainsClient) createCloudGate(ctx context.Context, request
 }
 
 // CreateCloudGateMapping Create a Cloud Gate mapping
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateCloudGateMapping.go.html to see an example of how to use CreateCloudGateMapping API.
 func (client IdentityDomainsClient) CreateCloudGateMapping(ctx context.Context, request CreateCloudGateMappingRequest) (response CreateCloudGateMappingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -661,6 +701,10 @@ func (client IdentityDomainsClient) createCloudGateMapping(ctx context.Context, 
 }
 
 // CreateCloudGateServer Create a Cloud Gate server
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateCloudGateServer.go.html to see an example of how to use CreateCloudGateServer API.
 func (client IdentityDomainsClient) CreateCloudGateServer(ctx context.Context, request CreateCloudGateServerRequest) (response CreateCloudGateServerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -719,6 +763,10 @@ func (client IdentityDomainsClient) createCloudGateServer(ctx context.Context, r
 }
 
 // CreateCondition Create a Condition
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateCondition.go.html to see an example of how to use CreateCondition API.
 func (client IdentityDomainsClient) CreateCondition(ctx context.Context, request CreateConditionRequest) (response CreateConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -777,6 +825,10 @@ func (client IdentityDomainsClient) createCondition(ctx context.Context, request
 }
 
 // CreateCustomerSecretKey Create a user's customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateCustomerSecretKey.go.html to see an example of how to use CreateCustomerSecretKey API.
 func (client IdentityDomainsClient) CreateCustomerSecretKey(ctx context.Context, request CreateCustomerSecretKeyRequest) (response CreateCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -835,6 +887,10 @@ func (client IdentityDomainsClient) createCustomerSecretKey(ctx context.Context,
 }
 
 // CreateDynamicResourceGroup Create a Dynamic Resource Group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateDynamicResourceGroup.go.html to see an example of how to use CreateDynamicResourceGroup API.
 func (client IdentityDomainsClient) CreateDynamicResourceGroup(ctx context.Context, request CreateDynamicResourceGroupRequest) (response CreateDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -893,6 +949,10 @@ func (client IdentityDomainsClient) createDynamicResourceGroup(ctx context.Conte
 }
 
 // CreateGrant Add a Grantee to an AppRole
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateGrant.go.html to see an example of how to use CreateGrant API.
 func (client IdentityDomainsClient) CreateGrant(ctx context.Context, request CreateGrantRequest) (response CreateGrantResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -951,6 +1011,10 @@ func (client IdentityDomainsClient) createGrant(ctx context.Context, request com
 }
 
 // CreateGroup Create a group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateGroup.go.html to see an example of how to use CreateGroup API.
 func (client IdentityDomainsClient) CreateGroup(ctx context.Context, request CreateGroupRequest) (response CreateGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1009,6 +1073,10 @@ func (client IdentityDomainsClient) createGroup(ctx context.Context, request com
 }
 
 // CreateIdentityPropagationTrust Register a new Identity Propagation Trust configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateIdentityPropagationTrust.go.html to see an example of how to use CreateIdentityPropagationTrust API.
 func (client IdentityDomainsClient) CreateIdentityPropagationTrust(ctx context.Context, request CreateIdentityPropagationTrustRequest) (response CreateIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1067,6 +1135,10 @@ func (client IdentityDomainsClient) createIdentityPropagationTrust(ctx context.C
 }
 
 // CreateIdentityProvider Create an Identity Provider
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateIdentityProvider.go.html to see an example of how to use CreateIdentityProvider API.
 func (client IdentityDomainsClient) CreateIdentityProvider(ctx context.Context, request CreateIdentityProviderRequest) (response CreateIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1125,6 +1197,10 @@ func (client IdentityDomainsClient) createIdentityProvider(ctx context.Context, 
 }
 
 // CreateMe Self register a user.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMe.go.html to see an example of how to use CreateMe API.
 func (client IdentityDomainsClient) CreateMe(ctx context.Context, request CreateMeRequest) (response CreateMeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1183,6 +1259,10 @@ func (client IdentityDomainsClient) createMe(ctx context.Context, request common
 }
 
 // CreateMyApiKey Add a user's own API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyApiKey.go.html to see an example of how to use CreateMyApiKey API.
 func (client IdentityDomainsClient) CreateMyApiKey(ctx context.Context, request CreateMyApiKeyRequest) (response CreateMyApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1241,6 +1321,10 @@ func (client IdentityDomainsClient) createMyApiKey(ctx context.Context, request 
 }
 
 // CreateMyAuthToken Create a user's own Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyAuthToken.go.html to see an example of how to use CreateMyAuthToken API.
 func (client IdentityDomainsClient) CreateMyAuthToken(ctx context.Context, request CreateMyAuthTokenRequest) (response CreateMyAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1299,6 +1383,10 @@ func (client IdentityDomainsClient) createMyAuthToken(ctx context.Context, reque
 }
 
 // CreateMyAuthenticationFactorInitiator Initiate Self Service Enrollment using the Requested MFA Factor
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyAuthenticationFactorInitiator.go.html to see an example of how to use CreateMyAuthenticationFactorInitiator API.
 func (client IdentityDomainsClient) CreateMyAuthenticationFactorInitiator(ctx context.Context, request CreateMyAuthenticationFactorInitiatorRequest) (response CreateMyAuthenticationFactorInitiatorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1357,6 +1445,10 @@ func (client IdentityDomainsClient) createMyAuthenticationFactorInitiator(ctx co
 }
 
 // CreateMyAuthenticationFactorValidator Validate Self Service Enrollment using the Requested MFA Factor
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyAuthenticationFactorValidator.go.html to see an example of how to use CreateMyAuthenticationFactorValidator API.
 func (client IdentityDomainsClient) CreateMyAuthenticationFactorValidator(ctx context.Context, request CreateMyAuthenticationFactorValidatorRequest) (response CreateMyAuthenticationFactorValidatorResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1415,6 +1507,10 @@ func (client IdentityDomainsClient) createMyAuthenticationFactorValidator(ctx co
 }
 
 // CreateMyAuthenticationFactorsRemover Remove All Authentication Factor Channels for a User
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyAuthenticationFactorsRemover.go.html to see an example of how to use CreateMyAuthenticationFactorsRemover API.
 func (client IdentityDomainsClient) CreateMyAuthenticationFactorsRemover(ctx context.Context, request CreateMyAuthenticationFactorsRemoverRequest) (response CreateMyAuthenticationFactorsRemoverResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1473,6 +1569,10 @@ func (client IdentityDomainsClient) createMyAuthenticationFactorsRemover(ctx con
 }
 
 // CreateMyCustomerSecretKey Add a user's own customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyCustomerSecretKey.go.html to see an example of how to use CreateMyCustomerSecretKey API.
 func (client IdentityDomainsClient) CreateMyCustomerSecretKey(ctx context.Context, request CreateMyCustomerSecretKeyRequest) (response CreateMyCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1531,6 +1631,10 @@ func (client IdentityDomainsClient) createMyCustomerSecretKey(ctx context.Contex
 }
 
 // CreateMyOAuth2ClientCredential Create a user's own OAuth2 client credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyOAuth2ClientCredential.go.html to see an example of how to use CreateMyOAuth2ClientCredential API.
 func (client IdentityDomainsClient) CreateMyOAuth2ClientCredential(ctx context.Context, request CreateMyOAuth2ClientCredentialRequest) (response CreateMyOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1589,6 +1693,10 @@ func (client IdentityDomainsClient) createMyOAuth2ClientCredential(ctx context.C
 }
 
 // CreateMyRequest Create a Request
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyRequest.go.html to see an example of how to use CreateMyRequest API.
 func (client IdentityDomainsClient) CreateMyRequest(ctx context.Context, request CreateMyRequestRequest) (response CreateMyRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1647,6 +1755,10 @@ func (client IdentityDomainsClient) createMyRequest(ctx context.Context, request
 }
 
 // CreateMySmtpCredential Create a user's own SMTP credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMySmtpCredential.go.html to see an example of how to use CreateMySmtpCredential API.
 func (client IdentityDomainsClient) CreateMySmtpCredential(ctx context.Context, request CreateMySmtpCredentialRequest) (response CreateMySmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1705,6 +1817,10 @@ func (client IdentityDomainsClient) createMySmtpCredential(ctx context.Context, 
 }
 
 // CreateMySupportAccount Create a user's own support account.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMySupportAccount.go.html to see an example of how to use CreateMySupportAccount API.
 func (client IdentityDomainsClient) CreateMySupportAccount(ctx context.Context, request CreateMySupportAccountRequest) (response CreateMySupportAccountResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1763,6 +1879,10 @@ func (client IdentityDomainsClient) createMySupportAccount(ctx context.Context, 
 }
 
 // CreateMyUserDbCredential Create a user's own database (DB) credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMyUserDbCredential.go.html to see an example of how to use CreateMyUserDbCredential API.
 func (client IdentityDomainsClient) CreateMyUserDbCredential(ctx context.Context, request CreateMyUserDbCredentialRequest) (response CreateMyUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1821,6 +1941,10 @@ func (client IdentityDomainsClient) createMyUserDbCredential(ctx context.Context
 }
 
 // CreateNetworkPerimeter Create a NetworkPerimeter
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateNetworkPerimeter.go.html to see an example of how to use CreateNetworkPerimeter API.
 func (client IdentityDomainsClient) CreateNetworkPerimeter(ctx context.Context, request CreateNetworkPerimeterRequest) (response CreateNetworkPerimeterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1879,6 +2003,10 @@ func (client IdentityDomainsClient) createNetworkPerimeter(ctx context.Context, 
 }
 
 // CreateOAuth2ClientCredential Add a user's OAuth2 client credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateOAuth2ClientCredential.go.html to see an example of how to use CreateOAuth2ClientCredential API.
 func (client IdentityDomainsClient) CreateOAuth2ClientCredential(ctx context.Context, request CreateOAuth2ClientCredentialRequest) (response CreateOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1937,6 +2065,10 @@ func (client IdentityDomainsClient) createOAuth2ClientCredential(ctx context.Con
 }
 
 // CreateOAuthClientCertificate Create an OAuth Client Certificate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateOAuthClientCertificate.go.html to see an example of how to use CreateOAuthClientCertificate API.
 func (client IdentityDomainsClient) CreateOAuthClientCertificate(ctx context.Context, request CreateOAuthClientCertificateRequest) (response CreateOAuthClientCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1995,6 +2127,10 @@ func (client IdentityDomainsClient) createOAuthClientCertificate(ctx context.Con
 }
 
 // CreateOAuthPartnerCertificate Create an OAuth Partner Certificate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateOAuthPartnerCertificate.go.html to see an example of how to use CreateOAuthPartnerCertificate API.
 func (client IdentityDomainsClient) CreateOAuthPartnerCertificate(ctx context.Context, request CreateOAuthPartnerCertificateRequest) (response CreateOAuthPartnerCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2053,6 +2189,10 @@ func (client IdentityDomainsClient) createOAuthPartnerCertificate(ctx context.Co
 }
 
 // CreatePasswordPolicy Create a password policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreatePasswordPolicy.go.html to see an example of how to use CreatePasswordPolicy API.
 func (client IdentityDomainsClient) CreatePasswordPolicy(ctx context.Context, request CreatePasswordPolicyRequest) (response CreatePasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2111,6 +2251,10 @@ func (client IdentityDomainsClient) createPasswordPolicy(ctx context.Context, re
 }
 
 // CreatePolicy Create a Policy
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreatePolicy.go.html to see an example of how to use CreatePolicy API.
 func (client IdentityDomainsClient) CreatePolicy(ctx context.Context, request CreatePolicyRequest) (response CreatePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2169,6 +2313,10 @@ func (client IdentityDomainsClient) createPolicy(ctx context.Context, request co
 }
 
 // CreateRule Create a Rule
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateRule.go.html to see an example of how to use CreateRule API.
 func (client IdentityDomainsClient) CreateRule(ctx context.Context, request CreateRuleRequest) (response CreateRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2227,6 +2375,10 @@ func (client IdentityDomainsClient) createRule(ctx context.Context, request comm
 }
 
 // CreateSecurityQuestion Create a security question.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateSecurityQuestion.go.html to see an example of how to use CreateSecurityQuestion API.
 func (client IdentityDomainsClient) CreateSecurityQuestion(ctx context.Context, request CreateSecurityQuestionRequest) (response CreateSecurityQuestionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2285,6 +2437,10 @@ func (client IdentityDomainsClient) createSecurityQuestion(ctx context.Context, 
 }
 
 // CreateSelfRegistrationProfile Create a self-registration profile.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateSelfRegistrationProfile.go.html to see an example of how to use CreateSelfRegistrationProfile API.
 func (client IdentityDomainsClient) CreateSelfRegistrationProfile(ctx context.Context, request CreateSelfRegistrationProfileRequest) (response CreateSelfRegistrationProfileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2343,6 +2499,10 @@ func (client IdentityDomainsClient) createSelfRegistrationProfile(ctx context.Co
 }
 
 // CreateSmtpCredential Create a user's SMTP credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateSmtpCredential.go.html to see an example of how to use CreateSmtpCredential API.
 func (client IdentityDomainsClient) CreateSmtpCredential(ctx context.Context, request CreateSmtpCredentialRequest) (response CreateSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2401,6 +2561,10 @@ func (client IdentityDomainsClient) createSmtpCredential(ctx context.Context, re
 }
 
 // CreateUser Create a user.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateUser.go.html to see an example of how to use CreateUser API.
 func (client IdentityDomainsClient) CreateUser(ctx context.Context, request CreateUserRequest) (response CreateUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2459,6 +2623,10 @@ func (client IdentityDomainsClient) createUser(ctx context.Context, request comm
 }
 
 // CreateUserDbCredential Create a user's database (DB) credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateUserDbCredential.go.html to see an example of how to use CreateUserDbCredential API.
 func (client IdentityDomainsClient) CreateUserDbCredential(ctx context.Context, request CreateUserDbCredentialRequest) (response CreateUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2517,6 +2685,10 @@ func (client IdentityDomainsClient) createUserDbCredential(ctx context.Context, 
 }
 
 // DeleteApiKey Delete a user's API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApiKey.go.html to see an example of how to use DeleteApiKey API.
 func (client IdentityDomainsClient) DeleteApiKey(ctx context.Context, request DeleteApiKeyRequest) (response DeleteApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2575,6 +2747,10 @@ func (client IdentityDomainsClient) deleteApiKey(ctx context.Context, request co
 }
 
 // DeleteApp Delete an App
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApp.go.html to see an example of how to use DeleteApp API.
 func (client IdentityDomainsClient) DeleteApp(ctx context.Context, request DeleteAppRequest) (response DeleteAppResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2633,6 +2809,10 @@ func (client IdentityDomainsClient) deleteApp(ctx context.Context, request commo
 }
 
 // DeleteAppRole Delete an AppRole
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteAppRole.go.html to see an example of how to use DeleteAppRole API.
 func (client IdentityDomainsClient) DeleteAppRole(ctx context.Context, request DeleteAppRoleRequest) (response DeleteAppRoleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2691,6 +2871,10 @@ func (client IdentityDomainsClient) deleteAppRole(ctx context.Context, request c
 }
 
 // DeleteApprovalWorkflow Delete ApprovalWorkflow
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApprovalWorkflow.go.html to see an example of how to use DeleteApprovalWorkflow API.
 func (client IdentityDomainsClient) DeleteApprovalWorkflow(ctx context.Context, request DeleteApprovalWorkflowRequest) (response DeleteApprovalWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2749,6 +2933,10 @@ func (client IdentityDomainsClient) deleteApprovalWorkflow(ctx context.Context, 
 }
 
 // DeleteApprovalWorkflowAssignment Delete Approval Workflow Assignment
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApprovalWorkflowAssignment.go.html to see an example of how to use DeleteApprovalWorkflowAssignment API.
 func (client IdentityDomainsClient) DeleteApprovalWorkflowAssignment(ctx context.Context, request DeleteApprovalWorkflowAssignmentRequest) (response DeleteApprovalWorkflowAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2807,6 +2995,10 @@ func (client IdentityDomainsClient) deleteApprovalWorkflowAssignment(ctx context
 }
 
 // DeleteApprovalWorkflowStep Delete ApprovalWorkflowStep
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApprovalWorkflowStep.go.html to see an example of how to use DeleteApprovalWorkflowStep API.
 func (client IdentityDomainsClient) DeleteApprovalWorkflowStep(ctx context.Context, request DeleteApprovalWorkflowStepRequest) (response DeleteApprovalWorkflowStepResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2865,6 +3057,10 @@ func (client IdentityDomainsClient) deleteApprovalWorkflowStep(ctx context.Conte
 }
 
 // DeleteAuthToken Delete a user's Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteAuthToken.go.html to see an example of how to use DeleteAuthToken API.
 func (client IdentityDomainsClient) DeleteAuthToken(ctx context.Context, request DeleteAuthTokenRequest) (response DeleteAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2923,6 +3119,10 @@ func (client IdentityDomainsClient) deleteAuthToken(ctx context.Context, request
 }
 
 // DeleteCloudGate Delete a Cloud Gate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCloudGate.go.html to see an example of how to use DeleteCloudGate API.
 func (client IdentityDomainsClient) DeleteCloudGate(ctx context.Context, request DeleteCloudGateRequest) (response DeleteCloudGateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2981,6 +3181,10 @@ func (client IdentityDomainsClient) deleteCloudGate(ctx context.Context, request
 }
 
 // DeleteCloudGateMapping Delete a Cloud Gate mapping
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCloudGateMapping.go.html to see an example of how to use DeleteCloudGateMapping API.
 func (client IdentityDomainsClient) DeleteCloudGateMapping(ctx context.Context, request DeleteCloudGateMappingRequest) (response DeleteCloudGateMappingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3039,6 +3243,10 @@ func (client IdentityDomainsClient) deleteCloudGateMapping(ctx context.Context, 
 }
 
 // DeleteCloudGateServer Delete a Cloud Gate server
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCloudGateServer.go.html to see an example of how to use DeleteCloudGateServer API.
 func (client IdentityDomainsClient) DeleteCloudGateServer(ctx context.Context, request DeleteCloudGateServerRequest) (response DeleteCloudGateServerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3097,6 +3305,10 @@ func (client IdentityDomainsClient) deleteCloudGateServer(ctx context.Context, r
 }
 
 // DeleteCondition Delete a Condition
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCondition.go.html to see an example of how to use DeleteCondition API.
 func (client IdentityDomainsClient) DeleteCondition(ctx context.Context, request DeleteConditionRequest) (response DeleteConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3155,6 +3367,10 @@ func (client IdentityDomainsClient) deleteCondition(ctx context.Context, request
 }
 
 // DeleteCustomerSecretKey Delete a user's customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCustomerSecretKey.go.html to see an example of how to use DeleteCustomerSecretKey API.
 func (client IdentityDomainsClient) DeleteCustomerSecretKey(ctx context.Context, request DeleteCustomerSecretKeyRequest) (response DeleteCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3213,6 +3429,10 @@ func (client IdentityDomainsClient) deleteCustomerSecretKey(ctx context.Context,
 }
 
 // DeleteDynamicResourceGroup Delete a Dynamic Resource Group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteDynamicResourceGroup.go.html to see an example of how to use DeleteDynamicResourceGroup API.
 func (client IdentityDomainsClient) DeleteDynamicResourceGroup(ctx context.Context, request DeleteDynamicResourceGroupRequest) (response DeleteDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3271,6 +3491,10 @@ func (client IdentityDomainsClient) deleteDynamicResourceGroup(ctx context.Conte
 }
 
 // DeleteGrant Remove a Grantee from an AppRole
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteGrant.go.html to see an example of how to use DeleteGrant API.
 func (client IdentityDomainsClient) DeleteGrant(ctx context.Context, request DeleteGrantRequest) (response DeleteGrantResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3329,6 +3553,10 @@ func (client IdentityDomainsClient) deleteGrant(ctx context.Context, request com
 }
 
 // DeleteGroup Delete a group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteGroup.go.html to see an example of how to use DeleteGroup API.
 func (client IdentityDomainsClient) DeleteGroup(ctx context.Context, request DeleteGroupRequest) (response DeleteGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3387,6 +3615,10 @@ func (client IdentityDomainsClient) deleteGroup(ctx context.Context, request com
 }
 
 // DeleteIdentityPropagationTrust Delete an existing Identity Propagation Trust configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteIdentityPropagationTrust.go.html to see an example of how to use DeleteIdentityPropagationTrust API.
 func (client IdentityDomainsClient) DeleteIdentityPropagationTrust(ctx context.Context, request DeleteIdentityPropagationTrustRequest) (response DeleteIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3445,6 +3677,10 @@ func (client IdentityDomainsClient) deleteIdentityPropagationTrust(ctx context.C
 }
 
 // DeleteIdentityProvider Delete an Identity Provider
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteIdentityProvider.go.html to see an example of how to use DeleteIdentityProvider API.
 func (client IdentityDomainsClient) DeleteIdentityProvider(ctx context.Context, request DeleteIdentityProviderRequest) (response DeleteIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3503,6 +3739,10 @@ func (client IdentityDomainsClient) deleteIdentityProvider(ctx context.Context, 
 }
 
 // DeleteMyApiKey Delete a user's own API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyApiKey.go.html to see an example of how to use DeleteMyApiKey API.
 func (client IdentityDomainsClient) DeleteMyApiKey(ctx context.Context, request DeleteMyApiKeyRequest) (response DeleteMyApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3561,6 +3801,10 @@ func (client IdentityDomainsClient) deleteMyApiKey(ctx context.Context, request 
 }
 
 // DeleteMyAuthToken Delete a user's own Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyAuthToken.go.html to see an example of how to use DeleteMyAuthToken API.
 func (client IdentityDomainsClient) DeleteMyAuthToken(ctx context.Context, request DeleteMyAuthTokenRequest) (response DeleteMyAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3619,6 +3863,10 @@ func (client IdentityDomainsClient) deleteMyAuthToken(ctx context.Context, reque
 }
 
 // DeleteMyCustomerSecretKey Delete a user's own customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyCustomerSecretKey.go.html to see an example of how to use DeleteMyCustomerSecretKey API.
 func (client IdentityDomainsClient) DeleteMyCustomerSecretKey(ctx context.Context, request DeleteMyCustomerSecretKeyRequest) (response DeleteMyCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3677,6 +3925,10 @@ func (client IdentityDomainsClient) deleteMyCustomerSecretKey(ctx context.Contex
 }
 
 // DeleteMyDevice Delete a Device
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyDevice.go.html to see an example of how to use DeleteMyDevice API.
 func (client IdentityDomainsClient) DeleteMyDevice(ctx context.Context, request DeleteMyDeviceRequest) (response DeleteMyDeviceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3735,6 +3987,10 @@ func (client IdentityDomainsClient) deleteMyDevice(ctx context.Context, request 
 }
 
 // DeleteMyOAuth2ClientCredential Delete a user's own OAuth2 client credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyOAuth2ClientCredential.go.html to see an example of how to use DeleteMyOAuth2ClientCredential API.
 func (client IdentityDomainsClient) DeleteMyOAuth2ClientCredential(ctx context.Context, request DeleteMyOAuth2ClientCredentialRequest) (response DeleteMyOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3793,6 +4049,10 @@ func (client IdentityDomainsClient) deleteMyOAuth2ClientCredential(ctx context.C
 }
 
 // DeleteMySmtpCredential Delete a user's own SMTP credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMySmtpCredential.go.html to see an example of how to use DeleteMySmtpCredential API.
 func (client IdentityDomainsClient) DeleteMySmtpCredential(ctx context.Context, request DeleteMySmtpCredentialRequest) (response DeleteMySmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3851,6 +4111,10 @@ func (client IdentityDomainsClient) deleteMySmtpCredential(ctx context.Context, 
 }
 
 // DeleteMySupportAccount Delete a user's own support account.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMySupportAccount.go.html to see an example of how to use DeleteMySupportAccount API.
 func (client IdentityDomainsClient) DeleteMySupportAccount(ctx context.Context, request DeleteMySupportAccountRequest) (response DeleteMySupportAccountResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3909,6 +4173,10 @@ func (client IdentityDomainsClient) deleteMySupportAccount(ctx context.Context, 
 }
 
 // DeleteMyTrustedUserAgent Delete a Trusted User Agent
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyTrustedUserAgent.go.html to see an example of how to use DeleteMyTrustedUserAgent API.
 func (client IdentityDomainsClient) DeleteMyTrustedUserAgent(ctx context.Context, request DeleteMyTrustedUserAgentRequest) (response DeleteMyTrustedUserAgentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3967,6 +4235,10 @@ func (client IdentityDomainsClient) deleteMyTrustedUserAgent(ctx context.Context
 }
 
 // DeleteMyUserDbCredential Delete a user's own database (DB) credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyUserDbCredential.go.html to see an example of how to use DeleteMyUserDbCredential API.
 func (client IdentityDomainsClient) DeleteMyUserDbCredential(ctx context.Context, request DeleteMyUserDbCredentialRequest) (response DeleteMyUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4025,6 +4297,10 @@ func (client IdentityDomainsClient) deleteMyUserDbCredential(ctx context.Context
 }
 
 // DeleteNetworkPerimeter Delete a NetworkPerimeter
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteNetworkPerimeter.go.html to see an example of how to use DeleteNetworkPerimeter API.
 func (client IdentityDomainsClient) DeleteNetworkPerimeter(ctx context.Context, request DeleteNetworkPerimeterRequest) (response DeleteNetworkPerimeterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4083,6 +4359,10 @@ func (client IdentityDomainsClient) deleteNetworkPerimeter(ctx context.Context, 
 }
 
 // DeleteOAuth2ClientCredential Delete a user's OAuth2 client credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteOAuth2ClientCredential.go.html to see an example of how to use DeleteOAuth2ClientCredential API.
 func (client IdentityDomainsClient) DeleteOAuth2ClientCredential(ctx context.Context, request DeleteOAuth2ClientCredentialRequest) (response DeleteOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4141,6 +4421,10 @@ func (client IdentityDomainsClient) deleteOAuth2ClientCredential(ctx context.Con
 }
 
 // DeleteOAuthClientCertificate Delete an OAuth Client Certificate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteOAuthClientCertificate.go.html to see an example of how to use DeleteOAuthClientCertificate API.
 func (client IdentityDomainsClient) DeleteOAuthClientCertificate(ctx context.Context, request DeleteOAuthClientCertificateRequest) (response DeleteOAuthClientCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4199,6 +4483,10 @@ func (client IdentityDomainsClient) deleteOAuthClientCertificate(ctx context.Con
 }
 
 // DeleteOAuthPartnerCertificate Delete an OAuth Partner Certificate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteOAuthPartnerCertificate.go.html to see an example of how to use DeleteOAuthPartnerCertificate API.
 func (client IdentityDomainsClient) DeleteOAuthPartnerCertificate(ctx context.Context, request DeleteOAuthPartnerCertificateRequest) (response DeleteOAuthPartnerCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4257,6 +4545,10 @@ func (client IdentityDomainsClient) deleteOAuthPartnerCertificate(ctx context.Co
 }
 
 // DeletePasswordPolicy Delete a password policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeletePasswordPolicy.go.html to see an example of how to use DeletePasswordPolicy API.
 func (client IdentityDomainsClient) DeletePasswordPolicy(ctx context.Context, request DeletePasswordPolicyRequest) (response DeletePasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4315,6 +4607,10 @@ func (client IdentityDomainsClient) deletePasswordPolicy(ctx context.Context, re
 }
 
 // DeletePolicy Delete a Policy
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeletePolicy.go.html to see an example of how to use DeletePolicy API.
 func (client IdentityDomainsClient) DeletePolicy(ctx context.Context, request DeletePolicyRequest) (response DeletePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4373,6 +4669,10 @@ func (client IdentityDomainsClient) deletePolicy(ctx context.Context, request co
 }
 
 // DeleteRule Delete a Rule
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteRule.go.html to see an example of how to use DeleteRule API.
 func (client IdentityDomainsClient) DeleteRule(ctx context.Context, request DeleteRuleRequest) (response DeleteRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4431,6 +4731,10 @@ func (client IdentityDomainsClient) deleteRule(ctx context.Context, request comm
 }
 
 // DeleteSecurityQuestion Delete a security question.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteSecurityQuestion.go.html to see an example of how to use DeleteSecurityQuestion API.
 func (client IdentityDomainsClient) DeleteSecurityQuestion(ctx context.Context, request DeleteSecurityQuestionRequest) (response DeleteSecurityQuestionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4489,6 +4793,10 @@ func (client IdentityDomainsClient) deleteSecurityQuestion(ctx context.Context, 
 }
 
 // DeleteSelfRegistrationProfile Delete a self-registration profile.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteSelfRegistrationProfile.go.html to see an example of how to use DeleteSelfRegistrationProfile API.
 func (client IdentityDomainsClient) DeleteSelfRegistrationProfile(ctx context.Context, request DeleteSelfRegistrationProfileRequest) (response DeleteSelfRegistrationProfileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4547,6 +4855,10 @@ func (client IdentityDomainsClient) deleteSelfRegistrationProfile(ctx context.Co
 }
 
 // DeleteSmtpCredential Delete a user's SMTP credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteSmtpCredential.go.html to see an example of how to use DeleteSmtpCredential API.
 func (client IdentityDomainsClient) DeleteSmtpCredential(ctx context.Context, request DeleteSmtpCredentialRequest) (response DeleteSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4605,6 +4917,10 @@ func (client IdentityDomainsClient) deleteSmtpCredential(ctx context.Context, re
 }
 
 // DeleteUser Delete a user.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteUser.go.html to see an example of how to use DeleteUser API.
 func (client IdentityDomainsClient) DeleteUser(ctx context.Context, request DeleteUserRequest) (response DeleteUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4663,6 +4979,10 @@ func (client IdentityDomainsClient) deleteUser(ctx context.Context, request comm
 }
 
 // DeleteUserDbCredential Delete a user's database (DB) credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteUserDbCredential.go.html to see an example of how to use DeleteUserDbCredential API.
 func (client IdentityDomainsClient) DeleteUserDbCredential(ctx context.Context, request DeleteUserDbCredentialRequest) (response DeleteUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4721,6 +5041,10 @@ func (client IdentityDomainsClient) deleteUserDbCredential(ctx context.Context, 
 }
 
 // GetAccountMgmtInfo Get Account Mgmt Info
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAccountMgmtInfo.go.html to see an example of how to use GetAccountMgmtInfo API.
 func (client IdentityDomainsClient) GetAccountMgmtInfo(ctx context.Context, request GetAccountMgmtInfoRequest) (response GetAccountMgmtInfoResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4779,6 +5103,10 @@ func (client IdentityDomainsClient) getAccountMgmtInfo(ctx context.Context, requ
 }
 
 // GetAccountRecoverySetting Get an account recovery setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAccountRecoverySetting.go.html to see an example of how to use GetAccountRecoverySetting API.
 func (client IdentityDomainsClient) GetAccountRecoverySetting(ctx context.Context, request GetAccountRecoverySettingRequest) (response GetAccountRecoverySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4837,6 +5165,10 @@ func (client IdentityDomainsClient) getAccountRecoverySetting(ctx context.Contex
 }
 
 // GetApiKey Get a user's API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetApiKey.go.html to see an example of how to use GetApiKey API.
 func (client IdentityDomainsClient) GetApiKey(ctx context.Context, request GetApiKeyRequest) (response GetApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4895,6 +5227,10 @@ func (client IdentityDomainsClient) getApiKey(ctx context.Context, request commo
 }
 
 // GetApp Get an App
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetApp.go.html to see an example of how to use GetApp API.
 func (client IdentityDomainsClient) GetApp(ctx context.Context, request GetAppRequest) (response GetAppResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4953,6 +5289,10 @@ func (client IdentityDomainsClient) getApp(ctx context.Context, request common.O
 }
 
 // GetAppRole Get an AppRole
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAppRole.go.html to see an example of how to use GetAppRole API.
 func (client IdentityDomainsClient) GetAppRole(ctx context.Context, request GetAppRoleRequest) (response GetAppRoleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5011,6 +5351,10 @@ func (client IdentityDomainsClient) getAppRole(ctx context.Context, request comm
 }
 
 // GetApprovalWorkflow Get ApprovalWorkflow
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetApprovalWorkflow.go.html to see an example of how to use GetApprovalWorkflow API.
 func (client IdentityDomainsClient) GetApprovalWorkflow(ctx context.Context, request GetApprovalWorkflowRequest) (response GetApprovalWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5069,6 +5413,10 @@ func (client IdentityDomainsClient) getApprovalWorkflow(ctx context.Context, req
 }
 
 // GetApprovalWorkflowAssignment Get an Approval Workflow Assignment
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetApprovalWorkflowAssignment.go.html to see an example of how to use GetApprovalWorkflowAssignment API.
 func (client IdentityDomainsClient) GetApprovalWorkflowAssignment(ctx context.Context, request GetApprovalWorkflowAssignmentRequest) (response GetApprovalWorkflowAssignmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5127,6 +5475,10 @@ func (client IdentityDomainsClient) getApprovalWorkflowAssignment(ctx context.Co
 }
 
 // GetApprovalWorkflowStep Get ApprovalWorkflowStep
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetApprovalWorkflowStep.go.html to see an example of how to use GetApprovalWorkflowStep API.
 func (client IdentityDomainsClient) GetApprovalWorkflowStep(ctx context.Context, request GetApprovalWorkflowStepRequest) (response GetApprovalWorkflowStepResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5185,6 +5537,10 @@ func (client IdentityDomainsClient) getApprovalWorkflowStep(ctx context.Context,
 }
 
 // GetAuthToken Get a user's Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAuthToken.go.html to see an example of how to use GetAuthToken API.
 func (client IdentityDomainsClient) GetAuthToken(ctx context.Context, request GetAuthTokenRequest) (response GetAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5243,6 +5599,10 @@ func (client IdentityDomainsClient) getAuthToken(ctx context.Context, request co
 }
 
 // GetAuthenticationFactorSetting Get Authentication Factor Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAuthenticationFactorSetting.go.html to see an example of how to use GetAuthenticationFactorSetting API.
 func (client IdentityDomainsClient) GetAuthenticationFactorSetting(ctx context.Context, request GetAuthenticationFactorSettingRequest) (response GetAuthenticationFactorSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5301,6 +5661,10 @@ func (client IdentityDomainsClient) getAuthenticationFactorSetting(ctx context.C
 }
 
 // GetBrandingSetting Get Branding Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetBrandingSetting.go.html to see an example of how to use GetBrandingSetting API.
 func (client IdentityDomainsClient) GetBrandingSetting(ctx context.Context, request GetBrandingSettingRequest) (response GetBrandingSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5359,6 +5723,10 @@ func (client IdentityDomainsClient) getBrandingSetting(ctx context.Context, requ
 }
 
 // GetCloudGate Get a Cloud Gate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetCloudGate.go.html to see an example of how to use GetCloudGate API.
 func (client IdentityDomainsClient) GetCloudGate(ctx context.Context, request GetCloudGateRequest) (response GetCloudGateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5417,6 +5785,10 @@ func (client IdentityDomainsClient) getCloudGate(ctx context.Context, request co
 }
 
 // GetCloudGateMapping Get a Cloud Gate mapping
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetCloudGateMapping.go.html to see an example of how to use GetCloudGateMapping API.
 func (client IdentityDomainsClient) GetCloudGateMapping(ctx context.Context, request GetCloudGateMappingRequest) (response GetCloudGateMappingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5475,6 +5847,10 @@ func (client IdentityDomainsClient) getCloudGateMapping(ctx context.Context, req
 }
 
 // GetCloudGateServer Get a Cloud Gate server
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetCloudGateServer.go.html to see an example of how to use GetCloudGateServer API.
 func (client IdentityDomainsClient) GetCloudGateServer(ctx context.Context, request GetCloudGateServerRequest) (response GetCloudGateServerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5533,6 +5909,10 @@ func (client IdentityDomainsClient) getCloudGateServer(ctx context.Context, requ
 }
 
 // GetCondition Get a Condition
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetCondition.go.html to see an example of how to use GetCondition API.
 func (client IdentityDomainsClient) GetCondition(ctx context.Context, request GetConditionRequest) (response GetConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5591,6 +5971,10 @@ func (client IdentityDomainsClient) getCondition(ctx context.Context, request co
 }
 
 // GetCustomerSecretKey Get a user's customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetCustomerSecretKey.go.html to see an example of how to use GetCustomerSecretKey API.
 func (client IdentityDomainsClient) GetCustomerSecretKey(ctx context.Context, request GetCustomerSecretKeyRequest) (response GetCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5649,6 +6033,10 @@ func (client IdentityDomainsClient) getCustomerSecretKey(ctx context.Context, re
 }
 
 // GetDynamicResourceGroup Get a Dynamic Resource Group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetDynamicResourceGroup.go.html to see an example of how to use GetDynamicResourceGroup API.
 func (client IdentityDomainsClient) GetDynamicResourceGroup(ctx context.Context, request GetDynamicResourceGroupRequest) (response GetDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5707,6 +6095,10 @@ func (client IdentityDomainsClient) getDynamicResourceGroup(ctx context.Context,
 }
 
 // GetGrant Get a Grant
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetGrant.go.html to see an example of how to use GetGrant API.
 func (client IdentityDomainsClient) GetGrant(ctx context.Context, request GetGrantRequest) (response GetGrantResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5765,6 +6157,10 @@ func (client IdentityDomainsClient) getGrant(ctx context.Context, request common
 }
 
 // GetGroup Get a group. <b>Important:</b> The Group SEARCH and GET operations on users and members will throw an exception if the response has more than 10,000 members. To avoid the exception, use the pagination filter to GET or SEARCH group members.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetGroup.go.html to see an example of how to use GetGroup API.
 func (client IdentityDomainsClient) GetGroup(ctx context.Context, request GetGroupRequest) (response GetGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5823,6 +6219,10 @@ func (client IdentityDomainsClient) getGroup(ctx context.Context, request common
 }
 
 // GetIdentityPropagationTrust Get an existing Identity Propagation Trust configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetIdentityPropagationTrust.go.html to see an example of how to use GetIdentityPropagationTrust API.
 func (client IdentityDomainsClient) GetIdentityPropagationTrust(ctx context.Context, request GetIdentityPropagationTrustRequest) (response GetIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5881,6 +6281,10 @@ func (client IdentityDomainsClient) getIdentityPropagationTrust(ctx context.Cont
 }
 
 // GetIdentityProvider Get an Identity Provider
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetIdentityProvider.go.html to see an example of how to use GetIdentityProvider API.
 func (client IdentityDomainsClient) GetIdentityProvider(ctx context.Context, request GetIdentityProviderRequest) (response GetIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5939,6 +6343,10 @@ func (client IdentityDomainsClient) getIdentityProvider(ctx context.Context, req
 }
 
 // GetIdentitySetting Get an Identity setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetIdentitySetting.go.html to see an example of how to use GetIdentitySetting API.
 func (client IdentityDomainsClient) GetIdentitySetting(ctx context.Context, request GetIdentitySettingRequest) (response GetIdentitySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5997,6 +6405,10 @@ func (client IdentityDomainsClient) getIdentitySetting(ctx context.Context, requ
 }
 
 // GetKmsiSetting Get KmsiSettings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetKmsiSetting.go.html to see an example of how to use GetKmsiSetting API.
 func (client IdentityDomainsClient) GetKmsiSetting(ctx context.Context, request GetKmsiSettingRequest) (response GetKmsiSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6055,6 +6467,10 @@ func (client IdentityDomainsClient) getKmsiSetting(ctx context.Context, request 
 }
 
 // GetMe Get a user's own information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMe.go.html to see an example of how to use GetMe API.
 func (client IdentityDomainsClient) GetMe(ctx context.Context, request GetMeRequest) (response GetMeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6113,6 +6529,10 @@ func (client IdentityDomainsClient) getMe(ctx context.Context, request common.OC
 }
 
 // GetMyApiKey Get a user's own API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyApiKey.go.html to see an example of how to use GetMyApiKey API.
 func (client IdentityDomainsClient) GetMyApiKey(ctx context.Context, request GetMyApiKeyRequest) (response GetMyApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6171,6 +6591,10 @@ func (client IdentityDomainsClient) getMyApiKey(ctx context.Context, request com
 }
 
 // GetMyAuthToken Get a user's own Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyAuthToken.go.html to see an example of how to use GetMyAuthToken API.
 func (client IdentityDomainsClient) GetMyAuthToken(ctx context.Context, request GetMyAuthTokenRequest) (response GetMyAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6229,6 +6653,10 @@ func (client IdentityDomainsClient) getMyAuthToken(ctx context.Context, request 
 }
 
 // GetMyCompletedApproval Get My MyCompletedApproval
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyCompletedApproval.go.html to see an example of how to use GetMyCompletedApproval API.
 func (client IdentityDomainsClient) GetMyCompletedApproval(ctx context.Context, request GetMyCompletedApprovalRequest) (response GetMyCompletedApprovalResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6287,6 +6715,10 @@ func (client IdentityDomainsClient) getMyCompletedApproval(ctx context.Context, 
 }
 
 // GetMyCustomerSecretKey Get a user's own customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyCustomerSecretKey.go.html to see an example of how to use GetMyCustomerSecretKey API.
 func (client IdentityDomainsClient) GetMyCustomerSecretKey(ctx context.Context, request GetMyCustomerSecretKeyRequest) (response GetMyCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6345,6 +6777,10 @@ func (client IdentityDomainsClient) getMyCustomerSecretKey(ctx context.Context, 
 }
 
 // GetMyDevice Get a Device
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyDevice.go.html to see an example of how to use GetMyDevice API.
 func (client IdentityDomainsClient) GetMyDevice(ctx context.Context, request GetMyDeviceRequest) (response GetMyDeviceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6403,6 +6839,10 @@ func (client IdentityDomainsClient) getMyDevice(ctx context.Context, request com
 }
 
 // GetMyOAuth2ClientCredential Get a user's own OAuth2 client credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyOAuth2ClientCredential.go.html to see an example of how to use GetMyOAuth2ClientCredential API.
 func (client IdentityDomainsClient) GetMyOAuth2ClientCredential(ctx context.Context, request GetMyOAuth2ClientCredentialRequest) (response GetMyOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6461,6 +6901,10 @@ func (client IdentityDomainsClient) getMyOAuth2ClientCredential(ctx context.Cont
 }
 
 // GetMyPendingApproval Get My MyPendingApproval
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyPendingApproval.go.html to see an example of how to use GetMyPendingApproval API.
 func (client IdentityDomainsClient) GetMyPendingApproval(ctx context.Context, request GetMyPendingApprovalRequest) (response GetMyPendingApprovalResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6519,6 +6963,10 @@ func (client IdentityDomainsClient) getMyPendingApproval(ctx context.Context, re
 }
 
 // GetMyRequest Get My Requests
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyRequest.go.html to see an example of how to use GetMyRequest API.
 func (client IdentityDomainsClient) GetMyRequest(ctx context.Context, request GetMyRequestRequest) (response GetMyRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6577,6 +7025,10 @@ func (client IdentityDomainsClient) getMyRequest(ctx context.Context, request co
 }
 
 // GetMySmtpCredential Get a user's own SMTP credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMySmtpCredential.go.html to see an example of how to use GetMySmtpCredential API.
 func (client IdentityDomainsClient) GetMySmtpCredential(ctx context.Context, request GetMySmtpCredentialRequest) (response GetMySmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6635,6 +7087,10 @@ func (client IdentityDomainsClient) getMySmtpCredential(ctx context.Context, req
 }
 
 // GetMySupportAccount Get a user's own support account.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMySupportAccount.go.html to see an example of how to use GetMySupportAccount API.
 func (client IdentityDomainsClient) GetMySupportAccount(ctx context.Context, request GetMySupportAccountRequest) (response GetMySupportAccountResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6693,6 +7149,10 @@ func (client IdentityDomainsClient) getMySupportAccount(ctx context.Context, req
 }
 
 // GetMyTrustedUserAgent Get a Trusted User Agent
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyTrustedUserAgent.go.html to see an example of how to use GetMyTrustedUserAgent API.
 func (client IdentityDomainsClient) GetMyTrustedUserAgent(ctx context.Context, request GetMyTrustedUserAgentRequest) (response GetMyTrustedUserAgentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6751,6 +7211,10 @@ func (client IdentityDomainsClient) getMyTrustedUserAgent(ctx context.Context, r
 }
 
 // GetMyUserDbCredential Get a user's own database (DB) credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyUserDbCredential.go.html to see an example of how to use GetMyUserDbCredential API.
 func (client IdentityDomainsClient) GetMyUserDbCredential(ctx context.Context, request GetMyUserDbCredentialRequest) (response GetMyUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6809,6 +7273,10 @@ func (client IdentityDomainsClient) getMyUserDbCredential(ctx context.Context, r
 }
 
 // GetNetworkPerimeter Get a NetworkPerimeter
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetNetworkPerimeter.go.html to see an example of how to use GetNetworkPerimeter API.
 func (client IdentityDomainsClient) GetNetworkPerimeter(ctx context.Context, request GetNetworkPerimeterRequest) (response GetNetworkPerimeterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6867,6 +7335,10 @@ func (client IdentityDomainsClient) getNetworkPerimeter(ctx context.Context, req
 }
 
 // GetNotificationSetting Get Notification Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetNotificationSetting.go.html to see an example of how to use GetNotificationSetting API.
 func (client IdentityDomainsClient) GetNotificationSetting(ctx context.Context, request GetNotificationSettingRequest) (response GetNotificationSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6925,6 +7397,10 @@ func (client IdentityDomainsClient) getNotificationSetting(ctx context.Context, 
 }
 
 // GetOAuth2ClientCredential Get a user's OAuth2 client credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOAuth2ClientCredential.go.html to see an example of how to use GetOAuth2ClientCredential API.
 func (client IdentityDomainsClient) GetOAuth2ClientCredential(ctx context.Context, request GetOAuth2ClientCredentialRequest) (response GetOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6983,6 +7459,10 @@ func (client IdentityDomainsClient) getOAuth2ClientCredential(ctx context.Contex
 }
 
 // GetOAuthClientCertificate Get OAuth Client Certificates
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOAuthClientCertificate.go.html to see an example of how to use GetOAuthClientCertificate API.
 func (client IdentityDomainsClient) GetOAuthClientCertificate(ctx context.Context, request GetOAuthClientCertificateRequest) (response GetOAuthClientCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7041,6 +7521,10 @@ func (client IdentityDomainsClient) getOAuthClientCertificate(ctx context.Contex
 }
 
 // GetOAuthPartnerCertificate Get an OAuth Partner Certificate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetOAuthPartnerCertificate.go.html to see an example of how to use GetOAuthPartnerCertificate API.
 func (client IdentityDomainsClient) GetOAuthPartnerCertificate(ctx context.Context, request GetOAuthPartnerCertificateRequest) (response GetOAuthPartnerCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7099,6 +7583,10 @@ func (client IdentityDomainsClient) getOAuthPartnerCertificate(ctx context.Conte
 }
 
 // GetPasswordPolicy Get a password policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetPasswordPolicy.go.html to see an example of how to use GetPasswordPolicy API.
 func (client IdentityDomainsClient) GetPasswordPolicy(ctx context.Context, request GetPasswordPolicyRequest) (response GetPasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7157,6 +7645,10 @@ func (client IdentityDomainsClient) getPasswordPolicy(ctx context.Context, reque
 }
 
 // GetPolicy Get a Policy
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetPolicy.go.html to see an example of how to use GetPolicy API.
 func (client IdentityDomainsClient) GetPolicy(ctx context.Context, request GetPolicyRequest) (response GetPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7215,6 +7707,10 @@ func (client IdentityDomainsClient) getPolicy(ctx context.Context, request commo
 }
 
 // GetRule Get a Rule
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetRule.go.html to see an example of how to use GetRule API.
 func (client IdentityDomainsClient) GetRule(ctx context.Context, request GetRuleRequest) (response GetRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7273,6 +7769,10 @@ func (client IdentityDomainsClient) getRule(ctx context.Context, request common.
 }
 
 // GetSchema Get a Schema
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSchema.go.html to see an example of how to use GetSchema API.
 func (client IdentityDomainsClient) GetSchema(ctx context.Context, request GetSchemaRequest) (response GetSchemaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7331,6 +7831,10 @@ func (client IdentityDomainsClient) getSchema(ctx context.Context, request commo
 }
 
 // GetSecurityQuestion Get a security question.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSecurityQuestion.go.html to see an example of how to use GetSecurityQuestion API.
 func (client IdentityDomainsClient) GetSecurityQuestion(ctx context.Context, request GetSecurityQuestionRequest) (response GetSecurityQuestionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7389,6 +7893,10 @@ func (client IdentityDomainsClient) getSecurityQuestion(ctx context.Context, req
 }
 
 // GetSecurityQuestionSetting Get a security question setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSecurityQuestionSetting.go.html to see an example of how to use GetSecurityQuestionSetting API.
 func (client IdentityDomainsClient) GetSecurityQuestionSetting(ctx context.Context, request GetSecurityQuestionSettingRequest) (response GetSecurityQuestionSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7447,6 +7955,10 @@ func (client IdentityDomainsClient) getSecurityQuestionSetting(ctx context.Conte
 }
 
 // GetSelfRegistrationProfile Get a self-registration profile.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSelfRegistrationProfile.go.html to see an example of how to use GetSelfRegistrationProfile API.
 func (client IdentityDomainsClient) GetSelfRegistrationProfile(ctx context.Context, request GetSelfRegistrationProfileRequest) (response GetSelfRegistrationProfileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7505,6 +8017,10 @@ func (client IdentityDomainsClient) getSelfRegistrationProfile(ctx context.Conte
 }
 
 // GetSetting Get Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSetting.go.html to see an example of how to use GetSetting API.
 func (client IdentityDomainsClient) GetSetting(ctx context.Context, request GetSettingRequest) (response GetSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7563,6 +8079,10 @@ func (client IdentityDomainsClient) getSetting(ctx context.Context, request comm
 }
 
 // GetSmtpCredential Get a user's SMTP credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSmtpCredential.go.html to see an example of how to use GetSmtpCredential API.
 func (client IdentityDomainsClient) GetSmtpCredential(ctx context.Context, request GetSmtpCredentialRequest) (response GetSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7621,6 +8141,10 @@ func (client IdentityDomainsClient) getSmtpCredential(ctx context.Context, reque
 }
 
 // GetUser Get a user.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetUser.go.html to see an example of how to use GetUser API.
 func (client IdentityDomainsClient) GetUser(ctx context.Context, request GetUserRequest) (response GetUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7679,6 +8203,10 @@ func (client IdentityDomainsClient) getUser(ctx context.Context, request common.
 }
 
 // GetUserAttributesSetting Get User Schema Attribute Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetUserAttributesSetting.go.html to see an example of how to use GetUserAttributesSetting API.
 func (client IdentityDomainsClient) GetUserAttributesSetting(ctx context.Context, request GetUserAttributesSettingRequest) (response GetUserAttributesSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7737,6 +8265,10 @@ func (client IdentityDomainsClient) getUserAttributesSetting(ctx context.Context
 }
 
 // GetUserDbCredential Get a user's database (DB) credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetUserDbCredential.go.html to see an example of how to use GetUserDbCredential API.
 func (client IdentityDomainsClient) GetUserDbCredential(ctx context.Context, request GetUserDbCredentialRequest) (response GetUserDbCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7795,6 +8327,10 @@ func (client IdentityDomainsClient) getUserDbCredential(ctx context.Context, req
 }
 
 // ListAccountMgmtInfos Search Account Mgmt Info
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListAccountMgmtInfos.go.html to see an example of how to use ListAccountMgmtInfos API.
 func (client IdentityDomainsClient) ListAccountMgmtInfos(ctx context.Context, request ListAccountMgmtInfosRequest) (response ListAccountMgmtInfosResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7853,6 +8389,10 @@ func (client IdentityDomainsClient) listAccountMgmtInfos(ctx context.Context, re
 }
 
 // ListAccountRecoverySettings Search for account recovery settings.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListAccountRecoverySettings.go.html to see an example of how to use ListAccountRecoverySettings API.
 func (client IdentityDomainsClient) ListAccountRecoverySettings(ctx context.Context, request ListAccountRecoverySettingsRequest) (response ListAccountRecoverySettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7911,6 +8451,10 @@ func (client IdentityDomainsClient) listAccountRecoverySettings(ctx context.Cont
 }
 
 // ListApiKeys Search API keys.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListApiKeys.go.html to see an example of how to use ListApiKeys API.
 func (client IdentityDomainsClient) ListApiKeys(ctx context.Context, request ListApiKeysRequest) (response ListApiKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7969,6 +8513,10 @@ func (client IdentityDomainsClient) listApiKeys(ctx context.Context, request com
 }
 
 // ListAppRoles Search AppRoles
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListAppRoles.go.html to see an example of how to use ListAppRoles API.
 func (client IdentityDomainsClient) ListAppRoles(ctx context.Context, request ListAppRolesRequest) (response ListAppRolesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8027,6 +8575,10 @@ func (client IdentityDomainsClient) listAppRoles(ctx context.Context, request co
 }
 
 // ListApprovalWorkflowAssignments Search Approval Workflow Assignments
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListApprovalWorkflowAssignments.go.html to see an example of how to use ListApprovalWorkflowAssignments API.
 func (client IdentityDomainsClient) ListApprovalWorkflowAssignments(ctx context.Context, request ListApprovalWorkflowAssignmentsRequest) (response ListApprovalWorkflowAssignmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8085,6 +8637,10 @@ func (client IdentityDomainsClient) listApprovalWorkflowAssignments(ctx context.
 }
 
 // ListApprovalWorkflowSteps Search ApprovalWorkflowStep
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListApprovalWorkflowSteps.go.html to see an example of how to use ListApprovalWorkflowSteps API.
 func (client IdentityDomainsClient) ListApprovalWorkflowSteps(ctx context.Context, request ListApprovalWorkflowStepsRequest) (response ListApprovalWorkflowStepsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8143,6 +8699,10 @@ func (client IdentityDomainsClient) listApprovalWorkflowSteps(ctx context.Contex
 }
 
 // ListApprovalWorkflows Search ApprovalWorkflow
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListApprovalWorkflows.go.html to see an example of how to use ListApprovalWorkflows API.
 func (client IdentityDomainsClient) ListApprovalWorkflows(ctx context.Context, request ListApprovalWorkflowsRequest) (response ListApprovalWorkflowsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8201,6 +8761,10 @@ func (client IdentityDomainsClient) listApprovalWorkflows(ctx context.Context, r
 }
 
 // ListApps Search Apps
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListApps.go.html to see an example of how to use ListApps API.
 func (client IdentityDomainsClient) ListApps(ctx context.Context, request ListAppsRequest) (response ListAppsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8259,6 +8823,10 @@ func (client IdentityDomainsClient) listApps(ctx context.Context, request common
 }
 
 // ListAuthTokens Search for Auth tokens.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListAuthTokens.go.html to see an example of how to use ListAuthTokens API.
 func (client IdentityDomainsClient) ListAuthTokens(ctx context.Context, request ListAuthTokensRequest) (response ListAuthTokensResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8317,6 +8885,10 @@ func (client IdentityDomainsClient) listAuthTokens(ctx context.Context, request 
 }
 
 // ListAuthenticationFactorSettings Search Authentication Factor Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListAuthenticationFactorSettings.go.html to see an example of how to use ListAuthenticationFactorSettings API.
 func (client IdentityDomainsClient) ListAuthenticationFactorSettings(ctx context.Context, request ListAuthenticationFactorSettingsRequest) (response ListAuthenticationFactorSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8375,6 +8947,10 @@ func (client IdentityDomainsClient) listAuthenticationFactorSettings(ctx context
 }
 
 // ListBrandingSettings Search Branding Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListBrandingSettings.go.html to see an example of how to use ListBrandingSettings API.
 func (client IdentityDomainsClient) ListBrandingSettings(ctx context.Context, request ListBrandingSettingsRequest) (response ListBrandingSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8433,6 +9009,10 @@ func (client IdentityDomainsClient) listBrandingSettings(ctx context.Context, re
 }
 
 // ListCloudGateMappings Search Cloud Gate mappings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListCloudGateMappings.go.html to see an example of how to use ListCloudGateMappings API.
 func (client IdentityDomainsClient) ListCloudGateMappings(ctx context.Context, request ListCloudGateMappingsRequest) (response ListCloudGateMappingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8491,6 +9071,10 @@ func (client IdentityDomainsClient) listCloudGateMappings(ctx context.Context, r
 }
 
 // ListCloudGateServers Search Cloud Gate servers
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListCloudGateServers.go.html to see an example of how to use ListCloudGateServers API.
 func (client IdentityDomainsClient) ListCloudGateServers(ctx context.Context, request ListCloudGateServersRequest) (response ListCloudGateServersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8549,6 +9133,10 @@ func (client IdentityDomainsClient) listCloudGateServers(ctx context.Context, re
 }
 
 // ListCloudGates Search Cloud Gates
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListCloudGates.go.html to see an example of how to use ListCloudGates API.
 func (client IdentityDomainsClient) ListCloudGates(ctx context.Context, request ListCloudGatesRequest) (response ListCloudGatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8607,6 +9195,10 @@ func (client IdentityDomainsClient) listCloudGates(ctx context.Context, request 
 }
 
 // ListConditions Search Conditions
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListConditions.go.html to see an example of how to use ListConditions API.
 func (client IdentityDomainsClient) ListConditions(ctx context.Context, request ListConditionsRequest) (response ListConditionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8665,6 +9257,10 @@ func (client IdentityDomainsClient) listConditions(ctx context.Context, request 
 }
 
 // ListCustomerSecretKeys Search for a user's customer secret keys.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListCustomerSecretKeys.go.html to see an example of how to use ListCustomerSecretKeys API.
 func (client IdentityDomainsClient) ListCustomerSecretKeys(ctx context.Context, request ListCustomerSecretKeysRequest) (response ListCustomerSecretKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8723,6 +9319,10 @@ func (client IdentityDomainsClient) listCustomerSecretKeys(ctx context.Context, 
 }
 
 // ListDynamicResourceGroups Search for Dynamic Resource Groups.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListDynamicResourceGroups.go.html to see an example of how to use ListDynamicResourceGroups API.
 func (client IdentityDomainsClient) ListDynamicResourceGroups(ctx context.Context, request ListDynamicResourceGroupsRequest) (response ListDynamicResourceGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8781,6 +9381,10 @@ func (client IdentityDomainsClient) listDynamicResourceGroups(ctx context.Contex
 }
 
 // ListGrants Search Grants
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListGrants.go.html to see an example of how to use ListGrants API.
 func (client IdentityDomainsClient) ListGrants(ctx context.Context, request ListGrantsRequest) (response ListGrantsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8839,6 +9443,10 @@ func (client IdentityDomainsClient) listGrants(ctx context.Context, request comm
 }
 
 // ListGroups Search for groups. <b>Important:</b> The Group SEARCH and GET operations on users and members will throw an exception if the response has more than 10,000 members. To avoid the exception, use the pagination filter to GET or SEARCH group members.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListGroups.go.html to see an example of how to use ListGroups API.
 func (client IdentityDomainsClient) ListGroups(ctx context.Context, request ListGroupsRequest) (response ListGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8897,6 +9505,10 @@ func (client IdentityDomainsClient) listGroups(ctx context.Context, request comm
 }
 
 // ListIdentityPropagationTrusts List the Identity Propagation Trust configurations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListIdentityPropagationTrusts.go.html to see an example of how to use ListIdentityPropagationTrusts API.
 func (client IdentityDomainsClient) ListIdentityPropagationTrusts(ctx context.Context, request ListIdentityPropagationTrustsRequest) (response ListIdentityPropagationTrustsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8955,6 +9567,10 @@ func (client IdentityDomainsClient) listIdentityPropagationTrusts(ctx context.Co
 }
 
 // ListIdentityProviders Search Identity Providers
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListIdentityProviders.go.html to see an example of how to use ListIdentityProviders API.
 func (client IdentityDomainsClient) ListIdentityProviders(ctx context.Context, request ListIdentityProvidersRequest) (response ListIdentityProvidersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9013,6 +9629,10 @@ func (client IdentityDomainsClient) listIdentityProviders(ctx context.Context, r
 }
 
 // ListIdentitySettings Search for Identity settings.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListIdentitySettings.go.html to see an example of how to use ListIdentitySettings API.
 func (client IdentityDomainsClient) ListIdentitySettings(ctx context.Context, request ListIdentitySettingsRequest) (response ListIdentitySettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9071,6 +9691,10 @@ func (client IdentityDomainsClient) listIdentitySettings(ctx context.Context, re
 }
 
 // ListKmsiSettings Search KmsiSettings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListKmsiSettings.go.html to see an example of how to use ListKmsiSettings API.
 func (client IdentityDomainsClient) ListKmsiSettings(ctx context.Context, request ListKmsiSettingsRequest) (response ListKmsiSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9129,6 +9753,10 @@ func (client IdentityDomainsClient) listKmsiSettings(ctx context.Context, reques
 }
 
 // ListMyApiKeys Search for a user's own API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyApiKeys.go.html to see an example of how to use ListMyApiKeys API.
 func (client IdentityDomainsClient) ListMyApiKeys(ctx context.Context, request ListMyApiKeysRequest) (response ListMyApiKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9187,6 +9815,10 @@ func (client IdentityDomainsClient) listMyApiKeys(ctx context.Context, request c
 }
 
 // ListMyApps Search My Apps
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyApps.go.html to see an example of how to use ListMyApps API.
 func (client IdentityDomainsClient) ListMyApps(ctx context.Context, request ListMyAppsRequest) (response ListMyAppsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9245,6 +9877,10 @@ func (client IdentityDomainsClient) listMyApps(ctx context.Context, request comm
 }
 
 // ListMyAuthTokens Search for a user's own Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyAuthTokens.go.html to see an example of how to use ListMyAuthTokens API.
 func (client IdentityDomainsClient) ListMyAuthTokens(ctx context.Context, request ListMyAuthTokensRequest) (response ListMyAuthTokensResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9303,6 +9939,10 @@ func (client IdentityDomainsClient) listMyAuthTokens(ctx context.Context, reques
 }
 
 // ListMyCompletedApprovals Search My MyCompletedApproval
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyCompletedApprovals.go.html to see an example of how to use ListMyCompletedApprovals API.
 func (client IdentityDomainsClient) ListMyCompletedApprovals(ctx context.Context, request ListMyCompletedApprovalsRequest) (response ListMyCompletedApprovalsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9361,6 +10001,10 @@ func (client IdentityDomainsClient) listMyCompletedApprovals(ctx context.Context
 }
 
 // ListMyCustomerSecretKeys Search for a user's own customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyCustomerSecretKeys.go.html to see an example of how to use ListMyCustomerSecretKeys API.
 func (client IdentityDomainsClient) ListMyCustomerSecretKeys(ctx context.Context, request ListMyCustomerSecretKeysRequest) (response ListMyCustomerSecretKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9419,6 +10063,10 @@ func (client IdentityDomainsClient) listMyCustomerSecretKeys(ctx context.Context
 }
 
 // ListMyDevices Search Devices
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyDevices.go.html to see an example of how to use ListMyDevices API.
 func (client IdentityDomainsClient) ListMyDevices(ctx context.Context, request ListMyDevicesRequest) (response ListMyDevicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9477,6 +10125,10 @@ func (client IdentityDomainsClient) listMyDevices(ctx context.Context, request c
 }
 
 // ListMyGroups Search for 'My Groups'.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyGroups.go.html to see an example of how to use ListMyGroups API.
 func (client IdentityDomainsClient) ListMyGroups(ctx context.Context, request ListMyGroupsRequest) (response ListMyGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9535,6 +10187,10 @@ func (client IdentityDomainsClient) listMyGroups(ctx context.Context, request co
 }
 
 // ListMyOAuth2ClientCredentials Search for a user's own OAuth2 client credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyOAuth2ClientCredentials.go.html to see an example of how to use ListMyOAuth2ClientCredentials API.
 func (client IdentityDomainsClient) ListMyOAuth2ClientCredentials(ctx context.Context, request ListMyOAuth2ClientCredentialsRequest) (response ListMyOAuth2ClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9593,6 +10249,10 @@ func (client IdentityDomainsClient) listMyOAuth2ClientCredentials(ctx context.Co
 }
 
 // ListMyPendingApprovals Search My Approvals
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyPendingApprovals.go.html to see an example of how to use ListMyPendingApprovals API.
 func (client IdentityDomainsClient) ListMyPendingApprovals(ctx context.Context, request ListMyPendingApprovalsRequest) (response ListMyPendingApprovalsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9651,6 +10311,10 @@ func (client IdentityDomainsClient) listMyPendingApprovals(ctx context.Context, 
 }
 
 // ListMyRequestableGroups Search My Requestable Groups
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyRequestableGroups.go.html to see an example of how to use ListMyRequestableGroups API.
 func (client IdentityDomainsClient) ListMyRequestableGroups(ctx context.Context, request ListMyRequestableGroupsRequest) (response ListMyRequestableGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9709,6 +10373,10 @@ func (client IdentityDomainsClient) listMyRequestableGroups(ctx context.Context,
 }
 
 // ListMyRequests Search My Requests
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyRequests.go.html to see an example of how to use ListMyRequests API.
 func (client IdentityDomainsClient) ListMyRequests(ctx context.Context, request ListMyRequestsRequest) (response ListMyRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9767,6 +10435,10 @@ func (client IdentityDomainsClient) listMyRequests(ctx context.Context, request 
 }
 
 // ListMySmtpCredentials Search for a user's own SMTP credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMySmtpCredentials.go.html to see an example of how to use ListMySmtpCredentials API.
 func (client IdentityDomainsClient) ListMySmtpCredentials(ctx context.Context, request ListMySmtpCredentialsRequest) (response ListMySmtpCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9825,6 +10497,10 @@ func (client IdentityDomainsClient) listMySmtpCredentials(ctx context.Context, r
 }
 
 // ListMySupportAccounts Search for a user's own support account.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMySupportAccounts.go.html to see an example of how to use ListMySupportAccounts API.
 func (client IdentityDomainsClient) ListMySupportAccounts(ctx context.Context, request ListMySupportAccountsRequest) (response ListMySupportAccountsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9883,6 +10559,10 @@ func (client IdentityDomainsClient) listMySupportAccounts(ctx context.Context, r
 }
 
 // ListMyTrustedUserAgents Search Trusted User Agents
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyTrustedUserAgents.go.html to see an example of how to use ListMyTrustedUserAgents API.
 func (client IdentityDomainsClient) ListMyTrustedUserAgents(ctx context.Context, request ListMyTrustedUserAgentsRequest) (response ListMyTrustedUserAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9941,6 +10621,10 @@ func (client IdentityDomainsClient) listMyTrustedUserAgents(ctx context.Context,
 }
 
 // ListMyUserDbCredentials Search for a user's own database (DB) credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListMyUserDbCredentials.go.html to see an example of how to use ListMyUserDbCredentials API.
 func (client IdentityDomainsClient) ListMyUserDbCredentials(ctx context.Context, request ListMyUserDbCredentialsRequest) (response ListMyUserDbCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9999,6 +10683,10 @@ func (client IdentityDomainsClient) listMyUserDbCredentials(ctx context.Context,
 }
 
 // ListNetworkPerimeters Search NetworkPerimeters
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListNetworkPerimeters.go.html to see an example of how to use ListNetworkPerimeters API.
 func (client IdentityDomainsClient) ListNetworkPerimeters(ctx context.Context, request ListNetworkPerimetersRequest) (response ListNetworkPerimetersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10057,6 +10745,10 @@ func (client IdentityDomainsClient) listNetworkPerimeters(ctx context.Context, r
 }
 
 // ListNotificationSettings Search Notification Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListNotificationSettings.go.html to see an example of how to use ListNotificationSettings API.
 func (client IdentityDomainsClient) ListNotificationSettings(ctx context.Context, request ListNotificationSettingsRequest) (response ListNotificationSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10115,6 +10807,10 @@ func (client IdentityDomainsClient) listNotificationSettings(ctx context.Context
 }
 
 // ListOAuth2ClientCredentials Search for a user's OAuth2 client credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListOAuth2ClientCredentials.go.html to see an example of how to use ListOAuth2ClientCredentials API.
 func (client IdentityDomainsClient) ListOAuth2ClientCredentials(ctx context.Context, request ListOAuth2ClientCredentialsRequest) (response ListOAuth2ClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10173,6 +10869,10 @@ func (client IdentityDomainsClient) listOAuth2ClientCredentials(ctx context.Cont
 }
 
 // ListOAuthClientCertificates Search OAuth Client Certificates
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListOAuthClientCertificates.go.html to see an example of how to use ListOAuthClientCertificates API.
 func (client IdentityDomainsClient) ListOAuthClientCertificates(ctx context.Context, request ListOAuthClientCertificatesRequest) (response ListOAuthClientCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10231,6 +10931,10 @@ func (client IdentityDomainsClient) listOAuthClientCertificates(ctx context.Cont
 }
 
 // ListOAuthPartnerCertificates Search OAuth Partner Certificates
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListOAuthPartnerCertificates.go.html to see an example of how to use ListOAuthPartnerCertificates API.
 func (client IdentityDomainsClient) ListOAuthPartnerCertificates(ctx context.Context, request ListOAuthPartnerCertificatesRequest) (response ListOAuthPartnerCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10289,6 +10993,10 @@ func (client IdentityDomainsClient) listOAuthPartnerCertificates(ctx context.Con
 }
 
 // ListPasswordPolicies Search for password policies.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListPasswordPolicies.go.html to see an example of how to use ListPasswordPolicies API.
 func (client IdentityDomainsClient) ListPasswordPolicies(ctx context.Context, request ListPasswordPoliciesRequest) (response ListPasswordPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10347,6 +11055,10 @@ func (client IdentityDomainsClient) listPasswordPolicies(ctx context.Context, re
 }
 
 // ListPolicies Search Policies
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListPolicies.go.html to see an example of how to use ListPolicies API.
 func (client IdentityDomainsClient) ListPolicies(ctx context.Context, request ListPoliciesRequest) (response ListPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10405,6 +11117,10 @@ func (client IdentityDomainsClient) listPolicies(ctx context.Context, request co
 }
 
 // ListResourceTypeSchemaAttributes Search Resource Type Schema Attributes
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListResourceTypeSchemaAttributes.go.html to see an example of how to use ListResourceTypeSchemaAttributes API.
 func (client IdentityDomainsClient) ListResourceTypeSchemaAttributes(ctx context.Context, request ListResourceTypeSchemaAttributesRequest) (response ListResourceTypeSchemaAttributesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10463,6 +11179,10 @@ func (client IdentityDomainsClient) listResourceTypeSchemaAttributes(ctx context
 }
 
 // ListRules Search Rules
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListRules.go.html to see an example of how to use ListRules API.
 func (client IdentityDomainsClient) ListRules(ctx context.Context, request ListRulesRequest) (response ListRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10521,6 +11241,10 @@ func (client IdentityDomainsClient) listRules(ctx context.Context, request commo
 }
 
 // ListSchemas Search Schemas
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListSchemas.go.html to see an example of how to use ListSchemas API.
 func (client IdentityDomainsClient) ListSchemas(ctx context.Context, request ListSchemasRequest) (response ListSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10579,6 +11303,10 @@ func (client IdentityDomainsClient) listSchemas(ctx context.Context, request com
 }
 
 // ListSecurityQuestionSettings Search for security question settings.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListSecurityQuestionSettings.go.html to see an example of how to use ListSecurityQuestionSettings API.
 func (client IdentityDomainsClient) ListSecurityQuestionSettings(ctx context.Context, request ListSecurityQuestionSettingsRequest) (response ListSecurityQuestionSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10637,6 +11365,10 @@ func (client IdentityDomainsClient) listSecurityQuestionSettings(ctx context.Con
 }
 
 // ListSecurityQuestions Search for security questions.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListSecurityQuestions.go.html to see an example of how to use ListSecurityQuestions API.
 func (client IdentityDomainsClient) ListSecurityQuestions(ctx context.Context, request ListSecurityQuestionsRequest) (response ListSecurityQuestionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10695,6 +11427,10 @@ func (client IdentityDomainsClient) listSecurityQuestions(ctx context.Context, r
 }
 
 // ListSelfRegistrationProfiles Search for self-registration profiles.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListSelfRegistrationProfiles.go.html to see an example of how to use ListSelfRegistrationProfiles API.
 func (client IdentityDomainsClient) ListSelfRegistrationProfiles(ctx context.Context, request ListSelfRegistrationProfilesRequest) (response ListSelfRegistrationProfilesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10753,6 +11489,10 @@ func (client IdentityDomainsClient) listSelfRegistrationProfiles(ctx context.Con
 }
 
 // ListSettings Search Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListSettings.go.html to see an example of how to use ListSettings API.
 func (client IdentityDomainsClient) ListSettings(ctx context.Context, request ListSettingsRequest) (response ListSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10811,6 +11551,10 @@ func (client IdentityDomainsClient) listSettings(ctx context.Context, request co
 }
 
 // ListSmtpCredentials Search for SMTP credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListSmtpCredentials.go.html to see an example of how to use ListSmtpCredentials API.
 func (client IdentityDomainsClient) ListSmtpCredentials(ctx context.Context, request ListSmtpCredentialsRequest) (response ListSmtpCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10869,6 +11613,10 @@ func (client IdentityDomainsClient) listSmtpCredentials(ctx context.Context, req
 }
 
 // ListUserAttributesSettings Search User Schema Attribute Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListUserAttributesSettings.go.html to see an example of how to use ListUserAttributesSettings API.
 func (client IdentityDomainsClient) ListUserAttributesSettings(ctx context.Context, request ListUserAttributesSettingsRequest) (response ListUserAttributesSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10927,6 +11675,10 @@ func (client IdentityDomainsClient) listUserAttributesSettings(ctx context.Conte
 }
 
 // ListUserDbCredentials Search for a user's database (DB) credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListUserDbCredentials.go.html to see an example of how to use ListUserDbCredentials API.
 func (client IdentityDomainsClient) ListUserDbCredentials(ctx context.Context, request ListUserDbCredentialsRequest) (response ListUserDbCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10985,6 +11737,10 @@ func (client IdentityDomainsClient) listUserDbCredentials(ctx context.Context, r
 }
 
 // ListUsers Search for users.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListUsers.go.html to see an example of how to use ListUsers API.
 func (client IdentityDomainsClient) ListUsers(ctx context.Context, request ListUsersRequest) (response ListUsersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11043,6 +11799,10 @@ func (client IdentityDomainsClient) listUsers(ctx context.Context, request commo
 }
 
 // PatchAccountRecoverySetting Update an account recovery setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchAccountRecoverySetting.go.html to see an example of how to use PatchAccountRecoverySetting API.
 func (client IdentityDomainsClient) PatchAccountRecoverySetting(ctx context.Context, request PatchAccountRecoverySettingRequest) (response PatchAccountRecoverySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11101,6 +11861,10 @@ func (client IdentityDomainsClient) patchAccountRecoverySetting(ctx context.Cont
 }
 
 // PatchApiKey Update a user's API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchApiKey.go.html to see an example of how to use PatchApiKey API.
 func (client IdentityDomainsClient) PatchApiKey(ctx context.Context, request PatchApiKeyRequest) (response PatchApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11159,6 +11923,10 @@ func (client IdentityDomainsClient) patchApiKey(ctx context.Context, request com
 }
 
 // PatchApp Update an App
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchApp.go.html to see an example of how to use PatchApp API.
 func (client IdentityDomainsClient) PatchApp(ctx context.Context, request PatchAppRequest) (response PatchAppResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11217,6 +11985,10 @@ func (client IdentityDomainsClient) patchApp(ctx context.Context, request common
 }
 
 // PatchAppRole Update an AppRole
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchAppRole.go.html to see an example of how to use PatchAppRole API.
 func (client IdentityDomainsClient) PatchAppRole(ctx context.Context, request PatchAppRoleRequest) (response PatchAppRoleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11275,6 +12047,10 @@ func (client IdentityDomainsClient) patchAppRole(ctx context.Context, request co
 }
 
 // PatchApprovalWorkflow Update ApprovalWorkflow
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchApprovalWorkflow.go.html to see an example of how to use PatchApprovalWorkflow API.
 func (client IdentityDomainsClient) PatchApprovalWorkflow(ctx context.Context, request PatchApprovalWorkflowRequest) (response PatchApprovalWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11333,6 +12109,10 @@ func (client IdentityDomainsClient) patchApprovalWorkflow(ctx context.Context, r
 }
 
 // PatchApprovalWorkflowStep Update ApprovalWorkflowStep
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchApprovalWorkflowStep.go.html to see an example of how to use PatchApprovalWorkflowStep API.
 func (client IdentityDomainsClient) PatchApprovalWorkflowStep(ctx context.Context, request PatchApprovalWorkflowStepRequest) (response PatchApprovalWorkflowStepResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11391,6 +12171,10 @@ func (client IdentityDomainsClient) patchApprovalWorkflowStep(ctx context.Contex
 }
 
 // PatchAuthToken Update a user's Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchAuthToken.go.html to see an example of how to use PatchAuthToken API.
 func (client IdentityDomainsClient) PatchAuthToken(ctx context.Context, request PatchAuthTokenRequest) (response PatchAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11449,6 +12233,10 @@ func (client IdentityDomainsClient) patchAuthToken(ctx context.Context, request 
 }
 
 // PatchCloudGate Update a Cloud Gate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCloudGate.go.html to see an example of how to use PatchCloudGate API.
 func (client IdentityDomainsClient) PatchCloudGate(ctx context.Context, request PatchCloudGateRequest) (response PatchCloudGateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11507,6 +12295,10 @@ func (client IdentityDomainsClient) patchCloudGate(ctx context.Context, request 
 }
 
 // PatchCloudGateMapping Update a Cloud Gate mapping
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCloudGateMapping.go.html to see an example of how to use PatchCloudGateMapping API.
 func (client IdentityDomainsClient) PatchCloudGateMapping(ctx context.Context, request PatchCloudGateMappingRequest) (response PatchCloudGateMappingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11565,6 +12357,10 @@ func (client IdentityDomainsClient) patchCloudGateMapping(ctx context.Context, r
 }
 
 // PatchCloudGateServer Update a Cloud Gate server
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCloudGateServer.go.html to see an example of how to use PatchCloudGateServer API.
 func (client IdentityDomainsClient) PatchCloudGateServer(ctx context.Context, request PatchCloudGateServerRequest) (response PatchCloudGateServerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11623,6 +12419,10 @@ func (client IdentityDomainsClient) patchCloudGateServer(ctx context.Context, re
 }
 
 // PatchCondition Update a Condition
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCondition.go.html to see an example of how to use PatchCondition API.
 func (client IdentityDomainsClient) PatchCondition(ctx context.Context, request PatchConditionRequest) (response PatchConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11681,6 +12481,10 @@ func (client IdentityDomainsClient) patchCondition(ctx context.Context, request 
 }
 
 // PatchCustomerSecretKey Update a user's customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCustomerSecretKey.go.html to see an example of how to use PatchCustomerSecretKey API.
 func (client IdentityDomainsClient) PatchCustomerSecretKey(ctx context.Context, request PatchCustomerSecretKeyRequest) (response PatchCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11739,6 +12543,10 @@ func (client IdentityDomainsClient) patchCustomerSecretKey(ctx context.Context, 
 }
 
 // PatchDynamicResourceGroup Update a Dynamic Resource Group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchDynamicResourceGroup.go.html to see an example of how to use PatchDynamicResourceGroup API.
 func (client IdentityDomainsClient) PatchDynamicResourceGroup(ctx context.Context, request PatchDynamicResourceGroupRequest) (response PatchDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11797,6 +12605,10 @@ func (client IdentityDomainsClient) patchDynamicResourceGroup(ctx context.Contex
 }
 
 // PatchGrant Update a Grant
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchGrant.go.html to see an example of how to use PatchGrant API.
 func (client IdentityDomainsClient) PatchGrant(ctx context.Context, request PatchGrantRequest) (response PatchGrantResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11855,6 +12667,10 @@ func (client IdentityDomainsClient) patchGrant(ctx context.Context, request comm
 }
 
 // PatchGroup Update a group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchGroup.go.html to see an example of how to use PatchGroup API.
 func (client IdentityDomainsClient) PatchGroup(ctx context.Context, request PatchGroupRequest) (response PatchGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11913,6 +12729,10 @@ func (client IdentityDomainsClient) patchGroup(ctx context.Context, request comm
 }
 
 // PatchIdentityPropagationTrust Update an existing Identity Propagation Trust configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchIdentityPropagationTrust.go.html to see an example of how to use PatchIdentityPropagationTrust API.
 func (client IdentityDomainsClient) PatchIdentityPropagationTrust(ctx context.Context, request PatchIdentityPropagationTrustRequest) (response PatchIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -11971,6 +12791,10 @@ func (client IdentityDomainsClient) patchIdentityPropagationTrust(ctx context.Co
 }
 
 // PatchIdentityProvider Update an Identity Provider
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchIdentityProvider.go.html to see an example of how to use PatchIdentityProvider API.
 func (client IdentityDomainsClient) PatchIdentityProvider(ctx context.Context, request PatchIdentityProviderRequest) (response PatchIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12029,6 +12853,10 @@ func (client IdentityDomainsClient) patchIdentityProvider(ctx context.Context, r
 }
 
 // PatchIdentitySetting Update an Identity setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchIdentitySetting.go.html to see an example of how to use PatchIdentitySetting API.
 func (client IdentityDomainsClient) PatchIdentitySetting(ctx context.Context, request PatchIdentitySettingRequest) (response PatchIdentitySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12087,6 +12915,10 @@ func (client IdentityDomainsClient) patchIdentitySetting(ctx context.Context, re
 }
 
 // PatchKmsiSetting Update a Setting
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchKmsiSetting.go.html to see an example of how to use PatchKmsiSetting API.
 func (client IdentityDomainsClient) PatchKmsiSetting(ctx context.Context, request PatchKmsiSettingRequest) (response PatchKmsiSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12145,6 +12977,10 @@ func (client IdentityDomainsClient) patchKmsiSetting(ctx context.Context, reques
 }
 
 // PatchMe Update a user's own information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMe.go.html to see an example of how to use PatchMe API.
 func (client IdentityDomainsClient) PatchMe(ctx context.Context, request PatchMeRequest) (response PatchMeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12203,6 +13039,10 @@ func (client IdentityDomainsClient) patchMe(ctx context.Context, request common.
 }
 
 // PatchMyApiKey Update a user's own API key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyApiKey.go.html to see an example of how to use PatchMyApiKey API.
 func (client IdentityDomainsClient) PatchMyApiKey(ctx context.Context, request PatchMyApiKeyRequest) (response PatchMyApiKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12261,6 +13101,10 @@ func (client IdentityDomainsClient) patchMyApiKey(ctx context.Context, request c
 }
 
 // PatchMyAuthToken Update a user's own Auth token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyAuthToken.go.html to see an example of how to use PatchMyAuthToken API.
 func (client IdentityDomainsClient) PatchMyAuthToken(ctx context.Context, request PatchMyAuthTokenRequest) (response PatchMyAuthTokenResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12319,6 +13163,10 @@ func (client IdentityDomainsClient) patchMyAuthToken(ctx context.Context, reques
 }
 
 // PatchMyCustomerSecretKey Update a user's own customer secret key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyCustomerSecretKey.go.html to see an example of how to use PatchMyCustomerSecretKey API.
 func (client IdentityDomainsClient) PatchMyCustomerSecretKey(ctx context.Context, request PatchMyCustomerSecretKeyRequest) (response PatchMyCustomerSecretKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12377,6 +13225,10 @@ func (client IdentityDomainsClient) patchMyCustomerSecretKey(ctx context.Context
 }
 
 // PatchMyDevice Update a Device
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyDevice.go.html to see an example of how to use PatchMyDevice API.
 func (client IdentityDomainsClient) PatchMyDevice(ctx context.Context, request PatchMyDeviceRequest) (response PatchMyDeviceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12435,6 +13287,10 @@ func (client IdentityDomainsClient) patchMyDevice(ctx context.Context, request c
 }
 
 // PatchMyOAuth2ClientCredential Update a user's own OAuth2 client credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyOAuth2ClientCredential.go.html to see an example of how to use PatchMyOAuth2ClientCredential API.
 func (client IdentityDomainsClient) PatchMyOAuth2ClientCredential(ctx context.Context, request PatchMyOAuth2ClientCredentialRequest) (response PatchMyOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12493,6 +13349,10 @@ func (client IdentityDomainsClient) patchMyOAuth2ClientCredential(ctx context.Co
 }
 
 // PatchMyPendingApproval Update MyPendingApproval
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyPendingApproval.go.html to see an example of how to use PatchMyPendingApproval API.
 func (client IdentityDomainsClient) PatchMyPendingApproval(ctx context.Context, request PatchMyPendingApprovalRequest) (response PatchMyPendingApprovalResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12551,6 +13411,10 @@ func (client IdentityDomainsClient) patchMyPendingApproval(ctx context.Context, 
 }
 
 // PatchMyRequest Update My Requests
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyRequest.go.html to see an example of how to use PatchMyRequest API.
 func (client IdentityDomainsClient) PatchMyRequest(ctx context.Context, request PatchMyRequestRequest) (response PatchMyRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12609,6 +13473,10 @@ func (client IdentityDomainsClient) patchMyRequest(ctx context.Context, request 
 }
 
 // PatchMySmtpCredential Update a user's own SMTP credential.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMySmtpCredential.go.html to see an example of how to use PatchMySmtpCredential API.
 func (client IdentityDomainsClient) PatchMySmtpCredential(ctx context.Context, request PatchMySmtpCredentialRequest) (response PatchMySmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12667,6 +13535,10 @@ func (client IdentityDomainsClient) patchMySmtpCredential(ctx context.Context, r
 }
 
 // PatchNetworkPerimeter Update a NetworkPerimeter
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchNetworkPerimeter.go.html to see an example of how to use PatchNetworkPerimeter API.
 func (client IdentityDomainsClient) PatchNetworkPerimeter(ctx context.Context, request PatchNetworkPerimeterRequest) (response PatchNetworkPerimeterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12725,6 +13597,10 @@ func (client IdentityDomainsClient) patchNetworkPerimeter(ctx context.Context, r
 }
 
 // PatchOAuth2ClientCredential Update a user's OAuth2 client credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchOAuth2ClientCredential.go.html to see an example of how to use PatchOAuth2ClientCredential API.
 func (client IdentityDomainsClient) PatchOAuth2ClientCredential(ctx context.Context, request PatchOAuth2ClientCredentialRequest) (response PatchOAuth2ClientCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12783,6 +13659,10 @@ func (client IdentityDomainsClient) patchOAuth2ClientCredential(ctx context.Cont
 }
 
 // PatchPasswordPolicy Update a password policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchPasswordPolicy.go.html to see an example of how to use PatchPasswordPolicy API.
 func (client IdentityDomainsClient) PatchPasswordPolicy(ctx context.Context, request PatchPasswordPolicyRequest) (response PatchPasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12841,6 +13721,10 @@ func (client IdentityDomainsClient) patchPasswordPolicy(ctx context.Context, req
 }
 
 // PatchPolicy Update a Policy
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchPolicy.go.html to see an example of how to use PatchPolicy API.
 func (client IdentityDomainsClient) PatchPolicy(ctx context.Context, request PatchPolicyRequest) (response PatchPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12899,6 +13783,10 @@ func (client IdentityDomainsClient) patchPolicy(ctx context.Context, request com
 }
 
 // PatchRule Update a Rule
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchRule.go.html to see an example of how to use PatchRule API.
 func (client IdentityDomainsClient) PatchRule(ctx context.Context, request PatchRuleRequest) (response PatchRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12957,6 +13845,10 @@ func (client IdentityDomainsClient) patchRule(ctx context.Context, request commo
 }
 
 // PatchSchema Update a Schema Def
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSchema.go.html to see an example of how to use PatchSchema API.
 func (client IdentityDomainsClient) PatchSchema(ctx context.Context, request PatchSchemaRequest) (response PatchSchemaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13015,6 +13907,10 @@ func (client IdentityDomainsClient) patchSchema(ctx context.Context, request com
 }
 
 // PatchSecurityQuestion Update a security question.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSecurityQuestion.go.html to see an example of how to use PatchSecurityQuestion API.
 func (client IdentityDomainsClient) PatchSecurityQuestion(ctx context.Context, request PatchSecurityQuestionRequest) (response PatchSecurityQuestionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13073,6 +13969,10 @@ func (client IdentityDomainsClient) patchSecurityQuestion(ctx context.Context, r
 }
 
 // PatchSecurityQuestionSetting Update a security question setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSecurityQuestionSetting.go.html to see an example of how to use PatchSecurityQuestionSetting API.
 func (client IdentityDomainsClient) PatchSecurityQuestionSetting(ctx context.Context, request PatchSecurityQuestionSettingRequest) (response PatchSecurityQuestionSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13131,6 +14031,10 @@ func (client IdentityDomainsClient) patchSecurityQuestionSetting(ctx context.Con
 }
 
 // PatchSelfRegistrationProfile Update a self-registration profile.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSelfRegistrationProfile.go.html to see an example of how to use PatchSelfRegistrationProfile API.
 func (client IdentityDomainsClient) PatchSelfRegistrationProfile(ctx context.Context, request PatchSelfRegistrationProfileRequest) (response PatchSelfRegistrationProfileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13189,6 +14093,10 @@ func (client IdentityDomainsClient) patchSelfRegistrationProfile(ctx context.Con
 }
 
 // PatchSetting Update a Setting
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSetting.go.html to see an example of how to use PatchSetting API.
 func (client IdentityDomainsClient) PatchSetting(ctx context.Context, request PatchSettingRequest) (response PatchSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13247,6 +14155,10 @@ func (client IdentityDomainsClient) patchSetting(ctx context.Context, request co
 }
 
 // PatchSmtpCredential Update a user's SMTP credentials.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSmtpCredential.go.html to see an example of how to use PatchSmtpCredential API.
 func (client IdentityDomainsClient) PatchSmtpCredential(ctx context.Context, request PatchSmtpCredentialRequest) (response PatchSmtpCredentialResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13305,6 +14217,10 @@ func (client IdentityDomainsClient) patchSmtpCredential(ctx context.Context, req
 }
 
 // PatchUser Update a user.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchUser.go.html to see an example of how to use PatchUser API.
 func (client IdentityDomainsClient) PatchUser(ctx context.Context, request PatchUserRequest) (response PatchUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13363,6 +14279,10 @@ func (client IdentityDomainsClient) patchUser(ctx context.Context, request commo
 }
 
 // PatchUserAttributesSetting Update User Schema Attribute Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchUserAttributesSetting.go.html to see an example of how to use PatchUserAttributesSetting API.
 func (client IdentityDomainsClient) PatchUserAttributesSetting(ctx context.Context, request PatchUserAttributesSettingRequest) (response PatchUserAttributesSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13421,6 +14341,10 @@ func (client IdentityDomainsClient) patchUserAttributesSetting(ctx context.Conte
 }
 
 // PutAccountRecoverySetting Replace an account recovery setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutAccountRecoverySetting.go.html to see an example of how to use PutAccountRecoverySetting API.
 func (client IdentityDomainsClient) PutAccountRecoverySetting(ctx context.Context, request PutAccountRecoverySettingRequest) (response PutAccountRecoverySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13479,6 +14403,10 @@ func (client IdentityDomainsClient) putAccountRecoverySetting(ctx context.Contex
 }
 
 // PutApp Replace an App
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutApp.go.html to see an example of how to use PutApp API.
 func (client IdentityDomainsClient) PutApp(ctx context.Context, request PutAppRequest) (response PutAppResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13537,6 +14465,10 @@ func (client IdentityDomainsClient) putApp(ctx context.Context, request common.O
 }
 
 // PutAppStatusChanger Activate/Deactivate an App
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutAppStatusChanger.go.html to see an example of how to use PutAppStatusChanger API.
 func (client IdentityDomainsClient) PutAppStatusChanger(ctx context.Context, request PutAppStatusChangerRequest) (response PutAppStatusChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13595,6 +14527,10 @@ func (client IdentityDomainsClient) putAppStatusChanger(ctx context.Context, req
 }
 
 // PutApprovalWorkflow Replace ApprovalWorkflow
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutApprovalWorkflow.go.html to see an example of how to use PutApprovalWorkflow API.
 func (client IdentityDomainsClient) PutApprovalWorkflow(ctx context.Context, request PutApprovalWorkflowRequest) (response PutApprovalWorkflowResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13653,6 +14589,10 @@ func (client IdentityDomainsClient) putApprovalWorkflow(ctx context.Context, req
 }
 
 // PutAuthenticationFactorSetting Replace Authentication Factor Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutAuthenticationFactorSetting.go.html to see an example of how to use PutAuthenticationFactorSetting API.
 func (client IdentityDomainsClient) PutAuthenticationFactorSetting(ctx context.Context, request PutAuthenticationFactorSettingRequest) (response PutAuthenticationFactorSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13711,6 +14651,10 @@ func (client IdentityDomainsClient) putAuthenticationFactorSetting(ctx context.C
 }
 
 // PutCloudGate Replace a Cloud Gate
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutCloudGate.go.html to see an example of how to use PutCloudGate API.
 func (client IdentityDomainsClient) PutCloudGate(ctx context.Context, request PutCloudGateRequest) (response PutCloudGateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13769,6 +14713,10 @@ func (client IdentityDomainsClient) putCloudGate(ctx context.Context, request co
 }
 
 // PutCloudGateMapping Replace a Cloud Gate mapping
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutCloudGateMapping.go.html to see an example of how to use PutCloudGateMapping API.
 func (client IdentityDomainsClient) PutCloudGateMapping(ctx context.Context, request PutCloudGateMappingRequest) (response PutCloudGateMappingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13827,6 +14775,10 @@ func (client IdentityDomainsClient) putCloudGateMapping(ctx context.Context, req
 }
 
 // PutCloudGateServer Replace a Cloud Gate server
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutCloudGateServer.go.html to see an example of how to use PutCloudGateServer API.
 func (client IdentityDomainsClient) PutCloudGateServer(ctx context.Context, request PutCloudGateServerRequest) (response PutCloudGateServerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13885,6 +14837,10 @@ func (client IdentityDomainsClient) putCloudGateServer(ctx context.Context, requ
 }
 
 // PutCondition Replace a Condition
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutCondition.go.html to see an example of how to use PutCondition API.
 func (client IdentityDomainsClient) PutCondition(ctx context.Context, request PutConditionRequest) (response PutConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13943,6 +14899,10 @@ func (client IdentityDomainsClient) putCondition(ctx context.Context, request co
 }
 
 // PutDynamicResourceGroup Replace a Dynamic Resource Group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutDynamicResourceGroup.go.html to see an example of how to use PutDynamicResourceGroup API.
 func (client IdentityDomainsClient) PutDynamicResourceGroup(ctx context.Context, request PutDynamicResourceGroupRequest) (response PutDynamicResourceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14001,6 +14961,10 @@ func (client IdentityDomainsClient) putDynamicResourceGroup(ctx context.Context,
 }
 
 // PutGroup Replace a group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutGroup.go.html to see an example of how to use PutGroup API.
 func (client IdentityDomainsClient) PutGroup(ctx context.Context, request PutGroupRequest) (response PutGroupResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14059,6 +15023,10 @@ func (client IdentityDomainsClient) putGroup(ctx context.Context, request common
 }
 
 // PutIdentityPropagationTrust Replace an existing Identity Propagation Trust configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutIdentityPropagationTrust.go.html to see an example of how to use PutIdentityPropagationTrust API.
 func (client IdentityDomainsClient) PutIdentityPropagationTrust(ctx context.Context, request PutIdentityPropagationTrustRequest) (response PutIdentityPropagationTrustResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14117,6 +15085,10 @@ func (client IdentityDomainsClient) putIdentityPropagationTrust(ctx context.Cont
 }
 
 // PutIdentityProvider Replace an Identity Provider
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutIdentityProvider.go.html to see an example of how to use PutIdentityProvider API.
 func (client IdentityDomainsClient) PutIdentityProvider(ctx context.Context, request PutIdentityProviderRequest) (response PutIdentityProviderResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14175,6 +15147,10 @@ func (client IdentityDomainsClient) putIdentityProvider(ctx context.Context, req
 }
 
 // PutIdentitySetting Replace an Identity setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutIdentitySetting.go.html to see an example of how to use PutIdentitySetting API.
 func (client IdentityDomainsClient) PutIdentitySetting(ctx context.Context, request PutIdentitySettingRequest) (response PutIdentitySettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14233,6 +15209,10 @@ func (client IdentityDomainsClient) putIdentitySetting(ctx context.Context, requ
 }
 
 // PutKmsiSetting Replace KmsiSettings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutKmsiSetting.go.html to see an example of how to use PutKmsiSetting API.
 func (client IdentityDomainsClient) PutKmsiSetting(ctx context.Context, request PutKmsiSettingRequest) (response PutKmsiSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14291,6 +15271,10 @@ func (client IdentityDomainsClient) putKmsiSetting(ctx context.Context, request 
 }
 
 // PutMe Replace a user's own information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutMe.go.html to see an example of how to use PutMe API.
 func (client IdentityDomainsClient) PutMe(ctx context.Context, request PutMeRequest) (response PutMeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14349,6 +15333,10 @@ func (client IdentityDomainsClient) putMe(ctx context.Context, request common.OC
 }
 
 // PutMePasswordChanger Update a user's own password.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutMePasswordChanger.go.html to see an example of how to use PutMePasswordChanger API.
 func (client IdentityDomainsClient) PutMePasswordChanger(ctx context.Context, request PutMePasswordChangerRequest) (response PutMePasswordChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14407,6 +15395,10 @@ func (client IdentityDomainsClient) putMePasswordChanger(ctx context.Context, re
 }
 
 // PutNetworkPerimeter Replace a NetworkPerimeter
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutNetworkPerimeter.go.html to see an example of how to use PutNetworkPerimeter API.
 func (client IdentityDomainsClient) PutNetworkPerimeter(ctx context.Context, request PutNetworkPerimeterRequest) (response PutNetworkPerimeterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14465,6 +15457,10 @@ func (client IdentityDomainsClient) putNetworkPerimeter(ctx context.Context, req
 }
 
 // PutNotificationSetting Replace Notification Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutNotificationSetting.go.html to see an example of how to use PutNotificationSetting API.
 func (client IdentityDomainsClient) PutNotificationSetting(ctx context.Context, request PutNotificationSettingRequest) (response PutNotificationSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14523,6 +15519,10 @@ func (client IdentityDomainsClient) putNotificationSetting(ctx context.Context, 
 }
 
 // PutPasswordPolicy Replace a password policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutPasswordPolicy.go.html to see an example of how to use PutPasswordPolicy API.
 func (client IdentityDomainsClient) PutPasswordPolicy(ctx context.Context, request PutPasswordPolicyRequest) (response PutPasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14581,6 +15581,10 @@ func (client IdentityDomainsClient) putPasswordPolicy(ctx context.Context, reque
 }
 
 // PutPolicy Replace a Policy
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutPolicy.go.html to see an example of how to use PutPolicy API.
 func (client IdentityDomainsClient) PutPolicy(ctx context.Context, request PutPolicyRequest) (response PutPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14639,6 +15643,10 @@ func (client IdentityDomainsClient) putPolicy(ctx context.Context, request commo
 }
 
 // PutRule Replace a Rule
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutRule.go.html to see an example of how to use PutRule API.
 func (client IdentityDomainsClient) PutRule(ctx context.Context, request PutRuleRequest) (response PutRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14697,6 +15705,10 @@ func (client IdentityDomainsClient) putRule(ctx context.Context, request common.
 }
 
 // PutSchema Replace a Schema Def
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutSchema.go.html to see an example of how to use PutSchema API.
 func (client IdentityDomainsClient) PutSchema(ctx context.Context, request PutSchemaRequest) (response PutSchemaResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14755,6 +15767,10 @@ func (client IdentityDomainsClient) putSchema(ctx context.Context, request commo
 }
 
 // PutSecurityQuestionSetting Replace a security question setting.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutSecurityQuestionSetting.go.html to see an example of how to use PutSecurityQuestionSetting API.
 func (client IdentityDomainsClient) PutSecurityQuestionSetting(ctx context.Context, request PutSecurityQuestionSettingRequest) (response PutSecurityQuestionSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14813,6 +15829,10 @@ func (client IdentityDomainsClient) putSecurityQuestionSetting(ctx context.Conte
 }
 
 // PutSelfRegistrationProfile Replace a self-registration profile.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutSelfRegistrationProfile.go.html to see an example of how to use PutSelfRegistrationProfile API.
 func (client IdentityDomainsClient) PutSelfRegistrationProfile(ctx context.Context, request PutSelfRegistrationProfileRequest) (response PutSelfRegistrationProfileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14871,6 +15891,10 @@ func (client IdentityDomainsClient) putSelfRegistrationProfile(ctx context.Conte
 }
 
 // PutSetting Replace Settings
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutSetting.go.html to see an example of how to use PutSetting API.
 func (client IdentityDomainsClient) PutSetting(ctx context.Context, request PutSettingRequest) (response PutSettingResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14929,6 +15953,10 @@ func (client IdentityDomainsClient) putSetting(ctx context.Context, request comm
 }
 
 // PutUser Replace a user.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUser.go.html to see an example of how to use PutUser API.
 func (client IdentityDomainsClient) PutUser(ctx context.Context, request PutUserRequest) (response PutUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14987,6 +16015,10 @@ func (client IdentityDomainsClient) putUser(ctx context.Context, request common.
 }
 
 // PutUserCapabilitiesChanger Change a user's capabilities.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUserCapabilitiesChanger.go.html to see an example of how to use PutUserCapabilitiesChanger API.
 func (client IdentityDomainsClient) PutUserCapabilitiesChanger(ctx context.Context, request PutUserCapabilitiesChangerRequest) (response PutUserCapabilitiesChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15045,6 +16077,10 @@ func (client IdentityDomainsClient) putUserCapabilitiesChanger(ctx context.Conte
 }
 
 // PutUserPasswordChanger Change a user's password to a known value.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUserPasswordChanger.go.html to see an example of how to use PutUserPasswordChanger API.
 func (client IdentityDomainsClient) PutUserPasswordChanger(ctx context.Context, request PutUserPasswordChangerRequest) (response PutUserPasswordChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15103,6 +16139,10 @@ func (client IdentityDomainsClient) putUserPasswordChanger(ctx context.Context, 
 }
 
 // PutUserPasswordResetter Reset a user's password to a randomly-generated value.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUserPasswordResetter.go.html to see an example of how to use PutUserPasswordResetter API.
 func (client IdentityDomainsClient) PutUserPasswordResetter(ctx context.Context, request PutUserPasswordResetterRequest) (response PutUserPasswordResetterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15161,6 +16201,10 @@ func (client IdentityDomainsClient) putUserPasswordResetter(ctx context.Context,
 }
 
 // PutUserStatusChanger Change a user's status.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUserStatusChanger.go.html to see an example of how to use PutUserStatusChanger API.
 func (client IdentityDomainsClient) PutUserStatusChanger(ctx context.Context, request PutUserStatusChangerRequest) (response PutUserStatusChangerResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15219,6 +16263,10 @@ func (client IdentityDomainsClient) putUserStatusChanger(ctx context.Context, re
 }
 
 // SearchAccountMgmtInfos Search Account Mgmt Info Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchAccountMgmtInfos.go.html to see an example of how to use SearchAccountMgmtInfos API.
 func (client IdentityDomainsClient) SearchAccountMgmtInfos(ctx context.Context, request SearchAccountMgmtInfosRequest) (response SearchAccountMgmtInfosResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15277,6 +16325,10 @@ func (client IdentityDomainsClient) searchAccountMgmtInfos(ctx context.Context, 
 }
 
 // SearchApiKeys Search for API keys using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchApiKeys.go.html to see an example of how to use SearchApiKeys API.
 func (client IdentityDomainsClient) SearchApiKeys(ctx context.Context, request SearchApiKeysRequest) (response SearchApiKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15335,6 +16387,10 @@ func (client IdentityDomainsClient) searchApiKeys(ctx context.Context, request c
 }
 
 // SearchAppRoles Search AppRoles Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchAppRoles.go.html to see an example of how to use SearchAppRoles API.
 func (client IdentityDomainsClient) SearchAppRoles(ctx context.Context, request SearchAppRolesRequest) (response SearchAppRolesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15393,6 +16449,10 @@ func (client IdentityDomainsClient) searchAppRoles(ctx context.Context, request 
 }
 
 // SearchApps Search Apps Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchApps.go.html to see an example of how to use SearchApps API.
 func (client IdentityDomainsClient) SearchApps(ctx context.Context, request SearchAppsRequest) (response SearchAppsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15451,6 +16511,10 @@ func (client IdentityDomainsClient) searchApps(ctx context.Context, request comm
 }
 
 // SearchAuthTokens Search for Auth tokens using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchAuthTokens.go.html to see an example of how to use SearchAuthTokens API.
 func (client IdentityDomainsClient) SearchAuthTokens(ctx context.Context, request SearchAuthTokensRequest) (response SearchAuthTokensResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15509,6 +16573,10 @@ func (client IdentityDomainsClient) searchAuthTokens(ctx context.Context, reques
 }
 
 // SearchAuthenticationFactorSettings Search Authentication Factor Settings Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchAuthenticationFactorSettings.go.html to see an example of how to use SearchAuthenticationFactorSettings API.
 func (client IdentityDomainsClient) SearchAuthenticationFactorSettings(ctx context.Context, request SearchAuthenticationFactorSettingsRequest) (response SearchAuthenticationFactorSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15567,6 +16635,10 @@ func (client IdentityDomainsClient) searchAuthenticationFactorSettings(ctx conte
 }
 
 // SearchCloudGateMappings Search Cloud Gate mappings Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchCloudGateMappings.go.html to see an example of how to use SearchCloudGateMappings API.
 func (client IdentityDomainsClient) SearchCloudGateMappings(ctx context.Context, request SearchCloudGateMappingsRequest) (response SearchCloudGateMappingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15625,6 +16697,10 @@ func (client IdentityDomainsClient) searchCloudGateMappings(ctx context.Context,
 }
 
 // SearchCloudGateServers Search Cloud Gate servers Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchCloudGateServers.go.html to see an example of how to use SearchCloudGateServers API.
 func (client IdentityDomainsClient) SearchCloudGateServers(ctx context.Context, request SearchCloudGateServersRequest) (response SearchCloudGateServersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15683,6 +16759,10 @@ func (client IdentityDomainsClient) searchCloudGateServers(ctx context.Context, 
 }
 
 // SearchCloudGates Search Cloud Gates Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchCloudGates.go.html to see an example of how to use SearchCloudGates API.
 func (client IdentityDomainsClient) SearchCloudGates(ctx context.Context, request SearchCloudGatesRequest) (response SearchCloudGatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15741,6 +16821,10 @@ func (client IdentityDomainsClient) searchCloudGates(ctx context.Context, reques
 }
 
 // SearchConditions Search Conditions Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchConditions.go.html to see an example of how to use SearchConditions API.
 func (client IdentityDomainsClient) SearchConditions(ctx context.Context, request SearchConditionsRequest) (response SearchConditionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15799,6 +16883,10 @@ func (client IdentityDomainsClient) searchConditions(ctx context.Context, reques
 }
 
 // SearchCustomerSecretKeys Search for customer secret keys using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchCustomerSecretKeys.go.html to see an example of how to use SearchCustomerSecretKeys API.
 func (client IdentityDomainsClient) SearchCustomerSecretKeys(ctx context.Context, request SearchCustomerSecretKeysRequest) (response SearchCustomerSecretKeysResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15857,6 +16945,10 @@ func (client IdentityDomainsClient) searchCustomerSecretKeys(ctx context.Context
 }
 
 // SearchDynamicResourceGroups Search for Dynamic Resource Groups using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchDynamicResourceGroups.go.html to see an example of how to use SearchDynamicResourceGroups API.
 func (client IdentityDomainsClient) SearchDynamicResourceGroups(ctx context.Context, request SearchDynamicResourceGroupsRequest) (response SearchDynamicResourceGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15915,6 +17007,10 @@ func (client IdentityDomainsClient) searchDynamicResourceGroups(ctx context.Cont
 }
 
 // SearchGrants Search Grants Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchGrants.go.html to see an example of how to use SearchGrants API.
 func (client IdentityDomainsClient) SearchGrants(ctx context.Context, request SearchGrantsRequest) (response SearchGrantsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15973,6 +17069,10 @@ func (client IdentityDomainsClient) searchGrants(ctx context.Context, request co
 }
 
 // SearchGroups Search for groups using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchGroups.go.html to see an example of how to use SearchGroups API.
 func (client IdentityDomainsClient) SearchGroups(ctx context.Context, request SearchGroupsRequest) (response SearchGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16031,6 +17131,10 @@ func (client IdentityDomainsClient) searchGroups(ctx context.Context, request co
 }
 
 // SearchIdentityProviders Search Identity Providers Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchIdentityProviders.go.html to see an example of how to use SearchIdentityProviders API.
 func (client IdentityDomainsClient) SearchIdentityProviders(ctx context.Context, request SearchIdentityProvidersRequest) (response SearchIdentityProvidersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16089,6 +17193,10 @@ func (client IdentityDomainsClient) searchIdentityProviders(ctx context.Context,
 }
 
 // SearchIdentitySettings Search for Identity settings using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchIdentitySettings.go.html to see an example of how to use SearchIdentitySettings API.
 func (client IdentityDomainsClient) SearchIdentitySettings(ctx context.Context, request SearchIdentitySettingsRequest) (response SearchIdentitySettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16147,6 +17255,10 @@ func (client IdentityDomainsClient) searchIdentitySettings(ctx context.Context, 
 }
 
 // SearchKmsiSettings Search KmsiSettings Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchKmsiSettings.go.html to see an example of how to use SearchKmsiSettings API.
 func (client IdentityDomainsClient) SearchKmsiSettings(ctx context.Context, request SearchKmsiSettingsRequest) (response SearchKmsiSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16205,6 +17317,10 @@ func (client IdentityDomainsClient) searchKmsiSettings(ctx context.Context, requ
 }
 
 // SearchMyApps Search My Apps Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchMyApps.go.html to see an example of how to use SearchMyApps API.
 func (client IdentityDomainsClient) SearchMyApps(ctx context.Context, request SearchMyAppsRequest) (response SearchMyAppsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16263,6 +17379,10 @@ func (client IdentityDomainsClient) searchMyApps(ctx context.Context, request co
 }
 
 // SearchMyGroups Search for 'My Groups' using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchMyGroups.go.html to see an example of how to use SearchMyGroups API.
 func (client IdentityDomainsClient) SearchMyGroups(ctx context.Context, request SearchMyGroupsRequest) (response SearchMyGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16321,6 +17441,10 @@ func (client IdentityDomainsClient) searchMyGroups(ctx context.Context, request 
 }
 
 // SearchMyRequestableGroups Search My Requestable Groups Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchMyRequestableGroups.go.html to see an example of how to use SearchMyRequestableGroups API.
 func (client IdentityDomainsClient) SearchMyRequestableGroups(ctx context.Context, request SearchMyRequestableGroupsRequest) (response SearchMyRequestableGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16379,6 +17503,10 @@ func (client IdentityDomainsClient) searchMyRequestableGroups(ctx context.Contex
 }
 
 // SearchMyRequests Search My Requests Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchMyRequests.go.html to see an example of how to use SearchMyRequests API.
 func (client IdentityDomainsClient) SearchMyRequests(ctx context.Context, request SearchMyRequestsRequest) (response SearchMyRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16437,6 +17565,10 @@ func (client IdentityDomainsClient) searchMyRequests(ctx context.Context, reques
 }
 
 // SearchNetworkPerimeters Search NetworkPerimeters Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchNetworkPerimeters.go.html to see an example of how to use SearchNetworkPerimeters API.
 func (client IdentityDomainsClient) SearchNetworkPerimeters(ctx context.Context, request SearchNetworkPerimetersRequest) (response SearchNetworkPerimetersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16495,6 +17627,10 @@ func (client IdentityDomainsClient) searchNetworkPerimeters(ctx context.Context,
 }
 
 // SearchNotificationSettings Search Notification Settings Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchNotificationSettings.go.html to see an example of how to use SearchNotificationSettings API.
 func (client IdentityDomainsClient) SearchNotificationSettings(ctx context.Context, request SearchNotificationSettingsRequest) (response SearchNotificationSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16553,6 +17689,10 @@ func (client IdentityDomainsClient) searchNotificationSettings(ctx context.Conte
 }
 
 // SearchOAuth2ClientCredentials Search for OAuth2 client credentials using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchOAuth2ClientCredentials.go.html to see an example of how to use SearchOAuth2ClientCredentials API.
 func (client IdentityDomainsClient) SearchOAuth2ClientCredentials(ctx context.Context, request SearchOAuth2ClientCredentialsRequest) (response SearchOAuth2ClientCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16611,6 +17751,10 @@ func (client IdentityDomainsClient) searchOAuth2ClientCredentials(ctx context.Co
 }
 
 // SearchOAuthClientCertificates Search OAuth Client Certificates Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchOAuthClientCertificates.go.html to see an example of how to use SearchOAuthClientCertificates API.
 func (client IdentityDomainsClient) SearchOAuthClientCertificates(ctx context.Context, request SearchOAuthClientCertificatesRequest) (response SearchOAuthClientCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16669,6 +17813,10 @@ func (client IdentityDomainsClient) searchOAuthClientCertificates(ctx context.Co
 }
 
 // SearchOAuthPartnerCertificates Search OAuth Partner Certificates Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchOAuthPartnerCertificates.go.html to see an example of how to use SearchOAuthPartnerCertificates API.
 func (client IdentityDomainsClient) SearchOAuthPartnerCertificates(ctx context.Context, request SearchOAuthPartnerCertificatesRequest) (response SearchOAuthPartnerCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16727,6 +17875,10 @@ func (client IdentityDomainsClient) searchOAuthPartnerCertificates(ctx context.C
 }
 
 // SearchPasswordPolicies Search for password policies using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchPasswordPolicies.go.html to see an example of how to use SearchPasswordPolicies API.
 func (client IdentityDomainsClient) SearchPasswordPolicies(ctx context.Context, request SearchPasswordPoliciesRequest) (response SearchPasswordPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16785,6 +17937,10 @@ func (client IdentityDomainsClient) searchPasswordPolicies(ctx context.Context, 
 }
 
 // SearchPolicies Search Policies Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchPolicies.go.html to see an example of how to use SearchPolicies API.
 func (client IdentityDomainsClient) SearchPolicies(ctx context.Context, request SearchPoliciesRequest) (response SearchPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16843,6 +17999,10 @@ func (client IdentityDomainsClient) searchPolicies(ctx context.Context, request 
 }
 
 // SearchResourceTypeSchemaAttributes Search Resource Type Schema Attributes Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchResourceTypeSchemaAttributes.go.html to see an example of how to use SearchResourceTypeSchemaAttributes API.
 func (client IdentityDomainsClient) SearchResourceTypeSchemaAttributes(ctx context.Context, request SearchResourceTypeSchemaAttributesRequest) (response SearchResourceTypeSchemaAttributesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16901,6 +18061,10 @@ func (client IdentityDomainsClient) searchResourceTypeSchemaAttributes(ctx conte
 }
 
 // SearchRules Search Rules Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchRules.go.html to see an example of how to use SearchRules API.
 func (client IdentityDomainsClient) SearchRules(ctx context.Context, request SearchRulesRequest) (response SearchRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16959,6 +18123,10 @@ func (client IdentityDomainsClient) searchRules(ctx context.Context, request com
 }
 
 // SearchSchemas Search Schemas Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchSchemas.go.html to see an example of how to use SearchSchemas API.
 func (client IdentityDomainsClient) SearchSchemas(ctx context.Context, request SearchSchemasRequest) (response SearchSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17017,6 +18185,10 @@ func (client IdentityDomainsClient) searchSchemas(ctx context.Context, request c
 }
 
 // SearchSecurityQuestionSettings Search for security question settings using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchSecurityQuestionSettings.go.html to see an example of how to use SearchSecurityQuestionSettings API.
 func (client IdentityDomainsClient) SearchSecurityQuestionSettings(ctx context.Context, request SearchSecurityQuestionSettingsRequest) (response SearchSecurityQuestionSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17075,6 +18247,10 @@ func (client IdentityDomainsClient) searchSecurityQuestionSettings(ctx context.C
 }
 
 // SearchSecurityQuestions Search for security questions using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchSecurityQuestions.go.html to see an example of how to use SearchSecurityQuestions API.
 func (client IdentityDomainsClient) SearchSecurityQuestions(ctx context.Context, request SearchSecurityQuestionsRequest) (response SearchSecurityQuestionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17133,6 +18309,10 @@ func (client IdentityDomainsClient) searchSecurityQuestions(ctx context.Context,
 }
 
 // SearchSelfRegistrationProfiles Search for self-registration profile using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchSelfRegistrationProfiles.go.html to see an example of how to use SearchSelfRegistrationProfiles API.
 func (client IdentityDomainsClient) SearchSelfRegistrationProfiles(ctx context.Context, request SearchSelfRegistrationProfilesRequest) (response SearchSelfRegistrationProfilesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17191,6 +18371,10 @@ func (client IdentityDomainsClient) searchSelfRegistrationProfiles(ctx context.C
 }
 
 // SearchSettings Search Settings Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchSettings.go.html to see an example of how to use SearchSettings API.
 func (client IdentityDomainsClient) SearchSettings(ctx context.Context, request SearchSettingsRequest) (response SearchSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17249,6 +18433,10 @@ func (client IdentityDomainsClient) searchSettings(ctx context.Context, request 
 }
 
 // SearchSmtpCredentials Search for SMTP credentials using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchSmtpCredentials.go.html to see an example of how to use SearchSmtpCredentials API.
 func (client IdentityDomainsClient) SearchSmtpCredentials(ctx context.Context, request SearchSmtpCredentialsRequest) (response SearchSmtpCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17307,6 +18495,10 @@ func (client IdentityDomainsClient) searchSmtpCredentials(ctx context.Context, r
 }
 
 // SearchUserAttributesSettings Search User Schema Attribute Settings Using POST
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchUserAttributesSettings.go.html to see an example of how to use SearchUserAttributesSettings API.
 func (client IdentityDomainsClient) SearchUserAttributesSettings(ctx context.Context, request SearchUserAttributesSettingsRequest) (response SearchUserAttributesSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17365,6 +18557,10 @@ func (client IdentityDomainsClient) searchUserAttributesSettings(ctx context.Con
 }
 
 // SearchUserDbCredentials Search for a user's database (DB) credentials using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchUserDbCredentials.go.html to see an example of how to use SearchUserDbCredentials API.
 func (client IdentityDomainsClient) SearchUserDbCredentials(ctx context.Context, request SearchUserDbCredentialsRequest) (response SearchUserDbCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17423,6 +18619,10 @@ func (client IdentityDomainsClient) searchUserDbCredentials(ctx context.Context,
 }
 
 // SearchUsers Search for users using POST.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchUsers.go.html to see an example of how to use SearchUsers API.
 func (client IdentityDomainsClient) SearchUsers(ctx context.Context, request SearchUsersRequest) (response SearchUsersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

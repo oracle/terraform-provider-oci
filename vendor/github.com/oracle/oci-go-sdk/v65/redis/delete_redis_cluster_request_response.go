@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteRedisClusterRequest wrapper for the DeleteRedisCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/DeleteRedisCluster.go.html to see an example of how to use DeleteRedisClusterRequest.
 type DeleteRedisClusterRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Redis cluster.

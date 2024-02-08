@@ -95,6 +95,10 @@ func (client *ManagedInstanceGroupClient) ConfigurationProvider() *common.Config
 // instances have been added, then operations can be performed on the managed
 // instance group which will then apply to all managed instances in the
 // group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachManagedInstancesToManagedInstanceGroup.go.html to see an example of how to use AttachManagedInstancesToManagedInstanceGroup API.
 // A default retry strategy applies to this operation AttachManagedInstancesToManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) AttachManagedInstancesToManagedInstanceGroup(ctx context.Context, request AttachManagedInstancesToManagedInstanceGroupRequest) (response AttachManagedInstancesToManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -154,6 +158,10 @@ func (client ManagedInstanceGroupClient) attachManagedInstancesToManagedInstance
 }
 
 // AttachSoftwareSourcesToManagedInstanceGroup Attaches software sources to the specified managed instance group. The software sources must be compatible with the content for the managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachSoftwareSourcesToManagedInstanceGroup.go.html to see an example of how to use AttachSoftwareSourcesToManagedInstanceGroup API.
 // A default retry strategy applies to this operation AttachSoftwareSourcesToManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) AttachSoftwareSourcesToManagedInstanceGroup(ctx context.Context, request AttachSoftwareSourcesToManagedInstanceGroupRequest) (response AttachSoftwareSourcesToManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,6 +221,10 @@ func (client ManagedInstanceGroupClient) attachSoftwareSourcesToManagedInstanceG
 }
 
 // CreateManagedInstanceGroup Creates a new managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateManagedInstanceGroup.go.html to see an example of how to use CreateManagedInstanceGroup API.
 // A default retry strategy applies to this operation CreateManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) CreateManagedInstanceGroup(ctx context.Context, request CreateManagedInstanceGroupRequest) (response CreateManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -272,6 +284,10 @@ func (client ManagedInstanceGroupClient) createManagedInstanceGroup(ctx context.
 }
 
 // DeleteManagedInstanceGroup Deletes a specified managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagedInstanceGroup.go.html to see an example of how to use DeleteManagedInstanceGroup API.
 // A default retry strategy applies to this operation DeleteManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) DeleteManagedInstanceGroup(ctx context.Context, request DeleteManagedInstanceGroupRequest) (response DeleteManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -326,6 +342,10 @@ func (client ManagedInstanceGroupClient) deleteManagedInstanceGroup(ctx context.
 }
 
 // DetachManagedInstancesFromManagedInstanceGroup Removes a managed instance from the specified managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachManagedInstancesFromManagedInstanceGroup.go.html to see an example of how to use DetachManagedInstancesFromManagedInstanceGroup API.
 // A default retry strategy applies to this operation DetachManagedInstancesFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) DetachManagedInstancesFromManagedInstanceGroup(ctx context.Context, request DetachManagedInstancesFromManagedInstanceGroupRequest) (response DetachManagedInstancesFromManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -385,6 +405,10 @@ func (client ManagedInstanceGroupClient) detachManagedInstancesFromManagedInstan
 }
 
 // DetachSoftwareSourcesFromManagedInstanceGroup Detaches software sources from a group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachSoftwareSourcesFromManagedInstanceGroup.go.html to see an example of how to use DetachSoftwareSourcesFromManagedInstanceGroup API.
 // A default retry strategy applies to this operation DetachSoftwareSourcesFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) DetachSoftwareSourcesFromManagedInstanceGroup(ctx context.Context, request DetachSoftwareSourcesFromManagedInstanceGroupRequest) (response DetachSoftwareSourcesFromManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -447,6 +471,10 @@ func (client ManagedInstanceGroupClient) detachSoftwareSourcesFromManagedInstanc
 // disabled, it is no longer possible to install the profiles that are
 // contained by the stream. All installed profiles must be removed prior
 // to disabling a module stream.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DisableModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use DisableModuleStreamOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation DisableModuleStreamOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) DisableModuleStreamOnManagedInstanceGroup(ctx context.Context, request DisableModuleStreamOnManagedInstanceGroupRequest) (response DisableModuleStreamOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -510,6 +538,10 @@ func (client ManagedInstanceGroupClient) disableModuleStreamOnManagedInstanceGro
 // by the stream.  Enabling a stream that is already enabled will
 // succeed.  Attempting to enable a different stream for a module that
 // already has a stream enabled results in an error.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/EnableModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use EnableModuleStreamOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation EnableModuleStreamOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) EnableModuleStreamOnManagedInstanceGroup(ctx context.Context, request EnableModuleStreamOnManagedInstanceGroupRequest) (response EnableModuleStreamOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -569,6 +601,10 @@ func (client ManagedInstanceGroupClient) enableModuleStreamOnManagedInstanceGrou
 }
 
 // GetManagedInstanceGroup Gets information about the specified managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceGroup.go.html to see an example of how to use GetManagedInstanceGroup API.
 // A default retry strategy applies to this operation GetManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) GetManagedInstanceGroup(ctx context.Context, request GetManagedInstanceGroupRequest) (response GetManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -625,6 +661,10 @@ func (client ManagedInstanceGroupClient) getManagedInstanceGroup(ctx context.Con
 // InstallModuleStreamProfileOnManagedInstanceGroup Installs a profile for an module stream. The stream must be
 // enabled before a profile can be installed. If a module stream
 // defines multiple profiles, each one can be installed independently.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallModuleStreamProfileOnManagedInstanceGroup.go.html to see an example of how to use InstallModuleStreamProfileOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation InstallModuleStreamProfileOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) InstallModuleStreamProfileOnManagedInstanceGroup(ctx context.Context, request InstallModuleStreamProfileOnManagedInstanceGroupRequest) (response InstallModuleStreamProfileOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -685,6 +725,10 @@ func (client ManagedInstanceGroupClient) installModuleStreamProfileOnManagedInst
 
 // InstallPackagesOnManagedInstanceGroup Installs package(s) on each managed instance in a managed instance group. The package must be compatible with the
 // instances in the managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallPackagesOnManagedInstanceGroup.go.html to see an example of how to use InstallPackagesOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation InstallPackagesOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) InstallPackagesOnManagedInstanceGroup(ctx context.Context, request InstallPackagesOnManagedInstanceGroupRequest) (response InstallPackagesOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -745,6 +789,10 @@ func (client ManagedInstanceGroupClient) installPackagesOnManagedInstanceGroup(c
 
 // ListManagedInstanceGroupAvailableModules Lists available modules that for the specified managed instance group. Filter the list against a variety of
 // criteria including but not limited to its name.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailableModules.go.html to see an example of how to use ListManagedInstanceGroupAvailableModules API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupAvailableModules()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupAvailableModules(ctx context.Context, request ListManagedInstanceGroupAvailableModulesRequest) (response ListManagedInstanceGroupAvailableModulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -800,6 +848,10 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailableModule
 
 // ListManagedInstanceGroupAvailablePackages Lists available packages on the specified managed instances group. Filter the list against a variety
 // of criteria including but not limited to the package name.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailablePackages.go.html to see an example of how to use ListManagedInstanceGroupAvailablePackages API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupAvailablePackages()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupAvailablePackages(ctx context.Context, request ListManagedInstanceGroupAvailablePackagesRequest) (response ListManagedInstanceGroupAvailablePackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -855,6 +907,10 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailablePackag
 
 // ListManagedInstanceGroupAvailableSoftwareSources Lists available software sources for a specified managed instance group. Filter the list against a variety of
 // criteria including but not limited to its name.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailableSoftwareSources.go.html to see an example of how to use ListManagedInstanceGroupAvailableSoftwareSources API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupAvailableSoftwareSources()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupAvailableSoftwareSources(ctx context.Context, request ListManagedInstanceGroupAvailableSoftwareSourcesRequest) (response ListManagedInstanceGroupAvailableSoftwareSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -910,6 +966,10 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailableSoftwa
 
 // ListManagedInstanceGroupInstalledPackages Lists installed packages on the specified managed instances group. Filter the list against a variety
 // of criteria including but not limited to the package name.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupInstalledPackages.go.html to see an example of how to use ListManagedInstanceGroupInstalledPackages API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupInstalledPackages()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupInstalledPackages(ctx context.Context, request ListManagedInstanceGroupInstalledPackagesRequest) (response ListManagedInstanceGroupInstalledPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -981,6 +1041,10 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupInstalledPackag
 // defined, the request is not subject to this filter.
 // When sorting by the display name, the result set is sorted first
 // by the module name and then by the stream name.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupModules.go.html to see an example of how to use ListManagedInstanceGroupModules API.
 // A default retry strategy applies to this operation ListManagedInstanceGroupModules()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroupModules(ctx context.Context, request ListManagedInstanceGroupModulesRequest) (response ListManagedInstanceGroupModulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1036,6 +1100,10 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupModules(ctx con
 
 // ListManagedInstanceGroups Lists managed instance groups that match the specified compartment or managed instance group OCID. Filter the
 // list against a variety of criteria including but not limited to its name, status, architecture, and OS family.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroups.go.html to see an example of how to use ListManagedInstanceGroups API.
 // A default retry strategy applies to this operation ListManagedInstanceGroups()
 func (client ManagedInstanceGroupClient) ListManagedInstanceGroups(ctx context.Context, request ListManagedInstanceGroupsRequest) (response ListManagedInstanceGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1141,6 +1209,10 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroups(ctx context.C
 // work request error entries.  Each entry, for either logs or errors,
 // contains a structured message containing the results of one
 // or more operations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ManageModuleStreamsOnManagedInstanceGroup.go.html to see an example of how to use ManageModuleStreamsOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation ManageModuleStreamsOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) ManageModuleStreamsOnManagedInstanceGroup(ctx context.Context, request ManageModuleStreamsOnManagedInstanceGroupRequest) (response ManageModuleStreamsOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1202,6 +1274,10 @@ func (client ManagedInstanceGroupClient) manageModuleStreamsOnManagedInstanceGro
 // RemoveModuleStreamProfileFromManagedInstanceGroup Removes a profile for a module stream that is installed on a managed instance group.
 // If a module stream is provided, rather than a fully qualified profile, all
 // profiles that have been installed for the module stream will be removed.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemoveModuleStreamProfileFromManagedInstanceGroup.go.html to see an example of how to use RemoveModuleStreamProfileFromManagedInstanceGroup API.
 // A default retry strategy applies to this operation RemoveModuleStreamProfileFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) RemoveModuleStreamProfileFromManagedInstanceGroup(ctx context.Context, request RemoveModuleStreamProfileFromManagedInstanceGroupRequest) (response RemoveModuleStreamProfileFromManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1261,6 +1337,10 @@ func (client ManagedInstanceGroupClient) removeModuleStreamProfileFromManagedIns
 }
 
 // RemovePackagesFromManagedInstanceGroup Removes package(s) from each managed instance in a specified managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemovePackagesFromManagedInstanceGroup.go.html to see an example of how to use RemovePackagesFromManagedInstanceGroup API.
 // A default retry strategy applies to this operation RemovePackagesFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) RemovePackagesFromManagedInstanceGroup(ctx context.Context, request RemovePackagesFromManagedInstanceGroupRequest) (response RemovePackagesFromManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1320,6 +1400,10 @@ func (client ManagedInstanceGroupClient) removePackagesFromManagedInstanceGroup(
 }
 
 // UpdateAllPackagesOnManagedInstanceGroup Updates all packages on each managed instance in the specified managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateAllPackagesOnManagedInstanceGroup.go.html to see an example of how to use UpdateAllPackagesOnManagedInstanceGroup API.
 // A default retry strategy applies to this operation UpdateAllPackagesOnManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) UpdateAllPackagesOnManagedInstanceGroup(ctx context.Context, request UpdateAllPackagesOnManagedInstanceGroupRequest) (response UpdateAllPackagesOnManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1379,6 +1463,10 @@ func (client ManagedInstanceGroupClient) updateAllPackagesOnManagedInstanceGroup
 }
 
 // UpdateManagedInstanceGroup Updates the specified managed instance group's name, description, and tags.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateManagedInstanceGroup.go.html to see an example of how to use UpdateManagedInstanceGroup API.
 // A default retry strategy applies to this operation UpdateManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) UpdateManagedInstanceGroup(ctx context.Context, request UpdateManagedInstanceGroupRequest) (response UpdateManagedInstanceGroupResponse, err error) {
 	var ociResponse common.OCIResponse

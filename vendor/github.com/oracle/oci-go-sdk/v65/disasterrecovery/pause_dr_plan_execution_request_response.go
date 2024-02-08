@@ -12,6 +12,10 @@ import (
 )
 
 // PauseDrPlanExecutionRequest wrapper for the PauseDrPlanExecution operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/PauseDrPlanExecution.go.html to see an example of how to use PauseDrPlanExecutionRequest.
 type PauseDrPlanExecutionRequest struct {
 
 	// Details for pausing the DR plan execution.

@@ -27,14 +27,11 @@ type Repository struct {
 	// The OCID of the DevOps project containing the repository.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
-	// Name of the repository. Should be unique within the project. This value is mutable.
+	// Unique name of a repository. This value is mutable.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Tenancy unique namespace.
 	Namespace *string `mandatory:"false" json:"namespace"`
-
-	// The OCID of the parent repository.
-	ParentRepositoryId *string `mandatory:"false" json:"parentRepositoryId"`
 
 	// Unique project name in a namespace.
 	ProjectName *string `mandatory:"false" json:"projectName"`
@@ -54,7 +51,6 @@ type Repository struct {
 	// Type of repository:
 	// MIRRORED - Repository created by mirroring an existing repository.
 	// HOSTED - Repository created and hosted using OCI DevOps code repository.
-	// FORKED - Repository created by forking an existing repository.
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
 
 	MirrorRepositoryConfig *MirrorRepositoryConfig `mandatory:"false" json:"mirrorRepositoryConfig"`
@@ -82,8 +78,6 @@ type Repository struct {
 
 	// Trigger build events supported for this repository:
 	// PUSH - Build is triggered when a push event occurs.
-	// PULL_REQUEST_CREATED - Build is triggered when a pull request is created in the repository.
-	// PULL_REQUEST_UPDATED - Build is triggered when a push is made to a branch with an open pull request.
 	// COMMIT_UPDATES - Build is triggered when new commits are mirrored into a repository.
 	TriggerBuildEvents []RepositoryTriggerBuildEventsEnum `mandatory:"false" json:"triggerBuildEvents,omitempty"`
 
@@ -132,19 +126,16 @@ type RepositoryRepositoryTypeEnum string
 const (
 	RepositoryRepositoryTypeMirrored RepositoryRepositoryTypeEnum = "MIRRORED"
 	RepositoryRepositoryTypeHosted   RepositoryRepositoryTypeEnum = "HOSTED"
-	RepositoryRepositoryTypeForked   RepositoryRepositoryTypeEnum = "FORKED"
 )
 
 var mappingRepositoryRepositoryTypeEnum = map[string]RepositoryRepositoryTypeEnum{
 	"MIRRORED": RepositoryRepositoryTypeMirrored,
 	"HOSTED":   RepositoryRepositoryTypeHosted,
-	"FORKED":   RepositoryRepositoryTypeForked,
 }
 
 var mappingRepositoryRepositoryTypeEnumLowerCase = map[string]RepositoryRepositoryTypeEnum{
 	"mirrored": RepositoryRepositoryTypeMirrored,
 	"hosted":   RepositoryRepositoryTypeHosted,
-	"forked":   RepositoryRepositoryTypeForked,
 }
 
 // GetRepositoryRepositoryTypeEnumValues Enumerates the set of values for RepositoryRepositoryTypeEnum
@@ -161,7 +152,6 @@ func GetRepositoryRepositoryTypeEnumStringValues() []string {
 	return []string{
 		"MIRRORED",
 		"HOSTED",
-		"FORKED",
 	}
 }
 
@@ -226,24 +216,18 @@ type RepositoryTriggerBuildEventsEnum string
 
 // Set of constants representing the allowable values for RepositoryTriggerBuildEventsEnum
 const (
-	RepositoryTriggerBuildEventsPush               RepositoryTriggerBuildEventsEnum = "PUSH"
-	RepositoryTriggerBuildEventsPullRequestCreated RepositoryTriggerBuildEventsEnum = "PULL_REQUEST_CREATED"
-	RepositoryTriggerBuildEventsPullRequestUpdated RepositoryTriggerBuildEventsEnum = "PULL_REQUEST_UPDATED"
-	RepositoryTriggerBuildEventsCommitUpdates      RepositoryTriggerBuildEventsEnum = "COMMIT_UPDATES"
+	RepositoryTriggerBuildEventsPush          RepositoryTriggerBuildEventsEnum = "PUSH"
+	RepositoryTriggerBuildEventsCommitUpdates RepositoryTriggerBuildEventsEnum = "COMMIT_UPDATES"
 )
 
 var mappingRepositoryTriggerBuildEventsEnum = map[string]RepositoryTriggerBuildEventsEnum{
-	"PUSH":                 RepositoryTriggerBuildEventsPush,
-	"PULL_REQUEST_CREATED": RepositoryTriggerBuildEventsPullRequestCreated,
-	"PULL_REQUEST_UPDATED": RepositoryTriggerBuildEventsPullRequestUpdated,
-	"COMMIT_UPDATES":       RepositoryTriggerBuildEventsCommitUpdates,
+	"PUSH":           RepositoryTriggerBuildEventsPush,
+	"COMMIT_UPDATES": RepositoryTriggerBuildEventsCommitUpdates,
 }
 
 var mappingRepositoryTriggerBuildEventsEnumLowerCase = map[string]RepositoryTriggerBuildEventsEnum{
-	"push":                 RepositoryTriggerBuildEventsPush,
-	"pull_request_created": RepositoryTriggerBuildEventsPullRequestCreated,
-	"pull_request_updated": RepositoryTriggerBuildEventsPullRequestUpdated,
-	"commit_updates":       RepositoryTriggerBuildEventsCommitUpdates,
+	"push":           RepositoryTriggerBuildEventsPush,
+	"commit_updates": RepositoryTriggerBuildEventsCommitUpdates,
 }
 
 // GetRepositoryTriggerBuildEventsEnumValues Enumerates the set of values for RepositoryTriggerBuildEventsEnum
@@ -259,8 +243,6 @@ func GetRepositoryTriggerBuildEventsEnumValues() []RepositoryTriggerBuildEventsE
 func GetRepositoryTriggerBuildEventsEnumStringValues() []string {
 	return []string{
 		"PUSH",
-		"PULL_REQUEST_CREATED",
-		"PULL_REQUEST_UPDATED",
 		"COMMIT_UPDATES",
 	}
 }

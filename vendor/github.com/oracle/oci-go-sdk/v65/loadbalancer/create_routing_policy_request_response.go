@@ -12,6 +12,10 @@ import (
 )
 
 // CreateRoutingPolicyRequest wrapper for the CreateRoutingPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/CreateRoutingPolicy.go.html to see an example of how to use CreateRoutingPolicyRequest.
 type CreateRoutingPolicyRequest struct {
 
 	// The details of the routing policy rules to add.

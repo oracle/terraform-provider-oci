@@ -12,6 +12,10 @@ import (
 )
 
 // GetNetworkLoadBalancerRequest wrapper for the GetNetworkLoadBalancer operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetNetworkLoadBalancer.go.html to see an example of how to use GetNetworkLoadBalancerRequest.
 type GetNetworkLoadBalancerRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.

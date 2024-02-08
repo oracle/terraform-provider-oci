@@ -12,6 +12,10 @@ import (
 )
 
 // CreateMonitoredResourceTaskRequest wrapper for the CreateMonitoredResourceTask operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResourceTask.go.html to see an example of how to use CreateMonitoredResourceTaskRequest.
 type CreateMonitoredResourceTaskRequest struct {
 
 	// Details to create the new stack monitoring resource task.

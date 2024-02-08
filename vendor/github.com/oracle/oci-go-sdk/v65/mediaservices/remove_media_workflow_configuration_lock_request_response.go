@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveMediaWorkflowConfigurationLockRequest wrapper for the RemoveMediaWorkflowConfigurationLock operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowConfigurationLock.go.html to see an example of how to use RemoveMediaWorkflowConfigurationLockRequest.
 type RemoveMediaWorkflowConfigurationLockRequest struct {
 
 	// RemoveResourceLockDetails body parameter

@@ -12,9 +12,13 @@ import (
 )
 
 // DeleteDataMaskRuleRequest wrapper for the DeleteDataMaskRule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteDataMaskRule.go.html to see an example of how to use DeleteDataMaskRuleRequest.
 type DeleteDataMaskRuleRequest struct {
 
-	// OCID of the data mask rule
+	// OCID of dataMaskRule
 	DataMaskRuleId *string `mandatory:"true" contributesTo:"path" name:"dataMaskRuleId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

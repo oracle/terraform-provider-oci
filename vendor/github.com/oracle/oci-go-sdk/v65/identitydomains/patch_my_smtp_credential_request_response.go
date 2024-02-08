@@ -12,6 +12,10 @@ import (
 )
 
 // PatchMySmtpCredentialRequest wrapper for the PatchMySmtpCredential operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMySmtpCredential.go.html to see an example of how to use PatchMySmtpCredentialRequest.
 type PatchMySmtpCredentialRequest struct {
 
 	// ID of the resource

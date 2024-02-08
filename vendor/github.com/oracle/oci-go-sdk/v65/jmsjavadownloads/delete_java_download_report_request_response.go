@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteJavaDownloadReportRequest wrapper for the DeleteJavaDownloadReport operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaDownloadReport.go.html to see an example of how to use DeleteJavaDownloadReportRequest.
 type DeleteJavaDownloadReportRequest struct {
 
 	// Unique Java download report identifier.

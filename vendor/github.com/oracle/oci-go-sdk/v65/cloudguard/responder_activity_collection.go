@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ResponderActivityCollection Provides a summary of responder activities and their corresponding count values.
+// ResponderActivityCollection Provides the summary of responder activities and their corresponding count value.
 type ResponderActivityCollection struct {
 
-	// List of ResponderActivitySummary resources
+	// List of ResponderActivitySummary
 	Items []ResponderActivitySummary `mandatory:"true" json:"items"`
 }
 

@@ -12,6 +12,10 @@ import (
 )
 
 // ResumeWorkRequestRequest wrapper for the ResumeWorkRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ResumeWorkRequest.go.html to see an example of how to use ResumeWorkRequestRequest.
 type ResumeWorkRequestRequest struct {
 
 	// The OCID of the work request.

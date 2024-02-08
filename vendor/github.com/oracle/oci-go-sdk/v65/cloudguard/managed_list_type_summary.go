@@ -16,20 +16,17 @@ import (
 	"strings"
 )
 
-// ManagedListTypeSummary A managed list type summary (ManagedListTypeSummary object) contains summary information for a managed list type (ManagedListType object).
+// ManagedListTypeSummary Summary of the ManagedListType.
 type ManagedListTypeSummary struct {
 
-	// Unique identifier for a managed list type
+	// ManagedListType Identifier
 	Id *string `mandatory:"true" json:"id"`
 
-	// Managed list type description
+	// ManagedListType description
 	Description *string `mandatory:"false" json:"description"`
 
-	// The current lifecycle state of the resource
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ManagedListTypeSummary) String() string {

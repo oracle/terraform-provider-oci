@@ -22,7 +22,7 @@ type DevopsCodeRepositoryFilter struct {
 
 	Exclude *DevopsCodeRepositoryFilterExclusionAttributes `mandatory:"false" json:"exclude"`
 
-	// The events, for example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED.
+	// The events only support PUSH.
 	Events []DevopsCodeRepositoryFilterEventsEnum `mandatory:"false" json:"events,omitempty"`
 }
 
@@ -66,21 +66,15 @@ type DevopsCodeRepositoryFilterEventsEnum string
 
 // Set of constants representing the allowable values for DevopsCodeRepositoryFilterEventsEnum
 const (
-	DevopsCodeRepositoryFilterEventsPush               DevopsCodeRepositoryFilterEventsEnum = "PUSH"
-	DevopsCodeRepositoryFilterEventsPullRequestCreated DevopsCodeRepositoryFilterEventsEnum = "PULL_REQUEST_CREATED"
-	DevopsCodeRepositoryFilterEventsPullRequestUpdated DevopsCodeRepositoryFilterEventsEnum = "PULL_REQUEST_UPDATED"
+	DevopsCodeRepositoryFilterEventsPush DevopsCodeRepositoryFilterEventsEnum = "PUSH"
 )
 
 var mappingDevopsCodeRepositoryFilterEventsEnum = map[string]DevopsCodeRepositoryFilterEventsEnum{
-	"PUSH":                 DevopsCodeRepositoryFilterEventsPush,
-	"PULL_REQUEST_CREATED": DevopsCodeRepositoryFilterEventsPullRequestCreated,
-	"PULL_REQUEST_UPDATED": DevopsCodeRepositoryFilterEventsPullRequestUpdated,
+	"PUSH": DevopsCodeRepositoryFilterEventsPush,
 }
 
 var mappingDevopsCodeRepositoryFilterEventsEnumLowerCase = map[string]DevopsCodeRepositoryFilterEventsEnum{
-	"push":                 DevopsCodeRepositoryFilterEventsPush,
-	"pull_request_created": DevopsCodeRepositoryFilterEventsPullRequestCreated,
-	"pull_request_updated": DevopsCodeRepositoryFilterEventsPullRequestUpdated,
+	"push": DevopsCodeRepositoryFilterEventsPush,
 }
 
 // GetDevopsCodeRepositoryFilterEventsEnumValues Enumerates the set of values for DevopsCodeRepositoryFilterEventsEnum
@@ -96,8 +90,6 @@ func GetDevopsCodeRepositoryFilterEventsEnumValues() []DevopsCodeRepositoryFilte
 func GetDevopsCodeRepositoryFilterEventsEnumStringValues() []string {
 	return []string{
 		"PUSH",
-		"PULL_REQUEST_CREATED",
-		"PULL_REQUEST_UPDATED",
 	}
 }
 

@@ -13,6 +13,10 @@ import (
 )
 
 // DownloadValidationReportRequest wrapper for the DownloadValidationReport operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DownloadValidationReport.go.html to see an example of how to use DownloadValidationReportRequest.
 type DownloadValidationReportRequest struct {
 
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

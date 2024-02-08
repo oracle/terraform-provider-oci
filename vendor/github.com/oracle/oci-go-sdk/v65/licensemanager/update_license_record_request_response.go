@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateLicenseRecordRequest wrapper for the UpdateLicenseRecord operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/UpdateLicenseRecord.go.html to see an example of how to use UpdateLicenseRecordRequest.
 type UpdateLicenseRecordRequest struct {
 
 	// Unique license record identifier.

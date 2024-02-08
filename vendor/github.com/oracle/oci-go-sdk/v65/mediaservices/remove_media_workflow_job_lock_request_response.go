@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveMediaWorkflowJobLockRequest wrapper for the RemoveMediaWorkflowJobLock operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveMediaWorkflowJobLock.go.html to see an example of how to use RemoveMediaWorkflowJobLockRequest.
 type RemoveMediaWorkflowJobLockRequest struct {
 
 	// The details to be updated for the RemoveLock.

@@ -12,6 +12,10 @@ import (
 )
 
 // ListAwrHubObjectsRequest wrapper for the ListAwrHubObjects operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrHubObjects.go.html to see an example of how to use ListAwrHubObjectsRequest.
 type ListAwrHubObjectsRequest struct {
 
 	// Unique Awr Hub Source identifier

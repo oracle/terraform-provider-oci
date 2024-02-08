@@ -12,6 +12,10 @@ import (
 )
 
 // ListEncryptionKeyInfoRequest wrapper for the ListEncryptionKeyInfo operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListEncryptionKeyInfo.go.html to see an example of how to use ListEncryptionKeyInfoRequest.
 type ListEncryptionKeyInfoRequest struct {
 
 	// The Logging Analytics namespace used for the request.

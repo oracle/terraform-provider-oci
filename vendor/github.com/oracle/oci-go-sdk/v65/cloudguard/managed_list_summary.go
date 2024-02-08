@@ -16,43 +16,43 @@ import (
 	"strings"
 )
 
-// ManagedListSummary Summary information for a managed list.
+// ManagedListSummary Summary of ManagedList
 type ManagedListSummary struct {
 
-	// Unique identifier that can't be changed after creation
+	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Managed list display name
+	// ManagedList display name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment OCID where the resource is created
+	// Compartment Identifier where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of information stored in the managed list
+	// type of the list
 	ListType ManagedListTypeEnum `mandatory:"true" json:"listType"`
 
-	// Provider of the feed
+	// provider of the feed
 	FeedProvider FeedProviderTypeEnum `mandatory:"true" json:"feedProvider"`
 
-	// List of items in the managed list
+	// List of ManagedListItem
 	ListItems []string `mandatory:"true" json:"listItems"`
 
-	// Managed list description
+	// ManagedList description
 	Description *string `mandatory:"false" json:"description"`
 
-	// OCID of the source managed list
+	// OCID of the Source ManagedList
 	SourceManagedListId *string `mandatory:"false" json:"sourceManagedListId"`
 
-	// Is this list editable?
+	// If this list is editable or not
 	IsEditable *bool `mandatory:"false" json:"isEditable"`
 
 	// The date and time the managed list was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the managed list was last updated. Format defined by RFC3339.
+	// The date and time the managed list was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the resource
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

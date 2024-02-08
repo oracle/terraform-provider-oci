@@ -12,6 +12,10 @@ import (
 )
 
 // DetachManagedInstancesFromManagedInstanceGroupRequest wrapper for the DetachManagedInstancesFromManagedInstanceGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachManagedInstancesFromManagedInstanceGroup.go.html to see an example of how to use DetachManagedInstancesFromManagedInstanceGroupRequest.
 type DetachManagedInstancesFromManagedInstanceGroupRequest struct {
 
 	// The managed instance group OCID.

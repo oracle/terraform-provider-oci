@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDataSciencePrivateEndpointRequest wrapper for the UpdateDataSciencePrivateEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateDataSciencePrivateEndpoint.go.html to see an example of how to use UpdateDataSciencePrivateEndpointRequest.
 type UpdateDataSciencePrivateEndpointRequest struct {
 
 	// The unique ID for a Data Science private endpoint.

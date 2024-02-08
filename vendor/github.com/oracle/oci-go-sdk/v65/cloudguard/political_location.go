@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// PoliticalLocation The geographical location of a problem in terms of political units.
+// PoliticalLocation Political location of a problem
 type PoliticalLocation struct {
 
-	// City of problem's location
+	// City
 	City *string `mandatory:"true" json:"city"`
 
-	// State or province of problem's location
+	// State
 	State *string `mandatory:"true" json:"state"`
 
-	// Country of problem's location
+	// Country
 	Country *string `mandatory:"true" json:"country"`
 }
 

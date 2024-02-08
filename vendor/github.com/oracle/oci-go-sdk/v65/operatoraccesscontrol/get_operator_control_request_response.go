@@ -12,6 +12,10 @@ import (
 )
 
 // GetOperatorControlRequest wrapper for the GetOperatorControl operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetOperatorControl.go.html to see an example of how to use GetOperatorControlRequest.
 type GetOperatorControlRequest struct {
 
 	// unique OperatorControl identifier

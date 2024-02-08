@@ -12,6 +12,10 @@ import (
 )
 
 // GetStatsRequest wrapper for the GetStats operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetStats.go.html to see an example of how to use GetStatsRequest.
 type GetStatsRequest struct {
 
 	// The unique queue identifier.
@@ -22,9 +26,6 @@ type GetStatsRequest struct {
 
 	// Id to specify channel.
 	ChannelId *string `mandatory:"false" contributesTo:"query" name:"channelId"`
-
-	// Optional parameter to specify a consumer group.
-	ConsumerGroupId *string `mandatory:"false" contributesTo:"query" name:"consumerGroupId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

@@ -96,6 +96,10 @@ func (client *ClusterClient) ConfigurationProvider() *common.ConfigurationProvid
 // Use the WorkRequest operations to track the
 // creation of the Cluster.
 // **Important:** You must configure the Cluster's networking resources with the security rules detailed in Security Rules for Oracle Cloud VMware Solution SDDCs (https://docs.cloud.oracle.com/iaas/Content/VMware/Reference/ocvssecurityrules.htm). Otherwise, provisioning the SDDC will fail. The rules are based on the requirements set by VMware.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateCluster.go.html to see an example of how to use CreateCluster API.
 // A default retry strategy applies to this operation CreateCluster()
 func (client ClusterClient) CreateCluster(ctx context.Context, request CreateClusterRequest) (response CreateClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -159,6 +163,10 @@ func (client ClusterClient) createCluster(ctx context.Context, request common.OC
 // and so on.
 // Use the WorkRequest operations to track the
 // deletion of the Cluster.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/DeleteCluster.go.html to see an example of how to use DeleteCluster API.
 // A default retry strategy applies to this operation DeleteCluster()
 func (client ClusterClient) DeleteCluster(ctx context.Context, request DeleteClusterRequest) (response DeleteClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,6 +221,10 @@ func (client ClusterClient) deleteCluster(ctx context.Context, request common.OC
 }
 
 // GetCluster Gets the specified Cluster's information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/GetCluster.go.html to see an example of how to use GetCluster API.
 // A default retry strategy applies to this operation GetCluster()
 func (client ClusterClient) GetCluster(ctx context.Context, request GetClusterRequest) (response GetClusterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -267,6 +279,10 @@ func (client ClusterClient) getCluster(ctx context.Context, request common.OCIRe
 }
 
 // ListClusters Lists the Clusters in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListClusters.go.html to see an example of how to use ListClusters API.
 // A default retry strategy applies to this operation ListClusters()
 func (client ClusterClient) ListClusters(ctx context.Context, request ListClustersRequest) (response ListClustersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -324,6 +340,10 @@ func (client ClusterClient) listClusters(ctx context.Context, request common.OCI
 // **Important:** Updating a Cluster affects only certain attributes in the `Cluster`
 // object and does not affect the VMware environment currently running in
 // the Cluster.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateCluster.go.html to see an example of how to use UpdateCluster API.
 // A default retry strategy applies to this operation UpdateCluster()
 func (client ClusterClient) UpdateCluster(ctx context.Context, request UpdateClusterRequest) (response UpdateClusterResponse, err error) {
 	var ociResponse common.OCIResponse

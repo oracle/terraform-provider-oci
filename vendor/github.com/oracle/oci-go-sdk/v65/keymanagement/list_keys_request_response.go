@@ -12,6 +12,10 @@ import (
 )
 
 // ListKeysRequest wrapper for the ListKeys operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListKeys.go.html to see an example of how to use ListKeysRequest.
 type ListKeysRequest struct {
 
 	// The OCID of the compartment.

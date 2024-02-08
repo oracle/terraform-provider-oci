@@ -12,6 +12,10 @@ import (
 )
 
 // CreateAiPrivateEndpointRequest wrapper for the CreateAiPrivateEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/CreateAiPrivateEndpoint.go.html to see an example of how to use CreateAiPrivateEndpointRequest.
 type CreateAiPrivateEndpointRequest struct {
 
 	// The information used to create the private reverse connection.

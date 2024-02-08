@@ -12,6 +12,10 @@ import (
 )
 
 // ListExportSetsRequest wrapper for the ListExportSets operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListExportSets.go.html to see an example of how to use ListExportSetsRequest.
 type ListExportSetsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -150,7 +154,6 @@ type ListExportSetsLifecycleStateEnum string
 const (
 	ListExportSetsLifecycleStateCreating ListExportSetsLifecycleStateEnum = "CREATING"
 	ListExportSetsLifecycleStateActive   ListExportSetsLifecycleStateEnum = "ACTIVE"
-	ListExportSetsLifecycleStateUpdating ListExportSetsLifecycleStateEnum = "UPDATING"
 	ListExportSetsLifecycleStateDeleting ListExportSetsLifecycleStateEnum = "DELETING"
 	ListExportSetsLifecycleStateDeleted  ListExportSetsLifecycleStateEnum = "DELETED"
 	ListExportSetsLifecycleStateFailed   ListExportSetsLifecycleStateEnum = "FAILED"
@@ -159,7 +162,6 @@ const (
 var mappingListExportSetsLifecycleStateEnum = map[string]ListExportSetsLifecycleStateEnum{
 	"CREATING": ListExportSetsLifecycleStateCreating,
 	"ACTIVE":   ListExportSetsLifecycleStateActive,
-	"UPDATING": ListExportSetsLifecycleStateUpdating,
 	"DELETING": ListExportSetsLifecycleStateDeleting,
 	"DELETED":  ListExportSetsLifecycleStateDeleted,
 	"FAILED":   ListExportSetsLifecycleStateFailed,
@@ -168,7 +170,6 @@ var mappingListExportSetsLifecycleStateEnum = map[string]ListExportSetsLifecycle
 var mappingListExportSetsLifecycleStateEnumLowerCase = map[string]ListExportSetsLifecycleStateEnum{
 	"creating": ListExportSetsLifecycleStateCreating,
 	"active":   ListExportSetsLifecycleStateActive,
-	"updating": ListExportSetsLifecycleStateUpdating,
 	"deleting": ListExportSetsLifecycleStateDeleting,
 	"deleted":  ListExportSetsLifecycleStateDeleted,
 	"failed":   ListExportSetsLifecycleStateFailed,
@@ -188,7 +189,6 @@ func GetListExportSetsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
-		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

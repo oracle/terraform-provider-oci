@@ -12,6 +12,10 @@ import (
 )
 
 // CreateVirtualNodePoolRequest wrapper for the CreateVirtualNodePool operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CreateVirtualNodePool.go.html to see an example of how to use CreateVirtualNodePoolRequest.
 type CreateVirtualNodePoolRequest struct {
 
 	// The details of the virtual node pool to create.

@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdateResponderRuleDetails Parameters to be updated for a responder rule within a responder recipe.
+// UpdateResponderRuleDetails Details of UpdateResponderRuleDetails.
 type UpdateResponderRuleDetails struct {
 
-	// Enablement state for the responder rule
+	// Identifies state for ResponderRule
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 }
 

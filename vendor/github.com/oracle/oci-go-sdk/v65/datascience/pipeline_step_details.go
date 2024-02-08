@@ -69,10 +69,6 @@ func (m *pipelinestepdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.StepType {
-	case "CONTAINER":
-		mm := PipelineContainerStepDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "ML_JOB":
 		mm := PipelineMlJobStepDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -130,19 +126,16 @@ type PipelineStepDetailsStepTypeEnum string
 const (
 	PipelineStepDetailsStepTypeMlJob        PipelineStepDetailsStepTypeEnum = "ML_JOB"
 	PipelineStepDetailsStepTypeCustomScript PipelineStepDetailsStepTypeEnum = "CUSTOM_SCRIPT"
-	PipelineStepDetailsStepTypeContainer    PipelineStepDetailsStepTypeEnum = "CONTAINER"
 )
 
 var mappingPipelineStepDetailsStepTypeEnum = map[string]PipelineStepDetailsStepTypeEnum{
 	"ML_JOB":        PipelineStepDetailsStepTypeMlJob,
 	"CUSTOM_SCRIPT": PipelineStepDetailsStepTypeCustomScript,
-	"CONTAINER":     PipelineStepDetailsStepTypeContainer,
 }
 
 var mappingPipelineStepDetailsStepTypeEnumLowerCase = map[string]PipelineStepDetailsStepTypeEnum{
 	"ml_job":        PipelineStepDetailsStepTypeMlJob,
 	"custom_script": PipelineStepDetailsStepTypeCustomScript,
-	"container":     PipelineStepDetailsStepTypeContainer,
 }
 
 // GetPipelineStepDetailsStepTypeEnumValues Enumerates the set of values for PipelineStepDetailsStepTypeEnum
@@ -159,7 +152,6 @@ func GetPipelineStepDetailsStepTypeEnumStringValues() []string {
 	return []string{
 		"ML_JOB",
 		"CUSTOM_SCRIPT",
-		"CONTAINER",
 	}
 }
 

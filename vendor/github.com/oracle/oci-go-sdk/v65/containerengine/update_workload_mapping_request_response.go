@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateWorkloadMappingRequest wrapper for the UpdateWorkloadMapping operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateWorkloadMapping.go.html to see an example of how to use UpdateWorkloadMappingRequest.
 type UpdateWorkloadMappingRequest struct {
 
 	// The OCID of the cluster.

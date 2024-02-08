@@ -12,6 +12,10 @@ import (
 )
 
 // GenerateHeatWaveClusterMemoryEstimateRequest wrapper for the GenerateHeatWaveClusterMemoryEstimate operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GenerateHeatWaveClusterMemoryEstimate.go.html to see an example of how to use GenerateHeatWaveClusterMemoryEstimateRequest.
 type GenerateHeatWaveClusterMemoryEstimateRequest struct {
 
 	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

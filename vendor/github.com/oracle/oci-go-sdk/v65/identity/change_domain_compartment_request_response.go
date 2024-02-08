@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeDomainCompartmentRequest wrapper for the ChangeDomainCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ChangeDomainCompartment.go.html to see an example of how to use ChangeDomainCompartmentRequest.
 type ChangeDomainCompartmentRequest struct {
 
 	// The OCID of the identity domain.

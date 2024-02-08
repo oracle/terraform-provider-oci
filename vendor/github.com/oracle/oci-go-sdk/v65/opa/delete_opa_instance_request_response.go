@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteOpaInstanceRequest wrapper for the DeleteOpaInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/DeleteOpaInstance.go.html to see an example of how to use DeleteOpaInstanceRequest.
 type DeleteOpaInstanceRequest struct {
 
 	// unique OpaInstance identifier

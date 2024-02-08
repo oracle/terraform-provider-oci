@@ -12,6 +12,10 @@ import (
 )
 
 // GetDatabaseToolsConnectionRequest wrapper for the GetDatabaseToolsConnection operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/GetDatabaseToolsConnection.go.html to see an example of how to use GetDatabaseToolsConnectionRequest.
 type GetDatabaseToolsConnectionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools connection.

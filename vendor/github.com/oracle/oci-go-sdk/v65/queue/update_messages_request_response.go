@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateMessagesRequest wrapper for the UpdateMessages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/UpdateMessages.go.html to see an example of how to use UpdateMessagesRequest.
 type UpdateMessagesRequest struct {
 
 	// The unique queue identifier.
@@ -19,9 +23,6 @@ type UpdateMessagesRequest struct {
 
 	// Details for the messages to update.
 	UpdateMessagesDetails `contributesTo:"body"`
-
-	// Optional parameter to specify a consumer group.
-	ConsumerGroupId *string `mandatory:"false" contributesTo:"query" name:"consumerGroupId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

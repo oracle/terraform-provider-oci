@@ -12,6 +12,10 @@ import (
 )
 
 // GetLogAnalyticsEmBridgeSummaryRequest wrapper for the GetLogAnalyticsEmBridgeSummary operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEmBridgeSummary.go.html to see an example of how to use GetLogAnalyticsEmBridgeSummaryRequest.
 type GetLogAnalyticsEmBridgeSummaryRequest struct {
 
 	// The Logging Analytics namespace used for the request.

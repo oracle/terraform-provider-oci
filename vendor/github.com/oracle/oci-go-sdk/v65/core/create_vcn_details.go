@@ -86,9 +86,6 @@ type CreateVcnDetails struct {
 	// For important details about IPv6 addressing in a VCN, see IPv6 Addresses (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).
 	// Example: `true`
 	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
-
-	// Indicates whether traffic within the VCN is encrypted.
-	IsEncrypted *bool `mandatory:"false" json:"isEncrypted"`
 }
 
 func (m CreateVcnDetails) String() string {

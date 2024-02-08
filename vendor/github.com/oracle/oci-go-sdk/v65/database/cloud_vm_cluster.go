@@ -158,10 +158,6 @@ type CloudVmCluster struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// System tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
 	// The FQDN of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster.
 	ScanDnsName *string `mandatory:"false" json:"scanDnsName"`
 
@@ -175,12 +171,6 @@ type CloudVmCluster struct {
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a grid infrastructure software image. This is a database software image of the type `GRID_IMAGE`.
-	GiSoftwareImageId *string `mandatory:"false" json:"giSoftwareImageId"`
-
-	// Details of the file system configuration of the VM cluster.
-	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 }

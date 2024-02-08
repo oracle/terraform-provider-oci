@@ -12,6 +12,10 @@ import (
 )
 
 // PatchSelfRegistrationProfileRequest wrapper for the PatchSelfRegistrationProfile operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSelfRegistrationProfile.go.html to see an example of how to use PatchSelfRegistrationProfileRequest.
 type PatchSelfRegistrationProfileRequest struct {
 
 	// ID of the resource

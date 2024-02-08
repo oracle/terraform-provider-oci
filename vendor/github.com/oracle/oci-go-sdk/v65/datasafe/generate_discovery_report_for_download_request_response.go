@@ -12,6 +12,10 @@ import (
 )
 
 // GenerateDiscoveryReportForDownloadRequest wrapper for the GenerateDiscoveryReportForDownload operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateDiscoveryReportForDownload.go.html to see an example of how to use GenerateDiscoveryReportForDownloadRequest.
 type GenerateDiscoveryReportForDownloadRequest struct {
 
 	// The OCID of the sensitive data model.

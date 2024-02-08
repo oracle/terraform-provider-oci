@@ -12,6 +12,10 @@ import (
 )
 
 // ListModelsRequest wrapper for the ListModels operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListModels.go.html to see an example of how to use ListModelsRequest.
 type ListModelsRequest struct {
 
 	// The ID of the compartment in which to list resources.

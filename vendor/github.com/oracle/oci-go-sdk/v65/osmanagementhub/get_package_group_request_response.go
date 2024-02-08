@@ -12,6 +12,10 @@ import (
 )
 
 // GetPackageGroupRequest wrapper for the GetPackageGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetPackageGroup.go.html to see an example of how to use GetPackageGroupRequest.
 type GetPackageGroupRequest struct {
 
 	// The software source OCID.

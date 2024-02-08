@@ -16,36 +16,36 @@ import (
 	"strings"
 )
 
-// DetectorRule Information for a detector rule (DetectorRule object).
+// DetectorRule Detector
 type DetectorRule struct {
 
-	// The unique identifier of the detector rule
+	// The unique identifier of the detector rule.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Detector recipe for the rule
+	// detector for the rule
 	Detector DetectorEnumEnum `mandatory:"true" json:"detector"`
 
-	// Service type of the configuration to which the rule is applied
+	// service type of the configuration to which the rule is applied
 	ServiceType *string `mandatory:"true" json:"serviceType"`
 
-	// Resource type of the configuration to which the rule is applied
+	// resource type of the configuration to which the rule is applied
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// Display name for the detector rule
+	// Display name for DetectorRule.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Description for the detector rule
+	// Description for DetectorRule.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recommendation for the detector rule
+	// recommendation for DetectorRule
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
 	DetectorDetails *DetectorDetails `mandatory:"false" json:"detectorDetails"`
 
-	// List of managed list types related to this rule
+	// List of cloudguard managed list types related to this rule
 	ManagedListTypes []DetectorRuleManagedListTypesEnum `mandatory:"false" json:"managedListTypes,omitempty"`
 
-	// List of responder rules that could be used to remediate a problem triggered by this detector rule
+	// List of CandidateResponderRule related to this rule
 	CandidateResponderRules []CandidateResponderRule `mandatory:"false" json:"candidateResponderRules"`
 
 	// The date and time the detector rule was created. Format defined by RFC3339.
@@ -54,14 +54,11 @@ type DetectorRule struct {
 	// The date and time the detector rule was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the detector rule
+	// The current state of the DetectorRule.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DetectorRule) String() string {
@@ -97,54 +94,48 @@ type DetectorRuleManagedListTypesEnum string
 
 // Set of constants representing the allowable values for DetectorRuleManagedListTypesEnum
 const (
-	DetectorRuleManagedListTypesCidrBlock            DetectorRuleManagedListTypesEnum = "CIDR_BLOCK"
-	DetectorRuleManagedListTypesUsers                DetectorRuleManagedListTypesEnum = "USERS"
-	DetectorRuleManagedListTypesGroups               DetectorRuleManagedListTypesEnum = "GROUPS"
-	DetectorRuleManagedListTypesIpv4address          DetectorRuleManagedListTypesEnum = "IPV4ADDRESS"
-	DetectorRuleManagedListTypesIpv6address          DetectorRuleManagedListTypesEnum = "IPV6ADDRESS"
-	DetectorRuleManagedListTypesResourceOcid         DetectorRuleManagedListTypesEnum = "RESOURCE_OCID"
-	DetectorRuleManagedListTypesRegion               DetectorRuleManagedListTypesEnum = "REGION"
-	DetectorRuleManagedListTypesCountry              DetectorRuleManagedListTypesEnum = "COUNTRY"
-	DetectorRuleManagedListTypesState                DetectorRuleManagedListTypesEnum = "STATE"
-	DetectorRuleManagedListTypesCity                 DetectorRuleManagedListTypesEnum = "CITY"
-	DetectorRuleManagedListTypesTags                 DetectorRuleManagedListTypesEnum = "TAGS"
-	DetectorRuleManagedListTypesGeneric              DetectorRuleManagedListTypesEnum = "GENERIC"
-	DetectorRuleManagedListTypesFusionAppsRole       DetectorRuleManagedListTypesEnum = "FUSION_APPS_ROLE"
-	DetectorRuleManagedListTypesFusionAppsPermission DetectorRuleManagedListTypesEnum = "FUSION_APPS_PERMISSION"
+	DetectorRuleManagedListTypesCidrBlock    DetectorRuleManagedListTypesEnum = "CIDR_BLOCK"
+	DetectorRuleManagedListTypesUsers        DetectorRuleManagedListTypesEnum = "USERS"
+	DetectorRuleManagedListTypesGroups       DetectorRuleManagedListTypesEnum = "GROUPS"
+	DetectorRuleManagedListTypesIpv4address  DetectorRuleManagedListTypesEnum = "IPV4ADDRESS"
+	DetectorRuleManagedListTypesIpv6address  DetectorRuleManagedListTypesEnum = "IPV6ADDRESS"
+	DetectorRuleManagedListTypesResourceOcid DetectorRuleManagedListTypesEnum = "RESOURCE_OCID"
+	DetectorRuleManagedListTypesRegion       DetectorRuleManagedListTypesEnum = "REGION"
+	DetectorRuleManagedListTypesCountry      DetectorRuleManagedListTypesEnum = "COUNTRY"
+	DetectorRuleManagedListTypesState        DetectorRuleManagedListTypesEnum = "STATE"
+	DetectorRuleManagedListTypesCity         DetectorRuleManagedListTypesEnum = "CITY"
+	DetectorRuleManagedListTypesTags         DetectorRuleManagedListTypesEnum = "TAGS"
+	DetectorRuleManagedListTypesGeneric      DetectorRuleManagedListTypesEnum = "GENERIC"
 )
 
 var mappingDetectorRuleManagedListTypesEnum = map[string]DetectorRuleManagedListTypesEnum{
-	"CIDR_BLOCK":             DetectorRuleManagedListTypesCidrBlock,
-	"USERS":                  DetectorRuleManagedListTypesUsers,
-	"GROUPS":                 DetectorRuleManagedListTypesGroups,
-	"IPV4ADDRESS":            DetectorRuleManagedListTypesIpv4address,
-	"IPV6ADDRESS":            DetectorRuleManagedListTypesIpv6address,
-	"RESOURCE_OCID":          DetectorRuleManagedListTypesResourceOcid,
-	"REGION":                 DetectorRuleManagedListTypesRegion,
-	"COUNTRY":                DetectorRuleManagedListTypesCountry,
-	"STATE":                  DetectorRuleManagedListTypesState,
-	"CITY":                   DetectorRuleManagedListTypesCity,
-	"TAGS":                   DetectorRuleManagedListTypesTags,
-	"GENERIC":                DetectorRuleManagedListTypesGeneric,
-	"FUSION_APPS_ROLE":       DetectorRuleManagedListTypesFusionAppsRole,
-	"FUSION_APPS_PERMISSION": DetectorRuleManagedListTypesFusionAppsPermission,
+	"CIDR_BLOCK":    DetectorRuleManagedListTypesCidrBlock,
+	"USERS":         DetectorRuleManagedListTypesUsers,
+	"GROUPS":        DetectorRuleManagedListTypesGroups,
+	"IPV4ADDRESS":   DetectorRuleManagedListTypesIpv4address,
+	"IPV6ADDRESS":   DetectorRuleManagedListTypesIpv6address,
+	"RESOURCE_OCID": DetectorRuleManagedListTypesResourceOcid,
+	"REGION":        DetectorRuleManagedListTypesRegion,
+	"COUNTRY":       DetectorRuleManagedListTypesCountry,
+	"STATE":         DetectorRuleManagedListTypesState,
+	"CITY":          DetectorRuleManagedListTypesCity,
+	"TAGS":          DetectorRuleManagedListTypesTags,
+	"GENERIC":       DetectorRuleManagedListTypesGeneric,
 }
 
 var mappingDetectorRuleManagedListTypesEnumLowerCase = map[string]DetectorRuleManagedListTypesEnum{
-	"cidr_block":             DetectorRuleManagedListTypesCidrBlock,
-	"users":                  DetectorRuleManagedListTypesUsers,
-	"groups":                 DetectorRuleManagedListTypesGroups,
-	"ipv4address":            DetectorRuleManagedListTypesIpv4address,
-	"ipv6address":            DetectorRuleManagedListTypesIpv6address,
-	"resource_ocid":          DetectorRuleManagedListTypesResourceOcid,
-	"region":                 DetectorRuleManagedListTypesRegion,
-	"country":                DetectorRuleManagedListTypesCountry,
-	"state":                  DetectorRuleManagedListTypesState,
-	"city":                   DetectorRuleManagedListTypesCity,
-	"tags":                   DetectorRuleManagedListTypesTags,
-	"generic":                DetectorRuleManagedListTypesGeneric,
-	"fusion_apps_role":       DetectorRuleManagedListTypesFusionAppsRole,
-	"fusion_apps_permission": DetectorRuleManagedListTypesFusionAppsPermission,
+	"cidr_block":    DetectorRuleManagedListTypesCidrBlock,
+	"users":         DetectorRuleManagedListTypesUsers,
+	"groups":        DetectorRuleManagedListTypesGroups,
+	"ipv4address":   DetectorRuleManagedListTypesIpv4address,
+	"ipv6address":   DetectorRuleManagedListTypesIpv6address,
+	"resource_ocid": DetectorRuleManagedListTypesResourceOcid,
+	"region":        DetectorRuleManagedListTypesRegion,
+	"country":       DetectorRuleManagedListTypesCountry,
+	"state":         DetectorRuleManagedListTypesState,
+	"city":          DetectorRuleManagedListTypesCity,
+	"tags":          DetectorRuleManagedListTypesTags,
+	"generic":       DetectorRuleManagedListTypesGeneric,
 }
 
 // GetDetectorRuleManagedListTypesEnumValues Enumerates the set of values for DetectorRuleManagedListTypesEnum
@@ -171,8 +162,6 @@ func GetDetectorRuleManagedListTypesEnumStringValues() []string {
 		"CITY",
 		"TAGS",
 		"GENERIC",
-		"FUSION_APPS_ROLE",
-		"FUSION_APPS_PERMISSION",
 	}
 }
 

@@ -12,6 +12,10 @@ import (
 )
 
 // ListPublicationsRequest wrapper for the ListPublications operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListPublications.go.html to see an example of how to use ListPublicationsRequest.
 type ListPublicationsRequest struct {
 
 	// The unique identifier for the compartment.

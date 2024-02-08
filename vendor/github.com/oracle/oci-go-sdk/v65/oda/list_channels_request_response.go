@@ -12,6 +12,10 @@ import (
 )
 
 // ListChannelsRequest wrapper for the ListChannels operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListChannels.go.html to see an example of how to use ListChannelsRequest.
 type ListChannelsRequest struct {
 
 	// Unique Digital Assistant instance identifier.

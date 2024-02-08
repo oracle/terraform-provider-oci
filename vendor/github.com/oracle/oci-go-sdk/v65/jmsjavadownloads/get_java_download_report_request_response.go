@@ -12,6 +12,10 @@ import (
 )
 
 // GetJavaDownloadReportRequest wrapper for the GetJavaDownloadReport operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadReport.go.html to see an example of how to use GetJavaDownloadReportRequest.
 type GetJavaDownloadReportRequest struct {
 
 	// Unique Java download report identifier.

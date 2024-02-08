@@ -12,6 +12,10 @@ import (
 )
 
 // GetMetricExtensionRequest wrapper for the GetMetricExtension operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMetricExtension.go.html to see an example of how to use GetMetricExtensionRequest.
 type GetMetricExtensionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.

@@ -12,6 +12,10 @@ import (
 )
 
 // CreateComputeCapacityTopologyRequest wrapper for the CreateComputeCapacityTopology operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityTopology.go.html to see an example of how to use CreateComputeCapacityTopologyRequest.
 type CreateComputeCapacityTopologyRequest struct {
 
 	// Details for creating a new compute capacity topology.

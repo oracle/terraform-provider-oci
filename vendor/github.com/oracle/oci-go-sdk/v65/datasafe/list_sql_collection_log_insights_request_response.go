@@ -12,6 +12,10 @@ import (
 )
 
 // ListSqlCollectionLogInsightsRequest wrapper for the ListSqlCollectionLogInsights operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollectionLogInsights.go.html to see an example of how to use ListSqlCollectionLogInsightsRequest.
 type ListSqlCollectionLogInsightsRequest struct {
 
 	// An optional filter to return the stats of the SQL collection logs collected after the date-time specified,

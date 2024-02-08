@@ -12,6 +12,10 @@ import (
 )
 
 // GetTopSqlCpuActivityRequest wrapper for the GetTopSqlCpuActivity operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetTopSqlCpuActivity.go.html to see an example of how to use GetTopSqlCpuActivityRequest.
 type GetTopSqlCpuActivityRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata storage server.

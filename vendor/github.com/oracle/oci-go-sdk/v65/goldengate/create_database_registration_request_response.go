@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDatabaseRegistrationRequest wrapper for the CreateDatabaseRegistration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateDatabaseRegistration.go.html to see an example of how to use CreateDatabaseRegistrationRequest.
 type CreateDatabaseRegistrationRequest struct {
 
 	// Specification of the DatabaseRegistration to create.

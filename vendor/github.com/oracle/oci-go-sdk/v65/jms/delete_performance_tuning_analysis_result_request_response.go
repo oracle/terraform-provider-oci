@@ -12,6 +12,10 @@ import (
 )
 
 // DeletePerformanceTuningAnalysisResultRequest wrapper for the DeletePerformanceTuningAnalysisResult operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeletePerformanceTuningAnalysisResult.go.html to see an example of how to use DeletePerformanceTuningAnalysisResultRequest.
 type DeletePerformanceTuningAnalysisResultRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

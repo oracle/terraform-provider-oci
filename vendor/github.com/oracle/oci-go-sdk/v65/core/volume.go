@@ -32,6 +32,10 @@ import (
 // supply string values using the API.
 type Volume struct {
 
+	// The availability domain of the volume.
+	// Example: `Uocm:PHX-AD-1`
+	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
+
 	// The OCID of the compartment that contains the volume.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -51,10 +55,6 @@ type Volume struct {
 
 	// The date and time the volume was created. Format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
-
-	// The availability domain of the volume.
-	// Example: `Uocm:PHX-AD-1`
-	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -87,12 +87,6 @@ type Volume struct {
 	// For performance autotune enabled volumes, It would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
-	// The size (in Bytes) of the blocks for this block volume, between 512B to 32KB.
-	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
-
-	// The clusterPlacementGroup Id of the volume for volume placement.
-	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
-
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -111,12 +105,6 @@ type Volume struct {
 	// The list of block volume replicas of this volume.
 	BlockVolumeReplicas []BlockVolumeReplicaInfo `mandatory:"false" json:"blockVolumeReplicas"`
 
-	// The scope of the volume
-	VolumeScope VolumeVolumeScopeEnum `mandatory:"false" json:"volumeScope,omitempty"`
-
-	// The metering mode of the volume
-	MeteringMode VolumeMeteringModeEnum `mandatory:"false" json:"meteringMode,omitempty"`
-
 	// The list of autotune policies enabled for this volume.
 	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
 }
@@ -134,12 +122,6 @@ func (m Volume) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingVolumeVolumeScopeEnum(string(m.VolumeScope)); !ok && m.VolumeScope != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeScope: %s. Supported values are: %s.", m.VolumeScope, strings.Join(GetVolumeVolumeScopeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingVolumeMeteringModeEnum(string(m.MeteringMode)); !ok && m.MeteringMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MeteringMode: %s. Supported values are: %s.", m.MeteringMode, strings.Join(GetVolumeMeteringModeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -149,30 +131,26 @@ func (m Volume) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AvailabilityDomain      *string                           `json:"availabilityDomain"`
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
-		IsHydrated              *bool                             `json:"isHydrated"`
-		KmsKeyId                *string                           `json:"kmsKeyId"`
-		VpusPerGB               *int64                            `json:"vpusPerGB"`
-		IoAlignmentSizeInBytes  *int                              `json:"ioAlignmentSizeInBytes"`
-		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
-		SizeInGBs               *int64                            `json:"sizeInGBs"`
-		SourceDetails           volumesourcedetails               `json:"sourceDetails"`
-		VolumeGroupId           *string                           `json:"volumeGroupId"`
-		IsAutoTuneEnabled       *bool                             `json:"isAutoTuneEnabled"`
-		AutoTunedVpusPerGB      *int64                            `json:"autoTunedVpusPerGB"`
-		BlockVolumeReplicas     []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
-		VolumeScope             VolumeVolumeScopeEnum             `json:"volumeScope"`
-		MeteringMode            VolumeMeteringModeEnum            `json:"meteringMode"`
-		AutotunePolicies        []autotunepolicy                  `json:"autotunePolicies"`
-		CompartmentId           *string                           `json:"compartmentId"`
-		DisplayName             *string                           `json:"displayName"`
-		Id                      *string                           `json:"id"`
-		LifecycleState          VolumeLifecycleStateEnum          `json:"lifecycleState"`
-		SizeInMBs               *int64                            `json:"sizeInMBs"`
-		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
+		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags        map[string]string                 `json:"freeformTags"`
+		SystemTags          map[string]map[string]interface{} `json:"systemTags"`
+		IsHydrated          *bool                             `json:"isHydrated"`
+		KmsKeyId            *string                           `json:"kmsKeyId"`
+		VpusPerGB           *int64                            `json:"vpusPerGB"`
+		SizeInGBs           *int64                            `json:"sizeInGBs"`
+		SourceDetails       volumesourcedetails               `json:"sourceDetails"`
+		VolumeGroupId       *string                           `json:"volumeGroupId"`
+		IsAutoTuneEnabled   *bool                             `json:"isAutoTuneEnabled"`
+		AutoTunedVpusPerGB  *int64                            `json:"autoTunedVpusPerGB"`
+		BlockVolumeReplicas []BlockVolumeReplicaInfo          `json:"blockVolumeReplicas"`
+		AutotunePolicies    []autotunepolicy                  `json:"autotunePolicies"`
+		AvailabilityDomain  *string                           `json:"availabilityDomain"`
+		CompartmentId       *string                           `json:"compartmentId"`
+		DisplayName         *string                           `json:"displayName"`
+		Id                  *string                           `json:"id"`
+		LifecycleState      VolumeLifecycleStateEnum          `json:"lifecycleState"`
+		SizeInMBs           *int64                            `json:"sizeInMBs"`
+		TimeCreated         *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -180,8 +158,6 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.AvailabilityDomain = model.AvailabilityDomain
-
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
@@ -193,10 +169,6 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 	m.KmsKeyId = model.KmsKeyId
 
 	m.VpusPerGB = model.VpusPerGB
-
-	m.IoAlignmentSizeInBytes = model.IoAlignmentSizeInBytes
-
-	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.SizeInGBs = model.SizeInGBs
 
@@ -218,10 +190,6 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 
 	m.BlockVolumeReplicas = make([]BlockVolumeReplicaInfo, len(model.BlockVolumeReplicas))
 	copy(m.BlockVolumeReplicas, model.BlockVolumeReplicas)
-	m.VolumeScope = model.VolumeScope
-
-	m.MeteringMode = model.MeteringMode
-
 	m.AutotunePolicies = make([]AutotunePolicy, len(model.AutotunePolicies))
 	for i, n := range model.AutotunePolicies {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
@@ -234,6 +202,8 @@ func (m *Volume) UnmarshalJSON(data []byte) (e error) {
 			m.AutotunePolicies[i] = nil
 		}
 	}
+	m.AvailabilityDomain = model.AvailabilityDomain
+
 	m.CompartmentId = model.CompartmentId
 
 	m.DisplayName = model.DisplayName
@@ -304,89 +274,5 @@ func GetVolumeLifecycleStateEnumStringValues() []string {
 // GetMappingVolumeLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVolumeLifecycleStateEnum(val string) (VolumeLifecycleStateEnum, bool) {
 	enum, ok := mappingVolumeLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// VolumeVolumeScopeEnum Enum with underlying type: string
-type VolumeVolumeScopeEnum string
-
-// Set of constants representing the allowable values for VolumeVolumeScopeEnum
-const (
-	VolumeVolumeScopeRegional VolumeVolumeScopeEnum = "REGIONAL"
-	VolumeVolumeScopeAdLocal  VolumeVolumeScopeEnum = "AD_LOCAL"
-)
-
-var mappingVolumeVolumeScopeEnum = map[string]VolumeVolumeScopeEnum{
-	"REGIONAL": VolumeVolumeScopeRegional,
-	"AD_LOCAL": VolumeVolumeScopeAdLocal,
-}
-
-var mappingVolumeVolumeScopeEnumLowerCase = map[string]VolumeVolumeScopeEnum{
-	"regional": VolumeVolumeScopeRegional,
-	"ad_local": VolumeVolumeScopeAdLocal,
-}
-
-// GetVolumeVolumeScopeEnumValues Enumerates the set of values for VolumeVolumeScopeEnum
-func GetVolumeVolumeScopeEnumValues() []VolumeVolumeScopeEnum {
-	values := make([]VolumeVolumeScopeEnum, 0)
-	for _, v := range mappingVolumeVolumeScopeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetVolumeVolumeScopeEnumStringValues Enumerates the set of values in String for VolumeVolumeScopeEnum
-func GetVolumeVolumeScopeEnumStringValues() []string {
-	return []string{
-		"REGIONAL",
-		"AD_LOCAL",
-	}
-}
-
-// GetMappingVolumeVolumeScopeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingVolumeVolumeScopeEnum(val string) (VolumeVolumeScopeEnum, bool) {
-	enum, ok := mappingVolumeVolumeScopeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// VolumeMeteringModeEnum Enum with underlying type: string
-type VolumeMeteringModeEnum string
-
-// Set of constants representing the allowable values for VolumeMeteringModeEnum
-const (
-	VolumeMeteringModeProvisioned VolumeMeteringModeEnum = "PROVISIONED"
-	VolumeMeteringModePayPerUsage VolumeMeteringModeEnum = "PAY_PER_USAGE"
-)
-
-var mappingVolumeMeteringModeEnum = map[string]VolumeMeteringModeEnum{
-	"PROVISIONED":   VolumeMeteringModeProvisioned,
-	"PAY_PER_USAGE": VolumeMeteringModePayPerUsage,
-}
-
-var mappingVolumeMeteringModeEnumLowerCase = map[string]VolumeMeteringModeEnum{
-	"provisioned":   VolumeMeteringModeProvisioned,
-	"pay_per_usage": VolumeMeteringModePayPerUsage,
-}
-
-// GetVolumeMeteringModeEnumValues Enumerates the set of values for VolumeMeteringModeEnum
-func GetVolumeMeteringModeEnumValues() []VolumeMeteringModeEnum {
-	values := make([]VolumeMeteringModeEnum, 0)
-	for _, v := range mappingVolumeMeteringModeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetVolumeMeteringModeEnumStringValues Enumerates the set of values in String for VolumeMeteringModeEnum
-func GetVolumeMeteringModeEnumStringValues() []string {
-	return []string{
-		"PROVISIONED",
-		"PAY_PER_USAGE",
-	}
-}
-
-// GetMappingVolumeMeteringModeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingVolumeMeteringModeEnum(val string) (VolumeMeteringModeEnum, bool) {
-	enum, ok := mappingVolumeMeteringModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

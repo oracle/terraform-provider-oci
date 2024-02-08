@@ -12,6 +12,10 @@ import (
 )
 
 // ListTemplatesRequest wrapper for the ListTemplates operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListTemplates.go.html to see an example of how to use ListTemplatesRequest.
 type ListTemplatesRequest struct {
 
 	// The workspace ID.

@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteTaskScheduleRequest wrapper for the DeleteTaskSchedule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteTaskSchedule.go.html to see an example of how to use DeleteTaskScheduleRequest.
 type DeleteTaskScheduleRequest struct {
 
 	// The workspace ID.

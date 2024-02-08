@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateResponderRecipeResponderRuleDetails Parameters to use to update a responder rule within a responder recipe.
+// UpdateResponderRecipeResponderRuleDetails The details to be updated in ResponderRule
 type UpdateResponderRecipeResponderRuleDetails struct {
 	Details *UpdateResponderRuleDetails `mandatory:"true" json:"details"`
 }

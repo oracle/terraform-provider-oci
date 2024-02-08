@@ -12,6 +12,10 @@ import (
 )
 
 // GetAgentRequest wrapper for the GetAgent operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetAgent.go.html to see an example of how to use GetAgentRequest.
 type GetAgentRequest struct {
 
 	// Unique Agent identifier path parameter.

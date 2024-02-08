@@ -2,12 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Connector Hub API
+// Service Connector Hub API
 //
-// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
-// Connector Hub is formerly known as Service Connector Hub.
+// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Service Connector Hub, see
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 //
 
 package sch
@@ -19,12 +18,12 @@ import (
 	"strings"
 )
 
-// SourceDetails An object that represents the source of the flow defined by the connector.
+// SourceDetails An object that represents the source of the flow defined by the service connector.
 // An example source is the VCNFlow logs within the NetworkLogs group.
-// For more information about flows defined by connectors, see
-// Overview of Connector Hub (https://docs.cloud.oracle.com/iaas/Content/connector-hub/overview.htm).
+// For more information about flows defined by service connectors, see
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 // For configuration instructions, see
-// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
+// To create a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create).
 type SourceDetails interface {
 }
 
@@ -70,10 +69,6 @@ func (m *sourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := StreamingSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "plugin":
-		mm := PluginSourceDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for SourceDetails: %s.", m.Kind)
 		return *m, nil
@@ -104,21 +99,18 @@ const (
 	SourceDetailsKindLogging    SourceDetailsKindEnum = "logging"
 	SourceDetailsKindMonitoring SourceDetailsKindEnum = "monitoring"
 	SourceDetailsKindStreaming  SourceDetailsKindEnum = "streaming"
-	SourceDetailsKindPlugin     SourceDetailsKindEnum = "plugin"
 )
 
 var mappingSourceDetailsKindEnum = map[string]SourceDetailsKindEnum{
 	"logging":    SourceDetailsKindLogging,
 	"monitoring": SourceDetailsKindMonitoring,
 	"streaming":  SourceDetailsKindStreaming,
-	"plugin":     SourceDetailsKindPlugin,
 }
 
 var mappingSourceDetailsKindEnumLowerCase = map[string]SourceDetailsKindEnum{
 	"logging":    SourceDetailsKindLogging,
 	"monitoring": SourceDetailsKindMonitoring,
 	"streaming":  SourceDetailsKindStreaming,
-	"plugin":     SourceDetailsKindPlugin,
 }
 
 // GetSourceDetailsKindEnumValues Enumerates the set of values for SourceDetailsKindEnum
@@ -136,7 +128,6 @@ func GetSourceDetailsKindEnumStringValues() []string {
 		"logging",
 		"monitoring",
 		"streaming",
-		"plugin",
 	}
 }
 

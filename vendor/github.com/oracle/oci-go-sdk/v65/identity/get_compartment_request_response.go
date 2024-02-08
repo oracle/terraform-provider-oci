@@ -12,13 +12,14 @@ import (
 )
 
 // GetCompartmentRequest wrapper for the GetCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetCompartment.go.html to see an example of how to use GetCompartmentRequest.
 type GetCompartmentRequest struct {
 
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"path" name:"compartmentId"`
-
-	// This parameter is required to retrieve securityZoneId associated with the compartment.
-	VerboseLevel GetCompartmentVerboseLevelEnum `mandatory:"false" contributesTo:"query" name:"verboseLevel" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -60,9 +61,6 @@ func (request GetCompartmentRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetCompartmentRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingGetCompartmentVerboseLevelEnum(string(request.VerboseLevel)); !ok && request.VerboseLevel != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VerboseLevel: %s. Supported values are: %s.", request.VerboseLevel, strings.Join(GetGetCompartmentVerboseLevelEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -93,42 +91,4 @@ func (response GetCompartmentResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetCompartmentResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// GetCompartmentVerboseLevelEnum Enum with underlying type: string
-type GetCompartmentVerboseLevelEnum string
-
-// Set of constants representing the allowable values for GetCompartmentVerboseLevelEnum
-const (
-	GetCompartmentVerboseLevelSecurityzone GetCompartmentVerboseLevelEnum = "securityZone"
-)
-
-var mappingGetCompartmentVerboseLevelEnum = map[string]GetCompartmentVerboseLevelEnum{
-	"securityZone": GetCompartmentVerboseLevelSecurityzone,
-}
-
-var mappingGetCompartmentVerboseLevelEnumLowerCase = map[string]GetCompartmentVerboseLevelEnum{
-	"securityzone": GetCompartmentVerboseLevelSecurityzone,
-}
-
-// GetGetCompartmentVerboseLevelEnumValues Enumerates the set of values for GetCompartmentVerboseLevelEnum
-func GetGetCompartmentVerboseLevelEnumValues() []GetCompartmentVerboseLevelEnum {
-	values := make([]GetCompartmentVerboseLevelEnum, 0)
-	for _, v := range mappingGetCompartmentVerboseLevelEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetGetCompartmentVerboseLevelEnumStringValues Enumerates the set of values in String for GetCompartmentVerboseLevelEnum
-func GetGetCompartmentVerboseLevelEnumStringValues() []string {
-	return []string{
-		"securityZone",
-	}
-}
-
-// GetMappingGetCompartmentVerboseLevelEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingGetCompartmentVerboseLevelEnum(val string) (GetCompartmentVerboseLevelEnum, bool) {
-	enum, ok := mappingGetCompartmentVerboseLevelEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

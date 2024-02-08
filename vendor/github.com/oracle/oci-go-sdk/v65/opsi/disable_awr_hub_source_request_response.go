@@ -12,6 +12,10 @@ import (
 )
 
 // DisableAwrHubSourceRequest wrapper for the DisableAwrHubSource operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableAwrHubSource.go.html to see an example of how to use DisableAwrHubSourceRequest.
 type DisableAwrHubSourceRequest struct {
 
 	// Unique Awr Hub Source identifier

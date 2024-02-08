@@ -12,6 +12,10 @@ import (
 )
 
 // CreateSoftwareSourceRequest wrapper for the CreateSoftwareSource operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateSoftwareSource.go.html to see an example of how to use CreateSoftwareSourceRequest.
 type CreateSoftwareSourceRequest struct {
 
 	// Details for the new software source.

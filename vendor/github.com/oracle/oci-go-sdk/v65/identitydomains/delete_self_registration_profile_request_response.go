@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteSelfRegistrationProfileRequest wrapper for the DeleteSelfRegistrationProfile operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteSelfRegistrationProfile.go.html to see an example of how to use DeleteSelfRegistrationProfileRequest.
 type DeleteSelfRegistrationProfileRequest struct {
 
 	// ID of the resource

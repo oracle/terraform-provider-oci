@@ -26,7 +26,7 @@ func (ipe instancePrincipalDelegationTokenError) Error() string {
 // InstancePrincipalDelegationTokenConfigurationProvider returns a configuration for obo token instance principals
 func InstancePrincipalDelegationTokenConfigurationProvider(delegationToken *string) (common.ConfigurationProvider, error) {
 	if delegationToken == nil || len(*delegationToken) == 0 {
-		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a delagationTokenConfigurationProvider: token is a mondatory input paras")}
+		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a delagationTokenConfigurationProvider: token is a mandatory input parameter")}
 	}
 	return newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken, "", nil)
 }
@@ -34,7 +34,7 @@ func InstancePrincipalDelegationTokenConfigurationProvider(delegationToken *stri
 // InstancePrincipalDelegationTokenConfigurationProviderForRegion returns a configuration for obo token instance principals with a given region
 func InstancePrincipalDelegationTokenConfigurationProviderForRegion(delegationToken *string, region common.Region) (common.ConfigurationProvider, error) {
 	if delegationToken == nil || len(*delegationToken) == 0 {
-		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a delagationTokenConfigurationProvider: token is a mondatory input paras")}
+		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a delagationTokenConfigurationProvider: token is a mandatory input parameter")}
 	}
 	return newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken, region, nil)
 }
@@ -42,20 +42,7 @@ func InstancePrincipalDelegationTokenConfigurationProviderForRegion(delegationTo
 func newInstancePrincipalDelegationTokenConfigurationProvider(delegationToken *string, region common.Region, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher,
 	error)) (common.ConfigurationProvider, error) {
 
-	keyProvider, err := newInstancePrincipalKeyProvider(modifier, "")
-	if err != nil {
-		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())}
-	}
-	if len(region) > 0 {
-		return instancePrincipalDelegationTokenConfigurationProvider{*keyProvider, *delegationToken, &region}, err
-	}
-	return instancePrincipalDelegationTokenConfigurationProvider{*keyProvider, *delegationToken, nil}, err
-}
-
-func newInstancePrincipalDelegationTokenConfigurationProviderWithPurpose(delegationToken *string, region common.Region, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher,
-	error), tokenPurpose string) (common.ConfigurationProvider, error) {
-
-	keyProvider, err := newInstancePrincipalKeyProvider(modifier, tokenPurpose)
+	keyProvider, err := newInstancePrincipalKeyProvider(modifier)
 	if err != nil {
 		return nil, instancePrincipalDelegationTokenError{err: fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())}
 	}

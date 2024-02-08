@@ -12,6 +12,10 @@ import (
 )
 
 // ListDbSystemUpgradeHistoryEntriesRequest wrapper for the ListDbSystemUpgradeHistoryEntries operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbSystemUpgradeHistoryEntries.go.html to see an example of how to use ListDbSystemUpgradeHistoryEntriesRequest.
 type ListDbSystemUpgradeHistoryEntriesRequest struct {
 
 	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

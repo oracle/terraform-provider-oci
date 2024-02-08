@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDatabaseRegistrationRequest wrapper for the UpdateDatabaseRegistration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/UpdateDatabaseRegistration.go.html to see an example of how to use UpdateDatabaseRegistrationRequest.
 type UpdateDatabaseRegistrationRequest struct {
 
 	// A unique DatabaseRegistration identifier.

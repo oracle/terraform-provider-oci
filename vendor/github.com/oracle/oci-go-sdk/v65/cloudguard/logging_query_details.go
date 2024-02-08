@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// LoggingQueryDetails Details for a logging query for a data source.
+// LoggingQueryDetails Additional details specific to the data source type (Sighting/Insight).
 type LoggingQueryDetails interface {
 }
 
@@ -51,10 +51,6 @@ func (m *loggingquerydetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 
 	var err error
 	switch m.LoggingQueryType {
-	case "SIGHTING":
-		mm := SightingTypeLoggingQueryDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "INSIGHT":
 		mm := InsightTypeLoggingQueryDetails{}
 		err = json.Unmarshal(data, &mm)

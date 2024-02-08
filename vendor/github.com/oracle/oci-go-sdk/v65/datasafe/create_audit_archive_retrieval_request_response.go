@@ -12,6 +12,10 @@ import (
 )
 
 // CreateAuditArchiveRetrievalRequest wrapper for the CreateAuditArchiveRetrieval operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateAuditArchiveRetrieval.go.html to see an example of how to use CreateAuditArchiveRetrievalRequest.
 type CreateAuditArchiveRetrievalRequest struct {
 
 	// Details for creating retrieving archived audit data.

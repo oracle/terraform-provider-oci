@@ -12,6 +12,10 @@ import (
 )
 
 // ApplyDiscoveryJobResultsRequest wrapper for the ApplyDiscoveryJobResults operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ApplyDiscoveryJobResults.go.html to see an example of how to use ApplyDiscoveryJobResultsRequest.
 type ApplyDiscoveryJobResultsRequest struct {
 
 	// The OCID of the sensitive data model.

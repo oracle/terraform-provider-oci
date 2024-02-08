@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// DataSourceSummary Summary information for a specific data source.
+// DataSourceSummary Summary of Data Source
 type DataSourceSummary struct {
 
-	// OCID for the data source
+	// Ocid for Data Source
 	Id *string `mandatory:"true" json:"id"`
 
-	// Display name of the data source
+	// DisplayName of Data Source
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Type of data source feed provider(LoggingQuery)
+	// Possible type of dataSourceFeed Provider(LoggingQuery)
 	DataSourceFeedProvider DataSourceFeedProviderEnum `mandatory:"true" json:"dataSourceFeedProvider"`
 
-	// Compartment OCID of the data source
+	// CompartmentId of Data Source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	DataSourceSummaryDetails DataSourceSummaryDetails `mandatory:"false" json:"dataSourceSummaryDetails"`
@@ -40,12 +40,12 @@ type DataSourceSummary struct {
 	// The date and time the data source was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Status of data source
+	// Status of data Source
 	Status DataSourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	LoggingQueryDetails LoggingQueryDetails `mandatory:"false" json:"loggingQueryDetails"`
 
-	// The current lifecycle state of the resource
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a zone in the `Failed` state.

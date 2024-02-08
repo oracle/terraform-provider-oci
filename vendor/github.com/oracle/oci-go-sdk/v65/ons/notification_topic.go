@@ -17,7 +17,7 @@ import (
 )
 
 // NotificationTopic The properties that define a topic. For general information about topics, see
-// Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__topicdefinition).
+// Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
 type NotificationTopic struct {
 
 	// The name of the topic.
@@ -38,7 +38,7 @@ type NotificationTopic struct {
 	// The endpoint for managing subscriptions or publishing messages to the topic.
 	ApiEndpoint *string `mandatory:"true" json:"apiEndpoint"`
 
-	// A short code used to identify the topic in messages sent to SMS subscriptions. Each short code contains six case-insensitive alphanumeric characters.
+	// A unique short topic Id. This is used only for SMS subscriptions.
 	ShortTopicId *string `mandatory:"false" json:"shortTopicId"`
 
 	// The description of the topic.

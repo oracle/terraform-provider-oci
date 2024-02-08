@@ -19,13 +19,13 @@ import (
 // SecurityScoreAggregation Provides the dimensions and their corresponding count value.
 type SecurityScoreAggregation struct {
 
-	// The key-value pairs of dimensions and their names
+	// The key-value pairs of dimensions and their names.
 	DimensionsMap map[string]string `mandatory:"true" json:"dimensionsMap"`
 
-	// The security rating with given parameters
+	// The security rating with given dimension/s
 	SecurityRating SecurityRatingEnum `mandatory:"true" json:"securityRating"`
 
-	// The security score with given parameters
+	// The security score with given dimension/s
 	SecurityScore *int `mandatory:"true" json:"securityScore"`
 }
 

@@ -8,10 +8,11 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	"github.com/oracle/oci-go-sdk/v65/common"
 	"io/ioutil"
 	"os"
 	"path"
+
+	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
 const (
@@ -103,39 +104,50 @@ func OkeWorkloadIdentityConfigurationProvider() (ConfigurationProviderWithClaimA
 // OkeWorkloadIdentityConfigurationProviderWithServiceAccountTokenProvider returns a resource principal configuration provider by OKE Workload Identity
 // with service account token provider
 func OkeWorkloadIdentityConfigurationProviderWithServiceAccountTokenProvider(saTokenProvider ServiceAccountTokenProvider) (ConfigurationProviderWithClaimAccess, error) {
-	saCertPath := requireEnv(OciKubernetesServiceAccountCertPath)
-
-	if saCertPath == nil {
-		tmp := DefaultKubernetesServiceAccountCertPath
-		saCertPath = &tmp
-	}
-
-	kubernetesServiceAccountCertRaw, err := ioutil.ReadFile(*saCertPath)
-	if err != nil {
-		err = fmt.Errorf("can not create resource principal, error getting Kubernetes Service Account Token at %s", *saCertPath)
+	var version string
+	var ok bool
+	if version, ok = os.LookupEnv(ResourcePrincipalVersionEnvVar); !ok {
+		err := fmt.Errorf("can not create resource principal, environment variable: %s, not present", ResourcePrincipalVersionEnvVar)
 		return nil, resourcePrincipalError{err: err}
 	}
 
-	kubernetesServiceAccountCert := x509.NewCertPool()
-	kubernetesServiceAccountCert.AppendCertsFromPEM(kubernetesServiceAccountCertRaw)
+	if version == ResourcePrincipalVersion1_1 || version == ResourcePrincipalVersion2_2 {
 
-	region := requireEnv(ResourcePrincipalRegionEnvVar)
-	if region == nil {
-		err := fmt.Errorf("can not create resource principal, environment variable: %s, not present",
-			ResourcePrincipalRegionEnvVar)
-		return nil, resourcePrincipalError{err: err}
+		saCertPath := requireEnv(OciKubernetesServiceAccountCertPath)
+
+		if saCertPath == nil {
+			tmp := DefaultKubernetesServiceAccountCertPath
+			saCertPath = &tmp
+		}
+
+		kubernetesServiceAccountCertRaw, err := ioutil.ReadFile(*saCertPath)
+		if err != nil {
+			err = fmt.Errorf("can not create resource principal, error getting Kubernetes Service Account Token at %s", *saCertPath)
+			return nil, resourcePrincipalError{err: err}
+		}
+
+		kubernetesServiceAccountCert := x509.NewCertPool()
+		kubernetesServiceAccountCert.AppendCertsFromPEM(kubernetesServiceAccountCertRaw)
+
+		region := requireEnv(ResourcePrincipalRegionEnvVar)
+		if region == nil {
+			err := fmt.Errorf("can not create resource principal, environment variable: %s, not present",
+				ResourcePrincipalRegionEnvVar)
+			return nil, resourcePrincipalError{err: err}
+		}
+
+		k8sServiceHost := requireEnv(KubernetesServiceHostEnvVar)
+		if k8sServiceHost == nil {
+			err := fmt.Errorf("can not create resource principal, environment variable: %s, not present",
+				KubernetesServiceHostEnvVar)
+			return nil, resourcePrincipalError{err: err}
+		}
+		proxymuxEndpoint := fmt.Sprintf("https://%s:%s/resourcePrincipalSessionTokens", *k8sServiceHost, KubernetesProxymuxServicePort)
+
+		return newOkeWorkloadIdentityProvider(proxymuxEndpoint, saTokenProvider, kubernetesServiceAccountCert, *region)
 	}
 
-	k8sServiceHost := requireEnv(KubernetesServiceHostEnvVar)
-	if k8sServiceHost == nil {
-		err := fmt.Errorf("can not create resource principal, environment variable: %s, not present",
-			KubernetesServiceHostEnvVar)
-		return nil, resourcePrincipalError{err: err}
-	}
-	proxymuxEndpoint := fmt.Sprintf("https://%s:%s/resourcePrincipalSessionTokens", *k8sServiceHost, KubernetesProxymuxServicePort)
-
-	return newOkeWorkloadIdentityProvider(proxymuxEndpoint, saTokenProvider, kubernetesServiceAccountCert, *region)
-
+	err := fmt.Errorf("can not create resource principal, environment variable: %s, must be valid", ResourcePrincipalVersionEnvVar)
 	return nil, resourcePrincipalError{err: err}
 }
 
@@ -352,8 +364,7 @@ func (p *resourcePrincipalKeyProvider) UserOCID() (string, error) {
 }
 
 func (p *resourcePrincipalKeyProvider) AuthType() (common.AuthConfig, error) {
-	return common.AuthConfig{common.UnknownAuthenticationType, false, nil},
-		fmt.Errorf("unsupported, keep the interface")
+	return common.AuthConfig{common.UnknownAuthenticationType, false, nil}, fmt.Errorf("unsupported, keep the interface")
 }
 
 func (p *resourcePrincipalKeyProvider) Refreshable() bool {
@@ -371,5 +382,5 @@ type resourcePrincipalError struct {
 }
 
 func (ipe resourcePrincipalError) Error() string {
-	return fmt.Sprintf("%s\nResource principals authentication can only be used in certain OCI services. Please check that the OCI service you're running this code from supports Resource principals.\nSee https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm for more info.", ipe.err.Error())
+	return fmt.Sprintf("%s\nResource principals authentication can only be used in certain OCI services. Please check that the OCI service you're running this code from supports Resource principals.\nSee https://docs.oracle.com/en-us/iaas/Content/API/Concepts/sdk_authentication_methods.htm#sdk_authentication_methods_resource_principal for more info.", ipe.err.Error())
 }

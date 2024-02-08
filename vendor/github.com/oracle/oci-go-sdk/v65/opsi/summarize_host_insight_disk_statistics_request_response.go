@@ -12,6 +12,10 @@ import (
 )
 
 // SummarizeHostInsightDiskStatisticsRequest wrapper for the SummarizeHostInsightDiskStatistics operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightDiskStatistics.go.html to see an example of how to use SummarizeHostInsightDiskStatisticsRequest.
 type SummarizeHostInsightDiskStatisticsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

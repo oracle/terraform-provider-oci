@@ -12,6 +12,10 @@ import (
 )
 
 // DisableDatabaseManagementRequest wrapper for the DisableDatabaseManagement operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisableDatabaseManagement.go.html to see an example of how to use DisableDatabaseManagementRequest.
 type DisableDatabaseManagementRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

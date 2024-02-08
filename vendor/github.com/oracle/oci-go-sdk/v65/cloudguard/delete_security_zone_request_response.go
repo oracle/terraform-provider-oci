@@ -12,9 +12,13 @@ import (
 )
 
 // DeleteSecurityZoneRequest wrapper for the DeleteSecurityZone operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteSecurityZone.go.html to see an example of how to use DeleteSecurityZoneRequest.
 type DeleteSecurityZoneRequest struct {
 
-	// The unique identifier of the security zone (`SecurityZone` resource).
+	// The unique identifier of the security zone (`SecurityZone`)
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

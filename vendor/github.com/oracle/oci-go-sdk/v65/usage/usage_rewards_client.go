@@ -67,7 +67,7 @@ func newRewardsClientFromBaseClient(baseClient common.BaseClient, configProvider
 
 // SetRegion overrides the region of this client.
 func (client *RewardsClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("identity", "https://identity.{region}.oci.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("usage", "https://identity.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,6 +92,10 @@ func (client *RewardsClient) ConfigurationProvider() *common.ConfigurationProvid
 }
 
 // CreateRedeemableUser Adds the list of redeemable user summary for a subscription ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/CreateRedeemableUser.go.html to see an example of how to use CreateRedeemableUser API.
 func (client RewardsClient) CreateRedeemableUser(ctx context.Context, request CreateRedeemableUserRequest) (response CreateRedeemableUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -150,6 +154,10 @@ func (client RewardsClient) createRedeemableUser(ctx context.Context, request co
 }
 
 // DeleteRedeemableUser Deletes the list of redeemable user email ID for a subscription ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/DeleteRedeemableUser.go.html to see an example of how to use DeleteRedeemableUser API.
 func (client RewardsClient) DeleteRedeemableUser(ctx context.Context, request DeleteRedeemableUserRequest) (response DeleteRedeemableUserResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -203,6 +211,10 @@ func (client RewardsClient) deleteRedeemableUser(ctx context.Context, request co
 }
 
 // ListProducts Provides product information that is specific to a reward usage period and its usage details.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListProducts.go.html to see an example of how to use ListProducts API.
 func (client RewardsClient) ListProducts(ctx context.Context, request ListProductsRequest) (response ListProductsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -256,6 +268,10 @@ func (client RewardsClient) listProducts(ctx context.Context, request common.OCI
 }
 
 // ListRedeemableUsers Provides the list of user summary that can redeem rewards for the given subscription ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedeemableUsers.go.html to see an example of how to use ListRedeemableUsers API.
 func (client RewardsClient) ListRedeemableUsers(ctx context.Context, request ListRedeemableUsersRequest) (response ListRedeemableUsersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -309,6 +325,10 @@ func (client RewardsClient) listRedeemableUsers(ctx context.Context, request com
 }
 
 // ListRedemptions Returns the list of redemption for the subscription ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedemptions.go.html to see an example of how to use ListRedemptions API.
 func (client RewardsClient) ListRedemptions(ctx context.Context, request ListRedemptionsRequest) (response ListRedemptionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -362,6 +382,10 @@ func (client RewardsClient) listRedemptions(ctx context.Context, request common.
 }
 
 // ListRewards Returns the list of rewards for a subscription ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRewards.go.html to see an example of how to use ListRewards API.
 func (client RewardsClient) ListRewards(ctx context.Context, request ListRewardsRequest) (response ListRewardsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

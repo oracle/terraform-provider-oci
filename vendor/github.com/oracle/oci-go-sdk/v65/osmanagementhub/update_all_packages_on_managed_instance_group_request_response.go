@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateAllPackagesOnManagedInstanceGroupRequest wrapper for the UpdateAllPackagesOnManagedInstanceGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateAllPackagesOnManagedInstanceGroup.go.html to see an example of how to use UpdateAllPackagesOnManagedInstanceGroupRequest.
 type UpdateAllPackagesOnManagedInstanceGroupRequest struct {
 
 	// The managed instance group OCID.

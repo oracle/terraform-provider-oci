@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteJavaLicenseAcceptanceRecordRequest wrapper for the DeleteJavaLicenseAcceptanceRecord operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/DeleteJavaLicenseAcceptanceRecord.go.html to see an example of how to use DeleteJavaLicenseAcceptanceRecordRequest.
 type DeleteJavaLicenseAcceptanceRecordRequest struct {
 
 	// Unique Java license acceptance record identifier.

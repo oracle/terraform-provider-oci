@@ -12,6 +12,10 @@ import (
 )
 
 // ListEndpointsRequest wrapper for the ListEndpoints operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListEndpoints.go.html to see an example of how to use ListEndpointsRequest.
 type ListEndpointsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.

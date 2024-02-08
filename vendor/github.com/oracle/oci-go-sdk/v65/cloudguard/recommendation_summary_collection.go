@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// RecommendationSummaryCollection Collection of RecommendationSummary resources.
+// RecommendationSummaryCollection Collection of the RecommendationSummary
 type RecommendationSummaryCollection struct {
 
-	// List of RecommendationSummary resources
+	// List of Recommendation
 	Items []RecommendationSummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m RecommendationSummaryCollection) String() string {

@@ -12,6 +12,10 @@ import (
 )
 
 // CreateCccUpgradeScheduleRequest wrapper for the CreateCccUpgradeSchedule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/CreateCccUpgradeSchedule.go.html to see an example of how to use CreateCccUpgradeScheduleRequest.
 type CreateCccUpgradeScheduleRequest struct {
 
 	// Details for the new CCC Upgrade Schedule.

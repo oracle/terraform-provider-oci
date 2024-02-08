@@ -12,6 +12,10 @@ import (
 )
 
 // GetSnapshotRequest wrapper for the GetSnapshot operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetSnapshot.go.html to see an example of how to use GetSnapshotRequest.
 type GetSnapshotRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the snapshot.

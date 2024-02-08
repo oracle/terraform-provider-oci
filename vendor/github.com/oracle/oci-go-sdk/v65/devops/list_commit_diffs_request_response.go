@@ -12,6 +12,10 @@ import (
 )
 
 // ListCommitDiffsRequest wrapper for the ListCommitDiffs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListCommitDiffs.go.html to see an example of how to use ListCommitDiffsRequest.
 type ListCommitDiffsRequest struct {
 
 	// Unique repository identifier.
@@ -22,9 +26,6 @@ type ListCommitDiffsRequest struct {
 
 	// The commit or reference name where changes are coming from.
 	TargetVersion *string `mandatory:"true" contributesTo:"query" name:"targetVersion"`
-
-	// The target repository identifier
-	TargetRepositoryId *string `mandatory:"false" contributesTo:"query" name:"targetRepositoryId"`
 
 	// Boolean value to indicate whether to use merge base or most recent revision.
 	IsComparisonFromMergeBase *bool `mandatory:"false" contributesTo:"query" name:"isComparisonFromMergeBase"`

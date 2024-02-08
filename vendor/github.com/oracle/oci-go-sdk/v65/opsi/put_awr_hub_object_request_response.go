@@ -13,6 +13,10 @@ import (
 )
 
 // PutAwrHubObjectRequest wrapper for the PutAwrHubObject operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/PutAwrHubObject.go.html to see an example of how to use PutAwrHubObjectRequest.
 type PutAwrHubObjectRequest struct {
 
 	// The object to be uploaded to the Awr Hub.

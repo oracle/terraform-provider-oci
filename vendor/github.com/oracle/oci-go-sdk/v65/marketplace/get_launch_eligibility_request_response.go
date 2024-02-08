@@ -12,6 +12,10 @@ import (
 )
 
 // GetLaunchEligibilityRequest wrapper for the GetLaunchEligibility operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/GetLaunchEligibility.go.html to see an example of how to use GetLaunchEligibilityRequest.
 type GetLaunchEligibilityRequest struct {
 
 	// The unique identifier for the compartment.

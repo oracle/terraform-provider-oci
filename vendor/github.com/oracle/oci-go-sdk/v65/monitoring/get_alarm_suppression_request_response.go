@@ -12,6 +12,10 @@ import (
 )
 
 // GetAlarmSuppressionRequest wrapper for the GetAlarmSuppression operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/GetAlarmSuppression.go.html to see an example of how to use GetAlarmSuppressionRequest.
 type GetAlarmSuppressionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm suppression.

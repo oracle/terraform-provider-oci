@@ -9,23 +9,10 @@ import (
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
-	"io/fs"
-	"os"
 	"sync"
-	"time"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 )
-
-// Returns a copy of the input bytes data
-func copyOfBytes(in []byte) []byte {
-	if in == nil {
-		return nil
-	} // avoid allocations
-	c := make([]byte, len(in))
-	copy(c, in)
-	return c
-}
 
 // x509CertificateRetriever provides an X509 certificate with the RSA private key
 type x509CertificateRetriever interface {
@@ -72,14 +59,14 @@ func (r *urlBasedX509CertificateRetriever) Refresh() error {
 	var certificatePemRaw []byte
 	var certificate *x509.Certificate
 	if certificatePemRaw, certificate, err = r.renewCertificate(r.certURL); err != nil {
-		return fmt.Errorf("failed to renew certificate: %w", err)
+		return fmt.Errorf("failed to renew certificate: %s", err.Error())
 	}
 
 	var privateKeyPemRaw []byte
 	var privateKey *rsa.PrivateKey
 	if r.privateKeyURL != "" {
 		if privateKeyPemRaw, privateKey, err = r.renewPrivateKey(r.privateKeyURL, r.passphrase); err != nil {
-			return fmt.Errorf("failed to renew private key: %w", err)
+			return fmt.Errorf("failed to renew private key: %s", err.Error())
 		}
 	}
 
@@ -93,7 +80,7 @@ func (r *urlBasedX509CertificateRetriever) Refresh() error {
 func (r *urlBasedX509CertificateRetriever) renewCertificate(url string) (certificatePemRaw []byte, certificate *x509.Certificate, err error) {
 	var body bytes.Buffer
 	if body, _, err = httpGet(r.dispatcher, url); err != nil {
-		return nil, nil, fmt.Errorf("failed to get certificate from %s: %w", url, err)
+		return nil, nil, fmt.Errorf("failed to get certificate from %s: %s", url, err.Error())
 	}
 
 	certificatePemRaw = body.Bytes()
@@ -104,7 +91,7 @@ func (r *urlBasedX509CertificateRetriever) renewCertificate(url string) (certifi
 	}
 
 	if certificate, err = x509.ParseCertificate(block.Bytes); err != nil {
-		return nil, nil, fmt.Errorf("failed to parse the new certificate: %w", err)
+		return nil, nil, fmt.Errorf("failed to parse the new certificate: %s", err.Error())
 	}
 
 	return certificatePemRaw, certificate, nil
@@ -113,12 +100,12 @@ func (r *urlBasedX509CertificateRetriever) renewCertificate(url string) (certifi
 func (r *urlBasedX509CertificateRetriever) renewPrivateKey(url, passphrase string) (privateKeyPemRaw []byte, privateKey *rsa.PrivateKey, err error) {
 	var body bytes.Buffer
 	if body, _, err = httpGet(r.dispatcher, url); err != nil {
-		return nil, nil, fmt.Errorf("failed to get private key from %s: %w", url, err)
+		return nil, nil, fmt.Errorf("failed to get private key from %s: %s", url, err.Error())
 	}
 
 	privateKeyPemRaw = body.Bytes()
 	if privateKey, err = common.PrivateKeyFromBytes(privateKeyPemRaw, &passphrase); err != nil {
-		return nil, nil, fmt.Errorf("failed to parse the new private key: %w", err)
+		return nil, nil, fmt.Errorf("failed to parse the new private key: %s", err.Error())
 	}
 
 	return privateKeyPemRaw, privateKey, nil
@@ -127,7 +114,14 @@ func (r *urlBasedX509CertificateRetriever) renewPrivateKey(url, passphrase strin
 func (r *urlBasedX509CertificateRetriever) CertificatePemRaw() []byte {
 	r.mux.Lock()
 	defer r.mux.Unlock()
-	return copyOfBytes(r.certificatePemRaw)
+
+	if r.certificatePemRaw == nil {
+		return nil
+	}
+
+	c := make([]byte, len(r.certificatePemRaw))
+	copy(c, r.certificatePemRaw)
+	return c
 }
 
 func (r *urlBasedX509CertificateRetriever) Certificate() *x509.Certificate {
@@ -145,7 +139,14 @@ func (r *urlBasedX509CertificateRetriever) Certificate() *x509.Certificate {
 func (r *urlBasedX509CertificateRetriever) PrivateKeyPemRaw() []byte {
 	r.mux.Lock()
 	defer r.mux.Unlock()
-	return copyOfBytes(r.privateKeyPemRaw)
+
+	if r.privateKeyPemRaw == nil {
+		return nil
+	}
+
+	c := make([]byte, len(r.privateKeyPemRaw))
+	copy(c, r.privateKeyPemRaw)
+	return c
 }
 
 func (r *urlBasedX509CertificateRetriever) PrivateKey() *rsa.PrivateKey {
@@ -159,15 +160,6 @@ func (r *urlBasedX509CertificateRetriever) PrivateKey() *rsa.PrivateKey {
 
 	c := *r.privateKey
 	return &c
-}
-
-// newStaticX509CertificateRetriever creates a static memory based retriever.
-func newStaticX509CertificateRetriever(certificatePemRaw, privateKeyPemRaw []byte, passphrase []byte) x509CertificateRetriever {
-	return &staticCertificateRetriever{
-		CertificatePem: certificatePemRaw,
-		PrivateKeyPem:  privateKeyPemRaw,
-		Passphrase:     passphrase,
-	}
 }
 
 // staticCertificateRetriever serves certificates from static data
@@ -219,13 +211,27 @@ func (r *staticCertificateRetriever) PrivateKey() *rsa.PrivateKey {
 func (r *staticCertificateRetriever) CertificatePemRaw() []byte {
 	r.mux.Lock()
 	defer r.mux.Unlock()
-	return copyOfBytes(r.CertificatePem)
+
+	if r.CertificatePem == nil {
+		return nil
+	}
+
+	c := make([]byte, len(r.CertificatePem))
+	copy(c, r.CertificatePem)
+	return c
 }
 
 func (r *staticCertificateRetriever) PrivateKeyPemRaw() []byte {
 	r.mux.Lock()
 	defer r.mux.Unlock()
-	return copyOfBytes(r.PrivateKeyPem)
+
+	if r.PrivateKeyPem == nil {
+		return nil
+	}
+
+	c := make([]byte, len(r.PrivateKeyPem))
+	copy(c, r.PrivateKeyPem)
+	return c
 }
 
 func (r *staticCertificateRetriever) readCertificate() (certificate *x509.Certificate, err error) {
@@ -235,7 +241,7 @@ func (r *staticCertificateRetriever) readCertificate() (certificate *x509.Certif
 	}
 
 	if certificate, err = x509.ParseCertificate(block.Bytes); err != nil {
-		return nil, fmt.Errorf("failed to parse the new certificate: %w", err)
+		return nil, fmt.Errorf("failed to parse the new certificate: %s", err.Error())
 	}
 	return certificate, nil
 }
@@ -253,183 +259,4 @@ func (r *staticCertificateRetriever) readPrivateKey() (*rsa.PrivateKey, error) {
 		pass = &ss
 	}
 	return common.PrivateKeyFromBytes(r.PrivateKeyPem, pass)
-}
-
-type fileBasedCertificateRetriever struct {
-	Passphrase         []byte
-	CertificatePemPath string
-	PrivateKeyPemPath  string
-	RefreshRate        time.Duration
-
-	mux                 sync.Mutex
-	certificatePem      []byte
-	privateKeyPem       []byte
-	certificate         *x509.Certificate
-	privateKey          *rsa.PrivateKey
-	lastRefreshedAt     time.Time
-	certificateFileStat os.FileInfo
-	privateKeyFileStat  os.FileInfo
-}
-
-// Check if refresh is needed
-func (r *fileBasedCertificateRetriever) refreshIfNeeded() {
-	if r.shouldRefresh() {
-		if r.certFileChanged() || r.privateKeyFileChanged() {
-			// Refresh only if files changed
-			r.Refresh()
-		} else {
-			// Update the last refresh time interval to skip this refresh till next interval
-			r.mux.Lock()
-			defer r.mux.Unlock()
-			r.lastRefreshedAt = time.Now()
-		}
-	}
-}
-
-// Check if the time since the last refresh was greater than the refresh rate
-func (r *fileBasedCertificateRetriever) shouldRefresh() bool {
-	return r.RefreshRate > 0 && time.Since(r.lastRefreshedAt) > r.RefreshRate
-}
-
-// Checks if the cert file has changed
-func (r *fileBasedCertificateRetriever) certFileChanged() bool {
-	currentCertificateStat, err := os.Stat(r.CertificatePemPath)
-	if err != nil {
-		return false
-	}
-	if r.certificateFileStat == nil {
-		return false
-	}
-	if r.certificateFileStat.Size() != currentCertificateStat.Size() {
-		return true
-	}
-	if r.certificateFileStat.ModTime() != currentCertificateStat.ModTime() {
-		return true
-	}
-	return false
-}
-
-// Checks if the private key file has changed
-func (r *fileBasedCertificateRetriever) privateKeyFileChanged() bool {
-	if r.PrivateKeyPemPath == "" {
-		return false
-	}
-	currentPrivateKeyStat, err := os.Stat(r.PrivateKeyPemPath)
-	if err != nil {
-		return false
-	}
-	if r.privateKeyFileStat == nil {
-		return false
-	}
-	if r.privateKeyFileStat.Size() != currentPrivateKeyStat.Size() {
-		return true
-	}
-	if r.privateKeyFileStat.ModTime() != currentPrivateKeyStat.ModTime() {
-		return true
-	}
-	return false
-}
-
-// Refresh process the inputs into appropriate keys and certificates
-func (r *fileBasedCertificateRetriever) Refresh() error {
-	certificate, certPem, certStat, certificateError := r.readCertificate()
-	if certificateError != nil {
-		return certificateError
-	}
-	key, keyPem, keyStat, keyError := r.readPrivateKey()
-	if keyError != nil {
-		return keyError
-	}
-	r.mux.Lock()
-	defer r.mux.Unlock()
-	r.certificate = certificate
-	r.certificatePem = certPem
-	r.certificateFileStat = certStat
-	r.privateKey = key
-	r.privateKeyPem = keyPem
-	r.privateKeyFileStat = keyStat
-	r.lastRefreshedAt = time.Now()
-	return nil
-}
-
-func (r *fileBasedCertificateRetriever) readCertificate() (*x509.Certificate, []byte, fs.FileInfo, error) {
-	leafCert, err := os.ReadFile(r.CertificatePemPath)
-	if err != nil {
-		return nil, nil, nil, fmt.Errorf("error reading leafCertificate at path:%s due to error:%w", r.CertificatePemPath, err)
-	}
-	block, _ := pem.Decode(leafCert)
-	if block == nil {
-		return nil, nil, nil, fmt.Errorf("failed to parse the new certificate, not valid pem data")
-	}
-	certificate, err := x509.ParseCertificate(block.Bytes)
-	if err != nil {
-		return nil, nil, nil, fmt.Errorf("failed to parse the new certificate: %w", err)
-	}
-	certificateStat, err := os.Stat(r.CertificatePemPath)
-	if err != nil {
-		return nil, nil, nil, fmt.Errorf("failed to stat certificate file at path:%s due to:%w", r.CertificatePemPath, err)
-	}
-	return certificate, leafCert, certificateStat, nil
-}
-
-func (r *fileBasedCertificateRetriever) readPrivateKey() (*rsa.PrivateKey, []byte, fs.FileInfo, error) {
-	if r.PrivateKeyPemPath == "" {
-		return nil, nil, nil, nil
-	}
-	var pass *string
-	if r.Passphrase == nil {
-		pass = nil
-	} else {
-		ss := string(r.Passphrase)
-		pass = &ss
-	}
-	leafKey, err := os.ReadFile(r.PrivateKeyPemPath)
-	if err != nil {
-		return nil, nil, nil, fmt.Errorf("reading leafPrivateKey at path: %s due to: %w", r.PrivateKeyPemPath, err)
-	}
-	privateKey, err := common.PrivateKeyFromBytes(leafKey, pass)
-	if err != nil {
-		return nil, nil, nil, fmt.Errorf("getting private key due to :%w", err)
-	}
-	privateKeyFileStat, err := os.Stat(r.PrivateKeyPemPath)
-	if err != nil {
-		return nil, nil, nil, fmt.Errorf("failed to stat PrivateKey file at path:%s due to :%w", r.PrivateKeyPemPath, err)
-	}
-	return privateKey, leafKey, privateKeyFileStat, nil
-}
-
-func (r *fileBasedCertificateRetriever) Certificate() *x509.Certificate {
-	// Check for refresh
-	r.refreshIfNeeded()
-
-	r.mux.Lock()
-	defer r.mux.Unlock()
-	return r.certificate
-}
-
-func (r *fileBasedCertificateRetriever) PrivateKey() *rsa.PrivateKey {
-	// Check for refresh
-	r.refreshIfNeeded()
-
-	r.mux.Lock()
-	defer r.mux.Unlock()
-	return r.privateKey
-}
-
-func (r *fileBasedCertificateRetriever) CertificatePemRaw() []byte {
-	// Check for refresh
-	r.refreshIfNeeded()
-
-	r.mux.Lock()
-	defer r.mux.Unlock()
-	return copyOfBytes(r.certificatePem)
-}
-
-func (r *fileBasedCertificateRetriever) PrivateKeyPemRaw() []byte {
-	// Check for refresh
-	r.refreshIfNeeded()
-
-	r.mux.Lock()
-	defer r.mux.Unlock()
-	return copyOfBytes(r.privateKeyPem)
 }

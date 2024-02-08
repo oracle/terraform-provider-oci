@@ -12,6 +12,10 @@ import (
 )
 
 // SearchAssociatedResourcesRequest wrapper for the SearchAssociatedResources operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchAssociatedResources.go.html to see an example of how to use SearchAssociatedResourcesRequest.
 type SearchAssociatedResourcesRequest struct {
 
 	// Search Criteria for the listing the monitored resources for given type and compartmentId.

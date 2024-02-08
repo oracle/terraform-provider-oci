@@ -12,6 +12,10 @@ import (
 )
 
 // ListMaskedColumnsRequest wrapper for the ListMaskedColumns operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskedColumns.go.html to see an example of how to use ListMaskedColumnsRequest.
 type ListMaskedColumnsRequest struct {
 
 	// The OCID of the masking report.

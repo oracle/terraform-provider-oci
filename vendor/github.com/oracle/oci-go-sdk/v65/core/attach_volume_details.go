@@ -25,16 +25,18 @@ import (
 // AttachVolumeDetails The representation of AttachVolumeDetails
 type AttachVolumeDetails interface {
 
+	// The OCID of the instance.
+	GetInstanceId() *string
+
+	// The OCID of the volume.
+	GetVolumeId() *string
+
 	// The device name. To retrieve a list of devices for a given instance, see ListInstanceDevices.
 	GetDevice() *string
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	GetDisplayName() *string
-
-	// The OCID of the instance. For AttachVolume operation, this is a required field for the request,
-	// see AttachVolume.
-	GetInstanceId() *string
 
 	// Whether the attachment was created in read-only mode.
 	GetIsReadOnly() *bool
@@ -44,31 +46,17 @@ type AttachVolumeDetails interface {
 	// that they also create their attachments in shareable mode. Only certain volume types can
 	// be attached in shareable mode. Defaults to false if not specified.
 	GetIsShareable() *bool
-
-	// When launching from a Compute Image, it is possible for more than one volume to be defined in the Image definition.
-	// If the relative index of one of these volumes is provided in this field, then the provided createVolumeDetails
-	// descriptor will be utilized to modify the default creation/attachment parameters for this volume rather than the
-	// defaults.
-	// If this field is provided, then CreateVolumeDetails must be specified.
-	GetImageVolumeIndex() *int
-
-	// The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request.
-	GetVolumeId() *string
-
-	GetCreateVolumeDetails() *CreateVolumeDetails
 }
 
 type attachvolumedetails struct {
-	JsonData            []byte
-	Device              *string              `mandatory:"false" json:"device"`
-	DisplayName         *string              `mandatory:"false" json:"displayName"`
-	InstanceId          *string              `mandatory:"false" json:"instanceId"`
-	IsReadOnly          *bool                `mandatory:"false" json:"isReadOnly"`
-	IsShareable         *bool                `mandatory:"false" json:"isShareable"`
-	ImageVolumeIndex    *int                 `mandatory:"false" json:"imageVolumeIndex"`
-	VolumeId            *string              `mandatory:"false" json:"volumeId"`
-	CreateVolumeDetails *CreateVolumeDetails `mandatory:"false" json:"createVolumeDetails"`
-	Type                string               `json:"type"`
+	JsonData    []byte
+	Device      *string `mandatory:"false" json:"device"`
+	DisplayName *string `mandatory:"false" json:"displayName"`
+	IsReadOnly  *bool   `mandatory:"false" json:"isReadOnly"`
+	IsShareable *bool   `mandatory:"false" json:"isShareable"`
+	InstanceId  *string `mandatory:"true" json:"instanceId"`
+	VolumeId    *string `mandatory:"true" json:"volumeId"`
+	Type        string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -82,14 +70,12 @@ func (m *attachvolumedetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.InstanceId = s.Model.InstanceId
+	m.VolumeId = s.Model.VolumeId
 	m.Device = s.Model.Device
 	m.DisplayName = s.Model.DisplayName
-	m.InstanceId = s.Model.InstanceId
 	m.IsReadOnly = s.Model.IsReadOnly
 	m.IsShareable = s.Model.IsShareable
-	m.ImageVolumeIndex = s.Model.ImageVolumeIndex
-	m.VolumeId = s.Model.VolumeId
-	m.CreateVolumeDetails = s.Model.CreateVolumeDetails
 	m.Type = s.Model.Type
 
 	return err
@@ -136,11 +122,6 @@ func (m attachvolumedetails) GetDisplayName() *string {
 	return m.DisplayName
 }
 
-// GetInstanceId returns InstanceId
-func (m attachvolumedetails) GetInstanceId() *string {
-	return m.InstanceId
-}
-
 // GetIsReadOnly returns IsReadOnly
 func (m attachvolumedetails) GetIsReadOnly() *bool {
 	return m.IsReadOnly
@@ -151,19 +132,14 @@ func (m attachvolumedetails) GetIsShareable() *bool {
 	return m.IsShareable
 }
 
-// GetImageVolumeIndex returns ImageVolumeIndex
-func (m attachvolumedetails) GetImageVolumeIndex() *int {
-	return m.ImageVolumeIndex
+// GetInstanceId returns InstanceId
+func (m attachvolumedetails) GetInstanceId() *string {
+	return m.InstanceId
 }
 
 // GetVolumeId returns VolumeId
 func (m attachvolumedetails) GetVolumeId() *string {
 	return m.VolumeId
-}
-
-// GetCreateVolumeDetails returns CreateVolumeDetails
-func (m attachvolumedetails) GetCreateVolumeDetails() *CreateVolumeDetails {
-	return m.CreateVolumeDetails
 }
 
 func (m attachvolumedetails) String() string {

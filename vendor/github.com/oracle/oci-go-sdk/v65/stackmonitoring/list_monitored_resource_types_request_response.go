@@ -12,6 +12,10 @@ import (
 )
 
 // ListMonitoredResourceTypesRequest wrapper for the ListMonitoredResourceTypes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResourceTypes.go.html to see an example of how to use ListMonitoredResourceTypesRequest.
 type ListMonitoredResourceTypesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenancy for which

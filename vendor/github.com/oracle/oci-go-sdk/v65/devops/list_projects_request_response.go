@@ -12,6 +12,10 @@ import (
 )
 
 // ListProjectsRequest wrapper for the ListProjects operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListProjects.go.html to see an example of how to use ListProjectsRequest.
 type ListProjectsRequest struct {
 
 	// The OCID of the compartment in which to list resources.

@@ -53,9 +53,6 @@ type CreateStackDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m CreateStackDetails) String() string {
@@ -84,7 +81,6 @@ func (m *CreateStackDetails) UnmarshalJSON(data []byte) (e error) {
 		TerraformVersion        *string                           `json:"terraformVersion"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
 		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		Locks                   []ResourceLock                    `json:"locks"`
 		CompartmentId           *string                           `json:"compartmentId"`
 		ConfigSource            createconfigsourcedetails         `json:"configSource"`
 	}{}
@@ -108,8 +104,6 @@ func (m *CreateStackDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
-	m.Locks = make([]ResourceLock, len(model.Locks))
-	copy(m.Locks, model.Locks)
 	m.CompartmentId = model.CompartmentId
 
 	nn, e = model.ConfigSource.UnmarshalPolymorphicJSON(model.ConfigSource.JsonData)

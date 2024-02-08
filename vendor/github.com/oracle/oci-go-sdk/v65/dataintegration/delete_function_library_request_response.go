@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteFunctionLibraryRequest wrapper for the DeleteFunctionLibrary operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeleteFunctionLibrary.go.html to see an example of how to use DeleteFunctionLibraryRequest.
 type DeleteFunctionLibraryRequest struct {
 
 	// The workspace ID.

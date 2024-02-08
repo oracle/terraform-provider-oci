@@ -12,6 +12,10 @@ import (
 )
 
 // ImportDataAssetRequest wrapper for the ImportDataAsset operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ImportDataAsset.go.html to see an example of how to use ImportDataAssetRequest.
 type ImportDataAssetRequest struct {
 
 	// Unique catalog identifier.

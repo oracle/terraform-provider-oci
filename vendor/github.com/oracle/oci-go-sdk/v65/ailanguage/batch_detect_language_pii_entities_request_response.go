@@ -12,6 +12,10 @@ import (
 )
 
 // BatchDetectLanguagePiiEntitiesRequest wrapper for the BatchDetectLanguagePiiEntities operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguagePiiEntities.go.html to see an example of how to use BatchDetectLanguagePiiEntitiesRequest.
 type BatchDetectLanguagePiiEntitiesRequest struct {
 
 	// The details to make a PII entity detect call.

@@ -512,21 +512,18 @@ type SaveSqlTuningSetAsDetailsUpdateConditionEnum string
 
 // Set of constants representing the allowable values for SaveSqlTuningSetAsDetailsUpdateConditionEnum
 const (
-	SaveSqlTuningSetAsDetailsUpdateConditionOld  SaveSqlTuningSetAsDetailsUpdateConditionEnum = "OLD"
-	SaveSqlTuningSetAsDetailsUpdateConditionNew  SaveSqlTuningSetAsDetailsUpdateConditionEnum = "NEW"
-	SaveSqlTuningSetAsDetailsUpdateConditionNull SaveSqlTuningSetAsDetailsUpdateConditionEnum = "NULL"
+	SaveSqlTuningSetAsDetailsUpdateConditionOld SaveSqlTuningSetAsDetailsUpdateConditionEnum = "OLD"
+	SaveSqlTuningSetAsDetailsUpdateConditionNew SaveSqlTuningSetAsDetailsUpdateConditionEnum = "NEW"
 )
 
 var mappingSaveSqlTuningSetAsDetailsUpdateConditionEnum = map[string]SaveSqlTuningSetAsDetailsUpdateConditionEnum{
-	"OLD":  SaveSqlTuningSetAsDetailsUpdateConditionOld,
-	"NEW":  SaveSqlTuningSetAsDetailsUpdateConditionNew,
-	"NULL": SaveSqlTuningSetAsDetailsUpdateConditionNull,
+	"OLD": SaveSqlTuningSetAsDetailsUpdateConditionOld,
+	"NEW": SaveSqlTuningSetAsDetailsUpdateConditionNew,
 }
 
 var mappingSaveSqlTuningSetAsDetailsUpdateConditionEnumLowerCase = map[string]SaveSqlTuningSetAsDetailsUpdateConditionEnum{
-	"old":  SaveSqlTuningSetAsDetailsUpdateConditionOld,
-	"new":  SaveSqlTuningSetAsDetailsUpdateConditionNew,
-	"null": SaveSqlTuningSetAsDetailsUpdateConditionNull,
+	"old": SaveSqlTuningSetAsDetailsUpdateConditionOld,
+	"new": SaveSqlTuningSetAsDetailsUpdateConditionNew,
 }
 
 // GetSaveSqlTuningSetAsDetailsUpdateConditionEnumValues Enumerates the set of values for SaveSqlTuningSetAsDetailsUpdateConditionEnum
@@ -543,7 +540,6 @@ func GetSaveSqlTuningSetAsDetailsUpdateConditionEnumStringValues() []string {
 	return []string{
 		"OLD",
 		"NEW",
-		"NULL",
 	}
 }
 

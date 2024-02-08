@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateContainerInstanceRequest wrapper for the UpdateContainerInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/UpdateContainerInstance.go.html to see an example of how to use UpdateContainerInstanceRequest.
 type UpdateContainerInstanceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.

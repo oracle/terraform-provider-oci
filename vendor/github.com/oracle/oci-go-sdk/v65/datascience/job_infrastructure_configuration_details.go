@@ -50,20 +50,8 @@ func (m *jobinfrastructureconfigurationdetails) UnmarshalPolymorphicJSON(data []
 
 	var err error
 	switch m.JobInfrastructureType {
-	case "MULTI_NODE":
-		mm := MultiNodeJobInfrastructureConfigurationDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "EMPTY":
-		mm := EmptyJobInfrastructureConfigurationDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "ME_STANDALONE":
 		mm := ManagedEgressStandaloneJobInfrastructureConfigurationDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "OKE":
-		mm := OkeJobInfrastructureConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "STANDALONE":
@@ -99,25 +87,16 @@ type JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum string
 const (
 	JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone   JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "STANDALONE"
 	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "ME_STANDALONE"
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode    JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "MULTI_NODE"
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty        JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "EMPTY"
-	JobInfrastructureConfigurationDetailsJobInfrastructureTypeOke          JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = "OKE"
 )
 
 var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
 	"STANDALONE":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
 	"ME_STANDALONE": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
-	"MULTI_NODE":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode,
-	"EMPTY":         JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty,
-	"OKE":           JobInfrastructureConfigurationDetailsJobInfrastructureTypeOke,
 }
 
 var mappingJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumLowerCase = map[string]JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum{
 	"standalone":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeStandalone,
 	"me_standalone": JobInfrastructureConfigurationDetailsJobInfrastructureTypeMeStandalone,
-	"multi_node":    JobInfrastructureConfigurationDetailsJobInfrastructureTypeMultiNode,
-	"empty":         JobInfrastructureConfigurationDetailsJobInfrastructureTypeEmpty,
-	"oke":           JobInfrastructureConfigurationDetailsJobInfrastructureTypeOke,
 }
 
 // GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumValues Enumerates the set of values for JobInfrastructureConfigurationDetailsJobInfrastructureTypeEnum
@@ -134,9 +113,6 @@ func GetJobInfrastructureConfigurationDetailsJobInfrastructureTypeEnumStringValu
 	return []string{
 		"STANDALONE",
 		"ME_STANDALONE",
-		"MULTI_NODE",
-		"EMPTY",
-		"OKE",
 	}
 }
 

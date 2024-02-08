@@ -12,6 +12,10 @@ import (
 )
 
 // MirrorRepositoryRequest wrapper for the MirrorRepository operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/MirrorRepository.go.html to see an example of how to use MirrorRepositoryRequest.
 type MirrorRepositoryRequest struct {
 
 	// Unique repository identifier.

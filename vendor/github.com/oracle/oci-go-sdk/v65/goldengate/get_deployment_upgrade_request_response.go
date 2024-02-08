@@ -12,6 +12,10 @@ import (
 )
 
 // GetDeploymentUpgradeRequest wrapper for the GetDeploymentUpgrade operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetDeploymentUpgrade.go.html to see an example of how to use GetDeploymentUpgradeRequest.
 type GetDeploymentUpgradeRequest struct {
 
 	// A unique Deployment Upgrade identifier.

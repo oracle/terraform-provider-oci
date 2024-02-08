@@ -93,6 +93,10 @@ func (client *AnalyticsClient) ConfigurationProvider() *common.ConfigurationProv
 
 // ChangeAnalyticsInstanceCompartment Change the compartment of an Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ChangeAnalyticsInstanceCompartment.go.html to see an example of how to use ChangeAnalyticsInstanceCompartment API.
 // A default retry strategy applies to this operation ChangeAnalyticsInstanceCompartment()
 func (client AnalyticsClient) ChangeAnalyticsInstanceCompartment(ctx context.Context, request ChangeAnalyticsInstanceCompartmentRequest) (response ChangeAnalyticsInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,6 +157,10 @@ func (client AnalyticsClient) changeAnalyticsInstanceCompartment(ctx context.Con
 
 // ChangeAnalyticsInstanceNetworkEndpoint Change an Analytics instance network endpoint. The operation is long-running
 // and creates a new WorkRequest.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ChangeAnalyticsInstanceNetworkEndpoint.go.html to see an example of how to use ChangeAnalyticsInstanceNetworkEndpoint API.
 // A default retry strategy applies to this operation ChangeAnalyticsInstanceNetworkEndpoint()
 func (client AnalyticsClient) ChangeAnalyticsInstanceNetworkEndpoint(ctx context.Context, request ChangeAnalyticsInstanceNetworkEndpointRequest) (response ChangeAnalyticsInstanceNetworkEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,6 +221,10 @@ func (client AnalyticsClient) changeAnalyticsInstanceNetworkEndpoint(ctx context
 
 // CreateAnalyticsInstance Create a new AnalyticsInstance in the specified compartment. The operation is long-running
 // and creates a new WorkRequest.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreateAnalyticsInstance.go.html to see an example of how to use CreateAnalyticsInstance API.
 // A default retry strategy applies to this operation CreateAnalyticsInstance()
 func (client AnalyticsClient) CreateAnalyticsInstance(ctx context.Context, request CreateAnalyticsInstanceRequest) (response CreateAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -273,6 +285,10 @@ func (client AnalyticsClient) createAnalyticsInstance(ctx context.Context, reque
 
 // CreatePrivateAccessChannel Create an Private access Channel for the Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreatePrivateAccessChannel.go.html to see an example of how to use CreatePrivateAccessChannel API.
 // A default retry strategy applies to this operation CreatePrivateAccessChannel()
 func (client AnalyticsClient) CreatePrivateAccessChannel(ctx context.Context, request CreatePrivateAccessChannelRequest) (response CreatePrivateAccessChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -333,6 +349,10 @@ func (client AnalyticsClient) createPrivateAccessChannel(ctx context.Context, re
 
 // CreateVanityUrl Allows specifying a custom host name to be used to access the analytics instance.  This requires prior setup of DNS entry and certificate
 // for this host.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/CreateVanityUrl.go.html to see an example of how to use CreateVanityUrl API.
 // A default retry strategy applies to this operation CreateVanityUrl()
 func (client AnalyticsClient) CreateVanityUrl(ctx context.Context, request CreateVanityUrlRequest) (response CreateVanityUrlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -393,6 +413,10 @@ func (client AnalyticsClient) createVanityUrl(ctx context.Context, request commo
 
 // DeleteAnalyticsInstance Terminates the specified Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeleteAnalyticsInstance.go.html to see an example of how to use DeleteAnalyticsInstance API.
 // A default retry strategy applies to this operation DeleteAnalyticsInstance()
 func (client AnalyticsClient) DeleteAnalyticsInstance(ctx context.Context, request DeleteAnalyticsInstanceRequest) (response DeleteAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -452,6 +476,10 @@ func (client AnalyticsClient) deleteAnalyticsInstance(ctx context.Context, reque
 }
 
 // DeletePrivateAccessChannel Delete an Analytics instance's Private access channel with the given unique identifier key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeletePrivateAccessChannel.go.html to see an example of how to use DeletePrivateAccessChannel API.
 // A default retry strategy applies to this operation DeletePrivateAccessChannel()
 func (client AnalyticsClient) DeletePrivateAccessChannel(ctx context.Context, request DeletePrivateAccessChannelRequest) (response DeletePrivateAccessChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -511,6 +539,10 @@ func (client AnalyticsClient) deletePrivateAccessChannel(ctx context.Context, re
 }
 
 // DeleteVanityUrl Allows deleting a previously created vanity url.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeleteVanityUrl.go.html to see an example of how to use DeleteVanityUrl API.
 // A default retry strategy applies to this operation DeleteVanityUrl()
 func (client AnalyticsClient) DeleteVanityUrl(ctx context.Context, request DeleteVanityUrlRequest) (response DeleteVanityUrlResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -570,6 +602,10 @@ func (client AnalyticsClient) deleteVanityUrl(ctx context.Context, request commo
 }
 
 // DeleteWorkRequest Cancel a work request that has not started yet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/DeleteWorkRequest.go.html to see an example of how to use DeleteWorkRequest API.
 func (client AnalyticsClient) DeleteWorkRequest(ctx context.Context, request DeleteWorkRequestRequest) (response DeleteWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -623,6 +659,10 @@ func (client AnalyticsClient) deleteWorkRequest(ctx context.Context, request com
 }
 
 // GetAnalyticsInstance Info for a specific Analytics instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetAnalyticsInstance.go.html to see an example of how to use GetAnalyticsInstance API.
 // A default retry strategy applies to this operation GetAnalyticsInstance()
 func (client AnalyticsClient) GetAnalyticsInstance(ctx context.Context, request GetAnalyticsInstanceRequest) (response GetAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -677,6 +717,10 @@ func (client AnalyticsClient) getAnalyticsInstance(ctx context.Context, request 
 }
 
 // GetPrivateAccessChannel Retrieve private access channel in the specified Analytics Instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetPrivateAccessChannel.go.html to see an example of how to use GetPrivateAccessChannel API.
 // A default retry strategy applies to this operation GetPrivateAccessChannel()
 func (client AnalyticsClient) GetPrivateAccessChannel(ctx context.Context, request GetPrivateAccessChannelRequest) (response GetPrivateAccessChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -731,6 +775,10 @@ func (client AnalyticsClient) getPrivateAccessChannel(ctx context.Context, reque
 }
 
 // GetWorkRequest Get the details of a work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client AnalyticsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -785,6 +833,10 @@ func (client AnalyticsClient) getWorkRequest(ctx context.Context, request common
 }
 
 // ListAnalyticsInstances List Analytics instances.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListAnalyticsInstances.go.html to see an example of how to use ListAnalyticsInstances API.
 // A default retry strategy applies to this operation ListAnalyticsInstances()
 func (client AnalyticsClient) ListAnalyticsInstances(ctx context.Context, request ListAnalyticsInstancesRequest) (response ListAnalyticsInstancesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -839,6 +891,10 @@ func (client AnalyticsClient) listAnalyticsInstances(ctx context.Context, reques
 }
 
 // ListWorkRequestErrors Get the errors of a work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client AnalyticsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -893,6 +949,10 @@ func (client AnalyticsClient) listWorkRequestErrors(ctx context.Context, request
 }
 
 // ListWorkRequestLogs Get the logs of a work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client AnalyticsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -947,6 +1007,10 @@ func (client AnalyticsClient) listWorkRequestLogs(ctx context.Context, request c
 }
 
 // ListWorkRequests List all work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client AnalyticsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1002,6 +1066,10 @@ func (client AnalyticsClient) listWorkRequests(ctx context.Context, request comm
 
 // ScaleAnalyticsInstance Scale an Analytics instance up or down. The operation is long-running
 // and creates a new WorkRequest.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ScaleAnalyticsInstance.go.html to see an example of how to use ScaleAnalyticsInstance API.
 // A default retry strategy applies to this operation ScaleAnalyticsInstance()
 func (client AnalyticsClient) ScaleAnalyticsInstance(ctx context.Context, request ScaleAnalyticsInstanceRequest) (response ScaleAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1061,6 +1129,10 @@ func (client AnalyticsClient) scaleAnalyticsInstance(ctx context.Context, reques
 }
 
 // SetKmsKey Encrypts the customer data of this Analytics instance using either a customer OCI Vault Key or Oracle managed default key.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/SetKmsKey.go.html to see an example of how to use SetKmsKey API.
 // A default retry strategy applies to this operation SetKmsKey()
 func (client AnalyticsClient) SetKmsKey(ctx context.Context, request SetKmsKeyRequest) (response SetKmsKeyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1121,6 +1193,10 @@ func (client AnalyticsClient) setKmsKey(ctx context.Context, request common.OCIR
 
 // StartAnalyticsInstance Starts the specified Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/StartAnalyticsInstance.go.html to see an example of how to use StartAnalyticsInstance API.
 // A default retry strategy applies to this operation StartAnalyticsInstance()
 func (client AnalyticsClient) StartAnalyticsInstance(ctx context.Context, request StartAnalyticsInstanceRequest) (response StartAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1181,6 +1257,10 @@ func (client AnalyticsClient) startAnalyticsInstance(ctx context.Context, reques
 
 // StopAnalyticsInstance Stop the specified Analytics instance. The operation is long-running
 // and creates a new WorkRequest.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/StopAnalyticsInstance.go.html to see an example of how to use StopAnalyticsInstance API.
 // A default retry strategy applies to this operation StopAnalyticsInstance()
 func (client AnalyticsClient) StopAnalyticsInstance(ctx context.Context, request StopAnalyticsInstanceRequest) (response StopAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1241,6 +1321,10 @@ func (client AnalyticsClient) stopAnalyticsInstance(ctx context.Context, request
 
 // UpdateAnalyticsInstance Updates certain fields of an Analytics instance. Fields that are not provided in the
 // request will not be updated.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdateAnalyticsInstance.go.html to see an example of how to use UpdateAnalyticsInstance API.
 func (client AnalyticsClient) UpdateAnalyticsInstance(ctx context.Context, request UpdateAnalyticsInstanceRequest) (response UpdateAnalyticsInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1294,6 +1378,10 @@ func (client AnalyticsClient) updateAnalyticsInstance(ctx context.Context, reque
 }
 
 // UpdatePrivateAccessChannel Update the Private Access Channel with the given unique identifier key in the specified Analytics Instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdatePrivateAccessChannel.go.html to see an example of how to use UpdatePrivateAccessChannel API.
 // A default retry strategy applies to this operation UpdatePrivateAccessChannel()
 func (client AnalyticsClient) UpdatePrivateAccessChannel(ctx context.Context, request UpdatePrivateAccessChannelRequest) (response UpdatePrivateAccessChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1353,6 +1441,10 @@ func (client AnalyticsClient) updatePrivateAccessChannel(ctx context.Context, re
 }
 
 // UpdateVanityUrl Allows uploading a new certificate for a vanity url, which will have to be done when the current certificate is expiring.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdateVanityUrl.go.html to see an example of how to use UpdateVanityUrl API.
 // A default retry strategy applies to this operation UpdateVanityUrl()
 func (client AnalyticsClient) UpdateVanityUrl(ctx context.Context, request UpdateVanityUrlRequest) (response UpdateVanityUrlResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -12,6 +12,10 @@ import (
 )
 
 // ListPathsRequest wrapper for the ListPaths operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListPaths.go.html to see an example of how to use ListPathsRequest.
 type ListPathsRequest struct {
 
 	// Unique repository identifier.

@@ -22,7 +22,6 @@ const (
 	CreationSourceTypeBulkDiscovery       CreationSourceTypeEnum = "BULK_DISCOVERY"
 	CreationSourceTypeServiceConnectorHub CreationSourceTypeEnum = "SERVICE_CONNECTOR_HUB"
 	CreationSourceTypeDiscovery           CreationSourceTypeEnum = "DISCOVERY"
-	CreationSourceTypeLoggingAnalytics    CreationSourceTypeEnum = "LOGGING_ANALYTICS"
 	CreationSourceTypeNone                CreationSourceTypeEnum = "NONE"
 )
 
@@ -31,7 +30,6 @@ var mappingCreationSourceTypeEnum = map[string]CreationSourceTypeEnum{
 	"BULK_DISCOVERY":        CreationSourceTypeBulkDiscovery,
 	"SERVICE_CONNECTOR_HUB": CreationSourceTypeServiceConnectorHub,
 	"DISCOVERY":             CreationSourceTypeDiscovery,
-	"LOGGING_ANALYTICS":     CreationSourceTypeLoggingAnalytics,
 	"NONE":                  CreationSourceTypeNone,
 }
 
@@ -40,7 +38,6 @@ var mappingCreationSourceTypeEnumLowerCase = map[string]CreationSourceTypeEnum{
 	"bulk_discovery":        CreationSourceTypeBulkDiscovery,
 	"service_connector_hub": CreationSourceTypeServiceConnectorHub,
 	"discovery":             CreationSourceTypeDiscovery,
-	"logging_analytics":     CreationSourceTypeLoggingAnalytics,
 	"none":                  CreationSourceTypeNone,
 }
 
@@ -60,7 +57,6 @@ func GetCreationSourceTypeEnumStringValues() []string {
 		"BULK_DISCOVERY",
 		"SERVICE_CONNECTOR_HUB",
 		"DISCOVERY",
-		"LOGGING_ANALYTICS",
 		"NONE",
 	}
 }

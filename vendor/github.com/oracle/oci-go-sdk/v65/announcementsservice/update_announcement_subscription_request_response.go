@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateAnnouncementSubscriptionRequest wrapper for the UpdateAnnouncementSubscription operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementSubscription.go.html to see an example of how to use UpdateAnnouncementSubscriptionRequest.
 type UpdateAnnouncementSubscriptionRequest struct {
 
 	// The OCID of the announcement subscription.

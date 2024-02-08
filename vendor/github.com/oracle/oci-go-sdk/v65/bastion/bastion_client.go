@@ -92,6 +92,10 @@ func (client *BastionClient) ConfigurationProvider() *common.ConfigurationProvid
 }
 
 // ChangeBastionCompartment Moves a bastion into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ChangeBastionCompartment.go.html to see an example of how to use ChangeBastionCompartment API.
 func (client BastionClient) ChangeBastionCompartment(ctx context.Context, request ChangeBastionCompartmentRequest) (response ChangeBastionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -144,66 +148,11 @@ func (client BastionClient) changeBastionCompartment(ctx context.Context, reques
 	return response, err
 }
 
-// ChangeBastionRestrictionCompartment Moves a bastionRestriction resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-// A default retry strategy applies to this operation ChangeBastionRestrictionCompartment()
-func (client BastionClient) ChangeBastionRestrictionCompartment(ctx context.Context, request ChangeBastionRestrictionCompartmentRequest) (response ChangeBastionRestrictionCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeBastionRestrictionCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeBastionRestrictionCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeBastionRestrictionCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeBastionRestrictionCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeBastionRestrictionCompartmentResponse")
-	}
-	return
-}
-
-// changeBastionRestrictionCompartment implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) changeBastionRestrictionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bastionRestrictions/{bastionRestrictionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeBastionRestrictionCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/BastionRestriction/ChangeBastionRestrictionCompartment"
-		err = common.PostProcessServiceError(err, "Bastion", "ChangeBastionRestrictionCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateBastion Creates a new bastion. A bastion provides secured, public access to target resources in the cloud that you cannot otherwise reach from the internet. A bastion resides in a public subnet and establishes the network infrastructure needed to connect a user to a target resource in a private subnet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateBastion.go.html to see an example of how to use CreateBastion API.
 func (client BastionClient) CreateBastion(ctx context.Context, request CreateBastionRequest) (response CreateBastionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -261,66 +210,11 @@ func (client BastionClient) createBastion(ctx context.Context, request common.OC
 	return response, err
 }
 
-// CreateBastionRestriction Creates a new bastion restriction.
-// A default retry strategy applies to this operation CreateBastionRestriction()
-func (client BastionClient) CreateBastionRestriction(ctx context.Context, request CreateBastionRestrictionRequest) (response CreateBastionRestrictionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createBastionRestriction, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateBastionRestrictionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateBastionRestrictionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateBastionRestrictionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateBastionRestrictionResponse")
-	}
-	return
-}
-
-// createBastionRestriction implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) createBastionRestriction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bastionRestrictions", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateBastionRestrictionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/BastionRestriction/CreateBastionRestriction"
-		err = common.PostProcessServiceError(err, "Bastion", "CreateBastionRestriction", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateSession Creates a new session in a bastion. A bastion session lets authorized users connect to a target resource for a predetermined amount of time. The Bastion service recognizes two types of sessions, managed SSH sessions and SSH port forwarding sessions. Managed SSH sessions require that the target resource has an OpenSSH server and the Oracle Cloud Agent both running.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/CreateSession.go.html to see an example of how to use CreateSession API.
 func (client BastionClient) CreateSession(ctx context.Context, request CreateSessionRequest) (response CreateSessionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -379,6 +273,10 @@ func (client BastionClient) createSession(ctx context.Context, request common.OC
 }
 
 // DeleteBastion Deletes a bastion identified by the bastion ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteBastion.go.html to see an example of how to use DeleteBastion API.
 func (client BastionClient) DeleteBastion(ctx context.Context, request DeleteBastionRequest) (response DeleteBastionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -431,61 +329,11 @@ func (client BastionClient) deleteBastion(ctx context.Context, request common.OC
 	return response, err
 }
 
-// DeleteBastionRestriction Deletes a bastionRestriction resource by identifier (OCID).
-// A default retry strategy applies to this operation DeleteBastionRestriction()
-func (client BastionClient) DeleteBastionRestriction(ctx context.Context, request DeleteBastionRestrictionRequest) (response DeleteBastionRestrictionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteBastionRestriction, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteBastionRestrictionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteBastionRestrictionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteBastionRestrictionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteBastionRestrictionResponse")
-	}
-	return
-}
-
-// deleteBastionRestriction implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) deleteBastionRestriction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bastionRestrictions/{bastionRestrictionId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteBastionRestrictionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/BastionRestriction/DeleteBastionRestriction"
-		err = common.PostProcessServiceError(err, "Bastion", "DeleteBastionRestriction", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteSession Deletes a session identified by the session ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteSession.go.html to see an example of how to use DeleteSession API.
 func (client BastionClient) DeleteSession(ctx context.Context, request DeleteSessionRequest) (response DeleteSessionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -539,6 +387,10 @@ func (client BastionClient) deleteSession(ctx context.Context, request common.OC
 }
 
 // GetBastion Retrieves a bastion identified by the bastion ID. A bastion provides secured, public access to target resources in the cloud that you cannot otherwise reach from the internet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetBastion.go.html to see an example of how to use GetBastion API.
 // A default retry strategy applies to this operation GetBastion()
 func (client BastionClient) GetBastion(ctx context.Context, request GetBastionRequest) (response GetBastionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -592,61 +444,11 @@ func (client BastionClient) getBastion(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
-// GetBastionRestriction Gets a bastionRestriction by identifier.
-// A default retry strategy applies to this operation GetBastionRestriction()
-func (client BastionClient) GetBastionRestriction(ctx context.Context, request GetBastionRestrictionRequest) (response GetBastionRestrictionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getBastionRestriction, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetBastionRestrictionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetBastionRestrictionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetBastionRestrictionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetBastionRestrictionResponse")
-	}
-	return
-}
-
-// getBastionRestriction implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) getBastionRestriction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bastionRestrictions/{bastionRestrictionId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetBastionRestrictionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/BastionRestriction/GetBastionRestriction"
-		err = common.PostProcessServiceError(err, "Bastion", "GetBastionRestriction", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetSession Retrieves a session identified by the session ID. A bastion session lets authorized users connect to a target resource for a predetermined amount of time.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetSession.go.html to see an example of how to use GetSession API.
 // A default retry strategy applies to this operation GetSession()
 func (client BastionClient) GetSession(ctx context.Context, request GetSessionRequest) (response GetSessionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -701,6 +503,10 @@ func (client BastionClient) getSession(ctx context.Context, request common.OCIRe
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client BastionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -753,61 +559,11 @@ func (client BastionClient) getWorkRequest(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListBastionRestrictions Returns a list of bastion restriction resources.
-// A default retry strategy applies to this operation ListBastionRestrictions()
-func (client BastionClient) ListBastionRestrictions(ctx context.Context, request ListBastionRestrictionsRequest) (response ListBastionRestrictionsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listBastionRestrictions, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListBastionRestrictionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListBastionRestrictionsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListBastionRestrictionsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListBastionRestrictionsResponse")
-	}
-	return
-}
-
-// listBastionRestrictions implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) listBastionRestrictions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bastionRestrictions", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListBastionRestrictionsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/BastionRestrictionCollection/ListBastionRestrictions"
-		err = common.PostProcessServiceError(err, "Bastion", "ListBastionRestrictions", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListBastions Retrieves a list of BastionSummary objects in a compartment. Bastions provide secured, public access to target resources in the cloud that you cannot otherwise reach from the internet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListBastions.go.html to see an example of how to use ListBastions API.
 func (client BastionClient) ListBastions(ctx context.Context, request ListBastionsRequest) (response ListBastionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -861,6 +617,10 @@ func (client BastionClient) listBastions(ctx context.Context, request common.OCI
 }
 
 // ListSessions Retrieves a list of SessionSummary objects for an existing bastion. Bastion sessions let authorized users connect to a target resource for a predetermined amount of time.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListSessions.go.html to see an example of how to use ListSessions API.
 func (client BastionClient) ListSessions(ctx context.Context, request ListSessionsRequest) (response ListSessionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -914,6 +674,10 @@ func (client BastionClient) listSessions(ctx context.Context, request common.OCI
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client BastionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -967,6 +731,10 @@ func (client BastionClient) listWorkRequestErrors(ctx context.Context, request c
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client BastionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1020,6 +788,10 @@ func (client BastionClient) listWorkRequestLogs(ctx context.Context, request com
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client BastionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1073,6 +845,10 @@ func (client BastionClient) listWorkRequests(ctx context.Context, request common
 }
 
 // UpdateBastion Updates the bastion identified by the bastion ID. A bastion provides secured, public access to target resources in the cloud that you cannot otherwise reach from the internet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateBastion.go.html to see an example of how to use UpdateBastion API.
 // A default retry strategy applies to this operation UpdateBastion()
 func (client BastionClient) UpdateBastion(ctx context.Context, request UpdateBastionRequest) (response UpdateBastionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1126,61 +902,11 @@ func (client BastionClient) updateBastion(ctx context.Context, request common.OC
 	return response, err
 }
 
-// UpdateBastionRestriction Updates the bastion restriction.
-// A default retry strategy applies to this operation UpdateBastionRestriction()
-func (client BastionClient) UpdateBastionRestriction(ctx context.Context, request UpdateBastionRestrictionRequest) (response UpdateBastionRestrictionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateBastionRestriction, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateBastionRestrictionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateBastionRestrictionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateBastionRestrictionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateBastionRestrictionResponse")
-	}
-	return
-}
-
-// updateBastionRestriction implements the OCIOperation interface (enables retrying operations)
-func (client BastionClient) updateBastionRestriction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bastionRestrictions/{bastionRestrictionId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateBastionRestrictionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bastion/20210331/BastionRestriction/UpdateBastionRestriction"
-		err = common.PostProcessServiceError(err, "Bastion", "UpdateBastionRestriction", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateSession Updates the session identified by the session ID. A bastion session lets authorized users connect to a target resource for a predetermined amount of time.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateSession.go.html to see an example of how to use UpdateSession API.
 // A default retry strategy applies to this operation UpdateSession()
 func (client BastionClient) UpdateSession(ctx context.Context, request UpdateSessionRequest) (response UpdateSessionResponse, err error) {
 	var ociResponse common.OCIResponse

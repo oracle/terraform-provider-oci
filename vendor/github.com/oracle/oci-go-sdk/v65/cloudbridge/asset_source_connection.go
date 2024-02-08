@@ -32,9 +32,6 @@ type AssetSourceConnection struct {
 
 	// The detailed sub-state of the connection.
 	LifecycleDetails *string `mandatory:"true" json:"lifecycleDetails"`
-
-	// The type of system connection is established to.
-	AssetSourceSystemType AssetSourceSystemTypeEnum `mandatory:"false" json:"assetSourceSystemType,omitempty"`
 }
 
 func (m AssetSourceConnection) String() string {
@@ -53,9 +50,6 @@ func (m AssetSourceConnection) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAssetSourceConnectionLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingAssetSourceSystemTypeEnum(string(m.AssetSourceSystemType)); !ok && m.AssetSourceSystemType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AssetSourceSystemType: %s. Supported values are: %s.", m.AssetSourceSystemType, strings.Join(GetAssetSourceSystemTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -91,71 +91,15 @@ func (client *NetworkLoadBalancerClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
-// AttachNlbToPod Updates the network load balancer for NLB live migration and creates new mappings with new pod id and slot id
-// A default retry strategy applies to this operation AttachNlbToPod()
-func (client NetworkLoadBalancerClient) AttachNlbToPod(ctx context.Context, request AttachNlbToPodRequest) (response AttachNlbToPodResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.attachNlbToPod, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AttachNlbToPodResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = AttachNlbToPodResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(AttachNlbToPodResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AttachNlbToPodResponse")
-	}
-	return
-}
-
-// attachNlbToPod implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) attachNlbToPod(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/actions/attachNlbToPod", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response AttachNlbToPodResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/AttachNlbToPod"
-		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "AttachNlbToPod", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeNetworkLoadBalancerCompartment Moves a network load balancer into a different compartment within the same tenancy. For information about moving resources
 // between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-// A default retry strategy applies to this operation ChangeNetworkLoadBalancerCompartment()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ChangeNetworkLoadBalancerCompartment.go.html to see an example of how to use ChangeNetworkLoadBalancerCompartment API.
 func (client NetworkLoadBalancerClient) ChangeNetworkLoadBalancerCompartment(ctx context.Context, request ChangeNetworkLoadBalancerCompartmentRequest) (response ChangeNetworkLoadBalancerCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -211,10 +155,13 @@ func (client NetworkLoadBalancerClient) changeNetworkLoadBalancerCompartment(ctx
 }
 
 // CreateBackend Adds a backend server to a backend set.
-// A default retry strategy applies to this operation CreateBackend()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/CreateBackend.go.html to see an example of how to use CreateBackend API.
 func (client NetworkLoadBalancerClient) CreateBackend(ctx context.Context, request CreateBackendRequest) (response CreateBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -270,10 +217,13 @@ func (client NetworkLoadBalancerClient) createBackend(ctx context.Context, reque
 }
 
 // CreateBackendSet Adds a backend set to a network load balancer.
-// A default retry strategy applies to this operation CreateBackendSet()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/CreateBackendSet.go.html to see an example of how to use CreateBackendSet API.
 func (client NetworkLoadBalancerClient) CreateBackendSet(ctx context.Context, request CreateBackendSetRequest) (response CreateBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -329,10 +279,13 @@ func (client NetworkLoadBalancerClient) createBackendSet(ctx context.Context, re
 }
 
 // CreateListener Adds a listener to a network load balancer.
-// A default retry strategy applies to this operation CreateListener()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/CreateListener.go.html to see an example of how to use CreateListener API.
 func (client NetworkLoadBalancerClient) CreateListener(ctx context.Context, request CreateListenerRequest) (response CreateListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -388,10 +341,13 @@ func (client NetworkLoadBalancerClient) createListener(ctx context.Context, requ
 }
 
 // CreateNetworkLoadBalancer Creates a network load balancer.
-// A default retry strategy applies to this operation CreateNetworkLoadBalancer()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/CreateNetworkLoadBalancer.go.html to see an example of how to use CreateNetworkLoadBalancer API.
 func (client NetworkLoadBalancerClient) CreateNetworkLoadBalancer(ctx context.Context, request CreateNetworkLoadBalancerRequest) (response CreateNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -447,10 +403,13 @@ func (client NetworkLoadBalancerClient) createNetworkLoadBalancer(ctx context.Co
 }
 
 // DeleteBackend Removes a backend server from a given network load balancer and backend set.
-// A default retry strategy applies to this operation DeleteBackend()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/DeleteBackend.go.html to see an example of how to use DeleteBackend API.
 func (client NetworkLoadBalancerClient) DeleteBackend(ctx context.Context, request DeleteBackendRequest) (response DeleteBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -502,10 +461,13 @@ func (client NetworkLoadBalancerClient) deleteBackend(ctx context.Context, reque
 
 // DeleteBackendSet Deletes the specified backend set. Note that deleting a backend set removes its backend servers from the network load balancer.
 // Before you can delete a backend set, you must remove it from any active listeners.
-// A default retry strategy applies to this operation DeleteBackendSet()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/DeleteBackendSet.go.html to see an example of how to use DeleteBackendSet API.
 func (client NetworkLoadBalancerClient) DeleteBackendSet(ctx context.Context, request DeleteBackendSetRequest) (response DeleteBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -556,10 +518,13 @@ func (client NetworkLoadBalancerClient) deleteBackendSet(ctx context.Context, re
 }
 
 // DeleteListener Deletes a listener from a network load balancer.
-// A default retry strategy applies to this operation DeleteListener()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/DeleteListener.go.html to see an example of how to use DeleteListener API.
 func (client NetworkLoadBalancerClient) DeleteListener(ctx context.Context, request DeleteListenerRequest) (response DeleteListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -610,10 +575,13 @@ func (client NetworkLoadBalancerClient) deleteListener(ctx context.Context, requ
 }
 
 // DeleteNetworkLoadBalancer Deletes a network load balancer resource by identifier.
-// A default retry strategy applies to this operation DeleteNetworkLoadBalancer()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/DeleteNetworkLoadBalancer.go.html to see an example of how to use DeleteNetworkLoadBalancer API.
 func (client NetworkLoadBalancerClient) DeleteNetworkLoadBalancer(ctx context.Context, request DeleteNetworkLoadBalancerRequest) (response DeleteNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -663,129 +631,14 @@ func (client NetworkLoadBalancerClient) deleteNetworkLoadBalancer(ctx context.Co
 	return response, err
 }
 
-// DetachNlbFromDestinationPod Update mappings for a provisioned network load balancer for the provided pod Id in case of rollback.
-// A default retry strategy applies to this operation DetachNlbFromDestinationPod()
-func (client NetworkLoadBalancerClient) DetachNlbFromDestinationPod(ctx context.Context, request DetachNlbFromDestinationPodRequest) (response DetachNlbFromDestinationPodResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.detachNlbFromDestinationPod, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DetachNlbFromDestinationPodResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DetachNlbFromDestinationPodResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DetachNlbFromDestinationPodResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DetachNlbFromDestinationPodResponse")
-	}
-	return
-}
-
-// detachNlbFromDestinationPod implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) detachNlbFromDestinationPod(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/actions/detachNlbFromDestinationPod", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DetachNlbFromDestinationPodResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/DetachNlbFromDestinationPod"
-		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "DetachNlbFromDestinationPod", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DetachNlbFromSourcePod Delete mappings for a provisioned network load balancer for the provided pod Id.
-// A default retry strategy applies to this operation DetachNlbFromSourcePod()
-func (client NetworkLoadBalancerClient) DetachNlbFromSourcePod(ctx context.Context, request DetachNlbFromSourcePodRequest) (response DetachNlbFromSourcePodResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.detachNlbFromSourcePod, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DetachNlbFromSourcePodResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DetachNlbFromSourcePodResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DetachNlbFromSourcePodResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DetachNlbFromSourcePodResponse")
-	}
-	return
-}
-
-// detachNlbFromSourcePod implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) detachNlbFromSourcePod(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/actions/detachNlbFromSourcePod", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DetachNlbFromSourcePodResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/DetachNlbFromSourcePod"
-		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "DetachNlbFromSourcePod", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetBackend Retrieves the configuration information for the specified backend server.
-// A default retry strategy applies to this operation GetBackend()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetBackend.go.html to see an example of how to use GetBackend API.
 func (client NetworkLoadBalancerClient) GetBackend(ctx context.Context, request GetBackendRequest) (response GetBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -836,10 +689,13 @@ func (client NetworkLoadBalancerClient) getBackend(ctx context.Context, request 
 }
 
 // GetBackendHealth Retrieves the current health status of the specified backend server.
-// A default retry strategy applies to this operation GetBackendHealth()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetBackendHealth.go.html to see an example of how to use GetBackendHealth API.
 func (client NetworkLoadBalancerClient) GetBackendHealth(ctx context.Context, request GetBackendHealthRequest) (response GetBackendHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -890,10 +746,13 @@ func (client NetworkLoadBalancerClient) getBackendHealth(ctx context.Context, re
 }
 
 // GetBackendSet Retrieves the configuration information for the specified backend set.
-// A default retry strategy applies to this operation GetBackendSet()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetBackendSet.go.html to see an example of how to use GetBackendSet API.
 func (client NetworkLoadBalancerClient) GetBackendSet(ctx context.Context, request GetBackendSetRequest) (response GetBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -944,10 +803,13 @@ func (client NetworkLoadBalancerClient) getBackendSet(ctx context.Context, reque
 }
 
 // GetBackendSetHealth Retrieves the health status for the specified backend set.
-// A default retry strategy applies to this operation GetBackendSetHealth()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetBackendSetHealth.go.html to see an example of how to use GetBackendSetHealth API.
 func (client NetworkLoadBalancerClient) GetBackendSetHealth(ctx context.Context, request GetBackendSetHealthRequest) (response GetBackendSetHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -998,10 +860,13 @@ func (client NetworkLoadBalancerClient) getBackendSetHealth(ctx context.Context,
 }
 
 // GetHealthChecker Retrieves the health check policy information for a given network load balancer and backend set.
-// A default retry strategy applies to this operation GetHealthChecker()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetHealthChecker.go.html to see an example of how to use GetHealthChecker API.
 func (client NetworkLoadBalancerClient) GetHealthChecker(ctx context.Context, request GetHealthCheckerRequest) (response GetHealthCheckerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1057,10 +922,13 @@ func (client NetworkLoadBalancerClient) getHealthChecker(ctx context.Context, re
 }
 
 // GetListener Retrieves listener properties associated with a given network load balancer and listener name.
-// A default retry strategy applies to this operation GetListener()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetListener.go.html to see an example of how to use GetListener API.
 func (client NetworkLoadBalancerClient) GetListener(ctx context.Context, request GetListenerRequest) (response GetListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1110,65 +978,14 @@ func (client NetworkLoadBalancerClient) getListener(ctx context.Context, request
 	return response, err
 }
 
-// GetLiveMigration List history of live migration operation and its status for a particular nlb.
-// A default retry strategy applies to this operation GetLiveMigration()
-func (client NetworkLoadBalancerClient) GetLiveMigration(ctx context.Context, request GetLiveMigrationRequest) (response GetLiveMigrationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getLiveMigration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetLiveMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetLiveMigrationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetLiveMigrationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetLiveMigrationResponse")
-	}
-	return
-}
-
-// getLiveMigration implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) getLiveMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/actions/liveMigrations/{liveMigrationId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetLiveMigrationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/LiveMigration/GetLiveMigration"
-		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetLiveMigration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetNetworkLoadBalancer Retrieves network load balancer configuration information by identifier.
-// A default retry strategy applies to this operation GetNetworkLoadBalancer()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetNetworkLoadBalancer.go.html to see an example of how to use GetNetworkLoadBalancer API.
 func (client NetworkLoadBalancerClient) GetNetworkLoadBalancer(ctx context.Context, request GetNetworkLoadBalancerRequest) (response GetNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1219,10 +1036,13 @@ func (client NetworkLoadBalancerClient) getNetworkLoadBalancer(ctx context.Conte
 }
 
 // GetNetworkLoadBalancerHealth Retrieves the health status for the specified network load balancer.
-// A default retry strategy applies to this operation GetNetworkLoadBalancerHealth()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetNetworkLoadBalancerHealth.go.html to see an example of how to use GetNetworkLoadBalancerHealth API.
 func (client NetworkLoadBalancerClient) GetNetworkLoadBalancerHealth(ctx context.Context, request GetNetworkLoadBalancerHealthRequest) (response GetNetworkLoadBalancerHealthResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1273,10 +1093,13 @@ func (client NetworkLoadBalancerClient) getNetworkLoadBalancerHealth(ctx context
 }
 
 // GetWorkRequest Retrieves the details of the work request with the given identifier.
-// A default retry strategy applies to this operation GetWorkRequest()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client NetworkLoadBalancerClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1327,10 +1150,13 @@ func (client NetworkLoadBalancerClient) getWorkRequest(ctx context.Context, requ
 }
 
 // ListBackendSets Lists all backend sets associated with a given network load balancer.
-// A default retry strategy applies to this operation ListBackendSets()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListBackendSets.go.html to see an example of how to use ListBackendSets API.
 func (client NetworkLoadBalancerClient) ListBackendSets(ctx context.Context, request ListBackendSetsRequest) (response ListBackendSetsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1381,10 +1207,13 @@ func (client NetworkLoadBalancerClient) listBackendSets(ctx context.Context, req
 }
 
 // ListBackends Lists the backend servers for a given network load balancer and backend set.
-// A default retry strategy applies to this operation ListBackends()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListBackends.go.html to see an example of how to use ListBackends API.
 func (client NetworkLoadBalancerClient) ListBackends(ctx context.Context, request ListBackendsRequest) (response ListBackendsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1435,10 +1264,13 @@ func (client NetworkLoadBalancerClient) listBackends(ctx context.Context, reques
 }
 
 // ListListeners Lists all listeners associated with a given network load balancer.
-// A default retry strategy applies to this operation ListListeners()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListListeners.go.html to see an example of how to use ListListeners API.
 func (client NetworkLoadBalancerClient) ListListeners(ctx context.Context, request ListListenersRequest) (response ListListenersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1488,65 +1320,14 @@ func (client NetworkLoadBalancerClient) listListeners(ctx context.Context, reque
 	return response, err
 }
 
-// ListLiveMigrations List history of live migration operation and its status for a particular nlb.
-// A default retry strategy applies to this operation ListLiveMigrations()
-func (client NetworkLoadBalancerClient) ListLiveMigrations(ctx context.Context, request ListLiveMigrationsRequest) (response ListLiveMigrationsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listLiveMigrations, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListLiveMigrationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListLiveMigrationsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListLiveMigrationsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListLiveMigrationsResponse")
-	}
-	return
-}
-
-// listLiveMigrations implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) listLiveMigrations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/actions/liveMigrations", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListLiveMigrationsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/LiveMigrationSummary/ListLiveMigrations"
-		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "ListLiveMigrations", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListNetworkLoadBalancerHealths Lists the summary health statuses for all network load balancers in the specified compartment.
-// A default retry strategy applies to this operation ListNetworkLoadBalancerHealths()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListNetworkLoadBalancerHealths.go.html to see an example of how to use ListNetworkLoadBalancerHealths API.
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancerHealths(ctx context.Context, request ListNetworkLoadBalancerHealthsRequest) (response ListNetworkLoadBalancerHealthsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1597,10 +1378,13 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancerHealths(ctx conte
 }
 
 // ListNetworkLoadBalancers Returns a list of network load balancers.
-// A default retry strategy applies to this operation ListNetworkLoadBalancers()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListNetworkLoadBalancers.go.html to see an example of how to use ListNetworkLoadBalancers API.
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancers(ctx context.Context, request ListNetworkLoadBalancersRequest) (response ListNetworkLoadBalancersResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1651,10 +1435,13 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancers(ctx context.Con
 }
 
 // ListNetworkLoadBalancersPolicies Lists the available network load balancer policies.
-// A default retry strategy applies to this operation ListNetworkLoadBalancersPolicies()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListNetworkLoadBalancersPolicies.go.html to see an example of how to use ListNetworkLoadBalancersPolicies API.
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancersPolicies(ctx context.Context, request ListNetworkLoadBalancersPoliciesRequest) (response ListNetworkLoadBalancersPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1706,10 +1493,13 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancersPolicies(ctx con
 
 // ListNetworkLoadBalancersProtocols This API has been deprecated so it won't return the updated list of supported protocls.
 // Lists all supported traffic protocols.
-// A default retry strategy applies to this operation ListNetworkLoadBalancersProtocols()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListNetworkLoadBalancersProtocols.go.html to see an example of how to use ListNetworkLoadBalancersProtocols API.
 func (client NetworkLoadBalancerClient) ListNetworkLoadBalancersProtocols(ctx context.Context, request ListNetworkLoadBalancersProtocolsRequest) (response ListNetworkLoadBalancersProtocolsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1760,10 +1550,13 @@ func (client NetworkLoadBalancerClient) listNetworkLoadBalancersProtocols(ctx co
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
-// A default retry strategy applies to this operation ListWorkRequestErrors()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client NetworkLoadBalancerClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1814,10 +1607,13 @@ func (client NetworkLoadBalancerClient) listWorkRequestErrors(ctx context.Contex
 }
 
 // ListWorkRequestLogs Returns a (paginated) list of logs for a given work request.
-// A default retry strategy applies to this operation ListWorkRequestLogs()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client NetworkLoadBalancerClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1868,10 +1664,13 @@ func (client NetworkLoadBalancerClient) listWorkRequestLogs(ctx context.Context,
 }
 
 // ListWorkRequests Lists all work requests.
-// A default retry strategy applies to this operation ListWorkRequests()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client NetworkLoadBalancerClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -1921,70 +1720,14 @@ func (client NetworkLoadBalancerClient) listWorkRequests(ctx context.Context, re
 	return response, err
 }
 
-// LiveMigration Perform the live migration operation by interacting with multiple nlb and vnic interfaces.
-// A default retry strategy applies to this operation LiveMigration()
-func (client NetworkLoadBalancerClient) LiveMigration(ctx context.Context, request LiveMigrationRequest) (response LiveMigrationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.liveMigration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = LiveMigrationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = LiveMigrationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(LiveMigrationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into LiveMigrationResponse")
-	}
-	return
-}
-
-// liveMigration implements the OCIOperation interface (enables retrying operations)
-func (client NetworkLoadBalancerClient) liveMigration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkLoadBalancers/{networkLoadBalancerId}/actions/liveMigrations", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response LiveMigrationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/NetworkLoadBalancer/LiveMigration"
-		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "LiveMigration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateBackend Updates the configuration of a backend server within the specified backend set.
-// A default retry strategy applies to this operation UpdateBackend()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/UpdateBackend.go.html to see an example of how to use UpdateBackend API.
 func (client NetworkLoadBalancerClient) UpdateBackend(ctx context.Context, request UpdateBackendRequest) (response UpdateBackendResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2040,10 +1783,13 @@ func (client NetworkLoadBalancerClient) updateBackend(ctx context.Context, reque
 }
 
 // UpdateBackendSet Updates a backend set.
-// A default retry strategy applies to this operation UpdateBackendSet()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/UpdateBackendSet.go.html to see an example of how to use UpdateBackendSet API.
 func (client NetworkLoadBalancerClient) UpdateBackendSet(ctx context.Context, request UpdateBackendSetRequest) (response UpdateBackendSetResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2099,10 +1845,13 @@ func (client NetworkLoadBalancerClient) updateBackendSet(ctx context.Context, re
 }
 
 // UpdateHealthChecker Updates the health check policy for a given network load balancer and backend set.
-// A default retry strategy applies to this operation UpdateHealthChecker()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/UpdateHealthChecker.go.html to see an example of how to use UpdateHealthChecker API.
 func (client NetworkLoadBalancerClient) UpdateHealthChecker(ctx context.Context, request UpdateHealthCheckerRequest) (response UpdateHealthCheckerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2158,10 +1907,13 @@ func (client NetworkLoadBalancerClient) updateHealthChecker(ctx context.Context,
 }
 
 // UpdateListener Updates a listener for a given network load balancer.
-// A default retry strategy applies to this operation UpdateListener()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/UpdateListener.go.html to see an example of how to use UpdateListener API.
 func (client NetworkLoadBalancerClient) UpdateListener(ctx context.Context, request UpdateListenerRequest) (response UpdateListenerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2217,10 +1969,13 @@ func (client NetworkLoadBalancerClient) updateListener(ctx context.Context, requ
 }
 
 // UpdateNetworkLoadBalancer Updates the network load balancer
-// A default retry strategy applies to this operation UpdateNetworkLoadBalancer()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/UpdateNetworkLoadBalancer.go.html to see an example of how to use UpdateNetworkLoadBalancer API.
 func (client NetworkLoadBalancerClient) UpdateNetworkLoadBalancer(ctx context.Context, request UpdateNetworkLoadBalancerRequest) (response UpdateNetworkLoadBalancerResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -2271,10 +2026,13 @@ func (client NetworkLoadBalancerClient) updateNetworkLoadBalancer(ctx context.Co
 }
 
 // UpdateNetworkSecurityGroups Updates the network security groups associated with the specified network load balancer.
-// A default retry strategy applies to this operation UpdateNetworkSecurityGroups()
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/UpdateNetworkSecurityGroups.go.html to see an example of how to use UpdateNetworkSecurityGroups API.
 func (client NetworkLoadBalancerClient) UpdateNetworkSecurityGroups(ctx context.Context, request UpdateNetworkSecurityGroupsRequest) (response UpdateNetworkSecurityGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
+	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}

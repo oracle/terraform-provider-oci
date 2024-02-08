@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateStreamCdnConfigRequest wrapper for the UpdateStreamCdnConfig operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateStreamCdnConfig.go.html to see an example of how to use UpdateStreamCdnConfigRequest.
 type UpdateStreamCdnConfigRequest struct {
 
 	// Unique StreamCdnConfig identifier.

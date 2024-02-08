@@ -12,6 +12,10 @@ import (
 )
 
 // ChangePrivateEndpointCompartmentRequest wrapper for the ChangePrivateEndpointCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangePrivateEndpointCompartment.go.html to see an example of how to use ChangePrivateEndpointCompartmentRequest.
 type ChangePrivateEndpointCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.

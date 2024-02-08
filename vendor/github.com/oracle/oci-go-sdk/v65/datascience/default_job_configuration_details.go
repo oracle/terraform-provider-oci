@@ -27,8 +27,6 @@ type DefaultJobConfigurationDetails struct {
 
 	// A time bound for the execution of the job. Timer starts when the job becomes active.
 	MaximumRuntimeInMinutes *int64 `mandatory:"false" json:"maximumRuntimeInMinutes"`
-
-	StartupProbe *JobStartupProbe `mandatory:"false" json:"startupProbe"`
 }
 
 func (m DefaultJobConfigurationDetails) String() string {

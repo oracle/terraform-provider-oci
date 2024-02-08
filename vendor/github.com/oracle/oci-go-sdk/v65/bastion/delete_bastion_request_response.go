@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteBastionRequest wrapper for the DeleteBastion operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteBastion.go.html to see an example of how to use DeleteBastionRequest.
 type DeleteBastionRequest struct {
 
 	// The unique identifier (OCID) of the bastion.

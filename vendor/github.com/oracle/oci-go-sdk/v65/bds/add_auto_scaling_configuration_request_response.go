@@ -12,6 +12,10 @@ import (
 )
 
 // AddAutoScalingConfigurationRequest wrapper for the AddAutoScalingConfiguration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddAutoScalingConfiguration.go.html to see an example of how to use AddAutoScalingConfigurationRequest.
 type AddAutoScalingConfigurationRequest struct {
 
 	// The OCID of the cluster.

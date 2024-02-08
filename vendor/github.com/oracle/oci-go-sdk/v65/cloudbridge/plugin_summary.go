@@ -43,9 +43,6 @@ type PluginSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
-	// Plugin displayName for console.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
 	// The time when the plugin was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 

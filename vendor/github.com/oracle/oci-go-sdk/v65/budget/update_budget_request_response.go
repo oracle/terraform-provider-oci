@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateBudgetRequest wrapper for the UpdateBudget operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/UpdateBudget.go.html to see an example of how to use UpdateBudgetRequest.
 type UpdateBudgetRequest struct {
 
 	// The unique budget OCID.

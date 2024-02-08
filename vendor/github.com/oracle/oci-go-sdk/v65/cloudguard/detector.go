@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// Detector Information for a single detector category. For example, IAAS_ACTIVITY_DETECTOR or IAAS_CONFIGURATION_DETECTOR.
+// Detector A single Detector
 type Detector struct {
 
-	// Unique identifier for detector
+	// detector key
 	Id *string `mandatory:"true" json:"id"`
 
-	// Detector description
+	// detector description
 	Description *string `mandatory:"true" json:"description"`
 
-	// The current lifecycle state of the resource.
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 

@@ -12,6 +12,10 @@ import (
 )
 
 // GetStandardTagTemplateRequest wrapper for the GetStandardTagTemplate operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetStandardTagTemplate.go.html to see an example of how to use GetStandardTagTemplateRequest.
 type GetStandardTagTemplateRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).

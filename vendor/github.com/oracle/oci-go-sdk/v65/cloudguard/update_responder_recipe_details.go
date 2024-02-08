@@ -16,18 +16,18 @@ import (
 	"strings"
 )
 
-// UpdateResponderRecipeDetails Parameters to use to update a responder recipe.
+// UpdateResponderRecipeDetails The details to be updated in ResponderRecipe
 type UpdateResponderRecipeDetails struct {
 
-	// Responder recipe display name.
+	// Responder recipe identifier.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Responder recipe description
+	// Responder recipe description.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of responder rules to update
+	// Responder Rules to Update
 	ResponderRules []UpdateResponderRecipeResponderRule `mandatory:"false" json:"responderRules"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

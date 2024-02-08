@@ -12,6 +12,10 @@ import (
 )
 
 // ListManagedMySqlDatabaseConfigurationDataRequest wrapper for the ListManagedMySqlDatabaseConfigurationData operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabaseConfigurationData.go.html to see an example of how to use ListManagedMySqlDatabaseConfigurationDataRequest.
 type ListManagedMySqlDatabaseConfigurationDataRequest struct {
 
 	// The OCID of the Managed MySQL Database.

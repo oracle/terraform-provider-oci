@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteExternalNonContainerDatabaseRequest wrapper for the DeleteExternalNonContainerDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteExternalNonContainerDatabase.go.html to see an example of how to use DeleteExternalNonContainerDatabaseRequest.
 type DeleteExternalNonContainerDatabaseRequest struct {
 
 	// The external non-container database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

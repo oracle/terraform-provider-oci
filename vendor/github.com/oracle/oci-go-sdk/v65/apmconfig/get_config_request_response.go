@@ -12,6 +12,10 @@ import (
 )
 
 // GetConfigRequest wrapper for the GetConfig operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/GetConfig.go.html to see an example of how to use GetConfigRequest.
 type GetConfigRequest struct {
 
 	// The APM Domain ID the request is intended for.

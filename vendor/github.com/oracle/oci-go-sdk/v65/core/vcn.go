@@ -99,9 +99,6 @@ type Vcn struct {
 	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// Example: `vcn1.oraclevcn.com`
 	VcnDomainName *string `mandatory:"false" json:"vcnDomainName"`
-
-	// Indicates whether traffic within the VCN is encrypted.
-	IsEncrypted *bool `mandatory:"false" json:"isEncrypted"`
 }
 
 func (m Vcn) String() string {

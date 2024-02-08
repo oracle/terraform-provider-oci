@@ -12,6 +12,10 @@ import (
 )
 
 // GetExportSettingRequest wrapper for the GetExportSetting operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetExportSetting.go.html to see an example of how to use GetExportSettingRequest.
 type GetExportSettingRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

@@ -12,9 +12,13 @@ import (
 )
 
 // GetTargetRequest wrapper for the GetTarget operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetTarget.go.html to see an example of how to use GetTargetRequest.
 type GetTargetRequest struct {
 
-	// OCID of the target
+	// OCID of target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
 	// The client request ID for tracing.

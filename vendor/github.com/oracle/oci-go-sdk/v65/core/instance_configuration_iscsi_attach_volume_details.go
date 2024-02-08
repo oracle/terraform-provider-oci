@@ -41,13 +41,6 @@ type InstanceConfigurationIscsiAttachVolumeDetails struct {
 	// be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `mandatory:"false" json:"isShareable"`
 
-	// When launching from a Compute Image, it is possible for more than one volume to be defined in the Image definition.
-	// If the relative index of one of these volumes is provided in this field, then the provided createVolumeDetails
-	// descriptor will be utilized to modify the default creation/attachment parameters for this volume rather than the
-	// defaults.
-	// If this field is provided, then CreateVolumeDetails must be specified.
-	ImageVolumeIndex *int `mandatory:"false" json:"imageVolumeIndex"`
-
 	// Whether to use CHAP authentication for the volume attachment. Defaults to false.
 	UseChap *bool `mandatory:"false" json:"useChap"`
 }
@@ -70,11 +63,6 @@ func (m InstanceConfigurationIscsiAttachVolumeDetails) GetDevice() *string {
 // GetIsShareable returns IsShareable
 func (m InstanceConfigurationIscsiAttachVolumeDetails) GetIsShareable() *bool {
 	return m.IsShareable
-}
-
-// GetImageVolumeIndex returns ImageVolumeIndex
-func (m InstanceConfigurationIscsiAttachVolumeDetails) GetImageVolumeIndex() *int {
-	return m.ImageVolumeIndex
 }
 
 func (m InstanceConfigurationIscsiAttachVolumeDetails) String() string {

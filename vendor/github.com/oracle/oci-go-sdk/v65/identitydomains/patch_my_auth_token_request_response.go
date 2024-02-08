@@ -12,6 +12,10 @@ import (
 )
 
 // PatchMyAuthTokenRequest wrapper for the PatchMyAuthToken operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyAuthToken.go.html to see an example of how to use PatchMyAuthTokenRequest.
 type PatchMyAuthTokenRequest struct {
 
 	// ID of the resource

@@ -83,10 +83,6 @@ func (m *createdeployenvironmentdetails) UnmarshalPolymorphicJSON(data []byte) (
 		mm := CreateOkeClusterDeployEnvironmentDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "CLUSTER_NAMESPACE":
-		mm := CreateClusterNamespaceDeployEnvironmentDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "FUNCTION":
 		mm := CreateFunctionDeployEnvironmentDetails{}
 		err = json.Unmarshal(data, &mm)

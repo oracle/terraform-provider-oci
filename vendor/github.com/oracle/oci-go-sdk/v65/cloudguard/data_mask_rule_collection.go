@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// DataMaskRuleCollection Collection of data mask rules.
+// DataMaskRuleCollection Collection of Data Mask Rule
 type DataMaskRuleCollection struct {
 
-	// List of DataMaskRuleSummary resources
+	// List of Data Mask Rule Summary
 	Items []DataMaskRuleSummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DataMaskRuleCollection) String() string {

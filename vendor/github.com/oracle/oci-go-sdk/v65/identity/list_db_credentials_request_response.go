@@ -12,6 +12,10 @@ import (
 )
 
 // ListDbCredentialsRequest wrapper for the ListDbCredentials operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListDbCredentials.go.html to see an example of how to use ListDbCredentialsRequest.
 type ListDbCredentialsRequest struct {
 
 	// The OCID of the user.

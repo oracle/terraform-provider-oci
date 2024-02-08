@@ -12,6 +12,10 @@ import (
 )
 
 // ListExternalAsmUsersRequest wrapper for the ListExternalAsmUsers operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalAsmUsers.go.html to see an example of how to use ListExternalAsmUsersRequest.
 type ListExternalAsmUsersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM.

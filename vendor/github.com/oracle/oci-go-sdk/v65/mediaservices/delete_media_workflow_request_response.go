@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteMediaWorkflowRequest wrapper for the DeleteMediaWorkflow operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/DeleteMediaWorkflow.go.html to see an example of how to use DeleteMediaWorkflowRequest.
 type DeleteMediaWorkflowRequest struct {
 
 	// Unique MediaWorkflow identifier.

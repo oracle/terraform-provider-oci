@@ -12,6 +12,10 @@ import (
 )
 
 // GenerateSqlFirewallPolicyRequest wrapper for the GenerateSqlFirewallPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateSqlFirewallPolicy.go.html to see an example of how to use GenerateSqlFirewallPolicyRequest.
 type GenerateSqlFirewallPolicyRequest struct {
 
 	// The OCID of the SQL collection resource.

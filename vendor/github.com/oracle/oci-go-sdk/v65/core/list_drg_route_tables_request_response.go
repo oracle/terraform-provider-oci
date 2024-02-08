@@ -12,6 +12,10 @@ import (
 )
 
 // ListDrgRouteTablesRequest wrapper for the ListDrgRouteTables operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDrgRouteTables.go.html to see an example of how to use ListDrgRouteTablesRequest.
 type ListDrgRouteTablesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.

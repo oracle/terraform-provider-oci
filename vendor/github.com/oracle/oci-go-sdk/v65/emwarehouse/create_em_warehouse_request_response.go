@@ -12,6 +12,10 @@ import (
 )
 
 // CreateEmWarehouseRequest wrapper for the CreateEmWarehouse operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/CreateEmWarehouse.go.html to see an example of how to use CreateEmWarehouseRequest.
 type CreateEmWarehouseRequest struct {
 
 	// Details for the new EmWarehouse.

@@ -12,6 +12,10 @@ import (
 )
 
 // BatchDetectLanguageTextClassificationRequest wrapper for the BatchDetectLanguageTextClassification operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguageTextClassification.go.html to see an example of how to use BatchDetectLanguageTextClassificationRequest.
 type BatchDetectLanguageTextClassificationRequest struct {
 
 	// The details to make text classification detect call.

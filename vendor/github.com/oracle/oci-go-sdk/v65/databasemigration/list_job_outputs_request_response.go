@@ -12,6 +12,10 @@ import (
 )
 
 // ListJobOutputsRequest wrapper for the ListJobOutputs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListJobOutputs.go.html to see an example of how to use ListJobOutputsRequest.
 type ListJobOutputsRequest struct {
 
 	// The OCID of the job

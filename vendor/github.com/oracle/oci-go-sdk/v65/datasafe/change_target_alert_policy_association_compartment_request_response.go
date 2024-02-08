@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeTargetAlertPolicyAssociationCompartmentRequest wrapper for the ChangeTargetAlertPolicyAssociationCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeTargetAlertPolicyAssociationCompartment.go.html to see an example of how to use ChangeTargetAlertPolicyAssociationCompartmentRequest.
 type ChangeTargetAlertPolicyAssociationCompartmentRequest struct {
 
 	// The OCID of the target-alert policy association.

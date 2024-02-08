@@ -21,21 +21,18 @@ const (
 	CertificateConfigTypeIssuedByInternalCa                  CertificateConfigTypeEnum = "ISSUED_BY_INTERNAL_CA"
 	CertificateConfigTypeManagedExternallyIssuedByInternalCa CertificateConfigTypeEnum = "MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA"
 	CertificateConfigTypeImported                            CertificateConfigTypeEnum = "IMPORTED"
-	CertificateConfigTypeIssuedByPublicCa                    CertificateConfigTypeEnum = "ISSUED_BY_PUBLIC_CA"
 )
 
 var mappingCertificateConfigTypeEnum = map[string]CertificateConfigTypeEnum{
 	"ISSUED_BY_INTERNAL_CA":                    CertificateConfigTypeIssuedByInternalCa,
 	"MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA": CertificateConfigTypeManagedExternallyIssuedByInternalCa,
-	"IMPORTED":            CertificateConfigTypeImported,
-	"ISSUED_BY_PUBLIC_CA": CertificateConfigTypeIssuedByPublicCa,
+	"IMPORTED": CertificateConfigTypeImported,
 }
 
 var mappingCertificateConfigTypeEnumLowerCase = map[string]CertificateConfigTypeEnum{
 	"issued_by_internal_ca":                    CertificateConfigTypeIssuedByInternalCa,
 	"managed_externally_issued_by_internal_ca": CertificateConfigTypeManagedExternallyIssuedByInternalCa,
-	"imported":            CertificateConfigTypeImported,
-	"issued_by_public_ca": CertificateConfigTypeIssuedByPublicCa,
+	"imported": CertificateConfigTypeImported,
 }
 
 // GetCertificateConfigTypeEnumValues Enumerates the set of values for CertificateConfigTypeEnum
@@ -53,7 +50,6 @@ func GetCertificateConfigTypeEnumStringValues() []string {
 		"ISSUED_BY_INTERNAL_CA",
 		"MANAGED_EXTERNALLY_ISSUED_BY_INTERNAL_CA",
 		"IMPORTED",
-		"ISSUED_BY_PUBLIC_CA",
 	}
 }
 

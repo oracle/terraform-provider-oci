@@ -12,6 +12,10 @@ import (
 )
 
 // GetInvoiceRequest wrapper for the GetInvoice operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetInvoice.go.html to see an example of how to use GetInvoiceRequest.
 type GetInvoiceRequest struct {
 
 	// The home region's public name of the logged in user.

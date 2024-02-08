@@ -12,6 +12,10 @@ import (
 )
 
 // PatchPasswordPolicyRequest wrapper for the PatchPasswordPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchPasswordPolicy.go.html to see an example of how to use PatchPasswordPolicyRequest.
 type PatchPasswordPolicyRequest struct {
 
 	// ID of the resource

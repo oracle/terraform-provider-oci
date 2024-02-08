@@ -12,6 +12,10 @@ import (
 )
 
 // ManageModuleStreamsOnManagedInstanceGroupRequest wrapper for the ManageModuleStreamsOnManagedInstanceGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ManageModuleStreamsOnManagedInstanceGroup.go.html to see an example of how to use ManageModuleStreamsOnManagedInstanceGroupRequest.
 type ManageModuleStreamsOnManagedInstanceGroupRequest struct {
 
 	// The managed instance group OCID.

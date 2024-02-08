@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateSdmMaskingPolicyDifferenceRequest wrapper for the UpdateSdmMaskingPolicyDifference operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSdmMaskingPolicyDifference.go.html to see an example of how to use UpdateSdmMaskingPolicyDifferenceRequest.
 type UpdateSdmMaskingPolicyDifferenceRequest struct {
 
 	// The OCID of the SDM masking policy difference.

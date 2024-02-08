@@ -12,6 +12,10 @@ import (
 )
 
 // ListSdmMaskingPolicyDifferencesRequest wrapper for the ListSdmMaskingPolicyDifferences operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSdmMaskingPolicyDifferences.go.html to see an example of how to use ListSdmMaskingPolicyDifferencesRequest.
 type ListSdmMaskingPolicyDifferencesRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

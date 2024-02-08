@@ -62,9 +62,6 @@ type Compartment struct {
 	// compartment or indirectly (permissions can be on a resource in a subcompartment).
 	IsAccessible *bool `mandatory:"false" json:"isAccessible"`
 
-	// The OCID of the Security Zone this compartment is associated with.
-	SecurityZoneId *string `mandatory:"false" json:"securityZoneId"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

@@ -12,6 +12,10 @@ import (
 )
 
 // GetSecurityAssessmentComparisonRequest wrapper for the GetSecurityAssessmentComparison operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityAssessmentComparison.go.html to see an example of how to use GetSecurityAssessmentComparisonRequest.
 type GetSecurityAssessmentComparisonRequest struct {
 
 	// The OCID of the security assessment.

@@ -36,11 +36,6 @@ type AutonomousContainerDatabase struct {
 	// Database patch model preference.
 	PatchModel AutonomousContainerDatabasePatchModelEnum `mandatory:"true" json:"patchModel"`
 
-	NfsStorageDetails *NfsStorageDetails `mandatory:"false" json:"nfsStorageDetails"`
-
-	// The date and time the NFS storage was attached to Autonomous Container Database.
-	TimeNfsAttached *common.SDKTime `mandatory:"false" json:"timeNfsAttached"`
-
 	// **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
@@ -62,10 +57,10 @@ type AutonomousContainerDatabase struct {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
 	// Key History Entry.
@@ -101,7 +96,7 @@ type AutonomousContainerDatabase struct {
 	// Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
 	IsDstFileUpdateEnabled *bool `mandatory:"false" json:"isDstFileUpdateEnabled"`
 
-	// DST Time-zone File version of the Autonomous Container Database.
+	// DST Time Zone File version of the Autonomous Container Database.
 	DstFileVersion *string `mandatory:"false" json:"dstFileVersion"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -124,34 +119,33 @@ type AutonomousContainerDatabase struct {
 
 	BackupConfig *AutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
 
-	// Indicates if FIPS-140 compliant cryptography is enabled for the Autonomous Container Database.
-	IsFipsEnabled *bool `mandatory:"false" json:"isFipsEnabled"`
-
-	// The amount of memory (in GBs) enabled per ECPU or OCPU in the Autonomous VM Cluster.
+	// The amount of memory (in GBs) enabled per OCPU or ECPU in the Autonomous VM Cluster.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
-	// Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.
+	// Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.<br>
+	// For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	AvailableCpus *float32 `mandatory:"false" json:"availableCpus"`
 
-	// The number of CPUs allocated to the Autonomous VM cluster.
+	// The number of CPUs allocated to the Autonomous VM cluster.<br>
+	// For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	TotalCpus *int `mandatory:"false" json:"totalCpus"`
 
-	// CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+	// For Autonomous Databases on Dedicated Exadata Infrastructure:
+	// - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
+	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	ReclaimableCpus *float32 `mandatory:"false" json:"reclaimableCpus"`
 
-	// An array of CPU values that can be used to successfully provision a single Autonomous Database.
+	// An array of CPU values that can be used to successfully provision a single Autonomous Database.\
+	// For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
-	// List of One-Off patches that has been successfully applied to Autonomous Container Database
-	ListOneOffPatches []string `mandatory:"false" json:"listOneOffPatches"`
-
-	// The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. ECPU compute model is the recommended model and OCPU compute model is legacy. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+	// The compute model of the Autonomous VM Cluster.
 	ComputeModel AutonomousContainerDatabaseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The number of CPUs provisioned in an Autonomous Container Database.
@@ -165,18 +159,6 @@ type AutonomousContainerDatabase struct {
 
 	// The timestamp of last successful backup. Here NULL value represents either there are no successful backups or backups are not configured for this Autonomous Container Database.
 	TimeOfLastBackup *common.SDKTime `mandatory:"false" json:"timeOfLastBackup"`
-
-	// The value above which an Autonomous Database will be split across multiple nodes. This value defaults to 16 when the "CPU per VM" value on the Autonomous VM Cluster is greater than 16. Otherwise, it defaults to the "CPU per VM" value.
-	DbSplitThreshold *int `mandatory:"false" json:"dbSplitThreshold"`
-
-	// The percentage of CPUs to reserve for a single node Autonomous Database, in increments of 25.
-	VmFailoverReservation *int `mandatory:"false" json:"vmFailoverReservation"`
-
-	// This option determines whether to open an Autonomous Database across the maximum number of nodes or the least number of nodes. The default will be for the minimum number of VMs.
-	DistributionAffinity AutonomousContainerDatabaseDistributionAffinityEnum `mandatory:"false" json:"distributionAffinity,omitempty"`
-
-	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
-	NetServicesArchitecture AutonomousContainerDatabaseNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
 }
 
 func (m AutonomousContainerDatabase) String() string {
@@ -209,12 +191,6 @@ func (m AutonomousContainerDatabase) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousContainerDatabaseComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetAutonomousContainerDatabaseComputeModelEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingAutonomousContainerDatabaseDistributionAffinityEnum(string(m.DistributionAffinity)); !ok && m.DistributionAffinity != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionAffinity: %s. Supported values are: %s.", m.DistributionAffinity, strings.Join(GetAutonomousContainerDatabaseDistributionAffinityEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingAutonomousContainerDatabaseNetServicesArchitectureEnum(string(m.NetServicesArchitecture)); !ok && m.NetServicesArchitecture != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetServicesArchitecture: %s. Supported values are: %s.", m.NetServicesArchitecture, strings.Join(GetAutonomousContainerDatabaseNetServicesArchitectureEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -577,89 +553,5 @@ func GetAutonomousContainerDatabaseComputeModelEnumStringValues() []string {
 // GetMappingAutonomousContainerDatabaseComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousContainerDatabaseComputeModelEnum(val string) (AutonomousContainerDatabaseComputeModelEnum, bool) {
 	enum, ok := mappingAutonomousContainerDatabaseComputeModelEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// AutonomousContainerDatabaseDistributionAffinityEnum Enum with underlying type: string
-type AutonomousContainerDatabaseDistributionAffinityEnum string
-
-// Set of constants representing the allowable values for AutonomousContainerDatabaseDistributionAffinityEnum
-const (
-	AutonomousContainerDatabaseDistributionAffinityMinimumDistribution AutonomousContainerDatabaseDistributionAffinityEnum = "MINIMUM_DISTRIBUTION"
-	AutonomousContainerDatabaseDistributionAffinityMaximumDistribution AutonomousContainerDatabaseDistributionAffinityEnum = "MAXIMUM_DISTRIBUTION"
-)
-
-var mappingAutonomousContainerDatabaseDistributionAffinityEnum = map[string]AutonomousContainerDatabaseDistributionAffinityEnum{
-	"MINIMUM_DISTRIBUTION": AutonomousContainerDatabaseDistributionAffinityMinimumDistribution,
-	"MAXIMUM_DISTRIBUTION": AutonomousContainerDatabaseDistributionAffinityMaximumDistribution,
-}
-
-var mappingAutonomousContainerDatabaseDistributionAffinityEnumLowerCase = map[string]AutonomousContainerDatabaseDistributionAffinityEnum{
-	"minimum_distribution": AutonomousContainerDatabaseDistributionAffinityMinimumDistribution,
-	"maximum_distribution": AutonomousContainerDatabaseDistributionAffinityMaximumDistribution,
-}
-
-// GetAutonomousContainerDatabaseDistributionAffinityEnumValues Enumerates the set of values for AutonomousContainerDatabaseDistributionAffinityEnum
-func GetAutonomousContainerDatabaseDistributionAffinityEnumValues() []AutonomousContainerDatabaseDistributionAffinityEnum {
-	values := make([]AutonomousContainerDatabaseDistributionAffinityEnum, 0)
-	for _, v := range mappingAutonomousContainerDatabaseDistributionAffinityEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetAutonomousContainerDatabaseDistributionAffinityEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseDistributionAffinityEnum
-func GetAutonomousContainerDatabaseDistributionAffinityEnumStringValues() []string {
-	return []string{
-		"MINIMUM_DISTRIBUTION",
-		"MAXIMUM_DISTRIBUTION",
-	}
-}
-
-// GetMappingAutonomousContainerDatabaseDistributionAffinityEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingAutonomousContainerDatabaseDistributionAffinityEnum(val string) (AutonomousContainerDatabaseDistributionAffinityEnum, bool) {
-	enum, ok := mappingAutonomousContainerDatabaseDistributionAffinityEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// AutonomousContainerDatabaseNetServicesArchitectureEnum Enum with underlying type: string
-type AutonomousContainerDatabaseNetServicesArchitectureEnum string
-
-// Set of constants representing the allowable values for AutonomousContainerDatabaseNetServicesArchitectureEnum
-const (
-	AutonomousContainerDatabaseNetServicesArchitectureDedicated AutonomousContainerDatabaseNetServicesArchitectureEnum = "DEDICATED"
-	AutonomousContainerDatabaseNetServicesArchitectureShared    AutonomousContainerDatabaseNetServicesArchitectureEnum = "SHARED"
-)
-
-var mappingAutonomousContainerDatabaseNetServicesArchitectureEnum = map[string]AutonomousContainerDatabaseNetServicesArchitectureEnum{
-	"DEDICATED": AutonomousContainerDatabaseNetServicesArchitectureDedicated,
-	"SHARED":    AutonomousContainerDatabaseNetServicesArchitectureShared,
-}
-
-var mappingAutonomousContainerDatabaseNetServicesArchitectureEnumLowerCase = map[string]AutonomousContainerDatabaseNetServicesArchitectureEnum{
-	"dedicated": AutonomousContainerDatabaseNetServicesArchitectureDedicated,
-	"shared":    AutonomousContainerDatabaseNetServicesArchitectureShared,
-}
-
-// GetAutonomousContainerDatabaseNetServicesArchitectureEnumValues Enumerates the set of values for AutonomousContainerDatabaseNetServicesArchitectureEnum
-func GetAutonomousContainerDatabaseNetServicesArchitectureEnumValues() []AutonomousContainerDatabaseNetServicesArchitectureEnum {
-	values := make([]AutonomousContainerDatabaseNetServicesArchitectureEnum, 0)
-	for _, v := range mappingAutonomousContainerDatabaseNetServicesArchitectureEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetAutonomousContainerDatabaseNetServicesArchitectureEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseNetServicesArchitectureEnum
-func GetAutonomousContainerDatabaseNetServicesArchitectureEnumStringValues() []string {
-	return []string{
-		"DEDICATED",
-		"SHARED",
-	}
-}
-
-// GetMappingAutonomousContainerDatabaseNetServicesArchitectureEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingAutonomousContainerDatabaseNetServicesArchitectureEnum(val string) (AutonomousContainerDatabaseNetServicesArchitectureEnum, bool) {
-	enum, ok := mappingAutonomousContainerDatabaseNetServicesArchitectureEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

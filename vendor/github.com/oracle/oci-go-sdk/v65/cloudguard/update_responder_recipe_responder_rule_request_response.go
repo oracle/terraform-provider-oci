@@ -12,15 +12,19 @@ import (
 )
 
 // UpdateResponderRecipeResponderRuleRequest wrapper for the UpdateResponderRecipeResponderRule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateResponderRecipeResponderRule.go.html to see an example of how to use UpdateResponderRecipeResponderRuleRequest.
 type UpdateResponderRecipeResponderRuleRequest struct {
 
-	// OCID of the responder recipe.
+	// OCID of ResponderRecipe
 	ResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"responderRecipeId"`
 
-	// Unique identifier of the responder rule.
+	// The id of ResponderRule
 	ResponderRuleId *string `mandatory:"true" contributesTo:"path" name:"responderRuleId"`
 
-	// The details to be updated for responder rule
+	// The details to be updated for ResponderRule.
 	UpdateResponderRecipeResponderRuleDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -16,31 +16,31 @@ import (
 	"strings"
 )
 
-// SightingSummary Sighting summary definition.
+// SightingSummary Sighting summary Definition.
 type SightingSummary struct {
 
-	// Unique identifier for sighting
+	// Unique identifier for finding event
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID where the impacted resource is created
+	// Compartment Id where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Unique identifier of the detector rule that was triggered
+	// Unique identifier of the rule
 	DetectorRuleId *string `mandatory:"true" json:"detectorRuleId"`
 
-	// Classification status of the sighting
+	// ClassificationStatus of the sighting event
 	ClassificationStatus ClassificationStatusEnum `mandatory:"true" json:"classificationStatus"`
 
-	// Type of sighting
+	// Identifier for the sighting type
 	SightingType *string `mandatory:"true" json:"sightingType"`
 
-	// Display name of the sighting type
+	// Name of the sighting type
 	SightingTypeDisplayName *string `mandatory:"true" json:"sightingTypeDisplayName"`
 
-	// Name of the MITRE ATT@CK framework tactic
+	// Name of the Mitre att&ck tactic
 	TacticName *string `mandatory:"true" json:"tacticName"`
 
-	// Name of the MITRE ATT@CK framework technique
+	// Name of the Mitre att&ck technique
 	TechniqueName *string `mandatory:"true" json:"techniqueName"`
 
 	// Score for the sighting
@@ -49,7 +49,7 @@ type SightingSummary struct {
 	// Severity of the sighting
 	Severity SeverityEnum `mandatory:"true" json:"severity"`
 
-	// Confidence level that the sighting is not a false positive
+	// Confidence of the sighting
 	Confidence ConfidenceEnum `mandatory:"true" json:"confidence"`
 
 	// The date and time the sighting was first detected. Format defined by RFC3339.
@@ -58,19 +58,19 @@ type SightingSummary struct {
 	// The date and time the sighting was last detected. Format defined by RFC3339.
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// List of regions involved in the sighting
+	// Regions involved in the sighting
 	Regions []string `mandatory:"true" json:"regions"`
 
-	// Problem ID associated with sighting
+	// Problem Id to which the Sighting is associated
 	ProblemId *string `mandatory:"false" json:"problemId"`
 
 	// Unique identifier for principal actor
 	ActorPrincipalId *string `mandatory:"false" json:"actorPrincipalId"`
 
-	// Name of principal actor
+	// Name of the principal actor
 	ActorPrincipalName *string `mandatory:"false" json:"actorPrincipalName"`
 
-	// Type of principal actor
+	// Type of the principal actor
 	ActorPrincipalType *string `mandatory:"false" json:"actorPrincipalType"`
 }
 

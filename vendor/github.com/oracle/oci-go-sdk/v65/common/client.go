@@ -28,6 +28,9 @@ import (
 )
 
 const (
+	// DefaultHostURLTemplate The default url template for service hosts
+	DefaultHostURLTemplate = "%s.%s.oraclecloud.com"
+
 	// requestHeaderAccept The key for passing a header to indicate Accept
 	requestHeaderAccept = "Accept"
 
@@ -79,8 +82,9 @@ const (
 	defaultConfigFileName    = "config"
 	defaultConfigDirName     = ".oci"
 	configFilePathEnvVarName = "OCI_CONFIG_FILE"
-	secondaryConfigDirName   = ".oraclebmc"
-	maxBodyLenForDebug       = 1024 * 1000
+
+	secondaryConfigDirName = ".oraclebmc"
+	maxBodyLenForDebug     = 1024 * 1000
 
 	// appendUserAgentEnv The key for retrieving append user agent value from env var
 	appendUserAgentEnv = "OCI_SDK_APPEND_USER_AGENT"
@@ -230,7 +234,7 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 
 func defaultHTTPDispatcher() http.Client {
 	var httpClient http.Client
-	refreshInterval := GetCustomCertRefreshInterval()
+	refreshInterval := getCustomCertRefreshInterval()
 	if refreshInterval <= 0 {
 		Debug("Custom cert refresh has been disabled")
 	}
@@ -291,7 +295,6 @@ func NewClientWithOboToken(configProvider ConfigurationProvider, oboToken string
 
 // Add obo token header to Interceptor and sign to client
 func signOboToken(client *BaseClient, oboToken string, configProvider ConfigurationProvider) {
-
 	// Interceptor to add obo token header
 	client.Interceptor = func(request *http.Request) error {
 		request.Header.Add(requestHeaderOpcOboToken, oboToken)
@@ -632,18 +635,15 @@ func (client BaseClient) RefreshableTokenWrappedCallWithDetails(ctx context.Cont
 func (client BaseClient) CallWithDetails(ctx context.Context, request *http.Request, details ClientCallDetails) (response *http.Response, err error) {
 	Debugln("Attempting to call downstream service")
 	request = request.WithContext(ctx)
-
 	err = client.prepareRequest(request)
 	if err != nil {
 		return
 	}
-
 	//Intercept
 	err = client.intercept(request)
 	if err != nil {
 		return
 	}
-
 	//Sign the request
 	err = details.Signer.Sign(request)
 	if err != nil {
@@ -726,8 +726,7 @@ func (client BaseClient) IsOciRealmSpecificServiceEndpointTemplateEnabled() bool
 	return IsEnvVarTrue(OciRealmSpecificServiceEndpointTemplateEnabledEnvVar)
 }
 
-// GetCustomCertRefreshInterval returns the refresh interval in minutes to use for custom certs
-func GetCustomCertRefreshInterval() int {
+func getCustomCertRefreshInterval() int {
 	if OciGlobalRefreshIntervalForCustomCerts >= 0 {
 		Debugf("Setting refresh interval as %d for custom certs via OciGlobalRefreshIntervalForCustomCerts", OciGlobalRefreshIntervalForCustomCerts)
 		return OciGlobalRefreshIntervalForCustomCerts

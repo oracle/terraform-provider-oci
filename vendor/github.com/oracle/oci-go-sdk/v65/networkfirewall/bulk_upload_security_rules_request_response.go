@@ -13,6 +13,10 @@ import (
 )
 
 // BulkUploadSecurityRulesRequest wrapper for the BulkUploadSecurityRules operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/BulkUploadSecurityRules.go.html to see an example of how to use BulkUploadSecurityRulesRequest.
 type BulkUploadSecurityRulesRequest struct {
 
 	// Unique Network Firewall Policy identifier

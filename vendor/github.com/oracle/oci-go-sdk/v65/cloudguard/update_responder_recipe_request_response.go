@@ -12,12 +12,16 @@ import (
 )
 
 // UpdateResponderRecipeRequest wrapper for the UpdateResponderRecipe operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateResponderRecipe.go.html to see an example of how to use UpdateResponderRecipeRequest.
 type UpdateResponderRecipeRequest struct {
 
-	// OCID of the responder recipe.
+	// OCID of ResponderRecipe
 	ResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"responderRecipeId"`
 
-	// The details to be updated
+	// The details to be updated.
 	UpdateResponderRecipeDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

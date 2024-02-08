@@ -12,6 +12,10 @@ import (
 )
 
 // ListModuleStreamProfilesOnManagedInstanceRequest wrapper for the ListModuleStreamProfilesOnManagedInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListModuleStreamProfilesOnManagedInstance.go.html to see an example of how to use ListModuleStreamProfilesOnManagedInstanceRequest.
 type ListModuleStreamProfilesOnManagedInstanceRequest struct {
 
 	// OCID for the managed instance

@@ -12,9 +12,13 @@ import (
 )
 
 // GetDetectorRequest wrapper for the GetDetector operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetDetector.go.html to see an example of how to use GetDetectorRequest.
 type GetDetectorRequest struct {
 
-	// Detector name.
+	// The Name of Detector.
 	DetectorId *string `mandatory:"true" contributesTo:"path" name:"detectorId"`
 
 	// The client request ID for tracing.

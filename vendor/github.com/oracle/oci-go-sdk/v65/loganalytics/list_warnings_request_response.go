@@ -12,6 +12,10 @@ import (
 )
 
 // ListWarningsRequest wrapper for the ListWarnings operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListWarnings.go.html to see an example of how to use ListWarningsRequest.
 type ListWarningsRequest struct {
 
 	// The Logging Analytics namespace used for the request.

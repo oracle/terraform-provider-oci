@@ -12,6 +12,10 @@ import (
 )
 
 // ListBuildPipelineStagesRequest wrapper for the ListBuildPipelineStages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListBuildPipelineStages.go.html to see an example of how to use ListBuildPipelineStagesRequest.
 type ListBuildPipelineStagesRequest struct {
 
 	// Unique identifier or OCID for listing a single resource by ID.

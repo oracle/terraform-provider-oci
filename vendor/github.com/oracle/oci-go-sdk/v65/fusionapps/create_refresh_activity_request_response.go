@@ -12,6 +12,10 @@ import (
 )
 
 // CreateRefreshActivityRequest wrapper for the CreateRefreshActivity operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateRefreshActivity.go.html to see an example of how to use CreateRefreshActivityRequest.
 type CreateRefreshActivityRequest struct {
 
 	// unique FusionEnvironment identifier

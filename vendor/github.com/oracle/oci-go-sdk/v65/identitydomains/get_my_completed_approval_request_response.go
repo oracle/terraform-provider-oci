@@ -12,6 +12,10 @@ import (
 )
 
 // GetMyCompletedApprovalRequest wrapper for the GetMyCompletedApproval operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyCompletedApproval.go.html to see an example of how to use GetMyCompletedApprovalRequest.
 type GetMyCompletedApprovalRequest struct {
 
 	// ID of the resource

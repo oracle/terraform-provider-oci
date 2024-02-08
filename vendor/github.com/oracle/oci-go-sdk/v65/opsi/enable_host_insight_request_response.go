@@ -12,6 +12,10 @@ import (
 )
 
 // EnableHostInsightRequest wrapper for the EnableHostInsight operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableHostInsight.go.html to see an example of how to use EnableHostInsightRequest.
 type EnableHostInsightRequest struct {
 
 	// Details for the host to be enabled in Operations Insights.

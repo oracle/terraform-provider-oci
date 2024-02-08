@@ -93,60 +93,11 @@ func (client *DeploymentClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// AddDeploymentLock Adds a lock to a Deployment resource.
-func (client DeploymentClient) AddDeploymentLock(ctx context.Context, request AddDeploymentLockRequest) (response AddDeploymentLockResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.addDeploymentLock, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AddDeploymentLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = AddDeploymentLockResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(AddDeploymentLockResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AddDeploymentLockResponse")
-	}
-	return
-}
-
-// addDeploymentLock implements the OCIOperation interface (enables retrying operations)
-func (client DeploymentClient) addDeploymentLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/addLock", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response AddDeploymentLockResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Deployment/AddDeploymentLock"
-		err = common.PostProcessServiceError(err, "Deployment", "AddDeploymentLock", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeDeploymentCompartment Changes the deployment compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeDeploymentCompartment.go.html to see an example of how to use ChangeDeploymentCompartment API.
 func (client DeploymentClient) ChangeDeploymentCompartment(ctx context.Context, request ChangeDeploymentCompartmentRequest) (response ChangeDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -205,6 +156,10 @@ func (client DeploymentClient) changeDeploymentCompartment(ctx context.Context, 
 }
 
 // CreateDeployment Creates a new deployment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateDeployment.go.html to see an example of how to use CreateDeployment API.
 // A default retry strategy applies to this operation CreateDeployment()
 func (client DeploymentClient) CreateDeployment(ctx context.Context, request CreateDeploymentRequest) (response CreateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -264,6 +219,10 @@ func (client DeploymentClient) createDeployment(ctx context.Context, request com
 }
 
 // DeleteDeployment Deletes the deployment with the given identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteDeployment.go.html to see an example of how to use DeleteDeployment API.
 func (client DeploymentClient) DeleteDeployment(ctx context.Context, request DeleteDeploymentRequest) (response DeleteDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -317,6 +276,10 @@ func (client DeploymentClient) deleteDeployment(ctx context.Context, request com
 }
 
 // GetDeployment Gets a deployment by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetDeployment.go.html to see an example of how to use GetDeployment API.
 // A default retry strategy applies to this operation GetDeployment()
 func (client DeploymentClient) GetDeployment(ctx context.Context, request GetDeploymentRequest) (response GetDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -371,6 +334,10 @@ func (client DeploymentClient) getDeployment(ctx context.Context, request common
 }
 
 // ListDeployments Returns a list of deployments.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListDeployments.go.html to see an example of how to use ListDeployments API.
 // A default retry strategy applies to this operation ListDeployments()
 func (client DeploymentClient) ListDeployments(ctx context.Context, request ListDeploymentsRequest) (response ListDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -424,60 +391,11 @@ func (client DeploymentClient) listDeployments(ctx context.Context, request comm
 	return response, err
 }
 
-// RemoveDeploymentLock Removes a lock from a Deployment resource.
-func (client DeploymentClient) RemoveDeploymentLock(ctx context.Context, request RemoveDeploymentLockRequest) (response RemoveDeploymentLockResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.removeDeploymentLock, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RemoveDeploymentLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = RemoveDeploymentLockResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(RemoveDeploymentLockResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RemoveDeploymentLockResponse")
-	}
-	return
-}
-
-// removeDeploymentLock implements the OCIOperation interface (enables retrying operations)
-func (client DeploymentClient) removeDeploymentLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/removeLock", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response RemoveDeploymentLockResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Deployment/RemoveDeploymentLock"
-		err = common.PostProcessServiceError(err, "Deployment", "RemoveDeploymentLock", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateDeployment Updates the deployment with the given identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateDeployment.go.html to see an example of how to use UpdateDeployment API.
 func (client DeploymentClient) UpdateDeployment(ctx context.Context, request UpdateDeploymentRequest) (response UpdateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

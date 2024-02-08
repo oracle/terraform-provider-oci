@@ -12,6 +12,10 @@ import (
 )
 
 // GetMaskingReportRequest wrapper for the GetMaskingReport operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetMaskingReport.go.html to see an example of how to use GetMaskingReportRequest.
 type GetMaskingReportRequest struct {
 
 	// The OCID of the masking report.

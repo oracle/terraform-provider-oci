@@ -12,9 +12,13 @@ import (
 )
 
 // GetResponderExecutionRequest wrapper for the GetResponderExecution operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetResponderExecution.go.html to see an example of how to use GetResponderExecutionRequest.
 type GetResponderExecutionRequest struct {
 
-	// The unique identifier of the responder execution.
+	// The identifier of the responder execution.
 	ResponderExecutionId *string `mandatory:"true" contributesTo:"path" name:"responderExecutionId"`
 
 	// The client request ID for tracing.

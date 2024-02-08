@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OciCaBundle CA Bundle from Oracle Cloud Infrastructure Certificates service.
+// OciCaBundle CA Bundle from OCI Certificates service.
 type OciCaBundle struct {
 
 	// The OCID of the CA Bundle resource.

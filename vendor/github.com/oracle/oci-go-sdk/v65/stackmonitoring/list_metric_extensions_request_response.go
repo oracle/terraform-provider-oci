@@ -12,6 +12,10 @@ import (
 )
 
 // ListMetricExtensionsRequest wrapper for the ListMetricExtensions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMetricExtensions.go.html to see an example of how to use ListMetricExtensionsRequest.
 type ListMetricExtensionsRequest struct {
 
 	// The ID of the compartment in which data is listed.

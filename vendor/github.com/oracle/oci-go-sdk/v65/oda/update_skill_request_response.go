@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateSkillRequest wrapper for the UpdateSkill operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateSkill.go.html to see an example of how to use UpdateSkillRequest.
 type UpdateSkillRequest struct {
 
 	// Unique Digital Assistant instance identifier.

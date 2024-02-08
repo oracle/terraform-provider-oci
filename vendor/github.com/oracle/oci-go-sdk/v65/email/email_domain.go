@@ -4,10 +4,11 @@
 
 // Email Delivery API
 //
-// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
-// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// API for the Email Delivery service. Use this API to send high-volume, application-generated
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//
+// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -18,12 +19,12 @@ import (
 	"strings"
 )
 
-// EmailDomain The properties that define an email domain.
-// An email domain contains configuration used to assert responsibility for emails sent from that domain.
+// EmailDomain The properties that define a email domain.
+// A Email Domain contains configuration used to assert responsibility for emails sent from that domain.
 type EmailDomain struct {
 
 	// The name of the email domain in the Internet Domain Name System (DNS).
-	// Example: `mydomain.example.com`
+	// Example: `example.net`
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email domain.
@@ -43,37 +44,13 @@ type EmailDomain struct {
 	// SPF Authentication (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm#components).
 	IsSpf *bool `mandatory:"false" json:"isSpf"`
 
-	// The current domain verification status.
-	DomainVerificationStatus DomainVerificationStatusTypeEnum `mandatory:"false" json:"domainVerificationStatus,omitempty"`
-
-	// Id for Domain in Domain Management (under governance) if DOMAINID verification method used.
-	DomainVerificationId *string `mandatory:"false" json:"domainVerificationId"`
-
-	// Controls when use of a private endpoint for email routing is required.
-	// SEND means all mail from senders in this email domain will be privately routed.
-	// RECEIVE means all mail sent to this recipient domain will be privately routed.
-	// BOTH means both rules apply.
-	// This can not be set to RECEIVE or BOTH without valid domain verification.
-	// This can not be set to a value other than NONE unless emailPrivateEndpointId references an ACTIVE bi-directional submission email private endpoint.
-	RequirePrivatePath RequirePrivatePathTypeEnum `mandatory:"false" json:"requirePrivatePath,omitempty"`
-
-	// Id for the bi-directional submission Email Private Endpoint to use if requiring any private path.
-	EmailPrivateEndpointId *string `mandatory:"false" json:"emailPrivateEndpointId"`
-
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a
-	// resource in 'Failed' state.
-	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
-
-	// The description of an email domain.
+	// The description of a email domain.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The time the email domain was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)
 	// timestamp format, "YYYY-MM-ddThh:mmZ".
 	// Example: `2021-02-12T22:47:12.613Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
-
-	// A list of custom log headers.
-	CustomHeaders []string `mandatory:"false" json:"customHeaders"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -102,12 +79,6 @@ func (m EmailDomain) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingEmailDomainLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEmailDomainLifecycleStateEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingDomainVerificationStatusTypeEnum(string(m.DomainVerificationStatus)); !ok && m.DomainVerificationStatus != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DomainVerificationStatus: %s. Supported values are: %s.", m.DomainVerificationStatus, strings.Join(GetDomainVerificationStatusTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingRequirePrivatePathTypeEnum(string(m.RequirePrivatePath)); !ok && m.RequirePrivatePath != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequirePrivatePath: %s. Supported values are: %s.", m.RequirePrivatePath, strings.Join(GetRequirePrivatePathTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

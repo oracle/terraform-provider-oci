@@ -12,12 +12,16 @@ import (
 )
 
 // ExecuteResponderExecutionRequest wrapper for the ExecuteResponderExecution operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ExecuteResponderExecution.go.html to see an example of how to use ExecuteResponderExecutionRequest.
 type ExecuteResponderExecutionRequest struct {
 
-	// The unique identifier of the responder execution.
+	// The identifier of the responder execution.
 	ResponderExecutionId *string `mandatory:"true" contributesTo:"path" name:"responderExecutionId"`
 
-	// The OCID of the compartment in which to list resources.
+	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
@@ -37,7 +41,7 @@ type ExecuteResponderExecutionRequest struct {
 	// might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Details for responder configuration
+	// Details for Responder Configuration
 	ExecuteResponderExecutionDetails `contributesTo:"body"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

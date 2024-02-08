@@ -12,6 +12,10 @@ import (
 )
 
 // GetAppRequest wrapper for the GetApp operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetApp.go.html to see an example of how to use GetAppRequest.
 type GetAppRequest struct {
 
 	// ID of the resource

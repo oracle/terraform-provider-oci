@@ -12,6 +12,10 @@ import (
 )
 
 // ListDataSourcesRequest wrapper for the ListDataSources operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListDataSources.go.html to see an example of how to use ListDataSourcesRequest.
 type ListDataSourcesRequest struct {
 
 	// Unique Management Agent identifier

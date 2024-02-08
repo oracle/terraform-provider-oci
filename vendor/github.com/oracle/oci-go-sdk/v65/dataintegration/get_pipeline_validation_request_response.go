@@ -12,6 +12,10 @@ import (
 )
 
 // GetPipelineValidationRequest wrapper for the GetPipelineValidation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetPipelineValidation.go.html to see an example of how to use GetPipelineValidationRequest.
 type GetPipelineValidationRequest struct {
 
 	// The workspace ID.

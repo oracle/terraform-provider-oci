@@ -12,6 +12,10 @@ import (
 )
 
 // ListExternalExadataInfrastructuresRequest wrapper for the ListExternalExadataInfrastructures operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalExadataInfrastructures.go.html to see an example of how to use ListExternalExadataInfrastructuresRequest.
 type ListExternalExadataInfrastructuresRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

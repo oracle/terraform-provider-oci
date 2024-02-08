@@ -13,6 +13,10 @@ import (
 )
 
 // GetCpeDeviceConfigContentRequest wrapper for the GetCpeDeviceConfigContent operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCpeDeviceConfigContent.go.html to see an example of how to use GetCpeDeviceConfigContentRequest.
 type GetCpeDeviceConfigContentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE.

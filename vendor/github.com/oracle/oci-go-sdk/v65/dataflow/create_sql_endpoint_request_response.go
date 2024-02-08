@@ -12,6 +12,10 @@ import (
 )
 
 // CreateSqlEndpointRequest wrapper for the CreateSqlEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateSqlEndpoint.go.html to see an example of how to use CreateSqlEndpointRequest.
 type CreateSqlEndpointRequest struct {
 
 	// Details of the new Sql Endpoint.

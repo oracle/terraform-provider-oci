@@ -12,6 +12,10 @@ import (
 )
 
 // GetExternalExadataStorageConnectorRequest wrapper for the GetExternalExadataStorageConnector operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalExadataStorageConnector.go.html to see an example of how to use GetExternalExadataStorageConnectorRequest.
 type GetExternalExadataStorageConnectorRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connector to the Exadata storage server.

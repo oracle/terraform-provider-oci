@@ -12,6 +12,10 @@ import (
 )
 
 // CreateSensitiveDataModelRequest wrapper for the CreateSensitiveDataModel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSensitiveDataModel.go.html to see an example of how to use CreateSensitiveDataModelRequest.
 type CreateSensitiveDataModelRequest struct {
 
 	// Details to create a new sensitive data model.

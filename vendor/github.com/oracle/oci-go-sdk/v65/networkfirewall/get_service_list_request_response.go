@@ -12,6 +12,10 @@ import (
 )
 
 // GetServiceListRequest wrapper for the GetServiceList operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetServiceList.go.html to see an example of how to use GetServiceListRequest.
 type GetServiceListRequest struct {
 
 	// Unique Network Firewall Policy identifier

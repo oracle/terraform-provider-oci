@@ -20,72 +20,48 @@ type OperationTypesEnum string
 
 // Set of constants representing the allowable values for OperationTypesEnum
 const (
-	OperationTypesCreateLog             OperationTypesEnum = "CREATE_LOG"
-	OperationTypesUpdateLog             OperationTypesEnum = "UPDATE_LOG"
-	OperationTypesDeleteLog             OperationTypesEnum = "DELETE_LOG"
-	OperationTypesMoveLog               OperationTypesEnum = "MOVE_LOG"
-	OperationTypesCreateLogGroup        OperationTypesEnum = "CREATE_LOG_GROUP"
-	OperationTypesUpdateLogGroup        OperationTypesEnum = "UPDATE_LOG_GROUP"
-	OperationTypesDeleteLogGroup        OperationTypesEnum = "DELETE_LOG_GROUP"
-	OperationTypesMoveLogGroup          OperationTypesEnum = "MOVE_LOG_GROUP"
-	OperationTypesCreateConfiguration   OperationTypesEnum = "CREATE_CONFIGURATION"
-	OperationTypesUpdateConfiguration   OperationTypesEnum = "UPDATE_CONFIGURATION"
-	OperationTypesDeleteConfiguration   OperationTypesEnum = "DELETE_CONFIGURATION"
-	OperationTypesMoveConfiguration     OperationTypesEnum = "MOVE_CONFIGURATION"
-	OperationTypesCreateLogRule         OperationTypesEnum = "CREATE_LOG_RULE"
-	OperationTypesUpdateLogRule         OperationTypesEnum = "UPDATE_LOG_RULE"
-	OperationTypesCreateContinuousQuery OperationTypesEnum = "CREATE_CONTINUOUS_QUERY"
-	OperationTypesUpdateContinuousQuery OperationTypesEnum = "UPDATE_CONTINUOUS_QUERY"
-	OperationTypesCreateLogDataModel    OperationTypesEnum = "CREATE_LOG_DATA_MODEL"
-	OperationTypesUpdateLogDataModel    OperationTypesEnum = "UPDATE_LOG_DATA_MODEL"
-	OperationTypesDeleteLogDataModel    OperationTypesEnum = "DELETE_LOG_DATA_MODEL"
-	OperationTypesMoveLogDataModel      OperationTypesEnum = "MOVE_LOG_DATA_MODEL"
+	OperationTypesCreateLog           OperationTypesEnum = "CREATE_LOG"
+	OperationTypesUpdateLog           OperationTypesEnum = "UPDATE_LOG"
+	OperationTypesDeleteLog           OperationTypesEnum = "DELETE_LOG"
+	OperationTypesMoveLog             OperationTypesEnum = "MOVE_LOG"
+	OperationTypesCreateLogGroup      OperationTypesEnum = "CREATE_LOG_GROUP"
+	OperationTypesUpdateLogGroup      OperationTypesEnum = "UPDATE_LOG_GROUP"
+	OperationTypesDeleteLogGroup      OperationTypesEnum = "DELETE_LOG_GROUP"
+	OperationTypesMoveLogGroup        OperationTypesEnum = "MOVE_LOG_GROUP"
+	OperationTypesCreateConfiguration OperationTypesEnum = "CREATE_CONFIGURATION"
+	OperationTypesUpdateConfiguration OperationTypesEnum = "UPDATE_CONFIGURATION"
+	OperationTypesDeleteConfiguration OperationTypesEnum = "DELETE_CONFIGURATION"
+	OperationTypesMoveConfiguration   OperationTypesEnum = "MOVE_CONFIGURATION"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
-	"CREATE_LOG":              OperationTypesCreateLog,
-	"UPDATE_LOG":              OperationTypesUpdateLog,
-	"DELETE_LOG":              OperationTypesDeleteLog,
-	"MOVE_LOG":                OperationTypesMoveLog,
-	"CREATE_LOG_GROUP":        OperationTypesCreateLogGroup,
-	"UPDATE_LOG_GROUP":        OperationTypesUpdateLogGroup,
-	"DELETE_LOG_GROUP":        OperationTypesDeleteLogGroup,
-	"MOVE_LOG_GROUP":          OperationTypesMoveLogGroup,
-	"CREATE_CONFIGURATION":    OperationTypesCreateConfiguration,
-	"UPDATE_CONFIGURATION":    OperationTypesUpdateConfiguration,
-	"DELETE_CONFIGURATION":    OperationTypesDeleteConfiguration,
-	"MOVE_CONFIGURATION":      OperationTypesMoveConfiguration,
-	"CREATE_LOG_RULE":         OperationTypesCreateLogRule,
-	"UPDATE_LOG_RULE":         OperationTypesUpdateLogRule,
-	"CREATE_CONTINUOUS_QUERY": OperationTypesCreateContinuousQuery,
-	"UPDATE_CONTINUOUS_QUERY": OperationTypesUpdateContinuousQuery,
-	"CREATE_LOG_DATA_MODEL":   OperationTypesCreateLogDataModel,
-	"UPDATE_LOG_DATA_MODEL":   OperationTypesUpdateLogDataModel,
-	"DELETE_LOG_DATA_MODEL":   OperationTypesDeleteLogDataModel,
-	"MOVE_LOG_DATA_MODEL":     OperationTypesMoveLogDataModel,
+	"CREATE_LOG":           OperationTypesCreateLog,
+	"UPDATE_LOG":           OperationTypesUpdateLog,
+	"DELETE_LOG":           OperationTypesDeleteLog,
+	"MOVE_LOG":             OperationTypesMoveLog,
+	"CREATE_LOG_GROUP":     OperationTypesCreateLogGroup,
+	"UPDATE_LOG_GROUP":     OperationTypesUpdateLogGroup,
+	"DELETE_LOG_GROUP":     OperationTypesDeleteLogGroup,
+	"MOVE_LOG_GROUP":       OperationTypesMoveLogGroup,
+	"CREATE_CONFIGURATION": OperationTypesCreateConfiguration,
+	"UPDATE_CONFIGURATION": OperationTypesUpdateConfiguration,
+	"DELETE_CONFIGURATION": OperationTypesDeleteConfiguration,
+	"MOVE_CONFIGURATION":   OperationTypesMoveConfiguration,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
-	"create_log":              OperationTypesCreateLog,
-	"update_log":              OperationTypesUpdateLog,
-	"delete_log":              OperationTypesDeleteLog,
-	"move_log":                OperationTypesMoveLog,
-	"create_log_group":        OperationTypesCreateLogGroup,
-	"update_log_group":        OperationTypesUpdateLogGroup,
-	"delete_log_group":        OperationTypesDeleteLogGroup,
-	"move_log_group":          OperationTypesMoveLogGroup,
-	"create_configuration":    OperationTypesCreateConfiguration,
-	"update_configuration":    OperationTypesUpdateConfiguration,
-	"delete_configuration":    OperationTypesDeleteConfiguration,
-	"move_configuration":      OperationTypesMoveConfiguration,
-	"create_log_rule":         OperationTypesCreateLogRule,
-	"update_log_rule":         OperationTypesUpdateLogRule,
-	"create_continuous_query": OperationTypesCreateContinuousQuery,
-	"update_continuous_query": OperationTypesUpdateContinuousQuery,
-	"create_log_data_model":   OperationTypesCreateLogDataModel,
-	"update_log_data_model":   OperationTypesUpdateLogDataModel,
-	"delete_log_data_model":   OperationTypesDeleteLogDataModel,
-	"move_log_data_model":     OperationTypesMoveLogDataModel,
+	"create_log":           OperationTypesCreateLog,
+	"update_log":           OperationTypesUpdateLog,
+	"delete_log":           OperationTypesDeleteLog,
+	"move_log":             OperationTypesMoveLog,
+	"create_log_group":     OperationTypesCreateLogGroup,
+	"update_log_group":     OperationTypesUpdateLogGroup,
+	"delete_log_group":     OperationTypesDeleteLogGroup,
+	"move_log_group":       OperationTypesMoveLogGroup,
+	"create_configuration": OperationTypesCreateConfiguration,
+	"update_configuration": OperationTypesUpdateConfiguration,
+	"delete_configuration": OperationTypesDeleteConfiguration,
+	"move_configuration":   OperationTypesMoveConfiguration,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -112,14 +88,6 @@ func GetOperationTypesEnumStringValues() []string {
 		"UPDATE_CONFIGURATION",
 		"DELETE_CONFIGURATION",
 		"MOVE_CONFIGURATION",
-		"CREATE_LOG_RULE",
-		"UPDATE_LOG_RULE",
-		"CREATE_CONTINUOUS_QUERY",
-		"UPDATE_CONTINUOUS_QUERY",
-		"CREATE_LOG_DATA_MODEL",
-		"UPDATE_LOG_DATA_MODEL",
-		"DELETE_LOG_DATA_MODEL",
-		"MOVE_LOG_DATA_MODEL",
 	}
 }
 

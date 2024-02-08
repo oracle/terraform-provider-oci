@@ -91,61 +91,11 @@ func (client *DatabaseRecoveryClient) ConfigurationProvider() *common.Configurat
 	return client.config
 }
 
-// CancelProtectedDatabaseDeletion Cancels the scheduled deletion of a protected database, and returns the protected database to an ACTIVE state. You can cancel the deletion only if the protected database is in the DELETE SCHEDULED state.
-// A default retry strategy applies to this operation CancelProtectedDatabaseDeletion()
-func (client DatabaseRecoveryClient) CancelProtectedDatabaseDeletion(ctx context.Context, request CancelProtectedDatabaseDeletionRequest) (response CancelProtectedDatabaseDeletionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.cancelProtectedDatabaseDeletion, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CancelProtectedDatabaseDeletionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CancelProtectedDatabaseDeletionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CancelProtectedDatabaseDeletionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CancelProtectedDatabaseDeletionResponse")
-	}
-	return
-}
-
-// cancelProtectedDatabaseDeletion implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseRecoveryClient) cancelProtectedDatabaseDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/protectedDatabases/{protectedDatabaseId}/actions/cancelDeletion", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CancelProtectedDatabaseDeletionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/CancelProtectedDatabaseDeletion"
-		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CancelProtectedDatabaseDeletion", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeProtectedDatabaseCompartment Moves a protected database resource from the existing compartment to the specified compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ChangeProtectedDatabaseCompartment.go.html to see an example of how to use ChangeProtectedDatabaseCompartment API.
 // A default retry strategy applies to this operation ChangeProtectedDatabaseCompartment()
 func (client DatabaseRecoveryClient) ChangeProtectedDatabaseCompartment(ctx context.Context, request ChangeProtectedDatabaseCompartmentRequest) (response ChangeProtectedDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -200,6 +150,10 @@ func (client DatabaseRecoveryClient) changeProtectedDatabaseCompartment(ctx cont
 }
 
 // ChangeProtectionPolicyCompartment Moves a protection policy resource from the existing compartment to the specified compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ChangeProtectionPolicyCompartment.go.html to see an example of how to use ChangeProtectionPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeProtectionPolicyCompartment()
 func (client DatabaseRecoveryClient) ChangeProtectionPolicyCompartment(ctx context.Context, request ChangeProtectionPolicyCompartmentRequest) (response ChangeProtectionPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -254,6 +208,10 @@ func (client DatabaseRecoveryClient) changeProtectionPolicyCompartment(ctx conte
 }
 
 // ChangeRecoveryServiceSubnetCompartment Moves a recovery service subnet resource from the existing compartment to the specified compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ChangeRecoveryServiceSubnetCompartment.go.html to see an example of how to use ChangeRecoveryServiceSubnetCompartment API.
 // A default retry strategy applies to this operation ChangeRecoveryServiceSubnetCompartment()
 func (client DatabaseRecoveryClient) ChangeRecoveryServiceSubnetCompartment(ctx context.Context, request ChangeRecoveryServiceSubnetCompartmentRequest) (response ChangeRecoveryServiceSubnetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -308,6 +266,10 @@ func (client DatabaseRecoveryClient) changeRecoveryServiceSubnetCompartment(ctx 
 }
 
 // CreateProtectedDatabase Creates a new Protected Database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CreateProtectedDatabase.go.html to see an example of how to use CreateProtectedDatabase API.
 // A default retry strategy applies to this operation CreateProtectedDatabase()
 func (client DatabaseRecoveryClient) CreateProtectedDatabase(ctx context.Context, request CreateProtectedDatabaseRequest) (response CreateProtectedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -367,6 +329,10 @@ func (client DatabaseRecoveryClient) createProtectedDatabase(ctx context.Context
 }
 
 // CreateProtectionPolicy Creates a new Protection Policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CreateProtectionPolicy.go.html to see an example of how to use CreateProtectionPolicy API.
 // A default retry strategy applies to this operation CreateProtectionPolicy()
 func (client DatabaseRecoveryClient) CreateProtectionPolicy(ctx context.Context, request CreateProtectionPolicyRequest) (response CreateProtectionPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -426,6 +392,10 @@ func (client DatabaseRecoveryClient) createProtectionPolicy(ctx context.Context,
 }
 
 // CreateRecoveryServiceSubnet Creates a new Recovery Service Subnet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CreateRecoveryServiceSubnet.go.html to see an example of how to use CreateRecoveryServiceSubnet API.
 // A default retry strategy applies to this operation CreateRecoveryServiceSubnet()
 func (client DatabaseRecoveryClient) CreateRecoveryServiceSubnet(ctx context.Context, request CreateRecoveryServiceSubnetRequest) (response CreateRecoveryServiceSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -485,6 +455,10 @@ func (client DatabaseRecoveryClient) createRecoveryServiceSubnet(ctx context.Con
 }
 
 // DeleteProtectedDatabase Deletes a protected database based on the specified protected database ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/DeleteProtectedDatabase.go.html to see an example of how to use DeleteProtectedDatabase API.
 // A default retry strategy applies to this operation DeleteProtectedDatabase()
 func (client DatabaseRecoveryClient) DeleteProtectedDatabase(ctx context.Context, request DeleteProtectedDatabaseRequest) (response DeleteProtectedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -540,6 +514,10 @@ func (client DatabaseRecoveryClient) deleteProtectedDatabase(ctx context.Context
 
 // DeleteProtectionPolicy Deletes a specified protection policy. You can delete custom policies only.
 // Deleting a Oracle predefined policies will result in status code 405 Method Not Allowed.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/DeleteProtectionPolicy.go.html to see an example of how to use DeleteProtectionPolicy API.
 // A default retry strategy applies to this operation DeleteProtectionPolicy()
 func (client DatabaseRecoveryClient) DeleteProtectionPolicy(ctx context.Context, request DeleteProtectionPolicyRequest) (response DeleteProtectionPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -594,6 +572,10 @@ func (client DatabaseRecoveryClient) deleteProtectionPolicy(ctx context.Context,
 }
 
 // DeleteRecoveryServiceSubnet Deletes a specified recovery service subnet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/DeleteRecoveryServiceSubnet.go.html to see an example of how to use DeleteRecoveryServiceSubnet API.
 // A default retry strategy applies to this operation DeleteRecoveryServiceSubnet()
 func (client DatabaseRecoveryClient) DeleteRecoveryServiceSubnet(ctx context.Context, request DeleteRecoveryServiceSubnetRequest) (response DeleteRecoveryServiceSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -648,6 +630,10 @@ func (client DatabaseRecoveryClient) deleteRecoveryServiceSubnet(ctx context.Con
 }
 
 // FetchProtectedDatabaseConfiguration Downloads the network service configuration file 'tnsnames.ora' for a specified protected database. Applies to user-defined recovery systems only.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/FetchProtectedDatabaseConfiguration.go.html to see an example of how to use FetchProtectedDatabaseConfiguration API.
 // A default retry strategy applies to this operation FetchProtectedDatabaseConfiguration()
 func (client DatabaseRecoveryClient) FetchProtectedDatabaseConfiguration(ctx context.Context, request FetchProtectedDatabaseConfigurationRequest) (response FetchProtectedDatabaseConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -701,6 +687,10 @@ func (client DatabaseRecoveryClient) fetchProtectedDatabaseConfiguration(ctx con
 }
 
 // GetProtectedDatabase Gets information about a specified protected database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/GetProtectedDatabase.go.html to see an example of how to use GetProtectedDatabase API.
 // A default retry strategy applies to this operation GetProtectedDatabase()
 func (client DatabaseRecoveryClient) GetProtectedDatabase(ctx context.Context, request GetProtectedDatabaseRequest) (response GetProtectedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -755,6 +745,10 @@ func (client DatabaseRecoveryClient) getProtectedDatabase(ctx context.Context, r
 }
 
 // GetProtectionPolicy Gets information about a specified protection policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/GetProtectionPolicy.go.html to see an example of how to use GetProtectionPolicy API.
 // A default retry strategy applies to this operation GetProtectionPolicy()
 func (client DatabaseRecoveryClient) GetProtectionPolicy(ctx context.Context, request GetProtectionPolicyRequest) (response GetProtectionPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -809,6 +803,10 @@ func (client DatabaseRecoveryClient) getProtectionPolicy(ctx context.Context, re
 }
 
 // GetRecoveryServiceSubnet Gets information about a specified recovery service subnet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/GetRecoveryServiceSubnet.go.html to see an example of how to use GetRecoveryServiceSubnet API.
 // A default retry strategy applies to this operation GetRecoveryServiceSubnet()
 func (client DatabaseRecoveryClient) GetRecoveryServiceSubnet(ctx context.Context, request GetRecoveryServiceSubnetRequest) (response GetRecoveryServiceSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -863,6 +861,10 @@ func (client DatabaseRecoveryClient) getRecoveryServiceSubnet(ctx context.Contex
 }
 
 // GetWorkRequest Gets the status of the work request based on the specified ID
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DatabaseRecoveryClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -917,6 +919,10 @@ func (client DatabaseRecoveryClient) getWorkRequest(ctx context.Context, request
 }
 
 // ListProtectedDatabases Lists the protected databases based on the specified parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListProtectedDatabases.go.html to see an example of how to use ListProtectedDatabases API.
 // A default retry strategy applies to this operation ListProtectedDatabases()
 func (client DatabaseRecoveryClient) ListProtectedDatabases(ctx context.Context, request ListProtectedDatabasesRequest) (response ListProtectedDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -971,6 +977,10 @@ func (client DatabaseRecoveryClient) listProtectedDatabases(ctx context.Context,
 }
 
 // ListProtectionPolicies Gets a list of protection policies based on the specified parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListProtectionPolicies.go.html to see an example of how to use ListProtectionPolicies API.
 // A default retry strategy applies to this operation ListProtectionPolicies()
 func (client DatabaseRecoveryClient) ListProtectionPolicies(ctx context.Context, request ListProtectionPoliciesRequest) (response ListProtectionPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1025,6 +1035,10 @@ func (client DatabaseRecoveryClient) listProtectionPolicies(ctx context.Context,
 }
 
 // ListRecoveryServiceSubnets Returns a list of Recovery Service Subnets.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListRecoveryServiceSubnets.go.html to see an example of how to use ListRecoveryServiceSubnets API.
 // A default retry strategy applies to this operation ListRecoveryServiceSubnets()
 func (client DatabaseRecoveryClient) ListRecoveryServiceSubnets(ctx context.Context, request ListRecoveryServiceSubnetsRequest) (response ListRecoveryServiceSubnetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1079,6 +1093,10 @@ func (client DatabaseRecoveryClient) listRecoveryServiceSubnets(ctx context.Cont
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DatabaseRecoveryClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1133,6 +1151,10 @@ func (client DatabaseRecoveryClient) listWorkRequestErrors(ctx context.Context, 
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DatabaseRecoveryClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1187,6 +1209,10 @@ func (client DatabaseRecoveryClient) listWorkRequestLogs(ctx context.Context, re
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DatabaseRecoveryClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1240,63 +1266,11 @@ func (client DatabaseRecoveryClient) listWorkRequests(ctx context.Context, reque
 	return response, err
 }
 
-// ScheduleProtectedDatabaseDeletion Defines a preferred schedule to delete a protected database after you terminate the source database.
-// The default schedule is DELETE_AFTER_72_HOURS, so that the delete operation can occur 72 hours (3 days) after the source database is terminated.
-// The alternate schedule is DELETE_AFTER_RETENTION_PERIOD. Specify this option if you want to delete a protected database only after the policy-defined backup retention period expires.
-// A default retry strategy applies to this operation ScheduleProtectedDatabaseDeletion()
-func (client DatabaseRecoveryClient) ScheduleProtectedDatabaseDeletion(ctx context.Context, request ScheduleProtectedDatabaseDeletionRequest) (response ScheduleProtectedDatabaseDeletionResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.scheduleProtectedDatabaseDeletion, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ScheduleProtectedDatabaseDeletionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ScheduleProtectedDatabaseDeletionResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ScheduleProtectedDatabaseDeletionResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ScheduleProtectedDatabaseDeletionResponse")
-	}
-	return
-}
-
-// scheduleProtectedDatabaseDeletion implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseRecoveryClient) scheduleProtectedDatabaseDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/protectedDatabases/{protectedDatabaseId}/actions/scheduleDeletion", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ScheduleProtectedDatabaseDeletionResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/ScheduleProtectedDatabaseDeletion"
-		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ScheduleProtectedDatabaseDeletion", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateProtectedDatabase Updates the Protected Database
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/UpdateProtectedDatabase.go.html to see an example of how to use UpdateProtectedDatabase API.
 // A default retry strategy applies to this operation UpdateProtectedDatabase()
 func (client DatabaseRecoveryClient) UpdateProtectedDatabase(ctx context.Context, request UpdateProtectedDatabaseRequest) (response UpdateProtectedDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1351,6 +1325,10 @@ func (client DatabaseRecoveryClient) updateProtectedDatabase(ctx context.Context
 }
 
 // UpdateProtectionPolicy Updates the specified protection policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/UpdateProtectionPolicy.go.html to see an example of how to use UpdateProtectionPolicy API.
 // A default retry strategy applies to this operation UpdateProtectionPolicy()
 func (client DatabaseRecoveryClient) UpdateProtectionPolicy(ctx context.Context, request UpdateProtectionPolicyRequest) (response UpdateProtectionPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1405,6 +1383,10 @@ func (client DatabaseRecoveryClient) updateProtectionPolicy(ctx context.Context,
 }
 
 // UpdateRecoveryServiceSubnet Updates the specified recovery service subnet.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/UpdateRecoveryServiceSubnet.go.html to see an example of how to use UpdateRecoveryServiceSubnet API.
 // A default retry strategy applies to this operation UpdateRecoveryServiceSubnet()
 func (client DatabaseRecoveryClient) UpdateRecoveryServiceSubnet(ctx context.Context, request UpdateRecoveryServiceSubnetRequest) (response UpdateRecoveryServiceSubnetResponse, err error) {
 	var ociResponse common.OCIResponse

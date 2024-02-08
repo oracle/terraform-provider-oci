@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveSourceEventTypesRequest wrapper for the RemoveSourceEventTypes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RemoveSourceEventTypes.go.html to see an example of how to use RemoveSourceEventTypesRequest.
 type RemoveSourceEventTypesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

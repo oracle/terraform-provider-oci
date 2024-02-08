@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// UpdateTargetResponderRecipe Parameters to update a responder recipe attached to a target
+// UpdateTargetResponderRecipe The information to be updated in attached Target ResponderRecipe
 type UpdateTargetResponderRecipe struct {
 
-	// Unique identifier for the target responder recipe
+	// Identifier for ResponderRecipe.
 	TargetResponderRecipeId *string `mandatory:"true" json:"targetResponderRecipeId"`
 
-	// List of responder rules to be updated in the target responder recipe
+	// Update responder rules associated with reponder recipe in a target.
 	ResponderRules []UpdateTargetRecipeResponderRuleDetails `mandatory:"true" json:"responderRules"`
 }
 

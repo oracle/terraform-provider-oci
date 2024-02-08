@@ -12,13 +12,14 @@ import (
 )
 
 // DeleteContainerInstanceRequest wrapper for the DeleteContainerInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/DeleteContainerInstance.go.html to see an example of how to use DeleteContainerInstanceRequest.
 type DeleteContainerInstanceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.
 	ContainerInstanceId *string `mandatory:"true" contributesTo:"path" name:"containerInstanceId"`
-
-	// The amount of time that processes in a container have to gracefully end. After the timeout is reached, the processes are sent a signal to be deleted.
-	GracePeriodInSeconds *int64 `mandatory:"false" contributesTo:"query" name:"gracePeriodInSeconds"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the

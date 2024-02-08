@@ -21,7 +21,7 @@ type AutonomousContainerDatabaseDataguardAssociation struct {
 	// The OCID of the Autonomous Data Guard created for a given Autonomous Container Database.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Container Database that has a relationship with the peer Autonomous Container Database. Used only by Autonomous Database on Dedicated Exadata Infrastructure.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Container Database that has a relationship with the peer Autonomous Container Database.
 	AutonomousContainerDatabaseId *string `mandatory:"true" json:"autonomousContainerDatabaseId"`
 
 	// The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled.
@@ -42,7 +42,7 @@ type AutonomousContainerDatabaseDataguardAssociation struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the peer Autonomous Container Database.
 	PeerAutonomousContainerDatabaseId *string `mandatory:"false" json:"peerAutonomousContainerDatabaseId"`
 
-	// The current state of the Autonomous Container Database.
+	// The current state of Autonomous Data Guard.
 	PeerLifecycleState AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum `mandatory:"false" json:"peerLifecycleState,omitempty"`
 
 	// The protection mode of this Autonomous Data Guard association. For more information, see
@@ -290,54 +290,36 @@ type AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum strin
 
 // Set of constants representing the allowable values for AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum
 const (
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateProvisioning                AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "PROVISIONING"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateAvailable                   AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "AVAILABLE"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating                    AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "UPDATING"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminating                 AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "TERMINATING"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated                  AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "TERMINATED"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed                      AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "FAILED"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateBackupInProgress            AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "BACKUP_IN_PROGRESS"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestoring                   AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "RESTORING"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestoreFailed               AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "RESTORE_FAILED"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestarting                  AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "RESTARTING"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateMaintenanceInProgress       AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "MAINTENANCE_IN_PROGRESS"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRoleChangeInProgress        AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnablingAutonomousDataGuard AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "ENABLING_AUTONOMOUS_DATA_GUARD"
-	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable                 AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "UNAVAILABLE"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateProvisioning         AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "PROVISIONING"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateAvailable            AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "AVAILABLE"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRoleChangeInProgress AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "ROLE_CHANGE_IN_PROGRESS"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminating          AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "TERMINATING"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated           AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "TERMINATED"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed               AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "FAILED"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable          AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "UNAVAILABLE"
+	AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = "UPDATING"
 )
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum = map[string]AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum{
-	"PROVISIONING":                   AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateProvisioning,
-	"AVAILABLE":                      AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateAvailable,
-	"UPDATING":                       AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating,
-	"TERMINATING":                    AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminating,
-	"TERMINATED":                     AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated,
-	"FAILED":                         AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed,
-	"BACKUP_IN_PROGRESS":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateBackupInProgress,
-	"RESTORING":                      AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestoring,
-	"RESTORE_FAILED":                 AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestoreFailed,
-	"RESTARTING":                     AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestarting,
-	"MAINTENANCE_IN_PROGRESS":        AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateMaintenanceInProgress,
-	"ROLE_CHANGE_IN_PROGRESS":        AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRoleChangeInProgress,
-	"ENABLING_AUTONOMOUS_DATA_GUARD": AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnablingAutonomousDataGuard,
-	"UNAVAILABLE":                    AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable,
+	"PROVISIONING":            AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateProvisioning,
+	"AVAILABLE":               AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateAvailable,
+	"ROLE_CHANGE_IN_PROGRESS": AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRoleChangeInProgress,
+	"TERMINATING":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminating,
+	"TERMINATED":              AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated,
+	"FAILED":                  AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed,
+	"UNAVAILABLE":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable,
+	"UPDATING":                AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating,
 }
 
 var mappingAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnumLowerCase = map[string]AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum{
-	"provisioning":                   AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateProvisioning,
-	"available":                      AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateAvailable,
-	"updating":                       AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating,
-	"terminating":                    AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminating,
-	"terminated":                     AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated,
-	"failed":                         AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed,
-	"backup_in_progress":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateBackupInProgress,
-	"restoring":                      AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestoring,
-	"restore_failed":                 AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestoreFailed,
-	"restarting":                     AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRestarting,
-	"maintenance_in_progress":        AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateMaintenanceInProgress,
-	"role_change_in_progress":        AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRoleChangeInProgress,
-	"enabling_autonomous_data_guard": AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnablingAutonomousDataGuard,
-	"unavailable":                    AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable,
+	"provisioning":            AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateProvisioning,
+	"available":               AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateAvailable,
+	"role_change_in_progress": AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateRoleChangeInProgress,
+	"terminating":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminating,
+	"terminated":              AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateTerminated,
+	"failed":                  AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateFailed,
+	"unavailable":             AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUnavailable,
+	"updating":                AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateUpdating,
 }
 
 // GetAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnumValues Enumerates the set of values for AutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnum
@@ -354,18 +336,12 @@ func GetAutonomousContainerDatabaseDataguardAssociationPeerLifecycleStateEnumStr
 	return []string{
 		"PROVISIONING",
 		"AVAILABLE",
-		"UPDATING",
+		"ROLE_CHANGE_IN_PROGRESS",
 		"TERMINATING",
 		"TERMINATED",
 		"FAILED",
-		"BACKUP_IN_PROGRESS",
-		"RESTORING",
-		"RESTORE_FAILED",
-		"RESTARTING",
-		"MAINTENANCE_IN_PROGRESS",
-		"ROLE_CHANGE_IN_PROGRESS",
-		"ENABLING_AUTONOMOUS_DATA_GUARD",
 		"UNAVAILABLE",
+		"UPDATING",
 	}
 }
 

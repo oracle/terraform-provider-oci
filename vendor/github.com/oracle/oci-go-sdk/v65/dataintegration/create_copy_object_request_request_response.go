@@ -12,6 +12,10 @@ import (
 )
 
 // CreateCopyObjectRequestRequest wrapper for the CreateCopyObjectRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateCopyObjectRequest.go.html to see an example of how to use CreateCopyObjectRequestRequest.
 type CreateCopyObjectRequestRequest struct {
 
 	// The workspace ID.

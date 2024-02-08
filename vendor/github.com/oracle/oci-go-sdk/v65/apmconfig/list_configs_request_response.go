@@ -12,6 +12,10 @@ import (
 )
 
 // ListConfigsRequest wrapper for the ListConfigs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/ListConfigs.go.html to see an example of how to use ListConfigsRequest.
 type ListConfigsRequest struct {
 
 	// The APM Domain ID the request is intended for.

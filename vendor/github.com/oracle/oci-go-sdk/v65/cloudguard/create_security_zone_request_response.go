@@ -12,9 +12,13 @@ import (
 )
 
 // CreateSecurityZoneRequest wrapper for the CreateSecurityZone operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateSecurityZone.go.html to see an example of how to use CreateSecurityZoneRequest.
 type CreateSecurityZoneRequest struct {
 
-	// Details for the new `SecurityZone` resource
+	// Details for the new `SecurityZone`.
 	CreateSecurityZoneDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

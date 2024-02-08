@@ -16,25 +16,25 @@ import (
 	"strings"
 )
 
-// CreateSecurityPolicyDetails Parameters to be used to create a new security policy.
+// CreateSecurityPolicyDetails The information about new SecurityPolicy.
 type CreateSecurityPolicyDetails struct {
 
-	// Security policy display name
+	// SecurityPolicy Identifier
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Short version of security policy name
+	// SecurityPolicy friendly name
 	FriendlyName *string `mandatory:"false" json:"friendlyName"`
 
 	// Security policy description
 	Description *string `mandatory:"false" json:"description"`
 
-	// The category of the security policy
+	// The category of security policy.
 	Category *string `mandatory:"false" json:"category"`
 
-	// The list of services for the security policy
+	// The list of services for policy.
 	Services []string `mandatory:"false" json:"services"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

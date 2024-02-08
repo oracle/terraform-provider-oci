@@ -12,9 +12,13 @@ import (
 )
 
 // ListSdksRequest wrapper for the ListSdks operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListSdks.go.html to see an example of how to use ListSdksRequest.
 type ListSdksRequest struct {
 
-	// The ocid of the SDK. This value must be present unless apiId is present.
+	// The ocid of the SDK.
 	SdkId *string `mandatory:"false" contributesTo:"query" name:"sdkId"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -40,7 +44,7 @@ type ListSdksRequest struct {
 	// sensitive.
 	SortBy ListSdksSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The ocid of the API. This value must be present unless sdkId is present.
+	// The ocid of the API.
 	ApiId *string `mandatory:"false" contributesTo:"query" name:"apiId"`
 
 	// The client request id for tracing.

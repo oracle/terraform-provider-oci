@@ -4,39 +4,26 @@
 
 // Autoscaling API
 //
-// Use the Autoscaling API to dynamically scale compute resources to meet application requirements. For more information about
+// APIs for dynamically scaling Compute resources to meet application requirements. For more information about
 // autoscaling, see Autoscaling (https://docs.cloud.oracle.com/Content/Compute/Tasks/autoscalinginstancepools.htm). For information about the
-// Compute service, see Compute (https://docs.cloud.oracle.com/Content/Compute/home.htm).
+// Compute service, see Overview of the Compute Service (https://docs.cloud.oracle.com/Content/Compute/Concepts/computeoverview.htm).
+// **Note:** Autoscaling is not available in US Government Cloud tenancies. For more information, see
+// Oracle Cloud Infrastructure US Government Cloud (https://docs.cloud.oracle.com/Content/General/Concepts/govoverview.htm).
 //
 
 package autoscaling
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// Metric Metric and threshold details for triggering an autoscaling action based on CPU or memory utilization.
+// Metric Metric and threshold details for triggering an autoscaling action.
 type Metric struct {
-	Threshold *Threshold `mandatory:"true" json:"threshold"`
-
-	// The period of time that the condition defined in the alarm must persist before the alarm state
-	// changes from "OK" to "FIRING" or vice versa. For example, a value of 5 minutes means that the
-	// alarm must persist in breaching the condition for five minutes before the alarm updates its
-	// state to "FIRING"; likewise, the alarm must persist in not breaching the condition for five
-	// minutes before the alarm updates its state to "OK."
-	// The duration is specified as a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H`
-	// for one hour). Minimum: PT3M. Maximum: PT1H. Default: PT3M.
-	PendingDuration *string `mandatory:"false" json:"pendingDuration"`
-
 	MetricType MetricMetricTypeEnum `mandatory:"true" json:"metricType"`
-}
 
-// GetPendingDuration returns PendingDuration
-func (m Metric) GetPendingDuration() *string {
-	return m.PendingDuration
+	Threshold *Threshold `mandatory:"true" json:"threshold"`
 }
 
 func (m Metric) String() string {
@@ -56,20 +43,6 @@ func (m Metric) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m Metric) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeMetric Metric
-	s := struct {
-		DiscriminatorParam string `json:"metricSource"`
-		MarshalTypeMetric
-	}{
-		"COMPUTE_AGENT",
-		(MarshalTypeMetric)(m),
-	}
-
-	return json.Marshal(&s)
 }
 
 // MetricMetricTypeEnum Enum with underlying type: string

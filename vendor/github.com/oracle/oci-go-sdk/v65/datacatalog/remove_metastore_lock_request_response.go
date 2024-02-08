@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveMetastoreLockRequest wrapper for the RemoveMetastoreLock operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/RemoveMetastoreLock.go.html to see an example of how to use RemoveMetastoreLockRequest.
 type RemoveMetastoreLockRequest struct {
 
 	// The metastore's OCID.

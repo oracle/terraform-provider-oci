@@ -12,6 +12,10 @@ import (
 )
 
 // GetExternalDatabaseConnectorRequest wrapper for the GetExternalDatabaseConnector operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExternalDatabaseConnector.go.html to see an example of how to use GetExternalDatabaseConnectorRequest.
 type GetExternalDatabaseConnectorRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the

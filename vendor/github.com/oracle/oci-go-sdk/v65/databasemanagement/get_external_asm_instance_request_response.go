@@ -12,6 +12,10 @@ import (
 )
 
 // GetExternalAsmInstanceRequest wrapper for the GetExternalAsmInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalAsmInstance.go.html to see an example of how to use GetExternalAsmInstanceRequest.
 type GetExternalAsmInstanceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM instance.
@@ -70,9 +74,6 @@ type GetExternalAsmInstanceResponse struct {
 
 	// The ExternalAsmInstance instance
 	ExternalAsmInstance `presentIn:"body"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

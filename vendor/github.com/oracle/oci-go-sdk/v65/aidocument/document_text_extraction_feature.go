@@ -21,9 +21,6 @@ type DocumentTextExtractionFeature struct {
 
 	// Whether or not to generate a searchable PDF file.
 	GenerateSearchablePdf *bool `mandatory:"false" json:"generateSearchablePdf"`
-
-	// Whether checkbox detection feature is enabled or disabled.
-	SelectionMarkDetection *bool `mandatory:"false" json:"selectionMarkDetection"`
 }
 
 func (m DocumentTextExtractionFeature) String() string {

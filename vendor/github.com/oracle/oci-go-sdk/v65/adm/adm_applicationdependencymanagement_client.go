@@ -92,6 +92,10 @@ func (client *ApplicationDependencyManagementClient) ConfigurationProvider() *co
 }
 
 // ActivateRemediationRecipe Activates the specified Remediation Recipe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ActivateRemediationRecipe.go.html to see an example of how to use ActivateRemediationRecipe API.
 // A default retry strategy applies to this operation ActivateRemediationRecipe()
 func (client ApplicationDependencyManagementClient) ActivateRemediationRecipe(ctx context.Context, request ActivateRemediationRecipeRequest) (response ActivateRemediationRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -146,6 +150,10 @@ func (client ApplicationDependencyManagementClient) activateRemediationRecipe(ct
 }
 
 // CancelRemediationRun Cancels the specified remediation run.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CancelRemediationRun.go.html to see an example of how to use CancelRemediationRun API.
 // A default retry strategy applies to this operation CancelRemediationRun()
 func (client ApplicationDependencyManagementClient) CancelRemediationRun(ctx context.Context, request CancelRemediationRunRequest) (response CancelRemediationRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -205,6 +213,10 @@ func (client ApplicationDependencyManagementClient) cancelRemediationRun(ctx con
 }
 
 // CancelWorkRequest Cancel work request with the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client ApplicationDependencyManagementClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -259,6 +271,10 @@ func (client ApplicationDependencyManagementClient) cancelWorkRequest(ctx contex
 }
 
 // ChangeKnowledgeBaseCompartment Moves a Knowledge Base from one compartment to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeKnowledgeBaseCompartment.go.html to see an example of how to use ChangeKnowledgeBaseCompartment API.
 // A default retry strategy applies to this operation ChangeKnowledgeBaseCompartment()
 func (client ApplicationDependencyManagementClient) ChangeKnowledgeBaseCompartment(ctx context.Context, request ChangeKnowledgeBaseCompartmentRequest) (response ChangeKnowledgeBaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -318,6 +334,10 @@ func (client ApplicationDependencyManagementClient) changeKnowledgeBaseCompartme
 }
 
 // ChangeRemediationRecipeCompartment Moves a Remediation Recipe from one compartment to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeRemediationRecipeCompartment.go.html to see an example of how to use ChangeRemediationRecipeCompartment API.
 // A default retry strategy applies to this operation ChangeRemediationRecipeCompartment()
 func (client ApplicationDependencyManagementClient) ChangeRemediationRecipeCompartment(ctx context.Context, request ChangeRemediationRecipeCompartmentRequest) (response ChangeRemediationRecipeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -377,6 +397,10 @@ func (client ApplicationDependencyManagementClient) changeRemediationRecipeCompa
 }
 
 // ChangeRemediationRunCompartment Moves a remediation run from one compartment to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeRemediationRunCompartment.go.html to see an example of how to use ChangeRemediationRunCompartment API.
 // A default retry strategy applies to this operation ChangeRemediationRunCompartment()
 func (client ApplicationDependencyManagementClient) ChangeRemediationRunCompartment(ctx context.Context, request ChangeRemediationRunCompartmentRequest) (response ChangeRemediationRunCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -436,6 +460,10 @@ func (client ApplicationDependencyManagementClient) changeRemediationRunCompartm
 }
 
 // ChangeVulnerabilityAuditCompartment Moves a Vulnerability Audit from one compartment to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeVulnerabilityAuditCompartment.go.html to see an example of how to use ChangeVulnerabilityAuditCompartment API.
 // A default retry strategy applies to this operation ChangeVulnerabilityAuditCompartment()
 func (client ApplicationDependencyManagementClient) ChangeVulnerabilityAuditCompartment(ctx context.Context, request ChangeVulnerabilityAuditCompartmentRequest) (response ChangeVulnerabilityAuditCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -495,6 +523,10 @@ func (client ApplicationDependencyManagementClient) changeVulnerabilityAuditComp
 }
 
 // CreateKnowledgeBase Creates a new Knowledge Base.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateKnowledgeBase.go.html to see an example of how to use CreateKnowledgeBase API.
 // A default retry strategy applies to this operation CreateKnowledgeBase()
 func (client ApplicationDependencyManagementClient) CreateKnowledgeBase(ctx context.Context, request CreateKnowledgeBaseRequest) (response CreateKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -554,6 +586,10 @@ func (client ApplicationDependencyManagementClient) createKnowledgeBase(ctx cont
 }
 
 // CreateRemediationRecipe Creates a new Remediation Recipe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateRemediationRecipe.go.html to see an example of how to use CreateRemediationRecipe API.
 // A default retry strategy applies to this operation CreateRemediationRecipe()
 func (client ApplicationDependencyManagementClient) CreateRemediationRecipe(ctx context.Context, request CreateRemediationRecipeRequest) (response CreateRemediationRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -613,6 +649,10 @@ func (client ApplicationDependencyManagementClient) createRemediationRecipe(ctx 
 }
 
 // CreateRemediationRun Creates a new remediation run.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateRemediationRun.go.html to see an example of how to use CreateRemediationRun API.
 // A default retry strategy applies to this operation CreateRemediationRun()
 func (client ApplicationDependencyManagementClient) CreateRemediationRun(ctx context.Context, request CreateRemediationRunRequest) (response CreateRemediationRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -672,6 +712,10 @@ func (client ApplicationDependencyManagementClient) createRemediationRun(ctx con
 }
 
 // CreateVulnerabilityAudit Creates a new Vulnerability Audit by providing a tree of Application Dependencies.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateVulnerabilityAudit.go.html to see an example of how to use CreateVulnerabilityAudit API.
 // A default retry strategy applies to this operation CreateVulnerabilityAudit()
 func (client ApplicationDependencyManagementClient) CreateVulnerabilityAudit(ctx context.Context, request CreateVulnerabilityAuditRequest) (response CreateVulnerabilityAuditResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -731,6 +775,10 @@ func (client ApplicationDependencyManagementClient) createVulnerabilityAudit(ctx
 }
 
 // DeactivateRemediationRecipe Deactivates the specified Remediation Recipe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeactivateRemediationRecipe.go.html to see an example of how to use DeactivateRemediationRecipe API.
 // A default retry strategy applies to this operation DeactivateRemediationRecipe()
 func (client ApplicationDependencyManagementClient) DeactivateRemediationRecipe(ctx context.Context, request DeactivateRemediationRecipeRequest) (response DeactivateRemediationRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -785,6 +833,10 @@ func (client ApplicationDependencyManagementClient) deactivateRemediationRecipe(
 }
 
 // DeleteKnowledgeBase Deletes the specified Knowledge Base.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteKnowledgeBase.go.html to see an example of how to use DeleteKnowledgeBase API.
 // A default retry strategy applies to this operation DeleteKnowledgeBase()
 func (client ApplicationDependencyManagementClient) DeleteKnowledgeBase(ctx context.Context, request DeleteKnowledgeBaseRequest) (response DeleteKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -839,6 +891,10 @@ func (client ApplicationDependencyManagementClient) deleteKnowledgeBase(ctx cont
 }
 
 // DeleteRemediationRecipe Deletes the specified Remediation Recipe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteRemediationRecipe.go.html to see an example of how to use DeleteRemediationRecipe API.
 // A default retry strategy applies to this operation DeleteRemediationRecipe()
 func (client ApplicationDependencyManagementClient) DeleteRemediationRecipe(ctx context.Context, request DeleteRemediationRecipeRequest) (response DeleteRemediationRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -893,6 +949,10 @@ func (client ApplicationDependencyManagementClient) deleteRemediationRecipe(ctx 
 }
 
 // DeleteRemediationRun Deletes the specified remediation run.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteRemediationRun.go.html to see an example of how to use DeleteRemediationRun API.
 // A default retry strategy applies to this operation DeleteRemediationRun()
 func (client ApplicationDependencyManagementClient) DeleteRemediationRun(ctx context.Context, request DeleteRemediationRunRequest) (response DeleteRemediationRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -947,6 +1007,10 @@ func (client ApplicationDependencyManagementClient) deleteRemediationRun(ctx con
 }
 
 // DeleteVulnerabilityAudit Deletes the specified Vulnerability Audit.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteVulnerabilityAudit.go.html to see an example of how to use DeleteVulnerabilityAudit API.
 // A default retry strategy applies to this operation DeleteVulnerabilityAudit()
 func (client ApplicationDependencyManagementClient) DeleteVulnerabilityAudit(ctx context.Context, request DeleteVulnerabilityAuditRequest) (response DeleteVulnerabilityAuditResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1001,6 +1065,10 @@ func (client ApplicationDependencyManagementClient) deleteVulnerabilityAudit(ctx
 }
 
 // GetKnowledgeBase Returns the details of the specified Knowledge Base.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetKnowledgeBase.go.html to see an example of how to use GetKnowledgeBase API.
 // A default retry strategy applies to this operation GetKnowledgeBase()
 func (client ApplicationDependencyManagementClient) GetKnowledgeBase(ctx context.Context, request GetKnowledgeBaseRequest) (response GetKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1055,6 +1123,10 @@ func (client ApplicationDependencyManagementClient) getKnowledgeBase(ctx context
 }
 
 // GetRemediationRecipe Returns the details of the specified RemediationRecipe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetRemediationRecipe.go.html to see an example of how to use GetRemediationRecipe API.
 // A default retry strategy applies to this operation GetRemediationRecipe()
 func (client ApplicationDependencyManagementClient) GetRemediationRecipe(ctx context.Context, request GetRemediationRecipeRequest) (response GetRemediationRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1109,6 +1181,10 @@ func (client ApplicationDependencyManagementClient) getRemediationRecipe(ctx con
 }
 
 // GetRemediationRun Returns the details of the specified remediation run.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetRemediationRun.go.html to see an example of how to use GetRemediationRun API.
 // A default retry strategy applies to this operation GetRemediationRun()
 func (client ApplicationDependencyManagementClient) GetRemediationRun(ctx context.Context, request GetRemediationRunRequest) (response GetRemediationRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1163,6 +1239,10 @@ func (client ApplicationDependencyManagementClient) getRemediationRun(ctx contex
 }
 
 // GetStage Returns the details of the specified Remediation Run Stage.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetStage.go.html to see an example of how to use GetStage API.
 // A default retry strategy applies to this operation GetStage()
 func (client ApplicationDependencyManagementClient) GetStage(ctx context.Context, request GetStageRequest) (response GetStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1217,6 +1297,10 @@ func (client ApplicationDependencyManagementClient) getStage(ctx context.Context
 }
 
 // GetVulnerabilityAudit Returns the details of the specified Vulnerability Audit.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetVulnerabilityAudit.go.html to see an example of how to use GetVulnerabilityAudit API.
 // A default retry strategy applies to this operation GetVulnerabilityAudit()
 func (client ApplicationDependencyManagementClient) GetVulnerabilityAudit(ctx context.Context, request GetVulnerabilityAuditRequest) (response GetVulnerabilityAuditResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1271,6 +1355,10 @@ func (client ApplicationDependencyManagementClient) getVulnerabilityAudit(ctx co
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ApplicationDependencyManagementClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1325,6 +1413,10 @@ func (client ApplicationDependencyManagementClient) getWorkRequest(ctx context.C
 }
 
 // ListApplicationDependencyRecommendations Returns a list of application dependency with their associated recommendations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListApplicationDependencyRecommendations.go.html to see an example of how to use ListApplicationDependencyRecommendations API.
 // A default retry strategy applies to this operation ListApplicationDependencyRecommendations()
 func (client ApplicationDependencyManagementClient) ListApplicationDependencyRecommendations(ctx context.Context, request ListApplicationDependencyRecommendationsRequest) (response ListApplicationDependencyRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1379,6 +1471,10 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyRec
 }
 
 // ListApplicationDependencyVulnerabilities Returns a list of Application Dependencies with their associated vulnerabilities.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListApplicationDependencyVulnerabilities.go.html to see an example of how to use ListApplicationDependencyVulnerabilities API.
 // A default retry strategy applies to this operation ListApplicationDependencyVulnerabilities()
 func (client ApplicationDependencyManagementClient) ListApplicationDependencyVulnerabilities(ctx context.Context, request ListApplicationDependencyVulnerabilitiesRequest) (response ListApplicationDependencyVulnerabilitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1434,6 +1530,10 @@ func (client ApplicationDependencyManagementClient) listApplicationDependencyVul
 
 // ListKnowledgeBases Returns a list of KnowledgeBases based on the specified query parameters.
 // At least id or compartmentId query parameter must be provided.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListKnowledgeBases.go.html to see an example of how to use ListKnowledgeBases API.
 // A default retry strategy applies to this operation ListKnowledgeBases()
 func (client ApplicationDependencyManagementClient) ListKnowledgeBases(ctx context.Context, request ListKnowledgeBasesRequest) (response ListKnowledgeBasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1489,6 +1589,10 @@ func (client ApplicationDependencyManagementClient) listKnowledgeBases(ctx conte
 
 // ListRemediationRecipes Returns a list of Remediation Recipes based on the specified query parameters.
 // The query parameters `compartmentId` or `id` must be provided.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListRemediationRecipes.go.html to see an example of how to use ListRemediationRecipes API.
 // A default retry strategy applies to this operation ListRemediationRecipes()
 func (client ApplicationDependencyManagementClient) ListRemediationRecipes(ctx context.Context, request ListRemediationRecipesRequest) (response ListRemediationRecipesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1544,6 +1648,10 @@ func (client ApplicationDependencyManagementClient) listRemediationRecipes(ctx c
 
 // ListRemediationRuns Returns a list of remediation runs contained by a compartment.
 // The query parameter `compartmentId` is required unless the query parameter `id` is specified.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListRemediationRuns.go.html to see an example of how to use ListRemediationRuns API.
 // A default retry strategy applies to this operation ListRemediationRuns()
 func (client ApplicationDependencyManagementClient) ListRemediationRuns(ctx context.Context, request ListRemediationRunsRequest) (response ListRemediationRunsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1598,6 +1706,10 @@ func (client ApplicationDependencyManagementClient) listRemediationRuns(ctx cont
 }
 
 // ListStages Returns a list of Remediation Run Stages based on the specified query parameters and Remediation Run identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListStages.go.html to see an example of how to use ListStages API.
 // A default retry strategy applies to this operation ListStages()
 func (client ApplicationDependencyManagementClient) ListStages(ctx context.Context, request ListStagesRequest) (response ListStagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1653,6 +1765,10 @@ func (client ApplicationDependencyManagementClient) listStages(ctx context.Conte
 
 // ListVulnerabilityAudits Returns a list of Vulnerability Audits based on the specified query parameters.
 // At least one of id, compartmentId query parameter must be provided.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListVulnerabilityAudits.go.html to see an example of how to use ListVulnerabilityAudits API.
 // A default retry strategy applies to this operation ListVulnerabilityAudits()
 func (client ApplicationDependencyManagementClient) ListVulnerabilityAudits(ctx context.Context, request ListVulnerabilityAuditsRequest) (response ListVulnerabilityAuditsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1707,6 +1823,10 @@ func (client ApplicationDependencyManagementClient) listVulnerabilityAudits(ctx 
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ApplicationDependencyManagementClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1761,6 +1881,10 @@ func (client ApplicationDependencyManagementClient) listWorkRequestErrors(ctx co
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ApplicationDependencyManagementClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1815,6 +1939,10 @@ func (client ApplicationDependencyManagementClient) listWorkRequestLogs(ctx cont
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ApplicationDependencyManagementClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1869,6 +1997,10 @@ func (client ApplicationDependencyManagementClient) listWorkRequests(ctx context
 }
 
 // UpdateKnowledgeBase Updates one or more attributes of the specified Knowledge Base.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateKnowledgeBase.go.html to see an example of how to use UpdateKnowledgeBase API.
 // A default retry strategy applies to this operation UpdateKnowledgeBase()
 func (client ApplicationDependencyManagementClient) UpdateKnowledgeBase(ctx context.Context, request UpdateKnowledgeBaseRequest) (response UpdateKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1923,6 +2055,10 @@ func (client ApplicationDependencyManagementClient) updateKnowledgeBase(ctx cont
 }
 
 // UpdateRemediationRecipe Updates one or more attributes of the specified Remediation Recipe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateRemediationRecipe.go.html to see an example of how to use UpdateRemediationRecipe API.
 // A default retry strategy applies to this operation UpdateRemediationRecipe()
 func (client ApplicationDependencyManagementClient) UpdateRemediationRecipe(ctx context.Context, request UpdateRemediationRecipeRequest) (response UpdateRemediationRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1977,6 +2113,10 @@ func (client ApplicationDependencyManagementClient) updateRemediationRecipe(ctx 
 }
 
 // UpdateRemediationRun Updates by identifier one or more attributes of the specified remediation run.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateRemediationRun.go.html to see an example of how to use UpdateRemediationRun API.
 // A default retry strategy applies to this operation UpdateRemediationRun()
 func (client ApplicationDependencyManagementClient) UpdateRemediationRun(ctx context.Context, request UpdateRemediationRunRequest) (response UpdateRemediationRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2031,6 +2171,10 @@ func (client ApplicationDependencyManagementClient) updateRemediationRun(ctx con
 }
 
 // UpdateVulnerabilityAudit Updates one or more attributes of the specified Vulnerability Audit.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateVulnerabilityAudit.go.html to see an example of how to use UpdateVulnerabilityAudit API.
 // A default retry strategy applies to this operation UpdateVulnerabilityAudit()
 func (client ApplicationDependencyManagementClient) UpdateVulnerabilityAudit(ctx context.Context, request UpdateVulnerabilityAuditRequest) (response UpdateVulnerabilityAuditResponse, err error) {
 	var ociResponse common.OCIResponse

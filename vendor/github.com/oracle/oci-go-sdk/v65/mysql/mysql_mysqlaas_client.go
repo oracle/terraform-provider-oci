@@ -92,6 +92,10 @@ func (client *MysqlaasClient) ConfigurationProvider() *common.ConfigurationProvi
 }
 
 // CreateConfiguration Creates a new Configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateConfiguration.go.html to see an example of how to use CreateConfiguration API.
 func (client MysqlaasClient) CreateConfiguration(ctx context.Context, request CreateConfigurationRequest) (response CreateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -151,6 +155,10 @@ func (client MysqlaasClient) createConfiguration(ctx context.Context, request co
 
 // DeleteConfiguration Deletes a Configuration.
 // The Configuration must not be in use by any DB Systems.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteConfiguration.go.html to see an example of how to use DeleteConfiguration API.
 // A default retry strategy applies to this operation DeleteConfiguration()
 func (client MysqlaasClient) DeleteConfiguration(ctx context.Context, request DeleteConfigurationRequest) (response DeleteConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -205,6 +213,10 @@ func (client MysqlaasClient) deleteConfiguration(ctx context.Context, request co
 }
 
 // GetConfiguration Get the full details of the specified Configuration, including the list of MySQL Variables and their values.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
 // A default retry strategy applies to this operation GetConfiguration()
 func (client MysqlaasClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -265,6 +277,9 @@ func (client MysqlaasClient) getConfiguration(ctx context.Context, request commo
 //   - DEFAULT-before-CUSTOM
 //   - displayName ascending
 //
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListConfigurations.go.html to see an example of how to use ListConfigurations API.
 // A default retry strategy applies to this operation ListConfigurations()
 func (client MysqlaasClient) ListConfigurations(ctx context.Context, request ListConfigurationsRequest) (response ListConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -322,6 +337,10 @@ func (client MysqlaasClient) listConfigurations(ctx context.Context, request com
 // The shape determines the resources allocated to the DB System:
 // CPU cores and memory for VM shapes; CPU cores, memory and
 // storage for non-VM (or bare metal) shapes.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListShapes.go.html to see an example of how to use ListShapes API.
 // A default retry strategy applies to this operation ListShapes()
 func (client MysqlaasClient) ListShapes(ctx context.Context, request ListShapesRequest) (response ListShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -377,6 +396,10 @@ func (client MysqlaasClient) listShapes(ctx context.Context, request common.OCIR
 
 // ListVersions Get a list of supported and available MySQL database major versions.
 // The list is sorted by version family.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListVersions.go.html to see an example of how to use ListVersions API.
 // A default retry strategy applies to this operation ListVersions()
 func (client MysqlaasClient) ListVersions(ctx context.Context, request ListVersionsRequest) (response ListVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -431,6 +454,10 @@ func (client MysqlaasClient) listVersions(ctx context.Context, request common.OC
 }
 
 // UpdateConfiguration Updates the Configuration details.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
 // A default retry strategy applies to this operation UpdateConfiguration()
 func (client MysqlaasClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse

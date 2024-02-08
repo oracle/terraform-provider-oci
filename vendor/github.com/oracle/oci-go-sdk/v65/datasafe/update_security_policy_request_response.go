@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateSecurityPolicyRequest wrapper for the UpdateSecurityPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSecurityPolicy.go.html to see an example of how to use UpdateSecurityPolicyRequest.
 type UpdateSecurityPolicyRequest struct {
 
 	// The OCID of the security policy resource.

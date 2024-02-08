@@ -12,9 +12,13 @@ import (
 )
 
 // GetResponderRuleRequest wrapper for the GetResponderRule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetResponderRule.go.html to see an example of how to use GetResponderRuleRequest.
 type GetResponderRuleRequest struct {
 
-	// Unique identifier of the responder rule.
+	// The id of ResponderRule
 	ResponderRuleId *string `mandatory:"true" contributesTo:"path" name:"responderRuleId"`
 
 	// The client request ID for tracing.

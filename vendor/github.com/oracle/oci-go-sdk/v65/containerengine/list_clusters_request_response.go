@@ -12,12 +12,16 @@ import (
 )
 
 // ListClustersRequest wrapper for the ListClusters operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListClusters.go.html to see an example of how to use ListClustersRequest.
 type ListClustersRequest struct {
 
 	// The OCID of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A cluster lifecycle state to filter on. Can have multiple parameters of this name. For more information, see Monitoring Clusters (https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm)
+	// A cluster lifecycle state to filter on. Can have multiple parameters of this name.
 	LifecycleState []ClusterLifecycleStateEnum `contributesTo:"query" name:"lifecycleState" omitEmpty:"true" collectionFormat:"multi"`
 
 	// The name to filter on.

@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// SecurityZoneCollection A collection of security zones. Results of a security zone search.
+// SecurityZoneCollection Results of a security zone search. Contains `SecurityZoneSummary` items.
 type SecurityZoneCollection struct {
 
-	// List of SecurityZoneSummary resources
+	// List of security zone summaries
 	Items []SecurityZoneSummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m SecurityZoneCollection) String() string {

@@ -30,9 +30,6 @@ type Shape struct {
 	// ListShapes.
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// The shape's availability domain.
-	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
-
 	// For a subcore burstable VM, the supported baseline OCPU utilization for instances that use this shape.
 	BaselineOcpuUtilizations []ShapeBaselineOcpuUtilizationsEnum `mandatory:"false" json:"baselineOcpuUtilizations,omitempty"`
 

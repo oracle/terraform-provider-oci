@@ -12,6 +12,10 @@ import (
 )
 
 // ListCustomPropertiesRequest wrapper for the ListCustomProperties operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ListCustomProperties.go.html to see an example of how to use ListCustomPropertiesRequest.
 type ListCustomPropertiesRequest struct {
 
 	// Unique catalog identifier.

@@ -12,6 +12,10 @@ import (
 )
 
 // ExportModelArtifactRequest wrapper for the ExportModelArtifact operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ExportModelArtifact.go.html to see an example of how to use ExportModelArtifactRequest.
 type ExportModelArtifactRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.

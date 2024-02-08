@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// UpdateTargetDetectorRecipeDetails Parameters to be used to update a target detector recipe.
+// UpdateTargetDetectorRecipeDetails The information to be updated in DetectorRecipe
 type UpdateTargetDetectorRecipeDetails struct {
 
-	// Unique identifier for the target detector recipe
+	// Detector recipe identifier associated with the target
 	DetectorRecipeId *string `mandatory:"false" json:"detectorRecipeId"`
 
-	// Is validation to be performed for attaching the detector recipe?
+	// When enabled, validation is performed for attaching the detector recipe.
 	IsValidationOnlyQuery *bool `mandatory:"false" json:"isValidationOnlyQuery"`
 
-	// List of updates to be applied to detector rules in target detector recipe
+	// Update detector rules associated with detector recipe in a target.
 	DetectorRules []UpdateTargetRecipeDetectorRuleDetails `mandatory:"false" json:"detectorRules"`
 }
 

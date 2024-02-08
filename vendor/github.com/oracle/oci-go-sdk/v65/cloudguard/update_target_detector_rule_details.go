@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateTargetDetectorRuleDetails Parameters to update detector rule configuration details in a detector recipe attached to a target.
+// UpdateTargetDetectorRuleDetails Overriden settings of a Detector Rule applied on target
 type UpdateTargetDetectorRuleDetails struct {
 
 	// Condition group corresponding to each compartment

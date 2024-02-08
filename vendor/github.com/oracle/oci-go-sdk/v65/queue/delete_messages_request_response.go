@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteMessagesRequest wrapper for the DeleteMessages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/DeleteMessages.go.html to see an example of how to use DeleteMessagesRequest.
 type DeleteMessagesRequest struct {
 
 	// The unique queue identifier.
@@ -19,9 +23,6 @@ type DeleteMessagesRequest struct {
 
 	// Details for the messages to delete.
 	DeleteMessagesDetails `contributesTo:"body"`
-
-	// Optional parameter to specify a consumer group.
-	ConsumerGroupId *string `mandatory:"false" contributesTo:"query" name:"consumerGroupId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

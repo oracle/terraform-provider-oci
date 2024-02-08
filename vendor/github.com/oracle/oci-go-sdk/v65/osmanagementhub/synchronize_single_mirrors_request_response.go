@@ -12,6 +12,10 @@ import (
 )
 
 // SynchronizeSingleMirrorsRequest wrapper for the SynchronizeSingleMirrors operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SynchronizeSingleMirrors.go.html to see an example of how to use SynchronizeSingleMirrorsRequest.
 type SynchronizeSingleMirrorsRequest struct {
 
 	// The OCID of the management station.

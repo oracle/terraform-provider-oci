@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeMediaAssetCompartmentRequest wrapper for the ChangeMediaAssetCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaAssetCompartment.go.html to see an example of how to use ChangeMediaAssetCompartmentRequest.
 type ChangeMediaAssetCompartmentRequest struct {
 
 	// Unique MediaAsset identifier

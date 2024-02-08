@@ -12,6 +12,10 @@ import (
 )
 
 // ListSecurityPolicyDeploymentsRequest wrapper for the ListSecurityPolicyDeployments operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityPolicyDeployments.go.html to see an example of how to use ListSecurityPolicyDeploymentsRequest.
 type ListSecurityPolicyDeploymentsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

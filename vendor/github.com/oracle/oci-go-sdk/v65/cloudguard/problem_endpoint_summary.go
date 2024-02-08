@@ -16,34 +16,34 @@ import (
 	"strings"
 )
 
-// ProblemEndpointSummary Summary information for endpoints associated with a problem (Problem object).
+// ProblemEndpointSummary Problem endpoints summary.
 type ProblemEndpointSummary struct {
 
 	// Unique identifier for problem endpoint.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Unique identifier for sighting associated with the endpoint
+	// Unique id for sighting associated with the endpoint.
 	SightingId *string `mandatory:"true" json:"sightingId"`
 
-	// Unique identifier for problem associated with the endpoint
+	// Unique id for cloudguard problem
 	ProblemId *string `mandatory:"true" json:"problemId"`
 
-	// Unique identifier for the sighting type associated with the endpoint
+	// Identifier for the sighting type
 	SightingType *string `mandatory:"true" json:"sightingType"`
 
-	// Display name of the sighting type
+	// Display Name of the sighting type
 	SightingTypeDisplayName *string `mandatory:"true" json:"sightingTypeDisplayName"`
 
-	// IP address of the endpoint
+	// IP Address of the Endpoint
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
-	// Type of IP address for the endpoint
+	// IP Address type of the Endpoint
 	IpAddressType *string `mandatory:"true" json:"ipAddressType"`
 
 	// Time when activities were last detected
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// IP address classification type for the endpoint
+	// IP Address classification type of the endpoint
 	IpClassificationType *string `mandatory:"false" json:"ipClassificationType"`
 
 	// Country of the endpoint
@@ -58,10 +58,10 @@ type ProblemEndpointSummary struct {
 	// ASN number of the endpoint
 	AsnNumber *string `mandatory:"false" json:"asnNumber"`
 
-	// Regions where activities were performed from this IP address
+	// Regions where activities were performed from this IP
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// List of services where activities were performed from this IP address
+	// Services where activities were performed from this IP
 	Services []string `mandatory:"false" json:"services"`
 }
 

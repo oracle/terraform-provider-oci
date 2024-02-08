@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ChangeSecurityZoneCompartmentDetails Parameters to be used to move a security zone to a different compartment.
+// ChangeSecurityZoneCompartmentDetails The compartment for the security zone
 type ChangeSecurityZoneCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment

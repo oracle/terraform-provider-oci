@@ -12,6 +12,10 @@ import (
 )
 
 // CreateRedeemableUserRequest wrapper for the CreateRedeemableUser operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/CreateRedeemableUser.go.html to see an example of how to use CreateRedeemableUserRequest.
 type CreateRedeemableUserRequest struct {
 
 	// CreateRedeemableUserDetails information.

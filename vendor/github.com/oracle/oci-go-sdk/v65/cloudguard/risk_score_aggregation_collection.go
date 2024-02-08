@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// RiskScoreAggregationCollection Collection of RiskScoreAggregation resources.
+// RiskScoreAggregationCollection Risk Score Aggregation Collection.
 type RiskScoreAggregationCollection struct {
 
-	// The list of all the RiskScoreAggregation resources.
+	// The items consist of all the RiskScoreAggregation objects.
 	Items []RiskScoreAggregation `mandatory:"true" json:"items"`
 }
 

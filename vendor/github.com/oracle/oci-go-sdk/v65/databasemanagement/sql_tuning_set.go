@@ -56,7 +56,7 @@ type SqlTuningSet struct {
 	//   - Yes - All Sql statements matching the filter criteria are fetched.
 	//   - No  - There are more Sql statements matching the fitler criteria.
 	//           User should fine tune the filter criteria to narrow down the result set.
-	AllSqlStatementsFetched SqlTuningSetAllSqlStatementsFetchedEnum `mandatory:"false" json:"allSqlStatementsFetched,omitempty"`
+	AllSqlStatementsFetched *string `mandatory:"false" json:"allSqlStatementsFetched"`
 
 	// A list of the Sqls associated with the Sql tuning set.
 	SqlList []SqlInSqlTuningSet `mandatory:"false" json:"sqlList"`
@@ -75,53 +75,8 @@ func (m SqlTuningSet) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingSqlTuningSetStatusTypesEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetSqlTuningSetStatusTypesEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingSqlTuningSetAllSqlStatementsFetchedEnum(string(m.AllSqlStatementsFetched)); !ok && m.AllSqlStatementsFetched != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AllSqlStatementsFetched: %s. Supported values are: %s.", m.AllSqlStatementsFetched, strings.Join(GetSqlTuningSetAllSqlStatementsFetchedEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// SqlTuningSetAllSqlStatementsFetchedEnum Enum with underlying type: string
-type SqlTuningSetAllSqlStatementsFetchedEnum string
-
-// Set of constants representing the allowable values for SqlTuningSetAllSqlStatementsFetchedEnum
-const (
-	SqlTuningSetAllSqlStatementsFetchedYes SqlTuningSetAllSqlStatementsFetchedEnum = "YES"
-	SqlTuningSetAllSqlStatementsFetchedNo  SqlTuningSetAllSqlStatementsFetchedEnum = "NO"
-)
-
-var mappingSqlTuningSetAllSqlStatementsFetchedEnum = map[string]SqlTuningSetAllSqlStatementsFetchedEnum{
-	"YES": SqlTuningSetAllSqlStatementsFetchedYes,
-	"NO":  SqlTuningSetAllSqlStatementsFetchedNo,
-}
-
-var mappingSqlTuningSetAllSqlStatementsFetchedEnumLowerCase = map[string]SqlTuningSetAllSqlStatementsFetchedEnum{
-	"yes": SqlTuningSetAllSqlStatementsFetchedYes,
-	"no":  SqlTuningSetAllSqlStatementsFetchedNo,
-}
-
-// GetSqlTuningSetAllSqlStatementsFetchedEnumValues Enumerates the set of values for SqlTuningSetAllSqlStatementsFetchedEnum
-func GetSqlTuningSetAllSqlStatementsFetchedEnumValues() []SqlTuningSetAllSqlStatementsFetchedEnum {
-	values := make([]SqlTuningSetAllSqlStatementsFetchedEnum, 0)
-	for _, v := range mappingSqlTuningSetAllSqlStatementsFetchedEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSqlTuningSetAllSqlStatementsFetchedEnumStringValues Enumerates the set of values in String for SqlTuningSetAllSqlStatementsFetchedEnum
-func GetSqlTuningSetAllSqlStatementsFetchedEnumStringValues() []string {
-	return []string{
-		"YES",
-		"NO",
-	}
-}
-
-// GetMappingSqlTuningSetAllSqlStatementsFetchedEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSqlTuningSetAllSqlStatementsFetchedEnum(val string) (SqlTuningSetAllSqlStatementsFetchedEnum, bool) {
-	enum, ok := mappingSqlTuningSetAllSqlStatementsFetchedEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

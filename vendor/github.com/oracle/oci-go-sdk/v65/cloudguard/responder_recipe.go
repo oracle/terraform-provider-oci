@@ -16,54 +16,40 @@ import (
 	"strings"
 )
 
-// ResponderRecipe A ResponderRecipe resource contains a specific instance of one of
-// the supported detector types (for example, activity, configuration,
-// or threat).
-// A ResponderRecipe resource:
-// * Is effectively a copy of a Responder resource in which users can make
-// very limited changes if it’s Oracle-managed, and more changes if it’s user-managed.
-// * Can also be created by cloning an existing ResponderRecipe resource, either
-// user-managed or Oracle-managed.
-// * Is visible on Cloud Guard’s Responder Recipes page.
-// * Is located in a specific OCI compartment.
-// * Can be modified by users, programmatically or through the UI.
-// * Changes that can be made here apply globally, to resources in all OCI compartments
-// mapped to a target that attaches the responder recipe, but are overridden by
-// any changes made in the corresponding TargetResponderRecipe resource (effectively
-// created when the responder recipe is attached to the target).
+// ResponderRecipe Details of ResponderRecipe.
 type ResponderRecipe struct {
 
-	// Unique identifier for the responder recip
+	// Identifier for ResponderRecipe.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Responder recipe display name
+	// ResponderRecipe display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Responder recipe description
+	// ResponderRecipe description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Owner of responder recipe
+	// Owner of ResponderRecipe
 	Owner OwnerTypeEnum `mandatory:"false" json:"owner,omitempty"`
 
 	// List of responder rules associated with the recipe
 	ResponderRules []ResponderRecipeResponderRule `mandatory:"false" json:"responderRules"`
 
-	// List of currently enabled responder rules for the responder type, for recipe after applying defaults
+	// List of responder rules associated with the recipe
 	EffectiveResponderRules []ResponderRecipeResponderRule `mandatory:"false" json:"effectiveResponderRules"`
 
-	// The unique identifier of the source responder recipe
+	// The id of the source responder recipe.
 	SourceResponderRecipeId *string `mandatory:"false" json:"sourceResponderRecipeId"`
 
 	// The date and time the responder recipe was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the responder recipe was last updated. Format defined by RFC3339.
+	// The date and time the responder recipe was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the example
+	// The current state of the Example.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

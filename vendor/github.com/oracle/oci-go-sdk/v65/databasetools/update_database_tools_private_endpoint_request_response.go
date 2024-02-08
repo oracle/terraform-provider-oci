@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDatabaseToolsPrivateEndpointRequest wrapper for the UpdateDatabaseToolsPrivateEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/UpdateDatabaseToolsPrivateEndpoint.go.html to see an example of how to use UpdateDatabaseToolsPrivateEndpointRequest.
 type UpdateDatabaseToolsPrivateEndpointRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.

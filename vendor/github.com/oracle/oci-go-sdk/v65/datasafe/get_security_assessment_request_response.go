@@ -12,6 +12,10 @@ import (
 )
 
 // GetSecurityAssessmentRequest wrapper for the GetSecurityAssessment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityAssessment.go.html to see an example of how to use GetSecurityAssessmentRequest.
 type GetSecurityAssessmentRequest struct {
 
 	// The OCID of the security assessment.

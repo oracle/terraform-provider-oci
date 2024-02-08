@@ -12,46 +12,31 @@ import (
 )
 
 // ListDetectorRulesRequest wrapper for the ListDetectorRules operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListDetectorRules.go.html to see an example of how to use ListDetectorRulesRequest.
 type ListDetectorRulesRequest struct {
 
-	// Detector name.
+	// The Name of Detector.
 	DetectorId *string `mandatory:"true" contributesTo:"path" name:"detectorId"`
 
-	// The OCID of the compartment in which to list resources.
+	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
-	// The unique identifier of a detector rule.
-	DetectorRuleId *string `mandatory:"false" contributesTo:"query" name:"detectorRuleId"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// The maximum number of items to return
+	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The field lifecycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
+	// The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 	LifecycleState ListDetectorRulesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
-
-	// The field rule category. Only one category can be provided. Default value for category is rule. If no value is specified category is rule.
-	RuleCategory ListDetectorRulesRuleCategoryEnum `mandatory:"false" contributesTo:"query" name:"ruleCategory" omitEmpty:"true"`
-
-	// Default is false.
-	// When set to true, the hierarchy of compartments is traversed
-	// and all compartments and subcompartments in the tenancy are
-	// returned depending on the setting of `accessLevel`.
-	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
-
-	// Valid values are `RESTRICTED` and `ACCESSIBLE`. Default is `RESTRICTED`.
-	// Setting this to `ACCESSIBLE` returns only those compartments for which the
-	// user has INSPECT permissions directly or indirectly (permissions can be on a
-	// resource in a subcompartment).
-	// When set to `RESTRICTED` permissions are checked and no partial results are displayed.
-	AccessLevel ListDetectorRulesAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use
+	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListDetectorRulesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending. If no value is specified timeCreated is default.
@@ -98,12 +83,6 @@ func (request ListDetectorRulesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListDetectorRulesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDetectorRulesLifecycleStateEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingListDetectorRulesRuleCategoryEnum(string(request.RuleCategory)); !ok && request.RuleCategory != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuleCategory: %s. Supported values are: %s.", request.RuleCategory, strings.Join(GetListDetectorRulesRuleCategoryEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingListDetectorRulesAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListDetectorRulesAccessLevelEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListDetectorRulesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDetectorRulesSortOrderEnumStringValues(), ",")))
@@ -204,90 +183,6 @@ func GetListDetectorRulesLifecycleStateEnumStringValues() []string {
 // GetMappingListDetectorRulesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDetectorRulesLifecycleStateEnum(val string) (ListDetectorRulesLifecycleStateEnum, bool) {
 	enum, ok := mappingListDetectorRulesLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ListDetectorRulesRuleCategoryEnum Enum with underlying type: string
-type ListDetectorRulesRuleCategoryEnum string
-
-// Set of constants representing the allowable values for ListDetectorRulesRuleCategoryEnum
-const (
-	ListDetectorRulesRuleCategoryRule     ListDetectorRulesRuleCategoryEnum = "RULE"
-	ListDetectorRulesRuleCategoryTemplate ListDetectorRulesRuleCategoryEnum = "TEMPLATE"
-)
-
-var mappingListDetectorRulesRuleCategoryEnum = map[string]ListDetectorRulesRuleCategoryEnum{
-	"RULE":     ListDetectorRulesRuleCategoryRule,
-	"TEMPLATE": ListDetectorRulesRuleCategoryTemplate,
-}
-
-var mappingListDetectorRulesRuleCategoryEnumLowerCase = map[string]ListDetectorRulesRuleCategoryEnum{
-	"rule":     ListDetectorRulesRuleCategoryRule,
-	"template": ListDetectorRulesRuleCategoryTemplate,
-}
-
-// GetListDetectorRulesRuleCategoryEnumValues Enumerates the set of values for ListDetectorRulesRuleCategoryEnum
-func GetListDetectorRulesRuleCategoryEnumValues() []ListDetectorRulesRuleCategoryEnum {
-	values := make([]ListDetectorRulesRuleCategoryEnum, 0)
-	for _, v := range mappingListDetectorRulesRuleCategoryEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListDetectorRulesRuleCategoryEnumStringValues Enumerates the set of values in String for ListDetectorRulesRuleCategoryEnum
-func GetListDetectorRulesRuleCategoryEnumStringValues() []string {
-	return []string{
-		"RULE",
-		"TEMPLATE",
-	}
-}
-
-// GetMappingListDetectorRulesRuleCategoryEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListDetectorRulesRuleCategoryEnum(val string) (ListDetectorRulesRuleCategoryEnum, bool) {
-	enum, ok := mappingListDetectorRulesRuleCategoryEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ListDetectorRulesAccessLevelEnum Enum with underlying type: string
-type ListDetectorRulesAccessLevelEnum string
-
-// Set of constants representing the allowable values for ListDetectorRulesAccessLevelEnum
-const (
-	ListDetectorRulesAccessLevelRestricted ListDetectorRulesAccessLevelEnum = "RESTRICTED"
-	ListDetectorRulesAccessLevelAccessible ListDetectorRulesAccessLevelEnum = "ACCESSIBLE"
-)
-
-var mappingListDetectorRulesAccessLevelEnum = map[string]ListDetectorRulesAccessLevelEnum{
-	"RESTRICTED": ListDetectorRulesAccessLevelRestricted,
-	"ACCESSIBLE": ListDetectorRulesAccessLevelAccessible,
-}
-
-var mappingListDetectorRulesAccessLevelEnumLowerCase = map[string]ListDetectorRulesAccessLevelEnum{
-	"restricted": ListDetectorRulesAccessLevelRestricted,
-	"accessible": ListDetectorRulesAccessLevelAccessible,
-}
-
-// GetListDetectorRulesAccessLevelEnumValues Enumerates the set of values for ListDetectorRulesAccessLevelEnum
-func GetListDetectorRulesAccessLevelEnumValues() []ListDetectorRulesAccessLevelEnum {
-	values := make([]ListDetectorRulesAccessLevelEnum, 0)
-	for _, v := range mappingListDetectorRulesAccessLevelEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListDetectorRulesAccessLevelEnumStringValues Enumerates the set of values in String for ListDetectorRulesAccessLevelEnum
-func GetListDetectorRulesAccessLevelEnumStringValues() []string {
-	return []string{
-		"RESTRICTED",
-		"ACCESSIBLE",
-	}
-}
-
-// GetMappingListDetectorRulesAccessLevelEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListDetectorRulesAccessLevelEnum(val string) (ListDetectorRulesAccessLevelEnum, bool) {
-	enum, ok := mappingListDetectorRulesAccessLevelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

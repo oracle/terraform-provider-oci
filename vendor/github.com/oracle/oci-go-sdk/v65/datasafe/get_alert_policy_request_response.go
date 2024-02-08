@@ -12,6 +12,10 @@ import (
 )
 
 // GetAlertPolicyRequest wrapper for the GetAlertPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAlertPolicy.go.html to see an example of how to use GetAlertPolicyRequest.
 type GetAlertPolicyRequest struct {
 
 	// The OCID of the alert policy.

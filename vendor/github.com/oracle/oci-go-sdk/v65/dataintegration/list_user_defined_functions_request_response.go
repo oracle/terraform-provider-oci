@@ -12,6 +12,10 @@ import (
 )
 
 // ListUserDefinedFunctionsRequest wrapper for the ListUserDefinedFunctions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListUserDefinedFunctions.go.html to see an example of how to use ListUserDefinedFunctionsRequest.
 type ListUserDefinedFunctionsRequest struct {
 
 	// The workspace ID.

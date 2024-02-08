@@ -7,12 +7,12 @@ import (
 	"context"
 	"crypto/rsa"
 	"fmt"
+
+	"github.com/oracle/oci-go-sdk/v65/common"
 	"net/http"
 	"net/url"
 	"sync"
 	"time"
-
-	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
 // resourcePrincipalFederationClient is the client used to to talk acquire resource principals

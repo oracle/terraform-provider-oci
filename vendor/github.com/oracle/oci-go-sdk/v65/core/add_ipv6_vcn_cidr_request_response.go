@@ -12,9 +12,13 @@ import (
 )
 
 // AddIpv6VcnCidrRequest wrapper for the AddIpv6VcnCidr operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddIpv6VcnCidr.go.html to see an example of how to use AddIpv6VcnCidrRequest.
 type AddIpv6VcnCidrRequest struct {
 
-	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	VcnId *string `mandatory:"true" contributesTo:"path" name:"vcnId"`
 
 	// Unique identifier for the request.

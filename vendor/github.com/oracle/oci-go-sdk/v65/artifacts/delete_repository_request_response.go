@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteRepositoryRequest wrapper for the DeleteRepository operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/DeleteRepository.go.html to see an example of how to use DeleteRepositoryRequest.
 type DeleteRepositoryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.

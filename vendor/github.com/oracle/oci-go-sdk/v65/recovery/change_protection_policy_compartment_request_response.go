@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeProtectionPolicyCompartmentRequest wrapper for the ChangeProtectionPolicyCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ChangeProtectionPolicyCompartment.go.html to see an example of how to use ChangeProtectionPolicyCompartmentRequest.
 type ChangeProtectionPolicyCompartmentRequest struct {
 
 	// The protection policy OCID.

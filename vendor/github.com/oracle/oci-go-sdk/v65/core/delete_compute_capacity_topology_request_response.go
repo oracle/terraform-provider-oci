@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteComputeCapacityTopologyRequest wrapper for the DeleteComputeCapacityTopology operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCapacityTopology.go.html to see an example of how to use DeleteComputeCapacityTopologyRequest.
 type DeleteComputeCapacityTopologyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity topology.

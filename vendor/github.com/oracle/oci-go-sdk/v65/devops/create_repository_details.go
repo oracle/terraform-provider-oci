@@ -18,7 +18,7 @@ import (
 // CreateRepositoryDetails Information about the new repository.
 type CreateRepositoryDetails struct {
 
-	// Name of the repository. Should be unique within the project.
+	// Unique name of a repository.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID of the DevOps project containing the repository.
@@ -27,11 +27,7 @@ type CreateRepositoryDetails struct {
 	// Type of repository. Allowed values:
 	// `MIRRORED`
 	// `HOSTED`
-	// `FORKED`
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"true" json:"repositoryType"`
-
-	// The OCID of the parent repository.
-	ParentRepositoryId *string `mandatory:"false" json:"parentRepositoryId"`
 
 	// The default branch of the repository.
 	DefaultBranch *string `mandatory:"false" json:"defaultBranch"`

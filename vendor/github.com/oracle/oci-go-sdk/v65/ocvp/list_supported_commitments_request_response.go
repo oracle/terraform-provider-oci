@@ -12,6 +12,10 @@ import (
 )
 
 // ListSupportedCommitmentsRequest wrapper for the ListSupportedCommitments operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ListSupportedCommitments.go.html to see an example of how to use ListSupportedCommitmentsRequest.
 type ListSupportedCommitmentsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

@@ -17,27 +17,27 @@ import (
 	"strings"
 )
 
-// DetectorDetails Detailed information for a detector.
+// DetectorDetails Details of a Detector Rule
 type DetectorDetails struct {
 
-	// Enablement status for the rule
+	// Enables the control
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// The risk level for the rule
+	// The Risk Level
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// List of detector rule configurations
+	// Configuration details
 	Configurations []DetectorConfiguration `mandatory:"false" json:"configurations"`
 
 	Condition Condition `mandatory:"false" json:"condition"`
 
-	// User-defined labels for a detector rule
+	// user defined labels for a detector rule
 	Labels []string `mandatory:"false" json:"labels"`
 
-	// Can the rule be configured?
+	// configuration allowed or not
 	IsConfigurationAllowed *bool `mandatory:"false" json:"isConfigurationAllowed"`
 
-	// The point at which an elevated resource risk score creates a problem
+	// Cutover point for an elevated resource Risk Score to create a Problem
 	ProblemThreshold *int `mandatory:"false" json:"problemThreshold"`
 
 	// List of target types for which the detector rule is applicable
@@ -45,18 +45,6 @@ type DetectorDetails struct {
 
 	// List of sighting types
 	SightingTypes []SightingType `mandatory:"false" json:"sightingTypes"`
-
-	// Description for detector recipe detector rule
-	Description *string `mandatory:"false" json:"description"`
-
-	// Recommendation for detector recipe detector rule
-	Recommendation *string `mandatory:"false" json:"recommendation"`
-
-	// The ID of the attached data source
-	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
-
-	// Data source entities mapping for a detector rule
-	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
 }
 
 func (m DetectorDetails) String() string {
@@ -89,10 +77,6 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 		ProblemThreshold       *int                    `json:"problemThreshold"`
 		TargetTypes            []string                `json:"targetTypes"`
 		SightingTypes          []SightingType          `json:"sightingTypes"`
-		Description            *string                 `json:"description"`
-		Recommendation         *string                 `json:"recommendation"`
-		DataSourceId           *string                 `json:"dataSourceId"`
-		EntitiesMappings       []EntitiesMapping       `json:"entitiesMappings"`
 		IsEnabled              *bool                   `json:"isEnabled"`
 	}{}
 
@@ -125,14 +109,6 @@ func (m *DetectorDetails) UnmarshalJSON(data []byte) (e error) {
 	copy(m.TargetTypes, model.TargetTypes)
 	m.SightingTypes = make([]SightingType, len(model.SightingTypes))
 	copy(m.SightingTypes, model.SightingTypes)
-	m.Description = model.Description
-
-	m.Recommendation = model.Recommendation
-
-	m.DataSourceId = model.DataSourceId
-
-	m.EntitiesMappings = make([]EntitiesMapping, len(model.EntitiesMappings))
-	copy(m.EntitiesMappings, model.EntitiesMappings)
 	m.IsEnabled = model.IsEnabled
 
 	return

@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteCloudAutonomousVmClusterRequest wrapper for the DeleteCloudAutonomousVmCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteCloudAutonomousVmCluster.go.html to see an example of how to use DeleteCloudAutonomousVmClusterRequest.
 type DeleteCloudAutonomousVmClusterRequest struct {
 
 	// The Cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

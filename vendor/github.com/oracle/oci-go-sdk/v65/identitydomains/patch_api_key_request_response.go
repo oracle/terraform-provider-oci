@@ -12,6 +12,10 @@ import (
 )
 
 // PatchApiKeyRequest wrapper for the PatchApiKey operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchApiKey.go.html to see an example of how to use PatchApiKeyRequest.
 type PatchApiKeyRequest struct {
 
 	// ID of the resource

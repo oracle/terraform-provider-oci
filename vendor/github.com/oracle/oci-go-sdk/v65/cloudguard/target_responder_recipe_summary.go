@@ -16,41 +16,38 @@ import (
 	"strings"
 )
 
-// TargetResponderRecipeSummary Summary information for a target responder recipe.
+// TargetResponderRecipeSummary Summary of ResponderRecipe
 type TargetResponderRecipeSummary struct {
 
-	// Unique identifier that can't be changed after creation
+	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Unique identifier for responder recipe of which this is an extension
+	// Unique identifier for Responder Recipe of which this is an extension
 	ResponderRecipeId *string `mandatory:"true" json:"responderRecipeId"`
 
-	// Display name of the responder recipe
+	// ResponderRecipe Identifier Name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Description of the responder recipe
+	// ResponderRecipe Description
 	Description *string `mandatory:"true" json:"description"`
 
-	// Owner of the responder recipe
+	// Owner of ResponderRecipe
 	Owner OwnerTypeEnum `mandatory:"true" json:"owner"`
 
 	// The date and time the target responder recipe was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target responder recipe was last updated. Format defined by RFC3339.
+	// The date and time the target responder recipe was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the example
+	// The current state of the Example.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetResponderRecipeSummary) String() string {

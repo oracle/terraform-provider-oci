@@ -12,6 +12,10 @@ import (
 )
 
 // ListMonitorsRequest wrapper for the ListMonitors operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListMonitors.go.html to see an example of how to use ListMonitorsRequest.
 type ListMonitorsRequest struct {
 
 	// The APM domain ID the request is intended for.
@@ -27,7 +31,7 @@ type ListMonitorsRequest struct {
 	VantagePoint *string `mandatory:"false" contributesTo:"query" name:"vantagePoint"`
 
 	// A filter to return only monitors that match the given monitor type.
-	// Supported values are SCRIPTED_BROWSER, BROWSER, SCRIPTED_REST, REST, NETWORK, DNS, FTP and SQL.
+	// Supported values are SCRIPTED_BROWSER, BROWSER, SCRIPTED_REST, REST and NETWORK.
 	MonitorType *string `mandatory:"false" contributesTo:"query" name:"monitorType"`
 
 	// A filter to return only monitors that match the status given.

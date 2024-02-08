@@ -12,6 +12,10 @@ import (
 )
 
 // GetWindowsInstanceInitialCredentialsRequest wrapper for the GetWindowsInstanceInitialCredentials operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetWindowsInstanceInitialCredentials.go.html to see an example of how to use GetWindowsInstanceInitialCredentialsRequest.
 type GetWindowsInstanceInitialCredentialsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.

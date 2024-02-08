@@ -12,6 +12,10 @@ import (
 )
 
 // GetDrgRequest wrapper for the GetDrg operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDrg.go.html to see an example of how to use GetDrgRequest.
 type GetDrgRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.

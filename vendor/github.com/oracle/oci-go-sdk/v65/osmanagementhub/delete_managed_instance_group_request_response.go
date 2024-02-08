@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteManagedInstanceGroupRequest wrapper for the DeleteManagedInstanceGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagedInstanceGroup.go.html to see an example of how to use DeleteManagedInstanceGroupRequest.
 type DeleteManagedInstanceGroupRequest struct {
 
 	// The managed instance group OCID.

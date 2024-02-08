@@ -68,27 +68,18 @@ type ModelTrainingResultsAlgorithmEnum string
 
 // Set of constants representing the allowable values for ModelTrainingResultsAlgorithmEnum
 const (
-	ModelTrainingResultsAlgorithmMultivariateMadora               ModelTrainingResultsAlgorithmEnum = "MULTIVARIATE_MADORA"
-	ModelTrainingResultsAlgorithmMultivariateMadoraReconstruction ModelTrainingResultsAlgorithmEnum = "MULTIVARIATE_MADORA_RECONSTRUCTION"
-	ModelTrainingResultsAlgorithmMultivariateMadoraForecasting    ModelTrainingResultsAlgorithmEnum = "MULTIVARIATE_MADORA_FORECASTING"
-	ModelTrainingResultsAlgorithmMultivariateMset                 ModelTrainingResultsAlgorithmEnum = "MULTIVARIATE_MSET"
-	ModelTrainingResultsAlgorithmUnivariateOcsvm                  ModelTrainingResultsAlgorithmEnum = "UNIVARIATE_OCSVM"
+	ModelTrainingResultsAlgorithmMultivariateMset ModelTrainingResultsAlgorithmEnum = "MULTIVARIATE_MSET"
+	ModelTrainingResultsAlgorithmUnivariateOcsvm  ModelTrainingResultsAlgorithmEnum = "UNIVARIATE_OCSVM"
 )
 
 var mappingModelTrainingResultsAlgorithmEnum = map[string]ModelTrainingResultsAlgorithmEnum{
-	"MULTIVARIATE_MADORA":                ModelTrainingResultsAlgorithmMultivariateMadora,
-	"MULTIVARIATE_MADORA_RECONSTRUCTION": ModelTrainingResultsAlgorithmMultivariateMadoraReconstruction,
-	"MULTIVARIATE_MADORA_FORECASTING":    ModelTrainingResultsAlgorithmMultivariateMadoraForecasting,
-	"MULTIVARIATE_MSET":                  ModelTrainingResultsAlgorithmMultivariateMset,
-	"UNIVARIATE_OCSVM":                   ModelTrainingResultsAlgorithmUnivariateOcsvm,
+	"MULTIVARIATE_MSET": ModelTrainingResultsAlgorithmMultivariateMset,
+	"UNIVARIATE_OCSVM":  ModelTrainingResultsAlgorithmUnivariateOcsvm,
 }
 
 var mappingModelTrainingResultsAlgorithmEnumLowerCase = map[string]ModelTrainingResultsAlgorithmEnum{
-	"multivariate_madora":                ModelTrainingResultsAlgorithmMultivariateMadora,
-	"multivariate_madora_reconstruction": ModelTrainingResultsAlgorithmMultivariateMadoraReconstruction,
-	"multivariate_madora_forecasting":    ModelTrainingResultsAlgorithmMultivariateMadoraForecasting,
-	"multivariate_mset":                  ModelTrainingResultsAlgorithmMultivariateMset,
-	"univariate_ocsvm":                   ModelTrainingResultsAlgorithmUnivariateOcsvm,
+	"multivariate_mset": ModelTrainingResultsAlgorithmMultivariateMset,
+	"univariate_ocsvm":  ModelTrainingResultsAlgorithmUnivariateOcsvm,
 }
 
 // GetModelTrainingResultsAlgorithmEnumValues Enumerates the set of values for ModelTrainingResultsAlgorithmEnum
@@ -103,9 +94,6 @@ func GetModelTrainingResultsAlgorithmEnumValues() []ModelTrainingResultsAlgorith
 // GetModelTrainingResultsAlgorithmEnumStringValues Enumerates the set of values in String for ModelTrainingResultsAlgorithmEnum
 func GetModelTrainingResultsAlgorithmEnumStringValues() []string {
 	return []string{
-		"MULTIVARIATE_MADORA",
-		"MULTIVARIATE_MADORA_RECONSTRUCTION",
-		"MULTIVARIATE_MADORA_FORECASTING",
 		"MULTIVARIATE_MSET",
 		"UNIVARIATE_OCSVM",
 	}

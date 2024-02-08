@@ -12,6 +12,10 @@ import (
 )
 
 // GetSqlCollectionRequest wrapper for the GetSqlCollection operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSqlCollection.go.html to see an example of how to use GetSqlCollectionRequest.
 type GetSqlCollectionRequest struct {
 
 	// The OCID of the SQL collection resource.

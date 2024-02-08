@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDbSystemDbInstanceRequest wrapper for the UpdateDbSystemDbInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateDbSystemDbInstance.go.html to see an example of how to use UpdateDbSystemDbInstanceRequest.
 type UpdateDbSystemDbInstanceRequest struct {
 
 	// A unique identifier for the database system.

@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateManagementStationRequest wrapper for the UpdateManagementStation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateManagementStation.go.html to see an example of how to use UpdateManagementStationRequest.
 type UpdateManagementStationRequest struct {
 
 	// The OCID of the management station.

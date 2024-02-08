@@ -92,6 +92,10 @@ func (client *DevopsClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // ApproveDeployment Submit stage approval.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ApproveDeployment.go.html to see an example of how to use ApproveDeployment API.
 // A default retry strategy applies to this operation ApproveDeployment()
 func (client DevopsClient) ApproveDeployment(ctx context.Context, request ApproveDeploymentRequest) (response ApproveDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -151,6 +155,10 @@ func (client DevopsClient) approveDeployment(ctx context.Context, request common
 }
 
 // CancelBuildRun Cancels the build run based on the build run ID provided in the request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CancelBuildRun.go.html to see an example of how to use CancelBuildRun API.
 // A default retry strategy applies to this operation CancelBuildRun()
 func (client DevopsClient) CancelBuildRun(ctx context.Context, request CancelBuildRunRequest) (response CancelBuildRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -210,6 +218,10 @@ func (client DevopsClient) cancelBuildRun(ctx context.Context, request common.OC
 }
 
 // CancelDeployment Cancels a deployment resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CancelDeployment.go.html to see an example of how to use CancelDeployment API.
 // A default retry strategy applies to this operation CancelDeployment()
 func (client DevopsClient) CancelDeployment(ctx context.Context, request CancelDeploymentRequest) (response CancelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -269,6 +281,10 @@ func (client DevopsClient) cancelDeployment(ctx context.Context, request common.
 }
 
 // CancelScheduledCascadingProjectDeletion Cascading operation that restores Project and child resources from a DELETING state to an active state
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CancelScheduledCascadingProjectDeletion.go.html to see an example of how to use CancelScheduledCascadingProjectDeletion API.
 // A default retry strategy applies to this operation CancelScheduledCascadingProjectDeletion()
 func (client DevopsClient) CancelScheduledCascadingProjectDeletion(ctx context.Context, request CancelScheduledCascadingProjectDeletionRequest) (response CancelScheduledCascadingProjectDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -328,6 +344,10 @@ func (client DevopsClient) cancelScheduledCascadingProjectDeletion(ctx context.C
 }
 
 // ChangeProjectCompartment Moves a project resource from one compartment OCID to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 // A default retry strategy applies to this operation ChangeProjectCompartment()
 func (client DevopsClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -386,66 +406,11 @@ func (client DevopsClient) changeProjectCompartment(ctx context.Context, request
 	return response, err
 }
 
-// ChangeRepositoryPrivateAccessCompartment Moves a RepositoryPrivateAccess resource from one compartment to another.
-// A default retry strategy applies to this operation ChangeRepositoryPrivateAccessCompartment()
-func (client DevopsClient) ChangeRepositoryPrivateAccessCompartment(ctx context.Context, request ChangeRepositoryPrivateAccessCompartmentRequest) (response ChangeRepositoryPrivateAccessCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeRepositoryPrivateAccessCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeRepositoryPrivateAccessCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeRepositoryPrivateAccessCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeRepositoryPrivateAccessCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeRepositoryPrivateAccessCompartmentResponse")
-	}
-	return
-}
-
-// changeRepositoryPrivateAccessCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) changeRepositoryPrivateAccessCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeRepositoryPrivateAccessCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/ChangeRepositoryPrivateAccessCompartment"
-		err = common.PostProcessServiceError(err, "Devops", "ChangeRepositoryPrivateAccessCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateBuildPipeline Creates a new build pipeline.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateBuildPipeline.go.html to see an example of how to use CreateBuildPipeline API.
 // A default retry strategy applies to this operation CreateBuildPipeline()
 func (client DevopsClient) CreateBuildPipeline(ctx context.Context, request CreateBuildPipelineRequest) (response CreateBuildPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -505,6 +470,10 @@ func (client DevopsClient) createBuildPipeline(ctx context.Context, request comm
 }
 
 // CreateBuildPipelineStage Creates a new stage.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateBuildPipelineStage.go.html to see an example of how to use CreateBuildPipelineStage API.
 // A default retry strategy applies to this operation CreateBuildPipelineStage()
 func (client DevopsClient) CreateBuildPipelineStage(ctx context.Context, request CreateBuildPipelineStageRequest) (response CreateBuildPipelineStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -564,6 +533,10 @@ func (client DevopsClient) createBuildPipelineStage(ctx context.Context, request
 }
 
 // CreateBuildRun Starts a build pipeline run for a predefined build pipeline. Please ensure the completion of any work request for creation/updation of Build Pipeline before starting a Build Run.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateBuildRun.go.html to see an example of how to use CreateBuildRun API.
 // A default retry strategy applies to this operation CreateBuildRun()
 func (client DevopsClient) CreateBuildRun(ctx context.Context, request CreateBuildRunRequest) (response CreateBuildRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -623,6 +596,10 @@ func (client DevopsClient) createBuildRun(ctx context.Context, request common.OC
 }
 
 // CreateConnection Creates a new connection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateConnection.go.html to see an example of how to use CreateConnection API.
 // A default retry strategy applies to this operation CreateConnection()
 func (client DevopsClient) CreateConnection(ctx context.Context, request CreateConnectionRequest) (response CreateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -682,6 +659,10 @@ func (client DevopsClient) createConnection(ctx context.Context, request common.
 }
 
 // CreateDeployArtifact Creates a new deployment artifact.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployArtifact.go.html to see an example of how to use CreateDeployArtifact API.
 // A default retry strategy applies to this operation CreateDeployArtifact()
 func (client DevopsClient) CreateDeployArtifact(ctx context.Context, request CreateDeployArtifactRequest) (response CreateDeployArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -741,6 +722,10 @@ func (client DevopsClient) createDeployArtifact(ctx context.Context, request com
 }
 
 // CreateDeployEnvironment Creates a new deployment environment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployEnvironment.go.html to see an example of how to use CreateDeployEnvironment API.
 // A default retry strategy applies to this operation CreateDeployEnvironment()
 func (client DevopsClient) CreateDeployEnvironment(ctx context.Context, request CreateDeployEnvironmentRequest) (response CreateDeployEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -800,6 +785,10 @@ func (client DevopsClient) createDeployEnvironment(ctx context.Context, request 
 }
 
 // CreateDeployPipeline Creates a new deployment pipeline.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployPipeline.go.html to see an example of how to use CreateDeployPipeline API.
 // A default retry strategy applies to this operation CreateDeployPipeline()
 func (client DevopsClient) CreateDeployPipeline(ctx context.Context, request CreateDeployPipelineRequest) (response CreateDeployPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -859,6 +848,10 @@ func (client DevopsClient) createDeployPipeline(ctx context.Context, request com
 }
 
 // CreateDeployStage Creates a new deployment stage.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployStage.go.html to see an example of how to use CreateDeployStage API.
 // A default retry strategy applies to this operation CreateDeployStage()
 func (client DevopsClient) CreateDeployStage(ctx context.Context, request CreateDeployStageRequest) (response CreateDeployStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -918,6 +911,10 @@ func (client DevopsClient) createDeployStage(ctx context.Context, request common
 }
 
 // CreateDeployment Creates a new deployment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployment.go.html to see an example of how to use CreateDeployment API.
 // A default retry strategy applies to this operation CreateDeployment()
 func (client DevopsClient) CreateDeployment(ctx context.Context, request CreateDeploymentRequest) (response CreateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -976,125 +973,11 @@ func (client DevopsClient) createDeployment(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateOrUpdateGitRef Creates a new reference or updates an existing one.
-// A default retry strategy applies to this operation CreateOrUpdateGitRef()
-func (client DevopsClient) CreateOrUpdateGitRef(ctx context.Context, request CreateOrUpdateGitRefRequest) (response CreateOrUpdateGitRefResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createOrUpdateGitRef, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateOrUpdateGitRefResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateOrUpdateGitRefResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateOrUpdateGitRefResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateOrUpdateGitRefResponse")
-	}
-	return
-}
-
-// createOrUpdateGitRef implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) createOrUpdateGitRef(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositories/{repositoryId}/actions/createOrUpdateGitRef", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateOrUpdateGitRefResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/CreateOrUpdateGitRef"
-		err = common.PostProcessServiceError(err, "Devops", "CreateOrUpdateGitRef", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &repositoryref{})
-	return response, err
-}
-
-// CreateOrUpdateProtectedBranch Creates a restriction on a branch that prevents certain actions on it.
-// A default retry strategy applies to this operation CreateOrUpdateProtectedBranch()
-func (client DevopsClient) CreateOrUpdateProtectedBranch(ctx context.Context, request CreateOrUpdateProtectedBranchRequest) (response CreateOrUpdateProtectedBranchResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createOrUpdateProtectedBranch, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateOrUpdateProtectedBranchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateOrUpdateProtectedBranchResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateOrUpdateProtectedBranchResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateOrUpdateProtectedBranchResponse")
-	}
-	return
-}
-
-// createOrUpdateProtectedBranch implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) createOrUpdateProtectedBranch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositories/{repositoryId}/actions/createOrUpdateProtectedBranch", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateOrUpdateProtectedBranchResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProtectedBranch/CreateOrUpdateProtectedBranch"
-		err = common.PostProcessServiceError(err, "Devops", "CreateOrUpdateProtectedBranch", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateProject Creates a new project.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateProject.go.html to see an example of how to use CreateProject API.
 // A default retry strategy applies to this operation CreateProject()
 func (client DevopsClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1153,184 +1036,11 @@ func (client DevopsClient) createProject(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// CreatePullRequest Creates a new PullRequest.
-// A default retry strategy applies to this operation CreatePullRequest()
-func (client DevopsClient) CreatePullRequest(ctx context.Context, request CreatePullRequestRequest) (response CreatePullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createPullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreatePullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreatePullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreatePullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreatePullRequestResponse")
-	}
-	return
-}
-
-// createPullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) createPullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreatePullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/CreatePullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "CreatePullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreatePullRequestAttachment Creates PullRequest attachment
-// A default retry strategy applies to this operation CreatePullRequestAttachment()
-func (client DevopsClient) CreatePullRequestAttachment(ctx context.Context, request CreatePullRequestAttachmentRequest) (response CreatePullRequestAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createPullRequestAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreatePullRequestAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreatePullRequestAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreatePullRequestAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreatePullRequestAttachmentResponse")
-	}
-	return
-}
-
-// createPullRequestAttachment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) createPullRequestAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/attachments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreatePullRequestAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/CreatePullRequestAttachment"
-		err = common.PostProcessServiceError(err, "Devops", "CreatePullRequestAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreatePullRequestComment Creates a new PullRequest comment.
-// A default retry strategy applies to this operation CreatePullRequestComment()
-func (client DevopsClient) CreatePullRequestComment(ctx context.Context, request CreatePullRequestCommentRequest) (response CreatePullRequestCommentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createPullRequestComment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreatePullRequestCommentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreatePullRequestCommentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreatePullRequestCommentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreatePullRequestCommentResponse")
-	}
-	return
-}
-
-// createPullRequestComment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) createPullRequestComment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/comments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreatePullRequestCommentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/CreatePullRequestComment"
-		err = common.PostProcessServiceError(err, "Devops", "CreatePullRequestComment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateRepository Creates a new repository.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateRepository.go.html to see an example of how to use CreateRepository API.
 // A default retry strategy applies to this operation CreateRepository()
 func (client DevopsClient) CreateRepository(ctx context.Context, request CreateRepositoryRequest) (response CreateRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1389,66 +1099,11 @@ func (client DevopsClient) createRepository(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateRepositoryPrivateAccess Creates a new RepositoryPrivateAccess.
-// A default retry strategy applies to this operation CreateRepositoryPrivateAccess()
-func (client DevopsClient) CreateRepositoryPrivateAccess(ctx context.Context, request CreateRepositoryPrivateAccessRequest) (response CreateRepositoryPrivateAccessResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createRepositoryPrivateAccess, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateRepositoryPrivateAccessResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateRepositoryPrivateAccessResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateRepositoryPrivateAccessResponse")
-	}
-	return
-}
-
-// createRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) createRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryPrivateAccesses", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateRepositoryPrivateAccessResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/CreateRepositoryPrivateAccess"
-		err = common.PostProcessServiceError(err, "Devops", "CreateRepositoryPrivateAccess", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateTrigger Creates a new trigger.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateTrigger.go.html to see an example of how to use CreateTrigger API.
 // A default retry strategy applies to this operation CreateTrigger()
 func (client DevopsClient) CreateTrigger(ctx context.Context, request CreateTriggerRequest) (response CreateTriggerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1507,61 +1162,11 @@ func (client DevopsClient) createTrigger(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// DeclinePullRequest Decline a PullRequest
-// A default retry strategy applies to this operation DeclinePullRequest()
-func (client DevopsClient) DeclinePullRequest(ctx context.Context, request DeclinePullRequestRequest) (response DeclinePullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.declinePullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeclinePullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeclinePullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeclinePullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeclinePullRequestResponse")
-	}
-	return
-}
-
-// declinePullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) declinePullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/actions/decline", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeclinePullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/DeclinePullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "DeclinePullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteBuildPipeline Deletes a build pipeline resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteBuildPipeline.go.html to see an example of how to use DeleteBuildPipeline API.
 // A default retry strategy applies to this operation DeleteBuildPipeline()
 func (client DevopsClient) DeleteBuildPipeline(ctx context.Context, request DeleteBuildPipelineRequest) (response DeleteBuildPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1616,6 +1221,10 @@ func (client DevopsClient) deleteBuildPipeline(ctx context.Context, request comm
 }
 
 // DeleteBuildPipelineStage Deletes a stage based on the stage ID provided in the request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteBuildPipelineStage.go.html to see an example of how to use DeleteBuildPipelineStage API.
 // A default retry strategy applies to this operation DeleteBuildPipelineStage()
 func (client DevopsClient) DeleteBuildPipelineStage(ctx context.Context, request DeleteBuildPipelineStageRequest) (response DeleteBuildPipelineStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1670,6 +1279,10 @@ func (client DevopsClient) deleteBuildPipelineStage(ctx context.Context, request
 }
 
 // DeleteConnection Deletes a connection resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteConnection.go.html to see an example of how to use DeleteConnection API.
 // A default retry strategy applies to this operation DeleteConnection()
 func (client DevopsClient) DeleteConnection(ctx context.Context, request DeleteConnectionRequest) (response DeleteConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1724,6 +1337,10 @@ func (client DevopsClient) deleteConnection(ctx context.Context, request common.
 }
 
 // DeleteDeployArtifact Deletes a deployment artifact resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployArtifact.go.html to see an example of how to use DeleteDeployArtifact API.
 // A default retry strategy applies to this operation DeleteDeployArtifact()
 func (client DevopsClient) DeleteDeployArtifact(ctx context.Context, request DeleteDeployArtifactRequest) (response DeleteDeployArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1778,6 +1395,10 @@ func (client DevopsClient) deleteDeployArtifact(ctx context.Context, request com
 }
 
 // DeleteDeployEnvironment Deletes a deployment environment resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployEnvironment.go.html to see an example of how to use DeleteDeployEnvironment API.
 // A default retry strategy applies to this operation DeleteDeployEnvironment()
 func (client DevopsClient) DeleteDeployEnvironment(ctx context.Context, request DeleteDeployEnvironmentRequest) (response DeleteDeployEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1832,6 +1453,10 @@ func (client DevopsClient) deleteDeployEnvironment(ctx context.Context, request 
 }
 
 // DeleteDeployPipeline Deletes a deployment pipeline resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployPipeline.go.html to see an example of how to use DeleteDeployPipeline API.
 // A default retry strategy applies to this operation DeleteDeployPipeline()
 func (client DevopsClient) DeleteDeployPipeline(ctx context.Context, request DeleteDeployPipelineRequest) (response DeleteDeployPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1886,6 +1511,10 @@ func (client DevopsClient) deleteDeployPipeline(ctx context.Context, request com
 }
 
 // DeleteDeployStage Deletes a deployment stage resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployStage.go.html to see an example of how to use DeleteDeployStage API.
 // A default retry strategy applies to this operation DeleteDeployStage()
 func (client DevopsClient) DeleteDeployStage(ctx context.Context, request DeleteDeployStageRequest) (response DeleteDeployStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1939,66 +1568,11 @@ func (client DevopsClient) deleteDeployStage(ctx context.Context, request common
 	return response, err
 }
 
-// DeleteGitRef Deletes a Repository's Ref by its name. Returns an error if the name is ambiguous. Can be disambiguated by using full names like "heads/<name>" or "tags/<name>".
-// A default retry strategy applies to this operation DeleteGitRef()
-func (client DevopsClient) DeleteGitRef(ctx context.Context, request DeleteGitRefRequest) (response DeleteGitRefResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.deleteGitRef, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteGitRefResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteGitRefResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteGitRefResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteGitRefResponse")
-	}
-	return
-}
-
-// deleteGitRef implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deleteGitRef(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositories/{repositoryId}/actions/deleteGitRef", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteGitRefResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/DeleteGitRef"
-		err = common.PostProcessServiceError(err, "Devops", "DeleteGitRef", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteProject Deletes a project resource by identifier
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteProject.go.html to see an example of how to use DeleteProject API.
 // A default retry strategy applies to this operation DeleteProject()
 func (client DevopsClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2052,287 +1626,11 @@ func (client DevopsClient) deleteProject(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// DeleteProjectRepositorySettings Removes the custom repository settings configured for a project.
-// A default retry strategy applies to this operation DeleteProjectRepositorySettings()
-func (client DevopsClient) DeleteProjectRepositorySettings(ctx context.Context, request DeleteProjectRepositorySettingsRequest) (response DeleteProjectRepositorySettingsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.deleteProjectRepositorySettings, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteProjectRepositorySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteProjectRepositorySettingsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteProjectRepositorySettingsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteProjectRepositorySettingsResponse")
-	}
-	return
-}
-
-// deleteProjectRepositorySettings implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deleteProjectRepositorySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/projects/{projectId}/repositorySettings", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteProjectRepositorySettingsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProjectRepositorySettings/DeleteProjectRepositorySettings"
-		err = common.PostProcessServiceError(err, "Devops", "DeleteProjectRepositorySettings", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteProtectedBranch Removes the protection from a branch
-// A default retry strategy applies to this operation DeleteProtectedBranch()
-func (client DevopsClient) DeleteProtectedBranch(ctx context.Context, request DeleteProtectedBranchRequest) (response DeleteProtectedBranchResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.deleteProtectedBranch, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteProtectedBranchResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteProtectedBranchResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteProtectedBranchResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteProtectedBranchResponse")
-	}
-	return
-}
-
-// deleteProtectedBranch implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deleteProtectedBranch(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositories/{repositoryId}/actions/deleteProtectedBranch", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteProtectedBranchResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProtectedBranch/DeleteProtectedBranch"
-		err = common.PostProcessServiceError(err, "Devops", "DeleteProtectedBranch", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeletePullRequest Deletes a PullRequest resource by identifier
-// A default retry strategy applies to this operation DeletePullRequest()
-func (client DevopsClient) DeletePullRequest(ctx context.Context, request DeletePullRequestRequest) (response DeletePullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deletePullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeletePullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeletePullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeletePullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeletePullRequestResponse")
-	}
-	return
-}
-
-// deletePullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deletePullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pullRequests/{pullRequestId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeletePullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/DeletePullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "DeletePullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeletePullRequestAttachment Deletes a PullRequest attachment metadata by identifier
-// A default retry strategy applies to this operation DeletePullRequestAttachment()
-func (client DevopsClient) DeletePullRequestAttachment(ctx context.Context, request DeletePullRequestAttachmentRequest) (response DeletePullRequestAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deletePullRequestAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeletePullRequestAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeletePullRequestAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeletePullRequestAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeletePullRequestAttachmentResponse")
-	}
-	return
-}
-
-// deletePullRequestAttachment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deletePullRequestAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pullRequests/{pullRequestId}/attachments/{attachmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeletePullRequestAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/DeletePullRequestAttachment"
-		err = common.PostProcessServiceError(err, "Devops", "DeletePullRequestAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeletePullRequestComment Deletes a PullRequest comment by identifier
-// A default retry strategy applies to this operation DeletePullRequestComment()
-func (client DevopsClient) DeletePullRequestComment(ctx context.Context, request DeletePullRequestCommentRequest) (response DeletePullRequestCommentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deletePullRequestComment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeletePullRequestCommentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeletePullRequestCommentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeletePullRequestCommentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeletePullRequestCommentResponse")
-	}
-	return
-}
-
-// deletePullRequestComment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deletePullRequestComment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pullRequests/{pullRequestId}/comments/{commentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeletePullRequestCommentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/DeletePullRequestComment"
-		err = common.PostProcessServiceError(err, "Devops", "DeletePullRequestComment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteRef Deletes a Repository's Ref by its name. Returns an error if the name is ambiguous. Can be disambiguated by using full names like "heads/<name>" or "tags/<name>". This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/actions/deleteGitRef".
+// DeleteRef Deletes a Repository's Ref by its name. Returns an error if the name is ambiguous. Can be disambiguated by using full names like "heads/<name>" or "tags/<name>".
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteRef.go.html to see an example of how to use DeleteRef API.
 // A default retry strategy applies to this operation DeleteRef()
 func (client DevopsClient) DeleteRef(ctx context.Context, request DeleteRefRequest) (response DeleteRefResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2392,6 +1690,10 @@ func (client DevopsClient) deleteRef(ctx context.Context, request common.OCIRequ
 }
 
 // DeleteRepository Deletes a repository resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteRepository.go.html to see an example of how to use DeleteRepository API.
 // A default retry strategy applies to this operation DeleteRepository()
 func (client DevopsClient) DeleteRepository(ctx context.Context, request DeleteRepositoryRequest) (response DeleteRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2445,120 +1747,11 @@ func (client DevopsClient) deleteRepository(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteRepositoryPrivateAccess Deletes a repository private access by identifier.
-// A default retry strategy applies to this operation DeleteRepositoryPrivateAccess()
-func (client DevopsClient) DeleteRepositoryPrivateAccess(ctx context.Context, request DeleteRepositoryPrivateAccessRequest) (response DeleteRepositoryPrivateAccessResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteRepositoryPrivateAccess, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteRepositoryPrivateAccessResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteRepositoryPrivateAccessResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteRepositoryPrivateAccessResponse")
-	}
-	return
-}
-
-// deleteRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deleteRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteRepositoryPrivateAccessResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/DeleteRepositoryPrivateAccess"
-		err = common.PostProcessServiceError(err, "Devops", "DeleteRepositoryPrivateAccess", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteRepositorySettings Removes the custom settings configured for a repository
-// A default retry strategy applies to this operation DeleteRepositorySettings()
-func (client DevopsClient) DeleteRepositorySettings(ctx context.Context, request DeleteRepositorySettingsRequest) (response DeleteRepositorySettingsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.deleteRepositorySettings, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteRepositorySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteRepositorySettingsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteRepositorySettingsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteRepositorySettingsResponse")
-	}
-	return
-}
-
-// deleteRepositorySettings implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) deleteRepositorySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/repositories/{repositoryId}/repositorySettings", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteRepositorySettingsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositorySettings/DeleteRepositorySettings"
-		err = common.PostProcessServiceError(err, "Devops", "DeleteRepositorySettings", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteTrigger Deletes a trigger resource by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteTrigger.go.html to see an example of how to use DeleteTrigger API.
 // A default retry strategy applies to this operation DeleteTrigger()
 func (client DevopsClient) DeleteTrigger(ctx context.Context, request DeleteTriggerRequest) (response DeleteTriggerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2613,6 +1806,10 @@ func (client DevopsClient) deleteTrigger(ctx context.Context, request common.OCI
 }
 
 // GetBuildPipeline Retrieves a build pipeline by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetBuildPipeline.go.html to see an example of how to use GetBuildPipeline API.
 // A default retry strategy applies to this operation GetBuildPipeline()
 func (client DevopsClient) GetBuildPipeline(ctx context.Context, request GetBuildPipelineRequest) (response GetBuildPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2667,6 +1864,10 @@ func (client DevopsClient) getBuildPipeline(ctx context.Context, request common.
 }
 
 // GetBuildPipelineStage Retrieves a stage based on the stage ID provided in the request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetBuildPipelineStage.go.html to see an example of how to use GetBuildPipelineStage API.
 // A default retry strategy applies to this operation GetBuildPipelineStage()
 func (client DevopsClient) GetBuildPipelineStage(ctx context.Context, request GetBuildPipelineStageRequest) (response GetBuildPipelineStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2721,6 +1922,10 @@ func (client DevopsClient) getBuildPipelineStage(ctx context.Context, request co
 }
 
 // GetBuildRun Returns the details of a build run for a given build run ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetBuildRun.go.html to see an example of how to use GetBuildRun API.
 // A default retry strategy applies to this operation GetBuildRun()
 func (client DevopsClient) GetBuildRun(ctx context.Context, request GetBuildRunRequest) (response GetBuildRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2775,6 +1980,10 @@ func (client DevopsClient) getBuildRun(ctx context.Context, request common.OCIRe
 }
 
 // GetCommit Retrieves a repository's commit by commit ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetCommit.go.html to see an example of how to use GetCommit API.
 // A default retry strategy applies to this operation GetCommit()
 func (client DevopsClient) GetCommit(ctx context.Context, request GetCommitRequest) (response GetCommitResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2829,6 +2038,10 @@ func (client DevopsClient) getCommit(ctx context.Context, request common.OCIRequ
 }
 
 // GetCommitDiff Compares two revisions for their differences. Supports comparison between two references or commits.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetCommitDiff.go.html to see an example of how to use GetCommitDiff API.
 // A default retry strategy applies to this operation GetCommitDiff()
 func (client DevopsClient) GetCommitDiff(ctx context.Context, request GetCommitDiffRequest) (response GetCommitDiffResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2883,6 +2096,10 @@ func (client DevopsClient) getCommitDiff(ctx context.Context, request common.OCI
 }
 
 // GetConnection Retrieves a connection by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetConnection.go.html to see an example of how to use GetConnection API.
 // A default retry strategy applies to this operation GetConnection()
 func (client DevopsClient) GetConnection(ctx context.Context, request GetConnectionRequest) (response GetConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2937,6 +2154,10 @@ func (client DevopsClient) getConnection(ctx context.Context, request common.OCI
 }
 
 // GetDeployArtifact Retrieves a deployment artifact by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployArtifact.go.html to see an example of how to use GetDeployArtifact API.
 // A default retry strategy applies to this operation GetDeployArtifact()
 func (client DevopsClient) GetDeployArtifact(ctx context.Context, request GetDeployArtifactRequest) (response GetDeployArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2991,6 +2212,10 @@ func (client DevopsClient) getDeployArtifact(ctx context.Context, request common
 }
 
 // GetDeployEnvironment Retrieves a deployment environment by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployEnvironment.go.html to see an example of how to use GetDeployEnvironment API.
 // A default retry strategy applies to this operation GetDeployEnvironment()
 func (client DevopsClient) GetDeployEnvironment(ctx context.Context, request GetDeployEnvironmentRequest) (response GetDeployEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3045,6 +2270,10 @@ func (client DevopsClient) getDeployEnvironment(ctx context.Context, request com
 }
 
 // GetDeployPipeline Retrieves a deployment pipeline by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployPipeline.go.html to see an example of how to use GetDeployPipeline API.
 // A default retry strategy applies to this operation GetDeployPipeline()
 func (client DevopsClient) GetDeployPipeline(ctx context.Context, request GetDeployPipelineRequest) (response GetDeployPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3099,6 +2328,10 @@ func (client DevopsClient) getDeployPipeline(ctx context.Context, request common
 }
 
 // GetDeployStage Retrieves a deployment stage by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployStage.go.html to see an example of how to use GetDeployStage API.
 // A default retry strategy applies to this operation GetDeployStage()
 func (client DevopsClient) GetDeployStage(ctx context.Context, request GetDeployStageRequest) (response GetDeployStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3153,6 +2386,10 @@ func (client DevopsClient) getDeployStage(ctx context.Context, request common.OC
 }
 
 // GetDeployment Retrieves a deployment by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployment.go.html to see an example of how to use GetDeployment API.
 // A default retry strategy applies to this operation GetDeployment()
 func (client DevopsClient) GetDeployment(ctx context.Context, request GetDeploymentRequest) (response GetDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3207,6 +2444,10 @@ func (client DevopsClient) getDeployment(ctx context.Context, request common.OCI
 }
 
 // GetFileDiff Gets the line-by-line difference between file on different commits. This API will be deprecated on Wed, 29 Mar 2023 01:00:00 GMT as it does not get recognized when filePath has '/'. This will be replaced by "/repositories/{repositoryId}/file/diffs"
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetFileDiff.go.html to see an example of how to use GetFileDiff API.
 // A default retry strategy applies to this operation GetFileDiff()
 func (client DevopsClient) GetFileDiff(ctx context.Context, request GetFileDiffRequest) (response GetFileDiffResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3261,6 +2502,10 @@ func (client DevopsClient) getFileDiff(ctx context.Context, request common.OCIRe
 }
 
 // GetMirrorRecord Returns either current mirror record or last successful mirror record for a specific mirror repository.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetMirrorRecord.go.html to see an example of how to use GetMirrorRecord API.
 // A default retry strategy applies to this operation GetMirrorRecord()
 func (client DevopsClient) GetMirrorRecord(ctx context.Context, request GetMirrorRecordRequest) (response GetMirrorRecordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3315,6 +2560,10 @@ func (client DevopsClient) getMirrorRecord(ctx context.Context, request common.O
 }
 
 // GetObject Retrieves blob of specific branch name/commit ID and file path.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetObject.go.html to see an example of how to use GetObject API.
 // A default retry strategy applies to this operation GetObject()
 func (client DevopsClient) GetObject(ctx context.Context, request GetObjectRequest) (response GetObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3369,6 +2618,10 @@ func (client DevopsClient) getObject(ctx context.Context, request common.OCIRequ
 }
 
 // GetObjectContent Retrieve contents of a specified object.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetObjectContent.go.html to see an example of how to use GetObjectContent API.
 // A default retry strategy applies to this operation GetObjectContent()
 func (client DevopsClient) GetObjectContent(ctx context.Context, request GetObjectContentRequest) (response GetObjectContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3422,6 +2675,10 @@ func (client DevopsClient) getObjectContent(ctx context.Context, request common.
 }
 
 // GetProject Retrieves a project by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetProject.go.html to see an example of how to use GetProject API.
 // A default retry strategy applies to this operation GetProject()
 func (client DevopsClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3475,438 +2732,11 @@ func (client DevopsClient) getProject(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// GetProjectNotificationPreference Get the project notification preference for the user passed as path param
-// A default retry strategy applies to this operation GetProjectNotificationPreference()
-func (client DevopsClient) GetProjectNotificationPreference(ctx context.Context, request GetProjectNotificationPreferenceRequest) (response GetProjectNotificationPreferenceResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getProjectNotificationPreference, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetProjectNotificationPreferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetProjectNotificationPreferenceResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetProjectNotificationPreferenceResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetProjectNotificationPreferenceResponse")
-	}
-	return
-}
-
-// getProjectNotificationPreference implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getProjectNotificationPreference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/projects/{projectId}/principals/{principalId}/pullRequestNotificationPreference", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetProjectNotificationPreferenceResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProjectNotificationPreference/GetProjectNotificationPreference"
-		err = common.PostProcessServiceError(err, "Devops", "GetProjectNotificationPreference", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetProjectRepositorySettings Retrieves a project's repository settings details.
-// A default retry strategy applies to this operation GetProjectRepositorySettings()
-func (client DevopsClient) GetProjectRepositorySettings(ctx context.Context, request GetProjectRepositorySettingsRequest) (response GetProjectRepositorySettingsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getProjectRepositorySettings, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetProjectRepositorySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetProjectRepositorySettingsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetProjectRepositorySettingsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetProjectRepositorySettingsResponse")
-	}
-	return
-}
-
-// getProjectRepositorySettings implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getProjectRepositorySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/projects/{projectId}/repositorySettings", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetProjectRepositorySettingsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProjectRepositorySettings/GetProjectRepositorySettings"
-		err = common.PostProcessServiceError(err, "Devops", "GetProjectRepositorySettings", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetPullRequest Gets a PullRequest by identifier
-// A default retry strategy applies to this operation GetPullRequest()
-func (client DevopsClient) GetPullRequest(ctx context.Context, request GetPullRequestRequest) (response GetPullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getPullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetPullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetPullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetPullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetPullRequestResponse")
-	}
-	return
-}
-
-// getPullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getPullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetPullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/GetPullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "GetPullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetPullRequestAttachment Get PullRequest attachment metadata by identifier
-// A default retry strategy applies to this operation GetPullRequestAttachment()
-func (client DevopsClient) GetPullRequestAttachment(ctx context.Context, request GetPullRequestAttachmentRequest) (response GetPullRequestAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getPullRequestAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetPullRequestAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetPullRequestAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetPullRequestAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetPullRequestAttachmentResponse")
-	}
-	return
-}
-
-// getPullRequestAttachment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getPullRequestAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/attachments/{attachmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetPullRequestAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/GetPullRequestAttachment"
-		err = common.PostProcessServiceError(err, "Devops", "GetPullRequestAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetPullRequestAttachmentContent Gets the content of the attachment.
-// A default retry strategy applies to this operation GetPullRequestAttachmentContent()
-func (client DevopsClient) GetPullRequestAttachmentContent(ctx context.Context, request GetPullRequestAttachmentContentRequest) (response GetPullRequestAttachmentContentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getPullRequestAttachmentContent, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetPullRequestAttachmentContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetPullRequestAttachmentContentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetPullRequestAttachmentContentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetPullRequestAttachmentContentResponse")
-	}
-	return
-}
-
-// getPullRequestAttachmentContent implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getPullRequestAttachmentContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/attachments/{attachmentId}/content", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetPullRequestAttachmentContentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/GetPullRequestAttachmentContent"
-		err = common.PostProcessServiceError(err, "Devops", "GetPullRequestAttachmentContent", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetPullRequestChangeSummaryMetrics Get pull request diff summary metric
-// A default retry strategy applies to this operation GetPullRequestChangeSummaryMetrics()
-func (client DevopsClient) GetPullRequestChangeSummaryMetrics(ctx context.Context, request GetPullRequestChangeSummaryMetricsRequest) (response GetPullRequestChangeSummaryMetricsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getPullRequestChangeSummaryMetrics, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetPullRequestChangeSummaryMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetPullRequestChangeSummaryMetricsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetPullRequestChangeSummaryMetricsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetPullRequestChangeSummaryMetricsResponse")
-	}
-	return
-}
-
-// getPullRequestChangeSummaryMetrics implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getPullRequestChangeSummaryMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/changeSummaryMetrics", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetPullRequestChangeSummaryMetricsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/GetPullRequestChangeSummaryMetrics"
-		err = common.PostProcessServiceError(err, "Devops", "GetPullRequestChangeSummaryMetrics", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetPullRequestComment Get PullRequest comment by identifier
-// A default retry strategy applies to this operation GetPullRequestComment()
-func (client DevopsClient) GetPullRequestComment(ctx context.Context, request GetPullRequestCommentRequest) (response GetPullRequestCommentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getPullRequestComment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetPullRequestCommentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetPullRequestCommentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetPullRequestCommentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetPullRequestCommentResponse")
-	}
-	return
-}
-
-// getPullRequestComment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getPullRequestComment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/comments/{commentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetPullRequestCommentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/GetPullRequestComment"
-		err = common.PostProcessServiceError(err, "Devops", "GetPullRequestComment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetPullRequestNotificationPreference Get the pull request notification preference for the user passed as path param
-// A default retry strategy applies to this operation GetPullRequestNotificationPreference()
-func (client DevopsClient) GetPullRequestNotificationPreference(ctx context.Context, request GetPullRequestNotificationPreferenceRequest) (response GetPullRequestNotificationPreferenceResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getPullRequestNotificationPreference, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetPullRequestNotificationPreferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetPullRequestNotificationPreferenceResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetPullRequestNotificationPreferenceResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetPullRequestNotificationPreferenceResponse")
-	}
-	return
-}
-
-// getPullRequestNotificationPreference implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getPullRequestNotificationPreference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/principals/{principalId}/pullRequestNotificationPreference", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetPullRequestNotificationPreferenceResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequestNotificationPreference/GetPullRequestNotificationPreference"
-		err = common.PostProcessServiceError(err, "Devops", "GetPullRequestNotificationPreference", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetRef This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/refs". Retrieves a repository's reference by its name with preference for branches over tags if the name is ambiguous. This can be disambiguated by using full names like "heads/<name>" or "tags/<name>".
+// GetRef Retrieves a repository's reference by its name with preference for branches over tags if the name is ambiguous. This can be disambiguated by using full names like "heads/<name>" or "tags/<name>".
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRef.go.html to see an example of how to use GetRef API.
 // A default retry strategy applies to this operation GetRef()
 func (client DevopsClient) GetRef(ctx context.Context, request GetRefRequest) (response GetRefResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3961,6 +2791,10 @@ func (client DevopsClient) getRef(ctx context.Context, request common.OCIRequest
 }
 
 // GetRepoFileDiff Gets the line-by-line difference between file on different commits.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepoFileDiff.go.html to see an example of how to use GetRepoFileDiff API.
 // A default retry strategy applies to this operation GetRepoFileDiff()
 func (client DevopsClient) GetRepoFileDiff(ctx context.Context, request GetRepoFileDiffRequest) (response GetRepoFileDiffResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4015,6 +2849,10 @@ func (client DevopsClient) getRepoFileDiff(ctx context.Context, request common.O
 }
 
 // GetRepoFileLines Retrieve lines of a specified file. Supports starting line number and limit.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepoFileLines.go.html to see an example of how to use GetRepoFileLines API.
 // A default retry strategy applies to this operation GetRepoFileLines()
 func (client DevopsClient) GetRepoFileLines(ctx context.Context, request GetRepoFileLinesRequest) (response GetRepoFileLinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4069,6 +2907,10 @@ func (client DevopsClient) getRepoFileLines(ctx context.Context, request common.
 }
 
 // GetRepository Retrieves a repository by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepository.go.html to see an example of how to use GetRepository API.
 // A default retry strategy applies to this operation GetRepository()
 func (client DevopsClient) GetRepository(ctx context.Context, request GetRepositoryRequest) (response GetRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4123,6 +2965,10 @@ func (client DevopsClient) getRepository(ctx context.Context, request common.OCI
 }
 
 // GetRepositoryArchiveContent Returns the archived repository information.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepositoryArchiveContent.go.html to see an example of how to use GetRepositoryArchiveContent API.
 // A default retry strategy applies to this operation GetRepositoryArchiveContent()
 func (client DevopsClient) GetRepositoryArchiveContent(ctx context.Context, request GetRepositoryArchiveContentRequest) (response GetRepositoryArchiveContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4176,6 +3022,10 @@ func (client DevopsClient) getRepositoryArchiveContent(ctx context.Context, requ
 }
 
 // GetRepositoryFileLines Retrieve lines of a specified file. Supports starting line number and limit. This API will be deprecated on Wed, 29 Mar 2023 01:00:00 GMT as it does not get recognized when filePath has '/'. This will be replaced by "/repositories/{repositoryId}/file/lines"
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepositoryFileLines.go.html to see an example of how to use GetRepositoryFileLines API.
 // A default retry strategy applies to this operation GetRepositoryFileLines()
 func (client DevopsClient) GetRepositoryFileLines(ctx context.Context, request GetRepositoryFileLinesRequest) (response GetRepositoryFileLinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4229,169 +3079,11 @@ func (client DevopsClient) getRepositoryFileLines(ctx context.Context, request c
 	return response, err
 }
 
-// GetRepositoryNotificationPreference Get the repository notification preference for the user passed as path param
-// A default retry strategy applies to this operation GetRepositoryNotificationPreference()
-func (client DevopsClient) GetRepositoryNotificationPreference(ctx context.Context, request GetRepositoryNotificationPreferenceRequest) (response GetRepositoryNotificationPreferenceResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getRepositoryNotificationPreference, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetRepositoryNotificationPreferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetRepositoryNotificationPreferenceResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetRepositoryNotificationPreferenceResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetRepositoryNotificationPreferenceResponse")
-	}
-	return
-}
-
-// getRepositoryNotificationPreference implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getRepositoryNotificationPreference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/principals/{principalId}/pullRequestNotificationPreference", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetRepositoryNotificationPreferenceResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryNotificationPreference/GetRepositoryNotificationPreference"
-		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryNotificationPreference", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetRepositoryPrivateAccess Retrieves a repository private access by identifier.
-// A default retry strategy applies to this operation GetRepositoryPrivateAccess()
-func (client DevopsClient) GetRepositoryPrivateAccess(ctx context.Context, request GetRepositoryPrivateAccessRequest) (response GetRepositoryPrivateAccessResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getRepositoryPrivateAccess, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetRepositoryPrivateAccessResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetRepositoryPrivateAccessResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetRepositoryPrivateAccessResponse")
-	}
-	return
-}
-
-// getRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetRepositoryPrivateAccessResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/GetRepositoryPrivateAccess"
-		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryPrivateAccess", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetRepositorySettings Retrieves a repository's settings details.
-// A default retry strategy applies to this operation GetRepositorySettings()
-func (client DevopsClient) GetRepositorySettings(ctx context.Context, request GetRepositorySettingsRequest) (response GetRepositorySettingsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getRepositorySettings, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetRepositorySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetRepositorySettingsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetRepositorySettingsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetRepositorySettingsResponse")
-	}
-	return
-}
-
-// getRepositorySettings implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) getRepositorySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/repositorySettings", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetRepositorySettingsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositorySettings/GetRepositorySettings"
-		err = common.PostProcessServiceError(err, "Devops", "GetRepositorySettings", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetTrigger Retrieves a trigger by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetTrigger.go.html to see an example of how to use GetTrigger API.
 // A default retry strategy applies to this operation GetTrigger()
 func (client DevopsClient) GetTrigger(ctx context.Context, request GetTriggerRequest) (response GetTriggerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4446,6 +3138,10 @@ func (client DevopsClient) getTrigger(ctx context.Context, request common.OCIReq
 }
 
 // GetWorkRequest Retrieves the status of the work request with the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DevopsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4499,61 +3195,11 @@ func (client DevopsClient) getWorkRequest(ctx context.Context, request common.OC
 	return response, err
 }
 
-// LikePullRequestComment Like a PullRequest comment
-// A default retry strategy applies to this operation LikePullRequestComment()
-func (client DevopsClient) LikePullRequestComment(ctx context.Context, request LikePullRequestCommentRequest) (response LikePullRequestCommentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.likePullRequestComment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = LikePullRequestCommentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = LikePullRequestCommentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(LikePullRequestCommentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into LikePullRequestCommentResponse")
-	}
-	return
-}
-
-// likePullRequestComment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) likePullRequestComment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/comments/{commentId}/actions/like", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response LikePullRequestCommentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/LikePullRequestComment"
-		err = common.PostProcessServiceError(err, "Devops", "LikePullRequestComment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListAuthors Retrieve a list of all the authors.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListAuthors.go.html to see an example of how to use ListAuthors API.
 // A default retry strategy applies to this operation ListAuthors()
 func (client DevopsClient) ListAuthors(ctx context.Context, request ListAuthorsRequest) (response ListAuthorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4608,6 +3254,10 @@ func (client DevopsClient) listAuthors(ctx context.Context, request common.OCIRe
 }
 
 // ListBuildPipelineStages Returns a list of all stages in a compartment or build pipeline.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListBuildPipelineStages.go.html to see an example of how to use ListBuildPipelineStages API.
 // A default retry strategy applies to this operation ListBuildPipelineStages()
 func (client DevopsClient) ListBuildPipelineStages(ctx context.Context, request ListBuildPipelineStagesRequest) (response ListBuildPipelineStagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4662,6 +3312,10 @@ func (client DevopsClient) listBuildPipelineStages(ctx context.Context, request 
 }
 
 // ListBuildPipelines Returns a list of build pipelines.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListBuildPipelines.go.html to see an example of how to use ListBuildPipelines API.
 // A default retry strategy applies to this operation ListBuildPipelines()
 func (client DevopsClient) ListBuildPipelines(ctx context.Context, request ListBuildPipelinesRequest) (response ListBuildPipelinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4715,61 +3369,11 @@ func (client DevopsClient) listBuildPipelines(ctx context.Context, request commo
 	return response, err
 }
 
-// ListBuildRunSnapshots Returns a list of build run snapshots for a given commit or the latest commit on a pull request if no commit is provided.
-// A default retry strategy applies to this operation ListBuildRunSnapshots()
-func (client DevopsClient) ListBuildRunSnapshots(ctx context.Context, request ListBuildRunSnapshotsRequest) (response ListBuildRunSnapshotsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listBuildRunSnapshots, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListBuildRunSnapshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListBuildRunSnapshotsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListBuildRunSnapshotsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListBuildRunSnapshotsResponse")
-	}
-	return
-}
-
-// listBuildRunSnapshots implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listBuildRunSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/buildRunSnapshots", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListBuildRunSnapshotsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListBuildRunSnapshots"
-		err = common.PostProcessServiceError(err, "Devops", "ListBuildRunSnapshots", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListBuildRuns Returns a list of build run summary.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListBuildRuns.go.html to see an example of how to use ListBuildRuns API.
 // A default retry strategy applies to this operation ListBuildRuns()
 func (client DevopsClient) ListBuildRuns(ctx context.Context, request ListBuildRunsRequest) (response ListBuildRunsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4823,61 +3427,11 @@ func (client DevopsClient) listBuildRuns(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListCodeSearchResults Get search results.
-// A default retry strategy applies to this operation ListCodeSearchResults()
-func (client DevopsClient) ListCodeSearchResults(ctx context.Context, request ListCodeSearchResultsRequest) (response ListCodeSearchResultsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listCodeSearchResults, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListCodeSearchResultsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListCodeSearchResultsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListCodeSearchResultsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListCodeSearchResultsResponse")
-	}
-	return
-}
-
-// listCodeSearchResults implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listCodeSearchResults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/codeSearchResults", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListCodeSearchResultsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/CodeSearchResultCollection/ListCodeSearchResults"
-		err = common.PostProcessServiceError(err, "Devops", "ListCodeSearchResults", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListCommitDiffs Compares two revisions and lists the differences. Supports comparison between two references or commits.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListCommitDiffs.go.html to see an example of how to use ListCommitDiffs API.
 // A default retry strategy applies to this operation ListCommitDiffs()
 func (client DevopsClient) ListCommitDiffs(ctx context.Context, request ListCommitDiffsRequest) (response ListCommitDiffsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4932,6 +3486,10 @@ func (client DevopsClient) listCommitDiffs(ctx context.Context, request common.O
 }
 
 // ListCommits Returns a list of commits.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListCommits.go.html to see an example of how to use ListCommits API.
 // A default retry strategy applies to this operation ListCommits()
 func (client DevopsClient) ListCommits(ctx context.Context, request ListCommitsRequest) (response ListCommitsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4986,6 +3544,10 @@ func (client DevopsClient) listCommits(ctx context.Context, request common.OCIRe
 }
 
 // ListConnections Returns a list of connections.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListConnections.go.html to see an example of how to use ListConnections API.
 // A default retry strategy applies to this operation ListConnections()
 func (client DevopsClient) ListConnections(ctx context.Context, request ListConnectionsRequest) (response ListConnectionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5040,6 +3602,10 @@ func (client DevopsClient) listConnections(ctx context.Context, request common.O
 }
 
 // ListDeployArtifacts Returns a list of deployment artifacts.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployArtifacts.go.html to see an example of how to use ListDeployArtifacts API.
 // A default retry strategy applies to this operation ListDeployArtifacts()
 func (client DevopsClient) ListDeployArtifacts(ctx context.Context, request ListDeployArtifactsRequest) (response ListDeployArtifactsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5094,6 +3660,10 @@ func (client DevopsClient) listDeployArtifacts(ctx context.Context, request comm
 }
 
 // ListDeployEnvironments Returns a list of deployment environments.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployEnvironments.go.html to see an example of how to use ListDeployEnvironments API.
 // A default retry strategy applies to this operation ListDeployEnvironments()
 func (client DevopsClient) ListDeployEnvironments(ctx context.Context, request ListDeployEnvironmentsRequest) (response ListDeployEnvironmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5148,6 +3718,10 @@ func (client DevopsClient) listDeployEnvironments(ctx context.Context, request c
 }
 
 // ListDeployPipelines Returns a list of deployment pipelines.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployPipelines.go.html to see an example of how to use ListDeployPipelines API.
 // A default retry strategy applies to this operation ListDeployPipelines()
 func (client DevopsClient) ListDeployPipelines(ctx context.Context, request ListDeployPipelinesRequest) (response ListDeployPipelinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5202,6 +3776,10 @@ func (client DevopsClient) listDeployPipelines(ctx context.Context, request comm
 }
 
 // ListDeployStages Retrieves a list of deployment stages.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployStages.go.html to see an example of how to use ListDeployStages API.
 // A default retry strategy applies to this operation ListDeployStages()
 func (client DevopsClient) ListDeployStages(ctx context.Context, request ListDeployStagesRequest) (response ListDeployStagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5256,6 +3834,10 @@ func (client DevopsClient) listDeployStages(ctx context.Context, request common.
 }
 
 // ListDeployments Returns a list of deployments.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployments.go.html to see an example of how to use ListDeployments API.
 // A default retry strategy applies to this operation ListDeployments()
 func (client DevopsClient) ListDeployments(ctx context.Context, request ListDeploymentsRequest) (response ListDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5309,61 +3891,11 @@ func (client DevopsClient) listDeployments(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListForkSyncStatuses LIST operation that returns a collection of fork sync status objects.
-// A default retry strategy applies to this operation ListForkSyncStatuses()
-func (client DevopsClient) ListForkSyncStatuses(ctx context.Context, request ListForkSyncStatusesRequest) (response ListForkSyncStatusesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listForkSyncStatuses, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListForkSyncStatusesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListForkSyncStatusesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListForkSyncStatusesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListForkSyncStatusesResponse")
-	}
-	return
-}
-
-// listForkSyncStatuses implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listForkSyncStatuses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/forkSyncStatuses", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListForkSyncStatusesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListForkSyncStatuses"
-		err = common.PostProcessServiceError(err, "Devops", "ListForkSyncStatuses", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListMirrorRecords Returns a list of mirror entry in history within 30 days.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListMirrorRecords.go.html to see an example of how to use ListMirrorRecords API.
 // A default retry strategy applies to this operation ListMirrorRecords()
 func (client DevopsClient) ListMirrorRecords(ctx context.Context, request ListMirrorRecordsRequest) (response ListMirrorRecordsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5418,6 +3950,10 @@ func (client DevopsClient) listMirrorRecords(ctx context.Context, request common
 }
 
 // ListPaths Retrieves a list of files and directories in a repository.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListPaths.go.html to see an example of how to use ListPaths API.
 // A default retry strategy applies to this operation ListPaths()
 func (client DevopsClient) ListPaths(ctx context.Context, request ListPathsRequest) (response ListPathsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5471,115 +4007,11 @@ func (client DevopsClient) listPaths(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
-// ListPrivateProjects Retrieves a list of projects associated with a repository private access resource.
-// A default retry strategy applies to this operation ListPrivateProjects()
-func (client DevopsClient) ListPrivateProjects(ctx context.Context, request ListPrivateProjectsRequest) (response ListPrivateProjectsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPrivateProjects, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPrivateProjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPrivateProjectsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPrivateProjectsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPrivateProjectsResponse")
-	}
-	return
-}
-
-// listPrivateProjects implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listPrivateProjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}/privateProjects", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPrivateProjectsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/ListPrivateProjects"
-		err = common.PostProcessServiceError(err, "Devops", "ListPrivateProjects", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListProjectCommitAnalyticsAuthors Retrieve a list of all the Commit Analytics authors.
-// A default retry strategy applies to this operation ListProjectCommitAnalyticsAuthors()
-func (client DevopsClient) ListProjectCommitAnalyticsAuthors(ctx context.Context, request ListProjectCommitAnalyticsAuthorsRequest) (response ListProjectCommitAnalyticsAuthorsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listProjectCommitAnalyticsAuthors, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListProjectCommitAnalyticsAuthorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListProjectCommitAnalyticsAuthorsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListProjectCommitAnalyticsAuthorsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListProjectCommitAnalyticsAuthorsResponse")
-	}
-	return
-}
-
-// listProjectCommitAnalyticsAuthors implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listProjectCommitAnalyticsAuthors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/projects/{projectId}/commitAnalyticsAuthors", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListProjectCommitAnalyticsAuthorsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListProjectCommitAnalyticsAuthors"
-		err = common.PostProcessServiceError(err, "Devops", "ListProjectCommitAnalyticsAuthors", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListProjects Returns a list of projects.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListProjects.go.html to see an example of how to use ListProjects API.
 // A default retry strategy applies to this operation ListProjects()
 func (client DevopsClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5633,439 +4065,11 @@ func (client DevopsClient) listProjects(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// ListProtectedBranches Returns a list of Protected Branches.
-// A default retry strategy applies to this operation ListProtectedBranches()
-func (client DevopsClient) ListProtectedBranches(ctx context.Context, request ListProtectedBranchesRequest) (response ListProtectedBranchesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listProtectedBranches, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListProtectedBranchesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListProtectedBranchesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListProtectedBranchesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListProtectedBranchesResponse")
-	}
-	return
-}
-
-// listProtectedBranches implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listProtectedBranches(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/protectedBranches", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListProtectedBranchesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProtectedBranchCollection/ListProtectedBranches"
-		err = common.PostProcessServiceError(err, "Devops", "ListProtectedBranches", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListPullRequestActivities List actions that have been taken on a pull request
-// A default retry strategy applies to this operation ListPullRequestActivities()
-func (client DevopsClient) ListPullRequestActivities(ctx context.Context, request ListPullRequestActivitiesRequest) (response ListPullRequestActivitiesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPullRequestActivities, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPullRequestActivitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPullRequestActivitiesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPullRequestActivitiesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPullRequestActivitiesResponse")
-	}
-	return
-}
-
-// listPullRequestActivities implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listPullRequestActivities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/activities", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPullRequestActivitiesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ListPullRequestActivities"
-		err = common.PostProcessServiceError(err, "Devops", "ListPullRequestActivities", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListPullRequestAttachments List PullRequest level attachments by identifier
-// A default retry strategy applies to this operation ListPullRequestAttachments()
-func (client DevopsClient) ListPullRequestAttachments(ctx context.Context, request ListPullRequestAttachmentsRequest) (response ListPullRequestAttachmentsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPullRequestAttachments, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPullRequestAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPullRequestAttachmentsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPullRequestAttachmentsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPullRequestAttachmentsResponse")
-	}
-	return
-}
-
-// listPullRequestAttachments implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listPullRequestAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/attachments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPullRequestAttachmentsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ListPullRequestAttachments"
-		err = common.PostProcessServiceError(err, "Devops", "ListPullRequestAttachments", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListPullRequestAuthors Retrieve a list of all the PR authors.
-// A default retry strategy applies to this operation ListPullRequestAuthors()
-func (client DevopsClient) ListPullRequestAuthors(ctx context.Context, request ListPullRequestAuthorsRequest) (response ListPullRequestAuthorsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPullRequestAuthors, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPullRequestAuthorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPullRequestAuthorsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPullRequestAuthorsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPullRequestAuthorsResponse")
-	}
-	return
-}
-
-// listPullRequestAuthors implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listPullRequestAuthors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/pullRequestAuthors", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPullRequestAuthorsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListPullRequestAuthors"
-		err = common.PostProcessServiceError(err, "Devops", "ListPullRequestAuthors", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListPullRequestComments List PullRequest level comments by identifier
-// A default retry strategy applies to this operation ListPullRequestComments()
-func (client DevopsClient) ListPullRequestComments(ctx context.Context, request ListPullRequestCommentsRequest) (response ListPullRequestCommentsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPullRequestComments, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPullRequestCommentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPullRequestCommentsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPullRequestCommentsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPullRequestCommentsResponse")
-	}
-	return
-}
-
-// listPullRequestComments implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listPullRequestComments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/comments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPullRequestCommentsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ListPullRequestComments"
-		err = common.PostProcessServiceError(err, "Devops", "ListPullRequestComments", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListPullRequestCommits List pull request commits
-// A default retry strategy applies to this operation ListPullRequestCommits()
-func (client DevopsClient) ListPullRequestCommits(ctx context.Context, request ListPullRequestCommitsRequest) (response ListPullRequestCommitsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPullRequestCommits, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPullRequestCommitsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPullRequestCommitsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPullRequestCommitsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPullRequestCommitsResponse")
-	}
-	return
-}
-
-// listPullRequestCommits implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listPullRequestCommits(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/commits", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPullRequestCommitsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ListPullRequestCommits"
-		err = common.PostProcessServiceError(err, "Devops", "ListPullRequestCommits", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListPullRequestFileChanges List pull request file changes
-// A default retry strategy applies to this operation ListPullRequestFileChanges()
-func (client DevopsClient) ListPullRequestFileChanges(ctx context.Context, request ListPullRequestFileChangesRequest) (response ListPullRequestFileChangesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPullRequestFileChanges, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPullRequestFileChangesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPullRequestFileChangesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPullRequestFileChangesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPullRequestFileChangesResponse")
-	}
-	return
-}
-
-// listPullRequestFileChanges implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listPullRequestFileChanges(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/fileChanges", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPullRequestFileChangesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ListPullRequestFileChanges"
-		err = common.PostProcessServiceError(err, "Devops", "ListPullRequestFileChanges", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListPullRequests Returns a list of PullRequests.
-// A default retry strategy applies to this operation ListPullRequests()
-func (client DevopsClient) ListPullRequests(ctx context.Context, request ListPullRequestsRequest) (response ListPullRequestsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPullRequests, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPullRequestsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPullRequestsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPullRequestsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPullRequestsResponse")
-	}
-	return
-}
-
-// listPullRequests implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listPullRequests(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPullRequestsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequestCollection/ListPullRequests"
-		err = common.PostProcessServiceError(err, "Devops", "ListPullRequests", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListRefs Returns a list of references.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListRefs.go.html to see an example of how to use ListRefs API.
 // A default retry strategy applies to this operation ListRefs()
 func (client DevopsClient) ListRefs(ctx context.Context, request ListRefsRequest) (response ListRefsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6120,6 +4124,10 @@ func (client DevopsClient) listRefs(ctx context.Context, request common.OCIReque
 }
 
 // ListRepositories Returns a list of repositories given a compartment ID or a project ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListRepositories.go.html to see an example of how to use ListRepositories API.
 // A default retry strategy applies to this operation ListRepositories()
 func (client DevopsClient) ListRepositories(ctx context.Context, request ListRepositoriesRequest) (response ListRepositoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6173,169 +4181,11 @@ func (client DevopsClient) listRepositories(ctx context.Context, request common.
 	return response, err
 }
 
-// ListRepositoryBuildRunSnapshots Returns a list of build run snapshots for a given commit under the repository.
-// A default retry strategy applies to this operation ListRepositoryBuildRunSnapshots()
-func (client DevopsClient) ListRepositoryBuildRunSnapshots(ctx context.Context, request ListRepositoryBuildRunSnapshotsRequest) (response ListRepositoryBuildRunSnapshotsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listRepositoryBuildRunSnapshots, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListRepositoryBuildRunSnapshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListRepositoryBuildRunSnapshotsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListRepositoryBuildRunSnapshotsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryBuildRunSnapshotsResponse")
-	}
-	return
-}
-
-// listRepositoryBuildRunSnapshots implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listRepositoryBuildRunSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/buildRunSnapshots", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListRepositoryBuildRunSnapshotsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListRepositoryBuildRunSnapshots"
-		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryBuildRunSnapshots", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListRepositoryCommitAnalyticsAuthors Retrieve a list of all the Commit Analytics authors.
-// A default retry strategy applies to this operation ListRepositoryCommitAnalyticsAuthors()
-func (client DevopsClient) ListRepositoryCommitAnalyticsAuthors(ctx context.Context, request ListRepositoryCommitAnalyticsAuthorsRequest) (response ListRepositoryCommitAnalyticsAuthorsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listRepositoryCommitAnalyticsAuthors, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListRepositoryCommitAnalyticsAuthorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListRepositoryCommitAnalyticsAuthorsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListRepositoryCommitAnalyticsAuthorsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryCommitAnalyticsAuthorsResponse")
-	}
-	return
-}
-
-// listRepositoryCommitAnalyticsAuthors implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listRepositoryCommitAnalyticsAuthors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/commitAnalyticsAuthors", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListRepositoryCommitAnalyticsAuthorsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListRepositoryCommitAnalyticsAuthors"
-		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryCommitAnalyticsAuthors", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListRepositoryPrivateAccesses Returns a list of RepositoryPrivateAccesses.
-// A default retry strategy applies to this operation ListRepositoryPrivateAccesses()
-func (client DevopsClient) ListRepositoryPrivateAccesses(ctx context.Context, request ListRepositoryPrivateAccessesRequest) (response ListRepositoryPrivateAccessesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listRepositoryPrivateAccesses, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListRepositoryPrivateAccessesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListRepositoryPrivateAccessesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListRepositoryPrivateAccessesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryPrivateAccessesResponse")
-	}
-	return
-}
-
-// listRepositoryPrivateAccesses implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) listRepositoryPrivateAccesses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryPrivateAccesses", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListRepositoryPrivateAccessesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/ListRepositoryPrivateAccesses"
-		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryPrivateAccesses", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListTriggers Returns a list of triggers.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListTriggers.go.html to see an example of how to use ListTriggers API.
 // A default retry strategy applies to this operation ListTriggers()
 func (client DevopsClient) ListTriggers(ctx context.Context, request ListTriggersRequest) (response ListTriggersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6390,6 +4240,10 @@ func (client DevopsClient) listTriggers(ctx context.Context, request common.OCIR
 }
 
 // ListWorkRequestErrors Returns a list of errors for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DevopsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6444,6 +4298,10 @@ func (client DevopsClient) listWorkRequestErrors(ctx context.Context, request co
 }
 
 // ListWorkRequestLogs Returns a list of logs for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DevopsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6498,6 +4356,10 @@ func (client DevopsClient) listWorkRequestLogs(ctx context.Context, request comm
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DevopsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6551,66 +4413,11 @@ func (client DevopsClient) listWorkRequests(ctx context.Context, request common.
 	return response, err
 }
 
-// MergePullRequest Merge the PullRequest
-// A default retry strategy applies to this operation MergePullRequest()
-func (client DevopsClient) MergePullRequest(ctx context.Context, request MergePullRequestRequest) (response MergePullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.mergePullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = MergePullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = MergePullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(MergePullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into MergePullRequestResponse")
-	}
-	return
-}
-
-// mergePullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) mergePullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/actions/merge", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response MergePullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/MergePullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "MergePullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // MirrorRepository Synchronize a mirrored repository to the latest version from external providers.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/MirrorRepository.go.html to see an example of how to use MirrorRepository API.
 // A default retry strategy applies to this operation MirrorRepository()
 func (client DevopsClient) MirrorRepository(ctx context.Context, request MirrorRepositoryRequest) (response MirrorRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6664,61 +4471,11 @@ func (client DevopsClient) mirrorRepository(ctx context.Context, request common.
 	return response, err
 }
 
-// PatchPullRequest Updates the reviewer list of a pull request
-// A default retry strategy applies to this operation PatchPullRequest()
-func (client DevopsClient) PatchPullRequest(ctx context.Context, request PatchPullRequestRequest) (response PatchPullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.patchPullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = PatchPullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = PatchPullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(PatchPullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into PatchPullRequestResponse")
-	}
-	return
-}
-
-// patchPullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) patchPullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/pullRequests/{pullRequestId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response PatchPullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/PatchPullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "PatchPullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// PutRepositoryRef Creates a new reference or updates an existing one. This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/actions/createOrUpdateGitRef".
+// PutRepositoryRef Creates a new reference or updates an existing one.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/PutRepositoryRef.go.html to see an example of how to use PutRepositoryRef API.
 // A default retry strategy applies to this operation PutRepositoryRef()
 func (client DevopsClient) PutRepositoryRef(ctx context.Context, request PutRepositoryRefRequest) (response PutRepositoryRefResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6777,179 +4534,11 @@ func (client DevopsClient) putRepositoryRef(ctx context.Context, request common.
 	return response, err
 }
 
-// RecoverRepositoryPrivateAccess Recovers a RepositoryPrivateAccess.
-// A default retry strategy applies to this operation RecoverRepositoryPrivateAccess()
-func (client DevopsClient) RecoverRepositoryPrivateAccess(ctx context.Context, request RecoverRepositoryPrivateAccessRequest) (response RecoverRepositoryPrivateAccessResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.recoverRepositoryPrivateAccess, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RecoverRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = RecoverRepositoryPrivateAccessResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(RecoverRepositoryPrivateAccessResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RecoverRepositoryPrivateAccessResponse")
-	}
-	return
-}
-
-// recoverRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) recoverRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}/actions/recoverRepositoryPrivateAccess", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response RecoverRepositoryPrivateAccessResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryPrivateAccess/RecoverRepositoryPrivateAccess"
-		err = common.PostProcessServiceError(err, "Devops", "RecoverRepositoryPrivateAccess", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReopenPullRequest Reopen a PullRequest
-// A default retry strategy applies to this operation ReopenPullRequest()
-func (client DevopsClient) ReopenPullRequest(ctx context.Context, request ReopenPullRequestRequest) (response ReopenPullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.reopenPullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReopenPullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReopenPullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReopenPullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReopenPullRequestResponse")
-	}
-	return
-}
-
-// reopenPullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) reopenPullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/actions/reopen", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReopenPullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ReopenPullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "ReopenPullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ReviewPullRequest Review a PullRequest
-// A default retry strategy applies to this operation ReviewPullRequest()
-func (client DevopsClient) ReviewPullRequest(ctx context.Context, request ReviewPullRequestRequest) (response ReviewPullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.reviewPullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ReviewPullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ReviewPullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ReviewPullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ReviewPullRequestResponse")
-	}
-	return
-}
-
-// reviewPullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) reviewPullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/actions/review", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ReviewPullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ReviewPullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "ReviewPullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ScheduleCascadingProjectDeletion Cascading operation that marks Project and child DevOps resources in a DELETING state for a retention period
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ScheduleCascadingProjectDeletion.go.html to see an example of how to use ScheduleCascadingProjectDeletion API.
 // A default retry strategy applies to this operation ScheduleCascadingProjectDeletion()
 func (client DevopsClient) ScheduleCascadingProjectDeletion(ctx context.Context, request ScheduleCascadingProjectDeletionRequest) (response ScheduleCascadingProjectDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7008,281 +4597,11 @@ func (client DevopsClient) scheduleCascadingProjectDeletion(ctx context.Context,
 	return response, err
 }
 
-// SummarizeProjectRepositoryAnalytics Retrieves repository analytics for a given project.
-// A default retry strategy applies to this operation SummarizeProjectRepositoryAnalytics()
-func (client DevopsClient) SummarizeProjectRepositoryAnalytics(ctx context.Context, request SummarizeProjectRepositoryAnalyticsRequest) (response SummarizeProjectRepositoryAnalyticsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.summarizeProjectRepositoryAnalytics, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = SummarizeProjectRepositoryAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = SummarizeProjectRepositoryAnalyticsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(SummarizeProjectRepositoryAnalyticsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into SummarizeProjectRepositoryAnalyticsResponse")
-	}
-	return
-}
-
-// summarizeProjectRepositoryAnalytics implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) summarizeProjectRepositoryAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects/{projectId}/repositoryAnalytics", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response SummarizeProjectRepositoryAnalyticsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryMetricAggregation/SummarizeProjectRepositoryAnalytics"
-		err = common.PostProcessServiceError(err, "Devops", "SummarizeProjectRepositoryAnalytics", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// SummarizeRepositoryAnalytics Retrieves repository analytics for a given repository.
-// A default retry strategy applies to this operation SummarizeRepositoryAnalytics()
-func (client DevopsClient) SummarizeRepositoryAnalytics(ctx context.Context, request SummarizeRepositoryAnalyticsRequest) (response SummarizeRepositoryAnalyticsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.summarizeRepositoryAnalytics, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = SummarizeRepositoryAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = SummarizeRepositoryAnalyticsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(SummarizeRepositoryAnalyticsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into SummarizeRepositoryAnalyticsResponse")
-	}
-	return
-}
-
-// summarizeRepositoryAnalytics implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) summarizeRepositoryAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repository/{repositoryId}/repositoryAnalytics", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response SummarizeRepositoryAnalyticsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryMetricAggregation/SummarizeRepositoryAnalytics"
-		err = common.PostProcessServiceError(err, "Devops", "SummarizeRepositoryAnalytics", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// SyncRepository Synchronize a forked repository to the latest version
-// A default retry strategy applies to this operation SyncRepository()
-func (client DevopsClient) SyncRepository(ctx context.Context, request SyncRepositoryRequest) (response SyncRepositoryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.syncRepository, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = SyncRepositoryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = SyncRepositoryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(SyncRepositoryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into SyncRepositoryResponse")
-	}
-	return
-}
-
-// syncRepository implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) syncRepository(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositories/{repositoryId}/actions/sync", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response SyncRepositoryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/SyncRepository"
-		err = common.PostProcessServiceError(err, "Devops", "SyncRepository", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UnlikePullRequestComment Unlike a PullRequest comment
-// A default retry strategy applies to this operation UnlikePullRequestComment()
-func (client DevopsClient) UnlikePullRequestComment(ctx context.Context, request UnlikePullRequestCommentRequest) (response UnlikePullRequestCommentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.unlikePullRequestComment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UnlikePullRequestCommentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UnlikePullRequestCommentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UnlikePullRequestCommentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UnlikePullRequestCommentResponse")
-	}
-	return
-}
-
-// unlikePullRequestComment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) unlikePullRequestComment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pullRequests/{pullRequestId}/comments/{commentId}/actions/unlike", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UnlikePullRequestCommentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/UnlikePullRequestComment"
-		err = common.PostProcessServiceError(err, "Devops", "UnlikePullRequestComment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UnsubscribePullRequest unsubscribe the PullRequest
-// A default retry strategy applies to this operation UnsubscribePullRequest()
-func (client DevopsClient) UnsubscribePullRequest(ctx context.Context, request UnsubscribePullRequestRequest) (response UnsubscribePullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.unsubscribePullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UnsubscribePullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UnsubscribePullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UnsubscribePullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UnsubscribePullRequestResponse")
-	}
-	return
-}
-
-// unsubscribePullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) unsubscribePullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pullRequests/{pullRequestId}/actions/unsubscribe", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UnsubscribePullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/UnsubscribePullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "UnsubscribePullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateBuildPipeline Updates the build pipeline.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildPipeline.go.html to see an example of how to use UpdateBuildPipeline API.
 // A default retry strategy applies to this operation UpdateBuildPipeline()
 func (client DevopsClient) UpdateBuildPipeline(ctx context.Context, request UpdateBuildPipelineRequest) (response UpdateBuildPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7337,6 +4656,10 @@ func (client DevopsClient) updateBuildPipeline(ctx context.Context, request comm
 }
 
 // UpdateBuildPipelineStage Updates the stage based on the stage ID provided in the request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildPipelineStage.go.html to see an example of how to use UpdateBuildPipelineStage API.
 // A default retry strategy applies to this operation UpdateBuildPipelineStage()
 func (client DevopsClient) UpdateBuildPipelineStage(ctx context.Context, request UpdateBuildPipelineStageRequest) (response UpdateBuildPipelineStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7391,6 +4714,10 @@ func (client DevopsClient) updateBuildPipelineStage(ctx context.Context, request
 }
 
 // UpdateBuildRun Updates the build run.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildRun.go.html to see an example of how to use UpdateBuildRun API.
 // A default retry strategy applies to this operation UpdateBuildRun()
 func (client DevopsClient) UpdateBuildRun(ctx context.Context, request UpdateBuildRunRequest) (response UpdateBuildRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7445,6 +4772,10 @@ func (client DevopsClient) updateBuildRun(ctx context.Context, request common.OC
 }
 
 // UpdateConnection Updates the connection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateConnection.go.html to see an example of how to use UpdateConnection API.
 // A default retry strategy applies to this operation UpdateConnection()
 func (client DevopsClient) UpdateConnection(ctx context.Context, request UpdateConnectionRequest) (response UpdateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7499,6 +4830,10 @@ func (client DevopsClient) updateConnection(ctx context.Context, request common.
 }
 
 // UpdateDeployArtifact Updates the deployment artifact.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployArtifact.go.html to see an example of how to use UpdateDeployArtifact API.
 // A default retry strategy applies to this operation UpdateDeployArtifact()
 func (client DevopsClient) UpdateDeployArtifact(ctx context.Context, request UpdateDeployArtifactRequest) (response UpdateDeployArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7553,6 +4888,10 @@ func (client DevopsClient) updateDeployArtifact(ctx context.Context, request com
 }
 
 // UpdateDeployEnvironment Updates the deployment environment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployEnvironment.go.html to see an example of how to use UpdateDeployEnvironment API.
 // A default retry strategy applies to this operation UpdateDeployEnvironment()
 func (client DevopsClient) UpdateDeployEnvironment(ctx context.Context, request UpdateDeployEnvironmentRequest) (response UpdateDeployEnvironmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7607,6 +4946,10 @@ func (client DevopsClient) updateDeployEnvironment(ctx context.Context, request 
 }
 
 // UpdateDeployPipeline Updates the deployment pipeline.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployPipeline.go.html to see an example of how to use UpdateDeployPipeline API.
 // A default retry strategy applies to this operation UpdateDeployPipeline()
 func (client DevopsClient) UpdateDeployPipeline(ctx context.Context, request UpdateDeployPipelineRequest) (response UpdateDeployPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7661,6 +5004,10 @@ func (client DevopsClient) updateDeployPipeline(ctx context.Context, request com
 }
 
 // UpdateDeployStage Updates the deployment stage.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployStage.go.html to see an example of how to use UpdateDeployStage API.
 // A default retry strategy applies to this operation UpdateDeployStage()
 func (client DevopsClient) UpdateDeployStage(ctx context.Context, request UpdateDeployStageRequest) (response UpdateDeployStageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7715,6 +5062,10 @@ func (client DevopsClient) updateDeployStage(ctx context.Context, request common
 }
 
 // UpdateDeployment Updates the deployment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployment.go.html to see an example of how to use UpdateDeployment API.
 // A default retry strategy applies to this operation UpdateDeployment()
 func (client DevopsClient) UpdateDeployment(ctx context.Context, request UpdateDeploymentRequest) (response UpdateDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7769,6 +5120,10 @@ func (client DevopsClient) updateDeployment(ctx context.Context, request common.
 }
 
 // UpdateProject Updates the project.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateProject.go.html to see an example of how to use UpdateProject API.
 // A default retry strategy applies to this operation UpdateProject()
 func (client DevopsClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7822,282 +5177,11 @@ func (client DevopsClient) updateProject(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// UpdateProjectNotificationPreference Update the project notification preference for the user passed as path param
-// A default retry strategy applies to this operation UpdateProjectNotificationPreference()
-func (client DevopsClient) UpdateProjectNotificationPreference(ctx context.Context, request UpdateProjectNotificationPreferenceRequest) (response UpdateProjectNotificationPreferenceResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateProjectNotificationPreference, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateProjectNotificationPreferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateProjectNotificationPreferenceResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateProjectNotificationPreferenceResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateProjectNotificationPreferenceResponse")
-	}
-	return
-}
-
-// updateProjectNotificationPreference implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updateProjectNotificationPreference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/projects/{projectId}/principals/{principalId}/pullRequestNotificationPreference", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateProjectNotificationPreferenceResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProjectNotificationPreference/UpdateProjectNotificationPreference"
-		err = common.PostProcessServiceError(err, "Devops", "UpdateProjectNotificationPreference", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateProjectRepositorySettings Updates the repository settings for a project.
-// A default retry strategy applies to this operation UpdateProjectRepositorySettings()
-func (client DevopsClient) UpdateProjectRepositorySettings(ctx context.Context, request UpdateProjectRepositorySettingsRequest) (response UpdateProjectRepositorySettingsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateProjectRepositorySettings, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateProjectRepositorySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateProjectRepositorySettingsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateProjectRepositorySettingsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateProjectRepositorySettingsResponse")
-	}
-	return
-}
-
-// updateProjectRepositorySettings implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updateProjectRepositorySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/projects/{projectId}/repositorySettings", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateProjectRepositorySettingsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/ProjectRepositorySettings/UpdateProjectRepositorySettings"
-		err = common.PostProcessServiceError(err, "Devops", "UpdateProjectRepositorySettings", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdatePullRequest Updates the PullRequest
-// A default retry strategy applies to this operation UpdatePullRequest()
-func (client DevopsClient) UpdatePullRequest(ctx context.Context, request UpdatePullRequestRequest) (response UpdatePullRequestResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updatePullRequest, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdatePullRequestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdatePullRequestResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdatePullRequestResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdatePullRequestResponse")
-	}
-	return
-}
-
-// updatePullRequest implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updatePullRequest(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/pullRequests/{pullRequestId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdatePullRequestResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/UpdatePullRequest"
-		err = common.PostProcessServiceError(err, "Devops", "UpdatePullRequest", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdatePullRequestComment Updates the PullRequest comment
-// A default retry strategy applies to this operation UpdatePullRequestComment()
-func (client DevopsClient) UpdatePullRequestComment(ctx context.Context, request UpdatePullRequestCommentRequest) (response UpdatePullRequestCommentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updatePullRequestComment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdatePullRequestCommentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdatePullRequestCommentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdatePullRequestCommentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdatePullRequestCommentResponse")
-	}
-	return
-}
-
-// updatePullRequestComment implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updatePullRequestComment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/pullRequests/{pullRequestId}/comments/{commentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdatePullRequestCommentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/UpdatePullRequestComment"
-		err = common.PostProcessServiceError(err, "Devops", "UpdatePullRequestComment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdatePullRequestNotificationPreference Update the pull request notification preference for the user passed as path param
-// A default retry strategy applies to this operation UpdatePullRequestNotificationPreference()
-func (client DevopsClient) UpdatePullRequestNotificationPreference(ctx context.Context, request UpdatePullRequestNotificationPreferenceRequest) (response UpdatePullRequestNotificationPreferenceResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updatePullRequestNotificationPreference, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdatePullRequestNotificationPreferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdatePullRequestNotificationPreferenceResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdatePullRequestNotificationPreferenceResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdatePullRequestNotificationPreferenceResponse")
-	}
-	return
-}
-
-// updatePullRequestNotificationPreference implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updatePullRequestNotificationPreference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/pullRequests/{pullRequestId}/principals/{principalId}/pullRequestNotificationPreference", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdatePullRequestNotificationPreferenceResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequestNotificationPreference/UpdatePullRequestNotificationPreference"
-		err = common.PostProcessServiceError(err, "Devops", "UpdatePullRequestNotificationPreference", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateRepository Updates the repository.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateRepository.go.html to see an example of how to use UpdateRepository API.
 // A default retry strategy applies to this operation UpdateRepository()
 func (client DevopsClient) UpdateRepository(ctx context.Context, request UpdateRepositoryRequest) (response UpdateRepositoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8151,174 +5235,11 @@ func (client DevopsClient) updateRepository(ctx context.Context, request common.
 	return response, err
 }
 
-// UpdateRepositoryNotificationPreference Update the repository notification preference for the user passed as path param
-// A default retry strategy applies to this operation UpdateRepositoryNotificationPreference()
-func (client DevopsClient) UpdateRepositoryNotificationPreference(ctx context.Context, request UpdateRepositoryNotificationPreferenceRequest) (response UpdateRepositoryNotificationPreferenceResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateRepositoryNotificationPreference, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateRepositoryNotificationPreferenceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateRepositoryNotificationPreferenceResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateRepositoryNotificationPreferenceResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateRepositoryNotificationPreferenceResponse")
-	}
-	return
-}
-
-// updateRepositoryNotificationPreference implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updateRepositoryNotificationPreference(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/repositories/{repositoryId}/principals/{principalId}/pullRequestNotificationPreference", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateRepositoryNotificationPreferenceResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryNotificationPreference/UpdateRepositoryNotificationPreference"
-		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositoryNotificationPreference", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateRepositoryPrivateAccess Updates a repository private access by identifier.
-// A default retry strategy applies to this operation UpdateRepositoryPrivateAccess()
-func (client DevopsClient) UpdateRepositoryPrivateAccess(ctx context.Context, request UpdateRepositoryPrivateAccessRequest) (response UpdateRepositoryPrivateAccessResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateRepositoryPrivateAccess, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateRepositoryPrivateAccessResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateRepositoryPrivateAccessResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateRepositoryPrivateAccessResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateRepositoryPrivateAccessResponse")
-	}
-	return
-}
-
-// updateRepositoryPrivateAccess implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updateRepositoryPrivateAccess(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/repositoryPrivateAccesses/{repositoryPrivateAccessId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateRepositoryPrivateAccessResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositoryPrivateAccess", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateRepositorySettings Updates the settings for a repository.
-// A default retry strategy applies to this operation UpdateRepositorySettings()
-func (client DevopsClient) UpdateRepositorySettings(ctx context.Context, request UpdateRepositorySettingsRequest) (response UpdateRepositorySettingsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateRepositorySettings, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateRepositorySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateRepositorySettingsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateRepositorySettingsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateRepositorySettingsResponse")
-	}
-	return
-}
-
-// updateRepositorySettings implements the OCIOperation interface (enables retrying operations)
-func (client DevopsClient) updateRepositorySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/repositories/{repositoryId}/repositorySettings", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateRepositorySettingsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositorySettings/UpdateRepositorySettings"
-		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositorySettings", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateTrigger Updates the trigger.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateTrigger.go.html to see an example of how to use UpdateTrigger API.
 // A default retry strategy applies to this operation UpdateTrigger()
 func (client DevopsClient) UpdateTrigger(ctx context.Context, request UpdateTriggerRequest) (response UpdateTriggerResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8373,6 +5294,10 @@ func (client DevopsClient) updateTrigger(ctx context.Context, request common.OCI
 }
 
 // ValidateConnection Return whether the credentials of the connection are valid.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ValidateConnection.go.html to see an example of how to use ValidateConnection API.
 // A default retry strategy applies to this operation ValidateConnection()
 func (client DevopsClient) ValidateConnection(ctx context.Context, request ValidateConnectionRequest) (response ValidateConnectionResponse, err error) {
 	var ociResponse common.OCIResponse

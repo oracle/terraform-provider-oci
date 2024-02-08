@@ -12,6 +12,10 @@ import (
 )
 
 // UpdatePoolRequest wrapper for the UpdatePool operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdatePool.go.html to see an example of how to use UpdatePoolRequest.
 type UpdatePoolRequest struct {
 
 	// Details for updating a pool.

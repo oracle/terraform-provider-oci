@@ -12,6 +12,10 @@ import (
 )
 
 // GetAccessRequestRequest wrapper for the GetAccessRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAccessRequest.go.html to see an example of how to use GetAccessRequestRequest.
 type GetAccessRequestRequest struct {
 
 	// unique AccessRequest identifier

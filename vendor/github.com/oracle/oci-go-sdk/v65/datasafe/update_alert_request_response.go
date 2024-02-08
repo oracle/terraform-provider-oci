@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateAlertRequest wrapper for the UpdateAlert operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAlert.go.html to see an example of how to use UpdateAlertRequest.
 type UpdateAlertRequest struct {
 
 	// The OCID of alert.

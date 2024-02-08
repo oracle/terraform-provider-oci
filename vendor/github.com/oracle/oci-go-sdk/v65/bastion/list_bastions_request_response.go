@@ -12,6 +12,10 @@ import (
 )
 
 // ListBastionsRequest wrapper for the ListBastions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListBastions.go.html to see an example of how to use ListBastionsRequest.
 type ListBastionsRequest struct {
 
 	// The unique identifier (OCID) of the compartment in which to list resources.
@@ -25,9 +29,6 @@ type ListBastionsRequest struct {
 
 	// The unique identifier (OCID) of the bastion in which to list resources.
 	BastionId *string `mandatory:"false" contributesTo:"query" name:"bastionId"`
-
-	// The unique identifier (OCID) of the bastion restriction in which to list bastion resources.
-	BastionRestrictionId *string `mandatory:"false" contributesTo:"query" name:"bastionRestrictionId"`
 
 	// A filter to return only resources that match the entire name given.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`

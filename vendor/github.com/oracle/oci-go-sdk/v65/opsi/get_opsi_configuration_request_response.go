@@ -12,6 +12,10 @@ import (
 )
 
 // GetOpsiConfigurationRequest wrapper for the GetOpsiConfiguration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOpsiConfiguration.go.html to see an example of how to use GetOpsiConfigurationRequest.
 type GetOpsiConfigurationRequest struct {
 
 	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of OPSI configuration resource.

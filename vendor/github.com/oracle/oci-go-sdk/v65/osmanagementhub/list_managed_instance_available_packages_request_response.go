@@ -12,6 +12,10 @@ import (
 )
 
 // ListManagedInstanceAvailablePackagesRequest wrapper for the ListManagedInstanceAvailablePackages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceAvailablePackages.go.html to see an example of how to use ListManagedInstanceAvailablePackagesRequest.
 type ListManagedInstanceAvailablePackagesRequest struct {
 
 	// The OCID of the managed instance.

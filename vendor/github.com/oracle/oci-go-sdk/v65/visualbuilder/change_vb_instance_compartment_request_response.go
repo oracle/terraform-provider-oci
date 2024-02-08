@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeVbInstanceCompartmentRequest wrapper for the ChangeVbInstanceCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ChangeVbInstanceCompartment.go.html to see an example of how to use ChangeVbInstanceCompartmentRequest.
 type ChangeVbInstanceCompartmentRequest struct {
 
 	// Unique Vb Instance identifier.

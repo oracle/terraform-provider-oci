@@ -54,10 +54,6 @@ func (m *servicediscoveryconfiguration) UnmarshalPolymorphicJSON(data []byte) (i
 		mm := DnsServiceDiscoveryConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "MESH_REGISTRY":
-		mm := MeshRegistryServiceDiscoveryConfiguration{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DISABLED":
 		mm := DisabledServiceDiscoveryConfiguration{}
 		err = json.Unmarshal(data, &mm)
@@ -89,21 +85,18 @@ type ServiceDiscoveryConfigurationTypeEnum string
 
 // Set of constants representing the allowable values for ServiceDiscoveryConfigurationTypeEnum
 const (
-	ServiceDiscoveryConfigurationTypeDns          ServiceDiscoveryConfigurationTypeEnum = "DNS"
-	ServiceDiscoveryConfigurationTypeDisabled     ServiceDiscoveryConfigurationTypeEnum = "DISABLED"
-	ServiceDiscoveryConfigurationTypeMeshRegistry ServiceDiscoveryConfigurationTypeEnum = "MESH_REGISTRY"
+	ServiceDiscoveryConfigurationTypeDns      ServiceDiscoveryConfigurationTypeEnum = "DNS"
+	ServiceDiscoveryConfigurationTypeDisabled ServiceDiscoveryConfigurationTypeEnum = "DISABLED"
 )
 
 var mappingServiceDiscoveryConfigurationTypeEnum = map[string]ServiceDiscoveryConfigurationTypeEnum{
-	"DNS":           ServiceDiscoveryConfigurationTypeDns,
-	"DISABLED":      ServiceDiscoveryConfigurationTypeDisabled,
-	"MESH_REGISTRY": ServiceDiscoveryConfigurationTypeMeshRegistry,
+	"DNS":      ServiceDiscoveryConfigurationTypeDns,
+	"DISABLED": ServiceDiscoveryConfigurationTypeDisabled,
 }
 
 var mappingServiceDiscoveryConfigurationTypeEnumLowerCase = map[string]ServiceDiscoveryConfigurationTypeEnum{
-	"dns":           ServiceDiscoveryConfigurationTypeDns,
-	"disabled":      ServiceDiscoveryConfigurationTypeDisabled,
-	"mesh_registry": ServiceDiscoveryConfigurationTypeMeshRegistry,
+	"dns":      ServiceDiscoveryConfigurationTypeDns,
+	"disabled": ServiceDiscoveryConfigurationTypeDisabled,
 }
 
 // GetServiceDiscoveryConfigurationTypeEnumValues Enumerates the set of values for ServiceDiscoveryConfigurationTypeEnum
@@ -120,7 +113,6 @@ func GetServiceDiscoveryConfigurationTypeEnumStringValues() []string {
 	return []string{
 		"DNS",
 		"DISABLED",
-		"MESH_REGISTRY",
 	}
 }
 

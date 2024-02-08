@@ -12,6 +12,10 @@ import (
 )
 
 // GetOneoffPatchRequest wrapper for the GetOneoffPatch operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetOneoffPatch.go.html to see an example of how to use GetOneoffPatchRequest.
 type GetOneoffPatchRequest struct {
 
 	// The one-off patch OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

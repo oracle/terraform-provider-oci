@@ -12,15 +12,19 @@ import (
 )
 
 // GetTargetResponderRecipeResponderRuleRequest wrapper for the GetTargetResponderRecipeResponderRule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetTargetResponderRecipeResponderRule.go.html to see an example of how to use GetTargetResponderRecipeResponderRuleRequest.
 type GetTargetResponderRecipeResponderRuleRequest struct {
 
-	// OCID of the target
+	// OCID of target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of the target responder recipe.
+	// OCID of TargetResponderRecipe
 	TargetResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetResponderRecipeId"`
 
-	// Unique identifier of the responder rule.
+	// The id of ResponderRule
 	ResponderRuleId *string `mandatory:"true" contributesTo:"path" name:"responderRuleId"`
 
 	// The client request ID for tracing.

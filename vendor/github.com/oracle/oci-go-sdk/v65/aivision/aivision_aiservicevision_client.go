@@ -92,6 +92,10 @@ func (client *AIServiceVisionClient) ConfigurationProvider() *common.Configurati
 }
 
 // AnalyzeDocument Perform different types of image analysis.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/AnalyzeDocument.go.html to see an example of how to use AnalyzeDocument API.
 // A default retry strategy applies to this operation AnalyzeDocument()
 func (client AIServiceVisionClient) AnalyzeDocument(ctx context.Context, request AnalyzeDocumentRequest) (response AnalyzeDocumentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -146,6 +150,10 @@ func (client AIServiceVisionClient) analyzeDocument(ctx context.Context, request
 }
 
 // AnalyzeImage Perform different types of image analysis.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/AnalyzeImage.go.html to see an example of how to use AnalyzeImage API.
 // A default retry strategy applies to this operation AnalyzeImage()
 func (client AIServiceVisionClient) AnalyzeImage(ctx context.Context, request AnalyzeImageRequest) (response AnalyzeImageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -200,6 +208,10 @@ func (client AIServiceVisionClient) analyzeImage(ctx context.Context, request co
 }
 
 // CancelDocumentJob Cancel a document batch job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelDocumentJob.go.html to see an example of how to use CancelDocumentJob API.
 func (client AIServiceVisionClient) CancelDocumentJob(ctx context.Context, request CancelDocumentJobRequest) (response CancelDocumentJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -253,6 +265,10 @@ func (client AIServiceVisionClient) cancelDocumentJob(ctx context.Context, reque
 }
 
 // CancelImageJob Cancel an image batch job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelImageJob.go.html to see an example of how to use CancelImageJob API.
 func (client AIServiceVisionClient) CancelImageJob(ctx context.Context, request CancelImageJobRequest) (response CancelImageJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -305,60 +321,11 @@ func (client AIServiceVisionClient) cancelImageJob(ctx context.Context, request 
 	return response, err
 }
 
-// CancelVideoJob Cancel a video analysis job.
-func (client AIServiceVisionClient) CancelVideoJob(ctx context.Context, request CancelVideoJobRequest) (response CancelVideoJobResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.cancelVideoJob, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CancelVideoJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CancelVideoJobResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CancelVideoJobResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CancelVideoJobResponse")
-	}
-	return
-}
-
-// cancelVideoJob implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) cancelVideoJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/videoJobs/{videoJobId}/actions/cancel", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CancelVideoJobResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/VideoJob/CancelVideoJob"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "CancelVideoJob", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CancelWorkRequest Cancel the work request with the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 func (client AIServiceVisionClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -412,6 +379,10 @@ func (client AIServiceVisionClient) cancelWorkRequest(ctx context.Context, reque
 }
 
 // ChangeModelCompartment Moves a model from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 func (client AIServiceVisionClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -465,6 +436,10 @@ func (client AIServiceVisionClient) changeModelCompartment(ctx context.Context, 
 }
 
 // ChangeProjectCompartment Move a project from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 func (client AIServiceVisionClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -518,6 +493,10 @@ func (client AIServiceVisionClient) changeProjectCompartment(ctx context.Context
 }
 
 // CreateDocumentJob Create a document analysis batch job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateDocumentJob.go.html to see an example of how to use CreateDocumentJob API.
 func (client AIServiceVisionClient) CreateDocumentJob(ctx context.Context, request CreateDocumentJobRequest) (response CreateDocumentJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -576,6 +555,10 @@ func (client AIServiceVisionClient) createDocumentJob(ctx context.Context, reque
 }
 
 // CreateImageJob Create an image analysis batch job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateImageJob.go.html to see an example of how to use CreateImageJob API.
 func (client AIServiceVisionClient) CreateImageJob(ctx context.Context, request CreateImageJobRequest) (response CreateImageJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -634,6 +617,10 @@ func (client AIServiceVisionClient) createImageJob(ctx context.Context, request 
 }
 
 // CreateModel Create a new model.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateModel.go.html to see an example of how to use CreateModel API.
 func (client AIServiceVisionClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -692,6 +679,10 @@ func (client AIServiceVisionClient) createModel(ctx context.Context, request com
 }
 
 // CreateProject Create a new project.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateProject.go.html to see an example of how to use CreateProject API.
 func (client AIServiceVisionClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -749,65 +740,11 @@ func (client AIServiceVisionClient) createProject(ctx context.Context, request c
 	return response, err
 }
 
-// CreateVideoJob Create a video analysis job with given inputs and features.
-func (client AIServiceVisionClient) CreateVideoJob(ctx context.Context, request CreateVideoJobRequest) (response CreateVideoJobResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createVideoJob, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateVideoJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateVideoJobResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateVideoJobResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateVideoJobResponse")
-	}
-	return
-}
-
-// createVideoJob implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) createVideoJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/videoJobs", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateVideoJobResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/VideoJob/CreateVideoJob"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "CreateVideoJob", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteModel Delete a model by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/DeleteModel.go.html to see an example of how to use DeleteModel API.
 func (client AIServiceVisionClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -861,6 +798,10 @@ func (client AIServiceVisionClient) deleteModel(ctx context.Context, request com
 }
 
 // DeleteProject Delete a project by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/DeleteProject.go.html to see an example of how to use DeleteProject API.
 func (client AIServiceVisionClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -914,6 +855,10 @@ func (client AIServiceVisionClient) deleteProject(ctx context.Context, request c
 }
 
 // GetDocumentJob Get details of a document batch job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetDocumentJob.go.html to see an example of how to use GetDocumentJob API.
 func (client AIServiceVisionClient) GetDocumentJob(ctx context.Context, request GetDocumentJobRequest) (response GetDocumentJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -967,6 +912,10 @@ func (client AIServiceVisionClient) getDocumentJob(ctx context.Context, request 
 }
 
 // GetImageJob Get details of an image batch job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetImageJob.go.html to see an example of how to use GetImageJob API.
 func (client AIServiceVisionClient) GetImageJob(ctx context.Context, request GetImageJobRequest) (response GetImageJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1020,6 +969,10 @@ func (client AIServiceVisionClient) getImageJob(ctx context.Context, request com
 }
 
 // GetModel Get a model by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetModel.go.html to see an example of how to use GetModel API.
 func (client AIServiceVisionClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1073,6 +1026,10 @@ func (client AIServiceVisionClient) getModel(ctx context.Context, request common
 }
 
 // GetProject Get a project by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetProject.go.html to see an example of how to use GetProject API.
 func (client AIServiceVisionClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1125,60 +1082,11 @@ func (client AIServiceVisionClient) getProject(ctx context.Context, request comm
 	return response, err
 }
 
-// GetVideoJob Get details of a video analysis job.
-func (client AIServiceVisionClient) GetVideoJob(ctx context.Context, request GetVideoJobRequest) (response GetVideoJobResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getVideoJob, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetVideoJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetVideoJobResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetVideoJobResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetVideoJobResponse")
-	}
-	return
-}
-
-// getVideoJob implements the OCIOperation interface (enables retrying operations)
-func (client AIServiceVisionClient) getVideoJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/videoJobs/{videoJobId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetVideoJobResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/VideoJob/GetVideoJob"
-		err = common.PostProcessServiceError(err, "AIServiceVision", "GetVideoJob", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetWorkRequest Gets the status of the work request with the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client AIServiceVisionClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1232,6 +1140,10 @@ func (client AIServiceVisionClient) getWorkRequest(ctx context.Context, request 
 }
 
 // ListModels Returns a list of models in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListModels.go.html to see an example of how to use ListModels API.
 func (client AIServiceVisionClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1285,6 +1197,10 @@ func (client AIServiceVisionClient) listModels(ctx context.Context, request comm
 }
 
 // ListProjects Returns a list of projects.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListProjects.go.html to see an example of how to use ListProjects API.
 func (client AIServiceVisionClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1338,6 +1254,10 @@ func (client AIServiceVisionClient) listProjects(ctx context.Context, request co
 }
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client AIServiceVisionClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1391,6 +1311,10 @@ func (client AIServiceVisionClient) listWorkRequestErrors(ctx context.Context, r
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client AIServiceVisionClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1444,6 +1368,10 @@ func (client AIServiceVisionClient) listWorkRequestLogs(ctx context.Context, req
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client AIServiceVisionClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1497,6 +1425,10 @@ func (client AIServiceVisionClient) listWorkRequests(ctx context.Context, reques
 }
 
 // UpdateModel Updates the model metadata.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/UpdateModel.go.html to see an example of how to use UpdateModel API.
 func (client AIServiceVisionClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1550,6 +1482,10 @@ func (client AIServiceVisionClient) updateModel(ctx context.Context, request com
 }
 
 // UpdateProject Update the project metadata.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/UpdateProject.go.html to see an example of how to use UpdateProject API.
 func (client AIServiceVisionClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteIdentityPropagationTrustRequest wrapper for the DeleteIdentityPropagationTrust operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteIdentityPropagationTrust.go.html to see an example of how to use DeleteIdentityPropagationTrustRequest.
 type DeleteIdentityPropagationTrustRequest struct {
 
 	// ID of the resource

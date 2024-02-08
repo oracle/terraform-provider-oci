@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ExecuteResponderExecutionDetails The configuration details for a responder rule execution.
+// ExecuteResponderExecutionDetails The details for Responder Configuration
 type ExecuteResponderExecutionDetails struct {
 
-	// List of responder rule configurations
+	// ResponderRule configurations
 	Configurations []ResponderConfiguration `mandatory:"false" json:"configurations"`
 }
 

@@ -28,7 +28,6 @@ type QueryParameterValidationRequestPolicy struct {
 	// `DISABLED` type turns the validation off.
 	ValidationMode QueryParameterValidationRequestPolicyValidationModeEnum `mandatory:"false" json:"validationMode,omitempty"`
 
-	// The List of Query Parameters
 	Parameters []QueryParameterValidationItem `mandatory:"false" json:"parameters"`
 }
 

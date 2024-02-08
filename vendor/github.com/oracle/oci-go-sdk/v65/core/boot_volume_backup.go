@@ -100,9 +100,6 @@ type BootVolumeBackup struct {
 	// The size used by the backup, in GBs. It is typically smaller than sizeInGBs, depending on the space
 	// consumed on the boot volume and whether the backup is full or incremental.
 	UniqueSizeInGBs *int64 `mandatory:"false" json:"uniqueSizeInGBs"`
-
-	// The percentage complete of the operation to create the boot volume backup, based on the boot volume backup size.
-	BackupProgress *int `mandatory:"false" json:"backupProgress"`
 }
 
 func (m BootVolumeBackup) String() string {

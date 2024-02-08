@@ -12,6 +12,10 @@ import (
 )
 
 // ListNetworkLoadBalancersPoliciesRequest wrapper for the ListNetworkLoadBalancersPolicies operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListNetworkLoadBalancersPolicies.go.html to see an example of how to use ListNetworkLoadBalancersPoliciesRequest.
 type ListNetworkLoadBalancersPoliciesRequest struct {
 
 	// The unique Oracle-assigned identifier for the request. If you must contact Oracle about a

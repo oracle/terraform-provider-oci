@@ -12,6 +12,10 @@ import (
 )
 
 // CreateConnectionRequest wrapper for the CreateConnection operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateConnection.go.html to see an example of how to use CreateConnectionRequest.
 type CreateConnectionRequest struct {
 
 	// Specification of the Connection to create.

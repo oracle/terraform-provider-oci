@@ -30,9 +30,6 @@ type BackupDestinationDetails struct {
 	// For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 	VpcPassword *string `mandatory:"false" json:"vpcPassword"`
 
-	// Indicates whether Zero Data Loss functionality is enabled for a Recovery Appliance backup destination in an Autonomous Container Database. When enabled, the database automatically ships all redo logs in real-time to the Recovery Appliance for a Zero Data Loss recovery setup (sub-second RPO). Defaults to `TRUE` if no value is given.
-	IsZeroDataLossEnabled *bool `mandatory:"false" json:"isZeroDataLossEnabled"`
-
 	// Proxy URL to connect to object store.
 	InternetProxy *string `mandatory:"false" json:"internetProxy"`
 

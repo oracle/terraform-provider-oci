@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveTagDefaultLockRequest wrapper for the RemoveTagDefaultLock operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/RemoveTagDefaultLock.go.html to see an example of how to use RemoveTagDefaultLockRequest.
 type RemoveTagDefaultLockRequest struct {
 
 	// The OCID of the tag default.

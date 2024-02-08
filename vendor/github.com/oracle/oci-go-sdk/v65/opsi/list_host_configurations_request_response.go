@@ -12,6 +12,10 @@ import (
 )
 
 // ListHostConfigurationsRequest wrapper for the ListHostConfigurations operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListHostConfigurations.go.html to see an example of how to use ListHostConfigurationsRequest.
 type ListHostConfigurationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

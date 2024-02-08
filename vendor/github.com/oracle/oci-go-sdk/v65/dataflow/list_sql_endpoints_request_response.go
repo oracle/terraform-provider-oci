@@ -12,6 +12,10 @@ import (
 )
 
 // ListSqlEndpointsRequest wrapper for the ListSqlEndpoints operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListSqlEndpoints.go.html to see an example of how to use ListSqlEndpointsRequest.
 type ListSqlEndpointsRequest struct {
 
 	// The OCID of the compartment in which to query resources.
@@ -125,33 +129,27 @@ type ListSqlEndpointsLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListSqlEndpointsLifecycleStateEnum
 const (
-	ListSqlEndpointsLifecycleStateCreating       ListSqlEndpointsLifecycleStateEnum = "CREATING"
-	ListSqlEndpointsLifecycleStateActive         ListSqlEndpointsLifecycleStateEnum = "ACTIVE"
-	ListSqlEndpointsLifecycleStateDeleting       ListSqlEndpointsLifecycleStateEnum = "DELETING"
-	ListSqlEndpointsLifecycleStateDeleted        ListSqlEndpointsLifecycleStateEnum = "DELETED"
-	ListSqlEndpointsLifecycleStateFailed         ListSqlEndpointsLifecycleStateEnum = "FAILED"
-	ListSqlEndpointsLifecycleStateUpdating       ListSqlEndpointsLifecycleStateEnum = "UPDATING"
-	ListSqlEndpointsLifecycleStateNeedsAttention ListSqlEndpointsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListSqlEndpointsLifecycleStateCreating ListSqlEndpointsLifecycleStateEnum = "CREATING"
+	ListSqlEndpointsLifecycleStateActive   ListSqlEndpointsLifecycleStateEnum = "ACTIVE"
+	ListSqlEndpointsLifecycleStateDeleting ListSqlEndpointsLifecycleStateEnum = "DELETING"
+	ListSqlEndpointsLifecycleStateDeleted  ListSqlEndpointsLifecycleStateEnum = "DELETED"
+	ListSqlEndpointsLifecycleStateFailed   ListSqlEndpointsLifecycleStateEnum = "FAILED"
 )
 
 var mappingListSqlEndpointsLifecycleStateEnum = map[string]ListSqlEndpointsLifecycleStateEnum{
-	"CREATING":        ListSqlEndpointsLifecycleStateCreating,
-	"ACTIVE":          ListSqlEndpointsLifecycleStateActive,
-	"DELETING":        ListSqlEndpointsLifecycleStateDeleting,
-	"DELETED":         ListSqlEndpointsLifecycleStateDeleted,
-	"FAILED":          ListSqlEndpointsLifecycleStateFailed,
-	"UPDATING":        ListSqlEndpointsLifecycleStateUpdating,
-	"NEEDS_ATTENTION": ListSqlEndpointsLifecycleStateNeedsAttention,
+	"CREATING": ListSqlEndpointsLifecycleStateCreating,
+	"ACTIVE":   ListSqlEndpointsLifecycleStateActive,
+	"DELETING": ListSqlEndpointsLifecycleStateDeleting,
+	"DELETED":  ListSqlEndpointsLifecycleStateDeleted,
+	"FAILED":   ListSqlEndpointsLifecycleStateFailed,
 }
 
 var mappingListSqlEndpointsLifecycleStateEnumLowerCase = map[string]ListSqlEndpointsLifecycleStateEnum{
-	"creating":        ListSqlEndpointsLifecycleStateCreating,
-	"active":          ListSqlEndpointsLifecycleStateActive,
-	"deleting":        ListSqlEndpointsLifecycleStateDeleting,
-	"deleted":         ListSqlEndpointsLifecycleStateDeleted,
-	"failed":          ListSqlEndpointsLifecycleStateFailed,
-	"updating":        ListSqlEndpointsLifecycleStateUpdating,
-	"needs_attention": ListSqlEndpointsLifecycleStateNeedsAttention,
+	"creating": ListSqlEndpointsLifecycleStateCreating,
+	"active":   ListSqlEndpointsLifecycleStateActive,
+	"deleting": ListSqlEndpointsLifecycleStateDeleting,
+	"deleted":  ListSqlEndpointsLifecycleStateDeleted,
+	"failed":   ListSqlEndpointsLifecycleStateFailed,
 }
 
 // GetListSqlEndpointsLifecycleStateEnumValues Enumerates the set of values for ListSqlEndpointsLifecycleStateEnum
@@ -171,8 +169,6 @@ func GetListSqlEndpointsLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
-		"UPDATING",
-		"NEEDS_ATTENTION",
 	}
 }
 

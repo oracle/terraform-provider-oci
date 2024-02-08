@@ -12,18 +12,22 @@ import (
 )
 
 // ListSightingEndpointsRequest wrapper for the ListSightingEndpoints operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSightingEndpoints.go.html to see an example of how to use ListSightingEndpointsRequest.
 type ListSightingEndpointsRequest struct {
 
 	// OCID of the sighting.
 	SightingId *string `mandatory:"true" contributesTo:"path" name:"sightingId"`
 
-	// The maximum number of items to return
+	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use
+	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListSightingEndpointsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. If no value is specified timeCreated is default.

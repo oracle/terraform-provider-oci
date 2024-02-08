@@ -12,6 +12,10 @@ import (
 )
 
 // GetDatabaseTableAccessEntryRequest wrapper for the GetDatabaseTableAccessEntry operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDatabaseTableAccessEntry.go.html to see an example of how to use GetDatabaseTableAccessEntryRequest.
 type GetDatabaseTableAccessEntryRequest struct {
 
 	// The OCID of the security policy report resource.

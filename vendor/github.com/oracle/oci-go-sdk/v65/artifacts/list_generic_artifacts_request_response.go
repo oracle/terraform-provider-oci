@@ -12,6 +12,10 @@ import (
 )
 
 // ListGenericArtifactsRequest wrapper for the ListGenericArtifacts operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/ListGenericArtifacts.go.html to see an example of how to use ListGenericArtifactsRequest.
 type ListGenericArtifactsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

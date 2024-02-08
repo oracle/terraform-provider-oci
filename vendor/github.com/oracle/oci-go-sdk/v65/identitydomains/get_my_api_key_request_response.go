@@ -12,6 +12,10 @@ import (
 )
 
 // GetMyApiKeyRequest wrapper for the GetMyApiKey operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyApiKey.go.html to see an example of how to use GetMyApiKeyRequest.
 type GetMyApiKeyRequest struct {
 
 	// ID of the resource

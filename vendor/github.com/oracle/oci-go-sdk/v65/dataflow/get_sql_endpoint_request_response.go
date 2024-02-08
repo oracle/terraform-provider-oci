@@ -12,6 +12,10 @@ import (
 )
 
 // GetSqlEndpointRequest wrapper for the GetSqlEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetSqlEndpoint.go.html to see an example of how to use GetSqlEndpointRequest.
 type GetSqlEndpointRequest struct {
 
 	// The unique id of the SQL Endpoint.

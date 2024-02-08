@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDataSciencePrivateEndpointRequest wrapper for the DeleteDataSciencePrivateEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteDataSciencePrivateEndpoint.go.html to see an example of how to use DeleteDataSciencePrivateEndpointRequest.
 type DeleteDataSciencePrivateEndpointRequest struct {
 
 	// The unique ID for a Data Science private endpoint.

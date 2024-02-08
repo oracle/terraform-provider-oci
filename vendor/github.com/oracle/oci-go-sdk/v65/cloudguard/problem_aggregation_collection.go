@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ProblemAggregationCollection A collection of problem aggregation data for problem analytics.
+// ProblemAggregationCollection Problem Analytics data.
 type ProblemAggregationCollection struct {
 
-	// List of all the ProblemAggregation resources
+	// The items consist of all the ProblemAggregation objects.
 	Items []ProblemAggregation `mandatory:"true" json:"items"`
 }
 

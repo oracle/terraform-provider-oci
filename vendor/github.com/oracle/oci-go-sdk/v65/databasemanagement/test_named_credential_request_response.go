@@ -12,6 +12,10 @@ import (
 )
 
 // TestNamedCredentialRequest wrapper for the TestNamedCredential operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/TestNamedCredential.go.html to see an example of how to use TestNamedCredentialRequest.
 type TestNamedCredentialRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.

@@ -42,9 +42,6 @@ type CreateSnapshotDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Not used by File Systems but required for SPLAT tag integration.
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m CreateSnapshotDetails) String() string {

@@ -12,6 +12,10 @@ import (
 )
 
 // CreateAnnouncementSubscriptionRequest wrapper for the CreateAnnouncementSubscription operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateAnnouncementSubscription.go.html to see an example of how to use CreateAnnouncementSubscriptionRequest.
 type CreateAnnouncementSubscriptionRequest struct {
 
 	// Details of the new announcement subscription.

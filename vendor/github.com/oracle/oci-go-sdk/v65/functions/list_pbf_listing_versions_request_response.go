@@ -12,6 +12,10 @@ import (
 )
 
 // ListPbfListingVersionsRequest wrapper for the ListPbfListingVersions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/ListPbfListingVersions.go.html to see an example of how to use ListPbfListingVersionsRequest.
 type ListPbfListingVersionsRequest struct {
 
 	// unique PbfListing identifier

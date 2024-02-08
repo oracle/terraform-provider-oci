@@ -12,6 +12,10 @@ import (
 )
 
 // ListMappedSecretsRequest wrapper for the ListMappedSecrets operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListMappedSecrets.go.html to see an example of how to use ListMappedSecretsRequest.
 type ListMappedSecretsRequest struct {
 
 	// Unique Network Firewall Policy identifier

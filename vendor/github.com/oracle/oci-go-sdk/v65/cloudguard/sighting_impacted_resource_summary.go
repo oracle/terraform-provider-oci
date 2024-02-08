@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// SightingImpactedResourceSummary Summary of resources impacted by a sighting.
+// SightingImpactedResourceSummary Sighting Impacted Resource summary.
 type SightingImpactedResourceSummary struct {
 
-	// Unique identifier for an impacted resource
+	// Unique identifier for impacted resource
 	Id *string `mandatory:"true" json:"id"`
 
-	// Impacted resource ID
+	// Impacted resource Id
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
-	// Sighting ID for impacted resource
+	// Sighting Id
 	SightingId *string `mandatory:"true" json:"sightingId"`
 
-	// Compartment ID for impacted resource
+	// Compartment Id for impacted resource
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Resource name
@@ -40,10 +40,10 @@ type SightingImpactedResourceSummary struct {
 	// Region for impacted resource
 	Region *string `mandatory:"true" json:"region"`
 
-	// Date and time when the impacted resource is identified for given sighting
+	// Time when the impacted resource is identified for given sighting.
 	TimeIdentified *common.SDKTime `mandatory:"true" json:"timeIdentified"`
 
-	// Problem ID for impacted resource
+	// Problem Id for impacted resource
 	ProblemId *string `mandatory:"false" json:"problemId"`
 }
 

@@ -12,6 +12,10 @@ import (
 )
 
 // RequestMonitoredResourcesSummarizedCountRequest wrapper for the RequestMonitoredResourcesSummarizedCount operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/RequestMonitoredResourcesSummarizedCount.go.html to see an example of how to use RequestMonitoredResourcesSummarizedCountRequest.
 type RequestMonitoredResourcesSummarizedCountRequest struct {
 
 	// The ID of the compartment in which data is listed.

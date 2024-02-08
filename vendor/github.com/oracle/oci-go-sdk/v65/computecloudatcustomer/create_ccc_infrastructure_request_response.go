@@ -12,6 +12,10 @@ import (
 )
 
 // CreateCccInfrastructureRequest wrapper for the CreateCccInfrastructure operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/CreateCccInfrastructure.go.html to see an example of how to use CreateCccInfrastructureRequest.
 type CreateCccInfrastructureRequest struct {
 
 	// Details for the new CccInfrastructure.

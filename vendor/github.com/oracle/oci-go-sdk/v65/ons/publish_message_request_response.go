@@ -12,6 +12,10 @@ import (
 )
 
 // PublishMessageRequest wrapper for the PublishMessage operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ons/PublishMessage.go.html to see an example of how to use PublishMessageRequest.
 type PublishMessageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the topic.
@@ -25,7 +29,7 @@ type PublishMessageRequest struct {
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// **Deprecated.**
-	// This attribute is deprecated, as is support for JSON.
+	// Support for JSON is deprecated.
 	// You can send a JSON payload even when transmitting the payload as a raw string.
 	// Configure your receiving system to read the raw payload as JSON format.
 	// Type of message body in the request.

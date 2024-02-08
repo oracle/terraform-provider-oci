@@ -12,6 +12,10 @@ import (
 )
 
 // ListMediaWorkflowTaskDeclarationsRequest wrapper for the ListMediaWorkflowTaskDeclarations operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ListMediaWorkflowTaskDeclarations.go.html to see an example of how to use ListMediaWorkflowTaskDeclarationsRequest.
 type ListMediaWorkflowTaskDeclarationsRequest struct {
 
 	// The ID of the compartment in which to list resources.

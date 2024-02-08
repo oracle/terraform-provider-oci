@@ -12,6 +12,10 @@ import (
 )
 
 // GetRepositoryRequest wrapper for the GetRepository operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/GetRepository.go.html to see an example of how to use GetRepositoryRequest.
 type GetRepositoryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.

@@ -12,6 +12,10 @@ import (
 )
 
 // GetConnectionAssignmentRequest wrapper for the GetConnectionAssignment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetConnectionAssignment.go.html to see an example of how to use GetConnectionAssignmentRequest.
 type GetConnectionAssignmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Connection Assignment.

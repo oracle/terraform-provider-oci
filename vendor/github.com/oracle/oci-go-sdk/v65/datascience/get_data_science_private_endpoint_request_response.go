@@ -12,6 +12,10 @@ import (
 )
 
 // GetDataSciencePrivateEndpointRequest wrapper for the GetDataSciencePrivateEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetDataSciencePrivateEndpoint.go.html to see an example of how to use GetDataSciencePrivateEndpointRequest.
 type GetDataSciencePrivateEndpointRequest struct {
 
 	// The unique ID for a Data Science private endpoint.

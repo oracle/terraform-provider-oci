@@ -12,6 +12,10 @@ import (
 )
 
 // PutApprovalWorkflowRequest wrapper for the PutApprovalWorkflow operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutApprovalWorkflow.go.html to see an example of how to use PutApprovalWorkflowRequest.
 type PutApprovalWorkflowRequest struct {
 
 	// ID of the resource

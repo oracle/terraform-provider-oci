@@ -64,20 +64,14 @@ type CreateDatabaseDetails struct {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
-	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
-
-	// Database Storage Type, this option is applicable when database on Exadata VM cluster on Exascale Infrastructure. High Capacity will be selected if not specified.
-	VaultStorageType CreateDatabaseDetailsVaultStorageTypeEnum `mandatory:"false" json:"vaultStorageType,omitempty"`
 }
 
 func (m CreateDatabaseDetails) String() string {
@@ -92,9 +86,6 @@ func (m CreateDatabaseDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCreateDatabaseDetailsDbWorkloadEnum(string(m.DbWorkload)); !ok && m.DbWorkload != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", m.DbWorkload, strings.Join(GetCreateDatabaseDetailsDbWorkloadEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingCreateDatabaseDetailsVaultStorageTypeEnum(string(m.VaultStorageType)); !ok && m.VaultStorageType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VaultStorageType: %s. Supported values are: %s.", m.VaultStorageType, strings.Join(GetCreateDatabaseDetailsVaultStorageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -141,47 +132,5 @@ func GetCreateDatabaseDetailsDbWorkloadEnumStringValues() []string {
 // GetMappingCreateDatabaseDetailsDbWorkloadEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateDatabaseDetailsDbWorkloadEnum(val string) (CreateDatabaseDetailsDbWorkloadEnum, bool) {
 	enum, ok := mappingCreateDatabaseDetailsDbWorkloadEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// CreateDatabaseDetailsVaultStorageTypeEnum Enum with underlying type: string
-type CreateDatabaseDetailsVaultStorageTypeEnum string
-
-// Set of constants representing the allowable values for CreateDatabaseDetailsVaultStorageTypeEnum
-const (
-	CreateDatabaseDetailsVaultStorageTypeHighCapacity  CreateDatabaseDetailsVaultStorageTypeEnum = "HIGH_CAPACITY"
-	CreateDatabaseDetailsVaultStorageTypeExteremeFlash CreateDatabaseDetailsVaultStorageTypeEnum = "EXTEREME_FLASH"
-)
-
-var mappingCreateDatabaseDetailsVaultStorageTypeEnum = map[string]CreateDatabaseDetailsVaultStorageTypeEnum{
-	"HIGH_CAPACITY":  CreateDatabaseDetailsVaultStorageTypeHighCapacity,
-	"EXTEREME_FLASH": CreateDatabaseDetailsVaultStorageTypeExteremeFlash,
-}
-
-var mappingCreateDatabaseDetailsVaultStorageTypeEnumLowerCase = map[string]CreateDatabaseDetailsVaultStorageTypeEnum{
-	"high_capacity":  CreateDatabaseDetailsVaultStorageTypeHighCapacity,
-	"extereme_flash": CreateDatabaseDetailsVaultStorageTypeExteremeFlash,
-}
-
-// GetCreateDatabaseDetailsVaultStorageTypeEnumValues Enumerates the set of values for CreateDatabaseDetailsVaultStorageTypeEnum
-func GetCreateDatabaseDetailsVaultStorageTypeEnumValues() []CreateDatabaseDetailsVaultStorageTypeEnum {
-	values := make([]CreateDatabaseDetailsVaultStorageTypeEnum, 0)
-	for _, v := range mappingCreateDatabaseDetailsVaultStorageTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetCreateDatabaseDetailsVaultStorageTypeEnumStringValues Enumerates the set of values in String for CreateDatabaseDetailsVaultStorageTypeEnum
-func GetCreateDatabaseDetailsVaultStorageTypeEnumStringValues() []string {
-	return []string{
-		"HIGH_CAPACITY",
-		"EXTEREME_FLASH",
-	}
-}
-
-// GetMappingCreateDatabaseDetailsVaultStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingCreateDatabaseDetailsVaultStorageTypeEnum(val string) (CreateDatabaseDetailsVaultStorageTypeEnum, bool) {
-	enum, ok := mappingCreateDatabaseDetailsVaultStorageTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

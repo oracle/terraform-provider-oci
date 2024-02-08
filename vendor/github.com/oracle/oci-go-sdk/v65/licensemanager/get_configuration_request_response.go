@@ -12,6 +12,10 @@ import (
 )
 
 // GetConfigurationRequest wrapper for the GetConfiguration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetConfiguration.go.html to see an example of how to use GetConfigurationRequest.
 type GetConfigurationRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.

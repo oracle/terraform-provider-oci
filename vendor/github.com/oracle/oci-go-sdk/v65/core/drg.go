@@ -58,9 +58,6 @@ type Drg struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// Indicates if this is a Regional DRG or a Global DRG
-	Type DrgTypeEnum `mandatory:"false" json:"type,omitempty"`
-
 	DefaultDrgRouteTables *DefaultDrgRouteTables `mandatory:"false" json:"defaultDrgRouteTables"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this DRG's default export route distribution for the DRG attachments.
@@ -80,9 +77,6 @@ func (m Drg) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrgLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingDrgTypeEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDrgTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -98,7 +92,6 @@ const (
 	DrgLifecycleStateAvailable    DrgLifecycleStateEnum = "AVAILABLE"
 	DrgLifecycleStateTerminating  DrgLifecycleStateEnum = "TERMINATING"
 	DrgLifecycleStateTerminated   DrgLifecycleStateEnum = "TERMINATED"
-	DrgLifecycleStateUpdating     DrgLifecycleStateEnum = "UPDATING"
 )
 
 var mappingDrgLifecycleStateEnum = map[string]DrgLifecycleStateEnum{
@@ -106,7 +99,6 @@ var mappingDrgLifecycleStateEnum = map[string]DrgLifecycleStateEnum{
 	"AVAILABLE":    DrgLifecycleStateAvailable,
 	"TERMINATING":  DrgLifecycleStateTerminating,
 	"TERMINATED":   DrgLifecycleStateTerminated,
-	"UPDATING":     DrgLifecycleStateUpdating,
 }
 
 var mappingDrgLifecycleStateEnumLowerCase = map[string]DrgLifecycleStateEnum{
@@ -114,7 +106,6 @@ var mappingDrgLifecycleStateEnumLowerCase = map[string]DrgLifecycleStateEnum{
 	"available":    DrgLifecycleStateAvailable,
 	"terminating":  DrgLifecycleStateTerminating,
 	"terminated":   DrgLifecycleStateTerminated,
-	"updating":     DrgLifecycleStateUpdating,
 }
 
 // GetDrgLifecycleStateEnumValues Enumerates the set of values for DrgLifecycleStateEnum
@@ -133,7 +124,6 @@ func GetDrgLifecycleStateEnumStringValues() []string {
 		"AVAILABLE",
 		"TERMINATING",
 		"TERMINATED",
-		"UPDATING",
 	}
 }
 

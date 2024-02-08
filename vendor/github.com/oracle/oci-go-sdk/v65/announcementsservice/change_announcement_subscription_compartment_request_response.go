@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeAnnouncementSubscriptionCompartmentRequest wrapper for the ChangeAnnouncementSubscriptionCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ChangeAnnouncementSubscriptionCompartment.go.html to see an example of how to use ChangeAnnouncementSubscriptionCompartmentRequest.
 type ChangeAnnouncementSubscriptionCompartmentRequest struct {
 
 	// The OCID of the announcement subscription.

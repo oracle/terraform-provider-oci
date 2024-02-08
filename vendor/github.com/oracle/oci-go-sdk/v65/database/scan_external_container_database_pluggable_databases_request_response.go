@@ -12,6 +12,10 @@ import (
 )
 
 // ScanExternalContainerDatabasePluggableDatabasesRequest wrapper for the ScanExternalContainerDatabasePluggableDatabases operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ScanExternalContainerDatabasePluggableDatabases.go.html to see an example of how to use ScanExternalContainerDatabasePluggableDatabasesRequest.
 type ScanExternalContainerDatabasePluggableDatabasesRequest struct {
 
 	// The ExternalContainerDatabase OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

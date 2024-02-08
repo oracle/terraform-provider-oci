@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateOutboundConnectorRequest wrapper for the UpdateOutboundConnector operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateOutboundConnector.go.html to see an example of how to use UpdateOutboundConnectorRequest.
 type UpdateOutboundConnectorRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the outbound connector.

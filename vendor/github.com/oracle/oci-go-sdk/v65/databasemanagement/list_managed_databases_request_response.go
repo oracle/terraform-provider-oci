@@ -12,6 +12,10 @@ import (
 )
 
 // ListManagedDatabasesRequest wrapper for the ListManagedDatabases operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedDatabases.go.html to see an example of how to use ListManagedDatabasesRequest.
 type ListManagedDatabasesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -185,7 +189,6 @@ const (
 	ListManagedDatabasesDeploymentTypeExadata    ListManagedDatabasesDeploymentTypeEnum = "EXADATA"
 	ListManagedDatabasesDeploymentTypeExadataCc  ListManagedDatabasesDeploymentTypeEnum = "EXADATA_CC"
 	ListManagedDatabasesDeploymentTypeAutonomous ListManagedDatabasesDeploymentTypeEnum = "AUTONOMOUS"
-	ListManagedDatabasesDeploymentTypeExadataXs  ListManagedDatabasesDeploymentTypeEnum = "EXADATA_XS"
 )
 
 var mappingListManagedDatabasesDeploymentTypeEnum = map[string]ListManagedDatabasesDeploymentTypeEnum{
@@ -195,7 +198,6 @@ var mappingListManagedDatabasesDeploymentTypeEnum = map[string]ListManagedDataba
 	"EXADATA":    ListManagedDatabasesDeploymentTypeExadata,
 	"EXADATA_CC": ListManagedDatabasesDeploymentTypeExadataCc,
 	"AUTONOMOUS": ListManagedDatabasesDeploymentTypeAutonomous,
-	"EXADATA_XS": ListManagedDatabasesDeploymentTypeExadataXs,
 }
 
 var mappingListManagedDatabasesDeploymentTypeEnumLowerCase = map[string]ListManagedDatabasesDeploymentTypeEnum{
@@ -205,7 +207,6 @@ var mappingListManagedDatabasesDeploymentTypeEnumLowerCase = map[string]ListMana
 	"exadata":    ListManagedDatabasesDeploymentTypeExadata,
 	"exadata_cc": ListManagedDatabasesDeploymentTypeExadataCc,
 	"autonomous": ListManagedDatabasesDeploymentTypeAutonomous,
-	"exadata_xs": ListManagedDatabasesDeploymentTypeExadataXs,
 }
 
 // GetListManagedDatabasesDeploymentTypeEnumValues Enumerates the set of values for ListManagedDatabasesDeploymentTypeEnum
@@ -226,7 +227,6 @@ func GetListManagedDatabasesDeploymentTypeEnumStringValues() []string {
 		"EXADATA",
 		"EXADATA_CC",
 		"AUTONOMOUS",
-		"EXADATA_XS",
 	}
 }
 

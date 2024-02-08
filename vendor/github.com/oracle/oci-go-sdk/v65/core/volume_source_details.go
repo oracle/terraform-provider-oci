@@ -70,10 +70,6 @@ func (m *volumesourcedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := VolumeSourceFromVolumeBackupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "volumeBackupDelta":
-		mm := VolumeSourceFromVolumeBackupDeltaDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for VolumeSourceDetails: %s.", m.Type)
 		return *m, nil

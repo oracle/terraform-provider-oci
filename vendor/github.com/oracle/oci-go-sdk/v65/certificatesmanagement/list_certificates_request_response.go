@@ -12,6 +12,10 @@ import (
 )
 
 // ListCertificatesRequest wrapper for the ListCertificates operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListCertificates.go.html to see an example of how to use ListCertificatesRequest.
 type ListCertificatesRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If provided, the returned request ID

@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateVtapRequest wrapper for the UpdateVtap operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVtap.go.html to see an example of how to use UpdateVtapRequest.
 type UpdateVtapRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VTAP.

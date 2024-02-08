@@ -12,6 +12,10 @@ import (
 )
 
 // GetPerformanceTuningAnalysisResultRequest wrapper for the GetPerformanceTuningAnalysisResult operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetPerformanceTuningAnalysisResult.go.html to see an example of how to use GetPerformanceTuningAnalysisResultRequest.
 type GetPerformanceTuningAnalysisResultRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

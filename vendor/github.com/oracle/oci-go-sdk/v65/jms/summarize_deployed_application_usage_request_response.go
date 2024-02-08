@@ -12,6 +12,10 @@ import (
 )
 
 // SummarizeDeployedApplicationUsageRequest wrapper for the SummarizeDeployedApplicationUsage operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeDeployedApplicationUsage.go.html to see an example of how to use SummarizeDeployedApplicationUsageRequest.
 type SummarizeDeployedApplicationUsageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

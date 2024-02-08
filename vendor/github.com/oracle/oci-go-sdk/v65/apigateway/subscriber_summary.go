@@ -53,9 +53,6 @@ type SubscriberSummary struct {
 	// resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see
 	// Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

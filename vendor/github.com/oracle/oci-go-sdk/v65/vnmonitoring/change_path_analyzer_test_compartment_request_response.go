@@ -12,6 +12,10 @@ import (
 )
 
 // ChangePathAnalyzerTestCompartmentRequest wrapper for the ChangePathAnalyzerTestCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/ChangePathAnalyzerTestCompartment.go.html to see an example of how to use ChangePathAnalyzerTestCompartmentRequest.
 type ChangePathAnalyzerTestCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.

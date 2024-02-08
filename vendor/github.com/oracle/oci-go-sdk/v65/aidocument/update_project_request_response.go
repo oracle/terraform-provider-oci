@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateProjectRequest wrapper for the UpdateProject operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/UpdateProject.go.html to see an example of how to use UpdateProjectRequest.
 type UpdateProjectRequest struct {
 
 	// A unique project identifier.
@@ -29,9 +33,6 @@ type UpdateProjectRequest struct {
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// Whether to override locks (if any exist).
-	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

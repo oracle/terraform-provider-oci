@@ -12,6 +12,10 @@ import (
 )
 
 // GetJobRunRequest wrapper for the GetJobRun operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetJobRun.go.html to see an example of how to use GetJobRunRequest.
 type GetJobRunRequest struct {
 
 	// The identifier of the job run.

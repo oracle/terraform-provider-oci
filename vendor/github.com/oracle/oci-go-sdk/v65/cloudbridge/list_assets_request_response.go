@@ -12,6 +12,10 @@ import (
 )
 
 // ListAssetsRequest wrapper for the ListAssets operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssets.go.html to see an example of how to use ListAssetsRequest.
 type ListAssetsRequest struct {
 
 	// The ID of the compartment in which to list resources.
@@ -140,30 +144,18 @@ type ListAssetsAssetTypeEnum string
 
 // Set of constants representing the allowable values for ListAssetsAssetTypeEnum
 const (
-	ListAssetsAssetTypeVmwareVm       ListAssetsAssetTypeEnum = "VMWARE_VM"
-	ListAssetsAssetTypeVm             ListAssetsAssetTypeEnum = "VM"
-	ListAssetsAssetTypeOracleDb       ListAssetsAssetTypeEnum = "ORACLE_DB"
-	ListAssetsAssetTypeInventoryAsset ListAssetsAssetTypeEnum = "INVENTORY_ASSET"
-	ListAssetsAssetTypeAwsEc2         ListAssetsAssetTypeEnum = "AWS_EC2"
-	ListAssetsAssetTypeAwsEbs         ListAssetsAssetTypeEnum = "AWS_EBS"
+	ListAssetsAssetTypeVmwareVm ListAssetsAssetTypeEnum = "VMWARE_VM"
+	ListAssetsAssetTypeVm       ListAssetsAssetTypeEnum = "VM"
 )
 
 var mappingListAssetsAssetTypeEnum = map[string]ListAssetsAssetTypeEnum{
-	"VMWARE_VM":       ListAssetsAssetTypeVmwareVm,
-	"VM":              ListAssetsAssetTypeVm,
-	"ORACLE_DB":       ListAssetsAssetTypeOracleDb,
-	"INVENTORY_ASSET": ListAssetsAssetTypeInventoryAsset,
-	"AWS_EC2":         ListAssetsAssetTypeAwsEc2,
-	"AWS_EBS":         ListAssetsAssetTypeAwsEbs,
+	"VMWARE_VM": ListAssetsAssetTypeVmwareVm,
+	"VM":        ListAssetsAssetTypeVm,
 }
 
 var mappingListAssetsAssetTypeEnumLowerCase = map[string]ListAssetsAssetTypeEnum{
-	"vmware_vm":       ListAssetsAssetTypeVmwareVm,
-	"vm":              ListAssetsAssetTypeVm,
-	"oracle_db":       ListAssetsAssetTypeOracleDb,
-	"inventory_asset": ListAssetsAssetTypeInventoryAsset,
-	"aws_ec2":         ListAssetsAssetTypeAwsEc2,
-	"aws_ebs":         ListAssetsAssetTypeAwsEbs,
+	"vmware_vm": ListAssetsAssetTypeVmwareVm,
+	"vm":        ListAssetsAssetTypeVm,
 }
 
 // GetListAssetsAssetTypeEnumValues Enumerates the set of values for ListAssetsAssetTypeEnum
@@ -180,10 +172,6 @@ func GetListAssetsAssetTypeEnumStringValues() []string {
 	return []string{
 		"VMWARE_VM",
 		"VM",
-		"ORACLE_DB",
-		"INVENTORY_ASSET",
-		"AWS_EC2",
-		"AWS_EBS",
 	}
 }
 

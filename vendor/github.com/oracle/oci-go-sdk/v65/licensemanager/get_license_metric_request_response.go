@@ -12,6 +12,10 @@ import (
 )
 
 // GetLicenseMetricRequest wrapper for the GetLicenseMetric operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetLicenseMetric.go.html to see an example of how to use GetLicenseMetricRequest.
 type GetLicenseMetricRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.

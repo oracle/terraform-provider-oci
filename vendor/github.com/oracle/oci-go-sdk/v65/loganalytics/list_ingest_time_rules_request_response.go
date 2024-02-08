@@ -12,6 +12,10 @@ import (
 )
 
 // ListIngestTimeRulesRequest wrapper for the ListIngestTimeRules operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListIngestTimeRules.go.html to see an example of how to use ListIngestTimeRulesRequest.
 type ListIngestTimeRulesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

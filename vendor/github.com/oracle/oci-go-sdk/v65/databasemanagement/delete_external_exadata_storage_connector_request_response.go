@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteExternalExadataStorageConnectorRequest wrapper for the DeleteExternalExadataStorageConnector operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DeleteExternalExadataStorageConnector.go.html to see an example of how to use DeleteExternalExadataStorageConnectorRequest.
 type DeleteExternalExadataStorageConnectorRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the connector to the Exadata storage server.

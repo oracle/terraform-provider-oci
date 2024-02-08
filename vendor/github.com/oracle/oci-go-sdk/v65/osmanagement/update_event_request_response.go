@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateEventRequest wrapper for the UpdateEvent operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateEvent.go.html to see an example of how to use UpdateEventRequest.
 type UpdateEventRequest struct {
 
 	// Instance Oracle Cloud identifier (ocid)

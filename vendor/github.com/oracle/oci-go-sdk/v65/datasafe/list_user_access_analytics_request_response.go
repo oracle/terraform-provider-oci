@@ -12,6 +12,10 @@ import (
 )
 
 // ListUserAccessAnalyticsRequest wrapper for the ListUserAccessAnalytics operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAccessAnalytics.go.html to see an example of how to use ListUserAccessAnalyticsRequest.
 type ListUserAccessAnalyticsRequest struct {
 
 	// The OCID of the user assessment.

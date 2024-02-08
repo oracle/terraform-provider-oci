@@ -12,6 +12,10 @@ import (
 )
 
 // PatchMyPendingApprovalRequest wrapper for the PatchMyPendingApproval operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyPendingApproval.go.html to see an example of how to use PatchMyPendingApprovalRequest.
 type PatchMyPendingApprovalRequest struct {
 
 	// ID of the resource

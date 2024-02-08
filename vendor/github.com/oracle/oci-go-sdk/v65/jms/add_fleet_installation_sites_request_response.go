@@ -12,6 +12,10 @@ import (
 )
 
 // AddFleetInstallationSitesRequest wrapper for the AddFleetInstallationSites operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/AddFleetInstallationSites.go.html to see an example of how to use AddFleetInstallationSitesRequest.
 type AddFleetInstallationSitesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

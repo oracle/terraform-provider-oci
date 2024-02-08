@@ -12,6 +12,10 @@ import (
 )
 
 // DisableModuleStreamOnManagedInstanceGroupRequest wrapper for the DisableModuleStreamOnManagedInstanceGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DisableModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use DisableModuleStreamOnManagedInstanceGroupRequest.
 type DisableModuleStreamOnManagedInstanceGroupRequest struct {
 
 	// The managed instance group OCID.

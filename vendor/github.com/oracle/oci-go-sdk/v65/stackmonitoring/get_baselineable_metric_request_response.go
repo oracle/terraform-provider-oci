@@ -12,6 +12,10 @@ import (
 )
 
 // GetBaselineableMetricRequest wrapper for the GetBaselineableMetric operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetBaselineableMetric.go.html to see an example of how to use GetBaselineableMetricRequest.
 type GetBaselineableMetricRequest struct {
 
 	// Identifier for the metric

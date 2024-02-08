@@ -12,6 +12,10 @@ import (
 )
 
 // ListProfilesRequest wrapper for the ListProfiles operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListProfiles.go.html to see an example of how to use ListProfilesRequest.
 type ListProfilesRequest struct {
 
 	// The OCID of the compartment that contains the resources to list.

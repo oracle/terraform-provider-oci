@@ -25,26 +25,6 @@ type UpdateLoadBalancerDetails struct {
 	// Example: `example_load_balancer`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Whether or not the load balancer has delete protection enabled.
-	// If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
-	// If "false", the loadbalancer will not be protected against deletion.
-	// If null or unset, the value for delete protection will not be changed.
-	// Example: `true`
-	IsDeleteProtectionEnabled *bool `mandatory:"false" json:"isDeleteProtectionEnabled"`
-
-	// Request ID is an identifier given to every request that goes through the load balancer.
-	// The same request id will be generated for both incoming request and the corresponding outgoing response.
-	// The header X-Request-ID (default name) holding the value of the request ID will be added to both request and response.
-	// If the header already exists i.e. it was sent by the caller or returned by the backend then its value will not be changed.
-	// Request ID header property allows:
-	// 1. specifying name of the header holding the request ID;
-	// 2. switching this feature off by setting the header name to empty string.
-	// **Notes:**
-	// * The header name must conform to the
-	//   RFC 7230 - Hypertext Transfer Protocol (HTTP/1.1) (https://datatracker.ietf.org/doc/html/rfc7230) standard.
-	// * The header name must start with "X-" prefix.
-	RequestIdHeader *string `mandatory:"false" json:"requestIdHeader"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateServiceCatalogRequest wrapper for the UpdateServiceCatalog operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/UpdateServiceCatalog.go.html to see an example of how to use UpdateServiceCatalogRequest.
 type UpdateServiceCatalogRequest struct {
 
 	// The unique identifier for the service catalog.

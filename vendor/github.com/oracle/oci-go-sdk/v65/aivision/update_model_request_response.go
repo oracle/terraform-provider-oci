@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateModelRequest wrapper for the UpdateModel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/UpdateModel.go.html to see an example of how to use UpdateModelRequest.
 type UpdateModelRequest struct {
 
 	// A unique model identifier.

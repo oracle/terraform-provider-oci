@@ -12,6 +12,10 @@ import (
 )
 
 // StopHeatWaveClusterRequest wrapper for the StopHeatWaveCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/StopHeatWaveCluster.go.html to see an example of how to use StopHeatWaveClusterRequest.
 type StopHeatWaveClusterRequest struct {
 
 	// The DB System OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

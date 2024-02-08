@@ -12,6 +12,10 @@ import (
 )
 
 // GetModelRequest wrapper for the GetModel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/GetModel.go.html to see an example of how to use GetModelRequest.
 type GetModelRequest struct {
 
 	// The model OCID

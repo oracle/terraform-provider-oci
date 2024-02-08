@@ -2,12 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Connector Hub API
+// Service Connector Hub API
 //
-// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
-// Connector Hub is formerly known as Service Connector Hub.
+// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Service Connector Hub, see
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 //
 
 package sch
@@ -19,9 +18,7 @@ import (
 	"strings"
 )
 
-// LatestStreamingCursor `LATEST` cursor type. Starts reading messages published after creating the connector.
-// For configuration instructions, see
-// Creating a Connector with a Streaming Source (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector-streaming-source.htm).
+// LatestStreamingCursor `LATEST` cursor type. Sets the starting point for consuming the stream at messages published after saving the service connector. For more information about Streaming cursors, see Using Cursors (https://docs.cloud.oracle.com/iaas/Content/Streaming/Tasks/using_a_single_consumer.htm#usingcursors).
 type LatestStreamingCursor struct {
 }
 

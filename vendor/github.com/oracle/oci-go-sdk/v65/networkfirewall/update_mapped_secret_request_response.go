@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateMappedSecretRequest wrapper for the UpdateMappedSecret operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateMappedSecret.go.html to see an example of how to use UpdateMappedSecretRequest.
 type UpdateMappedSecretRequest struct {
 
 	// Unique Network Firewall Policy identifier

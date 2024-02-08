@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeAssetTagsRequest wrapper for the ChangeAssetTags operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeAssetTags.go.html to see an example of how to use ChangeAssetTagsRequest.
 type ChangeAssetTagsRequest struct {
 
 	// Unique asset identifier.

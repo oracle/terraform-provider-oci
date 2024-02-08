@@ -12,6 +12,10 @@ import (
 )
 
 // GetOperationsInsightsWarehouseRequest wrapper for the GetOperationsInsightsWarehouse operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOperationsInsightsWarehouse.go.html to see an example of how to use GetOperationsInsightsWarehouseRequest.
 type GetOperationsInsightsWarehouseRequest struct {
 
 	// Unique Operations Insights Warehouse identifier

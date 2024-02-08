@@ -114,10 +114,6 @@ func (m *deployenvironment) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ComputeInstanceGroupDeployEnvironment{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "CLUSTER_NAMESPACE":
-		mm := ClusterNamespaceDeployEnvironment{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "OKE_CLUSTER":
 		mm := OkeClusterDeployEnvironment{}
 		err = json.Unmarshal(data, &mm)
@@ -281,21 +277,18 @@ const (
 	DeployEnvironmentDeployEnvironmentTypeOkeCluster           DeployEnvironmentDeployEnvironmentTypeEnum = "OKE_CLUSTER"
 	DeployEnvironmentDeployEnvironmentTypeComputeInstanceGroup DeployEnvironmentDeployEnvironmentTypeEnum = "COMPUTE_INSTANCE_GROUP"
 	DeployEnvironmentDeployEnvironmentTypeFunction             DeployEnvironmentDeployEnvironmentTypeEnum = "FUNCTION"
-	DeployEnvironmentDeployEnvironmentTypeClusterNamespace     DeployEnvironmentDeployEnvironmentTypeEnum = "CLUSTER_NAMESPACE"
 )
 
 var mappingDeployEnvironmentDeployEnvironmentTypeEnum = map[string]DeployEnvironmentDeployEnvironmentTypeEnum{
 	"OKE_CLUSTER":            DeployEnvironmentDeployEnvironmentTypeOkeCluster,
 	"COMPUTE_INSTANCE_GROUP": DeployEnvironmentDeployEnvironmentTypeComputeInstanceGroup,
 	"FUNCTION":               DeployEnvironmentDeployEnvironmentTypeFunction,
-	"CLUSTER_NAMESPACE":      DeployEnvironmentDeployEnvironmentTypeClusterNamespace,
 }
 
 var mappingDeployEnvironmentDeployEnvironmentTypeEnumLowerCase = map[string]DeployEnvironmentDeployEnvironmentTypeEnum{
 	"oke_cluster":            DeployEnvironmentDeployEnvironmentTypeOkeCluster,
 	"compute_instance_group": DeployEnvironmentDeployEnvironmentTypeComputeInstanceGroup,
 	"function":               DeployEnvironmentDeployEnvironmentTypeFunction,
-	"cluster_namespace":      DeployEnvironmentDeployEnvironmentTypeClusterNamespace,
 }
 
 // GetDeployEnvironmentDeployEnvironmentTypeEnumValues Enumerates the set of values for DeployEnvironmentDeployEnvironmentTypeEnum
@@ -313,7 +306,6 @@ func GetDeployEnvironmentDeployEnvironmentTypeEnumStringValues() []string {
 		"OKE_CLUSTER",
 		"COMPUTE_INSTANCE_GROUP",
 		"FUNCTION",
-		"CLUSTER_NAMESPACE",
 	}
 }
 

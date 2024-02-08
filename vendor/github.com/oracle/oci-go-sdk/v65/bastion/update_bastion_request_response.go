@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateBastionRequest wrapper for the UpdateBastion operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateBastion.go.html to see an example of how to use UpdateBastionRequest.
 type UpdateBastionRequest struct {
 
 	// The unique identifier (OCID) of the bastion.

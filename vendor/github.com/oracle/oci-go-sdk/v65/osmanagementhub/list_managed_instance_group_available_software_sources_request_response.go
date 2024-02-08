@@ -12,6 +12,10 @@ import (
 )
 
 // ListManagedInstanceGroupAvailableSoftwareSourcesRequest wrapper for the ListManagedInstanceGroupAvailableSoftwareSources operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailableSoftwareSources.go.html to see an example of how to use ListManagedInstanceGroupAvailableSoftwareSourcesRequest.
 type ListManagedInstanceGroupAvailableSoftwareSourcesRequest struct {
 
 	// The managed instance group OCID.

@@ -12,6 +12,10 @@ import (
 )
 
 // ListMountTargetsRequest wrapper for the ListMountTargets operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListMountTargets.go.html to see an example of how to use ListMountTargetsRequest.
 type ListMountTargetsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -41,9 +45,6 @@ type ListMountTargetsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export set.
 	ExportSetId *string `mandatory:"false" contributesTo:"query" name:"exportSetId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the share set.
-	ShareSetId *string `mandatory:"false" contributesTo:"query" name:"shareSetId"`
 
 	// Filter results by the specified lifecycle state. Must be a valid
 	// state for the resource type.
@@ -156,7 +157,6 @@ type ListMountTargetsLifecycleStateEnum string
 const (
 	ListMountTargetsLifecycleStateCreating ListMountTargetsLifecycleStateEnum = "CREATING"
 	ListMountTargetsLifecycleStateActive   ListMountTargetsLifecycleStateEnum = "ACTIVE"
-	ListMountTargetsLifecycleStateUpdating ListMountTargetsLifecycleStateEnum = "UPDATING"
 	ListMountTargetsLifecycleStateDeleting ListMountTargetsLifecycleStateEnum = "DELETING"
 	ListMountTargetsLifecycleStateDeleted  ListMountTargetsLifecycleStateEnum = "DELETED"
 	ListMountTargetsLifecycleStateFailed   ListMountTargetsLifecycleStateEnum = "FAILED"
@@ -165,7 +165,6 @@ const (
 var mappingListMountTargetsLifecycleStateEnum = map[string]ListMountTargetsLifecycleStateEnum{
 	"CREATING": ListMountTargetsLifecycleStateCreating,
 	"ACTIVE":   ListMountTargetsLifecycleStateActive,
-	"UPDATING": ListMountTargetsLifecycleStateUpdating,
 	"DELETING": ListMountTargetsLifecycleStateDeleting,
 	"DELETED":  ListMountTargetsLifecycleStateDeleted,
 	"FAILED":   ListMountTargetsLifecycleStateFailed,
@@ -174,7 +173,6 @@ var mappingListMountTargetsLifecycleStateEnum = map[string]ListMountTargetsLifec
 var mappingListMountTargetsLifecycleStateEnumLowerCase = map[string]ListMountTargetsLifecycleStateEnum{
 	"creating": ListMountTargetsLifecycleStateCreating,
 	"active":   ListMountTargetsLifecycleStateActive,
-	"updating": ListMountTargetsLifecycleStateUpdating,
 	"deleting": ListMountTargetsLifecycleStateDeleting,
 	"deleted":  ListMountTargetsLifecycleStateDeleted,
 	"failed":   ListMountTargetsLifecycleStateFailed,
@@ -194,7 +192,6 @@ func GetListMountTargetsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
-		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

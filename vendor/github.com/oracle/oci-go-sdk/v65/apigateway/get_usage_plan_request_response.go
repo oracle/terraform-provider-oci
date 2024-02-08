@@ -12,6 +12,10 @@ import (
 )
 
 // GetUsagePlanRequest wrapper for the GetUsagePlan operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetUsagePlan.go.html to see an example of how to use GetUsagePlanRequest.
 type GetUsagePlanRequest struct {
 
 	// The ocid of the usage plan.

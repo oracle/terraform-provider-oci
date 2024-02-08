@@ -16,14 +16,11 @@ import (
 	"strings"
 )
 
-// TargetDetectorRecipeDetectorRuleCollection Collection of summary information for target detector recipe detector rules.
+// TargetDetectorRecipeDetectorRuleCollection Summary of the DetectorRule within Target.
 type TargetDetectorRecipeDetectorRuleCollection struct {
 
-	// List of TargetDetectorRecipeDetectorRuleSummary resources
+	// List of TargetDetectorRecipeDetectorRuleSummary
 	Items []TargetDetectorRecipeDetectorRuleSummary `mandatory:"true" json:"items"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetDetectorRecipeDetectorRuleCollection) String() string {

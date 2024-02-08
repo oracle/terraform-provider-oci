@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeOutboundConnectorCompartmentRequest wrapper for the ChangeOutboundConnectorCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ChangeOutboundConnectorCompartment.go.html to see an example of how to use ChangeOutboundConnectorCompartmentRequest.
 type ChangeOutboundConnectorCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the outbound connector.

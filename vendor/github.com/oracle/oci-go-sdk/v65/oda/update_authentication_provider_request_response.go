@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateAuthenticationProviderRequest wrapper for the UpdateAuthenticationProvider operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/UpdateAuthenticationProvider.go.html to see an example of how to use UpdateAuthenticationProviderRequest.
 type UpdateAuthenticationProviderRequest struct {
 
 	// Unique Digital Assistant instance identifier.

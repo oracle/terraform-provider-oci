@@ -91,9 +91,6 @@ const (
 	WorkRequestOperationTypeUpdateApi         WorkRequestOperationTypeEnum = "UPDATE_API"
 	WorkRequestOperationTypeDeleteApi         WorkRequestOperationTypeEnum = "DELETE_API"
 	WorkRequestOperationTypeValidateApi       WorkRequestOperationTypeEnum = "VALIDATE_API"
-	WorkRequestOperationTypeCreateCatalog     WorkRequestOperationTypeEnum = "CREATE_CATALOG"
-	WorkRequestOperationTypeUpdateCatalog     WorkRequestOperationTypeEnum = "UPDATE_CATALOG"
-	WorkRequestOperationTypeDeleteCatalog     WorkRequestOperationTypeEnum = "DELETE_CATALOG"
 	WorkRequestOperationTypeCreateSdk         WorkRequestOperationTypeEnum = "CREATE_SDK"
 	WorkRequestOperationTypeDeleteSdk         WorkRequestOperationTypeEnum = "DELETE_SDK"
 	WorkRequestOperationTypeCreateUsagePlan   WorkRequestOperationTypeEnum = "CREATE_USAGE_PLAN"
@@ -118,9 +115,6 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_API":         WorkRequestOperationTypeUpdateApi,
 	"DELETE_API":         WorkRequestOperationTypeDeleteApi,
 	"VALIDATE_API":       WorkRequestOperationTypeValidateApi,
-	"CREATE_CATALOG":     WorkRequestOperationTypeCreateCatalog,
-	"UPDATE_CATALOG":     WorkRequestOperationTypeUpdateCatalog,
-	"DELETE_CATALOG":     WorkRequestOperationTypeDeleteCatalog,
 	"CREATE_SDK":         WorkRequestOperationTypeCreateSdk,
 	"DELETE_SDK":         WorkRequestOperationTypeDeleteSdk,
 	"CREATE_USAGE_PLAN":  WorkRequestOperationTypeCreateUsagePlan,
@@ -145,9 +139,6 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_api":         WorkRequestOperationTypeUpdateApi,
 	"delete_api":         WorkRequestOperationTypeDeleteApi,
 	"validate_api":       WorkRequestOperationTypeValidateApi,
-	"create_catalog":     WorkRequestOperationTypeCreateCatalog,
-	"update_catalog":     WorkRequestOperationTypeUpdateCatalog,
-	"delete_catalog":     WorkRequestOperationTypeDeleteCatalog,
 	"create_sdk":         WorkRequestOperationTypeCreateSdk,
 	"delete_sdk":         WorkRequestOperationTypeDeleteSdk,
 	"create_usage_plan":  WorkRequestOperationTypeCreateUsagePlan,
@@ -183,9 +174,6 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_API",
 		"DELETE_API",
 		"VALIDATE_API",
-		"CREATE_CATALOG",
-		"UPDATE_CATALOG",
-		"DELETE_CATALOG",
 		"CREATE_SDK",
 		"DELETE_SDK",
 		"CREATE_USAGE_PLAN",

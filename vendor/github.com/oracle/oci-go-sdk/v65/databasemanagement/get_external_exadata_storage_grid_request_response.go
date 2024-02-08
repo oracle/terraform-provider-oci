@@ -12,6 +12,10 @@ import (
 )
 
 // GetExternalExadataStorageGridRequest wrapper for the GetExternalExadataStorageGrid operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalExadataStorageGrid.go.html to see an example of how to use GetExternalExadataStorageGridRequest.
 type GetExternalExadataStorageGridRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata storage grid.

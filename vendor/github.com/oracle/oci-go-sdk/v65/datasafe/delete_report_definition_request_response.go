@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteReportDefinitionRequest wrapper for the DeleteReportDefinition operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteReportDefinition.go.html to see an example of how to use DeleteReportDefinitionRequest.
 type DeleteReportDefinitionRequest struct {
 
 	// Unique report definition identifier

@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// ProblemAggregation Provides aggregated information on counts of problems by specified parameters.
+// ProblemAggregation Provides the dimensions and their corresponding count value.
 type ProblemAggregation struct {
 
-	// The key-value pairs of dimensions and their names
+	// The key-value pairs of dimensions and their names.
 	DimensionsMap map[string]string `mandatory:"true" json:"dimensionsMap"`
 
-	// The number of occurrences with given dimensions
+	// The number of occurences with given dimension/s
 	Count *int `mandatory:"true" json:"count"`
 }
 

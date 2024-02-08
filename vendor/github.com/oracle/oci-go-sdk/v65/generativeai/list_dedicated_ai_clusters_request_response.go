@@ -12,6 +12,10 @@ import (
 )
 
 // ListDedicatedAiClustersRequest wrapper for the ListDedicatedAiClusters operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ListDedicatedAiClusters.go.html to see an example of how to use ListDedicatedAiClustersRequest.
 type ListDedicatedAiClustersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.

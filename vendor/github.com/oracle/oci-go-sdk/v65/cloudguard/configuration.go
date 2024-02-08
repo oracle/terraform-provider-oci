@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// Configuration Specifies several key settings for a Cloud Guard tenancy, identified by tenancy root compartment OCID.
+// Configuration Cloud Guard configuration details of a tenancy.
 type Configuration struct {
 
-	// The reporting region
+	// The reporting region value
 	ReportingRegion *string `mandatory:"true" json:"reportingRegion"`
 
-	// Status of the Cloud Guard tenant
+	// Status of Cloud Guard Tenant
 	Status CloudGuardStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// Were Oracle-managed resources created by customer?
+	// Identifies if Oracle managed resources were created by customers
 	SelfManageResources *bool `mandatory:"false" json:"selfManageResources"`
 }
 

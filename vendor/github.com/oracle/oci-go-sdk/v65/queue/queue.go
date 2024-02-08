@@ -10,7 +10,6 @@
 package queue
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -74,9 +73,6 @@ type Queue struct {
 
 	// The percentage of allocated queue resources that can be consumed by a single channel. For example, if a queue has a storage limit of 2Gb, and a single channel consumption limit is 0.1 (10%), that means data size of a single channel  can't exceed 200Mb. Consumption limit of 100% (default) means that a single channel can consume up-to all allocated queue's resources.
 	ChannelConsumptionLimit *int `mandatory:"false" json:"channelConsumptionLimit"`
-
-	// The list of capabilities enabled on the queue
-	Capabilities []CapabilityDetails `mandatory:"false" json:"capabilities"`
 }
 
 func (m Queue) String() string {
@@ -98,83 +94,6 @@ func (m Queue) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// UnmarshalJSON unmarshals from json
-func (m *Queue) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		DisplayName                  *string                           `json:"displayName"`
-		LifecycleDetails             *string                           `json:"lifecycleDetails"`
-		CustomEncryptionKeyId        *string                           `json:"customEncryptionKeyId"`
-		FreeformTags                 map[string]string                 `json:"freeformTags"`
-		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                   map[string]map[string]interface{} `json:"systemTags"`
-		ChannelConsumptionLimit      *int                              `json:"channelConsumptionLimit"`
-		Capabilities                 []capabilitydetails               `json:"capabilities"`
-		Id                           *string                           `json:"id"`
-		CompartmentId                *string                           `json:"compartmentId"`
-		TimeCreated                  *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated                  *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState               QueueLifecycleStateEnum           `json:"lifecycleState"`
-		MessagesEndpoint             *string                           `json:"messagesEndpoint"`
-		RetentionInSeconds           *int                              `json:"retentionInSeconds"`
-		VisibilityInSeconds          *int                              `json:"visibilityInSeconds"`
-		TimeoutInSeconds             *int                              `json:"timeoutInSeconds"`
-		DeadLetterQueueDeliveryCount *int                              `json:"deadLetterQueueDeliveryCount"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.DisplayName = model.DisplayName
-
-	m.LifecycleDetails = model.LifecycleDetails
-
-	m.CustomEncryptionKeyId = model.CustomEncryptionKeyId
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.SystemTags = model.SystemTags
-
-	m.ChannelConsumptionLimit = model.ChannelConsumptionLimit
-
-	m.Capabilities = make([]CapabilityDetails, len(model.Capabilities))
-	for i, n := range model.Capabilities {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Capabilities[i] = nn.(CapabilityDetails)
-		} else {
-			m.Capabilities[i] = nil
-		}
-	}
-	m.Id = model.Id
-
-	m.CompartmentId = model.CompartmentId
-
-	m.TimeCreated = model.TimeCreated
-
-	m.TimeUpdated = model.TimeUpdated
-
-	m.LifecycleState = model.LifecycleState
-
-	m.MessagesEndpoint = model.MessagesEndpoint
-
-	m.RetentionInSeconds = model.RetentionInSeconds
-
-	m.VisibilityInSeconds = model.VisibilityInSeconds
-
-	m.TimeoutInSeconds = model.TimeoutInSeconds
-
-	m.DeadLetterQueueDeliveryCount = model.DeadLetterQueueDeliveryCount
-
-	return
-}
-
 // QueueLifecycleStateEnum Enum with underlying type: string
 type QueueLifecycleStateEnum string
 
@@ -186,7 +105,6 @@ const (
 	QueueLifecycleStateDeleting QueueLifecycleStateEnum = "DELETING"
 	QueueLifecycleStateDeleted  QueueLifecycleStateEnum = "DELETED"
 	QueueLifecycleStateFailed   QueueLifecycleStateEnum = "FAILED"
-	QueueLifecycleStateInactive QueueLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingQueueLifecycleStateEnum = map[string]QueueLifecycleStateEnum{
@@ -196,7 +114,6 @@ var mappingQueueLifecycleStateEnum = map[string]QueueLifecycleStateEnum{
 	"DELETING": QueueLifecycleStateDeleting,
 	"DELETED":  QueueLifecycleStateDeleted,
 	"FAILED":   QueueLifecycleStateFailed,
-	"INACTIVE": QueueLifecycleStateInactive,
 }
 
 var mappingQueueLifecycleStateEnumLowerCase = map[string]QueueLifecycleStateEnum{
@@ -206,7 +123,6 @@ var mappingQueueLifecycleStateEnumLowerCase = map[string]QueueLifecycleStateEnum
 	"deleting": QueueLifecycleStateDeleting,
 	"deleted":  QueueLifecycleStateDeleted,
 	"failed":   QueueLifecycleStateFailed,
-	"inactive": QueueLifecycleStateInactive,
 }
 
 // GetQueueLifecycleStateEnumValues Enumerates the set of values for QueueLifecycleStateEnum
@@ -227,7 +143,6 @@ func GetQueueLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
-		"INACTIVE",
 	}
 }
 

@@ -12,6 +12,10 @@ import (
 )
 
 // GetMyOAuth2ClientCredentialRequest wrapper for the GetMyOAuth2ClientCredential operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyOAuth2ClientCredential.go.html to see an example of how to use GetMyOAuth2ClientCredentialRequest.
 type GetMyOAuth2ClientCredentialRequest struct {
 
 	// ID of the resource

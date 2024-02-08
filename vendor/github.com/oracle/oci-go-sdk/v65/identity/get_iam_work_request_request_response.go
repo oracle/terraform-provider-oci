@@ -12,6 +12,10 @@ import (
 )
 
 // GetIamWorkRequestRequest wrapper for the GetIamWorkRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetIamWorkRequest.go.html to see an example of how to use GetIamWorkRequestRequest.
 type GetIamWorkRequestRequest struct {
 
 	// The OCID of the IAM work request.

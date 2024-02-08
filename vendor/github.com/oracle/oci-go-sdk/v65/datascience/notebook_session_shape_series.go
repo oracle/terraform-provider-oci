@@ -21,7 +21,6 @@ const (
 	NotebookSessionShapeSeriesAmdRome      NotebookSessionShapeSeriesEnum = "AMD_ROME"
 	NotebookSessionShapeSeriesIntelSkylake NotebookSessionShapeSeriesEnum = "INTEL_SKYLAKE"
 	NotebookSessionShapeSeriesNvidiaGpu    NotebookSessionShapeSeriesEnum = "NVIDIA_GPU"
-	NotebookSessionShapeSeriesGeneric      NotebookSessionShapeSeriesEnum = "GENERIC"
 	NotebookSessionShapeSeriesLegacy       NotebookSessionShapeSeriesEnum = "LEGACY"
 	NotebookSessionShapeSeriesArm          NotebookSessionShapeSeriesEnum = "ARM"
 )
@@ -30,7 +29,6 @@ var mappingNotebookSessionShapeSeriesEnum = map[string]NotebookSessionShapeSerie
 	"AMD_ROME":      NotebookSessionShapeSeriesAmdRome,
 	"INTEL_SKYLAKE": NotebookSessionShapeSeriesIntelSkylake,
 	"NVIDIA_GPU":    NotebookSessionShapeSeriesNvidiaGpu,
-	"GENERIC":       NotebookSessionShapeSeriesGeneric,
 	"LEGACY":        NotebookSessionShapeSeriesLegacy,
 	"ARM":           NotebookSessionShapeSeriesArm,
 }
@@ -39,7 +37,6 @@ var mappingNotebookSessionShapeSeriesEnumLowerCase = map[string]NotebookSessionS
 	"amd_rome":      NotebookSessionShapeSeriesAmdRome,
 	"intel_skylake": NotebookSessionShapeSeriesIntelSkylake,
 	"nvidia_gpu":    NotebookSessionShapeSeriesNvidiaGpu,
-	"generic":       NotebookSessionShapeSeriesGeneric,
 	"legacy":        NotebookSessionShapeSeriesLegacy,
 	"arm":           NotebookSessionShapeSeriesArm,
 }
@@ -59,7 +56,6 @@ func GetNotebookSessionShapeSeriesEnumStringValues() []string {
 		"AMD_ROME",
 		"INTEL_SKYLAKE",
 		"NVIDIA_GPU",
-		"GENERIC",
 		"LEGACY",
 		"ARM",
 	}

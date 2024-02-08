@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeComputeCapacityTopologyCompartmentRequest wrapper for the ChangeComputeCapacityTopologyCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeComputeCapacityTopologyCompartment.go.html to see an example of how to use ChangeComputeCapacityTopologyCompartmentRequest.
 type ChangeComputeCapacityTopologyCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute capacity topology.

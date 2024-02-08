@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ChangeManagedListCompartmentDetails Parameters to use to move a managed list to a different compartment.
+// ChangeManagedListCompartmentDetails Changing compartmentId for ManagedList
 type ChangeManagedListCompartmentDetails struct {
 
-	// The OCID of the compartment into which the managed list is to be moved
+	// The OCID of the compartment into which the ManagedList should be moved
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

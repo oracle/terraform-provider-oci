@@ -12,6 +12,10 @@ import (
 )
 
 // GetReportDefinitionRequest wrapper for the GetReportDefinition operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetReportDefinition.go.html to see an example of how to use GetReportDefinitionRequest.
 type GetReportDefinitionRequest struct {
 
 	// Unique report definition identifier

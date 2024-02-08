@@ -22,9 +22,6 @@ type ImportInventoryViaAssetsDetails struct {
 	// The OCID of the compartmentId that resources import.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The file body to be sent in the request.
-	Data []byte `mandatory:"true" json:"data"`
-
 	// The freeform tags associated with this resource, if any. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace/scope. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -35,8 +32,11 @@ type ImportInventoryViaAssetsDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// The file body to be sent in the request.
+	Data []byte `mandatory:"false" json:"data"`
+
 	// The type of asset.
-	AssetType AssetTypeEnum `mandatory:"true" json:"assetType"`
+	AssetType AssetTypeEnum `mandatory:"false" json:"assetType,omitempty"`
 }
 
 // GetCompartmentId returns CompartmentId

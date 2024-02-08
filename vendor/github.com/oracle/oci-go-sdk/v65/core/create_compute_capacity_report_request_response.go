@@ -12,6 +12,10 @@ import (
 )
 
 // CreateComputeCapacityReportRequest wrapper for the CreateComputeCapacityReport operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCapacityReport.go.html to see an example of how to use CreateComputeCapacityReportRequest.
 type CreateComputeCapacityReportRequest struct {
 
 	// Details for creating a new compute capacity report.

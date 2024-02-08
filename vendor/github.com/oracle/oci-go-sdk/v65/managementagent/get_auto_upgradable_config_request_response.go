@@ -12,6 +12,10 @@ import (
 )
 
 // GetAutoUpgradableConfigRequest wrapper for the GetAutoUpgradableConfig operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetAutoUpgradableConfig.go.html to see an example of how to use GetAutoUpgradableConfigRequest.
 type GetAutoUpgradableConfigRequest struct {
 
 	// The OCID of the compartment to which a request will be scoped.

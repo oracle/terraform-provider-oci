@@ -12,6 +12,10 @@ import (
 )
 
 // SummarizeDatabaseInsightResourceUsageTrendRequest wrapper for the SummarizeDatabaseInsightResourceUsageTrend operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceUsageTrend.go.html to see an example of how to use SummarizeDatabaseInsightResourceUsageTrendRequest.
 type SummarizeDatabaseInsightResourceUsageTrendRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

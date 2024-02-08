@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeExternalPluggableDatabaseCompartmentRequest wrapper for the ChangeExternalPluggableDatabaseCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeExternalPluggableDatabaseCompartment.go.html to see an example of how to use ChangeExternalPluggableDatabaseCompartmentRequest.
 type ChangeExternalPluggableDatabaseCompartmentRequest struct {
 
 	// Request to move the

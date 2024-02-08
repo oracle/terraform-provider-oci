@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteEnterpriseManagerBridgeRequest wrapper for the DeleteEnterpriseManagerBridge operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteEnterpriseManagerBridge.go.html to see an example of how to use DeleteEnterpriseManagerBridgeRequest.
 type DeleteEnterpriseManagerBridgeRequest struct {
 
 	// Unique Enterprise Manager bridge identifier

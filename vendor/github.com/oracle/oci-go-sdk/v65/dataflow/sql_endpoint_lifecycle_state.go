@@ -18,33 +18,27 @@ type SqlEndpointLifecycleStateEnum string
 
 // Set of constants representing the allowable values for SqlEndpointLifecycleStateEnum
 const (
-	SqlEndpointLifecycleStateCreating       SqlEndpointLifecycleStateEnum = "CREATING"
-	SqlEndpointLifecycleStateActive         SqlEndpointLifecycleStateEnum = "ACTIVE"
-	SqlEndpointLifecycleStateDeleting       SqlEndpointLifecycleStateEnum = "DELETING"
-	SqlEndpointLifecycleStateDeleted        SqlEndpointLifecycleStateEnum = "DELETED"
-	SqlEndpointLifecycleStateFailed         SqlEndpointLifecycleStateEnum = "FAILED"
-	SqlEndpointLifecycleStateUpdating       SqlEndpointLifecycleStateEnum = "UPDATING"
-	SqlEndpointLifecycleStateNeedsAttention SqlEndpointLifecycleStateEnum = "NEEDS_ATTENTION"
+	SqlEndpointLifecycleStateCreating SqlEndpointLifecycleStateEnum = "CREATING"
+	SqlEndpointLifecycleStateActive   SqlEndpointLifecycleStateEnum = "ACTIVE"
+	SqlEndpointLifecycleStateDeleting SqlEndpointLifecycleStateEnum = "DELETING"
+	SqlEndpointLifecycleStateDeleted  SqlEndpointLifecycleStateEnum = "DELETED"
+	SqlEndpointLifecycleStateFailed   SqlEndpointLifecycleStateEnum = "FAILED"
 )
 
 var mappingSqlEndpointLifecycleStateEnum = map[string]SqlEndpointLifecycleStateEnum{
-	"CREATING":        SqlEndpointLifecycleStateCreating,
-	"ACTIVE":          SqlEndpointLifecycleStateActive,
-	"DELETING":        SqlEndpointLifecycleStateDeleting,
-	"DELETED":         SqlEndpointLifecycleStateDeleted,
-	"FAILED":          SqlEndpointLifecycleStateFailed,
-	"UPDATING":        SqlEndpointLifecycleStateUpdating,
-	"NEEDS_ATTENTION": SqlEndpointLifecycleStateNeedsAttention,
+	"CREATING": SqlEndpointLifecycleStateCreating,
+	"ACTIVE":   SqlEndpointLifecycleStateActive,
+	"DELETING": SqlEndpointLifecycleStateDeleting,
+	"DELETED":  SqlEndpointLifecycleStateDeleted,
+	"FAILED":   SqlEndpointLifecycleStateFailed,
 }
 
 var mappingSqlEndpointLifecycleStateEnumLowerCase = map[string]SqlEndpointLifecycleStateEnum{
-	"creating":        SqlEndpointLifecycleStateCreating,
-	"active":          SqlEndpointLifecycleStateActive,
-	"deleting":        SqlEndpointLifecycleStateDeleting,
-	"deleted":         SqlEndpointLifecycleStateDeleted,
-	"failed":          SqlEndpointLifecycleStateFailed,
-	"updating":        SqlEndpointLifecycleStateUpdating,
-	"needs_attention": SqlEndpointLifecycleStateNeedsAttention,
+	"creating": SqlEndpointLifecycleStateCreating,
+	"active":   SqlEndpointLifecycleStateActive,
+	"deleting": SqlEndpointLifecycleStateDeleting,
+	"deleted":  SqlEndpointLifecycleStateDeleted,
+	"failed":   SqlEndpointLifecycleStateFailed,
 }
 
 // GetSqlEndpointLifecycleStateEnumValues Enumerates the set of values for SqlEndpointLifecycleStateEnum
@@ -64,8 +58,6 @@ func GetSqlEndpointLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
-		"UPDATING",
-		"NEEDS_ATTENTION",
 	}
 }
 

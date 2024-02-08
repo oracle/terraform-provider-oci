@@ -12,6 +12,10 @@ import (
 )
 
 // GetStageRequest wrapper for the GetStage operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/GetStage.go.html to see an example of how to use GetStageRequest.
 type GetStageRequest struct {
 
 	// Unique Remediation Run identifier path parameter.

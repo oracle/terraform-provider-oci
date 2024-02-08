@@ -12,6 +12,10 @@ import (
 )
 
 // CreateAlarmSuppressionRequest wrapper for the CreateAlarmSuppression operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/CreateAlarmSuppression.go.html to see an example of how to use CreateAlarmSuppressionRequest.
 type CreateAlarmSuppressionRequest struct {
 
 	// The details of the alarm suppression to be created

@@ -12,6 +12,10 @@ import (
 )
 
 // ListEntitlementsRequest wrapper for the ListEntitlements operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListEntitlements.go.html to see an example of how to use ListEntitlementsRequest.
 type ListEntitlementsRequest struct {
 
 	// The OCID of the compartment that contains the resources to list. This parameter is required.

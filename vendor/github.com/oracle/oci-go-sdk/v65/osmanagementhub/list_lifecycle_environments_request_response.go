@@ -12,6 +12,10 @@ import (
 )
 
 // ListLifecycleEnvironmentsRequest wrapper for the ListLifecycleEnvironments operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleEnvironments.go.html to see an example of how to use ListLifecycleEnvironmentsRequest.
 type ListLifecycleEnvironmentsRequest struct {
 
 	// The OCID of the compartment that contains the resources to list.

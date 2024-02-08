@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeCloudAutonomousVmClusterCompartmentRequest wrapper for the ChangeCloudAutonomousVmClusterCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeCloudAutonomousVmClusterCompartment.go.html to see an example of how to use ChangeCloudAutonomousVmClusterCompartmentRequest.
 type ChangeCloudAutonomousVmClusterCompartmentRequest struct {
 
 	// Request to move cloud Autonomous VM cluster to a different compartment

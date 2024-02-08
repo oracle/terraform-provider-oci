@@ -12,6 +12,10 @@ import (
 )
 
 // CancelSecretRotationRequest wrapper for the CancelSecretRotation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/CancelSecretRotation.go.html to see an example of how to use CancelSecretRotationRequest.
 type CancelSecretRotationRequest struct {
 
 	// The OCID of the secret.

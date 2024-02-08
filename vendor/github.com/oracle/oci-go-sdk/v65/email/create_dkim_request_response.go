@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDkimRequest wrapper for the CreateDkim operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/CreateDkim.go.html to see an example of how to use CreateDkimRequest.
 type CreateDkimRequest struct {
 
 	// The DKIM details.

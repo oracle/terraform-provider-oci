@@ -12,6 +12,10 @@ import (
 )
 
 // GetManagementStationRequest wrapper for the GetManagementStation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagementStation.go.html to see an example of how to use GetManagementStationRequest.
 type GetManagementStationRequest struct {
 
 	// The OCID of the management station.

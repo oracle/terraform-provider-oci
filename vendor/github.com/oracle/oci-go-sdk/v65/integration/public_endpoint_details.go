@@ -26,13 +26,6 @@ type PublicEndpointDetails struct {
 	// Virtual Cloud Networks allowed to access this network endpoint.
 	AllowlistedHttpVcns []VirtualCloudNetwork `mandatory:"false" json:"allowlistedHttpVcns"`
 
-	// Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26")
-	// An invalid IP or CIDR block will result in a 400 response.
-	AllowlistedFileServerIps []string `mandatory:"false" json:"allowlistedFileServerIps"`
-
-	// Virtual Cloud Networks allowed to access this network endpoint.
-	AllowListedFileServerVcns []VirtualCloudNetwork `mandatory:"false" json:"allowListedFileServerVcns"`
-
 	// The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
 	IsIntegrationVcnAllowlisted *bool `mandatory:"false" json:"isIntegrationVcnAllowlisted"`
 }

@@ -12,6 +12,10 @@ import (
 )
 
 // CreateMaskingColumnRequest wrapper for the CreateMaskingColumn operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateMaskingColumn.go.html to see an example of how to use CreateMaskingColumnRequest.
 type CreateMaskingColumnRequest struct {
 
 	// Details to create a new masking column.

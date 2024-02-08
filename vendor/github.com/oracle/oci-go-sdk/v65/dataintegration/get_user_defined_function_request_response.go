@@ -12,6 +12,10 @@ import (
 )
 
 // GetUserDefinedFunctionRequest wrapper for the GetUserDefinedFunction operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetUserDefinedFunction.go.html to see an example of how to use GetUserDefinedFunctionRequest.
 type GetUserDefinedFunctionRequest struct {
 
 	// The workspace ID.

@@ -92,6 +92,10 @@ func (client *ServiceCatalogClient) ConfigurationProvider() *common.Configuratio
 }
 
 // BulkReplaceServiceCatalogAssociations Replace all associations of a given service catalog in one bulk transaction.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/BulkReplaceServiceCatalogAssociations.go.html to see an example of how to use BulkReplaceServiceCatalogAssociations API.
 func (client ServiceCatalogClient) BulkReplaceServiceCatalogAssociations(ctx context.Context, request BulkReplaceServiceCatalogAssociationsRequest) (response BulkReplaceServiceCatalogAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,6 +149,10 @@ func (client ServiceCatalogClient) bulkReplaceServiceCatalogAssociations(ctx con
 }
 
 // ChangePrivateApplicationCompartment Moves the specified private application from one compartment to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ChangePrivateApplicationCompartment.go.html to see an example of how to use ChangePrivateApplicationCompartment API.
 func (client ServiceCatalogClient) ChangePrivateApplicationCompartment(ctx context.Context, request ChangePrivateApplicationCompartmentRequest) (response ChangePrivateApplicationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -198,6 +206,10 @@ func (client ServiceCatalogClient) changePrivateApplicationCompartment(ctx conte
 }
 
 // ChangeServiceCatalogCompartment Moves the specified service catalog from one compartment to another.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ChangeServiceCatalogCompartment.go.html to see an example of how to use ChangeServiceCatalogCompartment API.
 func (client ServiceCatalogClient) ChangeServiceCatalogCompartment(ctx context.Context, request ChangeServiceCatalogCompartmentRequest) (response ChangeServiceCatalogCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -251,6 +263,10 @@ func (client ServiceCatalogClient) changeServiceCatalogCompartment(ctx context.C
 }
 
 // CreatePrivateApplication Creates a private application along with a single package to be hosted.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/CreatePrivateApplication.go.html to see an example of how to use CreatePrivateApplication API.
 func (client ServiceCatalogClient) CreatePrivateApplication(ctx context.Context, request CreatePrivateApplicationRequest) (response CreatePrivateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -309,6 +325,10 @@ func (client ServiceCatalogClient) createPrivateApplication(ctx context.Context,
 }
 
 // CreateServiceCatalog Creates a brand new service catalog in a given compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/CreateServiceCatalog.go.html to see an example of how to use CreateServiceCatalog API.
 func (client ServiceCatalogClient) CreateServiceCatalog(ctx context.Context, request CreateServiceCatalogRequest) (response CreateServiceCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -367,6 +387,10 @@ func (client ServiceCatalogClient) createServiceCatalog(ctx context.Context, req
 }
 
 // CreateServiceCatalogAssociation Creates an association between service catalog and a resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/CreateServiceCatalogAssociation.go.html to see an example of how to use CreateServiceCatalogAssociation API.
 func (client ServiceCatalogClient) CreateServiceCatalogAssociation(ctx context.Context, request CreateServiceCatalogAssociationRequest) (response CreateServiceCatalogAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -425,6 +449,10 @@ func (client ServiceCatalogClient) createServiceCatalogAssociation(ctx context.C
 }
 
 // DeletePrivateApplication Deletes an existing private application.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/DeletePrivateApplication.go.html to see an example of how to use DeletePrivateApplication API.
 func (client ServiceCatalogClient) DeletePrivateApplication(ctx context.Context, request DeletePrivateApplicationRequest) (response DeletePrivateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -478,6 +506,10 @@ func (client ServiceCatalogClient) deletePrivateApplication(ctx context.Context,
 }
 
 // DeleteServiceCatalog Deletes the specified service catalog from the compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/DeleteServiceCatalog.go.html to see an example of how to use DeleteServiceCatalog API.
 func (client ServiceCatalogClient) DeleteServiceCatalog(ctx context.Context, request DeleteServiceCatalogRequest) (response DeleteServiceCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -531,6 +563,10 @@ func (client ServiceCatalogClient) deleteServiceCatalog(ctx context.Context, req
 }
 
 // DeleteServiceCatalogAssociation Removes an association between service catalog and a resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/DeleteServiceCatalogAssociation.go.html to see an example of how to use DeleteServiceCatalogAssociation API.
 func (client ServiceCatalogClient) DeleteServiceCatalogAssociation(ctx context.Context, request DeleteServiceCatalogAssociationRequest) (response DeleteServiceCatalogAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -584,6 +620,10 @@ func (client ServiceCatalogClient) deleteServiceCatalogAssociation(ctx context.C
 }
 
 // GetPrivateApplication Gets the details of the specified private application.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplication.go.html to see an example of how to use GetPrivateApplication API.
 func (client ServiceCatalogClient) GetPrivateApplication(ctx context.Context, request GetPrivateApplicationRequest) (response GetPrivateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -637,6 +677,10 @@ func (client ServiceCatalogClient) getPrivateApplication(ctx context.Context, re
 }
 
 // GetPrivateApplicationActionDownloadLogo Downloads the binary payload of the logo image of the private application.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplicationActionDownloadLogo.go.html to see an example of how to use GetPrivateApplicationActionDownloadLogo API.
 func (client ServiceCatalogClient) GetPrivateApplicationActionDownloadLogo(ctx context.Context, request GetPrivateApplicationActionDownloadLogoRequest) (response GetPrivateApplicationActionDownloadLogoResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -689,6 +733,10 @@ func (client ServiceCatalogClient) getPrivateApplicationActionDownloadLogo(ctx c
 }
 
 // GetPrivateApplicationPackage Gets the details of a specific package within a given private application.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplicationPackage.go.html to see an example of how to use GetPrivateApplicationPackage API.
 func (client ServiceCatalogClient) GetPrivateApplicationPackage(ctx context.Context, request GetPrivateApplicationPackageRequest) (response GetPrivateApplicationPackageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -742,6 +790,10 @@ func (client ServiceCatalogClient) getPrivateApplicationPackage(ctx context.Cont
 }
 
 // GetPrivateApplicationPackageActionDownloadConfig Downloads the configuration that was used to create the private application package.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplicationPackageActionDownloadConfig.go.html to see an example of how to use GetPrivateApplicationPackageActionDownloadConfig API.
 func (client ServiceCatalogClient) GetPrivateApplicationPackageActionDownloadConfig(ctx context.Context, request GetPrivateApplicationPackageActionDownloadConfigRequest) (response GetPrivateApplicationPackageActionDownloadConfigResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -794,6 +846,10 @@ func (client ServiceCatalogClient) getPrivateApplicationPackageActionDownloadCon
 }
 
 // GetServiceCatalog Gets detailed information about the service catalog including name, compartmentId
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetServiceCatalog.go.html to see an example of how to use GetServiceCatalog API.
 func (client ServiceCatalogClient) GetServiceCatalog(ctx context.Context, request GetServiceCatalogRequest) (response GetServiceCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -847,6 +903,10 @@ func (client ServiceCatalogClient) getServiceCatalog(ctx context.Context, reques
 }
 
 // GetServiceCatalogAssociation Gets detailed information about specific service catalog association.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetServiceCatalogAssociation.go.html to see an example of how to use GetServiceCatalogAssociation API.
 func (client ServiceCatalogClient) GetServiceCatalogAssociation(ctx context.Context, request GetServiceCatalogAssociationRequest) (response GetServiceCatalogAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -900,6 +960,10 @@ func (client ServiceCatalogClient) getServiceCatalogAssociation(ctx context.Cont
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client ServiceCatalogClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -955,6 +1019,10 @@ func (client ServiceCatalogClient) getWorkRequest(ctx context.Context, request c
 // ListApplications Lists all the applications in a service catalog or a tenancy.
 // If no parameter is specified, all catalogs from all compartments in
 // the tenancy will be scanned for any type of content.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListApplications.go.html to see an example of how to use ListApplications API.
 func (client ServiceCatalogClient) ListApplications(ctx context.Context, request ListApplicationsRequest) (response ListApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1008,6 +1076,10 @@ func (client ServiceCatalogClient) listApplications(ctx context.Context, request
 }
 
 // ListPrivateApplicationPackages Lists the packages in the specified private application.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListPrivateApplicationPackages.go.html to see an example of how to use ListPrivateApplicationPackages API.
 func (client ServiceCatalogClient) ListPrivateApplicationPackages(ctx context.Context, request ListPrivateApplicationPackagesRequest) (response ListPrivateApplicationPackagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1061,6 +1133,10 @@ func (client ServiceCatalogClient) listPrivateApplicationPackages(ctx context.Co
 }
 
 // ListPrivateApplications Lists all the private applications in a given compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListPrivateApplications.go.html to see an example of how to use ListPrivateApplications API.
 func (client ServiceCatalogClient) ListPrivateApplications(ctx context.Context, request ListPrivateApplicationsRequest) (response ListPrivateApplicationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1114,6 +1190,10 @@ func (client ServiceCatalogClient) listPrivateApplications(ctx context.Context, 
 }
 
 // ListServiceCatalogAssociations Lists all the resource associations for a specific service catalog.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListServiceCatalogAssociations.go.html to see an example of how to use ListServiceCatalogAssociations API.
 func (client ServiceCatalogClient) ListServiceCatalogAssociations(ctx context.Context, request ListServiceCatalogAssociationsRequest) (response ListServiceCatalogAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1167,6 +1247,10 @@ func (client ServiceCatalogClient) listServiceCatalogAssociations(ctx context.Co
 }
 
 // ListServiceCatalogs Lists all the service catalogs in the given compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListServiceCatalogs.go.html to see an example of how to use ListServiceCatalogs API.
 func (client ServiceCatalogClient) ListServiceCatalogs(ctx context.Context, request ListServiceCatalogsRequest) (response ListServiceCatalogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1220,6 +1304,10 @@ func (client ServiceCatalogClient) listServiceCatalogs(ctx context.Context, requ
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client ServiceCatalogClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1273,6 +1361,10 @@ func (client ServiceCatalogClient) listWorkRequestErrors(ctx context.Context, re
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client ServiceCatalogClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1326,6 +1418,10 @@ func (client ServiceCatalogClient) listWorkRequestLogs(ctx context.Context, requ
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client ServiceCatalogClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1379,6 +1475,10 @@ func (client ServiceCatalogClient) listWorkRequests(ctx context.Context, request
 }
 
 // UpdatePrivateApplication Updates the details of an existing private application.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/UpdatePrivateApplication.go.html to see an example of how to use UpdatePrivateApplication API.
 func (client ServiceCatalogClient) UpdatePrivateApplication(ctx context.Context, request UpdatePrivateApplicationRequest) (response UpdatePrivateApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1432,6 +1532,10 @@ func (client ServiceCatalogClient) updatePrivateApplication(ctx context.Context,
 }
 
 // UpdateServiceCatalog Updates the details of a previously created service catalog.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/UpdateServiceCatalog.go.html to see an example of how to use UpdateServiceCatalog API.
 func (client ServiceCatalogClient) UpdateServiceCatalog(ctx context.Context, request UpdateServiceCatalogRequest) (response UpdateServiceCatalogResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteMyUserDbCredentialRequest wrapper for the DeleteMyUserDbCredential operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteMyUserDbCredential.go.html to see an example of how to use DeleteMyUserDbCredentialRequest.
 type DeleteMyUserDbCredentialRequest struct {
 
 	// ID of the resource

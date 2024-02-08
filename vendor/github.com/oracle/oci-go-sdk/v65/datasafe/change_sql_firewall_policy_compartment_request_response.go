@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeSqlFirewallPolicyCompartmentRequest wrapper for the ChangeSqlFirewallPolicyCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSqlFirewallPolicyCompartment.go.html to see an example of how to use ChangeSqlFirewallPolicyCompartmentRequest.
 type ChangeSqlFirewallPolicyCompartmentRequest struct {
 
 	// The OCID of the SQL Firewall policy resource.

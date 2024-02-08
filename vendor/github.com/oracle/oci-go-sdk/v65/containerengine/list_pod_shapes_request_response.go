@@ -12,6 +12,10 @@ import (
 )
 
 // ListPodShapesRequest wrapper for the ListPodShapes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListPodShapes.go.html to see an example of how to use ListPodShapesRequest.
 type ListPodShapesRequest struct {
 
 	// The OCID of the compartment.

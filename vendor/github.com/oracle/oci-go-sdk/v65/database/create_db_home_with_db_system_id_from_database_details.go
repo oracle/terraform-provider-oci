@@ -30,7 +30,7 @@ type CreateDbHomeWithDbSystemIdFromDatabaseDetails struct {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
@@ -47,9 +47,6 @@ type CreateDbHomeWithDbSystemIdFromDatabaseDetails struct {
 
 	// If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
 	IsDesupportedVersion *bool `mandatory:"false" json:"isDesupportedVersion"`
-
-	// Indicates whether unified autiding is enabled or not. Set to True to enable unified auditing on respective DBHome.
-	IsUnifiedAuditingEnabled *bool `mandatory:"false" json:"isUnifiedAuditingEnabled"`
 }
 
 // GetDisplayName returns DisplayName
@@ -85,11 +82,6 @@ func (m CreateDbHomeWithDbSystemIdFromDatabaseDetails) GetDefinedTags() map[stri
 // GetIsDesupportedVersion returns IsDesupportedVersion
 func (m CreateDbHomeWithDbSystemIdFromDatabaseDetails) GetIsDesupportedVersion() *bool {
 	return m.IsDesupportedVersion
-}
-
-// GetIsUnifiedAuditingEnabled returns IsUnifiedAuditingEnabled
-func (m CreateDbHomeWithDbSystemIdFromDatabaseDetails) GetIsUnifiedAuditingEnabled() *bool {
-	return m.IsUnifiedAuditingEnabled
 }
 
 func (m CreateDbHomeWithDbSystemIdFromDatabaseDetails) String() string {

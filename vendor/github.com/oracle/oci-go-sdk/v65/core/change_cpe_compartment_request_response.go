@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeCpeCompartmentRequest wrapper for the ChangeCpeCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCpeCompartment.go.html to see an example of how to use ChangeCpeCompartmentRequest.
 type ChangeCpeCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CPE.

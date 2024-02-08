@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// ConditionGroup Details for a condition configured on a target.
+// ConditionGroup Condition configured on a target
 type ConditionGroup struct {
 
-	// Compartment OCID associated with condition
+	// compartment associated with condition
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	Condition Condition `mandatory:"true" json:"condition"`

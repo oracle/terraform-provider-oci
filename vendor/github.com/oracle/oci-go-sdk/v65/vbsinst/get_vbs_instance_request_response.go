@@ -12,6 +12,10 @@ import (
 )
 
 // GetVbsInstanceRequest wrapper for the GetVbsInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vbsinst/GetVbsInstance.go.html to see an example of how to use GetVbsInstanceRequest.
 type GetVbsInstanceRequest struct {
 
 	// unique VbsInstance identifier

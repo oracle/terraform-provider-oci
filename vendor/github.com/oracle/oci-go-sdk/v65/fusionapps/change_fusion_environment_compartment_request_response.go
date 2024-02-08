@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeFusionEnvironmentCompartmentRequest wrapper for the ChangeFusionEnvironmentCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ChangeFusionEnvironmentCompartment.go.html to see an example of how to use ChangeFusionEnvironmentCompartmentRequest.
 type ChangeFusionEnvironmentCompartmentRequest struct {
 
 	// unique FusionEnvironment identifier

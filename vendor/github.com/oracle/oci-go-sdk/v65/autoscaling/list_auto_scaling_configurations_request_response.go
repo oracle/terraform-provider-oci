@@ -12,6 +12,10 @@ import (
 )
 
 // ListAutoScalingConfigurationsRequest wrapper for the ListAutoScalingConfigurations operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/autoscaling/ListAutoScalingConfigurations.go.html to see an example of how to use ListAutoScalingConfigurationsRequest.
 type ListAutoScalingConfigurationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the
@@ -35,10 +39,6 @@ type ListAutoScalingConfigurationsRequest struct {
 	// The field to sort by. You can provide one sort order (`sortOrder`). Default order for
 	// TIMECREATED is descending. Default order for DISPLAYNAME is ascending. The DISPLAYNAME
 	// sort order is case sensitive.
-	// **Note:** In general, some "List" operations (for example, `ListInstances`) let you
-	// optionally filter by availability domain if the scope of the resource type is within a
-	// single availability domain. If you call one of these "List" operations without specifying
-	// an availability domain, the resources are grouped by availability domain, then sorted.
 	SortBy ListAutoScalingConfigurationsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The DISPLAYNAME sort order

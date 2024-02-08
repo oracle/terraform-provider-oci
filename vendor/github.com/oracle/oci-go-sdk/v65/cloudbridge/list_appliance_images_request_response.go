@@ -12,6 +12,10 @@ import (
 )
 
 // ListApplianceImagesRequest wrapper for the ListApplianceImages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListApplianceImages.go.html to see an example of how to use ListApplianceImagesRequest.
 type ListApplianceImagesRequest struct {
 
 	// The ID of the compartment in which to list resources.

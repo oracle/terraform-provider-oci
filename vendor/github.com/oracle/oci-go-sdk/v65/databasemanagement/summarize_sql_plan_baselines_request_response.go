@@ -12,6 +12,10 @@ import (
 )
 
 // SummarizeSqlPlanBaselinesRequest wrapper for the SummarizeSqlPlanBaselines operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeSqlPlanBaselines.go.html to see an example of how to use SummarizeSqlPlanBaselinesRequest.
 type SummarizeSqlPlanBaselinesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

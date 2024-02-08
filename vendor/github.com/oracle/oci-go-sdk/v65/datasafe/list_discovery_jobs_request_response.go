@@ -12,6 +12,10 @@ import (
 )
 
 // ListDiscoveryJobsRequest wrapper for the ListDiscoveryJobs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDiscoveryJobs.go.html to see an example of how to use ListDiscoveryJobsRequest.
 type ListDiscoveryJobsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

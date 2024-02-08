@@ -22,12 +22,6 @@ type CreateContainerHealthCheckDetails interface {
 	// Health check name.
 	GetName() *string
 
-	// If set to true, this health check runs first while other HealthChecks wait for this one to complete.
-	// If this becomes Healthy then other health checks are started.
-	// If it becomes Unhealthy the container is killed.
-	// At max only 1 healthCheck can have this field set to true.
-	GetIsStartupCheck() *bool
-
 	// The initial delay in seconds before start checking container health status.
 	GetInitialDelayInSeconds() *int
 
@@ -51,7 +45,6 @@ type CreateContainerHealthCheckDetails interface {
 type createcontainerhealthcheckdetails struct {
 	JsonData              []byte
 	Name                  *string                               `mandatory:"false" json:"name"`
-	IsStartupCheck        *bool                                 `mandatory:"false" json:"isStartupCheck"`
 	InitialDelayInSeconds *int                                  `mandatory:"false" json:"initialDelayInSeconds"`
 	IntervalInSeconds     *int                                  `mandatory:"false" json:"intervalInSeconds"`
 	FailureThreshold      *int                                  `mandatory:"false" json:"failureThreshold"`
@@ -73,7 +66,6 @@ func (m *createcontainerhealthcheckdetails) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.Name = s.Model.Name
-	m.IsStartupCheck = s.Model.IsStartupCheck
 	m.InitialDelayInSeconds = s.Model.InitialDelayInSeconds
 	m.IntervalInSeconds = s.Model.IntervalInSeconds
 	m.FailureThreshold = s.Model.FailureThreshold
@@ -115,11 +107,6 @@ func (m *createcontainerhealthcheckdetails) UnmarshalPolymorphicJSON(data []byte
 // GetName returns Name
 func (m createcontainerhealthcheckdetails) GetName() *string {
 	return m.Name
-}
-
-// GetIsStartupCheck returns IsStartupCheck
-func (m createcontainerhealthcheckdetails) GetIsStartupCheck() *bool {
-	return m.IsStartupCheck
 }
 
 // GetInitialDelayInSeconds returns InitialDelayInSeconds

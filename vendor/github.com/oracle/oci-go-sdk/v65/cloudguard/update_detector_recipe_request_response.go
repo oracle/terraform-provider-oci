@@ -12,9 +12,13 @@ import (
 )
 
 // UpdateDetectorRecipeRequest wrapper for the UpdateDetectorRecipe operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateDetectorRecipe.go.html to see an example of how to use UpdateDetectorRecipeRequest.
 type UpdateDetectorRecipeRequest struct {
 
-	// Detector recipe OCID
+	// DetectorRecipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
 	// Details for the DetectorRecipe to be updated

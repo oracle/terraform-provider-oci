@@ -12,6 +12,10 @@ import (
 )
 
 // ListSoftwareSourcesRequest wrapper for the ListSoftwareSources operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwareSources.go.html to see an example of how to use ListSoftwareSourcesRequest.
 type ListSoftwareSourcesRequest struct {
 
 	// The OCID of the compartment that contains the resources to list.

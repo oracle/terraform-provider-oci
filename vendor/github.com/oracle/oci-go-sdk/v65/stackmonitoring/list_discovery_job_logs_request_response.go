@@ -12,6 +12,10 @@ import (
 )
 
 // ListDiscoveryJobLogsRequest wrapper for the ListDiscoveryJobLogs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListDiscoveryJobLogs.go.html to see an example of how to use ListDiscoveryJobLogsRequest.
 type ListDiscoveryJobLogsRequest struct {
 
 	// The Discovery Job ID

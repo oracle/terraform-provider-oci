@@ -12,6 +12,10 @@ import (
 )
 
 // CreateExternalPluggableDatabaseRequest wrapper for the CreateExternalPluggableDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateExternalPluggableDatabase.go.html to see an example of how to use CreateExternalPluggableDatabaseRequest.
 type CreateExternalPluggableDatabaseRequest struct {
 
 	// Request to create a new external pluggable database.

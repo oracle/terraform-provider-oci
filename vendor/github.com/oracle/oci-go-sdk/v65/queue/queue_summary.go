@@ -55,9 +55,6 @@ type QueueSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
-	// The list of capabilities enabled on the queue
-	Capabilities []QueueCapabilityEnum `mandatory:"false" json:"capabilities,omitempty"`
 }
 
 func (m QueueSummary) String() string {
@@ -71,12 +68,6 @@ func (m QueueSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingQueueLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetQueueLifecycleStateEnumStringValues(), ",")))
-	}
-
-	for _, val := range m.Capabilities {
-		if _, ok := GetMappingQueueCapabilityEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Capabilities: %s. Supported values are: %s.", val, strings.Join(GetQueueCapabilityEnumStringValues(), ",")))
-		}
 	}
 
 	if len(errMessage) > 0 {

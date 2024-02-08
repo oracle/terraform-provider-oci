@@ -12,6 +12,10 @@ import (
 )
 
 // ResetFusionEnvironmentPasswordRequest wrapper for the ResetFusionEnvironmentPassword operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ResetFusionEnvironmentPassword.go.html to see an example of how to use ResetFusionEnvironmentPasswordRequest.
 type ResetFusionEnvironmentPasswordRequest struct {
 
 	// The information to be updated.

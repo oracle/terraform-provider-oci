@@ -50,10 +50,6 @@ func (m *jobconfigurationdetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 
 	var err error
 	switch m.JobType {
-	case "EMPTY":
-		mm := EmptyJobConfigurationDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DEFAULT":
 		mm := DefaultJobConfigurationDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -86,17 +82,14 @@ type JobConfigurationDetailsJobTypeEnum string
 // Set of constants representing the allowable values for JobConfigurationDetailsJobTypeEnum
 const (
 	JobConfigurationDetailsJobTypeDefault JobConfigurationDetailsJobTypeEnum = "DEFAULT"
-	JobConfigurationDetailsJobTypeEmpty   JobConfigurationDetailsJobTypeEnum = "EMPTY"
 )
 
 var mappingJobConfigurationDetailsJobTypeEnum = map[string]JobConfigurationDetailsJobTypeEnum{
 	"DEFAULT": JobConfigurationDetailsJobTypeDefault,
-	"EMPTY":   JobConfigurationDetailsJobTypeEmpty,
 }
 
 var mappingJobConfigurationDetailsJobTypeEnumLowerCase = map[string]JobConfigurationDetailsJobTypeEnum{
 	"default": JobConfigurationDetailsJobTypeDefault,
-	"empty":   JobConfigurationDetailsJobTypeEmpty,
 }
 
 // GetJobConfigurationDetailsJobTypeEnumValues Enumerates the set of values for JobConfigurationDetailsJobTypeEnum
@@ -112,7 +105,6 @@ func GetJobConfigurationDetailsJobTypeEnumValues() []JobConfigurationDetailsJobT
 func GetJobConfigurationDetailsJobTypeEnumStringValues() []string {
 	return []string{
 		"DEFAULT",
-		"EMPTY",
 	}
 }
 

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// DataSourceSummaryDetails Summary information for a data source of a specified data source type.
+// DataSourceSummaryDetails Summary specific to the data source type.
 type DataSourceSummaryDetails interface {
 }
 

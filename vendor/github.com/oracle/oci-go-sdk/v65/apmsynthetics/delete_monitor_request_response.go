@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteMonitorRequest wrapper for the DeleteMonitor operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteMonitor.go.html to see an example of how to use DeleteMonitorRequest.
 type DeleteMonitorRequest struct {
 
 	// The APM domain ID the request is intended for.

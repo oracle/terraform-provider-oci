@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDedicatedAiClusterRequest wrapper for the CreateDedicatedAiCluster operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/CreateDedicatedAiCluster.go.html to see an example of how to use CreateDedicatedAiClusterRequest.
 type CreateDedicatedAiClusterRequest struct {
 
 	// Details for the new dedicated AI cluster.

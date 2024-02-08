@@ -12,6 +12,10 @@ import (
 )
 
 // GetSecretBundleByNameRequest wrapper for the GetSecretBundleByName operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/secrets/GetSecretBundleByName.go.html to see an example of how to use GetSecretBundleByNameRequest.
 type GetSecretBundleByNameRequest struct {
 
 	// A user-friendly name for the secret. Secret names are unique within a vault. Secret names are case-sensitive.

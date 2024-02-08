@@ -4,10 +4,11 @@
 
 // Email Delivery API
 //
-// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
-// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// API for the Email Delivery service. Use this API to send high-volume, application-generated
+// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//
+// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -38,7 +39,7 @@ type Sender struct {
 	LifecycleState SenderLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The date and time the approved sender was added in "YYYY-MM-ddThh:mmZ"
-	// format with a Z offset, as defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// format with a Z offset, as defined by RFC 3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// The email domain used to assert responsibility for emails sent from this sender.
@@ -53,10 +54,6 @@ type Sender struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Usage of system tag keys. These predefined keys are scoped to namespaces.
-	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Sender) String() string {
@@ -83,33 +80,24 @@ type SenderLifecycleStateEnum string
 
 // Set of constants representing the allowable values for SenderLifecycleStateEnum
 const (
-	SenderLifecycleStateCreating       SenderLifecycleStateEnum = "CREATING"
-	SenderLifecycleStateActive         SenderLifecycleStateEnum = "ACTIVE"
-	SenderLifecycleStateNeedsAttention SenderLifecycleStateEnum = "NEEDS_ATTENTION"
-	SenderLifecycleStateInactive       SenderLifecycleStateEnum = "INACTIVE"
-	SenderLifecycleStateFailed         SenderLifecycleStateEnum = "FAILED"
-	SenderLifecycleStateDeleting       SenderLifecycleStateEnum = "DELETING"
-	SenderLifecycleStateDeleted        SenderLifecycleStateEnum = "DELETED"
+	SenderLifecycleStateCreating SenderLifecycleStateEnum = "CREATING"
+	SenderLifecycleStateActive   SenderLifecycleStateEnum = "ACTIVE"
+	SenderLifecycleStateDeleting SenderLifecycleStateEnum = "DELETING"
+	SenderLifecycleStateDeleted  SenderLifecycleStateEnum = "DELETED"
 )
 
 var mappingSenderLifecycleStateEnum = map[string]SenderLifecycleStateEnum{
-	"CREATING":        SenderLifecycleStateCreating,
-	"ACTIVE":          SenderLifecycleStateActive,
-	"NEEDS_ATTENTION": SenderLifecycleStateNeedsAttention,
-	"INACTIVE":        SenderLifecycleStateInactive,
-	"FAILED":          SenderLifecycleStateFailed,
-	"DELETING":        SenderLifecycleStateDeleting,
-	"DELETED":         SenderLifecycleStateDeleted,
+	"CREATING": SenderLifecycleStateCreating,
+	"ACTIVE":   SenderLifecycleStateActive,
+	"DELETING": SenderLifecycleStateDeleting,
+	"DELETED":  SenderLifecycleStateDeleted,
 }
 
 var mappingSenderLifecycleStateEnumLowerCase = map[string]SenderLifecycleStateEnum{
-	"creating":        SenderLifecycleStateCreating,
-	"active":          SenderLifecycleStateActive,
-	"needs_attention": SenderLifecycleStateNeedsAttention,
-	"inactive":        SenderLifecycleStateInactive,
-	"failed":          SenderLifecycleStateFailed,
-	"deleting":        SenderLifecycleStateDeleting,
-	"deleted":         SenderLifecycleStateDeleted,
+	"creating": SenderLifecycleStateCreating,
+	"active":   SenderLifecycleStateActive,
+	"deleting": SenderLifecycleStateDeleting,
+	"deleted":  SenderLifecycleStateDeleted,
 }
 
 // GetSenderLifecycleStateEnumValues Enumerates the set of values for SenderLifecycleStateEnum
@@ -126,9 +114,6 @@ func GetSenderLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
-		"NEEDS_ATTENTION",
-		"INACTIVE",
-		"FAILED",
 		"DELETING",
 		"DELETED",
 	}

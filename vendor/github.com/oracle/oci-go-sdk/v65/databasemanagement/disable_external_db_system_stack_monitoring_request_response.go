@@ -12,6 +12,10 @@ import (
 )
 
 // DisableExternalDbSystemStackMonitoringRequest wrapper for the DisableExternalDbSystemStackMonitoring operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalDbSystemStackMonitoring.go.html to see an example of how to use DisableExternalDbSystemStackMonitoringRequest.
 type DisableExternalDbSystemStackMonitoringRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.

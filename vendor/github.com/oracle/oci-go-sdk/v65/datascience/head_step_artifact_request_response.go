@@ -12,6 +12,10 @@ import (
 )
 
 // HeadStepArtifactRequest wrapper for the HeadStepArtifact operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/HeadStepArtifact.go.html to see an example of how to use HeadStepArtifactRequest.
 type HeadStepArtifactRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the pipeline.

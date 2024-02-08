@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteScheduledJobRequest wrapper for the DeleteScheduledJob operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteScheduledJob.go.html to see an example of how to use DeleteScheduledJobRequest.
 type DeleteScheduledJobRequest struct {
 
 	// The OCID of the scheduled job.

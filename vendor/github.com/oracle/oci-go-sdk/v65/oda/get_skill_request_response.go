@@ -12,6 +12,10 @@ import (
 )
 
 // GetSkillRequest wrapper for the GetSkill operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetSkill.go.html to see an example of how to use GetSkillRequest.
 type GetSkillRequest struct {
 
 	// Unique Digital Assistant instance identifier.

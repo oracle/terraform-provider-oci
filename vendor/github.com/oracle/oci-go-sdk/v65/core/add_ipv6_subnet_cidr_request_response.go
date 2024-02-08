@@ -12,9 +12,13 @@ import (
 )
 
 // AddIpv6SubnetCidrRequest wrapper for the AddIpv6SubnetCidr operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AddIpv6SubnetCidr.go.html to see an example of how to use AddIpv6SubnetCidrRequest.
 type AddIpv6SubnetCidrRequest struct {
 
-	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"true" contributesTo:"path" name:"subnetId"`
 
 	// Details object for adding an IPv6 prefix to a subnet.

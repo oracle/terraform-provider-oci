@@ -12,9 +12,13 @@ import (
 )
 
 // ChangeSubnetCompartmentRequest wrapper for the ChangeSubnetCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeSubnetCompartment.go.html to see an example of how to use ChangeSubnetCompartmentRequest.
 type ChangeSubnetCompartmentRequest struct {
 
-	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"true" contributesTo:"path" name:"subnetId"`
 
 	// Request to change the compartment of a given subnet.

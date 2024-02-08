@@ -12,6 +12,10 @@ import (
 )
 
 // GetIdentityPropagationTrustRequest wrapper for the GetIdentityPropagationTrust operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetIdentityPropagationTrust.go.html to see an example of how to use GetIdentityPropagationTrustRequest.
 type GetIdentityPropagationTrustRequest struct {
 
 	// ID of the resource

@@ -12,6 +12,10 @@ import (
 )
 
 // ListPeerTargetDatabasesRequest wrapper for the ListPeerTargetDatabases operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListPeerTargetDatabases.go.html to see an example of how to use ListPeerTargetDatabasesRequest.
 type ListPeerTargetDatabasesRequest struct {
 
 	// The OCID of the Data Safe target database.

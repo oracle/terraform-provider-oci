@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// RequestSummarizedTrendResourceRiskScoresDetails Details for requesting summarized trend risk scores.
+// RequestSummarizedTrendResourceRiskScoresDetails ResourceRiskScores filter.
 type RequestSummarizedTrendResourceRiskScoresDetails struct {
 
-	// The filter type
+	// The filter type.
 	Filter ResourceRiskScoreDimensionEnum `mandatory:"true" json:"filter"`
 
-	// ID to be passed in to filter the risk scores
+	// Id to be passed in to filter the risk scores.
 	FilterId *string `mandatory:"true" json:"filterId"`
 }
 

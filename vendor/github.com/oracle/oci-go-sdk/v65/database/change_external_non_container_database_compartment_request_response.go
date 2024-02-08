@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeExternalNonContainerDatabaseCompartmentRequest wrapper for the ChangeExternalNonContainerDatabaseCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeExternalNonContainerDatabaseCompartment.go.html to see an example of how to use ChangeExternalNonContainerDatabaseCompartmentRequest.
 type ChangeExternalNonContainerDatabaseCompartmentRequest struct {
 
 	// Request to move the external non-container database to a different compartment.

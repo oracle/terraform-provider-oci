@@ -58,9 +58,6 @@ type CreateContainerInstanceDetails struct {
 	// Container restart policy
 	ContainerRestartPolicy ContainerInstanceContainerRestartPolicyEnum `mandatory:"false" json:"containerRestartPolicy,omitempty"`
 
-	// Customer's streaming OCID which is used for receiving a message whenever container health check status changes.
-	StreamId *string `mandatory:"false" json:"streamId"`
-
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -99,7 +96,6 @@ func (m *CreateContainerInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		GracefulShutdownTimeoutInSeconds *int64                                      `json:"gracefulShutdownTimeoutInSeconds"`
 		ImagePullSecrets                 []createimagepullsecretdetails              `json:"imagePullSecrets"`
 		ContainerRestartPolicy           ContainerInstanceContainerRestartPolicyEnum `json:"containerRestartPolicy"`
-		StreamId                         *string                                     `json:"streamId"`
 		FreeformTags                     map[string]string                           `json:"freeformTags"`
 		DefinedTags                      map[string]map[string]interface{}           `json:"definedTags"`
 		CompartmentId                    *string                                     `json:"compartmentId"`
@@ -148,8 +144,6 @@ func (m *CreateContainerInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.ContainerRestartPolicy = model.ContainerRestartPolicy
-
-	m.StreamId = model.StreamId
 
 	m.FreeformTags = model.FreeformTags
 

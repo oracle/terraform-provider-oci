@@ -12,6 +12,10 @@ import (
 )
 
 // ModifyGlobalSettingsRequest wrapper for the ModifyGlobalSettings operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ModifyGlobalSettings.go.html to see an example of how to use ModifyGlobalSettingsRequest.
 type ModifyGlobalSettingsRequest struct {
 
 	// The details used to update global settings in Data Safe.

@@ -41,9 +41,6 @@ type CreateApiDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
-
 	// API Specification content in json or yaml format
 	Content *string `mandatory:"false" json:"content"`
 }

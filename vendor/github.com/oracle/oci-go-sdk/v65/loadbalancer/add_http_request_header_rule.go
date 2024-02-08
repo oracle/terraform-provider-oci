@@ -17,8 +17,7 @@ import (
 	"strings"
 )
 
-// AddHttpRequestHeaderRule An object that represents the action of adding a header to a request. Optionally rule
-// conditions can be specified to add header conditionally.`SOURCE_IP_ADDRESS` and `REAL_IP_ADDRESS` are the only rule condition supported.
+// AddHttpRequestHeaderRule An object that represents the action of adding a header to a request.
 // This rule applies only to HTTP listeners.
 // **NOTES:**
 //   - If a matching header already exists in the request, the system removes all of its occurrences, and then adds the
@@ -37,8 +36,6 @@ type AddHttpRequestHeaderRule struct {
 	// *  value cannot contain patterns like `{variable_name}`. They are reserved for future extensions. Currently, such values are invalid.
 	// Example: `example_value`
 	Value *string `mandatory:"true" json:"value"`
-
-	Conditions []RuleCondition `mandatory:"false" json:"conditions"`
 }
 
 func (m AddHttpRequestHeaderRule) String() string {
@@ -69,36 +66,4 @@ func (m AddHttpRequestHeaderRule) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *AddHttpRequestHeaderRule) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Conditions []rulecondition `json:"conditions"`
-		Header     *string         `json:"header"`
-		Value      *string         `json:"value"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Conditions = make([]RuleCondition, len(model.Conditions))
-	for i, n := range model.Conditions {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Conditions[i] = nn.(RuleCondition)
-		} else {
-			m.Conditions[i] = nil
-		}
-	}
-	m.Header = model.Header
-
-	m.Value = model.Value
-
-	return
 }

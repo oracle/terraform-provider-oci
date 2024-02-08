@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// SimpleCondition Information for a simple condition.
+// SimpleCondition Simple Condition object.
 type SimpleCondition struct {
 
-	// Parameter key
+	// parameter Key
 	Parameter *string `mandatory:"false" json:"parameter"`
 
-	// Value of operator in condition
+	// type of operator
 	Value *string `mandatory:"false" json:"value"`
 
-	// Type of operator
+	// type of operator
 	Operator OperatorTypeEnum `mandatory:"false" json:"operator,omitempty"`
 
-	// Type of value in condition
+	// type of value
 	ValueType ConditionValueTypeEnum `mandatory:"false" json:"valueType,omitempty"`
 }
 

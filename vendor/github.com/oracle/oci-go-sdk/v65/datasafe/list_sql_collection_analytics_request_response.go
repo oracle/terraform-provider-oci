@@ -12,6 +12,10 @@ import (
 )
 
 // ListSqlCollectionAnalyticsRequest wrapper for the ListSqlCollectionAnalytics operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollectionAnalytics.go.html to see an example of how to use ListSqlCollectionAnalyticsRequest.
 type ListSqlCollectionAnalyticsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

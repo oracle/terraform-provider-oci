@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// DetectorCollection The collection of detector summaries.
+// DetectorCollection Summary of the Detector.
 type DetectorCollection struct {
 
-	// List of DetectorSummary resources
+	// List of DetectorSummary
 	Items []DetectorSummary `mandatory:"true" json:"items"`
 }
 

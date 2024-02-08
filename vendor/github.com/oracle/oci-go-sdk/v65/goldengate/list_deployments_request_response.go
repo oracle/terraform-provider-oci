@@ -12,6 +12,10 @@ import (
 )
 
 // ListDeploymentsRequest wrapper for the ListDeployments operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeployments.go.html to see an example of how to use ListDeploymentsRequest.
 type ListDeploymentsRequest struct {
 
 	// The OCID of the compartment that contains the work request. Work requests should be scoped

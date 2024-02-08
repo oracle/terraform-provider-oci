@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ResponderRecipeResponderRuleCollection The collection of responder rule summaries for a responder recipe.
+// ResponderRecipeResponderRuleCollection Summary of the ResponderRule within ResponderRecipe.
 type ResponderRecipeResponderRuleCollection struct {
 
-	// List of ResponderRecipeResponderRuleSummary resources
+	// List of ResponderRecipeResponderRuleSummary
 	Items []ResponderRecipeResponderRuleSummary `mandatory:"true" json:"items"`
 }
 

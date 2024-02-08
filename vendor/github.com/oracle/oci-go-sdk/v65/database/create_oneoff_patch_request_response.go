@@ -12,6 +12,10 @@ import (
 )
 
 // CreateOneoffPatchRequest wrapper for the CreateOneoffPatch operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateOneoffPatch.go.html to see an example of how to use CreateOneoffPatchRequest.
 type CreateOneoffPatchRequest struct {
 
 	// Request to create a one-off patch to download.

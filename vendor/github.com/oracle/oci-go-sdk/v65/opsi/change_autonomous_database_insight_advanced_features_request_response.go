@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest wrapper for the ChangeAutonomousDatabaseInsightAdvancedFeatures operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest.
 type ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest struct {
 
 	// Details for the advanced features of Autonomous Database in Operations Insights.

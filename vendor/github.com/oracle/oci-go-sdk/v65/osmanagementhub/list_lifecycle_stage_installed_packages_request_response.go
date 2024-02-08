@@ -12,6 +12,10 @@ import (
 )
 
 // ListLifecycleStageInstalledPackagesRequest wrapper for the ListLifecycleStageInstalledPackages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleStageInstalledPackages.go.html to see an example of how to use ListLifecycleStageInstalledPackagesRequest.
 type ListLifecycleStageInstalledPackagesRequest struct {
 
 	// The OCID of the lifecycle stage.

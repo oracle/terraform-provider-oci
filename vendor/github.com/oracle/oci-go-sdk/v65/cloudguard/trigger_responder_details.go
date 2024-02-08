@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// TriggerResponderDetails The responder triggering details to be pushed to responder rules.
+// TriggerResponderDetails The Responder details to be pushed to responder
 type TriggerResponderDetails struct {
 
-	// Unique identifier for the responder rule
+	// ResponderRule ID
 	ResponderRuleId *string `mandatory:"true" json:"responderRuleId"`
 
-	// List of responder rule configurations
+	// ResponderRule configurations
 	Configurations []ResponderConfiguration `mandatory:"false" json:"configurations"`
 }
 

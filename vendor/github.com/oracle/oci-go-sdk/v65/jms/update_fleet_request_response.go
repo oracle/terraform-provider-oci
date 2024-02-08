@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateFleetRequest wrapper for the UpdateFleet operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateFleet.go.html to see an example of how to use UpdateFleetRequest.
 type UpdateFleetRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

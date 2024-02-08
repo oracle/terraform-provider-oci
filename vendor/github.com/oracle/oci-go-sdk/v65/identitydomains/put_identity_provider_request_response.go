@@ -12,6 +12,10 @@ import (
 )
 
 // PutIdentityProviderRequest wrapper for the PutIdentityProvider operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutIdentityProvider.go.html to see an example of how to use PutIdentityProviderRequest.
 type PutIdentityProviderRequest struct {
 
 	// ID of the resource

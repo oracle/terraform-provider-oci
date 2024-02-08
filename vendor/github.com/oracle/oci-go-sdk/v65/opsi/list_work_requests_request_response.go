@@ -12,6 +12,10 @@ import (
 )
 
 // ListWorkRequestsRequest wrapper for the ListWorkRequests operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
 type ListWorkRequestsRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

@@ -12,6 +12,10 @@ import (
 )
 
 // SearchAccountMgmtInfosRequest wrapper for the SearchAccountMgmtInfos operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/SearchAccountMgmtInfos.go.html to see an example of how to use SearchAccountMgmtInfosRequest.
 type SearchAccountMgmtInfosRequest struct {
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.

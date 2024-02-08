@@ -12,6 +12,10 @@ import (
 )
 
 // PromoteSoftwareSourceToLifecycleStageRequest wrapper for the PromoteSoftwareSourceToLifecycleStage operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/PromoteSoftwareSourceToLifecycleStage.go.html to see an example of how to use PromoteSoftwareSourceToLifecycleStageRequest.
 type PromoteSoftwareSourceToLifecycleStageRequest struct {
 
 	// The OCID of the lifecycle stage.

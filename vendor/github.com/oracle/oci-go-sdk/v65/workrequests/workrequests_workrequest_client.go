@@ -4,11 +4,11 @@
 
 // Work Requests API
 //
-// Many of the API operations that you use to create and configure cloud resources do not take effect
+// Many of the API operations that you use to create and configure Compute resources do not take effect
 // immediately. In these cases, the operation spawns an asynchronous workflow to fulfill the request.
 // Work requests provide visibility into the status of these in-progress, long-running workflows.
 // For more information about work requests and the operations that spawn work requests, see
-// Work Requests (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/workrequestoverview.htm).
+// Viewing the State of a Compute Work Request (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/viewingworkrequestcompute.htm).
 //
 
 package workrequests
@@ -71,7 +71,7 @@ func newWorkRequestClientFromBaseClient(baseClient common.BaseClient, configProv
 
 // SetRegion overrides the region of this client.
 func (client *WorkRequestClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("iaas", "https://iaas.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("workrequests", "https://iaas.{region}.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -96,6 +96,10 @@ func (client *WorkRequestClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // GetWorkRequest Gets the details of a work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/workrequests/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client WorkRequestClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -149,6 +153,10 @@ func (client WorkRequestClient) getWorkRequest(ctx context.Context, request comm
 }
 
 // ListWorkRequestErrors Gets the errors for a work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/workrequests/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client WorkRequestClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -202,6 +210,10 @@ func (client WorkRequestClient) listWorkRequestErrors(ctx context.Context, reque
 }
 
 // ListWorkRequestLogs Gets the logs for a work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/workrequests/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client WorkRequestClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -255,6 +267,10 @@ func (client WorkRequestClient) listWorkRequestLogs(ctx context.Context, request
 }
 
 // ListWorkRequests Lists the work requests in a compartment or for a specified resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/workrequests/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client WorkRequestClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

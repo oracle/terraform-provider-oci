@@ -92,6 +92,10 @@ func (client *DataSafeClient) ConfigurationProvider() *common.ConfigurationProvi
 }
 
 // ActivateTargetDatabase Reactivates a previously deactivated Data Safe target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ActivateTargetDatabase.go.html to see an example of how to use ActivateTargetDatabase API.
 // A default retry strategy applies to this operation ActivateTargetDatabase()
 func (client DataSafeClient) ActivateTargetDatabase(ctx context.Context, request ActivateTargetDatabaseRequest) (response ActivateTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -154,6 +158,10 @@ func (client DataSafeClient) activateTargetDatabase(ctx context.Context, request
 // automatically pulls all the sensitive columns and their relationships from the sensitive
 // data model and uses this information to create columns in the masking policy. It also assigns
 // default masking formats to these columns based on the associated sensitive types.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/AddMaskingColumnsFromSdm.go.html to see an example of how to use AddMaskingColumnsFromSdm API.
 // A default retry strategy applies to this operation AddMaskingColumnsFromSdm()
 func (client DataSafeClient) AddMaskingColumnsFromSdm(ctx context.Context, request AddMaskingColumnsFromSdmRequest) (response AddMaskingColumnsFromSdmResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -208,6 +216,10 @@ func (client DataSafeClient) addMaskingColumnsFromSdm(ctx context.Context, reque
 }
 
 // AlertsUpdate Updates alerts in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/AlertsUpdate.go.html to see an example of how to use AlertsUpdate API.
 // A default retry strategy applies to this operation AlertsUpdate()
 func (client DataSafeClient) AlertsUpdate(ctx context.Context, request AlertsUpdateRequest) (response AlertsUpdateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -270,6 +282,10 @@ func (client DataSafeClient) alertsUpdate(ctx context.Context, request common.OC
 // of discovery results is used for processing them. You should first use PatchDiscoveryJobResults to set the plannedAction
 // attribute of the discovery results you want to process. ApplyDiscoveryJobResults automatically reads the plannedAction
 // attribute and updates the sensitive data model to reflect the actions you planned.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ApplyDiscoveryJobResults.go.html to see an example of how to use ApplyDiscoveryJobResults API.
 // A default retry strategy applies to this operation ApplyDiscoveryJobResults()
 func (client DataSafeClient) ApplyDiscoveryJobResults(ctx context.Context, request ApplyDiscoveryJobResultsRequest) (response ApplyDiscoveryJobResultsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -329,6 +345,10 @@ func (client DataSafeClient) applyDiscoveryJobResults(ctx context.Context, reque
 // attribute and updates the masking policy to reflect the actions you planned. If the sdmMaskingPolicydifferenceId is not passed, the
 // latest sdmMaskingPolicydifference is used. Note that if the masking policy associated with the SdmMaskingPolicyDifference used for this
 // operation is not associated with the original SDM anymore, this operation won't be allowed.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ApplySdmMaskingPolicyDifference.go.html to see an example of how to use ApplySdmMaskingPolicyDifference API.
 // A default retry strategy applies to this operation ApplySdmMaskingPolicyDifference()
 func (client DataSafeClient) ApplySdmMaskingPolicyDifference(ctx context.Context, request ApplySdmMaskingPolicyDifferenceRequest) (response ApplySdmMaskingPolicyDifferenceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -388,6 +408,10 @@ func (client DataSafeClient) applySdmMaskingPolicyDifference(ctx context.Context
 }
 
 // CalculateAuditVolumeAvailable Calculates the volume of audit events available on the target database to be collected. Measurable up to the defined retention period of the audit target resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CalculateAuditVolumeAvailable.go.html to see an example of how to use CalculateAuditVolumeAvailable API.
 // A default retry strategy applies to this operation CalculateAuditVolumeAvailable()
 func (client DataSafeClient) CalculateAuditVolumeAvailable(ctx context.Context, request CalculateAuditVolumeAvailableRequest) (response CalculateAuditVolumeAvailableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -447,6 +471,10 @@ func (client DataSafeClient) calculateAuditVolumeAvailable(ctx context.Context, 
 }
 
 // CalculateAuditVolumeCollected Calculates the volume of audit events collected by data safe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CalculateAuditVolumeCollected.go.html to see an example of how to use CalculateAuditVolumeCollected API.
 // A default retry strategy applies to this operation CalculateAuditVolumeCollected()
 func (client DataSafeClient) CalculateAuditVolumeCollected(ctx context.Context, request CalculateAuditVolumeCollectedRequest) (response CalculateAuditVolumeCollectedResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -506,6 +534,10 @@ func (client DataSafeClient) calculateAuditVolumeCollected(ctx context.Context, 
 }
 
 // CancelWorkRequest Cancel the specified work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client DataSafeClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -565,6 +597,10 @@ func (client DataSafeClient) cancelWorkRequest(ctx context.Context, request comm
 }
 
 // ChangeAlertCompartment Moves the specified alert into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeAlertCompartment.go.html to see an example of how to use ChangeAlertCompartment API.
 // A default retry strategy applies to this operation ChangeAlertCompartment()
 func (client DataSafeClient) ChangeAlertCompartment(ctx context.Context, request ChangeAlertCompartmentRequest) (response ChangeAlertCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -623,66 +659,11 @@ func (client DataSafeClient) changeAlertCompartment(ctx context.Context, request
 	return response, err
 }
 
-// ChangeAlertPolicyCompartment Moves the specified alert policy into a different compartment.
-// A default retry strategy applies to this operation ChangeAlertPolicyCompartment()
-func (client DataSafeClient) ChangeAlertPolicyCompartment(ctx context.Context, request ChangeAlertPolicyCompartmentRequest) (response ChangeAlertPolicyCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeAlertPolicyCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeAlertPolicyCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeAlertPolicyCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeAlertPolicyCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeAlertPolicyCompartmentResponse")
-	}
-	return
-}
-
-// changeAlertPolicyCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) changeAlertPolicyCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alertPolicies/{alertPolicyId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeAlertPolicyCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicy/ChangeAlertPolicyCompartment"
-		err = common.PostProcessServiceError(err, "DataSafe", "ChangeAlertPolicyCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeAuditArchiveRetrievalCompartment Moves the archive retreival to the specified compartment. When provided, if-Match is checked against ETag value of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeAuditArchiveRetrievalCompartment.go.html to see an example of how to use ChangeAuditArchiveRetrievalCompartment API.
 // A default retry strategy applies to this operation ChangeAuditArchiveRetrievalCompartment()
 func (client DataSafeClient) ChangeAuditArchiveRetrievalCompartment(ctx context.Context, request ChangeAuditArchiveRetrievalCompartmentRequest) (response ChangeAuditArchiveRetrievalCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -742,6 +723,10 @@ func (client DataSafeClient) changeAuditArchiveRetrievalCompartment(ctx context.
 }
 
 // ChangeAuditPolicyCompartment Moves the specified audit policy and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeAuditPolicyCompartment.go.html to see an example of how to use ChangeAuditPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeAuditPolicyCompartment()
 func (client DataSafeClient) ChangeAuditPolicyCompartment(ctx context.Context, request ChangeAuditPolicyCompartmentRequest) (response ChangeAuditPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -801,6 +786,10 @@ func (client DataSafeClient) changeAuditPolicyCompartment(ctx context.Context, r
 }
 
 // ChangeAuditProfileCompartment Moves the specified audit profile and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeAuditProfileCompartment.go.html to see an example of how to use ChangeAuditProfileCompartment API.
 // A default retry strategy applies to this operation ChangeAuditProfileCompartment()
 func (client DataSafeClient) ChangeAuditProfileCompartment(ctx context.Context, request ChangeAuditProfileCompartmentRequest) (response ChangeAuditProfileCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -860,6 +849,10 @@ func (client DataSafeClient) changeAuditProfileCompartment(ctx context.Context, 
 }
 
 // ChangeDataSafePrivateEndpointCompartment Moves the Data Safe private endpoint and its dependent resources to the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeDataSafePrivateEndpointCompartment.go.html to see an example of how to use ChangeDataSafePrivateEndpointCompartment API.
 // A default retry strategy applies to this operation ChangeDataSafePrivateEndpointCompartment()
 func (client DataSafeClient) ChangeDataSafePrivateEndpointCompartment(ctx context.Context, request ChangeDataSafePrivateEndpointCompartmentRequest) (response ChangeDataSafePrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -914,6 +907,10 @@ func (client DataSafeClient) changeDataSafePrivateEndpointCompartment(ctx contex
 }
 
 // ChangeDatabaseSecurityConfigCompartment Moves the specified database security configuration and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeDatabaseSecurityConfigCompartment.go.html to see an example of how to use ChangeDatabaseSecurityConfigCompartment API.
 // A default retry strategy applies to this operation ChangeDatabaseSecurityConfigCompartment()
 func (client DataSafeClient) ChangeDatabaseSecurityConfigCompartment(ctx context.Context, request ChangeDatabaseSecurityConfigCompartmentRequest) (response ChangeDatabaseSecurityConfigCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -973,6 +970,10 @@ func (client DataSafeClient) changeDatabaseSecurityConfigCompartment(ctx context
 }
 
 // ChangeDiscoveryJobCompartment Moves the specified discovery job and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeDiscoveryJobCompartment.go.html to see an example of how to use ChangeDiscoveryJobCompartment API.
 // A default retry strategy applies to this operation ChangeDiscoveryJobCompartment()
 func (client DataSafeClient) ChangeDiscoveryJobCompartment(ctx context.Context, request ChangeDiscoveryJobCompartmentRequest) (response ChangeDiscoveryJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1032,6 +1033,10 @@ func (client DataSafeClient) changeDiscoveryJobCompartment(ctx context.Context, 
 }
 
 // ChangeLibraryMaskingFormatCompartment Moves the specified library masking format into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeLibraryMaskingFormatCompartment.go.html to see an example of how to use ChangeLibraryMaskingFormatCompartment API.
 // A default retry strategy applies to this operation ChangeLibraryMaskingFormatCompartment()
 func (client DataSafeClient) ChangeLibraryMaskingFormatCompartment(ctx context.Context, request ChangeLibraryMaskingFormatCompartmentRequest) (response ChangeLibraryMaskingFormatCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1091,6 +1096,10 @@ func (client DataSafeClient) changeLibraryMaskingFormatCompartment(ctx context.C
 }
 
 // ChangeMaskingPolicyCompartment Moves the specified masking policy and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeMaskingPolicyCompartment.go.html to see an example of how to use ChangeMaskingPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeMaskingPolicyCompartment()
 func (client DataSafeClient) ChangeMaskingPolicyCompartment(ctx context.Context, request ChangeMaskingPolicyCompartmentRequest) (response ChangeMaskingPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1150,6 +1159,10 @@ func (client DataSafeClient) changeMaskingPolicyCompartment(ctx context.Context,
 }
 
 // ChangeOnPremConnectorCompartment Moves the specified on-premises connector into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeOnPremConnectorCompartment.go.html to see an example of how to use ChangeOnPremConnectorCompartment API.
 // A default retry strategy applies to this operation ChangeOnPremConnectorCompartment()
 func (client DataSafeClient) ChangeOnPremConnectorCompartment(ctx context.Context, request ChangeOnPremConnectorCompartmentRequest) (response ChangeOnPremConnectorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1209,6 +1222,10 @@ func (client DataSafeClient) changeOnPremConnectorCompartment(ctx context.Contex
 }
 
 // ChangeReportCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeReportCompartment.go.html to see an example of how to use ChangeReportCompartment API.
 // A default retry strategy applies to this operation ChangeReportCompartment()
 func (client DataSafeClient) ChangeReportCompartment(ctx context.Context, request ChangeReportCompartmentRequest) (response ChangeReportCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1268,6 +1285,10 @@ func (client DataSafeClient) changeReportCompartment(ctx context.Context, reques
 }
 
 // ChangeReportDefinitionCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeReportDefinitionCompartment.go.html to see an example of how to use ChangeReportDefinitionCompartment API.
 // A default retry strategy applies to this operation ChangeReportDefinitionCompartment()
 func (client DataSafeClient) ChangeReportDefinitionCompartment(ctx context.Context, request ChangeReportDefinitionCompartmentRequest) (response ChangeReportDefinitionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1327,6 +1348,10 @@ func (client DataSafeClient) changeReportDefinitionCompartment(ctx context.Conte
 }
 
 // ChangeRetention Change the online and offline months .
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeRetention.go.html to see an example of how to use ChangeRetention API.
 // A default retry strategy applies to this operation ChangeRetention()
 func (client DataSafeClient) ChangeRetention(ctx context.Context, request ChangeRetentionRequest) (response ChangeRetentionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1386,6 +1411,10 @@ func (client DataSafeClient) changeRetention(ctx context.Context, request common
 }
 
 // ChangeSdmMaskingPolicyDifferenceCompartment Moves the specified SDM masking policy difference into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSdmMaskingPolicyDifferenceCompartment.go.html to see an example of how to use ChangeSdmMaskingPolicyDifferenceCompartment API.
 // A default retry strategy applies to this operation ChangeSdmMaskingPolicyDifferenceCompartment()
 func (client DataSafeClient) ChangeSdmMaskingPolicyDifferenceCompartment(ctx context.Context, request ChangeSdmMaskingPolicyDifferenceCompartmentRequest) (response ChangeSdmMaskingPolicyDifferenceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1447,6 +1476,10 @@ func (client DataSafeClient) changeSdmMaskingPolicyDifferenceCompartment(ctx con
 // ChangeSecurityAssessmentCompartment Moves the specified saved security assessment or future scheduled assessments into a different compartment.
 // To start, call first the operation ListSecurityAssessments with filters "type = save_schedule". This returns the scheduleAssessmentId. Then, call this changeCompartment with the scheduleAssessmentId.
 // The existing saved security assessments created due to the schedule are not moved. However, all new saves will be associated with the new compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityAssessmentCompartment.go.html to see an example of how to use ChangeSecurityAssessmentCompartment API.
 // A default retry strategy applies to this operation ChangeSecurityAssessmentCompartment()
 func (client DataSafeClient) ChangeSecurityAssessmentCompartment(ctx context.Context, request ChangeSecurityAssessmentCompartmentRequest) (response ChangeSecurityAssessmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1506,6 +1539,10 @@ func (client DataSafeClient) changeSecurityAssessmentCompartment(ctx context.Con
 }
 
 // ChangeSecurityPolicyCompartment Moves the specified security policy and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityPolicyCompartment.go.html to see an example of how to use ChangeSecurityPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeSecurityPolicyCompartment()
 func (client DataSafeClient) ChangeSecurityPolicyCompartment(ctx context.Context, request ChangeSecurityPolicyCompartmentRequest) (response ChangeSecurityPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1565,6 +1602,10 @@ func (client DataSafeClient) changeSecurityPolicyCompartment(ctx context.Context
 }
 
 // ChangeSecurityPolicyDeploymentCompartment Moves the specified security policy deployment and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityPolicyDeploymentCompartment.go.html to see an example of how to use ChangeSecurityPolicyDeploymentCompartment API.
 // A default retry strategy applies to this operation ChangeSecurityPolicyDeploymentCompartment()
 func (client DataSafeClient) ChangeSecurityPolicyDeploymentCompartment(ctx context.Context, request ChangeSecurityPolicyDeploymentCompartmentRequest) (response ChangeSecurityPolicyDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1624,6 +1665,10 @@ func (client DataSafeClient) changeSecurityPolicyDeploymentCompartment(ctx conte
 }
 
 // ChangeSensitiveDataModelCompartment Moves the specified sensitive data model and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSensitiveDataModelCompartment.go.html to see an example of how to use ChangeSensitiveDataModelCompartment API.
 // A default retry strategy applies to this operation ChangeSensitiveDataModelCompartment()
 func (client DataSafeClient) ChangeSensitiveDataModelCompartment(ctx context.Context, request ChangeSensitiveDataModelCompartmentRequest) (response ChangeSensitiveDataModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1683,6 +1728,10 @@ func (client DataSafeClient) changeSensitiveDataModelCompartment(ctx context.Con
 }
 
 // ChangeSensitiveTypeCompartment Moves the specified sensitive type into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSensitiveTypeCompartment.go.html to see an example of how to use ChangeSensitiveTypeCompartment API.
 // A default retry strategy applies to this operation ChangeSensitiveTypeCompartment()
 func (client DataSafeClient) ChangeSensitiveTypeCompartment(ctx context.Context, request ChangeSensitiveTypeCompartmentRequest) (response ChangeSensitiveTypeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1742,6 +1791,10 @@ func (client DataSafeClient) changeSensitiveTypeCompartment(ctx context.Context,
 }
 
 // ChangeSqlCollectionCompartment Moves the specified SQL collection and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSqlCollectionCompartment.go.html to see an example of how to use ChangeSqlCollectionCompartment API.
 // A default retry strategy applies to this operation ChangeSqlCollectionCompartment()
 func (client DataSafeClient) ChangeSqlCollectionCompartment(ctx context.Context, request ChangeSqlCollectionCompartmentRequest) (response ChangeSqlCollectionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1801,6 +1854,10 @@ func (client DataSafeClient) changeSqlCollectionCompartment(ctx context.Context,
 }
 
 // ChangeSqlFirewallPolicyCompartment Moves the specified SQL Firewall policy and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSqlFirewallPolicyCompartment.go.html to see an example of how to use ChangeSqlFirewallPolicyCompartment API.
 // A default retry strategy applies to this operation ChangeSqlFirewallPolicyCompartment()
 func (client DataSafeClient) ChangeSqlFirewallPolicyCompartment(ctx context.Context, request ChangeSqlFirewallPolicyCompartmentRequest) (response ChangeSqlFirewallPolicyCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1860,6 +1917,10 @@ func (client DataSafeClient) changeSqlFirewallPolicyCompartment(ctx context.Cont
 }
 
 // ChangeTargetAlertPolicyAssociationCompartment Moves the specified target-alert policy Association into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeTargetAlertPolicyAssociationCompartment.go.html to see an example of how to use ChangeTargetAlertPolicyAssociationCompartment API.
 // A default retry strategy applies to this operation ChangeTargetAlertPolicyAssociationCompartment()
 func (client DataSafeClient) ChangeTargetAlertPolicyAssociationCompartment(ctx context.Context, request ChangeTargetAlertPolicyAssociationCompartmentRequest) (response ChangeTargetAlertPolicyAssociationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1919,6 +1980,10 @@ func (client DataSafeClient) changeTargetAlertPolicyAssociationCompartment(ctx c
 }
 
 // ChangeTargetDatabaseCompartment Moves the Data Safe target database to the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeTargetDatabaseCompartment.go.html to see an example of how to use ChangeTargetDatabaseCompartment API.
 // A default retry strategy applies to this operation ChangeTargetDatabaseCompartment()
 func (client DataSafeClient) ChangeTargetDatabaseCompartment(ctx context.Context, request ChangeTargetDatabaseCompartmentRequest) (response ChangeTargetDatabaseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1982,6 +2047,10 @@ func (client DataSafeClient) changeTargetDatabaseCompartment(ctx context.Context
 // the filters "type = save_schedule". That call returns the scheduleAssessmentId. Then call
 // ChangeUserAssessmentCompartment with the scheduleAssessmentId. The existing saved user assessments created per the schedule
 // are not be moved. However, all new saves will be associated with the new compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeUserAssessmentCompartment.go.html to see an example of how to use ChangeUserAssessmentCompartment API.
 // A default retry strategy applies to this operation ChangeUserAssessmentCompartment()
 func (client DataSafeClient) ChangeUserAssessmentCompartment(ctx context.Context, request ChangeUserAssessmentCompartmentRequest) (response ChangeUserAssessmentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2042,6 +2111,10 @@ func (client DataSafeClient) changeUserAssessmentCompartment(ctx context.Context
 
 // CompareSecurityAssessment Compares two security assessments. For this comparison, a security assessment can be a saved assessment, a latest assessment, or a baseline assessment.
 // For example, you can compare saved assessment or a latest assessment against a baseline.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CompareSecurityAssessment.go.html to see an example of how to use CompareSecurityAssessment API.
 // A default retry strategy applies to this operation CompareSecurityAssessment()
 func (client DataSafeClient) CompareSecurityAssessment(ctx context.Context, request CompareSecurityAssessmentRequest) (response CompareSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2102,6 +2175,10 @@ func (client DataSafeClient) compareSecurityAssessment(ctx context.Context, requ
 
 // CompareUserAssessment Compares two user assessments. For this comparison, a user assessment can be a saved, a latest assessment, or a baseline.
 // As an example, it can be used to compare a user assessment saved or a latest assessment with a baseline.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CompareUserAssessment.go.html to see an example of how to use CompareUserAssessment API.
 // A default retry strategy applies to this operation CompareUserAssessment()
 func (client DataSafeClient) CompareUserAssessment(ctx context.Context, request CompareUserAssessmentRequest) (response CompareUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2160,127 +2237,13 @@ func (client DataSafeClient) compareUserAssessment(ctx context.Context, request 
 	return response, err
 }
 
-// CreateAlertPolicy Creates a new user-defined alert policy.
-// A default retry strategy applies to this operation CreateAlertPolicy()
-func (client DataSafeClient) CreateAlertPolicy(ctx context.Context, request CreateAlertPolicyRequest) (response CreateAlertPolicyResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createAlertPolicy, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateAlertPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateAlertPolicyResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateAlertPolicyResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateAlertPolicyResponse")
-	}
-	return
-}
-
-// createAlertPolicy implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) createAlertPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alertPolicies", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateAlertPolicyResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicy/CreateAlertPolicy"
-		err = common.PostProcessServiceError(err, "DataSafe", "CreateAlertPolicy", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateAlertPolicyRule Creates a new rule for the alert policy.
-// A default retry strategy applies to this operation CreateAlertPolicyRule()
-func (client DataSafeClient) CreateAlertPolicyRule(ctx context.Context, request CreateAlertPolicyRuleRequest) (response CreateAlertPolicyRuleResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createAlertPolicyRule, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateAlertPolicyRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateAlertPolicyRuleResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateAlertPolicyRuleResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateAlertPolicyRuleResponse")
-	}
-	return
-}
-
-// createAlertPolicyRule implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) createAlertPolicyRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/alertPolicies/{alertPolicyId}/rules", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateAlertPolicyRuleResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicyRule/CreateAlertPolicyRule"
-		err = common.PostProcessServiceError(err, "DataSafe", "CreateAlertPolicyRule", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateAuditArchiveRetrieval Creates a work request to retrieve archived audit data. This asynchronous process will usually take over an hour to complete.
 // Save the id from the response of this operation. Call GetAuditArchiveRetrieval operation after an hour, passing the id to know the status of
 // this operation.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateAuditArchiveRetrieval.go.html to see an example of how to use CreateAuditArchiveRetrieval API.
 // A default retry strategy applies to this operation CreateAuditArchiveRetrieval()
 func (client DataSafeClient) CreateAuditArchiveRetrieval(ctx context.Context, request CreateAuditArchiveRetrievalRequest) (response CreateAuditArchiveRetrievalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2340,6 +2303,10 @@ func (client DataSafeClient) createAuditArchiveRetrieval(ctx context.Context, re
 }
 
 // CreateDataSafePrivateEndpoint Creates a new Data Safe private endpoint.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateDataSafePrivateEndpoint.go.html to see an example of how to use CreateDataSafePrivateEndpoint API.
 // A default retry strategy applies to this operation CreateDataSafePrivateEndpoint()
 func (client DataSafeClient) CreateDataSafePrivateEndpoint(ctx context.Context, request CreateDataSafePrivateEndpointRequest) (response CreateDataSafePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2403,6 +2370,10 @@ func (client DataSafeClient) createDataSafePrivateEndpoint(ctx context.Context, 
 // After performing data discovery, you can use ListDiscoveryJobResults to view the discovery results, PatchDiscoveryJobResults
 // to specify the action you want perform on these results, and then ApplyDiscoveryJobResults to process the results
 // and apply them to the sensitive data model.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateDiscoveryJob.go.html to see an example of how to use CreateDiscoveryJob API.
 // A default retry strategy applies to this operation CreateDiscoveryJob()
 func (client DataSafeClient) CreateDiscoveryJob(ctx context.Context, request CreateDiscoveryJobRequest) (response CreateDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2466,6 +2437,10 @@ func (client DataSafeClient) createDiscoveryJob(ctx context.Context, request com
 // It provides the flexibility to define a masking format that can generate different
 // parts of a data value separately and then combine them to get the final data value
 // for masking. Note that you cannot define masking condition in a library masking format.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateLibraryMaskingFormat.go.html to see an example of how to use CreateLibraryMaskingFormat API.
 // A default retry strategy applies to this operation CreateLibraryMaskingFormat()
 func (client DataSafeClient) CreateLibraryMaskingFormat(ctx context.Context, request CreateLibraryMaskingFormatRequest) (response CreateLibraryMaskingFormatResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2542,6 +2517,10 @@ func (client DataSafeClient) createLibraryMaskingFormat(ctx context.Context, req
 // You can use the maskingColumnGroup attribute to group the columns that you would
 // like to mask together. It enables you to do <a href="https://docs.oracle.com/en/cloud/paas/data-safe/udscs/group-masking1.html#GUID-755056B9-9540-48C0-9491-262A44A85037">group or compound masking</a> that ensures that the
 // masked data across the columns in a group continue to retain the same logical relationship.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateMaskingColumn.go.html to see an example of how to use CreateMaskingColumn API.
 // A default retry strategy applies to this operation CreateMaskingColumn()
 func (client DataSafeClient) CreateMaskingColumn(ctx context.Context, request CreateMaskingColumnRequest) (response CreateMaskingColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2614,6 +2593,10 @@ func (client DataSafeClient) createMaskingColumn(ctx context.Context, request co
 // operation to manually add columns to the policy. You need to add the parent columns only,
 // and it automatically adds the child columns (in referential relationship with the parent columns)
 // from the associated sensitive data model or target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateMaskingPolicy.go.html to see an example of how to use CreateMaskingPolicy API.
 // A default retry strategy applies to this operation CreateMaskingPolicy()
 func (client DataSafeClient) CreateMaskingPolicy(ctx context.Context, request CreateMaskingPolicyRequest) (response CreateMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2673,6 +2656,10 @@ func (client DataSafeClient) createMaskingPolicy(ctx context.Context, request co
 }
 
 // CreateOnPremConnector Creates a new on-premises connector.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateOnPremConnector.go.html to see an example of how to use CreateOnPremConnector API.
 // A default retry strategy applies to this operation CreateOnPremConnector()
 func (client DataSafeClient) CreateOnPremConnector(ctx context.Context, request CreateOnPremConnectorRequest) (response CreateOnPremConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2732,6 +2719,10 @@ func (client DataSafeClient) createOnPremConnector(ctx context.Context, request 
 }
 
 // CreatePeerTargetDatabase Creates the peer target database under the primary target database in Data Safe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreatePeerTargetDatabase.go.html to see an example of how to use CreatePeerTargetDatabase API.
 // A default retry strategy applies to this operation CreatePeerTargetDatabase()
 func (client DataSafeClient) CreatePeerTargetDatabase(ctx context.Context, request CreatePeerTargetDatabaseRequest) (response CreatePeerTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2791,6 +2782,10 @@ func (client DataSafeClient) createPeerTargetDatabase(ctx context.Context, reque
 }
 
 // CreateReportDefinition Creates a new report definition with parameters specified in the body. The report definition is stored in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateReportDefinition.go.html to see an example of how to use CreateReportDefinition API.
 // A default retry strategy applies to this operation CreateReportDefinition()
 func (client DataSafeClient) CreateReportDefinition(ctx context.Context, request CreateReportDefinitionRequest) (response CreateReportDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2854,6 +2849,10 @@ func (client DataSafeClient) createReportDefinition(ctx context.Context, request
 // you can use ListDifferenceColumns to view the difference columns, PatchSdmMaskingPolicyDifferenceColumns
 // to specify the action you want perform on these columns, and then ApplySdmMaskingPolicyDifference to process the
 // difference columns and apply them to the masking policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSdmMaskingPolicyDifference.go.html to see an example of how to use CreateSdmMaskingPolicyDifference API.
 // A default retry strategy applies to this operation CreateSdmMaskingPolicyDifference()
 func (client DataSafeClient) CreateSdmMaskingPolicyDifference(ctx context.Context, request CreateSdmMaskingPolicyDifferenceRequest) (response CreateSdmMaskingPolicyDifferenceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2915,6 +2914,10 @@ func (client DataSafeClient) createSdmMaskingPolicyDifference(ctx context.Contex
 // CreateSecurityAssessment Creates a new saved security assessment for one or multiple targets in a compartment. When this operation is performed,
 // it will save the latest assessments in the specified compartment. If a schedule is passed, it will persist the latest assessments,
 // at the defined date and time, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSecurityAssessment.go.html to see an example of how to use CreateSecurityAssessment API.
 // A default retry strategy applies to this operation CreateSecurityAssessment()
 func (client DataSafeClient) CreateSecurityAssessment(ctx context.Context, request CreateSecurityAssessmentRequest) (response CreateSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2974,6 +2977,10 @@ func (client DataSafeClient) createSecurityAssessment(ctx context.Context, reque
 }
 
 // CreateSensitiveColumn Creates a new sensitive column in the specified sensitive data model.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSensitiveColumn.go.html to see an example of how to use CreateSensitiveColumn API.
 // A default retry strategy applies to this operation CreateSensitiveColumn()
 func (client DataSafeClient) CreateSensitiveColumn(ctx context.Context, request CreateSensitiveColumnRequest) (response CreateSensitiveColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3035,6 +3042,10 @@ func (client DataSafeClient) createSensitiveColumn(ctx context.Context, request 
 // CreateSensitiveDataModel Creates a new sensitive data model. If schemas and sensitive types are provided, it automatically runs data discovery
 // and adds the discovered columns to the sensitive data model. Otherwise, it creates an empty sensitive data model
 // that can be updated later.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSensitiveDataModel.go.html to see an example of how to use CreateSensitiveDataModel API.
 // A default retry strategy applies to this operation CreateSensitiveDataModel()
 func (client DataSafeClient) CreateSensitiveDataModel(ctx context.Context, request CreateSensitiveDataModelRequest) (response CreateSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3096,6 +3107,10 @@ func (client DataSafeClient) createSensitiveDataModel(ctx context.Context, reque
 // CreateSensitiveType Creates a new sensitive type, which can be a basic sensitive type with regular expressions or a sensitive category.
 // While sensitive types are used for data discovery, sensitive categories are used for logically grouping the related
 // or similar sensitive types.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSensitiveType.go.html to see an example of how to use CreateSensitiveType API.
 // A default retry strategy applies to this operation CreateSensitiveType()
 func (client DataSafeClient) CreateSensitiveType(ctx context.Context, request CreateSensitiveTypeRequest) (response CreateSensitiveTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3155,6 +3170,10 @@ func (client DataSafeClient) createSensitiveType(ctx context.Context, request co
 }
 
 // CreateSqlCollection Creates a new SQL collection resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSqlCollection.go.html to see an example of how to use CreateSqlCollection API.
 // A default retry strategy applies to this operation CreateSqlCollection()
 func (client DataSafeClient) CreateSqlCollection(ctx context.Context, request CreateSqlCollectionRequest) (response CreateSqlCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3214,6 +3233,10 @@ func (client DataSafeClient) createSqlCollection(ctx context.Context, request co
 }
 
 // CreateTargetAlertPolicyAssociation Creates a new target-alert policy association to track a alert policy applied on target.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateTargetAlertPolicyAssociation.go.html to see an example of how to use CreateTargetAlertPolicyAssociation API.
 // A default retry strategy applies to this operation CreateTargetAlertPolicyAssociation()
 func (client DataSafeClient) CreateTargetAlertPolicyAssociation(ctx context.Context, request CreateTargetAlertPolicyAssociationRequest) (response CreateTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3273,6 +3296,10 @@ func (client DataSafeClient) createTargetAlertPolicyAssociation(ctx context.Cont
 }
 
 // CreateTargetDatabase Registers the specified database with Data Safe and creates a Data Safe target database in the Data Safe Console.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateTargetDatabase.go.html to see an example of how to use CreateTargetDatabase API.
 // A default retry strategy applies to this operation CreateTargetDatabase()
 func (client DataSafeClient) CreateTargetDatabase(ctx context.Context, request CreateTargetDatabaseRequest) (response CreateTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3334,6 +3361,10 @@ func (client DataSafeClient) createTargetDatabase(ctx context.Context, request c
 // CreateUserAssessment Creates a new saved user assessment for one or multiple targets in a compartment. It saves the latest assessments in the
 // specified compartment. If a scheduled is passed in, this operation persists the latest assessments that exist at the defined
 // date and time, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateUserAssessment.go.html to see an example of how to use CreateUserAssessment API.
 // A default retry strategy applies to this operation CreateUserAssessment()
 func (client DataSafeClient) CreateUserAssessment(ctx context.Context, request CreateUserAssessmentRequest) (response CreateUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3393,6 +3424,10 @@ func (client DataSafeClient) createUserAssessment(ctx context.Context, request c
 }
 
 // DeactivateTargetDatabase Deactivates a target database in Data Safe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeactivateTargetDatabase.go.html to see an example of how to use DeactivateTargetDatabase API.
 // A default retry strategy applies to this operation DeactivateTargetDatabase()
 func (client DataSafeClient) DeactivateTargetDatabase(ctx context.Context, request DeactivateTargetDatabaseRequest) (response DeactivateTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3451,116 +3486,12 @@ func (client DataSafeClient) deactivateTargetDatabase(ctx context.Context, reque
 	return response, err
 }
 
-// DeleteAlertPolicy Deletes the specified user-defined alert policy.
-// A default retry strategy applies to this operation DeleteAlertPolicy()
-func (client DataSafeClient) DeleteAlertPolicy(ctx context.Context, request DeleteAlertPolicyRequest) (response DeleteAlertPolicyResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteAlertPolicy, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteAlertPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteAlertPolicyResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteAlertPolicyResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteAlertPolicyResponse")
-	}
-	return
-}
-
-// deleteAlertPolicy implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) deleteAlertPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/alertPolicies/{alertPolicyId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteAlertPolicyResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicy/DeleteAlertPolicy"
-		err = common.PostProcessServiceError(err, "DataSafe", "DeleteAlertPolicy", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteAlertPolicyRule Deletes the specified user-defined alert policy rule.
-// A default retry strategy applies to this operation DeleteAlertPolicyRule()
-func (client DataSafeClient) DeleteAlertPolicyRule(ctx context.Context, request DeleteAlertPolicyRuleRequest) (response DeleteAlertPolicyRuleResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteAlertPolicyRule, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteAlertPolicyRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteAlertPolicyRuleResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteAlertPolicyRuleResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteAlertPolicyRuleResponse")
-	}
-	return
-}
-
-// deleteAlertPolicyRule implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) deleteAlertPolicyRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/alertPolicies/{alertPolicyId}/rules/{ruleKey}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteAlertPolicyRuleResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicyRule/DeleteAlertPolicyRule"
-		err = common.PostProcessServiceError(err, "DataSafe", "DeleteAlertPolicyRule", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteAuditArchiveRetrieval To unload retrieved archive data, call the operation ListAuditArchiveRetrieval first.
 // This will return the auditArchiveRetrievalId. Then call this operation with auditArchiveRetrievalId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteAuditArchiveRetrieval.go.html to see an example of how to use DeleteAuditArchiveRetrieval API.
 // A default retry strategy applies to this operation DeleteAuditArchiveRetrieval()
 func (client DataSafeClient) DeleteAuditArchiveRetrieval(ctx context.Context, request DeleteAuditArchiveRetrievalRequest) (response DeleteAuditArchiveRetrievalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3615,6 +3546,10 @@ func (client DataSafeClient) deleteAuditArchiveRetrieval(ctx context.Context, re
 }
 
 // DeleteAuditTrail Deletes the specified audit trail.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteAuditTrail.go.html to see an example of how to use DeleteAuditTrail API.
 // A default retry strategy applies to this operation DeleteAuditTrail()
 func (client DataSafeClient) DeleteAuditTrail(ctx context.Context, request DeleteAuditTrailRequest) (response DeleteAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3669,6 +3604,10 @@ func (client DataSafeClient) deleteAuditTrail(ctx context.Context, request commo
 }
 
 // DeleteDataSafePrivateEndpoint Deletes the specified Data Safe private endpoint.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteDataSafePrivateEndpoint.go.html to see an example of how to use DeleteDataSafePrivateEndpoint API.
 // A default retry strategy applies to this operation DeleteDataSafePrivateEndpoint()
 func (client DataSafeClient) DeleteDataSafePrivateEndpoint(ctx context.Context, request DeleteDataSafePrivateEndpointRequest) (response DeleteDataSafePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3723,6 +3662,10 @@ func (client DataSafeClient) deleteDataSafePrivateEndpoint(ctx context.Context, 
 }
 
 // DeleteDiscoveryJob Deletes the specified discovery job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteDiscoveryJob.go.html to see an example of how to use DeleteDiscoveryJob API.
 // A default retry strategy applies to this operation DeleteDiscoveryJob()
 func (client DataSafeClient) DeleteDiscoveryJob(ctx context.Context, request DeleteDiscoveryJobRequest) (response DeleteDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3777,6 +3720,10 @@ func (client DataSafeClient) deleteDiscoveryJob(ctx context.Context, request com
 }
 
 // DeleteDiscoveryJobResult Deletes the specified discovery result.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteDiscoveryJobResult.go.html to see an example of how to use DeleteDiscoveryJobResult API.
 // A default retry strategy applies to this operation DeleteDiscoveryJobResult()
 func (client DataSafeClient) DeleteDiscoveryJobResult(ctx context.Context, request DeleteDiscoveryJobResultRequest) (response DeleteDiscoveryJobResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3831,6 +3778,10 @@ func (client DataSafeClient) deleteDiscoveryJobResult(ctx context.Context, reque
 }
 
 // DeleteLibraryMaskingFormat Deletes the specified library masking format.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteLibraryMaskingFormat.go.html to see an example of how to use DeleteLibraryMaskingFormat API.
 // A default retry strategy applies to this operation DeleteLibraryMaskingFormat()
 func (client DataSafeClient) DeleteLibraryMaskingFormat(ctx context.Context, request DeleteLibraryMaskingFormatRequest) (response DeleteLibraryMaskingFormatResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3885,6 +3836,10 @@ func (client DataSafeClient) deleteLibraryMaskingFormat(ctx context.Context, req
 }
 
 // DeleteMaskingColumn Deletes the specified masking column.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingColumn.go.html to see an example of how to use DeleteMaskingColumn API.
 // A default retry strategy applies to this operation DeleteMaskingColumn()
 func (client DataSafeClient) DeleteMaskingColumn(ctx context.Context, request DeleteMaskingColumnRequest) (response DeleteMaskingColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3939,6 +3894,10 @@ func (client DataSafeClient) deleteMaskingColumn(ctx context.Context, request co
 }
 
 // DeleteMaskingPolicy Deletes the specified masking policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingPolicy.go.html to see an example of how to use DeleteMaskingPolicy API.
 // A default retry strategy applies to this operation DeleteMaskingPolicy()
 func (client DataSafeClient) DeleteMaskingPolicy(ctx context.Context, request DeleteMaskingPolicyRequest) (response DeleteMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3993,6 +3952,10 @@ func (client DataSafeClient) deleteMaskingPolicy(ctx context.Context, request co
 }
 
 // DeleteOnPremConnector Deletes the specified on-premises connector.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteOnPremConnector.go.html to see an example of how to use DeleteOnPremConnector API.
 // A default retry strategy applies to this operation DeleteOnPremConnector()
 func (client DataSafeClient) DeleteOnPremConnector(ctx context.Context, request DeleteOnPremConnectorRequest) (response DeleteOnPremConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4047,6 +4010,10 @@ func (client DataSafeClient) deleteOnPremConnector(ctx context.Context, request 
 }
 
 // DeletePeerTargetDatabase Removes the specified peer target database from Data Safe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeletePeerTargetDatabase.go.html to see an example of how to use DeletePeerTargetDatabase API.
 // A default retry strategy applies to this operation DeletePeerTargetDatabase()
 func (client DataSafeClient) DeletePeerTargetDatabase(ctx context.Context, request DeletePeerTargetDatabaseRequest) (response DeletePeerTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4101,6 +4068,10 @@ func (client DataSafeClient) deletePeerTargetDatabase(ctx context.Context, reque
 }
 
 // DeleteReportDefinition Deletes the specified report definition. Only the user created report definition can be deleted. The seeded report definitions cannot be deleted.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteReportDefinition.go.html to see an example of how to use DeleteReportDefinition API.
 // A default retry strategy applies to this operation DeleteReportDefinition()
 func (client DataSafeClient) DeleteReportDefinition(ctx context.Context, request DeleteReportDefinitionRequest) (response DeleteReportDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4155,6 +4126,10 @@ func (client DataSafeClient) deleteReportDefinition(ctx context.Context, request
 }
 
 // DeleteSdmMaskingPolicyDifference Deletes the specified SDM Masking policy difference.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSdmMaskingPolicyDifference.go.html to see an example of how to use DeleteSdmMaskingPolicyDifference API.
 // A default retry strategy applies to this operation DeleteSdmMaskingPolicyDifference()
 func (client DataSafeClient) DeleteSdmMaskingPolicyDifference(ctx context.Context, request DeleteSdmMaskingPolicyDifferenceRequest) (response DeleteSdmMaskingPolicyDifferenceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4212,6 +4187,10 @@ func (client DataSafeClient) deleteSdmMaskingPolicyDifference(ctx context.Contex
 // first call the operation ListSecurityAssessments with filters "type = save_schedule".
 // That operation returns the scheduleAssessmentId. Then, call DeleteSecurityAssessment with the scheduleAssessmentId.
 // If the assessment being deleted is the baseline for that compartment, then it will impact all baselines in the compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSecurityAssessment.go.html to see an example of how to use DeleteSecurityAssessment API.
 // A default retry strategy applies to this operation DeleteSecurityAssessment()
 func (client DataSafeClient) DeleteSecurityAssessment(ctx context.Context, request DeleteSecurityAssessmentRequest) (response DeleteSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4266,6 +4245,10 @@ func (client DataSafeClient) deleteSecurityAssessment(ctx context.Context, reque
 }
 
 // DeleteSensitiveColumn Deletes the specified sensitive column.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSensitiveColumn.go.html to see an example of how to use DeleteSensitiveColumn API.
 // A default retry strategy applies to this operation DeleteSensitiveColumn()
 func (client DataSafeClient) DeleteSensitiveColumn(ctx context.Context, request DeleteSensitiveColumnRequest) (response DeleteSensitiveColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4320,6 +4303,10 @@ func (client DataSafeClient) deleteSensitiveColumn(ctx context.Context, request 
 }
 
 // DeleteSensitiveDataModel Deletes the specified sensitive data model.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSensitiveDataModel.go.html to see an example of how to use DeleteSensitiveDataModel API.
 // A default retry strategy applies to this operation DeleteSensitiveDataModel()
 func (client DataSafeClient) DeleteSensitiveDataModel(ctx context.Context, request DeleteSensitiveDataModelRequest) (response DeleteSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4374,6 +4361,10 @@ func (client DataSafeClient) deleteSensitiveDataModel(ctx context.Context, reque
 }
 
 // DeleteSensitiveType Deletes the specified sensitive type.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSensitiveType.go.html to see an example of how to use DeleteSensitiveType API.
 // A default retry strategy applies to this operation DeleteSensitiveType()
 func (client DataSafeClient) DeleteSensitiveType(ctx context.Context, request DeleteSensitiveTypeRequest) (response DeleteSensitiveTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4428,6 +4419,10 @@ func (client DataSafeClient) deleteSensitiveType(ctx context.Context, request co
 }
 
 // DeleteSqlCollection Deletes the specified SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlCollection.go.html to see an example of how to use DeleteSqlCollection API.
 // A default retry strategy applies to this operation DeleteSqlCollection()
 func (client DataSafeClient) DeleteSqlCollection(ctx context.Context, request DeleteSqlCollectionRequest) (response DeleteSqlCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4482,6 +4477,10 @@ func (client DataSafeClient) deleteSqlCollection(ctx context.Context, request co
 }
 
 // DeleteSqlFirewallPolicy Deletes the SQL Firewall policy resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlFirewallPolicy.go.html to see an example of how to use DeleteSqlFirewallPolicy API.
 // A default retry strategy applies to this operation DeleteSqlFirewallPolicy()
 func (client DataSafeClient) DeleteSqlFirewallPolicy(ctx context.Context, request DeleteSqlFirewallPolicyRequest) (response DeleteSqlFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4536,6 +4535,10 @@ func (client DataSafeClient) deleteSqlFirewallPolicy(ctx context.Context, reques
 }
 
 // DeleteTargetAlertPolicyAssociation Deletes the specified target-alert policy Association.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteTargetAlertPolicyAssociation.go.html to see an example of how to use DeleteTargetAlertPolicyAssociation API.
 // A default retry strategy applies to this operation DeleteTargetAlertPolicyAssociation()
 func (client DataSafeClient) DeleteTargetAlertPolicyAssociation(ctx context.Context, request DeleteTargetAlertPolicyAssociationRequest) (response DeleteTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4590,6 +4593,10 @@ func (client DataSafeClient) deleteTargetAlertPolicyAssociation(ctx context.Cont
 }
 
 // DeleteTargetDatabase Deregisters the specified database from Data Safe and removes the target database from the Data Safe Console.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteTargetDatabase.go.html to see an example of how to use DeleteTargetDatabase API.
 // A default retry strategy applies to this operation DeleteTargetDatabase()
 func (client DataSafeClient) DeleteTargetDatabase(ctx context.Context, request DeleteTargetDatabaseRequest) (response DeleteTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4647,6 +4654,10 @@ func (client DataSafeClient) deleteTargetDatabase(ctx context.Context, request c
 // ListUserAssessments with filters "type = save_schedule".
 // That call returns the scheduleAssessmentId. Then call DeleteUserAssessment with the scheduleAssessmentId.
 // If the assessment being deleted is the baseline for that compartment, then it will impact all baselines in the compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteUserAssessment.go.html to see an example of how to use DeleteUserAssessment API.
 // A default retry strategy applies to this operation DeleteUserAssessment()
 func (client DataSafeClient) DeleteUserAssessment(ctx context.Context, request DeleteUserAssessmentRequest) (response DeleteUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4704,6 +4715,10 @@ func (client DataSafeClient) deleteUserAssessment(ctx context.Context, request c
 // operation can be used to create new audit trails for target database
 // when they become available for audit collection because of change of database version
 // or change of database unified mode or change of data base  edition or being deleted previously etc.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DiscoverAuditTrails.go.html to see an example of how to use DiscoverAuditTrails API.
 // A default retry strategy applies to this operation DiscoverAuditTrails()
 func (client DataSafeClient) DiscoverAuditTrails(ctx context.Context, request DiscoverAuditTrailsRequest) (response DiscoverAuditTrailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4766,6 +4781,10 @@ func (client DataSafeClient) discoverAuditTrails(ctx context.Context, request co
 // prerequisite for the DownloadDiscoveryReport operation. Use GenerateDiscoveryReportForDownload to generate a discovery
 // report file and then use DownloadDiscoveryReport to download the generated file. By default, it downloads report for
 // all the columns in a sensitive data model. Use the discoveryJobId attribute to download report for a specific discovery job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadDiscoveryReport.go.html to see an example of how to use DownloadDiscoveryReport API.
 // A default retry strategy applies to this operation DownloadDiscoveryReport()
 func (client DataSafeClient) DownloadDiscoveryReport(ctx context.Context, request DownloadDiscoveryReportRequest) (response DownloadDiscoveryReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4819,6 +4838,10 @@ func (client DataSafeClient) downloadDiscoveryReport(ctx context.Context, reques
 }
 
 // DownloadMaskingLog Downloads the masking log generated by the last masking operation on a target database using the specified masking policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadMaskingLog.go.html to see an example of how to use DownloadMaskingLog API.
 // A default retry strategy applies to this operation DownloadMaskingLog()
 func (client DataSafeClient) DownloadMaskingLog(ctx context.Context, request DownloadMaskingLogRequest) (response DownloadMaskingLogResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4875,6 +4898,10 @@ func (client DataSafeClient) downloadMaskingLog(ctx context.Context, request com
 // Note that the GenerateMaskingPolicyForDownload operation is a prerequisite for the
 // DownloadMaskingPolicy operation. Use GenerateMaskingPolicyForDownload to generate
 // a masking policy file and then use DownloadMaskingPolicy to download the generated file.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadMaskingPolicy.go.html to see an example of how to use DownloadMaskingPolicy API.
 // A default retry strategy applies to this operation DownloadMaskingPolicy()
 func (client DataSafeClient) DownloadMaskingPolicy(ctx context.Context, request DownloadMaskingPolicyRequest) (response DownloadMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4930,6 +4957,10 @@ func (client DataSafeClient) downloadMaskingPolicy(ctx context.Context, request 
 // DownloadMaskingReport Downloads an already-generated masking report. Note that the GenerateMaskingReportForDownload
 // operation is a prerequisite for the DownloadMaskingReport operation. Use GenerateMaskingReportForDownload
 // to generate a masking report file and then use DownloadMaskingReport to download the generated file.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadMaskingReport.go.html to see an example of how to use DownloadMaskingReport API.
 // A default retry strategy applies to this operation DownloadMaskingReport()
 func (client DataSafeClient) DownloadMaskingReport(ctx context.Context, request DownloadMaskingReportRequest) (response DownloadMaskingReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4983,6 +5014,10 @@ func (client DataSafeClient) downloadMaskingReport(ctx context.Context, request 
 }
 
 // DownloadPrivilegeScript Downloads the privilege script to grant/revoke required roles from the Data Safe account on the target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadPrivilegeScript.go.html to see an example of how to use DownloadPrivilegeScript API.
 // A default retry strategy applies to this operation DownloadPrivilegeScript()
 func (client DataSafeClient) DownloadPrivilegeScript(ctx context.Context, request DownloadPrivilegeScriptRequest) (response DownloadPrivilegeScriptResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5042,6 +5077,10 @@ func (client DataSafeClient) downloadPrivilegeScript(ctx context.Context, reques
 
 // DownloadSecurityAssessmentReport Downloads the report of the specified security assessment. To download the security assessment report, it needs to be generated first.
 // Please use GenerateSecurityAssessmentReport to generate a downloadable report in the preferred format (PDF, XLS).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadSecurityAssessmentReport.go.html to see an example of how to use DownloadSecurityAssessmentReport API.
 // A default retry strategy applies to this operation DownloadSecurityAssessmentReport()
 func (client DataSafeClient) DownloadSecurityAssessmentReport(ctx context.Context, request DownloadSecurityAssessmentReportRequest) (response DownloadSecurityAssessmentReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5103,6 +5142,10 @@ func (client DataSafeClient) downloadSecurityAssessmentReport(ctx context.Contex
 // GenerateSensitiveDataModelForDownload operation is a prerequisite for the DownloadSensitiveDataModel operation.
 // Use GenerateSensitiveDataModelForDownload to generate a data model file and then use DownloadSensitiveDataModel
 // to download the generated file.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadSensitiveDataModel.go.html to see an example of how to use DownloadSensitiveDataModel API.
 // A default retry strategy applies to this operation DownloadSensitiveDataModel()
 func (client DataSafeClient) DownloadSensitiveDataModel(ctx context.Context, request DownloadSensitiveDataModelRequest) (response DownloadSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5157,6 +5200,10 @@ func (client DataSafeClient) downloadSensitiveDataModel(ctx context.Context, req
 
 // DownloadUserAssessmentReport Downloads the report of the specified user assessment. To download the user assessment report, it needs to be generated first.
 // Please use GenerateUserAssessmentReport to generate a downloadable report in the preferred format (PDF, XLS).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadUserAssessmentReport.go.html to see an example of how to use DownloadUserAssessmentReport API.
 // A default retry strategy applies to this operation DownloadUserAssessmentReport()
 func (client DataSafeClient) DownloadUserAssessmentReport(ctx context.Context, request DownloadUserAssessmentReportRequest) (response DownloadUserAssessmentReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5215,6 +5262,10 @@ func (client DataSafeClient) downloadUserAssessmentReport(ctx context.Context, r
 }
 
 // EnableDataSafeConfiguration Enables Data Safe in the tenancy and region.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/EnableDataSafeConfiguration.go.html to see an example of how to use EnableDataSafeConfiguration API.
 // A default retry strategy applies to this operation EnableDataSafeConfiguration()
 func (client DataSafeClient) EnableDataSafeConfiguration(ctx context.Context, request EnableDataSafeConfigurationRequest) (response EnableDataSafeConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5272,6 +5323,10 @@ func (client DataSafeClient) enableDataSafeConfiguration(ctx context.Context, re
 // endpoint to generate a discovery report file and then use DownloadDiscoveryReport to download the generated file.
 // By default, it generates report for all the columns in a sensitive data model. Use the discoveryJobId attribute
 // to generate report for a specific discovery job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateDiscoveryReportForDownload.go.html to see an example of how to use GenerateDiscoveryReportForDownload API.
 // A default retry strategy applies to this operation GenerateDiscoveryReportForDownload()
 func (client DataSafeClient) GenerateDiscoveryReportForDownload(ctx context.Context, request GenerateDiscoveryReportForDownloadRequest) (response GenerateDiscoveryReportForDownloadResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5330,6 +5385,10 @@ func (client DataSafeClient) generateDiscoveryReportForDownload(ctx context.Cont
 // a masking policy file and then use DownloadMaskingPolicy to download the generated file.
 // Note that file generation and download are serial operations. The download operation
 // can't be invoked while the generate operation is in progress.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateMaskingPolicyForDownload.go.html to see an example of how to use GenerateMaskingPolicyForDownload API.
 // A default retry strategy applies to this operation GenerateMaskingPolicyForDownload()
 func (client DataSafeClient) GenerateMaskingPolicyForDownload(ctx context.Context, request GenerateMaskingPolicyForDownloadRequest) (response GenerateMaskingPolicyForDownloadResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5387,6 +5446,10 @@ func (client DataSafeClient) generateMaskingPolicyForDownload(ctx context.Contex
 // DownloadMaskingReport operation. Use this endpoint to generate a
 // masking report file and then use DownloadMaskingReport to download
 // the generated file.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateMaskingReportForDownload.go.html to see an example of how to use GenerateMaskingReportForDownload API.
 // A default retry strategy applies to this operation GenerateMaskingReportForDownload()
 func (client DataSafeClient) GenerateMaskingReportForDownload(ctx context.Context, request GenerateMaskingReportForDownloadRequest) (response GenerateMaskingReportForDownloadResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5441,6 +5504,10 @@ func (client DataSafeClient) generateMaskingReportForDownload(ctx context.Contex
 }
 
 // GenerateOnPremConnectorConfiguration Creates and downloads the configuration of the specified on-premises connector.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateOnPremConnectorConfiguration.go.html to see an example of how to use GenerateOnPremConnectorConfiguration API.
 // A default retry strategy applies to this operation GenerateOnPremConnectorConfiguration()
 func (client DataSafeClient) GenerateOnPremConnectorConfiguration(ctx context.Context, request GenerateOnPremConnectorConfigurationRequest) (response GenerateOnPremConnectorConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5499,6 +5566,10 @@ func (client DataSafeClient) generateOnPremConnectorConfiguration(ctx context.Co
 }
 
 // GenerateReport Generates a .xls or .pdf report based on parameters and report definition.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateReport.go.html to see an example of how to use GenerateReport API.
 // A default retry strategy applies to this operation GenerateReport()
 func (client DataSafeClient) GenerateReport(ctx context.Context, request GenerateReportRequest) (response GenerateReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5559,6 +5630,10 @@ func (client DataSafeClient) generateReport(ctx context.Context, request common.
 
 // GenerateSecurityAssessmentReport Generates the report of the specified security assessment. You can get the report in PDF or XLS format.
 // After generating the report, use DownloadSecurityAssessmentReport to download it in the preferred format.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateSecurityAssessmentReport.go.html to see an example of how to use GenerateSecurityAssessmentReport API.
 // A default retry strategy applies to this operation GenerateSecurityAssessmentReport()
 func (client DataSafeClient) GenerateSecurityAssessmentReport(ctx context.Context, request GenerateSecurityAssessmentReportRequest) (response GenerateSecurityAssessmentReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5621,6 +5696,10 @@ func (client DataSafeClient) generateSecurityAssessmentReport(ctx context.Contex
 // DownloadSensitiveDataModel operation. Use this endpoint to generate a data model file and then use DownloadSensitiveDataModel
 // to download the generated file. Note that file generation and download are serial operations. The download operation
 // can't be invoked while the generate operation is in progress.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateSensitiveDataModelForDownload.go.html to see an example of how to use GenerateSensitiveDataModelForDownload API.
 // A default retry strategy applies to this operation GenerateSensitiveDataModelForDownload()
 func (client DataSafeClient) GenerateSensitiveDataModelForDownload(ctx context.Context, request GenerateSensitiveDataModelForDownloadRequest) (response GenerateSensitiveDataModelForDownloadResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5675,6 +5754,10 @@ func (client DataSafeClient) generateSensitiveDataModelForDownload(ctx context.C
 }
 
 // GenerateSqlFirewallPolicy Generates or appends to the SQL Firewall policy using the specified SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateSqlFirewallPolicy.go.html to see an example of how to use GenerateSqlFirewallPolicy API.
 // A default retry strategy applies to this operation GenerateSqlFirewallPolicy()
 func (client DataSafeClient) GenerateSqlFirewallPolicy(ctx context.Context, request GenerateSqlFirewallPolicyRequest) (response GenerateSqlFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5735,6 +5818,10 @@ func (client DataSafeClient) generateSqlFirewallPolicy(ctx context.Context, requ
 
 // GenerateUserAssessmentReport Generates the report of the specified user assessment. The report is available in PDF or XLS format.
 // After generating the report, use DownloadUserAssessmentReport to download it in the preferred format.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateUserAssessmentReport.go.html to see an example of how to use GenerateUserAssessmentReport API.
 // A default retry strategy applies to this operation GenerateUserAssessmentReport()
 func (client DataSafeClient) GenerateUserAssessmentReport(ctx context.Context, request GenerateUserAssessmentReportRequest) (response GenerateUserAssessmentReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5794,6 +5881,10 @@ func (client DataSafeClient) generateUserAssessmentReport(ctx context.Context, r
 }
 
 // GetAlert Gets the details of the specified alerts.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAlert.go.html to see an example of how to use GetAlert API.
 // A default retry strategy applies to this operation GetAlert()
 func (client DataSafeClient) GetAlert(ctx context.Context, request GetAlertRequest) (response GetAlertResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5848,6 +5939,10 @@ func (client DataSafeClient) getAlert(ctx context.Context, request common.OCIReq
 }
 
 // GetAlertPolicy Gets the details of alert policy by its ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAlertPolicy.go.html to see an example of how to use GetAlertPolicy API.
 // A default retry strategy applies to this operation GetAlertPolicy()
 func (client DataSafeClient) GetAlertPolicy(ctx context.Context, request GetAlertPolicyRequest) (response GetAlertPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5901,61 +5996,11 @@ func (client DataSafeClient) getAlertPolicy(ctx context.Context, request common.
 	return response, err
 }
 
-// GetAlertPolicyRule Gets the details of a policy rule by its key.
-// A default retry strategy applies to this operation GetAlertPolicyRule()
-func (client DataSafeClient) GetAlertPolicyRule(ctx context.Context, request GetAlertPolicyRuleRequest) (response GetAlertPolicyRuleResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getAlertPolicyRule, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetAlertPolicyRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetAlertPolicyRuleResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetAlertPolicyRuleResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetAlertPolicyRuleResponse")
-	}
-	return
-}
-
-// getAlertPolicyRule implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) getAlertPolicyRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/alertPolicies/{alertPolicyId}/rules/{ruleKey}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetAlertPolicyRuleResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicyRule/GetAlertPolicyRule"
-		err = common.PostProcessServiceError(err, "DataSafe", "GetAlertPolicyRule", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetAuditArchiveRetrieval Gets the details of the specified archive retreival.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAuditArchiveRetrieval.go.html to see an example of how to use GetAuditArchiveRetrieval API.
 // A default retry strategy applies to this operation GetAuditArchiveRetrieval()
 func (client DataSafeClient) GetAuditArchiveRetrieval(ctx context.Context, request GetAuditArchiveRetrievalRequest) (response GetAuditArchiveRetrievalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6010,6 +6055,10 @@ func (client DataSafeClient) getAuditArchiveRetrieval(ctx context.Context, reque
 }
 
 // GetAuditPolicy Gets a audit policy by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAuditPolicy.go.html to see an example of how to use GetAuditPolicy API.
 // A default retry strategy applies to this operation GetAuditPolicy()
 func (client DataSafeClient) GetAuditPolicy(ctx context.Context, request GetAuditPolicyRequest) (response GetAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6064,6 +6113,10 @@ func (client DataSafeClient) getAuditPolicy(ctx context.Context, request common.
 }
 
 // GetAuditProfile Gets the details of audit profile resource and associated audit trails of the audit profile.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAuditProfile.go.html to see an example of how to use GetAuditProfile API.
 // A default retry strategy applies to this operation GetAuditProfile()
 func (client DataSafeClient) GetAuditProfile(ctx context.Context, request GetAuditProfileRequest) (response GetAuditProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6118,6 +6171,10 @@ func (client DataSafeClient) getAuditProfile(ctx context.Context, request common
 }
 
 // GetAuditTrail Gets the details of audit trail.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAuditTrail.go.html to see an example of how to use GetAuditTrail API.
 // A default retry strategy applies to this operation GetAuditTrail()
 func (client DataSafeClient) GetAuditTrail(ctx context.Context, request GetAuditTrailRequest) (response GetAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6178,6 +6235,10 @@ func (client DataSafeClient) getAuditTrail(ctx context.Context, request common.O
 // Date - Includes DATE and TIMESTAMP
 // LOB - Includes BLOB, CLOB, and NCLOB
 // All - Includes all the supported data types
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetCompatibleFormatsForDataTypes.go.html to see an example of how to use GetCompatibleFormatsForDataTypes API.
 // A default retry strategy applies to this operation GetCompatibleFormatsForDataTypes()
 func (client DataSafeClient) GetCompatibleFormatsForDataTypes(ctx context.Context, request GetCompatibleFormatsForDataTypesRequest) (response GetCompatibleFormatsForDataTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6235,6 +6296,10 @@ func (client DataSafeClient) getCompatibleFormatsForDataTypes(ctx context.Contex
 // For each sensitive type, it returns the assigned default masking format as well as
 // the other library masking formats that have the sensitiveTypeIds attribute containing
 // the OCID of the sensitive type.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetCompatibleFormatsForSensitiveTypes.go.html to see an example of how to use GetCompatibleFormatsForSensitiveTypes API.
 // A default retry strategy applies to this operation GetCompatibleFormatsForSensitiveTypes()
 func (client DataSafeClient) GetCompatibleFormatsForSensitiveTypes(ctx context.Context, request GetCompatibleFormatsForSensitiveTypesRequest) (response GetCompatibleFormatsForSensitiveTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6289,6 +6354,10 @@ func (client DataSafeClient) getCompatibleFormatsForSensitiveTypes(ctx context.C
 }
 
 // GetDataSafeConfiguration Gets the details of the Data Safe configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDataSafeConfiguration.go.html to see an example of how to use GetDataSafeConfiguration API.
 // A default retry strategy applies to this operation GetDataSafeConfiguration()
 func (client DataSafeClient) GetDataSafeConfiguration(ctx context.Context, request GetDataSafeConfigurationRequest) (response GetDataSafeConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6343,6 +6412,10 @@ func (client DataSafeClient) getDataSafeConfiguration(ctx context.Context, reque
 }
 
 // GetDataSafePrivateEndpoint Gets the details of the specified Data Safe private endpoint.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDataSafePrivateEndpoint.go.html to see an example of how to use GetDataSafePrivateEndpoint API.
 // A default retry strategy applies to this operation GetDataSafePrivateEndpoint()
 func (client DataSafeClient) GetDataSafePrivateEndpoint(ctx context.Context, request GetDataSafePrivateEndpointRequest) (response GetDataSafePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6397,6 +6470,10 @@ func (client DataSafeClient) getDataSafePrivateEndpoint(ctx context.Context, req
 }
 
 // GetDatabaseSecurityConfig Gets a database security configuration by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDatabaseSecurityConfig.go.html to see an example of how to use GetDatabaseSecurityConfig API.
 // A default retry strategy applies to this operation GetDatabaseSecurityConfig()
 func (client DataSafeClient) GetDatabaseSecurityConfig(ctx context.Context, request GetDatabaseSecurityConfigRequest) (response GetDatabaseSecurityConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6451,6 +6528,10 @@ func (client DataSafeClient) getDatabaseSecurityConfig(ctx context.Context, requ
 }
 
 // GetDatabaseTableAccessEntry Gets a database table access entry object by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDatabaseTableAccessEntry.go.html to see an example of how to use GetDatabaseTableAccessEntry API.
 // A default retry strategy applies to this operation GetDatabaseTableAccessEntry()
 func (client DataSafeClient) GetDatabaseTableAccessEntry(ctx context.Context, request GetDatabaseTableAccessEntryRequest) (response GetDatabaseTableAccessEntryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6505,6 +6586,10 @@ func (client DataSafeClient) getDatabaseTableAccessEntry(ctx context.Context, re
 }
 
 // GetDatabaseViewAccessEntry Gets a database view access object by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDatabaseViewAccessEntry.go.html to see an example of how to use GetDatabaseViewAccessEntry API.
 // A default retry strategy applies to this operation GetDatabaseViewAccessEntry()
 func (client DataSafeClient) GetDatabaseViewAccessEntry(ctx context.Context, request GetDatabaseViewAccessEntryRequest) (response GetDatabaseViewAccessEntryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6559,6 +6644,10 @@ func (client DataSafeClient) getDatabaseViewAccessEntry(ctx context.Context, req
 }
 
 // GetDifferenceColumn Gets the details of the specified SDM Masking policy difference column.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDifferenceColumn.go.html to see an example of how to use GetDifferenceColumn API.
 // A default retry strategy applies to this operation GetDifferenceColumn()
 func (client DataSafeClient) GetDifferenceColumn(ctx context.Context, request GetDifferenceColumnRequest) (response GetDifferenceColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6613,6 +6702,10 @@ func (client DataSafeClient) getDifferenceColumn(ctx context.Context, request co
 }
 
 // GetDiscoveryJob Gets the details of the specified discovery job.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDiscoveryJob.go.html to see an example of how to use GetDiscoveryJob API.
 // A default retry strategy applies to this operation GetDiscoveryJob()
 func (client DataSafeClient) GetDiscoveryJob(ctx context.Context, request GetDiscoveryJobRequest) (response GetDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6667,6 +6760,10 @@ func (client DataSafeClient) getDiscoveryJob(ctx context.Context, request common
 }
 
 // GetDiscoveryJobResult Gets the details of the specified discovery result.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetDiscoveryJobResult.go.html to see an example of how to use GetDiscoveryJobResult API.
 // A default retry strategy applies to this operation GetDiscoveryJobResult()
 func (client DataSafeClient) GetDiscoveryJobResult(ctx context.Context, request GetDiscoveryJobResultRequest) (response GetDiscoveryJobResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6721,6 +6818,10 @@ func (client DataSafeClient) getDiscoveryJobResult(ctx context.Context, request 
 }
 
 // GetLibraryMaskingFormat Gets the details of the specified library masking format.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetLibraryMaskingFormat.go.html to see an example of how to use GetLibraryMaskingFormat API.
 // A default retry strategy applies to this operation GetLibraryMaskingFormat()
 func (client DataSafeClient) GetLibraryMaskingFormat(ctx context.Context, request GetLibraryMaskingFormatRequest) (response GetLibraryMaskingFormatResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6775,6 +6876,10 @@ func (client DataSafeClient) getLibraryMaskingFormat(ctx context.Context, reques
 }
 
 // GetMaskingColumn Gets the details of the specified masking column.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetMaskingColumn.go.html to see an example of how to use GetMaskingColumn API.
 // A default retry strategy applies to this operation GetMaskingColumn()
 func (client DataSafeClient) GetMaskingColumn(ctx context.Context, request GetMaskingColumnRequest) (response GetMaskingColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6829,6 +6934,10 @@ func (client DataSafeClient) getMaskingColumn(ctx context.Context, request commo
 }
 
 // GetMaskingPolicy Gets the details of the specified masking policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetMaskingPolicy.go.html to see an example of how to use GetMaskingPolicy API.
 // A default retry strategy applies to this operation GetMaskingPolicy()
 func (client DataSafeClient) GetMaskingPolicy(ctx context.Context, request GetMaskingPolicyRequest) (response GetMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6883,6 +6992,10 @@ func (client DataSafeClient) getMaskingPolicy(ctx context.Context, request commo
 }
 
 // GetMaskingReport Gets the details of the specified masking report.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetMaskingReport.go.html to see an example of how to use GetMaskingReport API.
 // A default retry strategy applies to this operation GetMaskingReport()
 func (client DataSafeClient) GetMaskingReport(ctx context.Context, request GetMaskingReportRequest) (response GetMaskingReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6937,6 +7050,10 @@ func (client DataSafeClient) getMaskingReport(ctx context.Context, request commo
 }
 
 // GetOnPremConnector Gets the details of the specified on-premises connector.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetOnPremConnector.go.html to see an example of how to use GetOnPremConnector API.
 // A default retry strategy applies to this operation GetOnPremConnector()
 func (client DataSafeClient) GetOnPremConnector(ctx context.Context, request GetOnPremConnectorRequest) (response GetOnPremConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6991,6 +7108,10 @@ func (client DataSafeClient) getOnPremConnector(ctx context.Context, request com
 }
 
 // GetPeerTargetDatabase Returns the details of the specified Data Safe peer target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetPeerTargetDatabase.go.html to see an example of how to use GetPeerTargetDatabase API.
 // A default retry strategy applies to this operation GetPeerTargetDatabase()
 func (client DataSafeClient) GetPeerTargetDatabase(ctx context.Context, request GetPeerTargetDatabaseRequest) (response GetPeerTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7047,6 +7168,10 @@ func (client DataSafeClient) getPeerTargetDatabase(ctx context.Context, request 
 // GetProfile Lists the details of given profile available on the target.
 // The GetProfile operation returns only the profiles in the specified 'userAssessmentId'.
 // This does not include any subcompartments of the current compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetProfile.go.html to see an example of how to use GetProfile API.
 // A default retry strategy applies to this operation GetProfile()
 func (client DataSafeClient) GetProfile(ctx context.Context, request GetProfileRequest) (response GetProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7101,6 +7226,10 @@ func (client DataSafeClient) getProfile(ctx context.Context, request common.OCIR
 }
 
 // GetReport Gets a report by identifier
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetReport.go.html to see an example of how to use GetReport API.
 // A default retry strategy applies to this operation GetReport()
 func (client DataSafeClient) GetReport(ctx context.Context, request GetReportRequest) (response GetReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7155,6 +7284,10 @@ func (client DataSafeClient) getReport(ctx context.Context, request common.OCIRe
 }
 
 // GetReportContent Downloads the specified report in the form of .xls or .pdf.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetReportContent.go.html to see an example of how to use GetReportContent API.
 // A default retry strategy applies to this operation GetReportContent()
 func (client DataSafeClient) GetReportContent(ctx context.Context, request GetReportContentRequest) (response GetReportContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7208,6 +7341,10 @@ func (client DataSafeClient) getReportContent(ctx context.Context, request commo
 }
 
 // GetReportDefinition Gets the details of report definition specified by the identifier
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetReportDefinition.go.html to see an example of how to use GetReportDefinition API.
 // A default retry strategy applies to this operation GetReportDefinition()
 func (client DataSafeClient) GetReportDefinition(ctx context.Context, request GetReportDefinitionRequest) (response GetReportDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7262,6 +7399,10 @@ func (client DataSafeClient) getReportDefinition(ctx context.Context, request co
 }
 
 // GetSdmMaskingPolicyDifference Gets the details of the specified SDM Masking policy difference.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSdmMaskingPolicyDifference.go.html to see an example of how to use GetSdmMaskingPolicyDifference API.
 // A default retry strategy applies to this operation GetSdmMaskingPolicyDifference()
 func (client DataSafeClient) GetSdmMaskingPolicyDifference(ctx context.Context, request GetSdmMaskingPolicyDifferenceRequest) (response GetSdmMaskingPolicyDifferenceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7316,6 +7457,10 @@ func (client DataSafeClient) getSdmMaskingPolicyDifference(ctx context.Context, 
 }
 
 // GetSecurityAssessment Gets the details of the specified security assessment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityAssessment.go.html to see an example of how to use GetSecurityAssessment API.
 // A default retry strategy applies to this operation GetSecurityAssessment()
 func (client DataSafeClient) GetSecurityAssessment(ctx context.Context, request GetSecurityAssessmentRequest) (response GetSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7370,6 +7515,10 @@ func (client DataSafeClient) getSecurityAssessment(ctx context.Context, request 
 }
 
 // GetSecurityAssessmentComparison Gets the details of the comparison report for the security assessments submitted for comparison.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityAssessmentComparison.go.html to see an example of how to use GetSecurityAssessmentComparison API.
 // A default retry strategy applies to this operation GetSecurityAssessmentComparison()
 func (client DataSafeClient) GetSecurityAssessmentComparison(ctx context.Context, request GetSecurityAssessmentComparisonRequest) (response GetSecurityAssessmentComparisonResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7424,6 +7573,10 @@ func (client DataSafeClient) getSecurityAssessmentComparison(ctx context.Context
 }
 
 // GetSecurityPolicy Gets a security policy by the specified OCID of the security policy resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicy.go.html to see an example of how to use GetSecurityPolicy API.
 // A default retry strategy applies to this operation GetSecurityPolicy()
 func (client DataSafeClient) GetSecurityPolicy(ctx context.Context, request GetSecurityPolicyRequest) (response GetSecurityPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7478,6 +7631,10 @@ func (client DataSafeClient) getSecurityPolicy(ctx context.Context, request comm
 }
 
 // GetSecurityPolicyDeployment Gets a security policy deployment by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicyDeployment.go.html to see an example of how to use GetSecurityPolicyDeployment API.
 // A default retry strategy applies to this operation GetSecurityPolicyDeployment()
 func (client DataSafeClient) GetSecurityPolicyDeployment(ctx context.Context, request GetSecurityPolicyDeploymentRequest) (response GetSecurityPolicyDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7532,6 +7689,10 @@ func (client DataSafeClient) getSecurityPolicyDeployment(ctx context.Context, re
 }
 
 // GetSecurityPolicyEntryState Gets a security policy entity states by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicyEntryState.go.html to see an example of how to use GetSecurityPolicyEntryState API.
 // A default retry strategy applies to this operation GetSecurityPolicyEntryState()
 func (client DataSafeClient) GetSecurityPolicyEntryState(ctx context.Context, request GetSecurityPolicyEntryStateRequest) (response GetSecurityPolicyEntryStateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7586,6 +7747,10 @@ func (client DataSafeClient) getSecurityPolicyEntryState(ctx context.Context, re
 }
 
 // GetSecurityPolicyReport Gets a security policy report by the specified OCID of the security policy report resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicyReport.go.html to see an example of how to use GetSecurityPolicyReport API.
 // A default retry strategy applies to this operation GetSecurityPolicyReport()
 func (client DataSafeClient) GetSecurityPolicyReport(ctx context.Context, request GetSecurityPolicyReportRequest) (response GetSecurityPolicyReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7640,6 +7805,10 @@ func (client DataSafeClient) getSecurityPolicyReport(ctx context.Context, reques
 }
 
 // GetSensitiveColumn Gets the details of the specified sensitive column.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSensitiveColumn.go.html to see an example of how to use GetSensitiveColumn API.
 // A default retry strategy applies to this operation GetSensitiveColumn()
 func (client DataSafeClient) GetSensitiveColumn(ctx context.Context, request GetSensitiveColumnRequest) (response GetSensitiveColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7694,6 +7863,10 @@ func (client DataSafeClient) getSensitiveColumn(ctx context.Context, request com
 }
 
 // GetSensitiveDataModel Gets the details of the specified sensitive data model.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSensitiveDataModel.go.html to see an example of how to use GetSensitiveDataModel API.
 // A default retry strategy applies to this operation GetSensitiveDataModel()
 func (client DataSafeClient) GetSensitiveDataModel(ctx context.Context, request GetSensitiveDataModelRequest) (response GetSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7748,6 +7921,10 @@ func (client DataSafeClient) getSensitiveDataModel(ctx context.Context, request 
 }
 
 // GetSensitiveType Gets the details of the specified sensitive type.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSensitiveType.go.html to see an example of how to use GetSensitiveType API.
 // A default retry strategy applies to this operation GetSensitiveType()
 func (client DataSafeClient) GetSensitiveType(ctx context.Context, request GetSensitiveTypeRequest) (response GetSensitiveTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7802,6 +7979,10 @@ func (client DataSafeClient) getSensitiveType(ctx context.Context, request commo
 }
 
 // GetSqlCollection Gets a SQL collection by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSqlCollection.go.html to see an example of how to use GetSqlCollection API.
 // A default retry strategy applies to this operation GetSqlCollection()
 func (client DataSafeClient) GetSqlCollection(ctx context.Context, request GetSqlCollectionRequest) (response GetSqlCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7856,6 +8037,10 @@ func (client DataSafeClient) getSqlCollection(ctx context.Context, request commo
 }
 
 // GetSqlFirewallPolicy Gets a SQL Firewall policy by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSqlFirewallPolicy.go.html to see an example of how to use GetSqlFirewallPolicy API.
 // A default retry strategy applies to this operation GetSqlFirewallPolicy()
 func (client DataSafeClient) GetSqlFirewallPolicy(ctx context.Context, request GetSqlFirewallPolicyRequest) (response GetSqlFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7910,6 +8095,10 @@ func (client DataSafeClient) getSqlFirewallPolicy(ctx context.Context, request c
 }
 
 // GetTargetAlertPolicyAssociation Gets the details of target-alert policy association by its ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetTargetAlertPolicyAssociation.go.html to see an example of how to use GetTargetAlertPolicyAssociation API.
 // A default retry strategy applies to this operation GetTargetAlertPolicyAssociation()
 func (client DataSafeClient) GetTargetAlertPolicyAssociation(ctx context.Context, request GetTargetAlertPolicyAssociationRequest) (response GetTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7964,6 +8153,10 @@ func (client DataSafeClient) getTargetAlertPolicyAssociation(ctx context.Context
 }
 
 // GetTargetDatabase Returns the details of the specified Data Safe target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetTargetDatabase.go.html to see an example of how to use GetTargetDatabase API.
 // A default retry strategy applies to this operation GetTargetDatabase()
 func (client DataSafeClient) GetTargetDatabase(ctx context.Context, request GetTargetDatabaseRequest) (response GetTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8018,6 +8211,10 @@ func (client DataSafeClient) getTargetDatabase(ctx context.Context, request comm
 }
 
 // GetUserAssessment Gets a user assessment by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetUserAssessment.go.html to see an example of how to use GetUserAssessment API.
 // A default retry strategy applies to this operation GetUserAssessment()
 func (client DataSafeClient) GetUserAssessment(ctx context.Context, request GetUserAssessmentRequest) (response GetUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8072,6 +8269,10 @@ func (client DataSafeClient) getUserAssessment(ctx context.Context, request comm
 }
 
 // GetUserAssessmentComparison Gets the details of the comparison report for the user assessments submitted for comparison.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetUserAssessmentComparison.go.html to see an example of how to use GetUserAssessmentComparison API.
 // A default retry strategy applies to this operation GetUserAssessmentComparison()
 func (client DataSafeClient) GetUserAssessmentComparison(ctx context.Context, request GetUserAssessmentComparisonRequest) (response GetUserAssessmentComparisonResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8126,6 +8327,10 @@ func (client DataSafeClient) getUserAssessmentComparison(ctx context.Context, re
 }
 
 // GetWorkRequest Gets the details of the specified work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DataSafeClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8180,6 +8385,10 @@ func (client DataSafeClient) getWorkRequest(ctx context.Context, request common.
 }
 
 // ListAlertAnalytics Returns the aggregation details of the alerts.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAlertAnalytics.go.html to see an example of how to use ListAlertAnalytics API.
 // A default retry strategy applies to this operation ListAlertAnalytics()
 func (client DataSafeClient) ListAlertAnalytics(ctx context.Context, request ListAlertAnalyticsRequest) (response ListAlertAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8239,6 +8448,10 @@ func (client DataSafeClient) listAlertAnalytics(ctx context.Context, request com
 }
 
 // ListAlertPolicies Gets a list of all alert policies.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAlertPolicies.go.html to see an example of how to use ListAlertPolicies API.
 // A default retry strategy applies to this operation ListAlertPolicies()
 func (client DataSafeClient) ListAlertPolicies(ctx context.Context, request ListAlertPoliciesRequest) (response ListAlertPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8294,6 +8507,10 @@ func (client DataSafeClient) listAlertPolicies(ctx context.Context, request comm
 
 // ListAlertPolicyRules Lists the rules of the specified alert policy. The alert policy is said to be satisfied when all rules in the policy evaulate to true.
 // If there are three rules: rule1,rule2 and rule3, the policy is satisfied if rule1 AND rule2 AND rule3 is True.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAlertPolicyRules.go.html to see an example of how to use ListAlertPolicyRules API.
 // A default retry strategy applies to this operation ListAlertPolicyRules()
 func (client DataSafeClient) ListAlertPolicyRules(ctx context.Context, request ListAlertPolicyRulesRequest) (response ListAlertPolicyRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8348,6 +8565,10 @@ func (client DataSafeClient) listAlertPolicyRules(ctx context.Context, request c
 }
 
 // ListAlerts Gets a list of all alerts.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAlerts.go.html to see an example of how to use ListAlerts API.
 // A default retry strategy applies to this operation ListAlerts()
 func (client DataSafeClient) ListAlerts(ctx context.Context, request ListAlertsRequest) (response ListAlertsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8402,6 +8623,10 @@ func (client DataSafeClient) listAlerts(ctx context.Context, request common.OCIR
 }
 
 // ListAuditArchiveRetrievals Returns the list of audit archive retrieval.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditArchiveRetrievals.go.html to see an example of how to use ListAuditArchiveRetrievals API.
 // A default retry strategy applies to this operation ListAuditArchiveRetrievals()
 func (client DataSafeClient) ListAuditArchiveRetrievals(ctx context.Context, request ListAuditArchiveRetrievalsRequest) (response ListAuditArchiveRetrievalsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8465,6 +8690,10 @@ func (client DataSafeClient) listAuditArchiveRetrievals(ctx context.Context, req
 // This will give number of events grouped by periods. Period can be 1 day, 1 week, etc.
 // /ListAuditEventAnalytics?summaryField=targetName&groupBy=targetName
 // This will give the number of events group by targetName. Only targetName summary column would be returned.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditEventAnalytics.go.html to see an example of how to use ListAuditEventAnalytics API.
 // A default retry strategy applies to this operation ListAuditEventAnalytics()
 func (client DataSafeClient) ListAuditEventAnalytics(ctx context.Context, request ListAuditEventAnalyticsRequest) (response ListAuditEventAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8534,6 +8763,10 @@ func (client DataSafeClient) listAuditEventAnalytics(ctx context.Context, reques
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditEvents.go.html to see an example of how to use ListAuditEvents API.
 // A default retry strategy applies to this operation ListAuditEvents()
 func (client DataSafeClient) ListAuditEvents(ctx context.Context, request ListAuditEventsRequest) (response ListAuditEventsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8599,6 +8832,10 @@ func (client DataSafeClient) listAuditEvents(ctx context.Context, request common
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditPolicies.go.html to see an example of how to use ListAuditPolicies API.
 // A default retry strategy applies to this operation ListAuditPolicies()
 func (client DataSafeClient) ListAuditPolicies(ctx context.Context, request ListAuditPoliciesRequest) (response ListAuditPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8665,6 +8902,10 @@ func (client DataSafeClient) listAuditPolicies(ctx context.Context, request comm
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 // **Example:** ListAuditPolicyAnalytics?groupBy=auditPolicyCategory
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditPolicyAnalytics.go.html to see an example of how to use ListAuditPolicyAnalytics API.
 // A default retry strategy applies to this operation ListAuditPolicyAnalytics()
 func (client DataSafeClient) ListAuditPolicyAnalytics(ctx context.Context, request ListAuditPolicyAnalyticsRequest) (response ListAuditPolicyAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8729,6 +8970,10 @@ func (client DataSafeClient) listAuditPolicyAnalytics(ctx context.Context, reque
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditProfileAnalytics.go.html to see an example of how to use ListAuditProfileAnalytics API.
 // A default retry strategy applies to this operation ListAuditProfileAnalytics()
 func (client DataSafeClient) ListAuditProfileAnalytics(ctx context.Context, request ListAuditProfileAnalyticsRequest) (response ListAuditProfileAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8794,6 +9039,10 @@ func (client DataSafeClient) listAuditProfileAnalytics(ctx context.Context, requ
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditProfiles.go.html to see an example of how to use ListAuditProfiles API.
 // A default retry strategy applies to this operation ListAuditProfiles()
 func (client DataSafeClient) ListAuditProfiles(ctx context.Context, request ListAuditProfilesRequest) (response ListAuditProfilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8858,6 +9107,10 @@ func (client DataSafeClient) listAuditProfiles(ctx context.Context, request comm
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditTrailAnalytics.go.html to see an example of how to use ListAuditTrailAnalytics API.
 // A default retry strategy applies to this operation ListAuditTrailAnalytics()
 func (client DataSafeClient) ListAuditTrailAnalytics(ctx context.Context, request ListAuditTrailAnalyticsRequest) (response ListAuditTrailAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8923,6 +9176,10 @@ func (client DataSafeClient) listAuditTrailAnalytics(ctx context.Context, reques
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditTrails.go.html to see an example of how to use ListAuditTrails API.
 // A default retry strategy applies to this operation ListAuditTrails()
 func (client DataSafeClient) ListAuditTrails(ctx context.Context, request ListAuditTrailsRequest) (response ListAuditTrailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8977,6 +9234,10 @@ func (client DataSafeClient) listAuditTrails(ctx context.Context, request common
 }
 
 // ListAvailableAuditVolumes Retrieves a list of audit trails, and associated audit event volume for each trail up to defined start date.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAvailableAuditVolumes.go.html to see an example of how to use ListAvailableAuditVolumes API.
 // A default retry strategy applies to this operation ListAvailableAuditVolumes()
 func (client DataSafeClient) ListAvailableAuditVolumes(ctx context.Context, request ListAvailableAuditVolumesRequest) (response ListAvailableAuditVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9031,6 +9292,10 @@ func (client DataSafeClient) listAvailableAuditVolumes(ctx context.Context, requ
 }
 
 // ListCollectedAuditVolumes Gets a list of all collected audit volume data points.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCollectedAuditVolumes.go.html to see an example of how to use ListCollectedAuditVolumes API.
 // A default retry strategy applies to this operation ListCollectedAuditVolumes()
 func (client DataSafeClient) ListCollectedAuditVolumes(ctx context.Context, request ListCollectedAuditVolumesRequest) (response ListCollectedAuditVolumesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9085,6 +9350,10 @@ func (client DataSafeClient) listCollectedAuditVolumes(ctx context.Context, requ
 }
 
 // ListColumns Returns a list of column metadata objects.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListColumns.go.html to see an example of how to use ListColumns API.
 // A default retry strategy applies to this operation ListColumns()
 func (client DataSafeClient) ListColumns(ctx context.Context, request ListColumnsRequest) (response ListColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9139,6 +9408,10 @@ func (client DataSafeClient) listColumns(ctx context.Context, request common.OCI
 }
 
 // ListDataSafePrivateEndpoints Gets a list of Data Safe private endpoints.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDataSafePrivateEndpoints.go.html to see an example of how to use ListDataSafePrivateEndpoints API.
 // A default retry strategy applies to this operation ListDataSafePrivateEndpoints()
 func (client DataSafeClient) ListDataSafePrivateEndpoints(ctx context.Context, request ListDataSafePrivateEndpointsRequest) (response ListDataSafePrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9203,6 +9476,10 @@ func (client DataSafeClient) listDataSafePrivateEndpoints(ctx context.Context, r
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDatabaseSecurityConfigs.go.html to see an example of how to use ListDatabaseSecurityConfigs API.
 // A default retry strategy applies to this operation ListDatabaseSecurityConfigs()
 func (client DataSafeClient) ListDatabaseSecurityConfigs(ctx context.Context, request ListDatabaseSecurityConfigsRequest) (response ListDatabaseSecurityConfigsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9259,6 +9536,10 @@ func (client DataSafeClient) listDatabaseSecurityConfigs(ctx context.Context, re
 // ListDatabaseTableAccessEntries Retrieves a list of all database table access entries in Data Safe.
 //
 // The ListDatabaseTableAccessEntries operation returns only the database table access reports for the specified security policy report.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDatabaseTableAccessEntries.go.html to see an example of how to use ListDatabaseTableAccessEntries API.
 // A default retry strategy applies to this operation ListDatabaseTableAccessEntries()
 func (client DataSafeClient) ListDatabaseTableAccessEntries(ctx context.Context, request ListDatabaseTableAccessEntriesRequest) (response ListDatabaseTableAccessEntriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9314,6 +9595,10 @@ func (client DataSafeClient) listDatabaseTableAccessEntries(ctx context.Context,
 
 // ListDatabaseViewAccessEntries Retrieves a list of all database view access entries in Data Safe.
 // The ListDatabaseViewAccessEntries operation returns only the database view access objects for the specified security policy report.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDatabaseViewAccessEntries.go.html to see an example of how to use ListDatabaseViewAccessEntries API.
 // A default retry strategy applies to this operation ListDatabaseViewAccessEntries()
 func (client DataSafeClient) ListDatabaseViewAccessEntries(ctx context.Context, request ListDatabaseViewAccessEntriesRequest) (response ListDatabaseViewAccessEntriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9368,6 +9653,10 @@ func (client DataSafeClient) listDatabaseViewAccessEntries(ctx context.Context, 
 }
 
 // ListDifferenceColumns Gets a list of columns of a SDM masking policy difference resource based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDifferenceColumns.go.html to see an example of how to use ListDifferenceColumns API.
 // A default retry strategy applies to this operation ListDifferenceColumns()
 func (client DataSafeClient) ListDifferenceColumns(ctx context.Context, request ListDifferenceColumnsRequest) (response ListDifferenceColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9424,6 +9713,10 @@ func (client DataSafeClient) listDifferenceColumns(ctx context.Context, request 
 // ListDiscoveryAnalytics Gets consolidated discovery analytics data based on the specified query parameters.
 // If CompartmentIdInSubtreeQueryParam is specified as true, the behaviour
 // is equivalent to accessLevel "ACCESSIBLE" by default.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDiscoveryAnalytics.go.html to see an example of how to use ListDiscoveryAnalytics API.
 // A default retry strategy applies to this operation ListDiscoveryAnalytics()
 func (client DataSafeClient) ListDiscoveryAnalytics(ctx context.Context, request ListDiscoveryAnalyticsRequest) (response ListDiscoveryAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9478,6 +9771,10 @@ func (client DataSafeClient) listDiscoveryAnalytics(ctx context.Context, request
 }
 
 // ListDiscoveryJobResults Gets a list of discovery results based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDiscoveryJobResults.go.html to see an example of how to use ListDiscoveryJobResults API.
 // A default retry strategy applies to this operation ListDiscoveryJobResults()
 func (client DataSafeClient) ListDiscoveryJobResults(ctx context.Context, request ListDiscoveryJobResultsRequest) (response ListDiscoveryJobResultsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9532,6 +9829,10 @@ func (client DataSafeClient) listDiscoveryJobResults(ctx context.Context, reques
 }
 
 // ListDiscoveryJobs Gets a list of incremental discovery jobs based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDiscoveryJobs.go.html to see an example of how to use ListDiscoveryJobs API.
 // A default retry strategy applies to this operation ListDiscoveryJobs()
 func (client DataSafeClient) ListDiscoveryJobs(ctx context.Context, request ListDiscoveryJobsRequest) (response ListDiscoveryJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9594,6 +9895,10 @@ func (client DataSafeClient) listDiscoveryJobs(ctx context.Context, request comm
 // permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
 // root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 // compartmentId, then "Not Authorized" is returned.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListFindingAnalytics.go.html to see an example of how to use ListFindingAnalytics API.
 // A default retry strategy applies to this operation ListFindingAnalytics()
 func (client DataSafeClient) ListFindingAnalytics(ctx context.Context, request ListFindingAnalyticsRequest) (response ListFindingAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9648,6 +9953,10 @@ func (client DataSafeClient) listFindingAnalytics(ctx context.Context, request c
 }
 
 // ListFindings List all the findings from all the targets in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListFindings.go.html to see an example of how to use ListFindings API.
 // A default retry strategy applies to this operation ListFindings()
 func (client DataSafeClient) ListFindings(ctx context.Context, request ListFindingsRequest) (response ListFindingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9702,6 +10011,10 @@ func (client DataSafeClient) listFindings(ctx context.Context, request common.OC
 }
 
 // ListFindingsChangeAuditLogs List all changes made by user to risk level of findings of the specified assessment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListFindingsChangeAuditLogs.go.html to see an example of how to use ListFindingsChangeAuditLogs API.
 // A default retry strategy applies to this operation ListFindingsChangeAuditLogs()
 func (client DataSafeClient) ListFindingsChangeAuditLogs(ctx context.Context, request ListFindingsChangeAuditLogsRequest) (response ListFindingsChangeAuditLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9759,6 +10072,10 @@ func (client DataSafeClient) listFindingsChangeAuditLogs(ctx context.Context, re
 // privilege name, type, category, and depth level. The depth level indicates how deep in the hierarchy of roles granted to
 // roles a privilege grant is. The userKey in this operation is a system-generated identifier. Perform the operation ListUsers
 // to get the userKey for a particular user.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListGrants.go.html to see an example of how to use ListGrants API.
 // A default retry strategy applies to this operation ListGrants()
 func (client DataSafeClient) ListGrants(ctx context.Context, request ListGrantsRequest) (response ListGrantsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9813,6 +10130,10 @@ func (client DataSafeClient) listGrants(ctx context.Context, request common.OCIR
 }
 
 // ListLibraryMaskingFormats Gets a list of library masking formats based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListLibraryMaskingFormats.go.html to see an example of how to use ListLibraryMaskingFormats API.
 // A default retry strategy applies to this operation ListLibraryMaskingFormats()
 func (client DataSafeClient) ListLibraryMaskingFormats(ctx context.Context, request ListLibraryMaskingFormatsRequest) (response ListLibraryMaskingFormatsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9867,6 +10188,10 @@ func (client DataSafeClient) listLibraryMaskingFormats(ctx context.Context, requ
 }
 
 // ListMaskedColumns Gets a list of masked columns present in the specified masking report and based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskedColumns.go.html to see an example of how to use ListMaskedColumns API.
 // A default retry strategy applies to this operation ListMaskedColumns()
 func (client DataSafeClient) ListMaskedColumns(ctx context.Context, request ListMaskedColumnsRequest) (response ListMaskedColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9923,6 +10248,10 @@ func (client DataSafeClient) listMaskedColumns(ctx context.Context, request comm
 // ListMaskingAnalytics Gets consolidated masking analytics data based on the specified query parameters.
 // If CompartmentIdInSubtreeQueryParam is specified as true, the behaviour
 // is equivalent to accessLevel "ACCESSIBLE" by default.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingAnalytics.go.html to see an example of how to use ListMaskingAnalytics API.
 // A default retry strategy applies to this operation ListMaskingAnalytics()
 func (client DataSafeClient) ListMaskingAnalytics(ctx context.Context, request ListMaskingAnalyticsRequest) (response ListMaskingAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9977,6 +10306,10 @@ func (client DataSafeClient) listMaskingAnalytics(ctx context.Context, request c
 }
 
 // ListMaskingColumns Gets a list of masking columns present in the specified masking policy and based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingColumns.go.html to see an example of how to use ListMaskingColumns API.
 // A default retry strategy applies to this operation ListMaskingColumns()
 func (client DataSafeClient) ListMaskingColumns(ctx context.Context, request ListMaskingColumnsRequest) (response ListMaskingColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10031,6 +10364,10 @@ func (client DataSafeClient) listMaskingColumns(ctx context.Context, request com
 }
 
 // ListMaskingObjects Gets a list of masking objects present in the specified masking policy and based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingObjects.go.html to see an example of how to use ListMaskingObjects API.
 // A default retry strategy applies to this operation ListMaskingObjects()
 func (client DataSafeClient) ListMaskingObjects(ctx context.Context, request ListMaskingObjectsRequest) (response ListMaskingObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10085,6 +10422,10 @@ func (client DataSafeClient) listMaskingObjects(ctx context.Context, request com
 }
 
 // ListMaskingPolicies Gets a list of masking policies based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingPolicies.go.html to see an example of how to use ListMaskingPolicies API.
 // A default retry strategy applies to this operation ListMaskingPolicies()
 func (client DataSafeClient) ListMaskingPolicies(ctx context.Context, request ListMaskingPoliciesRequest) (response ListMaskingPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10139,6 +10480,10 @@ func (client DataSafeClient) listMaskingPolicies(ctx context.Context, request co
 }
 
 // ListMaskingReports Gets a list of masking reports based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingReports.go.html to see an example of how to use ListMaskingReports API.
 // A default retry strategy applies to this operation ListMaskingReports()
 func (client DataSafeClient) ListMaskingReports(ctx context.Context, request ListMaskingReportsRequest) (response ListMaskingReportsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10193,6 +10538,10 @@ func (client DataSafeClient) listMaskingReports(ctx context.Context, request com
 }
 
 // ListMaskingSchemas Gets a list of masking schemas present in the specified masking policy and based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingSchemas.go.html to see an example of how to use ListMaskingSchemas API.
 // A default retry strategy applies to this operation ListMaskingSchemas()
 func (client DataSafeClient) ListMaskingSchemas(ctx context.Context, request ListMaskingSchemasRequest) (response ListMaskingSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10247,6 +10596,10 @@ func (client DataSafeClient) listMaskingSchemas(ctx context.Context, request com
 }
 
 // ListOnPremConnectors Gets a list of on-premises connectors.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListOnPremConnectors.go.html to see an example of how to use ListOnPremConnectors API.
 // A default retry strategy applies to this operation ListOnPremConnectors()
 func (client DataSafeClient) ListOnPremConnectors(ctx context.Context, request ListOnPremConnectorsRequest) (response ListOnPremConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10301,6 +10654,10 @@ func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request c
 }
 
 // ListPeerTargetDatabases Lists all the peer target databases under the primary target database identified by the OCID passed as path parameter.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListPeerTargetDatabases.go.html to see an example of how to use ListPeerTargetDatabases API.
 // A default retry strategy applies to this operation ListPeerTargetDatabases()
 func (client DataSafeClient) ListPeerTargetDatabases(ctx context.Context, request ListPeerTargetDatabasesRequest) (response ListPeerTargetDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10371,6 +10728,10 @@ func (client DataSafeClient) listPeerTargetDatabases(ctx context.Context, reques
 // set to true, the entire hierarchy of compartments can be returned.
 // To use ListProfileAnalytics to get a full list of all compartments and subcompartments in the tenancy from the root compartment,
 // set the parameter compartmentIdInSubtree to true and accessLevel to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListProfileAnalytics.go.html to see an example of how to use ListProfileAnalytics API.
 // A default retry strategy applies to this operation ListProfileAnalytics()
 func (client DataSafeClient) ListProfileAnalytics(ctx context.Context, request ListProfileAnalyticsRequest) (response ListProfileAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10436,6 +10797,10 @@ func (client DataSafeClient) listProfileAnalytics(ctx context.Context, request c
 // to the assessmentId passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment), set the parameter
 // 'compartmentIdInSubtree' to true and 'accessLevel' to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListProfileSummaries.go.html to see an example of how to use ListProfileSummaries API.
 // A default retry strategy applies to this operation ListProfileSummaries()
 func (client DataSafeClient) ListProfileSummaries(ctx context.Context, request ListProfileSummariesRequest) (response ListProfileSummariesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10492,6 +10857,10 @@ func (client DataSafeClient) listProfileSummaries(ctx context.Context, request c
 // ListReportDefinitions Gets a list of report definitions.
 // The ListReportDefinitions operation returns only the report definitions in the specified `compartmentId`.
 // It also returns the seeded report definitions which are available to all the compartments.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListReportDefinitions.go.html to see an example of how to use ListReportDefinitions API.
 // A default retry strategy applies to this operation ListReportDefinitions()
 func (client DataSafeClient) ListReportDefinitions(ctx context.Context, request ListReportDefinitionsRequest) (response ListReportDefinitionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10546,6 +10915,10 @@ func (client DataSafeClient) listReportDefinitions(ctx context.Context, request 
 }
 
 // ListReports Gets a list of all the reports in the compartment. It contains information such as report generation time.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListReports.go.html to see an example of how to use ListReports API.
 // A default retry strategy applies to this operation ListReports()
 func (client DataSafeClient) ListReports(ctx context.Context, request ListReportsRequest) (response ListReportsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10601,6 +10974,10 @@ func (client DataSafeClient) listReports(ctx context.Context, request common.OCI
 
 // ListRoleGrantPaths Retrieves a list of all role grant paths for a particular user.
 // The ListRoleGrantPaths operation returns only the role grant paths for the specified security policy report.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListRoleGrantPaths.go.html to see an example of how to use ListRoleGrantPaths API.
 // A default retry strategy applies to this operation ListRoleGrantPaths()
 func (client DataSafeClient) ListRoleGrantPaths(ctx context.Context, request ListRoleGrantPathsRequest) (response ListRoleGrantPathsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10655,6 +11032,10 @@ func (client DataSafeClient) listRoleGrantPaths(ctx context.Context, request com
 }
 
 // ListRoles Returns a list of role metadata objects.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListRoles.go.html to see an example of how to use ListRoles API.
 // A default retry strategy applies to this operation ListRoles()
 func (client DataSafeClient) ListRoles(ctx context.Context, request ListRolesRequest) (response ListRolesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10709,6 +11090,10 @@ func (client DataSafeClient) listRoles(ctx context.Context, request common.OCIRe
 }
 
 // ListSchemas Returns list of schema.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSchemas.go.html to see an example of how to use ListSchemas API.
 // A default retry strategy applies to this operation ListSchemas()
 func (client DataSafeClient) ListSchemas(ctx context.Context, request ListSchemasRequest) (response ListSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10763,6 +11148,10 @@ func (client DataSafeClient) listSchemas(ctx context.Context, request common.OCI
 }
 
 // ListSdmMaskingPolicyDifferences Gets a list of SDM and masking policy difference resources based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSdmMaskingPolicyDifferences.go.html to see an example of how to use ListSdmMaskingPolicyDifferences API.
 // A default retry strategy applies to this operation ListSdmMaskingPolicyDifferences()
 func (client DataSafeClient) ListSdmMaskingPolicyDifferences(ctx context.Context, request ListSdmMaskingPolicyDifferencesRequest) (response ListSdmMaskingPolicyDifferencesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10828,6 +11217,10 @@ func (client DataSafeClient) listSdmMaskingPolicyDifferences(ctx context.Context
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityAssessments.go.html to see an example of how to use ListSecurityAssessments API.
 // A default retry strategy applies to this operation ListSecurityAssessments()
 func (client DataSafeClient) ListSecurityAssessments(ctx context.Context, request ListSecurityAssessmentsRequest) (response ListSecurityAssessmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10888,6 +11281,10 @@ func (client DataSafeClient) listSecurityAssessments(ctx context.Context, reques
 // permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
 // root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 // compartmentId, then "Not Authorized" is returned.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityFeatureAnalytics.go.html to see an example of how to use ListSecurityFeatureAnalytics API.
 // A default retry strategy applies to this operation ListSecurityFeatureAnalytics()
 func (client DataSafeClient) ListSecurityFeatureAnalytics(ctx context.Context, request ListSecurityFeatureAnalyticsRequest) (response ListSecurityFeatureAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10942,6 +11339,10 @@ func (client DataSafeClient) listSecurityFeatureAnalytics(ctx context.Context, r
 }
 
 // ListSecurityFeatures Lists the usage of Database security features for a given compartment or a target level, based on the filters provided.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityFeatures.go.html to see an example of how to use ListSecurityFeatures API.
 // A default retry strategy applies to this operation ListSecurityFeatures()
 func (client DataSafeClient) ListSecurityFeatures(ctx context.Context, request ListSecurityFeaturesRequest) (response ListSecurityFeaturesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11006,6 +11407,10 @@ func (client DataSafeClient) listSecurityFeatures(ctx context.Context, request c
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityPolicies.go.html to see an example of how to use ListSecurityPolicies API.
 // A default retry strategy applies to this operation ListSecurityPolicies()
 func (client DataSafeClient) ListSecurityPolicies(ctx context.Context, request ListSecurityPoliciesRequest) (response ListSecurityPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11070,6 +11475,10 @@ func (client DataSafeClient) listSecurityPolicies(ctx context.Context, request c
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityPolicyDeployments.go.html to see an example of how to use ListSecurityPolicyDeployments API.
 // A default retry strategy applies to this operation ListSecurityPolicyDeployments()
 func (client DataSafeClient) ListSecurityPolicyDeployments(ctx context.Context, request ListSecurityPolicyDeploymentsRequest) (response ListSecurityPolicyDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11125,6 +11534,10 @@ func (client DataSafeClient) listSecurityPolicyDeployments(ctx context.Context, 
 
 // ListSecurityPolicyEntryStates Retrieves a list of all security policy entry states in Data Safe.
 // The ListSecurityPolicyEntryStates operation returns only the security policy entry states for the specified security policy entry.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityPolicyEntryStates.go.html to see an example of how to use ListSecurityPolicyEntryStates API.
 // A default retry strategy applies to this operation ListSecurityPolicyEntryStates()
 func (client DataSafeClient) ListSecurityPolicyEntryStates(ctx context.Context, request ListSecurityPolicyEntryStatesRequest) (response ListSecurityPolicyEntryStatesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11189,6 +11602,10 @@ func (client DataSafeClient) listSecurityPolicyEntryStates(ctx context.Context, 
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityPolicyReports.go.html to see an example of how to use ListSecurityPolicyReports API.
 // A default retry strategy applies to this operation ListSecurityPolicyReports()
 func (client DataSafeClient) ListSecurityPolicyReports(ctx context.Context, request ListSecurityPolicyReportsRequest) (response ListSecurityPolicyReportsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11243,6 +11660,10 @@ func (client DataSafeClient) listSecurityPolicyReports(ctx context.Context, requ
 }
 
 // ListSensitiveColumns Gets a list of sensitive columns present in the specified sensitive data model based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveColumns.go.html to see an example of how to use ListSensitiveColumns API.
 // A default retry strategy applies to this operation ListSensitiveColumns()
 func (client DataSafeClient) ListSensitiveColumns(ctx context.Context, request ListSensitiveColumnsRequest) (response ListSensitiveColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11297,6 +11718,10 @@ func (client DataSafeClient) listSensitiveColumns(ctx context.Context, request c
 }
 
 // ListSensitiveDataModels Gets a list of sensitive data models based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveDataModels.go.html to see an example of how to use ListSensitiveDataModels API.
 // A default retry strategy applies to this operation ListSensitiveDataModels()
 func (client DataSafeClient) ListSensitiveDataModels(ctx context.Context, request ListSensitiveDataModelsRequest) (response ListSensitiveDataModelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11351,6 +11776,10 @@ func (client DataSafeClient) listSensitiveDataModels(ctx context.Context, reques
 }
 
 // ListSensitiveObjects Gets a list of sensitive objects present in the specified sensitive data model based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveObjects.go.html to see an example of how to use ListSensitiveObjects API.
 // A default retry strategy applies to this operation ListSensitiveObjects()
 func (client DataSafeClient) ListSensitiveObjects(ctx context.Context, request ListSensitiveObjectsRequest) (response ListSensitiveObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11405,6 +11834,10 @@ func (client DataSafeClient) listSensitiveObjects(ctx context.Context, request c
 }
 
 // ListSensitiveSchemas Gets a list of sensitive schemas present in the specified sensitive data model based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveSchemas.go.html to see an example of how to use ListSensitiveSchemas API.
 // A default retry strategy applies to this operation ListSensitiveSchemas()
 func (client DataSafeClient) ListSensitiveSchemas(ctx context.Context, request ListSensitiveSchemasRequest) (response ListSensitiveSchemasResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11459,6 +11892,10 @@ func (client DataSafeClient) listSensitiveSchemas(ctx context.Context, request c
 }
 
 // ListSensitiveTypes Gets a list of sensitive types based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveTypes.go.html to see an example of how to use ListSensitiveTypes API.
 // A default retry strategy applies to this operation ListSensitiveTypes()
 func (client DataSafeClient) ListSensitiveTypes(ctx context.Context, request ListSensitiveTypesRequest) (response ListSensitiveTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11523,6 +11960,10 @@ func (client DataSafeClient) listSensitiveTypes(ctx context.Context, request com
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollectionAnalytics.go.html to see an example of how to use ListSqlCollectionAnalytics API.
 // A default retry strategy applies to this operation ListSqlCollectionAnalytics()
 func (client DataSafeClient) ListSqlCollectionAnalytics(ctx context.Context, request ListSqlCollectionAnalyticsRequest) (response ListSqlCollectionAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11577,6 +12018,10 @@ func (client DataSafeClient) listSqlCollectionAnalytics(ctx context.Context, req
 }
 
 // ListSqlCollectionLogInsights Retrieves a list of the SQL collection log analytics.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollectionLogInsights.go.html to see an example of how to use ListSqlCollectionLogInsights API.
 // A default retry strategy applies to this operation ListSqlCollectionLogInsights()
 func (client DataSafeClient) ListSqlCollectionLogInsights(ctx context.Context, request ListSqlCollectionLogInsightsRequest) (response ListSqlCollectionLogInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11641,6 +12086,10 @@ func (client DataSafeClient) listSqlCollectionLogInsights(ctx context.Context, r
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollections.go.html to see an example of how to use ListSqlCollections API.
 // A default retry strategy applies to this operation ListSqlCollections()
 func (client DataSafeClient) ListSqlCollections(ctx context.Context, request ListSqlCollectionsRequest) (response ListSqlCollectionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11705,6 +12154,10 @@ func (client DataSafeClient) listSqlCollections(ctx context.Context, request com
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallAllowedSqlAnalytics.go.html to see an example of how to use ListSqlFirewallAllowedSqlAnalytics API.
 // A default retry strategy applies to this operation ListSqlFirewallAllowedSqlAnalytics()
 func (client DataSafeClient) ListSqlFirewallAllowedSqlAnalytics(ctx context.Context, request ListSqlFirewallAllowedSqlAnalyticsRequest) (response ListSqlFirewallAllowedSqlAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11769,6 +12222,10 @@ func (client DataSafeClient) listSqlFirewallAllowedSqlAnalytics(ctx context.Cont
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallAllowedSqls.go.html to see an example of how to use ListSqlFirewallAllowedSqls API.
 // A default retry strategy applies to this operation ListSqlFirewallAllowedSqls()
 func (client DataSafeClient) ListSqlFirewallAllowedSqls(ctx context.Context, request ListSqlFirewallAllowedSqlsRequest) (response ListSqlFirewallAllowedSqlsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11833,6 +12290,10 @@ func (client DataSafeClient) listSqlFirewallAllowedSqls(ctx context.Context, req
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallPolicies.go.html to see an example of how to use ListSqlFirewallPolicies API.
 // A default retry strategy applies to this operation ListSqlFirewallPolicies()
 func (client DataSafeClient) ListSqlFirewallPolicies(ctx context.Context, request ListSqlFirewallPoliciesRequest) (response ListSqlFirewallPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11896,6 +12357,10 @@ func (client DataSafeClient) listSqlFirewallPolicies(ctx context.Context, reques
 // `compartmentId` and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallPolicyAnalytics.go.html to see an example of how to use ListSqlFirewallPolicyAnalytics API.
 // A default retry strategy applies to this operation ListSqlFirewallPolicyAnalytics()
 func (client DataSafeClient) ListSqlFirewallPolicyAnalytics(ctx context.Context, request ListSqlFirewallPolicyAnalyticsRequest) (response ListSqlFirewallPolicyAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11950,6 +12415,10 @@ func (client DataSafeClient) listSqlFirewallPolicyAnalytics(ctx context.Context,
 }
 
 // ListSqlFirewallViolationAnalytics Returns the aggregation details of the SQL Firewall violations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallViolationAnalytics.go.html to see an example of how to use ListSqlFirewallViolationAnalytics API.
 // A default retry strategy applies to this operation ListSqlFirewallViolationAnalytics()
 func (client DataSafeClient) ListSqlFirewallViolationAnalytics(ctx context.Context, request ListSqlFirewallViolationAnalyticsRequest) (response ListSqlFirewallViolationAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12009,6 +12478,10 @@ func (client DataSafeClient) listSqlFirewallViolationAnalytics(ctx context.Conte
 }
 
 // ListSqlFirewallViolations Gets a list of all the SQL Firewall violations captured by the firewall.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallViolations.go.html to see an example of how to use ListSqlFirewallViolations API.
 // A default retry strategy applies to this operation ListSqlFirewallViolations()
 func (client DataSafeClient) ListSqlFirewallViolations(ctx context.Context, request ListSqlFirewallViolationsRequest) (response ListSqlFirewallViolationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12063,6 +12536,10 @@ func (client DataSafeClient) listSqlFirewallViolations(ctx context.Context, requ
 }
 
 // ListTables Returns a list of table metadata objects.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListTables.go.html to see an example of how to use ListTables API.
 // A default retry strategy applies to this operation ListTables()
 func (client DataSafeClient) ListTables(ctx context.Context, request ListTablesRequest) (response ListTablesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12117,6 +12594,10 @@ func (client DataSafeClient) listTables(ctx context.Context, request common.OCIR
 }
 
 // ListTargetAlertPolicyAssociations Gets a list of all target-alert policy associations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListTargetAlertPolicyAssociations.go.html to see an example of how to use ListTargetAlertPolicyAssociations API.
 // A default retry strategy applies to this operation ListTargetAlertPolicyAssociations()
 func (client DataSafeClient) ListTargetAlertPolicyAssociations(ctx context.Context, request ListTargetAlertPolicyAssociationsRequest) (response ListTargetAlertPolicyAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12171,6 +12652,10 @@ func (client DataSafeClient) listTargetAlertPolicyAssociations(ctx context.Conte
 }
 
 // ListTargetDatabases Returns the list of registered target databases in Data Safe.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListTargetDatabases.go.html to see an example of how to use ListTargetDatabases API.
 // A default retry strategy applies to this operation ListTargetDatabases()
 func (client DataSafeClient) ListTargetDatabases(ctx context.Context, request ListTargetDatabasesRequest) (response ListTargetDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12225,6 +12710,10 @@ func (client DataSafeClient) listTargetDatabases(ctx context.Context, request co
 }
 
 // ListUserAccessAnalytics Gets a list of aggregated user access analytics in the specified target in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAccessAnalytics.go.html to see an example of how to use ListUserAccessAnalytics API.
 // A default retry strategy applies to this operation ListUserAccessAnalytics()
 func (client DataSafeClient) ListUserAccessAnalytics(ctx context.Context, request ListUserAccessAnalyticsRequest) (response ListUserAccessAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12290,6 +12779,10 @@ func (client DataSafeClient) listUserAccessAnalytics(ctx context.Context, reques
 // set to true, the entire hierarchy of compartments can be returned.
 // To use ListUserAnalytics to get a full list of all compartments and subcompartments in the tenancy from the root compartment,
 // set the parameter compartmentIdInSubtree to true and accessLevel to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAnalytics.go.html to see an example of how to use ListUserAnalytics API.
 // A default retry strategy applies to this operation ListUserAnalytics()
 func (client DataSafeClient) ListUserAnalytics(ctx context.Context, request ListUserAnalyticsRequest) (response ListUserAnalyticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12355,6 +12848,10 @@ func (client DataSafeClient) listUserAnalytics(ctx context.Context, request comm
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUserAssessments.go.html to see an example of how to use ListUserAssessments API.
 // A default retry strategy applies to this operation ListUserAssessments()
 func (client DataSafeClient) ListUserAssessments(ctx context.Context, request ListUserAssessmentsRequest) (response ListUserAssessmentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12412,6 +12909,10 @@ func (client DataSafeClient) listUserAssessments(ctx context.Context, request co
 // as user type, account status, last login time, user creation time, authentication type, user profile, and the date and time
 // of the latest password change. It also contains the user category derived from these user details as well as privileges
 // granted to each user.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListUsers.go.html to see an example of how to use ListUsers API.
 // A default retry strategy applies to this operation ListUsers()
 func (client DataSafeClient) ListUsers(ctx context.Context, request ListUsersRequest) (response ListUsersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12466,6 +12967,10 @@ func (client DataSafeClient) listUsers(ctx context.Context, request common.OCIRe
 }
 
 // ListWorkRequestErrors Gets a list of errors for the specified work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataSafeClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12520,6 +13025,10 @@ func (client DataSafeClient) listWorkRequestErrors(ctx context.Context, request 
 }
 
 // ListWorkRequestLogs Gets a list of log entries for the specified work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataSafeClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12574,6 +13083,10 @@ func (client DataSafeClient) listWorkRequestLogs(ctx context.Context, request co
 }
 
 // ListWorkRequests Gets a list of work requests.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DataSafeClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12628,6 +13141,10 @@ func (client DataSafeClient) listWorkRequests(ctx context.Context, request commo
 }
 
 // MaskData Masks data using the specified masking policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/MaskData.go.html to see an example of how to use MaskData API.
 // A default retry strategy applies to this operation MaskData()
 func (client DataSafeClient) MaskData(ctx context.Context, request MaskDataRequest) (response MaskDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12682,6 +13199,10 @@ func (client DataSafeClient) maskData(ctx context.Context, request common.OCIReq
 }
 
 // ModifyGlobalSettings Modifies Global Settings in Data Safe in the tenancy and region.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ModifyGlobalSettings.go.html to see an example of how to use ModifyGlobalSettings API.
 // A default retry strategy applies to this operation ModifyGlobalSettings()
 func (client DataSafeClient) ModifyGlobalSettings(ctx context.Context, request ModifyGlobalSettingsRequest) (response ModifyGlobalSettingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12741,6 +13262,10 @@ func (client DataSafeClient) modifyGlobalSettings(ctx context.Context, request c
 }
 
 // PatchAlerts Updates the status of one or more alert specified by the alert IDs.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchAlerts.go.html to see an example of how to use PatchAlerts API.
 // A default retry strategy applies to this operation PatchAlerts()
 func (client DataSafeClient) PatchAlerts(ctx context.Context, request PatchAlertsRequest) (response PatchAlertsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12796,6 +13321,10 @@ func (client DataSafeClient) patchAlerts(ctx context.Context, request common.OCI
 
 // PatchDiscoveryJobResults Patches one or more discovery results. You can use this operation to set the plannedAction attribute before using
 // ApplyDiscoveryJobResults to process the results based on this attribute.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchDiscoveryJobResults.go.html to see an example of how to use PatchDiscoveryJobResults API.
 // A default retry strategy applies to this operation PatchDiscoveryJobResults()
 func (client DataSafeClient) PatchDiscoveryJobResults(ctx context.Context, request PatchDiscoveryJobResultsRequest) (response PatchDiscoveryJobResultsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12852,6 +13381,10 @@ func (client DataSafeClient) patchDiscoveryJobResults(ctx context.Context, reque
 // PatchMaskingColumns Patches one or more columns in the specified masking policy. Use it to create, or update
 // masking columns. To create masking columns, use CreateMaskingColumnDetails as the patch
 // value. And to update masking columns, use UpdateMaskingColumnDetails as the patch value.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchMaskingColumns.go.html to see an example of how to use PatchMaskingColumns API.
 // A default retry strategy applies to this operation PatchMaskingColumns()
 func (client DataSafeClient) PatchMaskingColumns(ctx context.Context, request PatchMaskingColumnsRequest) (response PatchMaskingColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12907,6 +13440,10 @@ func (client DataSafeClient) patchMaskingColumns(ctx context.Context, request co
 
 // PatchSdmMaskingPolicyDifferenceColumns Patches one or more SDM masking policy difference columns. You can use this operation to set the plannedAction attribute before using
 // ApplySdmMaskingPolicyDifference to process the difference based on this attribute.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchSdmMaskingPolicyDifferenceColumns.go.html to see an example of how to use PatchSdmMaskingPolicyDifferenceColumns API.
 // A default retry strategy applies to this operation PatchSdmMaskingPolicyDifferenceColumns()
 func (client DataSafeClient) PatchSdmMaskingPolicyDifferenceColumns(ctx context.Context, request PatchSdmMaskingPolicyDifferenceColumnsRequest) (response PatchSdmMaskingPolicyDifferenceColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -12963,6 +13500,10 @@ func (client DataSafeClient) patchSdmMaskingPolicyDifferenceColumns(ctx context.
 // PatchSensitiveColumns Patches one or more columns in the specified sensitive data model. Use it to create, update, or delete sensitive columns.
 // To create sensitive columns, use CreateSensitiveColumnDetails as the patch value. And to update sensitive columns,
 // use UpdateSensitiveColumnDetails as the patch value.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchSensitiveColumns.go.html to see an example of how to use PatchSensitiveColumns API.
 // A default retry strategy applies to this operation PatchSensitiveColumns()
 func (client DataSafeClient) PatchSensitiveColumns(ctx context.Context, request PatchSensitiveColumnsRequest) (response PatchSensitiveColumnsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13017,6 +13558,10 @@ func (client DataSafeClient) patchSensitiveColumns(ctx context.Context, request 
 }
 
 // PatchTargetAlertPolicyAssociation Creates new target-alert policy associations that will be applied on the target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchTargetAlertPolicyAssociation.go.html to see an example of how to use PatchTargetAlertPolicyAssociation API.
 // A default retry strategy applies to this operation PatchTargetAlertPolicyAssociation()
 func (client DataSafeClient) PatchTargetAlertPolicyAssociation(ctx context.Context, request PatchTargetAlertPolicyAssociationRequest) (response PatchTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13071,6 +13616,10 @@ func (client DataSafeClient) patchTargetAlertPolicyAssociation(ctx context.Conte
 }
 
 // ProvisionAuditPolicy Provision audit policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ProvisionAuditPolicy.go.html to see an example of how to use ProvisionAuditPolicy API.
 // A default retry strategy applies to this operation ProvisionAuditPolicy()
 func (client DataSafeClient) ProvisionAuditPolicy(ctx context.Context, request ProvisionAuditPolicyRequest) (response ProvisionAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13130,6 +13679,10 @@ func (client DataSafeClient) provisionAuditPolicy(ctx context.Context, request c
 }
 
 // PurgeSqlCollectionLogs Purge the SQL collection logs for the specified SqlCollection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PurgeSqlCollectionLogs.go.html to see an example of how to use PurgeSqlCollectionLogs API.
 // A default retry strategy applies to this operation PurgeSqlCollectionLogs()
 func (client DataSafeClient) PurgeSqlCollectionLogs(ctx context.Context, request PurgeSqlCollectionLogsRequest) (response PurgeSqlCollectionLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13189,6 +13742,10 @@ func (client DataSafeClient) purgeSqlCollectionLogs(ctx context.Context, request
 }
 
 // RefreshDatabaseSecurityConfiguration Refreshes the specified database security configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshDatabaseSecurityConfiguration.go.html to see an example of how to use RefreshDatabaseSecurityConfiguration API.
 // A default retry strategy applies to this operation RefreshDatabaseSecurityConfiguration()
 func (client DataSafeClient) RefreshDatabaseSecurityConfiguration(ctx context.Context, request RefreshDatabaseSecurityConfigurationRequest) (response RefreshDatabaseSecurityConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13249,6 +13806,10 @@ func (client DataSafeClient) refreshDatabaseSecurityConfiguration(ctx context.Co
 
 // RefreshSecurityAssessment Runs a security assessment, refreshes the latest assessment, and saves it for future reference.
 // The assessment runs with a securityAssessmentId of type LATEST. Before you start, first call the ListSecurityAssessments operation with filter "type = latest" to get the security assessment id for the target's latest assessment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshSecurityAssessment.go.html to see an example of how to use RefreshSecurityAssessment API.
 // A default retry strategy applies to this operation RefreshSecurityAssessment()
 func (client DataSafeClient) RefreshSecurityAssessment(ctx context.Context, request RefreshSecurityAssessmentRequest) (response RefreshSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13308,6 +13869,10 @@ func (client DataSafeClient) refreshSecurityAssessment(ctx context.Context, requ
 }
 
 // RefreshSqlCollectionLogInsights Refresh the specified SQL collection Log Insights.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshSqlCollectionLogInsights.go.html to see an example of how to use RefreshSqlCollectionLogInsights API.
 // A default retry strategy applies to this operation RefreshSqlCollectionLogInsights()
 func (client DataSafeClient) RefreshSqlCollectionLogInsights(ctx context.Context, request RefreshSqlCollectionLogInsightsRequest) (response RefreshSqlCollectionLogInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13367,6 +13932,10 @@ func (client DataSafeClient) refreshSqlCollectionLogInsights(ctx context.Context
 }
 
 // RefreshTargetDatabase Refreshes the Data Safe target database to update it's state.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshTargetDatabase.go.html to see an example of how to use RefreshTargetDatabase API.
 // A default retry strategy applies to this operation RefreshTargetDatabase()
 func (client DataSafeClient) RefreshTargetDatabase(ctx context.Context, request RefreshTargetDatabaseRequest) (response RefreshTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13428,6 +13997,10 @@ func (client DataSafeClient) refreshTargetDatabase(ctx context.Context, request 
 // RefreshUserAssessment Refreshes the latest assessment and saves it for future reference. This operation runs with a userAssessmentId of type LATEST.
 // Before you start, first call the ListUserAssessments operation with filter "type = latest" to get the user assessment ID for
 // the target's latest assessment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshUserAssessment.go.html to see an example of how to use RefreshUserAssessment API.
 // A default retry strategy applies to this operation RefreshUserAssessment()
 func (client DataSafeClient) RefreshUserAssessment(ctx context.Context, request RefreshUserAssessmentRequest) (response RefreshUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13487,6 +14060,10 @@ func (client DataSafeClient) refreshUserAssessment(ctx context.Context, request 
 }
 
 // RemoveScheduleReport Deletes the schedule of a .xls or .pdf report.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RemoveScheduleReport.go.html to see an example of how to use RemoveScheduleReport API.
 // A default retry strategy applies to this operation RemoveScheduleReport()
 func (client DataSafeClient) RemoveScheduleReport(ctx context.Context, request RemoveScheduleReportRequest) (response RemoveScheduleReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13546,6 +14123,10 @@ func (client DataSafeClient) removeScheduleReport(ctx context.Context, request c
 }
 
 // ResumeAuditTrail Resumes the specified audit trail once it got stopped.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ResumeAuditTrail.go.html to see an example of how to use ResumeAuditTrail API.
 // A default retry strategy applies to this operation ResumeAuditTrail()
 func (client DataSafeClient) ResumeAuditTrail(ctx context.Context, request ResumeAuditTrailRequest) (response ResumeAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13600,6 +14181,10 @@ func (client DataSafeClient) resumeAuditTrail(ctx context.Context, request commo
 }
 
 // ResumeWorkRequest Resume the given work request. Issuing a resume does not guarantee of immediate resume of the work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ResumeWorkRequest.go.html to see an example of how to use ResumeWorkRequest API.
 // A default retry strategy applies to this operation ResumeWorkRequest()
 func (client DataSafeClient) ResumeWorkRequest(ctx context.Context, request ResumeWorkRequestRequest) (response ResumeWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13659,6 +14244,10 @@ func (client DataSafeClient) resumeWorkRequest(ctx context.Context, request comm
 }
 
 // RetrieveAuditPolicies Retrieves the audit policy details from the source target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RetrieveAuditPolicies.go.html to see an example of how to use RetrieveAuditPolicies API.
 // A default retry strategy applies to this operation RetrieveAuditPolicies()
 func (client DataSafeClient) RetrieveAuditPolicies(ctx context.Context, request RetrieveAuditPoliciesRequest) (response RetrieveAuditPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13718,6 +14307,10 @@ func (client DataSafeClient) retrieveAuditPolicies(ctx context.Context, request 
 }
 
 // ScheduleReport Schedules a .xls or .pdf report based on parameters and report definition.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ScheduleReport.go.html to see an example of how to use ScheduleReport API.
 // A default retry strategy applies to this operation ScheduleReport()
 func (client DataSafeClient) ScheduleReport(ctx context.Context, request ScheduleReportRequest) (response ScheduleReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13777,6 +14370,10 @@ func (client DataSafeClient) scheduleReport(ctx context.Context, request common.
 }
 
 // SetSecurityAssessmentBaseline Sets the saved security assessment as the baseline in the compartment where the the specified assessment resides. The security assessment needs to be of type 'SAVED'.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/SetSecurityAssessmentBaseline.go.html to see an example of how to use SetSecurityAssessmentBaseline API.
 // A default retry strategy applies to this operation SetSecurityAssessmentBaseline()
 func (client DataSafeClient) SetSecurityAssessmentBaseline(ctx context.Context, request SetSecurityAssessmentBaselineRequest) (response SetSecurityAssessmentBaselineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13836,6 +14433,10 @@ func (client DataSafeClient) setSecurityAssessmentBaseline(ctx context.Context, 
 }
 
 // SetUserAssessmentBaseline Sets the saved user assessment as the baseline in the compartment where the specified assessment resides. The user assessment needs to be of type 'SAVED'.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/SetUserAssessmentBaseline.go.html to see an example of how to use SetUserAssessmentBaseline API.
 // A default retry strategy applies to this operation SetUserAssessmentBaseline()
 func (client DataSafeClient) SetUserAssessmentBaseline(ctx context.Context, request SetUserAssessmentBaselineRequest) (response SetUserAssessmentBaselineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13895,6 +14496,10 @@ func (client DataSafeClient) setUserAssessmentBaseline(ctx context.Context, requ
 }
 
 // StartAuditTrail Starts collection of audit records on the specified audit trail.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StartAuditTrail.go.html to see an example of how to use StartAuditTrail API.
 // A default retry strategy applies to this operation StartAuditTrail()
 func (client DataSafeClient) StartAuditTrail(ctx context.Context, request StartAuditTrailRequest) (response StartAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13954,6 +14559,10 @@ func (client DataSafeClient) startAuditTrail(ctx context.Context, request common
 }
 
 // StartSqlCollection Start the specified SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StartSqlCollection.go.html to see an example of how to use StartSqlCollection API.
 // A default retry strategy applies to this operation StartSqlCollection()
 func (client DataSafeClient) StartSqlCollection(ctx context.Context, request StartSqlCollectionRequest) (response StartSqlCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14013,6 +14622,10 @@ func (client DataSafeClient) startSqlCollection(ctx context.Context, request com
 }
 
 // StopAuditTrail Stops the specified audit trail.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StopAuditTrail.go.html to see an example of how to use StopAuditTrail API.
 // A default retry strategy applies to this operation StopAuditTrail()
 func (client DataSafeClient) StopAuditTrail(ctx context.Context, request StopAuditTrailRequest) (response StopAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14067,6 +14680,10 @@ func (client DataSafeClient) stopAuditTrail(ctx context.Context, request common.
 }
 
 // StopSqlCollection Stops the specified SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StopSqlCollection.go.html to see an example of how to use StopSqlCollection API.
 // A default retry strategy applies to this operation StopSqlCollection()
 func (client DataSafeClient) StopSqlCollection(ctx context.Context, request StopSqlCollectionRequest) (response StopSqlCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14126,6 +14743,10 @@ func (client DataSafeClient) stopSqlCollection(ctx context.Context, request comm
 }
 
 // SuspendWorkRequest Suspend the given work request. Issuing a suspend does not guarantee of a immediate suspend of the work request.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/SuspendWorkRequest.go.html to see an example of how to use SuspendWorkRequest API.
 // A default retry strategy applies to this operation SuspendWorkRequest()
 func (client DataSafeClient) SuspendWorkRequest(ctx context.Context, request SuspendWorkRequestRequest) (response SuspendWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14186,6 +14807,10 @@ func (client DataSafeClient) suspendWorkRequest(ctx context.Context, request com
 
 // UnsetSecurityAssessmentBaseline Removes the baseline setting for the saved security assessment. The saved security assessment is no longer considered a baseline.
 // Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UnsetSecurityAssessmentBaseline.go.html to see an example of how to use UnsetSecurityAssessmentBaseline API.
 // A default retry strategy applies to this operation UnsetSecurityAssessmentBaseline()
 func (client DataSafeClient) UnsetSecurityAssessmentBaseline(ctx context.Context, request UnsetSecurityAssessmentBaselineRequest) (response UnsetSecurityAssessmentBaselineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14246,6 +14871,10 @@ func (client DataSafeClient) unsetSecurityAssessmentBaseline(ctx context.Context
 
 // UnsetUserAssessmentBaseline Removes the baseline setting for the saved user assessment. The saved user assessment is no longer considered a baseline.
 // Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UnsetUserAssessmentBaseline.go.html to see an example of how to use UnsetUserAssessmentBaseline API.
 // A default retry strategy applies to this operation UnsetUserAssessmentBaseline()
 func (client DataSafeClient) UnsetUserAssessmentBaseline(ctx context.Context, request UnsetUserAssessmentBaselineRequest) (response UnsetUserAssessmentBaselineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14305,6 +14934,10 @@ func (client DataSafeClient) unsetUserAssessmentBaseline(ctx context.Context, re
 }
 
 // UpdateAlert Updates the status of the specified alert.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAlert.go.html to see an example of how to use UpdateAlert API.
 // A default retry strategy applies to this operation UpdateAlert()
 func (client DataSafeClient) UpdateAlert(ctx context.Context, request UpdateAlertRequest) (response UpdateAlertResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14358,115 +14991,11 @@ func (client DataSafeClient) updateAlert(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// UpdateAlertPolicy Updates the specified alert policy .
-// A default retry strategy applies to this operation UpdateAlertPolicy()
-func (client DataSafeClient) UpdateAlertPolicy(ctx context.Context, request UpdateAlertPolicyRequest) (response UpdateAlertPolicyResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateAlertPolicy, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateAlertPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateAlertPolicyResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateAlertPolicyResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateAlertPolicyResponse")
-	}
-	return
-}
-
-// updateAlertPolicy implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) updateAlertPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/alertPolicies/{alertPolicyId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateAlertPolicyResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicy/UpdateAlertPolicy"
-		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAlertPolicy", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateAlertPolicyRule Updates the specified alert policy rule.
-// A default retry strategy applies to this operation UpdateAlertPolicyRule()
-func (client DataSafeClient) UpdateAlertPolicyRule(ctx context.Context, request UpdateAlertPolicyRuleRequest) (response UpdateAlertPolicyRuleResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateAlertPolicyRule, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateAlertPolicyRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateAlertPolicyRuleResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateAlertPolicyRuleResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateAlertPolicyRuleResponse")
-	}
-	return
-}
-
-// updateAlertPolicyRule implements the OCIOperation interface (enables retrying operations)
-func (client DataSafeClient) updateAlertPolicyRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/alertPolicies/{alertPolicyId}/rules/{ruleKey}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateAlertPolicyRuleResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/AlertPolicyRule/UpdateAlertPolicyRule"
-		err = common.PostProcessServiceError(err, "DataSafe", "UpdateAlertPolicyRule", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateAuditArchiveRetrieval Updates the audit archive retrieval.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAuditArchiveRetrieval.go.html to see an example of how to use UpdateAuditArchiveRetrieval API.
 // A default retry strategy applies to this operation UpdateAuditArchiveRetrieval()
 func (client DataSafeClient) UpdateAuditArchiveRetrieval(ctx context.Context, request UpdateAuditArchiveRetrievalRequest) (response UpdateAuditArchiveRetrievalResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14521,6 +15050,10 @@ func (client DataSafeClient) updateAuditArchiveRetrieval(ctx context.Context, re
 }
 
 // UpdateAuditPolicy Updates the audit policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAuditPolicy.go.html to see an example of how to use UpdateAuditPolicy API.
 // A default retry strategy applies to this operation UpdateAuditPolicy()
 func (client DataSafeClient) UpdateAuditPolicy(ctx context.Context, request UpdateAuditPolicyRequest) (response UpdateAuditPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14575,6 +15108,10 @@ func (client DataSafeClient) updateAuditPolicy(ctx context.Context, request comm
 }
 
 // UpdateAuditProfile Updates one or more attributes of the specified audit profile.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAuditProfile.go.html to see an example of how to use UpdateAuditProfile API.
 // A default retry strategy applies to this operation UpdateAuditProfile()
 func (client DataSafeClient) UpdateAuditProfile(ctx context.Context, request UpdateAuditProfileRequest) (response UpdateAuditProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14629,6 +15166,10 @@ func (client DataSafeClient) updateAuditProfile(ctx context.Context, request com
 }
 
 // UpdateAuditTrail Updates one or more attributes of the specified audit trail.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateAuditTrail.go.html to see an example of how to use UpdateAuditTrail API.
 // A default retry strategy applies to this operation UpdateAuditTrail()
 func (client DataSafeClient) UpdateAuditTrail(ctx context.Context, request UpdateAuditTrailRequest) (response UpdateAuditTrailResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14683,6 +15224,10 @@ func (client DataSafeClient) updateAuditTrail(ctx context.Context, request commo
 }
 
 // UpdateDataSafePrivateEndpoint Updates one or more attributes of the specified Data Safe private endpoint.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateDataSafePrivateEndpoint.go.html to see an example of how to use UpdateDataSafePrivateEndpoint API.
 // A default retry strategy applies to this operation UpdateDataSafePrivateEndpoint()
 func (client DataSafeClient) UpdateDataSafePrivateEndpoint(ctx context.Context, request UpdateDataSafePrivateEndpointRequest) (response UpdateDataSafePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14737,6 +15282,10 @@ func (client DataSafeClient) updateDataSafePrivateEndpoint(ctx context.Context, 
 }
 
 // UpdateDatabaseSecurityConfig Updates the database security configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateDatabaseSecurityConfig.go.html to see an example of how to use UpdateDatabaseSecurityConfig API.
 // A default retry strategy applies to this operation UpdateDatabaseSecurityConfig()
 func (client DataSafeClient) UpdateDatabaseSecurityConfig(ctx context.Context, request UpdateDatabaseSecurityConfigRequest) (response UpdateDatabaseSecurityConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14791,6 +15340,10 @@ func (client DataSafeClient) updateDatabaseSecurityConfig(ctx context.Context, r
 }
 
 // UpdateFinding Updates one or more attributes of the specified finding.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateFinding.go.html to see an example of how to use UpdateFinding API.
 // A default retry strategy applies to this operation UpdateFinding()
 func (client DataSafeClient) UpdateFinding(ctx context.Context, request UpdateFindingRequest) (response UpdateFindingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14850,6 +15403,10 @@ func (client DataSafeClient) updateFinding(ctx context.Context, request common.O
 }
 
 // UpdateLibraryMaskingFormat Updates one or more attributes of the specified library masking format. Note that updating the formatEntries attribute replaces all the existing masking format entries with the specified format entries.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateLibraryMaskingFormat.go.html to see an example of how to use UpdateLibraryMaskingFormat API.
 // A default retry strategy applies to this operation UpdateLibraryMaskingFormat()
 func (client DataSafeClient) UpdateLibraryMaskingFormat(ctx context.Context, request UpdateLibraryMaskingFormatRequest) (response UpdateLibraryMaskingFormatResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14905,6 +15462,10 @@ func (client DataSafeClient) updateLibraryMaskingFormat(ctx context.Context, req
 
 // UpdateMaskingColumn Updates one or more attributes of the specified masking column. Note that updating the maskingFormats
 // attribute replaces the currently assigned masking formats with the specified masking formats.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateMaskingColumn.go.html to see an example of how to use UpdateMaskingColumn API.
 // A default retry strategy applies to this operation UpdateMaskingColumn()
 func (client DataSafeClient) UpdateMaskingColumn(ctx context.Context, request UpdateMaskingColumnRequest) (response UpdateMaskingColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14959,6 +15520,10 @@ func (client DataSafeClient) updateMaskingColumn(ctx context.Context, request co
 }
 
 // UpdateMaskingPolicy Updates one or more attributes of the specified masking policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateMaskingPolicy.go.html to see an example of how to use UpdateMaskingPolicy API.
 // A default retry strategy applies to this operation UpdateMaskingPolicy()
 func (client DataSafeClient) UpdateMaskingPolicy(ctx context.Context, request UpdateMaskingPolicyRequest) (response UpdateMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15013,6 +15578,10 @@ func (client DataSafeClient) updateMaskingPolicy(ctx context.Context, request co
 }
 
 // UpdateOnPremConnector Updates one or more attributes of the specified on-premises connector.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateOnPremConnector.go.html to see an example of how to use UpdateOnPremConnector API.
 // A default retry strategy applies to this operation UpdateOnPremConnector()
 func (client DataSafeClient) UpdateOnPremConnector(ctx context.Context, request UpdateOnPremConnectorRequest) (response UpdateOnPremConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15067,6 +15636,10 @@ func (client DataSafeClient) updateOnPremConnector(ctx context.Context, request 
 }
 
 // UpdateOnPremConnectorWallet Updates the wallet for the specified on-premises connector to a new version.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateOnPremConnectorWallet.go.html to see an example of how to use UpdateOnPremConnectorWallet API.
 // A default retry strategy applies to this operation UpdateOnPremConnectorWallet()
 func (client DataSafeClient) UpdateOnPremConnectorWallet(ctx context.Context, request UpdateOnPremConnectorWalletRequest) (response UpdateOnPremConnectorWalletResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15126,6 +15699,10 @@ func (client DataSafeClient) updateOnPremConnectorWallet(ctx context.Context, re
 }
 
 // UpdatePeerTargetDatabase Updates one or more attributes of the specified Data Safe peer target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdatePeerTargetDatabase.go.html to see an example of how to use UpdatePeerTargetDatabase API.
 // A default retry strategy applies to this operation UpdatePeerTargetDatabase()
 func (client DataSafeClient) UpdatePeerTargetDatabase(ctx context.Context, request UpdatePeerTargetDatabaseRequest) (response UpdatePeerTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15185,6 +15762,10 @@ func (client DataSafeClient) updatePeerTargetDatabase(ctx context.Context, reque
 }
 
 // UpdateReport Updates the specified report. Only tags can be updated.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateReport.go.html to see an example of how to use UpdateReport API.
 // A default retry strategy applies to this operation UpdateReport()
 func (client DataSafeClient) UpdateReport(ctx context.Context, request UpdateReportRequest) (response UpdateReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15244,6 +15825,10 @@ func (client DataSafeClient) updateReport(ctx context.Context, request common.OC
 }
 
 // UpdateReportDefinition Updates the specified report definition. Only user created report definition can be updated. Seeded report definitions need to be saved as new report definition first.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateReportDefinition.go.html to see an example of how to use UpdateReportDefinition API.
 // A default retry strategy applies to this operation UpdateReportDefinition()
 func (client DataSafeClient) UpdateReportDefinition(ctx context.Context, request UpdateReportDefinitionRequest) (response UpdateReportDefinitionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15303,6 +15888,10 @@ func (client DataSafeClient) updateReportDefinition(ctx context.Context, request
 }
 
 // UpdateSdmMaskingPolicyDifference Updates one or more attributes of the specified sdm masking policy difference.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSdmMaskingPolicyDifference.go.html to see an example of how to use UpdateSdmMaskingPolicyDifference API.
 // A default retry strategy applies to this operation UpdateSdmMaskingPolicyDifference()
 func (client DataSafeClient) UpdateSdmMaskingPolicyDifference(ctx context.Context, request UpdateSdmMaskingPolicyDifferenceRequest) (response UpdateSdmMaskingPolicyDifferenceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15357,6 +15946,10 @@ func (client DataSafeClient) updateSdmMaskingPolicyDifference(ctx context.Contex
 }
 
 // UpdateSecurityAssessment Updates one or more attributes of the specified security assessment. This operation allows to update the security assessment displayName, description, or schedule.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSecurityAssessment.go.html to see an example of how to use UpdateSecurityAssessment API.
 // A default retry strategy applies to this operation UpdateSecurityAssessment()
 func (client DataSafeClient) UpdateSecurityAssessment(ctx context.Context, request UpdateSecurityAssessmentRequest) (response UpdateSecurityAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15411,6 +16004,10 @@ func (client DataSafeClient) updateSecurityAssessment(ctx context.Context, reque
 }
 
 // UpdateSecurityPolicy Updates the security policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSecurityPolicy.go.html to see an example of how to use UpdateSecurityPolicy API.
 // A default retry strategy applies to this operation UpdateSecurityPolicy()
 func (client DataSafeClient) UpdateSecurityPolicy(ctx context.Context, request UpdateSecurityPolicyRequest) (response UpdateSecurityPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15465,6 +16062,10 @@ func (client DataSafeClient) updateSecurityPolicy(ctx context.Context, request c
 }
 
 // UpdateSecurityPolicyDeployment Updates the security policy deployment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSecurityPolicyDeployment.go.html to see an example of how to use UpdateSecurityPolicyDeployment API.
 // A default retry strategy applies to this operation UpdateSecurityPolicyDeployment()
 func (client DataSafeClient) UpdateSecurityPolicyDeployment(ctx context.Context, request UpdateSecurityPolicyDeploymentRequest) (response UpdateSecurityPolicyDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15519,6 +16120,10 @@ func (client DataSafeClient) updateSecurityPolicyDeployment(ctx context.Context,
 }
 
 // UpdateSensitiveColumn Updates one or more attributes of the specified sensitive column.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSensitiveColumn.go.html to see an example of how to use UpdateSensitiveColumn API.
 // A default retry strategy applies to this operation UpdateSensitiveColumn()
 func (client DataSafeClient) UpdateSensitiveColumn(ctx context.Context, request UpdateSensitiveColumnRequest) (response UpdateSensitiveColumnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15574,6 +16179,10 @@ func (client DataSafeClient) updateSensitiveColumn(ctx context.Context, request 
 
 // UpdateSensitiveDataModel Updates one or more attributes of the specified sensitive data model. Note that updating any attribute of a sensitive
 // data model does not perform data discovery.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSensitiveDataModel.go.html to see an example of how to use UpdateSensitiveDataModel API.
 // A default retry strategy applies to this operation UpdateSensitiveDataModel()
 func (client DataSafeClient) UpdateSensitiveDataModel(ctx context.Context, request UpdateSensitiveDataModelRequest) (response UpdateSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15628,6 +16237,10 @@ func (client DataSafeClient) updateSensitiveDataModel(ctx context.Context, reque
 }
 
 // UpdateSensitiveType Updates one or more attributes of the specified sensitive type.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSensitiveType.go.html to see an example of how to use UpdateSensitiveType API.
 // A default retry strategy applies to this operation UpdateSensitiveType()
 func (client DataSafeClient) UpdateSensitiveType(ctx context.Context, request UpdateSensitiveTypeRequest) (response UpdateSensitiveTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15682,6 +16295,10 @@ func (client DataSafeClient) updateSensitiveType(ctx context.Context, request co
 }
 
 // UpdateSqlCollection Updates the SQL collection.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSqlCollection.go.html to see an example of how to use UpdateSqlCollection API.
 // A default retry strategy applies to this operation UpdateSqlCollection()
 func (client DataSafeClient) UpdateSqlCollection(ctx context.Context, request UpdateSqlCollectionRequest) (response UpdateSqlCollectionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15736,6 +16353,10 @@ func (client DataSafeClient) updateSqlCollection(ctx context.Context, request co
 }
 
 // UpdateSqlFirewallPolicy Updates the SQL Firewall policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSqlFirewallPolicy.go.html to see an example of how to use UpdateSqlFirewallPolicy API.
 // A default retry strategy applies to this operation UpdateSqlFirewallPolicy()
 func (client DataSafeClient) UpdateSqlFirewallPolicy(ctx context.Context, request UpdateSqlFirewallPolicyRequest) (response UpdateSqlFirewallPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15790,6 +16411,10 @@ func (client DataSafeClient) updateSqlFirewallPolicy(ctx context.Context, reques
 }
 
 // UpdateTargetAlertPolicyAssociation Updates the specified target-alert policy association.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateTargetAlertPolicyAssociation.go.html to see an example of how to use UpdateTargetAlertPolicyAssociation API.
 // A default retry strategy applies to this operation UpdateTargetAlertPolicyAssociation()
 func (client DataSafeClient) UpdateTargetAlertPolicyAssociation(ctx context.Context, request UpdateTargetAlertPolicyAssociationRequest) (response UpdateTargetAlertPolicyAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15844,6 +16469,10 @@ func (client DataSafeClient) updateTargetAlertPolicyAssociation(ctx context.Cont
 }
 
 // UpdateTargetDatabase Updates one or more attributes of the specified Data Safe target database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateTargetDatabase.go.html to see an example of how to use UpdateTargetDatabase API.
 // A default retry strategy applies to this operation UpdateTargetDatabase()
 func (client DataSafeClient) UpdateTargetDatabase(ctx context.Context, request UpdateTargetDatabaseRequest) (response UpdateTargetDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15903,6 +16532,10 @@ func (client DataSafeClient) updateTargetDatabase(ctx context.Context, request c
 }
 
 // UpdateUserAssessment Updates one or more attributes of the specified user assessment. This operation allows to update the user assessment displayName, description, or schedule.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateUserAssessment.go.html to see an example of how to use UpdateUserAssessment API.
 // A default retry strategy applies to this operation UpdateUserAssessment()
 func (client DataSafeClient) UpdateUserAssessment(ctx context.Context, request UpdateUserAssessmentRequest) (response UpdateUserAssessmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15961,6 +16594,10 @@ func (client DataSafeClient) updateUserAssessment(ctx context.Context, request c
 // to create an empty masking policy and then use this endpoint to upload the masking policy file.
 // Note that the upload operation replaces the content of the specified masking policy,
 // including all the existing columns and masking formats, with the content of the file.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UploadMaskingPolicy.go.html to see an example of how to use UploadMaskingPolicy API.
 // A default retry strategy applies to this operation UploadMaskingPolicy()
 func (client DataSafeClient) UploadMaskingPolicy(ctx context.Context, request UploadMaskingPolicyRequest) (response UploadMaskingPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -16018,6 +16655,10 @@ func (client DataSafeClient) uploadMaskingPolicy(ctx context.Context, request co
 // a new sensitive data model using a file, first use the CreateSensitiveDataModel operation to create an empty data model
 // and then use this endpoint to upload the data model file. Note that the upload operation replaces the content of the
 // specified sensitive data model, including all the existing columns and their relationships, with the content of the file.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UploadSensitiveDataModel.go.html to see an example of how to use UploadSensitiveDataModel API.
 // A default retry strategy applies to this operation UploadSensitiveDataModel()
 func (client DataSafeClient) UploadSensitiveDataModel(ctx context.Context, request UploadSensitiveDataModelRequest) (response UploadSensitiveDataModelResponse, err error) {
 	var ociResponse common.OCIResponse

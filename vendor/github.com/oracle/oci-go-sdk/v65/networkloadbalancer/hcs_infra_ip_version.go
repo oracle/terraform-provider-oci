@@ -20,19 +20,16 @@ type HcsInfraIpVersionEnum string
 const (
 	HcsInfraIpVersionIpv4        HcsInfraIpVersionEnum = "IPV4"
 	HcsInfraIpVersionIpv4AndIpv6 HcsInfraIpVersionEnum = "IPV4_AND_IPV6"
-	HcsInfraIpVersionIpv6        HcsInfraIpVersionEnum = "IPV6"
 )
 
 var mappingHcsInfraIpVersionEnum = map[string]HcsInfraIpVersionEnum{
 	"IPV4":          HcsInfraIpVersionIpv4,
 	"IPV4_AND_IPV6": HcsInfraIpVersionIpv4AndIpv6,
-	"IPV6":          HcsInfraIpVersionIpv6,
 }
 
 var mappingHcsInfraIpVersionEnumLowerCase = map[string]HcsInfraIpVersionEnum{
 	"ipv4":          HcsInfraIpVersionIpv4,
 	"ipv4_and_ipv6": HcsInfraIpVersionIpv4AndIpv6,
-	"ipv6":          HcsInfraIpVersionIpv6,
 }
 
 // GetHcsInfraIpVersionEnumValues Enumerates the set of values for HcsInfraIpVersionEnum
@@ -49,7 +46,6 @@ func GetHcsInfraIpVersionEnumStringValues() []string {
 	return []string{
 		"IPV4",
 		"IPV4_AND_IPV6",
-		"IPV6",
 	}
 }
 

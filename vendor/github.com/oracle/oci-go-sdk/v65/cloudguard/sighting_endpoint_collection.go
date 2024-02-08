@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// SightingEndpointCollection Collection of sighting endpoint summaries.
+// SightingEndpointCollection Provides the summary of sighting endpoints
 type SightingEndpointCollection struct {
 
-	// List of SightingEndpointSummary resources
+	// List of SightingEndpointSummary
 	Items []SightingEndpointSummary `mandatory:"true" json:"items"`
 }
 

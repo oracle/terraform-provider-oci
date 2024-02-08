@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteBuildPipelineRequest wrapper for the DeleteBuildPipeline operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteBuildPipeline.go.html to see an example of how to use DeleteBuildPipelineRequest.
 type DeleteBuildPipelineRequest struct {
 
 	// Unique build pipeline identifier.

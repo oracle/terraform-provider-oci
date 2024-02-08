@@ -13,6 +13,10 @@ import (
 )
 
 // UploadSensitiveDataModelRequest wrapper for the UploadSensitiveDataModel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UploadSensitiveDataModel.go.html to see an example of how to use UploadSensitiveDataModelRequest.
 type UploadSensitiveDataModelRequest struct {
 
 	// The OCID of the sensitive data model.

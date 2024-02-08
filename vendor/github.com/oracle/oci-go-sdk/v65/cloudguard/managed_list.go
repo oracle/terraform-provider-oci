@@ -16,43 +16,43 @@ import (
 	"strings"
 )
 
-// ManagedList A managed list is a reusable list of parameters that makes it easier to set the scope for detector and responder rules. A ManagedList resource contains the reusable list of parameters, plus metadata for the list.
+// ManagedList A cloud guard list containing one or more items of a list type
 type ManagedList struct {
 
-	// Unique identifier that can't be changed after creation
+	// Unique identifier that is immutable on creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Managed list display name
+	// ManagedList display name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment OCID where the resource is created
+	// Compartment Identifier where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of information contained in the managed list
+	// type of the list
 	ListType ManagedListTypeEnum `mandatory:"true" json:"listType"`
 
-	// Managed list description
+	// ManagedList description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// OCID of the source managed list
+	// OCID of the Source ManagedList
 	SourceManagedListId *string `mandatory:"false" json:"sourceManagedListId"`
 
-	// List of items in the managed list
+	// List of ManagedListItem
 	ListItems []string `mandatory:"false" json:"listItems"`
 
-	// Provider of the managed list feed
+	// provider of the feed
 	FeedProvider FeedProviderTypeEnum `mandatory:"false" json:"feedProvider,omitempty"`
 
-	// Is this list editable?
+	// If this list is editable or not
 	IsEditable *bool `mandatory:"false" json:"isEditable"`
 
 	// The date and time the managed list was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the managed list was last updated. Format defined by RFC3339.
+	// The date and time the managed list was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the resource
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

@@ -12,6 +12,10 @@ import (
 )
 
 // RenewCertificateRequest wrapper for the RenewCertificate operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RenewCertificate.go.html to see an example of how to use RenewCertificateRequest.
 type RenewCertificateRequest struct {
 
 	// The OCID of the cluster.

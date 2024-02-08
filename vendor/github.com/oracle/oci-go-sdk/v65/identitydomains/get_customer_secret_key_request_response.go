@@ -12,6 +12,10 @@ import (
 )
 
 // GetCustomerSecretKeyRequest wrapper for the GetCustomerSecretKey operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetCustomerSecretKey.go.html to see an example of how to use GetCustomerSecretKeyRequest.
 type GetCustomerSecretKeyRequest struct {
 
 	// ID of the resource

@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeDeploymentBackupCompartmentRequest wrapper for the ChangeDeploymentBackupCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ChangeDeploymentBackupCompartment.go.html to see an example of how to use ChangeDeploymentBackupCompartmentRequest.
 type ChangeDeploymentBackupCompartmentRequest struct {
 
 	// A unique DeploymentBackup identifier.

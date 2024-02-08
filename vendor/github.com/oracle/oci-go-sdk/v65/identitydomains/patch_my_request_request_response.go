@@ -12,6 +12,10 @@ import (
 )
 
 // PatchMyRequestRequest wrapper for the PatchMyRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchMyRequest.go.html to see an example of how to use PatchMyRequestRequest.
 type PatchMyRequestRequest struct {
 
 	// ID of the resource

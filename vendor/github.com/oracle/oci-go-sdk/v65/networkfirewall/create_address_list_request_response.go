@@ -12,6 +12,10 @@ import (
 )
 
 // CreateAddressListRequest wrapper for the CreateAddressList operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateAddressList.go.html to see an example of how to use CreateAddressListRequest.
 type CreateAddressListRequest struct {
 
 	// Unique Network Firewall Policy identifier

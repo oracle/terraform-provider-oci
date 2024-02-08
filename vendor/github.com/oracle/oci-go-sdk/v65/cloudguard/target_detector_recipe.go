@@ -16,33 +16,22 @@ import (
 	"strings"
 )
 
-// TargetDetectorRecipe A TargetDetectorRecipe resource contains a specific instance of one of the
-// supported detector types (for example, activity, configuration, or threat)
-// in which some settings can be modified specifically for a single target.
-// A TargetDetectorRecipe resource:
-// * Is effectively a copy of a DetectorRecipe resource in which users can make
-// very limited changes if it’s Oracle-managed, and more changes if it’s user-managed.
-// * Is visible on the Cloud Guard Targets, Target Details page.
-// * Is located in a specific OCI compartment.
-// * Can be modified by users, programmatically or through the UI.
-// * Changes that can be made here override any settings in the corresponding
-// DetectorRecipe, of which the TargetDetectorRecipe resource is effectively a copy,
-// created when the detector recipe is attached to the target.
+// TargetDetectorRecipe Target Detector recipe
 type TargetDetectorRecipe struct {
 
-	// OCID for the detector recipe
+	// Ocid for detector recipe
 	Id *string `mandatory:"true" json:"id"`
 
-	// Display name of the detector recipe
+	// Display name of detector recipe.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment OCID of the detector recipe
+	// compartmentId of detector recipe
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Unique identifier for of original Oracle-managed detector recipe on which the TargetDetectorRecipe is based
+	// Unique identifier for Detector Recipe of which this is an extension
 	DetectorRecipeId *string `mandatory:"true" json:"detectorRecipeId"`
 
-	// Owner of the detector recipe
+	// Owner of detector recipe
 	Owner OwnerTypeEnum `mandatory:"true" json:"owner"`
 
 	// Type of detector
@@ -51,23 +40,20 @@ type TargetDetectorRecipe struct {
 	// Detector recipe description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of detector rules for the detector recipe - user input
+	// List of detector rules for the detector type for recipe - user input
 	DetectorRules []TargetDetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
 
-	// List of currently enabled detector rules for the detector type for recipe after applying defaults
+	// List of effective detector rules for the detector type for recipe after applying defaults
 	EffectiveDetectorRules []TargetDetectorRecipeDetectorRule `mandatory:"false" json:"effectiveDetectorRules"`
 
 	// The date and time the target detector recipe was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target detector recipe was last updated. Format defined by RFC3339.
+	// The date and time the target detector recipe was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current lifecycle state of the resource
+	// The current state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
-
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
 	// The number of days for which source data is retained
 	SourceDataRetention *int `mandatory:"false" json:"sourceDataRetention"`

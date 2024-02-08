@@ -12,6 +12,10 @@ import (
 )
 
 // GetComputedUsageRequest wrapper for the GetComputedUsage operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetComputedUsage.go.html to see an example of how to use GetComputedUsageRequest.
 type GetComputedUsageRequest struct {
 
 	// The Computed Usage Id

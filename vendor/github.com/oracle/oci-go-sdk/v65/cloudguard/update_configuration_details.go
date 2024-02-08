@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// UpdateConfigurationDetails Parameters to update Cloud Guard configuration details for a tenancy.
+// UpdateConfigurationDetails Update cloud guard configuration details for a tenancy.
 type UpdateConfigurationDetails struct {
 
-	// The reporting region
+	// The reporting region value
 	ReportingRegion *string `mandatory:"true" json:"reportingRegion"`
 
-	// Status of Cloud Guard tenant
+	// Status of Cloud Guard Tenant
 	Status CloudGuardStatusEnum `mandatory:"true" json:"status"`
 
 	// Identifies if Oracle managed resources will be created by customers.

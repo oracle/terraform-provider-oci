@@ -26,9 +26,6 @@ type BackendDetails struct {
 	// Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0`
 	Name *string `mandatory:"false" json:"name"`
 
-	// IP version associated with the `BackendDetails` object.
-	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
-
 	// The IP address of the backend server.
 	// Example: `10.0.0.3`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
@@ -41,7 +38,7 @@ type BackendDetails struct {
 	// proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections
 	// as a server weighted '1'.
 	// For more information about load balancing policies, see
-	// How Network Load Balancing Policies Work (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introducton.htm#Policies).
+	// How Network Load Balancing Policies Work (https://docs.cloud.oracle.com/Content/Balance/Reference/lbpolicies.htm).
 	// Example: `3`
 	Weight *int `mandatory:"false" json:"weight"`
 
@@ -71,9 +68,6 @@ func (m BackendDetails) String() string {
 func (m BackendDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingIpVersionEnum(string(m.IpVersion)); !ok && m.IpVersion != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpVersion: %s. Supported values are: %s.", m.IpVersion, strings.Join(GetIpVersionEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

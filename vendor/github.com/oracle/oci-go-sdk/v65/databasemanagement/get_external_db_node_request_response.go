@@ -12,6 +12,10 @@ import (
 )
 
 // GetExternalDbNodeRequest wrapper for the GetExternalDbNode operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetExternalDbNode.go.html to see an example of how to use GetExternalDbNodeRequest.
 type GetExternalDbNodeRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database node.

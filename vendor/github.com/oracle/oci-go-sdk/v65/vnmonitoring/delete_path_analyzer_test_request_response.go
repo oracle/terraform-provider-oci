@@ -12,6 +12,10 @@ import (
 )
 
 // DeletePathAnalyzerTestRequest wrapper for the DeletePathAnalyzerTest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vnmonitoring/DeletePathAnalyzerTest.go.html to see an example of how to use DeletePathAnalyzerTestRequest.
 type DeletePathAnalyzerTestRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the `PathAnalyzerTest` resource.

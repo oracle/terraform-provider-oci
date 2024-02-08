@@ -12,6 +12,10 @@ import (
 )
 
 // BatchDetectLanguageKeyPhrasesRequest wrapper for the BatchDetectLanguageKeyPhrases operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguageKeyPhrases.go.html to see an example of how to use BatchDetectLanguageKeyPhrasesRequest.
 type BatchDetectLanguageKeyPhrasesRequest struct {
 
 	// The details to make keyPhrase detect call.

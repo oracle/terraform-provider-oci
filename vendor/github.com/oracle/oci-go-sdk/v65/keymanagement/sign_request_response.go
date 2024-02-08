@@ -12,6 +12,10 @@ import (
 )
 
 // SignRequest wrapper for the Sign operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/Sign.go.html to see an example of how to use SignRequest.
 type SignRequest struct {
 
 	// SignDataDetails

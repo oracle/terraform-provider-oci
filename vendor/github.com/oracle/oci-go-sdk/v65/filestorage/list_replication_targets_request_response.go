@@ -12,6 +12,10 @@ import (
 )
 
 // ListReplicationTargetsRequest wrapper for the ListReplicationTargets operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListReplicationTargets.go.html to see an example of how to use ListReplicationTargetsRequest.
 type ListReplicationTargetsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -150,7 +154,6 @@ type ListReplicationTargetsLifecycleStateEnum string
 const (
 	ListReplicationTargetsLifecycleStateCreating ListReplicationTargetsLifecycleStateEnum = "CREATING"
 	ListReplicationTargetsLifecycleStateActive   ListReplicationTargetsLifecycleStateEnum = "ACTIVE"
-	ListReplicationTargetsLifecycleStateUpdating ListReplicationTargetsLifecycleStateEnum = "UPDATING"
 	ListReplicationTargetsLifecycleStateDeleting ListReplicationTargetsLifecycleStateEnum = "DELETING"
 	ListReplicationTargetsLifecycleStateDeleted  ListReplicationTargetsLifecycleStateEnum = "DELETED"
 	ListReplicationTargetsLifecycleStateFailed   ListReplicationTargetsLifecycleStateEnum = "FAILED"
@@ -159,7 +162,6 @@ const (
 var mappingListReplicationTargetsLifecycleStateEnum = map[string]ListReplicationTargetsLifecycleStateEnum{
 	"CREATING": ListReplicationTargetsLifecycleStateCreating,
 	"ACTIVE":   ListReplicationTargetsLifecycleStateActive,
-	"UPDATING": ListReplicationTargetsLifecycleStateUpdating,
 	"DELETING": ListReplicationTargetsLifecycleStateDeleting,
 	"DELETED":  ListReplicationTargetsLifecycleStateDeleted,
 	"FAILED":   ListReplicationTargetsLifecycleStateFailed,
@@ -168,7 +170,6 @@ var mappingListReplicationTargetsLifecycleStateEnum = map[string]ListReplication
 var mappingListReplicationTargetsLifecycleStateEnumLowerCase = map[string]ListReplicationTargetsLifecycleStateEnum{
 	"creating": ListReplicationTargetsLifecycleStateCreating,
 	"active":   ListReplicationTargetsLifecycleStateActive,
-	"updating": ListReplicationTargetsLifecycleStateUpdating,
 	"deleting": ListReplicationTargetsLifecycleStateDeleting,
 	"deleted":  ListReplicationTargetsLifecycleStateDeleted,
 	"failed":   ListReplicationTargetsLifecycleStateFailed,
@@ -188,7 +189,6 @@ func GetListReplicationTargetsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
-		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

@@ -12,6 +12,10 @@ import (
 )
 
 // GetMaskingColumnRequest wrapper for the GetMaskingColumn operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetMaskingColumn.go.html to see an example of how to use GetMaskingColumnRequest.
 type GetMaskingColumnRequest struct {
 
 	// The OCID of the masking policy.

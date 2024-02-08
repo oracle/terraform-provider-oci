@@ -12,6 +12,10 @@ import (
 )
 
 // TestConnectionAssignmentRequest wrapper for the TestConnectionAssignment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/TestConnectionAssignment.go.html to see an example of how to use TestConnectionAssignmentRequest.
 type TestConnectionAssignmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Connection Assignment.

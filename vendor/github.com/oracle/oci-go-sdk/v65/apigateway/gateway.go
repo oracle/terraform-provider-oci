@@ -60,9 +60,6 @@ type Gateway struct {
 	// resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
-
 	// The hostname for APIs deployed on the gateway.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
@@ -122,7 +119,6 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleState          GatewayLifecycleStateEnum         `json:"lifecycleState"`
 		LifecycleDetails        *string                           `json:"lifecycleDetails"`
-		Locks                   []ResourceLock                    `json:"locks"`
 		Hostname                *string                           `json:"hostname"`
 		CertificateId           *string                           `json:"certificateId"`
 		IpAddresses             []IpAddress                       `json:"ipAddresses"`
@@ -154,8 +150,6 @@ func (m *Gateway) UnmarshalJSON(data []byte) (e error) {
 
 	m.LifecycleDetails = model.LifecycleDetails
 
-	m.Locks = make([]ResourceLock, len(model.Locks))
-	copy(m.Locks, model.Locks)
 	m.Hostname = model.Hostname
 
 	m.CertificateId = model.CertificateId

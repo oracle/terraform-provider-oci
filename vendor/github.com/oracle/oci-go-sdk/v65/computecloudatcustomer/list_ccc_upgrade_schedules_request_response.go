@@ -12,6 +12,10 @@ import (
 )
 
 // ListCccUpgradeSchedulesRequest wrapper for the ListCccUpgradeSchedules operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ListCccUpgradeSchedules.go.html to see an example of how to use ListCccUpgradeSchedulesRequest.
 type ListCccUpgradeSchedulesRequest struct {
 
 	// Compute Cloud@Customer upgrade schedule

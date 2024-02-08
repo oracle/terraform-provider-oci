@@ -12,6 +12,10 @@ import (
 )
 
 // ListAddmDbRecommendationCategoriesRequest wrapper for the ListAddmDbRecommendationCategories operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbRecommendationCategories.go.html to see an example of how to use ListAddmDbRecommendationCategoriesRequest.
 type ListAddmDbRecommendationCategoriesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

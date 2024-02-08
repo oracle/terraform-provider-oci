@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDataSourceRequest wrapper for the UpdateDataSource operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/UpdateDataSource.go.html to see an example of how to use UpdateDataSourceRequest.
 type UpdateDataSourceRequest struct {
 
 	// Unique Management Agent identifier

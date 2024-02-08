@@ -13,6 +13,10 @@ import (
 )
 
 // UploadMaskingPolicyRequest wrapper for the UploadMaskingPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UploadMaskingPolicy.go.html to see an example of how to use UploadMaskingPolicyRequest.
 type UploadMaskingPolicyRequest struct {
 
 	// Details to upload a masking policy file.

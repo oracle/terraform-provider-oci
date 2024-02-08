@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeMediaWorkflowConfigurationCompartmentRequest wrapper for the ChangeMediaWorkflowConfigurationCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/ChangeMediaWorkflowConfigurationCompartment.go.html to see an example of how to use ChangeMediaWorkflowConfigurationCompartmentRequest.
 type ChangeMediaWorkflowConfigurationCompartmentRequest struct {
 
 	// Unique MediaWorkflowConfiguration identifier.

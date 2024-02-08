@@ -12,6 +12,10 @@ import (
 )
 
 // ListManagementAgentImagesRequest wrapper for the ListManagementAgentImages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/ListManagementAgentImages.go.html to see an example of how to use ListManagementAgentImagesRequest.
 type ListManagementAgentImagesRequest struct {
 
 	// The OCID of the compartment to which a request will be scoped.

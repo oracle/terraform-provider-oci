@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeCccUpgradeScheduleCompartmentRequest wrapper for the ChangeCccUpgradeScheduleCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ChangeCccUpgradeScheduleCompartment.go.html to see an example of how to use ChangeCccUpgradeScheduleCompartmentRequest.
 type ChangeCccUpgradeScheduleCompartmentRequest struct {
 
 	// Compute Cloud@Customer upgrade schedule

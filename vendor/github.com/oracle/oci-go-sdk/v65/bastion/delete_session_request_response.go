@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteSessionRequest wrapper for the DeleteSession operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/DeleteSession.go.html to see an example of how to use DeleteSessionRequest.
 type DeleteSessionRequest struct {
 
 	// The unique identifier (OCID) of the session.

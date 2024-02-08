@@ -77,9 +77,6 @@ type SnapshotSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// Not used by File Systems but required for SPLAT tag integration.
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m SnapshotSummary) String() string {
@@ -159,24 +156,21 @@ type SnapshotSummarySnapshotTypeEnum string
 
 // Set of constants representing the allowable values for SnapshotSummarySnapshotTypeEnum
 const (
-	SnapshotSummarySnapshotTypeUser                SnapshotSummarySnapshotTypeEnum = "USER"
-	SnapshotSummarySnapshotTypePolicyBased         SnapshotSummarySnapshotTypeEnum = "POLICY_BASED"
-	SnapshotSummarySnapshotTypeReplication         SnapshotSummarySnapshotTypeEnum = "REPLICATION"
-	SnapshotSummarySnapshotTypeReplicationIndirect SnapshotSummarySnapshotTypeEnum = "REPLICATION_INDIRECT"
+	SnapshotSummarySnapshotTypeUser        SnapshotSummarySnapshotTypeEnum = "USER"
+	SnapshotSummarySnapshotTypePolicyBased SnapshotSummarySnapshotTypeEnum = "POLICY_BASED"
+	SnapshotSummarySnapshotTypeReplication SnapshotSummarySnapshotTypeEnum = "REPLICATION"
 )
 
 var mappingSnapshotSummarySnapshotTypeEnum = map[string]SnapshotSummarySnapshotTypeEnum{
-	"USER":                 SnapshotSummarySnapshotTypeUser,
-	"POLICY_BASED":         SnapshotSummarySnapshotTypePolicyBased,
-	"REPLICATION":          SnapshotSummarySnapshotTypeReplication,
-	"REPLICATION_INDIRECT": SnapshotSummarySnapshotTypeReplicationIndirect,
+	"USER":         SnapshotSummarySnapshotTypeUser,
+	"POLICY_BASED": SnapshotSummarySnapshotTypePolicyBased,
+	"REPLICATION":  SnapshotSummarySnapshotTypeReplication,
 }
 
 var mappingSnapshotSummarySnapshotTypeEnumLowerCase = map[string]SnapshotSummarySnapshotTypeEnum{
-	"user":                 SnapshotSummarySnapshotTypeUser,
-	"policy_based":         SnapshotSummarySnapshotTypePolicyBased,
-	"replication":          SnapshotSummarySnapshotTypeReplication,
-	"replication_indirect": SnapshotSummarySnapshotTypeReplicationIndirect,
+	"user":         SnapshotSummarySnapshotTypeUser,
+	"policy_based": SnapshotSummarySnapshotTypePolicyBased,
+	"replication":  SnapshotSummarySnapshotTypeReplication,
 }
 
 // GetSnapshotSummarySnapshotTypeEnumValues Enumerates the set of values for SnapshotSummarySnapshotTypeEnum
@@ -194,7 +188,6 @@ func GetSnapshotSummarySnapshotTypeEnumStringValues() []string {
 		"USER",
 		"POLICY_BASED",
 		"REPLICATION",
-		"REPLICATION_INDIRECT",
 	}
 }
 

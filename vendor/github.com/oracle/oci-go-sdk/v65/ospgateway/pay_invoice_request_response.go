@@ -12,6 +12,10 @@ import (
 )
 
 // PayInvoiceRequest wrapper for the PayInvoice operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/PayInvoice.go.html to see an example of how to use PayInvoiceRequest.
 type PayInvoiceRequest struct {
 
 	// The home region's public name of the logged in user.

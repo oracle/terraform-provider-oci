@@ -85,16 +85,13 @@ type Database struct {
 	// The Connection strings used to connect to the Oracle Database.
 	ConnectionStrings *DatabaseConnectionStrings `mandatory:"false" json:"connectionStrings"`
 
-	// The date and time when the latest remote automatic incremental database backup was created.
-	LastRemoteBackupTimestamp *common.SDKTime `mandatory:"false" json:"lastRemoteBackupTimestamp"`
-
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339)
@@ -111,14 +108,11 @@ type Database struct {
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
-
-	// Database Storage Type, this option is applicable when database on Exadata VM cluster on Exascale Infrastructure. High Capacity will be selected if not specified.
-	VaultStorageType DatabaseVaultStorageTypeEnum `mandatory:"false" json:"vaultStorageType,omitempty"`
 }
 
 func (m Database) String() string {
@@ -134,9 +128,6 @@ func (m Database) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDatabaseLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingDatabaseVaultStorageTypeEnum(string(m.VaultStorageType)); !ok && m.VaultStorageType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VaultStorageType: %s. Supported values are: %s.", m.VaultStorageType, strings.Join(GetDatabaseVaultStorageTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -214,47 +205,5 @@ func GetDatabaseLifecycleStateEnumStringValues() []string {
 // GetMappingDatabaseLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDatabaseLifecycleStateEnum(val string) (DatabaseLifecycleStateEnum, bool) {
 	enum, ok := mappingDatabaseLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// DatabaseVaultStorageTypeEnum Enum with underlying type: string
-type DatabaseVaultStorageTypeEnum string
-
-// Set of constants representing the allowable values for DatabaseVaultStorageTypeEnum
-const (
-	DatabaseVaultStorageTypeHighCapacity  DatabaseVaultStorageTypeEnum = "HIGH_CAPACITY"
-	DatabaseVaultStorageTypeExteremeFlash DatabaseVaultStorageTypeEnum = "EXTEREME_FLASH"
-)
-
-var mappingDatabaseVaultStorageTypeEnum = map[string]DatabaseVaultStorageTypeEnum{
-	"HIGH_CAPACITY":  DatabaseVaultStorageTypeHighCapacity,
-	"EXTEREME_FLASH": DatabaseVaultStorageTypeExteremeFlash,
-}
-
-var mappingDatabaseVaultStorageTypeEnumLowerCase = map[string]DatabaseVaultStorageTypeEnum{
-	"high_capacity":  DatabaseVaultStorageTypeHighCapacity,
-	"extereme_flash": DatabaseVaultStorageTypeExteremeFlash,
-}
-
-// GetDatabaseVaultStorageTypeEnumValues Enumerates the set of values for DatabaseVaultStorageTypeEnum
-func GetDatabaseVaultStorageTypeEnumValues() []DatabaseVaultStorageTypeEnum {
-	values := make([]DatabaseVaultStorageTypeEnum, 0)
-	for _, v := range mappingDatabaseVaultStorageTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetDatabaseVaultStorageTypeEnumStringValues Enumerates the set of values in String for DatabaseVaultStorageTypeEnum
-func GetDatabaseVaultStorageTypeEnumStringValues() []string {
-	return []string{
-		"HIGH_CAPACITY",
-		"EXTEREME_FLASH",
-	}
-}
-
-// GetMappingDatabaseVaultStorageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingDatabaseVaultStorageTypeEnum(val string) (DatabaseVaultStorageTypeEnum, bool) {
-	enum, ok := mappingDatabaseVaultStorageTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

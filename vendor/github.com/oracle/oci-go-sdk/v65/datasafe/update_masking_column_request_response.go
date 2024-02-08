@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateMaskingColumnRequest wrapper for the UpdateMaskingColumn operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateMaskingColumn.go.html to see an example of how to use UpdateMaskingColumnRequest.
 type UpdateMaskingColumnRequest struct {
 
 	// The unique key that identifies the masking column. It's numeric and unique within a masking policy.

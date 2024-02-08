@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateApplicationDetailedDescriptionRequest wrapper for the UpdateApplicationDetailedDescription operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateApplicationDetailedDescription.go.html to see an example of how to use UpdateApplicationDetailedDescriptionRequest.
 type UpdateApplicationDetailedDescriptionRequest struct {
 
 	// The workspace ID.

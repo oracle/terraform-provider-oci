@@ -12,6 +12,10 @@ import (
 )
 
 // ListCollectedAuditVolumesRequest wrapper for the ListCollectedAuditVolumes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListCollectedAuditVolumes.go.html to see an example of how to use ListCollectedAuditVolumesRequest.
 type ListCollectedAuditVolumesRequest struct {
 
 	// The OCID of the audit.

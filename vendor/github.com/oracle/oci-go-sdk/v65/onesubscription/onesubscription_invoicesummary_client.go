@@ -92,6 +92,10 @@ func (client *InvoiceSummaryClient) ConfigurationProvider() *common.Configuratio
 }
 
 // ListInvoicelineComputedUsages This is a collection API which returns a list of Invoiced Computed Usages for given Invoiceline id.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoicelineComputedUsages.go.html to see an example of how to use ListInvoicelineComputedUsages API.
 func (client InvoiceSummaryClient) ListInvoicelineComputedUsages(ctx context.Context, request ListInvoicelineComputedUsagesRequest) (response ListInvoicelineComputedUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -145,6 +149,10 @@ func (client InvoiceSummaryClient) listInvoicelineComputedUsages(ctx context.Con
 }
 
 // ListInvoices This is a collection API which returns a list of Invoices for given filters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListInvoices.go.html to see an example of how to use ListInvoices API.
 func (client InvoiceSummaryClient) ListInvoices(ctx context.Context, request ListInvoicesRequest) (response ListInvoicesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

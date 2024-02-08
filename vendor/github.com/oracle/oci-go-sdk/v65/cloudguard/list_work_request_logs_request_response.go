@@ -12,6 +12,10 @@ import (
 )
 
 // ListWorkRequestLogsRequest wrapper for the ListWorkRequestLogs operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogsRequest.
 type ListWorkRequestLogsRequest struct {
 
 	// The ID of the asynchronous request.
@@ -23,13 +27,13 @@ type ListWorkRequestLogsRequest struct {
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The maximum number of items to return
+	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending.
 	SortBy ListWorkRequestLogsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// The sort order to use
+	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListWorkRequestLogsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

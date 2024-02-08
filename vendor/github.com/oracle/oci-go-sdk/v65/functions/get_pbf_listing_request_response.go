@@ -12,6 +12,10 @@ import (
 )
 
 // GetPbfListingRequest wrapper for the GetPbfListing operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/functions/GetPbfListing.go.html to see an example of how to use GetPbfListingRequest.
 type GetPbfListingRequest struct {
 
 	// unique PbfListing identifier

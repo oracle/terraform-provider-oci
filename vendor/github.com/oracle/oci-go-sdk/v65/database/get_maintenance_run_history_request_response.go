@@ -12,6 +12,10 @@ import (
 )
 
 // GetMaintenanceRunHistoryRequest wrapper for the GetMaintenanceRunHistory operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetMaintenanceRunHistory.go.html to see an example of how to use GetMaintenanceRunHistoryRequest.
 type GetMaintenanceRunHistoryRequest struct {
 
 	// The maintenance run history OCID.

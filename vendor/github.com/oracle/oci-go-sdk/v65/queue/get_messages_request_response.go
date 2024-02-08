@@ -12,6 +12,10 @@ import (
 )
 
 // GetMessagesRequest wrapper for the GetMessages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetMessages.go.html to see an example of how to use GetMessagesRequest.
 type GetMessagesRequest struct {
 
 	// The unique queue identifier.
@@ -36,9 +40,6 @@ type GetMessagesRequest struct {
 
 	// Optional parameter to filter the channels.
 	ChannelFilter *string `mandatory:"false" contributesTo:"query" name:"channelFilter"`
-
-	// Optional parameter to specify a consumer group.
-	ConsumerGroupId *string `mandatory:"false" contributesTo:"query" name:"consumerGroupId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

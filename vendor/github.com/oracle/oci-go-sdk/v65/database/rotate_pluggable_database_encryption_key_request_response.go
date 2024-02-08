@@ -12,6 +12,10 @@ import (
 )
 
 // RotatePluggableDatabaseEncryptionKeyRequest wrapper for the RotatePluggableDatabaseEncryptionKey operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RotatePluggableDatabaseEncryptionKey.go.html to see an example of how to use RotatePluggableDatabaseEncryptionKeyRequest.
 type RotatePluggableDatabaseEncryptionKeyRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -12,6 +12,10 @@ import (
 )
 
 // CreatePoolRequest wrapper for the CreatePool operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreatePool.go.html to see an example of how to use CreatePoolRequest.
 type CreatePoolRequest struct {
 
 	// The parameter required to create a pool.

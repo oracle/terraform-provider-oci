@@ -12,6 +12,10 @@ import (
 )
 
 // GetBackupRequest wrapper for the GetBackup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetBackup.go.html to see an example of how to use GetBackupRequest.
 type GetBackupRequest struct {
 
 	// A unique identifier for the backup.

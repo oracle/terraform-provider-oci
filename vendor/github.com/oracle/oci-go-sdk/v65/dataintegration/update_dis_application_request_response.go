@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDisApplicationRequest wrapper for the UpdateDisApplication operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateDisApplication.go.html to see an example of how to use UpdateDisApplicationRequest.
 type UpdateDisApplicationRequest struct {
 
 	// The workspace ID.

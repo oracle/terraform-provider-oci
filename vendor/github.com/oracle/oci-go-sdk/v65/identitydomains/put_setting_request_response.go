@@ -12,6 +12,10 @@ import (
 )
 
 // PutSettingRequest wrapper for the PutSetting operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutSetting.go.html to see an example of how to use PutSettingRequest.
 type PutSettingRequest struct {
 
 	// ID of the resource

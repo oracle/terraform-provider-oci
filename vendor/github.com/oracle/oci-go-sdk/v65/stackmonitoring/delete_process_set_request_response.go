@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteProcessSetRequest wrapper for the DeleteProcessSet operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteProcessSet.go.html to see an example of how to use DeleteProcessSetRequest.
 type DeleteProcessSetRequest struct {
 
 	// The Process Set ID

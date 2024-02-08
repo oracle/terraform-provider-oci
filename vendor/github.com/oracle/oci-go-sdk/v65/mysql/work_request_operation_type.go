@@ -39,7 +39,6 @@ const (
 	WorkRequestOperationTypeResumeChannel                         WorkRequestOperationTypeEnum = "RESUME_CHANNEL"
 	WorkRequestOperationTypeResetChannel                          WorkRequestOperationTypeEnum = "RESET_CHANNEL"
 	WorkRequestOperationTypeDeleteChannel                         WorkRequestOperationTypeEnum = "DELETE_CHANNEL"
-	WorkRequestOperationTypeCopyBackup                            WorkRequestOperationTypeEnum = "COPY_BACKUP"
 	WorkRequestOperationTypeCreateBackup                          WorkRequestOperationTypeEnum = "CREATE_BACKUP"
 	WorkRequestOperationTypeDeleteBackup                          WorkRequestOperationTypeEnum = "DELETE_BACKUP"
 )
@@ -66,7 +65,6 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"RESUME_CHANNEL":                            WorkRequestOperationTypeResumeChannel,
 	"RESET_CHANNEL":                             WorkRequestOperationTypeResetChannel,
 	"DELETE_CHANNEL":                            WorkRequestOperationTypeDeleteChannel,
-	"COPY_BACKUP":                               WorkRequestOperationTypeCopyBackup,
 	"CREATE_BACKUP":                             WorkRequestOperationTypeCreateBackup,
 	"DELETE_BACKUP":                             WorkRequestOperationTypeDeleteBackup,
 }
@@ -93,7 +91,6 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"resume_channel":                            WorkRequestOperationTypeResumeChannel,
 	"reset_channel":                             WorkRequestOperationTypeResetChannel,
 	"delete_channel":                            WorkRequestOperationTypeDeleteChannel,
-	"copy_backup":                               WorkRequestOperationTypeCopyBackup,
 	"create_backup":                             WorkRequestOperationTypeCreateBackup,
 	"delete_backup":                             WorkRequestOperationTypeDeleteBackup,
 }
@@ -131,7 +128,6 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"RESUME_CHANNEL",
 		"RESET_CHANNEL",
 		"DELETE_CHANNEL",
-		"COPY_BACKUP",
 		"CREATE_BACKUP",
 		"DELETE_BACKUP",
 	}

@@ -12,6 +12,10 @@ import (
 )
 
 // ListContainerInstanceShapesRequest wrapper for the ListContainerInstanceShapes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/ListContainerInstanceShapes.go.html to see an example of how to use ListContainerInstanceShapesRequest.
 type ListContainerInstanceShapesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
@@ -20,9 +24,6 @@ type ListContainerInstanceShapesRequest struct {
 	// The name of the availability domain.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
-
-	// The name of the fault domain. Should be one of `FAULT-DOMAIN-1`, `FAULT-DOMAIN-2` or `FAULT-DOMAIN-3`
-	FaultDomain *string `mandatory:"false" contributesTo:"query" name:"faultDomain"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

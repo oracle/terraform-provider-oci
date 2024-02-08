@@ -13,6 +13,10 @@ import (
 )
 
 // DownloadSensitiveDataModelRequest wrapper for the DownloadSensitiveDataModel operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadSensitiveDataModel.go.html to see an example of how to use DownloadSensitiveDataModelRequest.
 type DownloadSensitiveDataModelRequest struct {
 
 	// The OCID of the sensitive data model.

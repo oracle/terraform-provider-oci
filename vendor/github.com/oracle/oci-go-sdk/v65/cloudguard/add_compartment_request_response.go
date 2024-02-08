@@ -12,12 +12,16 @@ import (
 )
 
 // AddCompartmentRequest wrapper for the AddCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/AddCompartment.go.html to see an example of how to use AddCompartmentRequest.
 type AddCompartmentRequest struct {
 
-	// The unique identifier of the security zone (`SecurityZone` resource).
+	// The unique identifier of the security zone (`SecurityZone`)
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
-	// Parameters for an existing compartment to be added to a security zone
+	// The compartment to add to the security zone.
 	AddCompartmentDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

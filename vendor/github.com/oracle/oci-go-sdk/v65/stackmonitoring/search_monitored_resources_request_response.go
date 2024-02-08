@@ -12,6 +12,10 @@ import (
 )
 
 // SearchMonitoredResourcesRequest wrapper for the SearchMonitoredResources operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResources.go.html to see an example of how to use SearchMonitoredResourcesRequest.
 type SearchMonitoredResourcesRequest struct {
 
 	// Search Criteria for listing monitored resources.

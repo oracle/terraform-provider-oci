@@ -12,6 +12,10 @@ import (
 )
 
 // StopPluggableDatabaseRequest wrapper for the StopPluggableDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/StopPluggableDatabase.go.html to see an example of how to use StopPluggableDatabaseRequest.
 type StopPluggableDatabaseRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

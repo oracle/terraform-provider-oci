@@ -12,6 +12,10 @@ import (
 )
 
 // UpgradeDbSystemRequest wrapper for the UpgradeDbSystem operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpgradeDbSystem.go.html to see an example of how to use UpgradeDbSystemRequest.
 type UpgradeDbSystemRequest struct {
 
 	// The DB system OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

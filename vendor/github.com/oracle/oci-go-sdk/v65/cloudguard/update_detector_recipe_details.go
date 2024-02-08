@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateDetectorRecipeDetails Parameters to use to update details for a detector recipe.
+// UpdateDetectorRecipeDetails Update of detector recipe
 type UpdateDetectorRecipeDetails struct {
 
 	// Display name of detector recipe.
@@ -27,11 +27,10 @@ type UpdateDetectorRecipeDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of detector rules to update
+	// Detector Rules to update
 	DetectorRules []UpdateDetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
 
-	// Simple key-value pair that is applied without any predefined
-	// name, type or scope. Exists for cross-compatibility only.
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

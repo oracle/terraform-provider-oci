@@ -12,6 +12,10 @@ import (
 )
 
 // ListDatabaseViewAccessEntriesRequest wrapper for the ListDatabaseViewAccessEntries operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDatabaseViewAccessEntries.go.html to see an example of how to use ListDatabaseViewAccessEntriesRequest.
 type ListDatabaseViewAccessEntriesRequest struct {
 
 	// The OCID of the security policy report resource.

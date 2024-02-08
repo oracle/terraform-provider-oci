@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateRemediationRecipeRequest wrapper for the UpdateRemediationRecipe operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateRemediationRecipe.go.html to see an example of how to use UpdateRemediationRecipeRequest.
 type UpdateRemediationRecipeRequest struct {
 
 	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Remediation Recipe, as a URL path parameter.

@@ -16,27 +16,27 @@ import (
 	"strings"
 )
 
-// CreateManagedListDetails Parameters to use to create details for a new managed list.
+// CreateManagedListDetails Create ManagedList
 type CreateManagedListDetails struct {
 
 	// Managed list display name.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// OCID of the source managed list
+	// OCID of the Source ManagedList
 	SourceManagedListId *string `mandatory:"false" json:"sourceManagedListId"`
 
-	// Managed list description
+	// Managed list description.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Type of information stored in the list
+	// type of the list
 	ListType ManagedListTypeEnum `mandatory:"false" json:"listType,omitempty"`
 
-	// List of items in the managed list
+	// List of ManagedListItem
 	ListItems []string `mandatory:"false" json:"listItems"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

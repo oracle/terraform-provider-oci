@@ -12,6 +12,10 @@ import (
 )
 
 // CreateEkmsPrivateEndpointRequest wrapper for the CreateEkmsPrivateEndpoint operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateEkmsPrivateEndpoint.go.html to see an example of how to use CreateEkmsPrivateEndpointRequest.
 type CreateEkmsPrivateEndpointRequest struct {
 
 	// The information used to create EKMS private endpoint.

@@ -12,6 +12,10 @@ import (
 )
 
 // ListSchedulesRequest wrapper for the ListSchedules operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListSchedules.go.html to see an example of how to use ListSchedulesRequest.
 type ListSchedulesRequest struct {
 
 	// The compartment ID in which to list resources.

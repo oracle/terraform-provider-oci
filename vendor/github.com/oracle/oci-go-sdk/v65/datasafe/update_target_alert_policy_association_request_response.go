@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateTargetAlertPolicyAssociationRequest wrapper for the UpdateTargetAlertPolicyAssociation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateTargetAlertPolicyAssociation.go.html to see an example of how to use UpdateTargetAlertPolicyAssociationRequest.
 type UpdateTargetAlertPolicyAssociationRequest struct {
 
 	// The OCID of the target-alert policy association.

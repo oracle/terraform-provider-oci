@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateManagedDatabaseGroupRequest wrapper for the UpdateManagedDatabaseGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateManagedDatabaseGroup.go.html to see an example of how to use UpdateManagedDatabaseGroupRequest.
 type UpdateManagedDatabaseGroupRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database Group.

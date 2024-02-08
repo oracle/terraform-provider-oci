@@ -12,6 +12,10 @@ import (
 )
 
 // GetTargetAlertPolicyAssociationRequest wrapper for the GetTargetAlertPolicyAssociation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetTargetAlertPolicyAssociation.go.html to see an example of how to use GetTargetAlertPolicyAssociationRequest.
 type GetTargetAlertPolicyAssociationRequest struct {
 
 	// The OCID of the target-alert policy association.

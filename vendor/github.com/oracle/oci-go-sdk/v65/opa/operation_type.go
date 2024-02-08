@@ -24,8 +24,6 @@ const (
 	OperationTypeMoveOpaInstance             OperationTypeEnum = "MOVE_OPA_INSTANCE"
 	OperationTypeCreateOpaInstanceAttachment OperationTypeEnum = "CREATE_OPA_INSTANCE_ATTACHMENT"
 	OperationTypeDeleteOpaInstanceAttachment OperationTypeEnum = "DELETE_OPA_INSTANCE_ATTACHMENT"
-	OperationTypeStartOpaInstance            OperationTypeEnum = "START_OPA_INSTANCE"
-	OperationTypeStopOpaInstance             OperationTypeEnum = "STOP_OPA_INSTANCE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -35,8 +33,6 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_OPA_INSTANCE":              OperationTypeMoveOpaInstance,
 	"CREATE_OPA_INSTANCE_ATTACHMENT": OperationTypeCreateOpaInstanceAttachment,
 	"DELETE_OPA_INSTANCE_ATTACHMENT": OperationTypeDeleteOpaInstanceAttachment,
-	"START_OPA_INSTANCE":             OperationTypeStartOpaInstance,
-	"STOP_OPA_INSTANCE":              OperationTypeStopOpaInstance,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -46,8 +42,6 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_opa_instance":              OperationTypeMoveOpaInstance,
 	"create_opa_instance_attachment": OperationTypeCreateOpaInstanceAttachment,
 	"delete_opa_instance_attachment": OperationTypeDeleteOpaInstanceAttachment,
-	"start_opa_instance":             OperationTypeStartOpaInstance,
-	"stop_opa_instance":              OperationTypeStopOpaInstance,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -68,8 +62,6 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_OPA_INSTANCE",
 		"CREATE_OPA_INSTANCE_ATTACHMENT",
 		"DELETE_OPA_INSTANCE_ATTACHMENT",
-		"START_OPA_INSTANCE",
-		"STOP_OPA_INSTANCE",
 	}
 }
 

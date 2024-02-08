@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// TargetResourceTypesSelected Target selection on basis of target resource types.
+// TargetResourceTypesSelected Target selection on basis of TargetResourceTypes.
 type TargetResourceTypesSelected struct {
 
-	// Types of targets
+	// Types of Targets
 	Values []TargetResourceTypeEnum `mandatory:"false" json:"values,omitempty"`
 }
 

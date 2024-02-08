@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteWorkloadMappingRequest wrapper for the DeleteWorkloadMapping operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/DeleteWorkloadMapping.go.html to see an example of how to use DeleteWorkloadMappingRequest.
 type DeleteWorkloadMappingRequest struct {
 
 	// The OCID of the cluster.

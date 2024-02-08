@@ -12,6 +12,10 @@ import (
 )
 
 // ListAutonomousDatabaseClonesRequest wrapper for the ListAutonomousDatabaseClones operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDatabaseClones.go.html to see an example of how to use ListAutonomousDatabaseClonesRequest.
 type ListAutonomousDatabaseClonesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -222,17 +226,14 @@ type ListAutonomousDatabaseClonesCloneTypeEnum string
 // Set of constants representing the allowable values for ListAutonomousDatabaseClonesCloneTypeEnum
 const (
 	ListAutonomousDatabaseClonesCloneTypeRefreshableClone ListAutonomousDatabaseClonesCloneTypeEnum = "REFRESHABLE_CLONE"
-	ListAutonomousDatabaseClonesCloneTypeVirtualClone     ListAutonomousDatabaseClonesCloneTypeEnum = "VIRTUAL_CLONE"
 )
 
 var mappingListAutonomousDatabaseClonesCloneTypeEnum = map[string]ListAutonomousDatabaseClonesCloneTypeEnum{
 	"REFRESHABLE_CLONE": ListAutonomousDatabaseClonesCloneTypeRefreshableClone,
-	"VIRTUAL_CLONE":     ListAutonomousDatabaseClonesCloneTypeVirtualClone,
 }
 
 var mappingListAutonomousDatabaseClonesCloneTypeEnumLowerCase = map[string]ListAutonomousDatabaseClonesCloneTypeEnum{
 	"refreshable_clone": ListAutonomousDatabaseClonesCloneTypeRefreshableClone,
-	"virtual_clone":     ListAutonomousDatabaseClonesCloneTypeVirtualClone,
 }
 
 // GetListAutonomousDatabaseClonesCloneTypeEnumValues Enumerates the set of values for ListAutonomousDatabaseClonesCloneTypeEnum
@@ -248,7 +249,6 @@ func GetListAutonomousDatabaseClonesCloneTypeEnumValues() []ListAutonomousDataba
 func GetListAutonomousDatabaseClonesCloneTypeEnumStringValues() []string {
 	return []string{
 		"REFRESHABLE_CLONE",
-		"VIRTUAL_CLONE",
 	}
 }
 

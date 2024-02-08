@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteMaskingPolicyRequest wrapper for the DeleteMaskingPolicy operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingPolicy.go.html to see an example of how to use DeleteMaskingPolicyRequest.
 type DeleteMaskingPolicyRequest struct {
 
 	// The OCID of the masking policy.

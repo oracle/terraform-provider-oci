@@ -12,6 +12,10 @@ import (
 )
 
 // ConvertToRegularPluggableDatabaseRequest wrapper for the ConvertToRegularPluggableDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ConvertToRegularPluggableDatabase.go.html to see an example of how to use ConvertToRegularPluggableDatabaseRequest.
 type ConvertToRegularPluggableDatabaseRequest struct {
 
 	// Request to convert a Refreshable clone pluggable database (PDB) to a Regular pluggable database.

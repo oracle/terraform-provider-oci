@@ -13,6 +13,10 @@ import (
 )
 
 // PutGenericArtifactContentByPathRequest wrapper for the PutGenericArtifactContentByPath operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/PutGenericArtifactContentByPath.go.html to see an example of how to use PutGenericArtifactContentByPathRequest.
 type PutGenericArtifactContentByPathRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.

@@ -12,6 +12,10 @@ import (
 )
 
 // ListDeployStagesRequest wrapper for the ListDeployStages operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListDeployStages.go.html to see an example of how to use ListDeployStagesRequest.
 type ListDeployStagesRequest struct {
 
 	// Unique identifier or OCID for listing a single resource by ID.

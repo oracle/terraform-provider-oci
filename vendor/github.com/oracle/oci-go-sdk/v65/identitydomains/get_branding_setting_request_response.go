@@ -12,6 +12,10 @@ import (
 )
 
 // GetBrandingSettingRequest wrapper for the GetBrandingSetting operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetBrandingSetting.go.html to see an example of how to use GetBrandingSettingRequest.
 type GetBrandingSettingRequest struct {
 
 	// ID of the resource

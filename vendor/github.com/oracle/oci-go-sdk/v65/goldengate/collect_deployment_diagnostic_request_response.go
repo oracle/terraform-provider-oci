@@ -12,6 +12,10 @@ import (
 )
 
 // CollectDeploymentDiagnosticRequest wrapper for the CollectDeploymentDiagnostic operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CollectDeploymentDiagnostic.go.html to see an example of how to use CollectDeploymentDiagnosticRequest.
 type CollectDeploymentDiagnosticRequest struct {
 
 	// A unique Deployment identifier.

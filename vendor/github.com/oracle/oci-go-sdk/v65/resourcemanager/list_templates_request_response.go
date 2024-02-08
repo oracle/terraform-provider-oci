@@ -12,6 +12,10 @@ import (
 )
 
 // ListTemplatesRequest wrapper for the ListTemplates operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListTemplates.go.html to see an example of how to use ListTemplatesRequest.
 type ListTemplatesRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

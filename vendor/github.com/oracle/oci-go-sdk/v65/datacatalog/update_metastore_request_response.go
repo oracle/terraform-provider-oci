@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateMetastoreRequest wrapper for the UpdateMetastore operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/UpdateMetastore.go.html to see an example of how to use UpdateMetastoreRequest.
 type UpdateMetastoreRequest struct {
 
 	// The metastore's OCID.

@@ -12,6 +12,10 @@ import (
 )
 
 // GetReplicationStatusRequest wrapper for the GetReplicationStatus operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetReplicationStatus.go.html to see an example of how to use GetReplicationStatusRequest.
 type GetReplicationStatusRequest struct {
 
 	// replicationId associated with an operation on a resource

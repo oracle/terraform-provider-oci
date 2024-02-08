@@ -66,17 +66,14 @@ type CreateOdaInstanceAttachmentDetailsAttachmentTypeEnum string
 // Set of constants representing the allowable values for CreateOdaInstanceAttachmentDetailsAttachmentTypeEnum
 const (
 	CreateOdaInstanceAttachmentDetailsAttachmentTypeFusion CreateOdaInstanceAttachmentDetailsAttachmentTypeEnum = "FUSION"
-	CreateOdaInstanceAttachmentDetailsAttachmentTypeMax    CreateOdaInstanceAttachmentDetailsAttachmentTypeEnum = "MAX"
 )
 
 var mappingCreateOdaInstanceAttachmentDetailsAttachmentTypeEnum = map[string]CreateOdaInstanceAttachmentDetailsAttachmentTypeEnum{
 	"FUSION": CreateOdaInstanceAttachmentDetailsAttachmentTypeFusion,
-	"MAX":    CreateOdaInstanceAttachmentDetailsAttachmentTypeMax,
 }
 
 var mappingCreateOdaInstanceAttachmentDetailsAttachmentTypeEnumLowerCase = map[string]CreateOdaInstanceAttachmentDetailsAttachmentTypeEnum{
 	"fusion": CreateOdaInstanceAttachmentDetailsAttachmentTypeFusion,
-	"max":    CreateOdaInstanceAttachmentDetailsAttachmentTypeMax,
 }
 
 // GetCreateOdaInstanceAttachmentDetailsAttachmentTypeEnumValues Enumerates the set of values for CreateOdaInstanceAttachmentDetailsAttachmentTypeEnum
@@ -92,7 +89,6 @@ func GetCreateOdaInstanceAttachmentDetailsAttachmentTypeEnumValues() []CreateOda
 func GetCreateOdaInstanceAttachmentDetailsAttachmentTypeEnumStringValues() []string {
 	return []string{
 		"FUSION",
-		"MAX",
 	}
 }
 

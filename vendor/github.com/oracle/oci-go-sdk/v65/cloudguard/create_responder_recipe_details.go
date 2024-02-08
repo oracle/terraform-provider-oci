@@ -16,24 +16,24 @@ import (
 	"strings"
 )
 
-// CreateResponderRecipeDetails Parameters for creating a responder recipe.
+// CreateResponderRecipeDetails Details of ResponderRecipe.
 type CreateResponderRecipeDetails struct {
 
 	// Responder recipe display name.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The unique identifier of the source responder recipe
+	// The id of the source responder recipe.
 	SourceResponderRecipeId *string `mandatory:"true" json:"sourceResponderRecipeId"`
 
-	// Compartment OCID
+	// Compartment Identifier
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Responder recipe description.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of responder rules to override from source responder recipe
+	// Responder Rules to override from source responder recipe
 	ResponderRules []UpdateResponderRecipeResponderRule `mandatory:"false" json:"responderRules"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

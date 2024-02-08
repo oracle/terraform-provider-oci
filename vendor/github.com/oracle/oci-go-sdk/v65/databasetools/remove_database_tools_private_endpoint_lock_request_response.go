@@ -12,6 +12,10 @@ import (
 )
 
 // RemoveDatabaseToolsPrivateEndpointLockRequest wrapper for the RemoveDatabaseToolsPrivateEndpointLock operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/RemoveDatabaseToolsPrivateEndpointLock.go.html to see an example of how to use RemoveDatabaseToolsPrivateEndpointLockRequest.
 type RemoveDatabaseToolsPrivateEndpointLockRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Database Tools private endpoint.

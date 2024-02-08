@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeDiscoveryScheduleCompartmentRequest wrapper for the ChangeDiscoveryScheduleCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeDiscoveryScheduleCompartment.go.html to see an example of how to use ChangeDiscoveryScheduleCompartmentRequest.
 type ChangeDiscoveryScheduleCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule.

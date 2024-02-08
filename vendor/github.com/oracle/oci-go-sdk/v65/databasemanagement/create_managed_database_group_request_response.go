@@ -12,6 +12,10 @@ import (
 )
 
 // CreateManagedDatabaseGroupRequest wrapper for the CreateManagedDatabaseGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateManagedDatabaseGroup.go.html to see an example of how to use CreateManagedDatabaseGroupRequest.
 type CreateManagedDatabaseGroupRequest struct {
 
 	// The details required to create a Managed Database Group.

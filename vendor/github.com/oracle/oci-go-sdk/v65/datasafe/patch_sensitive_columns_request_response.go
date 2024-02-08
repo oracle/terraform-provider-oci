@@ -12,6 +12,10 @@ import (
 )
 
 // PatchSensitiveColumnsRequest wrapper for the PatchSensitiveColumns operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchSensitiveColumns.go.html to see an example of how to use PatchSensitiveColumnsRequest.
 type PatchSensitiveColumnsRequest struct {
 
 	// The OCID of the sensitive data model.

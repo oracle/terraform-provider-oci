@@ -12,6 +12,10 @@ import (
 )
 
 // CreateSecurityRuleRequest wrapper for the CreateSecurityRule operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateSecurityRule.go.html to see an example of how to use CreateSecurityRuleRequest.
 type CreateSecurityRuleRequest struct {
 
 	// Unique Network Firewall Policy identifier

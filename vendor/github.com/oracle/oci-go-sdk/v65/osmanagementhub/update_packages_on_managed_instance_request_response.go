@@ -12,6 +12,10 @@ import (
 )
 
 // UpdatePackagesOnManagedInstanceRequest wrapper for the UpdatePackagesOnManagedInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdatePackagesOnManagedInstance.go.html to see an example of how to use UpdatePackagesOnManagedInstanceRequest.
 type UpdatePackagesOnManagedInstanceRequest struct {
 
 	// The OCID of the managed instance.

@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateBuildRunRequest wrapper for the UpdateBuildRun operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildRun.go.html to see an example of how to use UpdateBuildRunRequest.
 type UpdateBuildRunRequest struct {
 
 	// Unique build run identifier.

@@ -12,6 +12,10 @@ import (
 )
 
 // ConnectLocalPeeringGatewaysRequest wrapper for the ConnectLocalPeeringGateways operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ConnectLocalPeeringGateways.go.html to see an example of how to use ConnectLocalPeeringGatewaysRequest.
 type ConnectLocalPeeringGatewaysRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the local peering gateway.
@@ -19,10 +23,6 @@ type ConnectLocalPeeringGatewaysRequest struct {
 
 	// Details regarding the local peering gateway to connect.
 	ConnectLocalPeeringGatewaysDetails `contributesTo:"body"`
-
-	// A comma separated list of tenancy OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)s that might be accessed by this request. Only required
-	// for cross tenancy requests. May be `null` for requests that do not cross tenancy boundaries.
-	XCrossTenancyRequest *string `mandatory:"false" contributesTo:"header" name:"x-cross-tenancy-request"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

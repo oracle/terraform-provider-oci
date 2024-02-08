@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDbSystemRequest wrapper for the DeleteDbSystem operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/DeleteDbSystem.go.html to see an example of how to use DeleteDbSystemRequest.
 type DeleteDbSystemRequest struct {
 
 	// A unique identifier for the database system.

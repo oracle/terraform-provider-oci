@@ -94,6 +94,10 @@ func (client *AuditClient) ConfigurationProvider() *common.ConfigurationProvider
 }
 
 // GetConfiguration Get the configuration
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
 func (client AuditClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -143,6 +147,10 @@ func (client AuditClient) getConfiguration(ctx context.Context, request common.O
 
 // ListEvents Returns all the audit events processed for the specified compartment within the specified
 // time range.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/ListEvents.go.html to see an example of how to use ListEvents API.
 func (client AuditClient) ListEvents(ctx context.Context, request ListEventsRequest) (response ListEventsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -196,6 +204,10 @@ func (client AuditClient) listEvents(ctx context.Context, request common.OCIRequ
 }
 
 // UpdateConfiguration Update the configuration
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/audit/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
 func (client AuditClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

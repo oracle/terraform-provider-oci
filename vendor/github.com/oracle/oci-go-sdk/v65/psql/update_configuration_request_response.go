@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateConfigurationRequest wrapper for the UpdateConfiguration operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateConfiguration.go.html to see an example of how to use UpdateConfigurationRequest.
 type UpdateConfigurationRequest struct {
 
 	// A unique identifier for the configuration.

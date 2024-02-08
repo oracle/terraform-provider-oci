@@ -12,6 +12,10 @@ import (
 )
 
 // PutUserRequest wrapper for the PutUser operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUser.go.html to see an example of how to use PutUserRequest.
 type PutUserRequest struct {
 
 	// ID of the resource

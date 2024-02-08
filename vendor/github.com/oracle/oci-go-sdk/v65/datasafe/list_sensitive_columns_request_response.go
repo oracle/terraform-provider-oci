@@ -12,6 +12,10 @@ import (
 )
 
 // ListSensitiveColumnsRequest wrapper for the ListSensitiveColumns operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveColumns.go.html to see an example of how to use ListSensitiveColumnsRequest.
 type ListSensitiveColumnsRequest struct {
 
 	// The OCID of the sensitive data model.

@@ -12,6 +12,10 @@ import (
 )
 
 // RefreshSqlCollectionLogInsightsRequest wrapper for the RefreshSqlCollectionLogInsights operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/RefreshSqlCollectionLogInsights.go.html to see an example of how to use RefreshSqlCollectionLogInsightsRequest.
 type RefreshSqlCollectionLogInsightsRequest struct {
 
 	// The OCID of the SQL collection resource.

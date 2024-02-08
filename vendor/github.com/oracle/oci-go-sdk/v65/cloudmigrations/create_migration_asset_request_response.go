@@ -12,6 +12,10 @@ import (
 )
 
 // CreateMigrationAssetRequest wrapper for the CreateMigrationAsset operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/CreateMigrationAsset.go.html to see an example of how to use CreateMigrationAssetRequest.
 type CreateMigrationAssetRequest struct {
 
 	// Details for the new migration asset.

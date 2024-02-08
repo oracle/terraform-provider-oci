@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteManagementStationRequest wrapper for the DeleteManagementStation operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagementStation.go.html to see an example of how to use DeleteManagementStationRequest.
 type DeleteManagementStationRequest struct {
 
 	// The OCID of the management station.

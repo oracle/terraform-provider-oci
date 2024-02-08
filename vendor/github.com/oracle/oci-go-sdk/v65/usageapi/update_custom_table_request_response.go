@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateCustomTableRequest wrapper for the UpdateCustomTable operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/UpdateCustomTable.go.html to see an example of how to use UpdateCustomTableRequest.
 type UpdateCustomTableRequest struct {
 
 	// The information to be updated.

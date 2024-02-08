@@ -12,6 +12,10 @@ import (
 )
 
 // CreateRemediationRunRequest wrapper for the CreateRemediationRun operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CreateRemediationRun.go.html to see an example of how to use CreateRemediationRunRequest.
 type CreateRemediationRunRequest struct {
 
 	// The details used to create a new remediation run.

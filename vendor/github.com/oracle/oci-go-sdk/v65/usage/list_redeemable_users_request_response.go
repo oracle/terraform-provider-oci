@@ -12,6 +12,10 @@ import (
 )
 
 // ListRedeemableUsersRequest wrapper for the ListRedeemableUsers operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedeemableUsers.go.html to see an example of how to use ListRedeemableUsersRequest.
 type ListRedeemableUsersRequest struct {
 
 	// The OCID of the tenancy.

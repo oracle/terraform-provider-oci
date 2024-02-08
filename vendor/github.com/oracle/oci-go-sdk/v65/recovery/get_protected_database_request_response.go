@@ -12,6 +12,10 @@ import (
 )
 
 // GetProtectedDatabaseRequest wrapper for the GetProtectedDatabase operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/GetProtectedDatabase.go.html to see an example of how to use GetProtectedDatabaseRequest.
 type GetProtectedDatabaseRequest struct {
 
 	// The protected database OCID.

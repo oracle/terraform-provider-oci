@@ -2,12 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Connector Hub API
+// Service Connector Hub API
 //
-// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Connector Hub, see
-// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
-// Connector Hub is formerly known as Service Connector Hub.
+// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Service Connector Hub, see
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 //
 
 package sch
@@ -19,12 +18,12 @@ import (
 	"strings"
 )
 
-// TaskDetails An object that represents a task within the flow defined by the connector.
+// TaskDetails An object that represents a task within the flow defined by the service connector.
 // An example task is a filter for error logs.
-// For more information about flows defined by connectors, see
-// Overview of Connector Hub (https://docs.cloud.oracle.com/iaas/Content/connector-hub/overview.htm).
+// For more information about flows defined by service connectors, see
+// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
 // For configuration instructions, see
-// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
+// To create a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create).
 type TaskDetails interface {
 }
 

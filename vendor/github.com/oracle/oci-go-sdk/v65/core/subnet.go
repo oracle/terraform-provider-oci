@@ -31,6 +31,10 @@ import (
 // Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/policygetstarted.htm).
 type Subnet struct {
 
+	// The subnet's CIDR block.
+	// Example: `10.0.1.0/24`
+	CidrBlock *string `mandatory:"true" json:"cidrBlock"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the subnet.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -46,6 +50,10 @@ type Subnet struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN the subnet is in.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
+	// The IP address of the virtual router.
+	// Example: `10.0.14.1`
+	VirtualRouterIp *string `mandatory:"true" json:"virtualRouterIp"`
+
 	// The MAC address of the virtual router.
 	// Example: `00:00:00:00:00:01`
 	VirtualRouterMac *string `mandatory:"true" json:"virtualRouterMac"`
@@ -54,10 +62,6 @@ type Subnet struct {
 	// instead of an AD-specific subnet. Oracle recommends creating regional subnets.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
-
-	// The subnet's CIDR block.
-	// Example: `10.0.1.0/24`
-	CidrBlock *string `mandatory:"false" json:"cidrBlock"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -100,17 +104,6 @@ type Subnet struct {
 	// Example: `2001:0db8:0123:1111:89ab:cdef:1234:5678`
 	Ipv6VirtualRouterIp *string `mandatory:"false" json:"ipv6VirtualRouterIp"`
 
-	// Whether learning mode is enabled for this subnet. The default is `false`.
-	// **Note:** When a subnet has learning mode enabled, only certain types
-	// of resources can be launched in the subnet.
-	// Example: `true`
-	IsLearningEnabled *bool `mandatory:"false" json:"isLearningEnabled"`
-
-	// The VLAN tag assigned to VNIC Attachments within this Subnet if the Subnet has learning enabled.
-	// **Note:** When a subnet does not have learning enabled, this field will be null.
-	// Example: `100`
-	VlanTag *int `mandatory:"false" json:"vlanTag"`
-
 	// Whether to disallow ingress internet traffic to VNICs within this subnet. Defaults to false.
 	// For IPV4, `prohibitInternetIngress` behaves similarly to `prohibitPublicIpOnVnic`.
 	// If it is set to false, VNICs created in this subnet will automatically be assigned public IP
@@ -150,10 +143,6 @@ type Subnet struct {
 	// The date and time the subnet was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
-
-	// The IP address of the virtual router.
-	// Example: `10.0.14.1`
-	VirtualRouterIp *string `mandatory:"false" json:"virtualRouterIp"`
 }
 
 func (m Subnet) String() string {

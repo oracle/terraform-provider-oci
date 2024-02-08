@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ChangeDetectorRecipeCompartmentDetails Parameters to use to move a detector recipe to a different compartment.
+// ChangeDetectorRecipeCompartmentDetails Changing compartmentId for DetectorRecipe
 type ChangeDetectorRecipeCompartmentDetails struct {
 
-	// The OCID of the compartment into which the detector recipe is to be moved
+	// The OCID of the compartment into which the DetectorRecipe should be moved
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

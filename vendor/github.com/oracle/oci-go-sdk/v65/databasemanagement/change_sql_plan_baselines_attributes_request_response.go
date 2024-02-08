@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeSqlPlanBaselinesAttributesRequest wrapper for the ChangeSqlPlanBaselinesAttributes operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeSqlPlanBaselinesAttributes.go.html to see an example of how to use ChangeSqlPlanBaselinesAttributesRequest.
 type ChangeSqlPlanBaselinesAttributesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

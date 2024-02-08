@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateNetworkAddressListRequest wrapper for the UpdateNetworkAddressList operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/UpdateNetworkAddressList.go.html to see an example of how to use UpdateNetworkAddressListRequest.
 type UpdateNetworkAddressListRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the NetworkAddressList.

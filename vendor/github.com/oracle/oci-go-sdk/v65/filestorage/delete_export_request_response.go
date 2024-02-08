@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteExportRequest wrapper for the DeleteExport operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteExport.go.html to see an example of how to use DeleteExportRequest.
 type DeleteExportRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export.

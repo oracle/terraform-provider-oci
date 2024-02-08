@@ -98,9 +98,6 @@ type DbNode struct {
 	// The allocated local node storage in GBs on the Db node.
 	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
 
-	// The total number of CPU cores reserved on the Db node.
-	TotalCpuCoreCount *int `mandatory:"false" json:"totalCpuCoreCount"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
 	DbServerId *string `mandatory:"false" json:"dbServerId"`
 }
@@ -202,18 +199,15 @@ type DbNodeMaintenanceTypeEnum string
 
 // Set of constants representing the allowable values for DbNodeMaintenanceTypeEnum
 const (
-	DbNodeMaintenanceTypeVmdbRebootMigration    DbNodeMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
-	DbNodeMaintenanceTypeExadbxsRebootMigration DbNodeMaintenanceTypeEnum = "EXADBXS_REBOOT_MIGRATION"
+	DbNodeMaintenanceTypeVmdbRebootMigration DbNodeMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
 )
 
 var mappingDbNodeMaintenanceTypeEnum = map[string]DbNodeMaintenanceTypeEnum{
-	"VMDB_REBOOT_MIGRATION":    DbNodeMaintenanceTypeVmdbRebootMigration,
-	"EXADBXS_REBOOT_MIGRATION": DbNodeMaintenanceTypeExadbxsRebootMigration,
+	"VMDB_REBOOT_MIGRATION": DbNodeMaintenanceTypeVmdbRebootMigration,
 }
 
 var mappingDbNodeMaintenanceTypeEnumLowerCase = map[string]DbNodeMaintenanceTypeEnum{
-	"vmdb_reboot_migration":    DbNodeMaintenanceTypeVmdbRebootMigration,
-	"exadbxs_reboot_migration": DbNodeMaintenanceTypeExadbxsRebootMigration,
+	"vmdb_reboot_migration": DbNodeMaintenanceTypeVmdbRebootMigration,
 }
 
 // GetDbNodeMaintenanceTypeEnumValues Enumerates the set of values for DbNodeMaintenanceTypeEnum
@@ -229,7 +223,6 @@ func GetDbNodeMaintenanceTypeEnumValues() []DbNodeMaintenanceTypeEnum {
 func GetDbNodeMaintenanceTypeEnumStringValues() []string {
 	return []string{
 		"VMDB_REBOOT_MIGRATION",
-		"EXADBXS_REBOOT_MIGRATION",
 	}
 }
 

@@ -12,6 +12,10 @@ import (
 )
 
 // FetchEntityLineageRequest wrapper for the FetchEntityLineage operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/FetchEntityLineage.go.html to see an example of how to use FetchEntityLineageRequest.
 type FetchEntityLineageRequest struct {
 
 	// Unique catalog identifier.

@@ -6,6 +6,7 @@ package auth
 import (
 	"crypto/rsa"
 	"fmt"
+
 	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
@@ -14,36 +15,30 @@ type instancePrincipalConfigurationProvider struct {
 	region      *common.Region
 }
 
-// defaultTokenPurpose used by the instance principal configuration provider when requesting instance principal tokens
-const defaultTokenPurpose = "DEFAULT"
-
-// servicePrincipalTokenPurpose used by the instance principal configuration provider when requesting service principals tokens
-const servicePrincipalTokenPurpose = "SERVICE_PRINCIPAL"
-
 // InstancePrincipalConfigurationProvider returns a configuration for instance principals
 func InstancePrincipalConfigurationProvider() (common.ConfigurationProvider, error) {
-	return newInstancePrincipalConfigurationProvider("", defaultTokenPurpose, nil)
+	return newInstancePrincipalConfigurationProvider("", nil)
 }
 
 // InstancePrincipalConfigurationProviderForRegion returns a configuration for instance principals with a given region
 func InstancePrincipalConfigurationProviderForRegion(region common.Region) (common.ConfigurationProvider, error) {
-	return newInstancePrincipalConfigurationProvider(region, defaultTokenPurpose, nil)
+	return newInstancePrincipalConfigurationProvider(region, nil)
 }
 
 // InstancePrincipalConfigurationProviderWithCustomClient returns a configuration for instance principals using a modifier function to modify the HTTPRequestDispatcher
 func InstancePrincipalConfigurationProviderWithCustomClient(modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error)) (common.ConfigurationProvider, error) {
-	return newInstancePrincipalConfigurationProvider("", defaultTokenPurpose, modifier)
+	return newInstancePrincipalConfigurationProvider("", modifier)
 }
 
 // InstancePrincipalConfigurationForRegionWithCustomClient returns a configuration for instance principals with a given region using a modifier function to modify the HTTPRequestDispatcher
 func InstancePrincipalConfigurationForRegionWithCustomClient(region common.Region, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error)) (common.ConfigurationProvider, error) {
-	return newInstancePrincipalConfigurationProvider(region, defaultTokenPurpose, modifier)
+	return newInstancePrincipalConfigurationProvider(region, modifier)
 }
 
-func newInstancePrincipalConfigurationProvider(region common.Region, tokenPurpose string, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error)) (common.ConfigurationProvider, error) {
+func newInstancePrincipalConfigurationProvider(region common.Region, modifier func(common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error)) (common.ConfigurationProvider, error) {
 	var err error
 	var keyProvider *instancePrincipalKeyProvider
-	if keyProvider, err = newInstancePrincipalKeyProvider(modifier, tokenPurpose); err != nil {
+	if keyProvider, err = newInstancePrincipalKeyProvider(modifier); err != nil {
 		return nil, fmt.Errorf("failed to create a new key provider for instance principal: %s", err.Error())
 	}
 	if len(region) > 0 {
@@ -54,12 +49,6 @@ func newInstancePrincipalConfigurationProvider(region common.Region, tokenPurpos
 
 // InstancePrincipalConfigurationWithCerts returns a configuration for instance principals with a given region and hardcoded certificates in lieu of metadata service certs
 func InstancePrincipalConfigurationWithCerts(region common.Region, leafCertificate, leafPassphrase, leafPrivateKey []byte, intermediateCertificates [][]byte) (common.ConfigurationProvider, error) {
-	return instancePrincipalConfigurationWithCertsAndPurpose(region, leafCertificate, leafPassphrase, leafPrivateKey, intermediateCertificates, defaultTokenPurpose, nil)
-}
-
-// instancePrincipalConfigurationWithCertsAndPurpose returns a configuration for instance principals with a given region and hardcoded certificates in lieu of metadata service certs
-func instancePrincipalConfigurationWithCertsAndPurpose(region common.Region, leafCertificate, leafPassphrase, leafPrivateKey []byte,
-	intermediateCertificates [][]byte, purpose string, modifier func(dispatcher common.HTTPRequestDispatcher) (common.HTTPRequestDispatcher, error)) (common.ConfigurationProvider, error) {
 	leafCertificateRetriever := staticCertificateRetriever{Passphrase: leafPassphrase, CertificatePem: leafCertificate, PrivateKeyPem: leafPrivateKey}
 
 	//The .Refresh() call actually reads the certificates from the inputs
@@ -71,8 +60,7 @@ func instancePrincipalConfigurationWithCertsAndPurpose(region common.Region, lea
 	certificate := leafCertificateRetriever.Certificate()
 
 	tenancyID := extractTenancyIDFromCertificate(certificate)
-	fedClient, err := newX509FederationClientWithCerts(region, tenancyID, leafCertificate, leafPassphrase, leafPrivateKey,
-		intermediateCertificates, *newDispatcherModifier(modifier), purpose)
+	fedClient, err := newX509FederationClientWithCerts(region, tenancyID, leafCertificate, leafPassphrase, leafPrivateKey, intermediateCertificates, *newDispatcherModifier(nil))
 	if err != nil {
 		return nil, err
 	}

@@ -12,6 +12,10 @@ import (
 )
 
 // DisableExternalExadataInfrastructureManagementRequest wrapper for the DisableExternalExadataInfrastructureManagement operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalExadataInfrastructureManagement.go.html to see an example of how to use DisableExternalExadataInfrastructureManagementRequest.
 type DisableExternalExadataInfrastructureManagementRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.

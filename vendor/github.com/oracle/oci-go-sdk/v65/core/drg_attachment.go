@@ -74,10 +74,6 @@ type DrgAttachment struct {
 	// This field is deprecated. Instead, use the `networkDetails` field to view the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource.
 	VcnId *string `mandatory:"false" json:"vcnId"`
 
-	// Indicates if transitive traffic is enabled for this DRG attachment. This field is
-	// only supported for VirtualCircuit and IPSec DRG attachments.
-	TransitiveTrafficEnabled DrgAttachmentTransitiveTrafficStateEnum `mandatory:"false" json:"transitiveTrafficEnabled,omitempty"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the export route distribution used to specify how routes in the assigned DRG route table
 	// are advertised to the attachment.
 	// If this value is null, no routes are advertised through this attachment.
@@ -101,9 +97,6 @@ func (m DrgAttachment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrgAttachmentLifecycleStateEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingDrgAttachmentTransitiveTrafficStateEnum(string(m.TransitiveTrafficEnabled)); !ok && m.TransitiveTrafficEnabled != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransitiveTrafficEnabled: %s. Supported values are: %s.", m.TransitiveTrafficEnabled, strings.Join(GetDrgAttachmentTransitiveTrafficStateEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -113,21 +106,20 @@ func (m DrgAttachment) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *DrgAttachment) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                  *string                                 `json:"displayName"`
-		TimeCreated                  *common.SDKTime                         `json:"timeCreated"`
-		DrgRouteTableId              *string                                 `json:"drgRouteTableId"`
-		NetworkDetails               drgattachmentnetworkdetails             `json:"networkDetails"`
-		DefinedTags                  map[string]map[string]interface{}       `json:"definedTags"`
-		FreeformTags                 map[string]string                       `json:"freeformTags"`
-		RouteTableId                 *string                                 `json:"routeTableId"`
-		VcnId                        *string                                 `json:"vcnId"`
-		TransitiveTrafficEnabled     DrgAttachmentTransitiveTrafficStateEnum `json:"transitiveTrafficEnabled"`
-		ExportDrgRouteDistributionId *string                                 `json:"exportDrgRouteDistributionId"`
-		IsCrossTenancy               *bool                                   `json:"isCrossTenancy"`
-		CompartmentId                *string                                 `json:"compartmentId"`
-		DrgId                        *string                                 `json:"drgId"`
-		Id                           *string                                 `json:"id"`
-		LifecycleState               DrgAttachmentLifecycleStateEnum         `json:"lifecycleState"`
+		DisplayName                  *string                           `json:"displayName"`
+		TimeCreated                  *common.SDKTime                   `json:"timeCreated"`
+		DrgRouteTableId              *string                           `json:"drgRouteTableId"`
+		NetworkDetails               drgattachmentnetworkdetails       `json:"networkDetails"`
+		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
+		FreeformTags                 map[string]string                 `json:"freeformTags"`
+		RouteTableId                 *string                           `json:"routeTableId"`
+		VcnId                        *string                           `json:"vcnId"`
+		ExportDrgRouteDistributionId *string                           `json:"exportDrgRouteDistributionId"`
+		IsCrossTenancy               *bool                             `json:"isCrossTenancy"`
+		CompartmentId                *string                           `json:"compartmentId"`
+		DrgId                        *string                           `json:"drgId"`
+		Id                           *string                           `json:"id"`
+		LifecycleState               DrgAttachmentLifecycleStateEnum   `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -158,8 +150,6 @@ func (m *DrgAttachment) UnmarshalJSON(data []byte) (e error) {
 	m.RouteTableId = model.RouteTableId
 
 	m.VcnId = model.VcnId
-
-	m.TransitiveTrafficEnabled = model.TransitiveTrafficEnabled
 
 	m.ExportDrgRouteDistributionId = model.ExportDrgRouteDistributionId
 

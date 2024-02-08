@@ -12,6 +12,10 @@ import (
 )
 
 // LaunchInstanceRequest wrapper for the LaunchInstance operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/LaunchInstance.go.html to see an example of how to use LaunchInstanceRequest.
 type LaunchInstanceRequest struct {
 
 	// Instance details
@@ -23,12 +27,6 @@ type LaunchInstanceRequest struct {
 	// has been deleted and purged from the system, then a retry of the original creation request
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
-
-	// Name of the pool in which to launch an instance. This feature is currently in preview and may change before public release. Do not use it for production workloads.
-	OpcPoolName *string `mandatory:"false" contributesTo:"query" name:"opc-pool-name"`
-
-	// Boot volume type (PARAVIRTUALIZED or ISCSI) This feature is currently in preview and may change before public release. Do not use it for production workloads.
-	OpcBootVolumeType *string `mandatory:"false" contributesTo:"query" name:"opc-boot-volume-type"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

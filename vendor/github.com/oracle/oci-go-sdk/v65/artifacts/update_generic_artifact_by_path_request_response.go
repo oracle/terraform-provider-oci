@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateGenericArtifactByPathRequest wrapper for the UpdateGenericArtifactByPath operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateGenericArtifactByPath.go.html to see an example of how to use UpdateGenericArtifactByPathRequest.
 type UpdateGenericArtifactByPathRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the repository.

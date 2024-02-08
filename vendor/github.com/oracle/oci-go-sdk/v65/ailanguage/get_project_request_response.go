@@ -12,6 +12,10 @@ import (
 )
 
 // GetProjectRequest wrapper for the GetProject operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetProject.go.html to see an example of how to use GetProjectRequest.
 type GetProjectRequest struct {
 
 	// The OCID of the project.

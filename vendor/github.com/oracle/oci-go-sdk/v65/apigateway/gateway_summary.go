@@ -58,9 +58,6 @@ type GatewaySummary struct {
 	// resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
-
 	// The hostname for the APIs deployed on the gateway.
 	Hostname *string `mandatory:"false" json:"hostname"`
 

@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDeployStageRequest wrapper for the CreateDeployStage operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateDeployStage.go.html to see an example of how to use CreateDeployStageRequest.
 type CreateDeployStageRequest struct {
 
 	// Details for the new deployment stage.

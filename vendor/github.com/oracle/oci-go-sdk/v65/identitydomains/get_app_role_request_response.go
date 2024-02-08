@@ -12,6 +12,10 @@ import (
 )
 
 // GetAppRoleRequest wrapper for the GetAppRole operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAppRole.go.html to see an example of how to use GetAppRoleRequest.
 type GetAppRoleRequest struct {
 
 	// ID of the resource

@@ -19,12 +19,11 @@ import (
 // MessageDetails The content of the message to be published.
 type MessageDetails struct {
 
-	// The body of the message to be published. Maximum size: 64 KB.
+	// The body of the message to be published.
 	// Avoid entering confidential information.
 	Body *string `mandatory:"true" json:"body"`
 
-	// The title of the message to be published. Maximum number of characters: 255.
-	// Avoid entering confidential information.
+	// The title of the message to be published. Avoid entering confidential information.
 	Title *string `mandatory:"false" json:"title"`
 }
 

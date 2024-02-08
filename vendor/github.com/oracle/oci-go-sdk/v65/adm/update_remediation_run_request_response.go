@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateRemediationRunRequest wrapper for the UpdateRemediationRun operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/UpdateRemediationRun.go.html to see an example of how to use UpdateRemediationRunRequest.
 type UpdateRemediationRunRequest struct {
 
 	// Unique Remediation Run identifier path parameter.

@@ -12,6 +12,10 @@ import (
 )
 
 // GetExadataInsightRequest wrapper for the GetExadataInsight operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetExadataInsight.go.html to see an example of how to use GetExadataInsightRequest.
 type GetExadataInsightRequest struct {
 
 	// Unique Exadata insight identifier

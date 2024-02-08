@@ -26,9 +26,6 @@ type WorkRequest struct {
 	// The status of the specified work request.
 	Status WorkRequestStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// More granular detail about the status of the specified work request.
-	StatusDetails WorkRequestStatusDetailsEnum `mandatory:"false" json:"statusDetails,omitempty"`
-
 	// The id of the work request.
 	Id *string `mandatory:"false" json:"id"`
 
@@ -73,9 +70,6 @@ func (m WorkRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingWorkRequestStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetWorkRequestStatusEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingWorkRequestStatusDetailsEnum(string(m.StatusDetails)); !ok && m.StatusDetails != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StatusDetails: %s. Supported values are: %s.", m.StatusDetails, strings.Join(GetWorkRequestStatusDetailsEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -87,24 +81,18 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeCopyObject      WorkRequestOperationTypeEnum = "COPY_OBJECT"
-	WorkRequestOperationTypeReencrypt       WorkRequestOperationTypeEnum = "REENCRYPT"
-	WorkRequestOperationTypeBulkCopyObjects WorkRequestOperationTypeEnum = "BULK_COPY_OBJECTS"
-	WorkRequestOperationTypePrefixRename    WorkRequestOperationTypeEnum = "PREFIX_RENAME"
+	WorkRequestOperationTypeCopyObject WorkRequestOperationTypeEnum = "COPY_OBJECT"
+	WorkRequestOperationTypeReencrypt  WorkRequestOperationTypeEnum = "REENCRYPT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
-	"COPY_OBJECT":       WorkRequestOperationTypeCopyObject,
-	"REENCRYPT":         WorkRequestOperationTypeReencrypt,
-	"BULK_COPY_OBJECTS": WorkRequestOperationTypeBulkCopyObjects,
-	"PREFIX_RENAME":     WorkRequestOperationTypePrefixRename,
+	"COPY_OBJECT": WorkRequestOperationTypeCopyObject,
+	"REENCRYPT":   WorkRequestOperationTypeReencrypt,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
-	"copy_object":       WorkRequestOperationTypeCopyObject,
-	"reencrypt":         WorkRequestOperationTypeReencrypt,
-	"bulk_copy_objects": WorkRequestOperationTypeBulkCopyObjects,
-	"prefix_rename":     WorkRequestOperationTypePrefixRename,
+	"copy_object": WorkRequestOperationTypeCopyObject,
+	"reencrypt":   WorkRequestOperationTypeReencrypt,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -121,8 +109,6 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 	return []string{
 		"COPY_OBJECT",
 		"REENCRYPT",
-		"BULK_COPY_OBJECTS",
-		"PREFIX_RENAME",
 	}
 }
 
@@ -187,67 +173,5 @@ func GetWorkRequestStatusEnumStringValues() []string {
 // GetMappingWorkRequestStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingWorkRequestStatusEnum(val string) (WorkRequestStatusEnum, bool) {
 	enum, ok := mappingWorkRequestStatusEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// WorkRequestStatusDetailsEnum Enum with underlying type: string
-type WorkRequestStatusDetailsEnum string
-
-// Set of constants representing the allowable values for WorkRequestStatusDetailsEnum
-const (
-	WorkRequestStatusDetailsInProgress                        WorkRequestStatusDetailsEnum = "IN_PROGRESS"
-	WorkRequestStatusDetailsCommitted                         WorkRequestStatusDetailsEnum = "COMMITTED"
-	WorkRequestStatusDetailsCommittedDestinationWritesAllowed WorkRequestStatusDetailsEnum = "COMMITTED_DESTINATION_WRITES_ALLOWED"
-	WorkRequestStatusDetailsCompleted                         WorkRequestStatusDetailsEnum = "COMPLETED"
-	WorkRequestStatusDetailsFailed                            WorkRequestStatusDetailsEnum = "FAILED"
-	WorkRequestStatusDetailsRollbackInProgress                WorkRequestStatusDetailsEnum = "ROLLBACK_IN_PROGRESS"
-	WorkRequestStatusDetailsAborted                           WorkRequestStatusDetailsEnum = "ABORTED"
-)
-
-var mappingWorkRequestStatusDetailsEnum = map[string]WorkRequestStatusDetailsEnum{
-	"IN_PROGRESS":                          WorkRequestStatusDetailsInProgress,
-	"COMMITTED":                            WorkRequestStatusDetailsCommitted,
-	"COMMITTED_DESTINATION_WRITES_ALLOWED": WorkRequestStatusDetailsCommittedDestinationWritesAllowed,
-	"COMPLETED":                            WorkRequestStatusDetailsCompleted,
-	"FAILED":                               WorkRequestStatusDetailsFailed,
-	"ROLLBACK_IN_PROGRESS":                 WorkRequestStatusDetailsRollbackInProgress,
-	"ABORTED":                              WorkRequestStatusDetailsAborted,
-}
-
-var mappingWorkRequestStatusDetailsEnumLowerCase = map[string]WorkRequestStatusDetailsEnum{
-	"in_progress":                          WorkRequestStatusDetailsInProgress,
-	"committed":                            WorkRequestStatusDetailsCommitted,
-	"committed_destination_writes_allowed": WorkRequestStatusDetailsCommittedDestinationWritesAllowed,
-	"completed":                            WorkRequestStatusDetailsCompleted,
-	"failed":                               WorkRequestStatusDetailsFailed,
-	"rollback_in_progress":                 WorkRequestStatusDetailsRollbackInProgress,
-	"aborted":                              WorkRequestStatusDetailsAborted,
-}
-
-// GetWorkRequestStatusDetailsEnumValues Enumerates the set of values for WorkRequestStatusDetailsEnum
-func GetWorkRequestStatusDetailsEnumValues() []WorkRequestStatusDetailsEnum {
-	values := make([]WorkRequestStatusDetailsEnum, 0)
-	for _, v := range mappingWorkRequestStatusDetailsEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetWorkRequestStatusDetailsEnumStringValues Enumerates the set of values in String for WorkRequestStatusDetailsEnum
-func GetWorkRequestStatusDetailsEnumStringValues() []string {
-	return []string{
-		"IN_PROGRESS",
-		"COMMITTED",
-		"COMMITTED_DESTINATION_WRITES_ALLOWED",
-		"COMPLETED",
-		"FAILED",
-		"ROLLBACK_IN_PROGRESS",
-		"ABORTED",
-	}
-}
-
-// GetMappingWorkRequestStatusDetailsEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingWorkRequestStatusDetailsEnum(val string) (WorkRequestStatusDetailsEnum, bool) {
-	enum, ok := mappingWorkRequestStatusDetailsEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
