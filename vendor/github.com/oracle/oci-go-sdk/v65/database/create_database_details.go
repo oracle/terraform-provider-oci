@@ -73,6 +73,9 @@ type CreateDatabaseDetails struct {
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
+	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
+
 	// Database Storage Type, this option is applicable when database on Exadata VM cluster on Exascale Infrastructure. High Capacity will be selected if not specified.
 	VaultStorageType CreateDatabaseDetailsVaultStorageTypeEnum `mandatory:"false" json:"vaultStorageType,omitempty"`
 }

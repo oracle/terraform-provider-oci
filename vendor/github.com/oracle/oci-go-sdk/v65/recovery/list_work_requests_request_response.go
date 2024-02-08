@@ -129,6 +129,7 @@ type ListWorkRequestsStatusEnum string
 // Set of constants representing the allowable values for ListWorkRequestsStatusEnum
 const (
 	ListWorkRequestsStatusAccepted   ListWorkRequestsStatusEnum = "ACCEPTED"
+	ListWorkRequestsStatusWaiting    ListWorkRequestsStatusEnum = "WAITING"
 	ListWorkRequestsStatusInProgress ListWorkRequestsStatusEnum = "IN_PROGRESS"
 	ListWorkRequestsStatusFailed     ListWorkRequestsStatusEnum = "FAILED"
 	ListWorkRequestsStatusSucceeded  ListWorkRequestsStatusEnum = "SUCCEEDED"
@@ -138,6 +139,7 @@ const (
 
 var mappingListWorkRequestsStatusEnum = map[string]ListWorkRequestsStatusEnum{
 	"ACCEPTED":    ListWorkRequestsStatusAccepted,
+	"WAITING":     ListWorkRequestsStatusWaiting,
 	"IN_PROGRESS": ListWorkRequestsStatusInProgress,
 	"FAILED":      ListWorkRequestsStatusFailed,
 	"SUCCEEDED":   ListWorkRequestsStatusSucceeded,
@@ -147,6 +149,7 @@ var mappingListWorkRequestsStatusEnum = map[string]ListWorkRequestsStatusEnum{
 
 var mappingListWorkRequestsStatusEnumLowerCase = map[string]ListWorkRequestsStatusEnum{
 	"accepted":    ListWorkRequestsStatusAccepted,
+	"waiting":     ListWorkRequestsStatusWaiting,
 	"in_progress": ListWorkRequestsStatusInProgress,
 	"failed":      ListWorkRequestsStatusFailed,
 	"succeeded":   ListWorkRequestsStatusSucceeded,
@@ -167,6 +170,7 @@ func GetListWorkRequestsStatusEnumValues() []ListWorkRequestsStatusEnum {
 func GetListWorkRequestsStatusEnumStringValues() []string {
 	return []string{
 		"ACCEPTED",
+		"WAITING",
 		"IN_PROGRESS",
 		"FAILED",
 		"SUCCEEDED",

@@ -21,20 +21,14 @@ type DbManagementFeatureEnum string
 // Set of constants representing the allowable values for DbManagementFeatureEnum
 const (
 	DbManagementFeatureDiagnosticsAndPerformance DbManagementFeatureEnum = "DIAGNOSTICS_AND_PERFORMANCE"
-	DbManagementFeatureDbLifecycleManagement     DbManagementFeatureEnum = "DB_LIFECYCLE_MANAGEMENT"
-	DbManagementFeatureSqlwatch                  DbManagementFeatureEnum = "SQLWATCH"
 )
 
 var mappingDbManagementFeatureEnum = map[string]DbManagementFeatureEnum{
 	"DIAGNOSTICS_AND_PERFORMANCE": DbManagementFeatureDiagnosticsAndPerformance,
-	"DB_LIFECYCLE_MANAGEMENT":     DbManagementFeatureDbLifecycleManagement,
-	"SQLWATCH":                    DbManagementFeatureSqlwatch,
 }
 
 var mappingDbManagementFeatureEnumLowerCase = map[string]DbManagementFeatureEnum{
 	"diagnostics_and_performance": DbManagementFeatureDiagnosticsAndPerformance,
-	"db_lifecycle_management":     DbManagementFeatureDbLifecycleManagement,
-	"sqlwatch":                    DbManagementFeatureSqlwatch,
 }
 
 // GetDbManagementFeatureEnumValues Enumerates the set of values for DbManagementFeatureEnum
@@ -50,8 +44,6 @@ func GetDbManagementFeatureEnumValues() []DbManagementFeatureEnum {
 func GetDbManagementFeatureEnumStringValues() []string {
 	return []string{
 		"DIAGNOSTICS_AND_PERFORMANCE",
-		"DB_LIFECYCLE_MANAGEMENT",
-		"SQLWATCH",
 	}
 }
 

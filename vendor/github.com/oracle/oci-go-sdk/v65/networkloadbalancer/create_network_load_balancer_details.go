@@ -75,12 +75,12 @@ type CreateNetworkLoadBalancerDetails struct {
 	// Private IP address to be assigned to the network load balancer being created.
 	// This IP address has to be in the CIDR range of the subnet where network load balancer is being created
 	// Example: "10.0.0.1"
-	AssignedPrivateIPv4 *string `mandatory:"false" json:"assignedPrivateIPv4"`
+	AssignedPrivateIpv4 *string `mandatory:"false" json:"assignedPrivateIpv4"`
 
 	// IPv6 address to be assigned to the network load balancer being created.
 	// This IP address has to be part of one of the prefixes supported by the subnet.
 	// Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"
-	AssignedIPv6 *string `mandatory:"false" json:"assignedIPv6"`
+	AssignedIpv6 *string `mandatory:"false" json:"assignedIpv6"`
 
 	// Listeners associated with the network load balancer.
 	Listeners map[string]ListenerDetails `mandatory:"false" json:"listeners"`

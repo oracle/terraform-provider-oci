@@ -334,8 +334,8 @@ github.com/oracle/oci-go-sdk/v65/onesubscription
 github.com/oracle/oci-go-sdk/v65/ons
 github.com/oracle/oci-go-sdk/v65/opa
 github.com/oracle/oci-go-sdk/v65/opensearch
-github.com/oracle/oci-go-sdk/v65/operationsinsights
 github.com/oracle/oci-go-sdk/v65/operatoraccesscontrol
+github.com/oracle/oci-go-sdk/v65/opsi
 github.com/oracle/oci-go-sdk/v65/optimizer
 github.com/oracle/oci-go-sdk/v65/osmanagement
 github.com/oracle/oci-go-sdk/v65/osmanagementhub

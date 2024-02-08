@@ -65,14 +65,6 @@ func (m *databasefeatureconfiguration) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.Feature {
-	case "DB_LIFECYCLE_MANAGEMENT":
-		mm := DatabaseLifecycleFeatureConfiguration{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "SQLWATCH":
-		mm := DatabaseSqlWatchFeatureConfiguration{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DIAGNOSTICS_AND_PERFORMANCE":
 		mm := DatabaseDiagnosticsAndPerformanceFeatureConfiguration{}
 		err = json.Unmarshal(data, &mm)
@@ -129,7 +121,9 @@ const (
 	DatabaseFeatureConfigurationFeatureStatusFailedDisabling     DatabaseFeatureConfigurationFeatureStatusEnum = "FAILED_DISABLING"
 	DatabaseFeatureConfigurationFeatureStatusFailed              DatabaseFeatureConfigurationFeatureStatusEnum = "FAILED"
 	DatabaseFeatureConfigurationFeatureStatusEnabledWithWarnings DatabaseFeatureConfigurationFeatureStatusEnum = "ENABLED_WITH_WARNINGS"
-	DatabaseFeatureConfigurationFeatureStatusMarkedForDelete     DatabaseFeatureConfigurationFeatureStatusEnum = "MARKED_FOR_DELETE"
+	DatabaseFeatureConfigurationFeatureStatusPendingDisable      DatabaseFeatureConfigurationFeatureStatusEnum = "PENDING_DISABLE"
+	DatabaseFeatureConfigurationFeatureStatusEnabling            DatabaseFeatureConfigurationFeatureStatusEnum = "ENABLING"
+	DatabaseFeatureConfigurationFeatureStatusDisabling           DatabaseFeatureConfigurationFeatureStatusEnum = "DISABLING"
 )
 
 var mappingDatabaseFeatureConfigurationFeatureStatusEnum = map[string]DatabaseFeatureConfigurationFeatureStatusEnum{
@@ -140,7 +134,9 @@ var mappingDatabaseFeatureConfigurationFeatureStatusEnum = map[string]DatabaseFe
 	"FAILED_DISABLING":      DatabaseFeatureConfigurationFeatureStatusFailedDisabling,
 	"FAILED":                DatabaseFeatureConfigurationFeatureStatusFailed,
 	"ENABLED_WITH_WARNINGS": DatabaseFeatureConfigurationFeatureStatusEnabledWithWarnings,
-	"MARKED_FOR_DELETE":     DatabaseFeatureConfigurationFeatureStatusMarkedForDelete,
+	"PENDING_DISABLE":       DatabaseFeatureConfigurationFeatureStatusPendingDisable,
+	"ENABLING":              DatabaseFeatureConfigurationFeatureStatusEnabling,
+	"DISABLING":             DatabaseFeatureConfigurationFeatureStatusDisabling,
 }
 
 var mappingDatabaseFeatureConfigurationFeatureStatusEnumLowerCase = map[string]DatabaseFeatureConfigurationFeatureStatusEnum{
@@ -151,7 +147,9 @@ var mappingDatabaseFeatureConfigurationFeatureStatusEnumLowerCase = map[string]D
 	"failed_disabling":      DatabaseFeatureConfigurationFeatureStatusFailedDisabling,
 	"failed":                DatabaseFeatureConfigurationFeatureStatusFailed,
 	"enabled_with_warnings": DatabaseFeatureConfigurationFeatureStatusEnabledWithWarnings,
-	"marked_for_delete":     DatabaseFeatureConfigurationFeatureStatusMarkedForDelete,
+	"pending_disable":       DatabaseFeatureConfigurationFeatureStatusPendingDisable,
+	"enabling":              DatabaseFeatureConfigurationFeatureStatusEnabling,
+	"disabling":             DatabaseFeatureConfigurationFeatureStatusDisabling,
 }
 
 // GetDatabaseFeatureConfigurationFeatureStatusEnumValues Enumerates the set of values for DatabaseFeatureConfigurationFeatureStatusEnum
@@ -173,7 +171,9 @@ func GetDatabaseFeatureConfigurationFeatureStatusEnumStringValues() []string {
 		"FAILED_DISABLING",
 		"FAILED",
 		"ENABLED_WITH_WARNINGS",
-		"MARKED_FOR_DELETE",
+		"PENDING_DISABLE",
+		"ENABLING",
+		"DISABLING",
 	}
 }
 

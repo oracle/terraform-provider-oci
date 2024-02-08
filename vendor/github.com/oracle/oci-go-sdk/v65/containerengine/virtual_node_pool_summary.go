@@ -38,6 +38,9 @@ type VirtualNodePoolSummary struct {
 	// The list of placement configurations which determines where Virtual Nodes will be provisioned across as it relates to the subnet and availability domains. The size attribute determines how many we evenly spread across these placement configurations
 	PlacementConfigurations []PlacementConfiguration `mandatory:"true" json:"placementConfigurations"`
 
+	// Whether or not to enable automatic kubernetes upgrades on virtual node pool.
+	IsAutomaticKubernetesUpgradeEnabled *bool `mandatory:"false" json:"isAutomaticKubernetesUpgradeEnabled"`
+
 	// Initial labels that will be added to the Kubernetes Virtual Node object when it registers. This is the same as virtualNodePool resources.
 	InitialVirtualNodeLabels []InitialVirtualNodeLabel `mandatory:"false" json:"initialVirtualNodeLabels"`
 
@@ -80,6 +83,8 @@ type VirtualNodePoolSummary struct {
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	VirtualNodeTags *VirtualNodeTags `mandatory:"false" json:"virtualNodeTags"`
+
+	VirtualNodePoolCyclingDetails *VirtualNodePoolCyclingDetails `mandatory:"false" json:"virtualNodePoolCyclingDetails"`
 }
 
 func (m VirtualNodePoolSummary) String() string {

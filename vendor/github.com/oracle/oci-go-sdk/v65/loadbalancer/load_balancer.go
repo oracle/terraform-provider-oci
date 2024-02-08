@@ -70,6 +70,20 @@ type LoadBalancer struct {
 	// Example: `true`
 	IsDeleteProtectionEnabled *bool `mandatory:"false" json:"isDeleteProtectionEnabled"`
 
+	// Request ID is an identifier given to every request that goes through the load balancer.
+	// The same request id will be generated for both incoming request and the corresponding outgoing response.
+	// The header X-Request-ID (default name) holding the value of the request ID will be added to both request and response.
+	// If the header already exists i.e. it was sent by the caller or returned by the backend then its value will not be changed.
+	// Request ID header property allows:
+	// 1. specifying name of the header holding the request ID;
+	// 2. switching this feature off by setting the header name to empty string.
+	// **Notes:**
+	// * The header name must conform to the
+	//   RFC 7230 - Hypertext Transfer Protocol (HTTP/1.1) (https://datatracker.ietf.org/doc/html/rfc7230) standard.
+	// * The header name must start with "X-" prefix.
+	// * If requestIdHeader property is set to null, default (X-Request-Id) header will be used.
+	RequestIdHeader *string `mandatory:"false" json:"requestIdHeader"`
+
 	// An array of subnet OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SubnetIds []string `mandatory:"false" json:"subnetIds"`
 

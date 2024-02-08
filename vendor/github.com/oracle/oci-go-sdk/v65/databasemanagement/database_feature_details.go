@@ -59,16 +59,8 @@ func (m *databasefeaturedetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 
 	var err error
 	switch m.Feature {
-	case "DB_LIFECYCLE_MANAGEMENT":
-		mm := DatabaseLifecycleManagementFeatureDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "DIAGNOSTICS_AND_PERFORMANCE":
 		mm := DatabaseDiagnosticsAndPerformanceFeatureDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "SQLWATCH":
-		mm := DatabaseSqlWatchFeatureDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

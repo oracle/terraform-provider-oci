@@ -320,6 +320,7 @@ const (
 	ListJobDefinitionsJobTypeImportDataAsset            ListJobDefinitionsJobTypeEnum = "IMPORT_DATA_ASSET"
 	ListJobDefinitionsJobTypeCreateScanProxy            ListJobDefinitionsJobTypeEnum = "CREATE_SCAN_PROXY"
 	ListJobDefinitionsJobTypeAsyncExportGlossary        ListJobDefinitionsJobTypeEnum = "ASYNC_EXPORT_GLOSSARY"
+	ListJobDefinitionsJobTypeAsyncExportDataAsset       ListJobDefinitionsJobTypeEnum = "ASYNC_EXPORT_DATA_ASSET"
 )
 
 var mappingListJobDefinitionsJobTypeEnum = map[string]ListJobDefinitionsJobTypeEnum{
@@ -342,6 +343,7 @@ var mappingListJobDefinitionsJobTypeEnum = map[string]ListJobDefinitionsJobTypeE
 	"IMPORT_DATA_ASSET":            ListJobDefinitionsJobTypeImportDataAsset,
 	"CREATE_SCAN_PROXY":            ListJobDefinitionsJobTypeCreateScanProxy,
 	"ASYNC_EXPORT_GLOSSARY":        ListJobDefinitionsJobTypeAsyncExportGlossary,
+	"ASYNC_EXPORT_DATA_ASSET":      ListJobDefinitionsJobTypeAsyncExportDataAsset,
 }
 
 var mappingListJobDefinitionsJobTypeEnumLowerCase = map[string]ListJobDefinitionsJobTypeEnum{
@@ -364,6 +366,7 @@ var mappingListJobDefinitionsJobTypeEnumLowerCase = map[string]ListJobDefinition
 	"import_data_asset":            ListJobDefinitionsJobTypeImportDataAsset,
 	"create_scan_proxy":            ListJobDefinitionsJobTypeCreateScanProxy,
 	"async_export_glossary":        ListJobDefinitionsJobTypeAsyncExportGlossary,
+	"async_export_data_asset":      ListJobDefinitionsJobTypeAsyncExportDataAsset,
 }
 
 // GetListJobDefinitionsJobTypeEnumValues Enumerates the set of values for ListJobDefinitionsJobTypeEnum
@@ -397,6 +400,7 @@ func GetListJobDefinitionsJobTypeEnumStringValues() []string {
 		"IMPORT_DATA_ASSET",
 		"CREATE_SCAN_PROXY",
 		"ASYNC_EXPORT_GLOSSARY",
+		"ASYNC_EXPORT_DATA_ASSET",
 	}
 }
 

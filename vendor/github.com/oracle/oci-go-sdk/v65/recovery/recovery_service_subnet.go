@@ -29,11 +29,20 @@ type RecoveryServiceSubnet struct {
 	// VCN Identifier.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
-	// The OCID of the subnet used as the recovery service subnet.
+	// Deprecated. One of the subnets associated with the Recovery Service subnet.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// A user-provided name for the recovery service subnet.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// A list of OCIDs of all the subnets associated with the Recovery Service subnet.
+	Subnets []string `mandatory:"false" json:"subnets"`
+
+	// A list of network security group (NSG) OCIDs that are associated with the Recovery Service subnet.
+	// You can specify a maximum of 5 unique OCIDs, which implies that you can associate a maximum of 5 NSGs to each Recovery Service subnet.
+	// Specify an empty array if you want to remove all the associated NSGs from a Recovery Service subnet.
+	// See NetworkSecurityGroup for more information.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// An RFC3339 formatted datetime string that indicates the last created time for a recovery service subnet. For example: '2020-05-22T21:10:29.600Z'.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -42,13 +51,6 @@ type RecoveryServiceSubnet struct {
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// The current state of the recovery service subnet.
-	// Allowed values are:
-	//   - CREATING
-	//   - UPDATING
-	//   - ACTIVE
-	//   - DELETING
-	//   - DELETED
-	//   - FAILED
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Detailed description about the current lifecycle state of the recovery service subnet. For example, it can be used to provide actionable information for a resource in a Failed state

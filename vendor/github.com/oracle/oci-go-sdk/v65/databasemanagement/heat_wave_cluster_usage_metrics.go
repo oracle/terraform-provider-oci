@@ -41,9 +41,6 @@ type HeatWaveClusterUsageMetrics struct {
 	// Shape of the nodes in the HeatWave cluster.
 	HeatWaveNodeShape *string `mandatory:"true" json:"heatWaveNodeShape"`
 
-	// Number of OCPUs in the HeatWave cluster.
-	CpuCount *int `mandatory:"true" json:"cpuCount"`
-
 	// The total memory belonging to the HeatWave cluster in GBs.
 	MemorySize *int `mandatory:"true" json:"memorySize"`
 

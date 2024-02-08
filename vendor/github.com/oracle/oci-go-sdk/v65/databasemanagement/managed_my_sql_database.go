@@ -50,9 +50,6 @@ type ManagedMySqlDatabase struct {
 	// Shape of the nodes in the HeatWave cluster.
 	HeatWaveNodeShape *string `mandatory:"false" json:"heatWaveNodeShape"`
 
-	// Number of OCPUs in the HeatWave cluster.
-	CpuCount *int `mandatory:"false" json:"cpuCount"`
-
 	// The total memory belonging to the HeatWave cluster in GBs.
 	HeatWaveMemorySize *int `mandatory:"false" json:"heatWaveMemorySize"`
 

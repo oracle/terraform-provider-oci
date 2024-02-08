@@ -798,7 +798,7 @@ func (client ContainerInstanceClient) restartContainerInstance(ctx context.Conte
 	return response, err
 }
 
-// RetrieveLogs Retrieves recent logs from the specified container. The most recent 256 KB of logs are returned.
+// RetrieveLogs Returns the most recent 256 KB of logs from the specified container.
 // A default retry strategy applies to this operation RetrieveLogs()
 func (client ContainerInstanceClient) RetrieveLogs(ctx context.Context, request RetrieveLogsRequest) (response RetrieveLogsResponse, err error) {
 	var ociResponse common.OCIResponse

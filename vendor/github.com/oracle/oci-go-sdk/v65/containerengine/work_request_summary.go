@@ -89,6 +89,7 @@ const (
 	WorkRequestSummaryOperationTypeVirtualnodepoolUpdate                WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_UPDATE"
 	WorkRequestSummaryOperationTypeVirtualnodepoolDelete                WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_DELETE"
 	WorkRequestSummaryOperationTypeVirtualnodeDelete                    WorkRequestOperationTypeEnum = "VIRTUALNODE_DELETE"
+	WorkRequestSummaryOperationTypeVirtualnodepoolCycling               WorkRequestOperationTypeEnum = "VIRTUALNODEPOOL_CYCLING"
 	WorkRequestSummaryOperationTypeEnableAddon                          WorkRequestOperationTypeEnum = "ENABLE_ADDON"
 	WorkRequestSummaryOperationTypeUpdateAddon                          WorkRequestOperationTypeEnum = "UPDATE_ADDON"
 	WorkRequestSummaryOperationTypeDisableAddon                         WorkRequestOperationTypeEnum = "DISABLE_ADDON"

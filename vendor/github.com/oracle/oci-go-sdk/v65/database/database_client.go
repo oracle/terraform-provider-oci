@@ -2255,6 +2255,65 @@ func (client DatabaseClient) configureSaasAdminUser(ctx context.Context, request
 	return response, err
 }
 
+// ConfirmKeyStoreDetailsAreCorrect This is for user to confirm to DBaaS that the Oracle Key Valut (OKV) connection IPs, username and password are all correct. This operation will put
+// the Key Store back into Active state. If details are incorrect, your OKV account may get locked after some unsuccessful attempts to connect.
+func (client DatabaseClient) ConfirmKeyStoreDetailsAreCorrect(ctx context.Context, request ConfirmKeyStoreDetailsAreCorrectRequest) (response ConfirmKeyStoreDetailsAreCorrectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.confirmKeyStoreDetailsAreCorrect, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfirmKeyStoreDetailsAreCorrectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfirmKeyStoreDetailsAreCorrectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfirmKeyStoreDetailsAreCorrectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfirmKeyStoreDetailsAreCorrectResponse")
+	}
+	return
+}
+
+// confirmKeyStoreDetailsAreCorrect implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) confirmKeyStoreDetailsAreCorrect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keyStores/{keyStoreId}/actions/confirmDetailsAreCorrect", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConfirmKeyStoreDetailsAreCorrectResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/ConfirmKeyStoreDetailsAreCorrect"
+		err = common.PostProcessServiceError(err, "Database", "ConfirmKeyStoreDetailsAreCorrect", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ConvertToPdb Converts a non-container database to a pluggable database.
 func (client DatabaseClient) ConvertToPdb(ctx context.Context, request ConvertToPdbRequest) (response ConvertToPdbResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4471,6 +4530,64 @@ func (client DatabaseClient) createVmClusterNetwork(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterNetwork/CreateVmClusterNetwork"
 		err = common.PostProcessServiceError(err, "Database", "CreateVmClusterNetwork", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DatabaseKeyManagement Updates key.
+func (client DatabaseClient) DatabaseKeyManagement(ctx context.Context, request DatabaseKeyManagementRequest) (response DatabaseKeyManagementResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.databaseKeyManagement, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DatabaseKeyManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DatabaseKeyManagementResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DatabaseKeyManagementResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DatabaseKeyManagementResponse")
+	}
+	return
+}
+
+// databaseKeyManagement implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) databaseKeyManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/manageKey", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DatabaseKeyManagementResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/DatabaseKeyManagement"
+		err = common.PostProcessServiceError(err, "Database", "DatabaseKeyManagement", apiReferenceLink)
 		return response, err
 	}
 
@@ -16723,6 +16840,64 @@ func (client DatabaseClient) moveDatabase(ctx context.Context, request common.OC
 	return response, err
 }
 
+// PluggableDatabaseKeyManagement Updates the pluggable database key.
+func (client DatabaseClient) PluggableDatabaseKeyManagement(ctx context.Context, request PluggableDatabaseKeyManagementRequest) (response PluggableDatabaseKeyManagementResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.pluggableDatabaseKeyManagement, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PluggableDatabaseKeyManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PluggableDatabaseKeyManagementResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PluggableDatabaseKeyManagementResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PluggableDatabaseKeyManagementResponse")
+	}
+	return
+}
+
+// pluggableDatabaseKeyManagement implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) pluggableDatabaseKeyManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/manageKey", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PluggableDatabaseKeyManagementResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/PluggableDatabaseKeyManagement"
+		err = common.PostProcessServiceError(err, "Database", "PluggableDatabaseKeyManagement", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RefreshPluggableDatabase Refreshes a pluggable database (PDB) Refreshable clone.
 func (client DatabaseClient) RefreshPluggableDatabase(ctx context.Context, request RefreshPluggableDatabaseRequest) (response RefreshPluggableDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -20464,7 +20639,7 @@ func (client DatabaseClient) updateExternalPluggableDatabase(ctx context.Context
 	return response, err
 }
 
-// UpdateKeyStore If no database is associated with the key store, edit the key store.
+// UpdateKeyStore Edit the key store.
 func (client DatabaseClient) UpdateKeyStore(ctx context.Context, request UpdateKeyStoreRequest) (response UpdateKeyStoreResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

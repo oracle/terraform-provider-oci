@@ -58,6 +58,10 @@ func (m *imagefeature) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := FaceDetectionFeature{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FACE_EMBEDDING":
+		mm := FaceEmbeddingFeature{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OBJECT_DETECTION":
 		mm := ImageObjectDetectionFeature{}
 		err = json.Unmarshal(data, &mm)
@@ -102,6 +106,7 @@ const (
 	ImageFeatureFeatureTypeTextDetection       ImageFeatureFeatureTypeEnum = "TEXT_DETECTION"
 	ImageFeatureFeatureTypeObjectProposal      ImageFeatureFeatureTypeEnum = "OBJECT_PROPOSAL"
 	ImageFeatureFeatureTypeFaceDetection       ImageFeatureFeatureTypeEnum = "FACE_DETECTION"
+	ImageFeatureFeatureTypeFaceEmbedding       ImageFeatureFeatureTypeEnum = "FACE_EMBEDDING"
 )
 
 var mappingImageFeatureFeatureTypeEnum = map[string]ImageFeatureFeatureTypeEnum{
@@ -110,6 +115,7 @@ var mappingImageFeatureFeatureTypeEnum = map[string]ImageFeatureFeatureTypeEnum{
 	"TEXT_DETECTION":       ImageFeatureFeatureTypeTextDetection,
 	"OBJECT_PROPOSAL":      ImageFeatureFeatureTypeObjectProposal,
 	"FACE_DETECTION":       ImageFeatureFeatureTypeFaceDetection,
+	"FACE_EMBEDDING":       ImageFeatureFeatureTypeFaceEmbedding,
 }
 
 var mappingImageFeatureFeatureTypeEnumLowerCase = map[string]ImageFeatureFeatureTypeEnum{
@@ -118,6 +124,7 @@ var mappingImageFeatureFeatureTypeEnumLowerCase = map[string]ImageFeatureFeature
 	"text_detection":       ImageFeatureFeatureTypeTextDetection,
 	"object_proposal":      ImageFeatureFeatureTypeObjectProposal,
 	"face_detection":       ImageFeatureFeatureTypeFaceDetection,
+	"face_embedding":       ImageFeatureFeatureTypeFaceEmbedding,
 }
 
 // GetImageFeatureFeatureTypeEnumValues Enumerates the set of values for ImageFeatureFeatureTypeEnum
@@ -137,6 +144,7 @@ func GetImageFeatureFeatureTypeEnumStringValues() []string {
 		"TEXT_DETECTION",
 		"OBJECT_PROPOSAL",
 		"FACE_DETECTION",
+		"FACE_EMBEDDING",
 	}
 }
 
