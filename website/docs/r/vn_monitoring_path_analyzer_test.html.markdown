@@ -77,7 +77,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the `PathAnalyzerTest` resource's compartment.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `destination_endpoint` - (Required) (Updatable) Information describing a source or destination in a `PathAnalyzerTest` resource. 
-	* `address` - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | SUBNET | VLAN | VNIC) (Updatable) The IPv4 address of the COMPUTE_INSTANCE-type `Endpoint` object. 
+	* `address` - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | ON_PREM | SUBNET | VLAN | VNIC) (Updatable) The IPv4 address of the COMPUTE_INSTANCE-type `Endpoint` object. 
 	* `instance_id` - (Required when type=COMPUTE_INSTANCE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute instance. 
 	* `listener_id` - (Required when type=LOAD_BALANCER_LISTENER | NETWORK_LOAD_BALANCER_LISTENER) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer listener. 
 	* `load_balancer_id` - (Required when type=LOAD_BALANCER | LOAD_BALANCER_LISTENER) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listener's load balancer. 
@@ -98,7 +98,7 @@ The following arguments are supported:
 * `query_options` - (Optional) (Updatable) Defines the query options required for a `PathAnalyzerTest` resource.
 	* `is_bi_directional_analysis` - (Optional) (Updatable) If true, a path analysis is done for both the forward and reverse routes.
 * `source_endpoint` - (Required) (Updatable) Information describing a source or destination in a `PathAnalyzerTest` resource. 
-	* `address` - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | SUBNET | VLAN | VNIC) (Updatable) The IPv4 address of the COMPUTE_INSTANCE-type `Endpoint` object. 
+	* `address` - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | ON_PREM | SUBNET | VLAN | VNIC) (Updatable) The IPv4 address of the COMPUTE_INSTANCE-type `Endpoint` object. 
 	* `instance_id` - (Required when type=COMPUTE_INSTANCE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute instance. 
 	* `listener_id` - (Required when type=LOAD_BALANCER_LISTENER | NETWORK_LOAD_BALANCER_LISTENER) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer listener. 
 	* `load_balancer_id` - (Required when type=LOAD_BALANCER | LOAD_BALANCER_LISTENER) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listener's load balancer. 
