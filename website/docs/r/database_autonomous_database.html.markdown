@@ -61,30 +61,11 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	defined_tags = var.autonomous_database_defined_tags
 	disaster_recovery_type = var.autonomous_database_disaster_recovery_type
 	display_name = var.autonomous_database_display_name
-	encryption_key {
-
-		#Optional
-		arn_role = var.autonomous_database_encryption_key_arn_role
-		autonomous_database_provider = var.autonomous_database_encryption_key_autonomous_database_provider
-		certificate_directory_name = var.autonomous_database_encryption_key_certificate_directory_name
-		certificate_id = oci_apigateway_certificate.test_certificate.id
-		directory_name = var.autonomous_database_encryption_key_directory_name
-		external_id = oci_database_external.test_external.id
-		key_arn = var.autonomous_database_encryption_key_key_arn
-		key_name = oci_kms_key.test_key.name
-		kms_key_id = oci_kms_key.test_key.id
-		okv_kms_key = var.autonomous_database_encryption_key_okv_kms_key
-		okv_uri = var.autonomous_database_encryption_key_okv_uri
-		service_endpoint_uri = var.autonomous_database_encryption_key_service_endpoint_uri
-		vault_id = oci_kms_vault.test_vault.id
-		vault_uri = var.autonomous_database_encryption_key_vault_uri
-	}
 	freeform_tags = {"Department"= "Finance"}
     in_memory_percentage = var.autonomous_database_in_memory_percentage
 	is_access_control_enabled = var.autonomous_database_is_access_control_enabled
 	is_auto_scaling_enabled = var.autonomous_database_is_auto_scaling_enabled
 	is_auto_scaling_for_storage_enabled = var.autonomous_database_is_auto_scaling_for_storage_enabled
-	is_backup_retention_locked = var.autonomous_database_is_backup_retention_locked
 	is_data_guard_enabled = var.autonomous_database_is_data_guard_enabled
 	is_dedicated = var.autonomous_database_is_dedicated
 	is_dev_tier = var.autonomous_database_is_dev_tier
@@ -120,7 +101,6 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	}
 	secret_id = oci_vault_secret.test_secret.id
 	secret_version_number = var.autonomous_database_secret_version_number
-	security_attributes = var.autonomous_database_security_attributes
 	source = var.autonomous_database_source
 	source_id = oci_database_source.test_source.id
 	standby_whitelisted_ips = var.autonomous_database_standby_whitelisted_ips
@@ -177,7 +157,7 @@ The following arguments are supported:
 * `data_storage_size_in_tbs` - (Optional) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. For Autonomous Databases on dedicated Exadata infrastructure, the maximum storage value is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.  A full Exadata service is allocated when the Autonomous Database size is set to the upper limit (384 TB).
 
 	**Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter. This input is ignored for Always Free resources.
-* `database_edition` - (Optional) (Updatable) The Oracle Database Edition that applies to the Autonomous databases. It can be set to `ENTERPRISE_EDITION` or `STANDARD_EDITION`.
+* `database_edition` - (Optional) (Updatable) The Oracle Database Edition that applies to the Autonomous databases. It can be set to `ENTERPRISE_EDITION` or `STANDARD_EDITION`. 
 * `db_name` - (Optional) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy. It is required in all cases except when creating a cross-region Autonomous Data Guard standby instance or a cross-region disaster recovery standby instance.
 * `db_tools_details` - (Optional) (Updatable) The list of database tools details.
 
@@ -197,21 +177,6 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `disaster_recovery_type` - (Required when source=CROSS_TENANCY_DISASTER_RECOVERY) Indicates the disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
 * `display_name` - (Optional) (Updatable) The user-friendly name for the Autonomous Database. The name does not have to be unique.
-* `encryption_key` - (Optional) (Updatable) Details of the Autonomous Database encryption key.
-	* `arn_role` - (Applicable when provider=AWS) (Updatable) AWS ARN role
-	* `autonomous_database_provider` - (Optional) (Updatable) The provider for the Autonomous Database encryption key.
-	* `certificate_directory_name` - (Required when provider=OKV) (Updatable) OKV certificate directory name
-	* `certificate_id` - (Applicable when provider=OKV) (Updatable) OKV certificate id
-	* `directory_name` - (Required when provider=OKV) (Updatable) OKV wallet directory name
-	* `external_id` - (Applicable when provider=AWS) (Updatable) AWS external ID
-	* `key_arn` - (Required when provider=AWS) (Updatable) AWS key ARN
-	* `key_name` - (Required when provider=AZURE) (Updatable) Azure key name
-	* `kms_key_id` - (Required when provider=OCI) (Updatable) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
-	* `okv_kms_key` - (Required when provider=OKV) (Updatable) UUID of OKV KMS Key
-	* `okv_uri` - (Required when provider=OKV) (Updatable) URI of OKV server
-	* `service_endpoint_uri` - (Required when provider=AWS) (Updatable) AWS key service endpoint URI
-	* `vault_id` - (Required when provider=OCI) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
-	* `vault_uri` - (Required when provider=AZURE) (Updatable) Azure vault URI
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `in_memory_percentage` - (Optional) (Updatable) The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database. This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
 * `is_access_control_enabled` - (Optional) (Updatable) Indicates if the database-level access control is enabled. If disabled, database access is defined by the network security rules. If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional, if database-level access control is enabled and no rules are specified, the database will become inaccessible. The rules can be added later using the `UpdateAutonomousDatabase` API operation or edit option in console. When creating a database clone, the desired access control setting should be specified. By default, database-level access control will be disabled for the clone.
@@ -219,10 +184,9 @@ The following arguments are supported:
 	This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform. For Autonomous Database Serverless instances, `whitelistedIps` is used. 
 * `is_auto_scaling_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is `TRUE`. 
 * `is_auto_scaling_for_storage_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`. 
-* `is_backup_retention_locked` - (Optional) (Updatable) True if the Autonomous Database is backup retention locked.
 * `is_data_guard_enabled` - (Optional) (Updatable) **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure. 
 * `is_dedicated` - (Optional) True if the database is on [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html). 
-* `is_dev_tier` - (Optional) (Updatable) Autonomous Database for Developers are free Autonomous Databases that developers can use to build and test new applications.With Autonomous these database instancess instances, you can try new Autonomous Database features for free and apply them to ongoing or new development projects. Developer database comes with limited resources and is, therefore, not suitable for large-scale testing and production deployments. When you need more compute or storage resources, you can transition to a paid database licensing by cloning your developer database into a regular Autonomous Database. See [Autonomous Database documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/eddjo/index.html) for more details.         
+* `is_dev_tier` - (Optional) (Updatable) Autonomous Database for Developers are fixed-shape Autonomous Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database. 
 * `is_free_tier` - (Optional) (Updatable) Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 
 	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isLocalDataGuardEnabled When `db_workload` is `AJD` it cannot be `true`.
@@ -238,7 +202,6 @@ The following arguments are supported:
 * `is_preview_version_with_service_terms_accepted` - (Optional) If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/). 
 * `is_replicate_automatic_backups` - (Applicable when source=CROSS_REGION_DISASTER_RECOVERY) If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 * `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
-* `key_version_id` - (Optional) The OCID of the key version that is used in rotate key operations.
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud. License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service. Note that when provisioning an [Autonomous Database on dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the Autonomous Exadata Infrastructure level. When provisioning an [Autonomous Database Serverless] (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`. Bring your own license (BYOL) also allows you to select the DB edition using the optional parameter.
 * `is_auto_scaling_for_storage_enabled` - (Optional) (Updatable) Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 * `is_dedicated` - (Optional) True if the database is on [dedicated Exadata infrastructure](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/adbddoverview.htm).
@@ -291,7 +254,6 @@ The following arguments are supported:
 
 	This cannot be used in conjunction with adminPassword. 
 * `secret_version_number` - (Optional) (Updatable) The version of the vault secret. If no version is specified, the latest version will be used.
-* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `source` - (Optional) The source of the database:
 	* Use `NONE` for creating a new Autonomous Database.
 	* Use `DATABASE` for creating a new Autonomous Database by cloning an existing running Autonomous Database from the latest timestamp, also provide the source database OCID in the `source_id` parameter.
@@ -426,38 +388,6 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 * `disaster_recovery_region_type` - **Deprecated** The disaster recovery (DR) region type of the Autonomous Database. For Serverless Autonomous Databases, DR associations have designated primary (`PRIMARY`) and standby (`REMOTE`) regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region.
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
-* `encryption_key` - Details of the Autonomous Database encryption key.
-	* `arn_role` - AWS ARN role
-	* `autonomous_database_provider` - The provider for the Autonomous Database encryption key.
-	* `certificate_directory_name` - OKV certificate directory name
-	* `certificate_id` - OKV certificate id
-	* `directory_name` - OKV wallet directory name
-	* `external_id` - AWS external ID
-	* `key_arn` - AWS key ARN
-	* `key_name` - Azure key name
-	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
-	* `okv_kms_key` - UUID of OKV KMS Key
-	* `okv_uri` - URI of OKV server
-	* `service_endpoint_uri` - AWS key service endpoint URI
-	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
-	* `vault_uri` - Azure vault URI
-* `encryption_key_history_entry` - Key History Entry.
-	* `encryption_key` - Details of the Autonomous Database encryption key.
-		* `arn_role` - AWS ARN role
-		* `autonomous_database_provider` - The provider for the Autonomous Database encryption key.
-		* `certificate_directory_name` - OKV certificate directory name
-		* `certificate_id` - OKV certificate id
-		* `directory_name` - OKV wallet directory name
-		* `external_id` - AWS external ID
-		* `key_arn` - AWS key ARN
-		* `key_name` - Azure key name
-		* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
-		* `okv_kms_key` - UUID of OKV KMS Key
-		* `okv_uri` - URI of OKV server
-		* `service_endpoint_uri` - AWS key service endpoint URI
-		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
-		* `vault_uri` - Azure vault URI
-	* `time_activated` - The date and time the encryption key was activated.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
@@ -469,10 +399,9 @@ The following attributes are exported:
 	This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform. For Autonomous Database Serverless instances, `whitelistedIps` is used. 
 * `is_auto_scaling_enabled` - Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is `TRUE`. 
 * `is_auto_scaling_for_storage_enabled` - Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`. 
-* `is_backup_retention_locked` - Indicates if the Autonomous Database is backup retention locked.
 * `is_data_guard_enabled` - **Deprecated.** Indicates whether the Autonomous Database has local (in-region) Data Guard enabled. Not applicable to cross-region Autonomous Data Guard associations, or to Autonomous Databases using dedicated Exadata infrastructure or Exadata Cloud@Customer infrastructure. 
 * `is_dedicated` - True if the database uses [dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html). 
-* `is_dev_tier` - Autonomous Database for Developers are free Autonomous Databases that developers can use to build and test new applications.With Autonomous these database instancess instances, you can try new Autonomous Database features for free and apply them to ongoing or new development projects. Developer database comes with limited resources and is, therefore, not suitable for large-scale testing and production deployments. When you need more compute or storage resources, you can transition to a paid database licensing by cloning your developer database into a regular Autonomous Database. See [Autonomous Database documentation](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/eddjo/index.html) for more details.         
+* `is_dev_tier` - Autonomous Database for Developers are fixed-shape Autonomous Databases that developers can use to build and test new applications. On Serverless, these are low-cost and billed per instance, on Dedicated and Cloud@Customer there is no additional cost to create Developer databases. Developer databases come with limited resources and is not intended for large-scale testing and production deployments. When you need more compute or storage resources, you may upgrade to a full paid production database. 
 * `is_free_tier` - Indicates if this is an Always Free resource. The default value is false. Note that Always Free Autonomous Databases have 1 CPU and 20GB of memory. For Always Free databases, memory and CPU cannot be scaled.
 
 	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isLocalDataGuardEnabled
@@ -587,7 +516,6 @@ The following attributes are exported:
 		* `name` - Name of the day of the week.
 	* `scheduled_start_time` - auto start time. value must be of ISO-8601 format "HH:mm"
 	* `scheduled_stop_time` - auto stop time. value must be of ISO-8601 format "HH:mm"
-* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
 * `source_id` - (Required when source=CLONE_TO_REFRESHABLE | CROSS_REGION_DATAGUARD | DATABASE | CROSS_REGION_DISASTER_RECOVERY) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new standby database for the Data Guard association.
 * `standby_db` - **Deprecated** Autonomous Data Guard standby database details. 

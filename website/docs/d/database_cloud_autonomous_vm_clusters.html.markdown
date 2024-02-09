@@ -96,7 +96,6 @@ The following attributes are exported:
 
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - The maintenance window scheduling preference.
-	* `skip_ru` - If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter. 
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed.
 * `max_acds_lowest_scaled_value` - The lowest value to which maximum number of ACDs can be scaled down.
 * `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per OCPU or ECPU.
@@ -117,7 +116,6 @@ The following attributes are exported:
 * `reserved_cpus` - The number of CPUs reserved in an Autonomous VM Cluster.
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port. Default is 1521.
 * `scan_listener_port_tls` - The SCAN Listenenr TLS port. Default is 2484.
-* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - The model name of the Exadata hardware running the cloud Autonomous VM cluster. 
 * `state` - The current state of the cloud Autonomous VM cluster.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with.
@@ -127,8 +125,6 @@ The following attributes are exported:
 
 	These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet. 
 * `time_created` - The date and time that the cloud Autonomous VM cluster was created.
-* `time_database_ssl_certificate_expires` - The date and time of Database SSL certificate expiration.
-* `time_ords_certificate_expires` - The date and time of ORDS certificate expiration.
 * `time_updated` - The last date and time that the cloud Autonomous VM cluster was updated.
 * `total_autonomous_data_storage_in_tbs` - The total data disk group size for Autonomous Databases, in TBs.
 * `total_container_databases` - The total number of Autonomous Container Databases that can be created with the allocated local storage.
