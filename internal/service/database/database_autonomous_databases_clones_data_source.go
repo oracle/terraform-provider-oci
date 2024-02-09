@@ -644,6 +644,18 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_replicate_automatic_backups": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_snapshot_standby": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"time_snapshot_standby_enabled_till": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},

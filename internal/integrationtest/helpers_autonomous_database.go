@@ -139,6 +139,27 @@ func changeSnapshotStandby(clients *tf_client.OracleClients, region string, auto
 	return *changeDrConfigResponse.Id, nil
 }
 
+func replicateBackupsStandby(clients *tf_client.OracleClients, region string, autonomousDatabaseId string, isReplicateBackupsEnabled *bool) (string, error) {
+	databaseClient, err := createDatabaseClient(clients, region)
+	if err != nil {
+		return "", err
+	}
+
+	changeDrConfigResponse, err := databaseClient.ChangeDisasterRecoveryConfiguration(context.Background(), oci_database.ChangeDisasterRecoveryConfigurationRequest{
+		AutonomousDatabaseId: &autonomousDatabaseId,
+		ChangeDisasterRecoveryConfigurationDetails: oci_database.ChangeDisasterRecoveryConfigurationDetails{
+			IsReplicateAutomaticBackups: isReplicateBackupsEnabled,
+		},
+		RequestMetadata: oci_common.RequestMetadata{
+			RetryPolicy: tfresource.GetRetryPolicy(false, "database"),
+		},
+	})
+	if err != nil {
+		return "", fmt.Errorf("[WARN] failed to enable/disable replicate auto backups for standby with the error %v", err)
+	}
+	return *changeDrConfigResponse.Id, nil
+}
+
 func deleteAdbInRegion(clients *tf_client.OracleClients, region string, autonomousDatabaseId string) error {
 	databaseClient, err := createDatabaseClient(clients, region)
 	if err != nil {
