@@ -344,6 +344,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_replicate_automatic_backups": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"resource_pool_leader_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -928,6 +933,18 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 
 						// Computed
 						"disaster_recovery_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_replicate_automatic_backups": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_snapshot_standby": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"time_snapshot_standby_enabled_till": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -2530,6 +2547,26 @@ func AdbDayOfWeekToMap(obj *oci_database.DayOfWeek) map[string]interface{} {
 	return result
 }
 
+func DisasterRecoveryConfigurationToMap(obj *oci_database.DisasterRecoveryConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["disaster_recovery_type"] = string(obj.DisasterRecoveryType)
+
+	if obj.IsReplicateAutomaticBackups != nil {
+		result["is_replicate_automatic_backups"] = bool(*obj.IsReplicateAutomaticBackups)
+	}
+
+	if obj.IsSnapshotStandby != nil {
+		result["is_snapshot_standby"] = bool(*obj.IsSnapshotStandby)
+	}
+
+	if obj.TimeSnapshotStandbyEnabledTill != nil {
+		result["time_snapshot_standby_enabled_till"] = obj.TimeSnapshotStandbyEnabledTill.String()
+	}
+
+	return result
+}
+
 func (s *DatabaseAutonomousDatabaseResourceCrud) mapToLongTermBackUpScheduleDetails(fieldKeyFormat string) (oci_database.LongTermBackUpScheduleDetails, error) {
 	result := oci_database.LongTermBackUpScheduleDetails{}
 
@@ -2556,14 +2593,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) mapToLongTermBackUpScheduleDeta
 	}
 
 	return result, nil
-}
-
-func DisasterRecoveryConfigurationToMap(obj *oci_database.DisasterRecoveryConfiguration) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["disaster_recovery_type"] = string(obj.DisasterRecoveryType)
-
-	return result
 }
 
 func (s *DatabaseAutonomousDatabaseResourceCrud) mapToResourcePoolSummary(fieldKeyFormat string) (oci_database.ResourcePoolSummary, error) {
@@ -3707,6 +3736,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		request.CreateAutonomousDatabaseDetails = details
 	case strings.ToLower("CROSS_REGION_DISASTER_RECOVERY"):
 		details := oci_database.CreateCrossRegionDisasterRecoveryDetails{}
+		if isReplicateAutomaticBackups, ok := s.D.GetOkExists("is_replicate_automatic_backups"); ok {
+			tmp := isReplicateAutomaticBackups.(bool)
+			details.IsReplicateAutomaticBackups = &tmp
+		}
 		if remoteDisasterRecoveryType, ok := s.D.GetOkExists("remote_disaster_recovery_type"); ok {
 			details.RemoteDisasterRecoveryType = oci_database.DisasterRecoveryConfigurationDisasterRecoveryTypeEnum(remoteDisasterRecoveryType.(string))
 		}
