@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteFilesystemSnapshotPolicyRequest wrapper for the DeleteFilesystemSnapshotPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/DeleteFilesystemSnapshotPolicy.go.html to see an example of how to use DeleteFilesystemSnapshotPolicyRequest.
 type DeleteFilesystemSnapshotPolicyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.

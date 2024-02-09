@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteMigrationPlanRequest wrapper for the DeleteMigrationPlan operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/DeleteMigrationPlan.go.html to see an example of how to use DeleteMigrationPlanRequest.
 type DeleteMigrationPlanRequest struct {
 
 	// Unique migration plan identifier

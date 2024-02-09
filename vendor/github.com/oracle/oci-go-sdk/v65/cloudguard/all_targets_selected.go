@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// AllTargetsSelected All Targets selected.
+// AllTargetsSelected Parameter to use when all targets are selected.
 type AllTargetsSelected struct {
 }
 

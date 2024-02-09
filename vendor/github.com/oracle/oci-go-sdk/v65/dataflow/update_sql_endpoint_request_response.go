@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateSqlEndpointRequest wrapper for the UpdateSqlEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/UpdateSqlEndpoint.go.html to see an example of how to use UpdateSqlEndpointRequest.
 type UpdateSqlEndpointRequest struct {
 
 	// Details of the Sql Endpoint to be updated.

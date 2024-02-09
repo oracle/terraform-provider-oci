@@ -67,21 +67,27 @@ type CreateDiscoveryJobDetailsDiscoveryTypeEnum string
 
 // Set of constants representing the allowable values for CreateDiscoveryJobDetailsDiscoveryTypeEnum
 const (
-	CreateDiscoveryJobDetailsDiscoveryTypeAdd          CreateDiscoveryJobDetailsDiscoveryTypeEnum = "ADD"
-	CreateDiscoveryJobDetailsDiscoveryTypeAddWithRetry CreateDiscoveryJobDetailsDiscoveryTypeEnum = "ADD_WITH_RETRY"
-	CreateDiscoveryJobDetailsDiscoveryTypeRefresh      CreateDiscoveryJobDetailsDiscoveryTypeEnum = "REFRESH"
+	CreateDiscoveryJobDetailsDiscoveryTypeAdd             CreateDiscoveryJobDetailsDiscoveryTypeEnum = "ADD"
+	CreateDiscoveryJobDetailsDiscoveryTypeAddWithRetry    CreateDiscoveryJobDetailsDiscoveryTypeEnum = "ADD_WITH_RETRY"
+	CreateDiscoveryJobDetailsDiscoveryTypeRefresh         CreateDiscoveryJobDetailsDiscoveryTypeEnum = "REFRESH"
+	CreateDiscoveryJobDetailsDiscoveryTypePrereq          CreateDiscoveryJobDetailsDiscoveryTypeEnum = "PREREQ"
+	CreateDiscoveryJobDetailsDiscoveryTypePrereqWithRetry CreateDiscoveryJobDetailsDiscoveryTypeEnum = "PREREQ_WITH_RETRY"
 )
 
 var mappingCreateDiscoveryJobDetailsDiscoveryTypeEnum = map[string]CreateDiscoveryJobDetailsDiscoveryTypeEnum{
-	"ADD":            CreateDiscoveryJobDetailsDiscoveryTypeAdd,
-	"ADD_WITH_RETRY": CreateDiscoveryJobDetailsDiscoveryTypeAddWithRetry,
-	"REFRESH":        CreateDiscoveryJobDetailsDiscoveryTypeRefresh,
+	"ADD":               CreateDiscoveryJobDetailsDiscoveryTypeAdd,
+	"ADD_WITH_RETRY":    CreateDiscoveryJobDetailsDiscoveryTypeAddWithRetry,
+	"REFRESH":           CreateDiscoveryJobDetailsDiscoveryTypeRefresh,
+	"PREREQ":            CreateDiscoveryJobDetailsDiscoveryTypePrereq,
+	"PREREQ_WITH_RETRY": CreateDiscoveryJobDetailsDiscoveryTypePrereqWithRetry,
 }
 
 var mappingCreateDiscoveryJobDetailsDiscoveryTypeEnumLowerCase = map[string]CreateDiscoveryJobDetailsDiscoveryTypeEnum{
-	"add":            CreateDiscoveryJobDetailsDiscoveryTypeAdd,
-	"add_with_retry": CreateDiscoveryJobDetailsDiscoveryTypeAddWithRetry,
-	"refresh":        CreateDiscoveryJobDetailsDiscoveryTypeRefresh,
+	"add":               CreateDiscoveryJobDetailsDiscoveryTypeAdd,
+	"add_with_retry":    CreateDiscoveryJobDetailsDiscoveryTypeAddWithRetry,
+	"refresh":           CreateDiscoveryJobDetailsDiscoveryTypeRefresh,
+	"prereq":            CreateDiscoveryJobDetailsDiscoveryTypePrereq,
+	"prereq_with_retry": CreateDiscoveryJobDetailsDiscoveryTypePrereqWithRetry,
 }
 
 // GetCreateDiscoveryJobDetailsDiscoveryTypeEnumValues Enumerates the set of values for CreateDiscoveryJobDetailsDiscoveryTypeEnum
@@ -99,6 +105,8 @@ func GetCreateDiscoveryJobDetailsDiscoveryTypeEnumStringValues() []string {
 		"ADD",
 		"ADD_WITH_RETRY",
 		"REFRESH",
+		"PREREQ",
+		"PREREQ_WITH_RETRY",
 	}
 }
 

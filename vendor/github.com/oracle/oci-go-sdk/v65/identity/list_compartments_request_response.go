@@ -12,10 +12,6 @@ import (
 )
 
 // ListCompartmentsRequest wrapper for the ListCompartments operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListCompartments.go.html to see an example of how to use ListCompartmentsRequest.
 type ListCompartmentsRequest struct {
 
 	// The OCID of the compartment (remember that the tenancy is simply the root compartment).
@@ -41,6 +37,9 @@ type ListCompartmentsRequest struct {
 	// and all compartments and subcompartments in the tenancy are
 	// returned depending on the the setting of `accessLevel`.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// This parameter is required to retrieve securityZoneId associated with the compartment.
+	VerboseLevel ListCompartmentsVerboseLevelEnum `mandatory:"false" contributesTo:"query" name:"verboseLevel" omitEmpty:"true"`
 
 	// A filter to only return resources that match the given name exactly.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
@@ -103,6 +102,9 @@ func (request ListCompartmentsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListCompartmentsAccessLevelEnum(string(request.AccessLevel)); !ok && request.AccessLevel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AccessLevel: %s. Supported values are: %s.", request.AccessLevel, strings.Join(GetListCompartmentsAccessLevelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListCompartmentsVerboseLevelEnum(string(request.VerboseLevel)); !ok && request.VerboseLevel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VerboseLevel: %s. Supported values are: %s.", request.VerboseLevel, strings.Join(GetListCompartmentsVerboseLevelEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListCompartmentsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListCompartmentsSortByEnumStringValues(), ",")))
@@ -186,6 +188,44 @@ func GetListCompartmentsAccessLevelEnumStringValues() []string {
 // GetMappingListCompartmentsAccessLevelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListCompartmentsAccessLevelEnum(val string) (ListCompartmentsAccessLevelEnum, bool) {
 	enum, ok := mappingListCompartmentsAccessLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListCompartmentsVerboseLevelEnum Enum with underlying type: string
+type ListCompartmentsVerboseLevelEnum string
+
+// Set of constants representing the allowable values for ListCompartmentsVerboseLevelEnum
+const (
+	ListCompartmentsVerboseLevelSecurityzone ListCompartmentsVerboseLevelEnum = "securityZone"
+)
+
+var mappingListCompartmentsVerboseLevelEnum = map[string]ListCompartmentsVerboseLevelEnum{
+	"securityZone": ListCompartmentsVerboseLevelSecurityzone,
+}
+
+var mappingListCompartmentsVerboseLevelEnumLowerCase = map[string]ListCompartmentsVerboseLevelEnum{
+	"securityzone": ListCompartmentsVerboseLevelSecurityzone,
+}
+
+// GetListCompartmentsVerboseLevelEnumValues Enumerates the set of values for ListCompartmentsVerboseLevelEnum
+func GetListCompartmentsVerboseLevelEnumValues() []ListCompartmentsVerboseLevelEnum {
+	values := make([]ListCompartmentsVerboseLevelEnum, 0)
+	for _, v := range mappingListCompartmentsVerboseLevelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListCompartmentsVerboseLevelEnumStringValues Enumerates the set of values in String for ListCompartmentsVerboseLevelEnum
+func GetListCompartmentsVerboseLevelEnumStringValues() []string {
+	return []string{
+		"securityZone",
+	}
+}
+
+// GetMappingListCompartmentsVerboseLevelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListCompartmentsVerboseLevelEnum(val string) (ListCompartmentsVerboseLevelEnum, bool) {
+	enum, ok := mappingListCompartmentsVerboseLevelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateAssetSourceRequest wrapper for the UpdateAssetSource operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdateAssetSource.go.html to see an example of how to use UpdateAssetSourceRequest.
 type UpdateAssetSourceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.

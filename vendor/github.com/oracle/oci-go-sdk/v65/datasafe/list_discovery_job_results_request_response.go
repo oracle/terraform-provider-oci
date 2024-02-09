@@ -12,10 +12,6 @@ import (
 )
 
 // ListDiscoveryJobResultsRequest wrapper for the ListDiscoveryJobResults operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListDiscoveryJobResults.go.html to see an example of how to use ListDiscoveryJobResultsRequest.
 type ListDiscoveryJobResultsRequest struct {
 
 	// The OCID of the discovery job.

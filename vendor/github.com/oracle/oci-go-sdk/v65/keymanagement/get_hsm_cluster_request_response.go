@@ -12,10 +12,6 @@ import (
 )
 
 // GetHsmClusterRequest wrapper for the GetHsmCluster operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetHsmCluster.go.html to see an example of how to use GetHsmClusterRequest.
 type GetHsmClusterRequest struct {
 
 	// The OCID of the HSM Cluster.

@@ -92,10 +92,6 @@ func (client *ReplicasClient) ConfigurationProvider() *common.ConfigurationProvi
 }
 
 // CreateReplica Creates a DB System read replica.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateReplica.go.html to see an example of how to use CreateReplica API.
 // A default retry strategy applies to this operation CreateReplica()
 func (client ReplicasClient) CreateReplica(ctx context.Context, request CreateReplicaRequest) (response CreateReplicaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,10 +151,6 @@ func (client ReplicasClient) createReplica(ctx context.Context, request common.O
 }
 
 // DeleteReplica Deletes the specified read replica.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteReplica.go.html to see an example of how to use DeleteReplica API.
 // A default retry strategy applies to this operation DeleteReplica()
 func (client ReplicasClient) DeleteReplica(ctx context.Context, request DeleteReplicaRequest) (response DeleteReplicaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,10 +205,6 @@ func (client ReplicasClient) deleteReplica(ctx context.Context, request common.O
 }
 
 // GetReplica Gets the full details of the specified read replica.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetReplica.go.html to see an example of how to use GetReplica API.
 // A default retry strategy applies to this operation GetReplica()
 func (client ReplicasClient) GetReplica(ctx context.Context, request GetReplicaRequest) (response GetReplicaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -271,10 +259,6 @@ func (client ReplicasClient) getReplica(ctx context.Context, request common.OCIR
 }
 
 // ListReplicas Lists all the read replicas that match the specified filters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListReplicas.go.html to see an example of how to use ListReplicas API.
 // A default retry strategy applies to this operation ListReplicas()
 func (client ReplicasClient) ListReplicas(ctx context.Context, request ListReplicasRequest) (response ListReplicasResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -329,10 +313,6 @@ func (client ReplicasClient) listReplicas(ctx context.Context, request common.OC
 }
 
 // UpdateReplica Updates the properties of the specified read replica.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateReplica.go.html to see an example of how to use UpdateReplica API.
 // A default retry strategy applies to this operation UpdateReplica()
 func (client ReplicasClient) UpdateReplica(ctx context.Context, request UpdateReplicaRequest) (response UpdateReplicaResponse, err error) {
 	var ociResponse common.OCIResponse

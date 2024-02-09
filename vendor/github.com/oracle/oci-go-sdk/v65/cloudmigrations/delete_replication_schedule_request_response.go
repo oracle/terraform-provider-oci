@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteReplicationScheduleRequest wrapper for the DeleteReplicationSchedule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/DeleteReplicationSchedule.go.html to see an example of how to use DeleteReplicationScheduleRequest.
 type DeleteReplicationScheduleRequest struct {
 
 	// Unique replication schedule identifier in path

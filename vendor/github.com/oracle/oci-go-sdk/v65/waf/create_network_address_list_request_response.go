@@ -12,10 +12,6 @@ import (
 )
 
 // CreateNetworkAddressListRequest wrapper for the CreateNetworkAddressList operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/CreateNetworkAddressList.go.html to see an example of how to use CreateNetworkAddressListRequest.
 type CreateNetworkAddressListRequest struct {
 
 	// Details for the new NetworkAddressList.

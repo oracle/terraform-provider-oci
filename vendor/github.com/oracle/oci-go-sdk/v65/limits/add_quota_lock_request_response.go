@@ -12,10 +12,6 @@ import (
 )
 
 // AddQuotaLockRequest wrapper for the AddQuotaLock operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/limits/AddQuotaLock.go.html to see an example of how to use AddQuotaLockRequest.
 type AddQuotaLockRequest struct {
 
 	// The OCID of the quota.

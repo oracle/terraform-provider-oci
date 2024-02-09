@@ -12,10 +12,6 @@ import (
 )
 
 // SuspendWorkRequestRequest wrapper for the SuspendWorkRequest operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/SuspendWorkRequest.go.html to see an example of how to use SuspendWorkRequestRequest.
 type SuspendWorkRequestRequest struct {
 
 	// The OCID of the work request.

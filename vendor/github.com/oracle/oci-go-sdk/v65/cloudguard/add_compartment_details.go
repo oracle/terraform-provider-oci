@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// AddCompartmentDetails An existing compartment to add to a security zone
+// AddCompartmentDetails Parameter for an existing compartment to be added to a security zone.
 type AddCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to be added to the security zone.

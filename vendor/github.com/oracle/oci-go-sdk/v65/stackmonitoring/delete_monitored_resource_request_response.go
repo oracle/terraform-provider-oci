@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteMonitoredResourceRequest wrapper for the DeleteMonitoredResource operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMonitoredResource.go.html to see an example of how to use DeleteMonitoredResourceRequest.
 type DeleteMonitoredResourceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.

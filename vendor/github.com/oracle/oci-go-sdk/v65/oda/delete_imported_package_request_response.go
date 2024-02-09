@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteImportedPackageRequest wrapper for the DeleteImportedPackage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteImportedPackage.go.html to see an example of how to use DeleteImportedPackageRequest.
 type DeleteImportedPackageRequest struct {
 
 	// Unique Digital Assistant instance identifier.

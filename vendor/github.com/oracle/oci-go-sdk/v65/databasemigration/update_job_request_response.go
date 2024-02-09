@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateJobRequest wrapper for the UpdateJob operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateJob.go.html to see an example of how to use UpdateJobRequest.
 type UpdateJobRequest struct {
 
 	// The OCID of the job

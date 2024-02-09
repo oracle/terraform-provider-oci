@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateWaasPolicyRequest wrapper for the UpdateWaasPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waas/UpdateWaasPolicy.go.html to see an example of how to use UpdateWaasPolicyRequest.
 type UpdateWaasPolicyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WAAS policy.

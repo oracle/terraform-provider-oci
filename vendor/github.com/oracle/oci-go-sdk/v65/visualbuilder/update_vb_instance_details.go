@@ -11,6 +11,7 @@
 package visualbuilder
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -46,6 +47,8 @@ type UpdateVbInstanceDetails struct {
 	// A list of alternate custom endpoints to be used for the vb instance URL
 	// (contact Oracle for alternateCustomEndpoints availability for a specific instance).
 	AlternateCustomEndpoints []UpdateCustomEndpointDetails `mandatory:"false" json:"alternateCustomEndpoints"`
+
+	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
 }
 
 func (m UpdateVbInstanceDetails) String() string {
@@ -62,4 +65,52 @@ func (m UpdateVbInstanceDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateVbInstanceDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DisplayName              *string                           `json:"displayName"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		IdcsOpenId               *string                           `json:"idcsOpenId"`
+		NodeCount                *int                              `json:"nodeCount"`
+		IsVisualBuilderEnabled   *bool                             `json:"isVisualBuilderEnabled"`
+		CustomEndpoint           *UpdateCustomEndpointDetails      `json:"customEndpoint"`
+		AlternateCustomEndpoints []UpdateCustomEndpointDetails     `json:"alternateCustomEndpoints"`
+		NetworkEndpointDetails   networkendpointdetails            `json:"networkEndpointDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DisplayName = model.DisplayName
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.IdcsOpenId = model.IdcsOpenId
+
+	m.NodeCount = model.NodeCount
+
+	m.IsVisualBuilderEnabled = model.IsVisualBuilderEnabled
+
+	m.CustomEndpoint = model.CustomEndpoint
+
+	m.AlternateCustomEndpoints = make([]UpdateCustomEndpointDetails, len(model.AlternateCustomEndpoints))
+	copy(m.AlternateCustomEndpoints, model.AlternateCustomEndpoints)
+	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkEndpointDetails = nn.(NetworkEndpointDetails)
+	} else {
+		m.NetworkEndpointDetails = nil
+	}
+
+	return
 }

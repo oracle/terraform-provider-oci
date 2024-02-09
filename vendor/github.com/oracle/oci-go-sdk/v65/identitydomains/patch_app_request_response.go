@@ -12,10 +12,6 @@ import (
 )
 
 // PatchAppRequest wrapper for the PatchApp operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchApp.go.html to see an example of how to use PatchAppRequest.
 type PatchAppRequest struct {
 
 	// ID of the resource

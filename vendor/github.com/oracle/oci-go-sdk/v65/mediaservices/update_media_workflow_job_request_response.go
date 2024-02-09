@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateMediaWorkflowJobRequest wrapper for the UpdateMediaWorkflowJob operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateMediaWorkflowJob.go.html to see an example of how to use UpdateMediaWorkflowJobRequest.
 type UpdateMediaWorkflowJobRequest struct {
 
 	// Unique MediaWorkflowJob identifier.

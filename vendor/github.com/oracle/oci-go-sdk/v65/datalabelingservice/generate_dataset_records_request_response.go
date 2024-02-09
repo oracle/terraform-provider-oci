@@ -12,10 +12,6 @@ import (
 )
 
 // GenerateDatasetRecordsRequest wrapper for the GenerateDatasetRecords operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datalabelingservice/GenerateDatasetRecords.go.html to see an example of how to use GenerateDatasetRecordsRequest.
 type GenerateDatasetRecordsRequest struct {
 
 	// Unique Dataset OCID

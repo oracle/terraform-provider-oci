@@ -12,10 +12,6 @@ import (
 )
 
 // RefreshAssetSourceRequest wrapper for the RefreshAssetSource operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/RefreshAssetSource.go.html to see an example of how to use RefreshAssetSourceRequest.
 type RefreshAssetSourceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.

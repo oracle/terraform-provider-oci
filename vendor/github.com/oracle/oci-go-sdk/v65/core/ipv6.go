@@ -68,6 +68,9 @@ type Ipv6 struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
+	Hostname *string `mandatory:"false" json:"hostname"`
 }
 
 func (m Ipv6) String() string {

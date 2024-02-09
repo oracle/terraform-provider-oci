@@ -13,10 +13,6 @@ import (
 )
 
 // BulkUploadApplicationGroupsRequest wrapper for the BulkUploadApplicationGroups operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/BulkUploadApplicationGroups.go.html to see an example of how to use BulkUploadApplicationGroupsRequest.
 type BulkUploadApplicationGroupsRequest struct {
 
 	// Unique Network Firewall Policy identifier

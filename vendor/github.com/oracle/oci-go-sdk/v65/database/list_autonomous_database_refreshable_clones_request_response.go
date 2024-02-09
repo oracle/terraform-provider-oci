@@ -12,10 +12,6 @@ import (
 )
 
 // ListAutonomousDatabaseRefreshableClonesRequest wrapper for the ListAutonomousDatabaseRefreshableClones operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousDatabaseRefreshableClones.go.html to see an example of how to use ListAutonomousDatabaseRefreshableClonesRequest.
 type ListAutonomousDatabaseRefreshableClonesRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

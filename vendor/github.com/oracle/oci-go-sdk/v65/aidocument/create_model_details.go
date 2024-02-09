@@ -25,6 +25,11 @@ type CreateModelDetails struct {
 	// The compartment identifier.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The document language for model training, abbreviated according to the BCP 47 syntax.
+	Language *string `mandatory:"true" json:"language"`
+
+	TrainingDataset Dataset `mandatory:"true" json:"trainingDataset"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project that contains the model.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
@@ -42,8 +47,6 @@ type CreateModelDetails struct {
 
 	// The maximum model training time in hours, expressed as a decimal fraction.
 	MaxTrainingTimeInHours *float64 `mandatory:"false" json:"maxTrainingTimeInHours"`
-
-	TrainingDataset Dataset `mandatory:"false" json:"trainingDataset"`
 
 	TestingDataset Dataset `mandatory:"false" json:"testingDataset"`
 
@@ -91,7 +94,6 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 		ModelVersion           *string                           `json:"modelVersion"`
 		IsQuickMode            *bool                             `json:"isQuickMode"`
 		MaxTrainingTimeInHours *float64                          `json:"maxTrainingTimeInHours"`
-		TrainingDataset        dataset                           `json:"trainingDataset"`
 		TestingDataset         dataset                           `json:"testingDataset"`
 		ValidationDataset      dataset                           `json:"validationDataset"`
 		ComponentModels        []ComponentModel                  `json:"componentModels"`
@@ -100,6 +102,8 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		ModelType              ModelModelTypeEnum                `json:"modelType"`
 		CompartmentId          *string                           `json:"compartmentId"`
+		Language               *string                           `json:"language"`
+		TrainingDataset        dataset                           `json:"trainingDataset"`
 		ProjectId              *string                           `json:"projectId"`
 	}{}
 
@@ -117,16 +121,6 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsQuickMode = model.IsQuickMode
 
 	m.MaxTrainingTimeInHours = model.MaxTrainingTimeInHours
-
-	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.TrainingDataset = nn.(Dataset)
-	} else {
-		m.TrainingDataset = nil
-	}
 
 	nn, e = model.TestingDataset.UnmarshalPolymorphicJSON(model.TestingDataset.JsonData)
 	if e != nil {
@@ -159,6 +153,18 @@ func (m *CreateModelDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ModelType = model.ModelType
 
 	m.CompartmentId = model.CompartmentId
+
+	m.Language = model.Language
+
+	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TrainingDataset = nn.(Dataset)
+	} else {
+		m.TrainingDataset = nil
+	}
 
 	m.ProjectId = model.ProjectId
 

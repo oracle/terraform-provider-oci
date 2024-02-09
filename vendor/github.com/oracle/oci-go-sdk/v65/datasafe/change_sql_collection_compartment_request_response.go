@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeSqlCollectionCompartmentRequest wrapper for the ChangeSqlCollectionCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSqlCollectionCompartment.go.html to see an example of how to use ChangeSqlCollectionCompartmentRequest.
 type ChangeSqlCollectionCompartmentRequest struct {
 
 	// The OCID of the SQL collection resource.

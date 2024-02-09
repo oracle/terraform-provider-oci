@@ -12,10 +12,6 @@ import (
 )
 
 // ProcessRecommendationRequest wrapper for the ProcessRecommendation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/ProcessRecommendation.go.html to see an example of how to use ProcessRecommendationRequest.
 type ProcessRecommendationRequest struct {
 
 	// Unique catalog identifier.

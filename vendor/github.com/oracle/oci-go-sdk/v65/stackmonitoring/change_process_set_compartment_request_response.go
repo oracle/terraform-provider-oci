@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeProcessSetCompartmentRequest wrapper for the ChangeProcessSetCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeProcessSetCompartment.go.html to see an example of how to use ChangeProcessSetCompartmentRequest.
 type ChangeProcessSetCompartmentRequest struct {
 
 	// The Process Set ID

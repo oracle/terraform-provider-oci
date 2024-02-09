@@ -12,10 +12,6 @@ import (
 )
 
 // RejectAccessRequestRequest wrapper for the RejectAccessRequest operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/RejectAccessRequest.go.html to see an example of how to use RejectAccessRequestRequest.
 type RejectAccessRequestRequest struct {
 
 	// unique AccessRequest identifier

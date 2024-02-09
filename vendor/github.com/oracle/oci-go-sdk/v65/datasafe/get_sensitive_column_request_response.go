@@ -12,10 +12,6 @@ import (
 )
 
 // GetSensitiveColumnRequest wrapper for the GetSensitiveColumn operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSensitiveColumn.go.html to see an example of how to use GetSensitiveColumnRequest.
 type GetSensitiveColumnRequest struct {
 
 	// The OCID of the sensitive data model.

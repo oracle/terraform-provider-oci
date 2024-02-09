@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// OciTlsCertificate TLS certificate from OCI Certificates service.
+// OciTlsCertificate TLS certificate from Oracle Cloud Infrastructure Certificates service.
 type OciTlsCertificate struct {
 
 	// The OCID of the leaf certificate resource.

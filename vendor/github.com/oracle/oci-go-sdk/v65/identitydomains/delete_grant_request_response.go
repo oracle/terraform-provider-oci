@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteGrantRequest wrapper for the DeleteGrant operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteGrant.go.html to see an example of how to use DeleteGrantRequest.
 type DeleteGrantRequest struct {
 
 	// ID of the resource

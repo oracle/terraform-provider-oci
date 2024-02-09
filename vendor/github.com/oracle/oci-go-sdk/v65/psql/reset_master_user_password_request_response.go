@@ -12,10 +12,6 @@ import (
 )
 
 // ResetMasterUserPasswordRequest wrapper for the ResetMasterUserPassword operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ResetMasterUserPassword.go.html to see an example of how to use ResetMasterUserPasswordRequest.
 type ResetMasterUserPasswordRequest struct {
 
 	// A unique identifier for the database system.

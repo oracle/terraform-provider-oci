@@ -12,10 +12,6 @@ import (
 )
 
 // ListSqlTextsRequest wrapper for the ListSqlTexts operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListSqlTexts.go.html to see an example of how to use ListSqlTextsRequest.
 type ListSqlTextsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

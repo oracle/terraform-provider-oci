@@ -12,10 +12,6 @@ import (
 )
 
 // ListDisApplicationsRequest wrapper for the ListDisApplications operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDisApplications.go.html to see an example of how to use ListDisApplicationsRequest.
 type ListDisApplicationsRequest struct {
 
 	// The workspace ID.

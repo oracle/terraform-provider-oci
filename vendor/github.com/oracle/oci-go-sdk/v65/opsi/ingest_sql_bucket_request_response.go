@@ -12,10 +12,6 @@ import (
 )
 
 // IngestSqlBucketRequest wrapper for the IngestSqlBucket operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestSqlBucket.go.html to see an example of how to use IngestSqlBucketRequest.
 type IngestSqlBucketRequest struct {
 
 	// Collection of SQL bucket objects for a particular database.

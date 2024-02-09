@@ -12,10 +12,6 @@ import (
 )
 
 // ListNotebookSessionsRequest wrapper for the ListNotebookSessions operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListNotebookSessions.go.html to see an example of how to use ListNotebookSessionsRequest.
 type ListNotebookSessionsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

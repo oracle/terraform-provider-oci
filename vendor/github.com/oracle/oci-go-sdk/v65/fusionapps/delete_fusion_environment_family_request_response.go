@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteFusionEnvironmentFamilyRequest wrapper for the DeleteFusionEnvironmentFamily operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/DeleteFusionEnvironmentFamily.go.html to see an example of how to use DeleteFusionEnvironmentFamilyRequest.
 type DeleteFusionEnvironmentFamilyRequest struct {
 
 	// The unique identifier (OCID) of the FusionEnvironmentFamily.

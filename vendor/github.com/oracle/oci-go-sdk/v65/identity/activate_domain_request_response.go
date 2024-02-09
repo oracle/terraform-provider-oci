@@ -12,10 +12,6 @@ import (
 )
 
 // ActivateDomainRequest wrapper for the ActivateDomain operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ActivateDomain.go.html to see an example of how to use ActivateDomainRequest.
 type ActivateDomainRequest struct {
 
 	// The OCID of the identity domain.

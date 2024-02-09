@@ -12,10 +12,6 @@ import (
 )
 
 // FailOverAutonomousDatabaseRequest wrapper for the FailOverAutonomousDatabase operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/FailOverAutonomousDatabase.go.html to see an example of how to use FailOverAutonomousDatabaseRequest.
 type FailOverAutonomousDatabaseRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
@@ -36,7 +32,7 @@ type FailOverAutonomousDatabaseRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Autonomous Data Guard standby database located in a different (remote) region from the source primary Autonomous Database.
+	// The database OCID(/Content/General/Concepts/identifiers.htm) of the Disaster Recovery peer (source Primary) database, which is located in a different (remote) region from the current peer database.
 	PeerDbId *string `mandatory:"false" contributesTo:"query" name:"peerDbId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

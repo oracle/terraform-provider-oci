@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeExadataInsightResourceCapacityTrendAggregatedRequest wrapper for the SummarizeExadataInsightResourceCapacityTrendAggregated operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceCapacityTrendAggregated.go.html to see an example of how to use SummarizeExadataInsightResourceCapacityTrendAggregatedRequest.
 type SummarizeExadataInsightResourceCapacityTrendAggregatedRequest struct {
 
 	// Filter by resource.

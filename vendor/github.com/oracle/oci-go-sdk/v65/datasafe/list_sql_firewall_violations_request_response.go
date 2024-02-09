@@ -12,10 +12,6 @@ import (
 )
 
 // ListSqlFirewallViolationsRequest wrapper for the ListSqlFirewallViolations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallViolations.go.html to see an example of how to use ListSqlFirewallViolationsRequest.
 type ListSqlFirewallViolationsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

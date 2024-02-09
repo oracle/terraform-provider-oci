@@ -12,10 +12,6 @@ import (
 )
 
 // CreateUserAssessmentRequest wrapper for the CreateUserAssessment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateUserAssessment.go.html to see an example of how to use CreateUserAssessmentRequest.
 type CreateUserAssessmentRequest struct {
 
 	// The details used to create a new saved user assessment.

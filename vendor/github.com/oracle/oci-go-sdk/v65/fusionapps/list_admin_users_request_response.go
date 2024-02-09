@@ -12,10 +12,6 @@ import (
 )
 
 // ListAdminUsersRequest wrapper for the ListAdminUsers operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListAdminUsers.go.html to see an example of how to use ListAdminUsersRequest.
 type ListAdminUsersRequest struct {
 
 	// unique FusionEnvironment identifier

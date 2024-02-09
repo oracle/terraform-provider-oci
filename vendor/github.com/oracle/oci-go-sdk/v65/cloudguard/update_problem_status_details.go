@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// UpdateProblemStatusDetails The additional details for the problem
+// UpdateProblemStatusDetails The additional details to be updated for the problem.
 type UpdateProblemStatusDetails struct {
 
 	// Action taken by user
 	Status ProblemLifecycleDetailEnum `mandatory:"true" json:"status"`
 
-	// User Comments
+	// User comments
 	Comment *string `mandatory:"false" json:"comment"`
 }
 

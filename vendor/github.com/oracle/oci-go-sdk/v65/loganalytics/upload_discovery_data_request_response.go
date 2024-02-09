@@ -13,10 +13,6 @@ import (
 )
 
 // UploadDiscoveryDataRequest wrapper for the UploadDiscoveryData operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadDiscoveryData.go.html to see an example of how to use UploadDiscoveryDataRequest.
 type UploadDiscoveryDataRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -33,6 +29,9 @@ type UploadDiscoveryDataRequest struct {
 
 	// Discovery data type
 	DiscoveryDataType UploadDiscoveryDataDiscoveryDataTypeEnum `mandatory:"false" contributesTo:"query" name:"discoveryDataType" omitEmpty:"true"`
+
+	// The log group OCID that gets mapped to the logs in the discovery data.
+	LogGroupId *string `mandatory:"false" contributesTo:"query" name:"logGroupId"`
 
 	// Identifies the type of request payload.
 	PayloadType UploadDiscoveryDataPayloadTypeEnum `mandatory:"false" contributesTo:"query" name:"payloadType" omitEmpty:"true"`

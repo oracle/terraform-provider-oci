@@ -12,10 +12,6 @@ import (
 )
 
 // ExportListingRequest wrapper for the ExportListing operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ExportListing.go.html to see an example of how to use ExportListingRequest.
 type ExportListingRequest struct {
 
 	// The unique identifier for the listing.

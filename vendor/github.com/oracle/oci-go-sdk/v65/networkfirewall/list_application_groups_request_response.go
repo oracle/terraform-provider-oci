@@ -12,10 +12,6 @@ import (
 )
 
 // ListApplicationGroupsRequest wrapper for the ListApplicationGroups operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListApplicationGroups.go.html to see an example of how to use ListApplicationGroupsRequest.
 type ListApplicationGroupsRequest struct {
 
 	// Unique Network Firewall Policy identifier

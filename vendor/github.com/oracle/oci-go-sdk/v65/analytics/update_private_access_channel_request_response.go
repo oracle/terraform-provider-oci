@@ -12,10 +12,6 @@ import (
 )
 
 // UpdatePrivateAccessChannelRequest wrapper for the UpdatePrivateAccessChannel operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/UpdatePrivateAccessChannel.go.html to see an example of how to use UpdatePrivateAccessChannelRequest.
 type UpdatePrivateAccessChannelRequest struct {
 
 	// The unique identifier key of the Private Access Channel.

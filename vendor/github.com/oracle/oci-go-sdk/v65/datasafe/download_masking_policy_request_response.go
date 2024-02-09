@@ -13,10 +13,6 @@ import (
 )
 
 // DownloadMaskingPolicyRequest wrapper for the DownloadMaskingPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadMaskingPolicy.go.html to see an example of how to use DownloadMaskingPolicyRequest.
 type DownloadMaskingPolicyRequest struct {
 
 	// The OCID of the masking policy.

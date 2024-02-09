@@ -12,10 +12,6 @@ import (
 )
 
 // ListRedemptionsRequest wrapper for the ListRedemptions operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListRedemptions.go.html to see an example of how to use ListRedemptionsRequest.
 type ListRedemptionsRequest struct {
 
 	// The OCID of the tenancy.

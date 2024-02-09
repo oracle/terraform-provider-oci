@@ -26,6 +26,7 @@ const (
 	DeploymentTypeExadata    DeploymentTypeEnum = "EXADATA"
 	DeploymentTypeExadataCc  DeploymentTypeEnum = "EXADATA_CC"
 	DeploymentTypeAutonomous DeploymentTypeEnum = "AUTONOMOUS"
+	DeploymentTypeExadataXs  DeploymentTypeEnum = "EXADATA_XS"
 )
 
 var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
@@ -35,6 +36,7 @@ var mappingDeploymentTypeEnum = map[string]DeploymentTypeEnum{
 	"EXADATA":    DeploymentTypeExadata,
 	"EXADATA_CC": DeploymentTypeExadataCc,
 	"AUTONOMOUS": DeploymentTypeAutonomous,
+	"EXADATA_XS": DeploymentTypeExadataXs,
 }
 
 var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
@@ -44,6 +46,7 @@ var mappingDeploymentTypeEnumLowerCase = map[string]DeploymentTypeEnum{
 	"exadata":    DeploymentTypeExadata,
 	"exadata_cc": DeploymentTypeExadataCc,
 	"autonomous": DeploymentTypeAutonomous,
+	"exadata_xs": DeploymentTypeExadataXs,
 }
 
 // GetDeploymentTypeEnumValues Enumerates the set of values for DeploymentTypeEnum
@@ -64,6 +67,7 @@ func GetDeploymentTypeEnumStringValues() []string {
 		"EXADATA",
 		"EXADATA_CC",
 		"AUTONOMOUS",
+		"EXADATA_XS",
 	}
 }
 

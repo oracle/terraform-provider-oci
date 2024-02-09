@@ -12,10 +12,6 @@ import (
 )
 
 // InstanceActionRequest wrapper for the InstanceAction operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/InstanceAction.go.html to see an example of how to use InstanceActionRequest.
 type InstanceActionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.
@@ -124,8 +120,11 @@ const (
 	InstanceActionActionSoftreset               InstanceActionActionEnum = "SOFTRESET"
 	InstanceActionActionReset                   InstanceActionActionEnum = "RESET"
 	InstanceActionActionSoftstop                InstanceActionActionEnum = "SOFTSTOP"
+	InstanceActionActionValidatelivemigrate     InstanceActionActionEnum = "VALIDATELIVEMIGRATE"
 	InstanceActionActionSenddiagnosticinterrupt InstanceActionActionEnum = "SENDDIAGNOSTICINTERRUPT"
+	InstanceActionActionExtendscheduledstop     InstanceActionActionEnum = "EXTENDSCHEDULEDSTOP"
 	InstanceActionActionDiagnosticreboot        InstanceActionActionEnum = "DIAGNOSTICREBOOT"
+	InstanceActionActionSuspend                 InstanceActionActionEnum = "SUSPEND"
 	InstanceActionActionRebootmigrate           InstanceActionActionEnum = "REBOOTMIGRATE"
 )
 
@@ -135,8 +134,11 @@ var mappingInstanceActionActionEnum = map[string]InstanceActionActionEnum{
 	"SOFTRESET":               InstanceActionActionSoftreset,
 	"RESET":                   InstanceActionActionReset,
 	"SOFTSTOP":                InstanceActionActionSoftstop,
+	"VALIDATELIVEMIGRATE":     InstanceActionActionValidatelivemigrate,
 	"SENDDIAGNOSTICINTERRUPT": InstanceActionActionSenddiagnosticinterrupt,
+	"EXTENDSCHEDULEDSTOP":     InstanceActionActionExtendscheduledstop,
 	"DIAGNOSTICREBOOT":        InstanceActionActionDiagnosticreboot,
+	"SUSPEND":                 InstanceActionActionSuspend,
 	"REBOOTMIGRATE":           InstanceActionActionRebootmigrate,
 }
 
@@ -146,8 +148,11 @@ var mappingInstanceActionActionEnumLowerCase = map[string]InstanceActionActionEn
 	"softreset":               InstanceActionActionSoftreset,
 	"reset":                   InstanceActionActionReset,
 	"softstop":                InstanceActionActionSoftstop,
+	"validatelivemigrate":     InstanceActionActionValidatelivemigrate,
 	"senddiagnosticinterrupt": InstanceActionActionSenddiagnosticinterrupt,
+	"extendscheduledstop":     InstanceActionActionExtendscheduledstop,
 	"diagnosticreboot":        InstanceActionActionDiagnosticreboot,
+	"suspend":                 InstanceActionActionSuspend,
 	"rebootmigrate":           InstanceActionActionRebootmigrate,
 }
 
@@ -168,8 +173,11 @@ func GetInstanceActionActionEnumStringValues() []string {
 		"SOFTRESET",
 		"RESET",
 		"SOFTSTOP",
+		"VALIDATELIVEMIGRATE",
 		"SENDDIAGNOSTICINTERRUPT",
+		"EXTENDSCHEDULEDSTOP",
 		"DIAGNOSTICREBOOT",
+		"SUSPEND",
 		"REBOOTMIGRATE",
 	}
 }

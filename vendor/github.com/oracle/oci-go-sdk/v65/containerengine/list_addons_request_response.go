@@ -12,10 +12,6 @@ import (
 )
 
 // ListAddonsRequest wrapper for the ListAddons operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListAddons.go.html to see an example of how to use ListAddonsRequest.
 type ListAddonsRequest struct {
 
 	// The OCID of the cluster.

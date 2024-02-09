@@ -12,10 +12,6 @@ import (
 )
 
 // IngestSqlStatsRequest wrapper for the IngestSqlStats operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestSqlStats.go.html to see an example of how to use IngestSqlStatsRequest.
 type IngestSqlStatsRequest struct {
 
 	// Collection of SQL stats objects for a particular database.

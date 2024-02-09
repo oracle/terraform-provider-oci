@@ -13,10 +13,6 @@ import (
 )
 
 // GetObjectContentRequest wrapper for the GetObjectContent operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetObjectContent.go.html to see an example of how to use GetObjectContentRequest.
 type GetObjectContentRequest struct {
 
 	// Unique repository identifier.

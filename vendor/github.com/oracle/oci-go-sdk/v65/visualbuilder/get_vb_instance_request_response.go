@@ -12,10 +12,6 @@ import (
 )
 
 // GetVbInstanceRequest wrapper for the GetVbInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/GetVbInstance.go.html to see an example of how to use GetVbInstanceRequest.
 type GetVbInstanceRequest struct {
 
 	// Unique Vb Instance identifier.

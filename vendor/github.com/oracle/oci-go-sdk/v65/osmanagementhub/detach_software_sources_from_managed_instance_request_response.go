@@ -12,10 +12,6 @@ import (
 )
 
 // DetachSoftwareSourcesFromManagedInstanceRequest wrapper for the DetachSoftwareSourcesFromManagedInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachSoftwareSourcesFromManagedInstance.go.html to see an example of how to use DetachSoftwareSourcesFromManagedInstanceRequest.
 type DetachSoftwareSourcesFromManagedInstanceRequest struct {
 
 	// The OCID of the managed instance.

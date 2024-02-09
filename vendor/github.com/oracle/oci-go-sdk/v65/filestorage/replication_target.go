@@ -71,6 +71,10 @@ type ReplicationTarget struct {
 	// The current state of the snapshot during replication operations.
 	DeltaStatus ReplicationTargetDeltaStatusEnum `mandatory:"false" json:"deltaStatus,omitempty"`
 
+	// Percentage progress of the snapshot which is currently being applied to the target region.
+	// If no application is in progress then this value is 100. Value is 0 before the initial snapshot is applied.
+	ApplyingReplicationProgress *int64 `mandatory:"false" json:"applyingReplicationProgress"`
+
 	// Percentage progress of the current replication cycle.
 	DeltaProgress *int64 `mandatory:"false" json:"deltaProgress"`
 
@@ -84,6 +88,9 @@ type ReplicationTarget struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Not used by File Systems but required for SPLAT tag integration.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// Additional information about the current `lifecycleState`.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`

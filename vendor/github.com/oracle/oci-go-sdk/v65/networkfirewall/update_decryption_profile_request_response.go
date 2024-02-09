@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateDecryptionProfileRequest wrapper for the UpdateDecryptionProfile operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateDecryptionProfile.go.html to see an example of how to use UpdateDecryptionProfileRequest.
 type UpdateDecryptionProfileRequest struct {
 
 	// Unique Network Firewall Policy identifier

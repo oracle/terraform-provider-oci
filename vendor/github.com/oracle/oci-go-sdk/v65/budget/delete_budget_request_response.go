@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteBudgetRequest wrapper for the DeleteBudget operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/budget/DeleteBudget.go.html to see an example of how to use DeleteBudgetRequest.
 type DeleteBudgetRequest struct {
 
 	// The unique budget OCID.

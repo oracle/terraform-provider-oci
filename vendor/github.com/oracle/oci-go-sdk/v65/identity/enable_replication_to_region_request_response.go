@@ -12,10 +12,6 @@ import (
 )
 
 // EnableReplicationToRegionRequest wrapper for the EnableReplicationToRegion operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/EnableReplicationToRegion.go.html to see an example of how to use EnableReplicationToRegionRequest.
 type EnableReplicationToRegionRequest struct {
 
 	// The OCID of the identity domain.

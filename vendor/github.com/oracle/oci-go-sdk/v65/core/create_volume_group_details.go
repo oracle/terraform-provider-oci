@@ -54,6 +54,20 @@ type CreateVolumeGroupDetails struct {
 	// The list of volume group replicas that this volume group will be enabled to have
 	// in the specified destination availability domains.
 	VolumeGroupReplicas []VolumeGroupReplicaDetails `mandatory:"false" json:"volumeGroupReplicas"`
+
+	// The clusterPlacementGroup Id of the volume group for volume group placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
+	// Indicates whether the volume group is AD-local or Regional. Regional volume groups aren't restricted to any
+	// availability domain unlike AD-local volume groups. This is an optional field. The default behavior is to create
+	// AD_LOCAL volume groups.
+	VolumeGroupScope VolumeGroupVolumeGroupScopeEnum `mandatory:"false" json:"volumeGroupScope,omitempty"`
+
+	// The OCID of the Vault service key which is the master encryption key for the volume's cross region backups, which will be used in the destination region to encrypt the backup's encryption keys.
+	// For more information about the Vault service and encryption keys, see
+	// Overview of Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
+	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
+	XrcKmsKeyId *string `mandatory:"false" json:"xrcKmsKeyId"`
 }
 
 func (m CreateVolumeGroupDetails) String() string {
@@ -66,6 +80,9 @@ func (m CreateVolumeGroupDetails) String() string {
 func (m CreateVolumeGroupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingVolumeGroupVolumeGroupScopeEnum(string(m.VolumeGroupScope)); !ok && m.VolumeGroupScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeGroupScope: %s. Supported values are: %s.", m.VolumeGroupScope, strings.Join(GetVolumeGroupVolumeGroupScopeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -75,14 +92,17 @@ func (m CreateVolumeGroupDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupPolicyId      *string                           `json:"backupPolicyId"`
-		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName         *string                           `json:"displayName"`
-		FreeformTags        map[string]string                 `json:"freeformTags"`
-		VolumeGroupReplicas []VolumeGroupReplicaDetails       `json:"volumeGroupReplicas"`
-		AvailabilityDomain  *string                           `json:"availabilityDomain"`
-		CompartmentId       *string                           `json:"compartmentId"`
-		SourceDetails       volumegroupsourcedetails          `json:"sourceDetails"`
+		BackupPolicyId          *string                           `json:"backupPolicyId"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName             *string                           `json:"displayName"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		VolumeGroupReplicas     []VolumeGroupReplicaDetails       `json:"volumeGroupReplicas"`
+		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		VolumeGroupScope        VolumeGroupVolumeGroupScopeEnum   `json:"volumeGroupScope"`
+		XrcKmsKeyId             *string                           `json:"xrcKmsKeyId"`
+		AvailabilityDomain      *string                           `json:"availabilityDomain"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		SourceDetails           volumegroupsourcedetails          `json:"sourceDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -100,6 +120,12 @@ func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.VolumeGroupReplicas = make([]VolumeGroupReplicaDetails, len(model.VolumeGroupReplicas))
 	copy(m.VolumeGroupReplicas, model.VolumeGroupReplicas)
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
+	m.VolumeGroupScope = model.VolumeGroupScope
+
+	m.XrcKmsKeyId = model.XrcKmsKeyId
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId

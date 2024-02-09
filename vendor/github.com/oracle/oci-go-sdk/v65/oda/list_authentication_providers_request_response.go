@@ -12,10 +12,6 @@ import (
 )
 
 // ListAuthenticationProvidersRequest wrapper for the ListAuthenticationProviders operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListAuthenticationProviders.go.html to see an example of how to use ListAuthenticationProvidersRequest.
 type ListAuthenticationProvidersRequest struct {
 
 	// Unique Digital Assistant instance identifier.

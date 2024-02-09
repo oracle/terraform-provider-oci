@@ -12,10 +12,6 @@ import (
 )
 
 // CreateStreamPackagingConfigRequest wrapper for the CreateStreamPackagingConfig operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateStreamPackagingConfig.go.html to see an example of how to use CreateStreamPackagingConfigRequest.
 type CreateStreamPackagingConfigRequest struct {
 
 	// Details for the new Stream Packaging Configuration.

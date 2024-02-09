@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateScheduledJobRequest wrapper for the UpdateScheduledJob operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateScheduledJob.go.html to see an example of how to use UpdateScheduledJobRequest.
 type UpdateScheduledJobRequest struct {
 
 	// The OCID of the scheduled job.

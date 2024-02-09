@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeKeyStoreTypeRequest wrapper for the ChangeKeyStoreType operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeKeyStoreType.go.html to see an example of how to use ChangeKeyStoreTypeRequest.
 type ChangeKeyStoreTypeRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

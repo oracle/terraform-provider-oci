@@ -12,10 +12,6 @@ import (
 )
 
 // ExportDeploymentWalletRequest wrapper for the ExportDeploymentWallet operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ExportDeploymentWallet.go.html to see an example of how to use ExportDeploymentWalletRequest.
 type ExportDeploymentWalletRequest struct {
 
 	// A unique Deployment identifier.

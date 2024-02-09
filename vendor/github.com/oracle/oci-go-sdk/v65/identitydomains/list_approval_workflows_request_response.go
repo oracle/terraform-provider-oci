@@ -12,10 +12,6 @@ import (
 )
 
 // ListApprovalWorkflowsRequest wrapper for the ListApprovalWorkflows operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListApprovalWorkflows.go.html to see an example of how to use ListApprovalWorkflowsRequest.
 type ListApprovalWorkflowsRequest struct {
 
 	// OPTIONAL. The filter string that is used to request a subset of resources. The filter string MUST be a valid filter expression. See the Filtering section of the SCIM specification for more information (Section 3.4.2.2). The string should contain at least one condition that each item must match in order to be returned in the search results. Each condition specifies an attribute, an operator, and a value. Conditions within a filter can be connected by logical operators (such as AND and OR). Sets of conditions can be grouped together using parentheses.

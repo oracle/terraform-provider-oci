@@ -12,10 +12,6 @@ import (
 )
 
 // GetRecalledDataSizeRequest wrapper for the GetRecalledDataSize operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetRecalledDataSize.go.html to see an example of how to use GetRecalledDataSizeRequest.
 type GetRecalledDataSizeRequest struct {
 
 	// The Logging Analytics namespace used for the request.

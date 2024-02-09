@@ -12,10 +12,6 @@ import (
 )
 
 // DisableSourceEventTypesRequest wrapper for the DisableSourceEventTypes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DisableSourceEventTypes.go.html to see an example of how to use DisableSourceEventTypesRequest.
 type DisableSourceEventTypesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

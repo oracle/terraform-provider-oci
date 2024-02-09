@@ -61,6 +61,26 @@ func (m *drgattachmentnetworkcreatedetails) UnmarshalPolymorphicJSON(data []byte
 
 	var err error
 	switch m.Type {
+	case "IPSEC_TUNNEL":
+		mm := IpsecTunnelDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOOPBACK":
+		mm := LoopBackDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VIRTUAL_CIRCUIT":
+		mm := VirtualCircuitDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REMOTE_PEERING_CONNECTION":
+		mm := RemotePeeringConnectionDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTERNET":
+		mm := InternetDrgAttachmentNetworkCreateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VCN":
 		mm := VcnDrgAttachmentNetworkCreateDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -97,15 +117,30 @@ type DrgAttachmentNetworkCreateDetailsTypeEnum string
 
 // Set of constants representing the allowable values for DrgAttachmentNetworkCreateDetailsTypeEnum
 const (
-	DrgAttachmentNetworkCreateDetailsTypeVcn DrgAttachmentNetworkCreateDetailsTypeEnum = "VCN"
+	DrgAttachmentNetworkCreateDetailsTypeVcn                     DrgAttachmentNetworkCreateDetailsTypeEnum = "VCN"
+	DrgAttachmentNetworkCreateDetailsTypeVirtualCircuit          DrgAttachmentNetworkCreateDetailsTypeEnum = "VIRTUAL_CIRCUIT"
+	DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection DrgAttachmentNetworkCreateDetailsTypeEnum = "REMOTE_PEERING_CONNECTION"
+	DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel             DrgAttachmentNetworkCreateDetailsTypeEnum = "IPSEC_TUNNEL"
+	DrgAttachmentNetworkCreateDetailsTypeLoopback                DrgAttachmentNetworkCreateDetailsTypeEnum = "LOOPBACK"
+	DrgAttachmentNetworkCreateDetailsTypeInternet                DrgAttachmentNetworkCreateDetailsTypeEnum = "INTERNET"
 )
 
 var mappingDrgAttachmentNetworkCreateDetailsTypeEnum = map[string]DrgAttachmentNetworkCreateDetailsTypeEnum{
-	"VCN": DrgAttachmentNetworkCreateDetailsTypeVcn,
+	"VCN":                       DrgAttachmentNetworkCreateDetailsTypeVcn,
+	"VIRTUAL_CIRCUIT":           DrgAttachmentNetworkCreateDetailsTypeVirtualCircuit,
+	"REMOTE_PEERING_CONNECTION": DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection,
+	"IPSEC_TUNNEL":              DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel,
+	"LOOPBACK":                  DrgAttachmentNetworkCreateDetailsTypeLoopback,
+	"INTERNET":                  DrgAttachmentNetworkCreateDetailsTypeInternet,
 }
 
 var mappingDrgAttachmentNetworkCreateDetailsTypeEnumLowerCase = map[string]DrgAttachmentNetworkCreateDetailsTypeEnum{
-	"vcn": DrgAttachmentNetworkCreateDetailsTypeVcn,
+	"vcn":                       DrgAttachmentNetworkCreateDetailsTypeVcn,
+	"virtual_circuit":           DrgAttachmentNetworkCreateDetailsTypeVirtualCircuit,
+	"remote_peering_connection": DrgAttachmentNetworkCreateDetailsTypeRemotePeeringConnection,
+	"ipsec_tunnel":              DrgAttachmentNetworkCreateDetailsTypeIpsecTunnel,
+	"loopback":                  DrgAttachmentNetworkCreateDetailsTypeLoopback,
+	"internet":                  DrgAttachmentNetworkCreateDetailsTypeInternet,
 }
 
 // GetDrgAttachmentNetworkCreateDetailsTypeEnumValues Enumerates the set of values for DrgAttachmentNetworkCreateDetailsTypeEnum
@@ -121,6 +156,11 @@ func GetDrgAttachmentNetworkCreateDetailsTypeEnumValues() []DrgAttachmentNetwork
 func GetDrgAttachmentNetworkCreateDetailsTypeEnumStringValues() []string {
 	return []string{
 		"VCN",
+		"VIRTUAL_CIRCUIT",
+		"REMOTE_PEERING_CONNECTION",
+		"IPSEC_TUNNEL",
+		"LOOPBACK",
+		"INTERNET",
 	}
 }
 

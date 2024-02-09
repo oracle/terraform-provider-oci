@@ -92,10 +92,6 @@ func (client *EmWarehouseClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // CancelWorkRequest Cancels the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 func (client EmWarehouseClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -149,10 +145,6 @@ func (client EmWarehouseClient) cancelWorkRequest(ctx context.Context, request c
 }
 
 // ChangeEmWarehouseCompartment Moves a EmWarehouse resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ChangeEmWarehouseCompartment.go.html to see an example of how to use ChangeEmWarehouseCompartment API.
 func (client EmWarehouseClient) ChangeEmWarehouseCompartment(ctx context.Context, request ChangeEmWarehouseCompartmentRequest) (response ChangeEmWarehouseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -211,10 +203,6 @@ func (client EmWarehouseClient) changeEmWarehouseCompartment(ctx context.Context
 }
 
 // CreateEmWarehouse Creates a new EmWarehouse.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/CreateEmWarehouse.go.html to see an example of how to use CreateEmWarehouse API.
 func (client EmWarehouseClient) CreateEmWarehouse(ctx context.Context, request CreateEmWarehouseRequest) (response CreateEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -273,10 +261,6 @@ func (client EmWarehouseClient) createEmWarehouse(ctx context.Context, request c
 }
 
 // DeleteEmWarehouse Deletes a EmWarehouse resource by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/DeleteEmWarehouse.go.html to see an example of how to use DeleteEmWarehouse API.
 func (client EmWarehouseClient) DeleteEmWarehouse(ctx context.Context, request DeleteEmWarehouseRequest) (response DeleteEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -330,10 +314,6 @@ func (client EmWarehouseClient) deleteEmWarehouse(ctx context.Context, request c
 }
 
 // GetEmWarehouse Gets a EmWarehouse by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/GetEmWarehouse.go.html to see an example of how to use GetEmWarehouse API.
 func (client EmWarehouseClient) GetEmWarehouse(ctx context.Context, request GetEmWarehouseRequest) (response GetEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -387,10 +367,6 @@ func (client EmWarehouseClient) getEmWarehouse(ctx context.Context, request comm
 }
 
 // GetEmWarehouseResourceUsage Gets a EmWarehouseResourceUsage by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/GetEmWarehouseResourceUsage.go.html to see an example of how to use GetEmWarehouseResourceUsage API.
 func (client EmWarehouseClient) GetEmWarehouseResourceUsage(ctx context.Context, request GetEmWarehouseResourceUsageRequest) (response GetEmWarehouseResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -444,10 +420,6 @@ func (client EmWarehouseClient) getEmWarehouseResourceUsage(ctx context.Context,
 }
 
 // GetWorkRequest Gets details of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client EmWarehouseClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -501,10 +473,6 @@ func (client EmWarehouseClient) getWorkRequest(ctx context.Context, request comm
 }
 
 // ListEmWarehouses Returns a list of EmWarehouses.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListEmWarehouses.go.html to see an example of how to use ListEmWarehouses API.
 func (client EmWarehouseClient) ListEmWarehouses(ctx context.Context, request ListEmWarehousesRequest) (response ListEmWarehousesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -558,10 +526,6 @@ func (client EmWarehouseClient) listEmWarehouses(ctx context.Context, request co
 }
 
 // ListEtlRuns Gets a list of runs of an EmWarehouseResource by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListEtlRuns.go.html to see an example of how to use ListEtlRuns API.
 func (client EmWarehouseClient) ListEtlRuns(ctx context.Context, request ListEtlRunsRequest) (response ListEtlRunsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -615,10 +579,6 @@ func (client EmWarehouseClient) listEtlRuns(ctx context.Context, request common.
 }
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client EmWarehouseClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -672,10 +632,6 @@ func (client EmWarehouseClient) listWorkRequestErrors(ctx context.Context, reque
 }
 
 // ListWorkRequestLogs Returns a (paginated) list of logs for the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client EmWarehouseClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -729,10 +685,6 @@ func (client EmWarehouseClient) listWorkRequestLogs(ctx context.Context, request
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client EmWarehouseClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -786,10 +738,6 @@ func (client EmWarehouseClient) listWorkRequests(ctx context.Context, request co
 }
 
 // UpdateEmWarehouse Updates the EmWarehouse
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/emwarehouse/UpdateEmWarehouse.go.html to see an example of how to use UpdateEmWarehouse API.
 func (client EmWarehouseClient) UpdateEmWarehouse(ctx context.Context, request UpdateEmWarehouseRequest) (response UpdateEmWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

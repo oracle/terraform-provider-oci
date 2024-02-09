@@ -73,6 +73,9 @@ type InstanceConfigurationCreateVolumeDetails struct {
 	// For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
+	// The clusterPlacementGroup Id of the volume for volume placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -80,6 +83,17 @@ type InstanceConfigurationCreateVolumeDetails struct {
 
 	// The list of autotune policies enabled for this volume.
 	AutotunePolicies []InstanceConfigurationAutotunePolicy `mandatory:"false" json:"autotunePolicies"`
+
+	// Indicates whether the volume is AD-local or Regional. Regional volume isn't restricted to any
+	// availability domain unlike AD-local volumes. This is an optional field. The default behavior is to create
+	// AD_LOCAL volumes.
+	VolumeScope VolumeVolumeScopeEnum `mandatory:"false" json:"volumeScope,omitempty"`
+
+	// The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys.
+	// For more information about the Vault service and encryption keys, see
+	// Overview of Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
+	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
+	XrcKmsKeyId *string `mandatory:"false" json:"xrcKmsKeyId"`
 }
 
 func (m InstanceConfigurationCreateVolumeDetails) String() string {
@@ -92,6 +106,9 @@ func (m InstanceConfigurationCreateVolumeDetails) String() string {
 func (m InstanceConfigurationCreateVolumeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingVolumeVolumeScopeEnum(string(m.VolumeScope)); !ok && m.VolumeScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeScope: %s. Supported values are: %s.", m.VolumeScope, strings.Join(GetVolumeVolumeScopeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -101,19 +118,22 @@ func (m InstanceConfigurationCreateVolumeDetails) ValidateEnumValue() (bool, err
 // UnmarshalJSON unmarshals from json
 func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AvailabilityDomain  *string                                          `json:"availabilityDomain"`
-		BackupPolicyId      *string                                          `json:"backupPolicyId"`
-		CompartmentId       *string                                          `json:"compartmentId"`
-		IsAutoTuneEnabled   *bool                                            `json:"isAutoTuneEnabled"`
-		BlockVolumeReplicas []InstanceConfigurationBlockVolumeReplicaDetails `json:"blockVolumeReplicas"`
-		DefinedTags         map[string]map[string]interface{}                `json:"definedTags"`
-		DisplayName         *string                                          `json:"displayName"`
-		FreeformTags        map[string]string                                `json:"freeformTags"`
-		KmsKeyId            *string                                          `json:"kmsKeyId"`
-		VpusPerGB           *int64                                           `json:"vpusPerGB"`
-		SizeInGBs           *int64                                           `json:"sizeInGBs"`
-		SourceDetails       instanceconfigurationvolumesourcedetails         `json:"sourceDetails"`
-		AutotunePolicies    []instanceconfigurationautotunepolicy            `json:"autotunePolicies"`
+		AvailabilityDomain      *string                                          `json:"availabilityDomain"`
+		BackupPolicyId          *string                                          `json:"backupPolicyId"`
+		CompartmentId           *string                                          `json:"compartmentId"`
+		IsAutoTuneEnabled       *bool                                            `json:"isAutoTuneEnabled"`
+		BlockVolumeReplicas     []InstanceConfigurationBlockVolumeReplicaDetails `json:"blockVolumeReplicas"`
+		DefinedTags             map[string]map[string]interface{}                `json:"definedTags"`
+		DisplayName             *string                                          `json:"displayName"`
+		FreeformTags            map[string]string                                `json:"freeformTags"`
+		KmsKeyId                *string                                          `json:"kmsKeyId"`
+		VpusPerGB               *int64                                           `json:"vpusPerGB"`
+		ClusterPlacementGroupId *string                                          `json:"clusterPlacementGroupId"`
+		SizeInGBs               *int64                                           `json:"sizeInGBs"`
+		SourceDetails           instanceconfigurationvolumesourcedetails         `json:"sourceDetails"`
+		AutotunePolicies        []instanceconfigurationautotunepolicy            `json:"autotunePolicies"`
+		VolumeScope             VolumeVolumeScopeEnum                            `json:"volumeScope"`
+		XrcKmsKeyId             *string                                          `json:"xrcKmsKeyId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -141,6 +161,8 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 
 	m.VpusPerGB = model.VpusPerGB
 
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
 	m.SizeInGBs = model.SizeInGBs
 
 	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
@@ -165,5 +187,9 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 			m.AutotunePolicies[i] = nil
 		}
 	}
+	m.VolumeScope = model.VolumeScope
+
+	m.XrcKmsKeyId = model.XrcKmsKeyId
+
 	return
 }

@@ -12,10 +12,6 @@ import (
 )
 
 // EnableProcessAutomationRequest wrapper for the EnableProcessAutomation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/EnableProcessAutomation.go.html to see an example of how to use EnableProcessAutomationRequest.
 type EnableProcessAutomationRequest struct {
 
 	// Unique Integration Instance identifier.

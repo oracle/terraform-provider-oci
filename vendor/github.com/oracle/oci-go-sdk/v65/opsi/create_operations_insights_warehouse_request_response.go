@@ -12,10 +12,6 @@ import (
 )
 
 // CreateOperationsInsightsWarehouseRequest wrapper for the CreateOperationsInsightsWarehouse operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateOperationsInsightsWarehouse.go.html to see an example of how to use CreateOperationsInsightsWarehouseRequest.
 type CreateOperationsInsightsWarehouseRequest struct {
 
 	// Details using which an Operations Insights Warehouse resource will be created in Operations Insights.

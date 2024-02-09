@@ -12,10 +12,6 @@ import (
 )
 
 // ActivateBdsMetastoreConfigurationRequest wrapper for the ActivateBdsMetastoreConfiguration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ActivateBdsMetastoreConfiguration.go.html to see an example of how to use ActivateBdsMetastoreConfigurationRequest.
 type ActivateBdsMetastoreConfigurationRequest struct {
 
 	// The OCID of the cluster.

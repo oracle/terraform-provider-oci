@@ -12,10 +12,6 @@ import (
 )
 
 // ListComputeCapacityTopologiesRequest wrapper for the ListComputeCapacityTopologies operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityTopologies.go.html to see an example of how to use ListComputeCapacityTopologiesRequest.
 type ListComputeCapacityTopologiesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

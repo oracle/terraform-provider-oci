@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateWebAppFirewallPolicyRequest wrapper for the UpdateWebAppFirewallPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/UpdateWebAppFirewallPolicy.go.html to see an example of how to use UpdateWebAppFirewallPolicyRequest.
 type UpdateWebAppFirewallPolicyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppFirewallPolicy.

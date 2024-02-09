@@ -12,10 +12,6 @@ import (
 )
 
 // ListImportRequestsRequest wrapper for the ListImportRequests operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListImportRequests.go.html to see an example of how to use ListImportRequestsRequest.
 type ListImportRequestsRequest struct {
 
 	// The workspace ID.

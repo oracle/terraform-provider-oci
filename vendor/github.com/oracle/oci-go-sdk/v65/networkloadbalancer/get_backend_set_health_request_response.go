@@ -12,10 +12,6 @@ import (
 )
 
 // GetBackendSetHealthRequest wrapper for the GetBackendSetHealth operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetBackendSetHealth.go.html to see an example of how to use GetBackendSetHealthRequest.
 type GetBackendSetHealthRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.

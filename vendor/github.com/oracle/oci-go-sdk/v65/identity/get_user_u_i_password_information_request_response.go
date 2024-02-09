@@ -12,10 +12,6 @@ import (
 )
 
 // GetUserUIPasswordInformationRequest wrapper for the GetUserUIPasswordInformation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetUserUIPasswordInformation.go.html to see an example of how to use GetUserUIPasswordInformationRequest.
 type GetUserUIPasswordInformationRequest struct {
 
 	// The OCID of the user.

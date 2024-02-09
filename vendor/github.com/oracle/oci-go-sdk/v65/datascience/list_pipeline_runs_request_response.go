@@ -12,10 +12,6 @@ import (
 )
 
 // ListPipelineRunsRequest wrapper for the ListPipelineRuns operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListPipelineRuns.go.html to see an example of how to use ListPipelineRunsRequest.
 type ListPipelineRunsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

@@ -12,10 +12,6 @@ import (
 )
 
 // DisableExternalPluggableDatabaseDatabaseManagementRequest wrapper for the DisableExternalPluggableDatabaseDatabaseManagement operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisableExternalPluggableDatabaseDatabaseManagement.go.html to see an example of how to use DisableExternalPluggableDatabaseDatabaseManagementRequest.
 type DisableExternalPluggableDatabaseDatabaseManagementRequest struct {
 
 	// The ExternalPluggableDatabaseId OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -12,10 +12,6 @@ import (
 )
 
 // ListJobShapesRequest wrapper for the ListJobShapes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListJobShapes.go.html to see an example of how to use ListJobShapesRequest.
 type ListJobShapesRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

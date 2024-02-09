@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateAllPackagesOnManagedInstancesInCompartmentRequest wrapper for the UpdateAllPackagesOnManagedInstancesInCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateAllPackagesOnManagedInstancesInCompartment.go.html to see an example of how to use UpdateAllPackagesOnManagedInstancesInCompartmentRequest.
 type UpdateAllPackagesOnManagedInstancesInCompartmentRequest struct {
 
 	// The details about package types are to be updated on all managed instances in a compartment.

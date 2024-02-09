@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// TargetResponderRecipeCollection Collection of TargetResponderRecipe
+// TargetResponderRecipeCollection Collection of target responder recipe summaries.
 type TargetResponderRecipeCollection struct {
 
-	// List of TargetResponderRecipeSummary
+	// List of TargetResponderRecipeSummary resources
 	Items []TargetResponderRecipeSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetResponderRecipeCollection) String() string {

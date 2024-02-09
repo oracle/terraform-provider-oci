@@ -12,10 +12,6 @@ import (
 )
 
 // GetFileDiffRequest wrapper for the GetFileDiff operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetFileDiff.go.html to see an example of how to use GetFileDiffRequest.
 type GetFileDiffRequest struct {
 
 	// Unique repository identifier.

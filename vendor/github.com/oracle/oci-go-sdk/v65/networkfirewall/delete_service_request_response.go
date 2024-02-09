@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteServiceRequest wrapper for the DeleteService operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteService.go.html to see an example of how to use DeleteServiceRequest.
 type DeleteServiceRequest struct {
 
 	// Unique Network Firewall Policy identifier

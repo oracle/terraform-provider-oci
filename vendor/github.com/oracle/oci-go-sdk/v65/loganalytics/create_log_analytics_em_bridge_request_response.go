@@ -12,10 +12,6 @@ import (
 )
 
 // CreateLogAnalyticsEmBridgeRequest wrapper for the CreateLogAnalyticsEmBridge operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateLogAnalyticsEmBridge.go.html to see an example of how to use CreateLogAnalyticsEmBridgeRequest.
 type CreateLogAnalyticsEmBridgeRequest struct {
 
 	// The Logging Analytics namespace used for the request.

@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateDedicatedAiClusterRequest wrapper for the UpdateDedicatedAiCluster operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/UpdateDedicatedAiCluster.go.html to see an example of how to use UpdateDedicatedAiClusterRequest.
 type UpdateDedicatedAiClusterRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.

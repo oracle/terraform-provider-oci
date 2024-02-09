@@ -93,10 +93,6 @@ func (client *AnnouncementsPreferencesClient) ConfigurationProvider() *common.Co
 
 // CreateAnnouncementsPreference Creates a request that specifies preferences for the tenancy regarding receiving announcements by email.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateAnnouncementsPreference.go.html to see an example of how to use CreateAnnouncementsPreference API.
 func (client AnnouncementsPreferencesClient) CreateAnnouncementsPreference(ctx context.Context, request CreateAnnouncementsPreferenceRequest) (response CreateAnnouncementsPreferenceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -156,10 +152,6 @@ func (client AnnouncementsPreferencesClient) createAnnouncementsPreference(ctx c
 
 // GetAnnouncementsPreference Gets the current preferences of the tenancy regarding receiving announcements by email.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementsPreference.go.html to see an example of how to use GetAnnouncementsPreference API.
 func (client AnnouncementsPreferencesClient) GetAnnouncementsPreference(ctx context.Context, request GetAnnouncementsPreferenceRequest) (response GetAnnouncementsPreferenceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -214,10 +206,6 @@ func (client AnnouncementsPreferencesClient) getAnnouncementsPreference(ctx cont
 
 // ListAnnouncementsPreferences Gets the current preferences of the tenancy regarding receiving announcements by email.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListAnnouncementsPreferences.go.html to see an example of how to use ListAnnouncementsPreferences API.
 func (client AnnouncementsPreferencesClient) ListAnnouncementsPreferences(ctx context.Context, request ListAnnouncementsPreferencesRequest) (response ListAnnouncementsPreferencesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -272,10 +260,6 @@ func (client AnnouncementsPreferencesClient) listAnnouncementsPreferences(ctx co
 
 // UpdateAnnouncementsPreference Updates the preferences of the tenancy regarding receiving announcements by email.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementsPreference.go.html to see an example of how to use UpdateAnnouncementsPreference API.
 func (client AnnouncementsPreferencesClient) UpdateAnnouncementsPreference(ctx context.Context, request UpdateAnnouncementsPreferenceRequest) (response UpdateAnnouncementsPreferenceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

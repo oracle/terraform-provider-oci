@@ -12,10 +12,6 @@ import (
 )
 
 // PatchSchemaRequest wrapper for the PatchSchema operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSchema.go.html to see an example of how to use PatchSchemaRequest.
 type PatchSchemaRequest struct {
 
 	// ID of the resource

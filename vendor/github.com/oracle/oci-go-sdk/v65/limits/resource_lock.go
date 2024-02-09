@@ -23,6 +23,9 @@ type ResourceLock struct {
 	// Lock type.
 	Type ResourceLockTypeEnum `mandatory:"true" json:"type"`
 
+	// The lock compartment ID.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
 	// The resource ID that is locking this resource. Indicates that deleting this resource removes the lock.
 	RelatedResourceId *string `mandatory:"false" json:"relatedResourceId"`
 

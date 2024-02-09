@@ -12,10 +12,6 @@ import (
 )
 
 // PublishMetricExtensionRequest wrapper for the PublishMetricExtension operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/PublishMetricExtension.go.html to see an example of how to use PublishMetricExtensionRequest.
 type PublishMetricExtensionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.

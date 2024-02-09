@@ -12,10 +12,6 @@ import (
 )
 
 // ListNewsReportsRequest wrapper for the ListNewsReports operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListNewsReports.go.html to see an example of how to use ListNewsReportsRequest.
 type ListNewsReportsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

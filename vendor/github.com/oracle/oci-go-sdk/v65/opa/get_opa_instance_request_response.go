@@ -12,10 +12,6 @@ import (
 )
 
 // GetOpaInstanceRequest wrapper for the GetOpaInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/GetOpaInstance.go.html to see an example of how to use GetOpaInstanceRequest.
 type GetOpaInstanceRequest struct {
 
 	// unique OpaInstance identifier

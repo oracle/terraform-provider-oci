@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteMaskingColumnRequest wrapper for the DeleteMaskingColumn operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingColumn.go.html to see an example of how to use DeleteMaskingColumnRequest.
 type DeleteMaskingColumnRequest struct {
 
 	// The unique key that identifies the masking column. It's numeric and unique within a masking policy.

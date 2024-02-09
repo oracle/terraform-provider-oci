@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeExternalDbNodeMetricsRequest wrapper for the SummarizeExternalDbNodeMetrics operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalDbNodeMetrics.go.html to see an example of how to use SummarizeExternalDbNodeMetricsRequest.
 type SummarizeExternalDbNodeMetricsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database node.

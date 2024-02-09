@@ -12,10 +12,6 @@ import (
 )
 
 // PutNotificationSettingRequest wrapper for the PutNotificationSetting operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutNotificationSetting.go.html to see an example of how to use PutNotificationSettingRequest.
 type PutNotificationSettingRequest struct {
 
 	// ID of the resource

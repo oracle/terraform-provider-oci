@@ -12,10 +12,6 @@ import (
 )
 
 // EnableExternalNonContainerDatabaseOperationsInsightsRequest wrapper for the EnableExternalNonContainerDatabaseOperationsInsights operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/EnableExternalNonContainerDatabaseOperationsInsights.go.html to see an example of how to use EnableExternalNonContainerDatabaseOperationsInsightsRequest.
 type EnableExternalNonContainerDatabaseOperationsInsightsRequest struct {
 
 	// The external non-container database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

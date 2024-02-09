@@ -12,10 +12,6 @@ import (
 )
 
 // CancelCertificateDeletionRequest wrapper for the CancelCertificateDeletion operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CancelCertificateDeletion.go.html to see an example of how to use CancelCertificateDeletionRequest.
 type CancelCertificateDeletionRequest struct {
 
 	// The OCID of the certificate.

@@ -12,10 +12,6 @@ import (
 )
 
 // EnableDrsRequest wrapper for the EnableDrs operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/EnableDrs.go.html to see an example of how to use EnableDrsRequest.
 type EnableDrsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

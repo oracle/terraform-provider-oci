@@ -12,10 +12,6 @@ import (
 )
 
 // GetVolumeGroupReplicaRequest wrapper for the GetVolumeGroupReplica operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVolumeGroupReplica.go.html to see an example of how to use GetVolumeGroupReplicaRequest.
 type GetVolumeGroupReplicaRequest struct {
 
 	// The OCID of the volume replica group.

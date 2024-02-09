@@ -12,10 +12,6 @@ import (
 )
 
 // SetSecurityAssessmentBaselineRequest wrapper for the SetSecurityAssessmentBaseline operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/SetSecurityAssessmentBaseline.go.html to see an example of how to use SetSecurityAssessmentBaselineRequest.
 type SetSecurityAssessmentBaselineRequest struct {
 
 	// The OCID of the security assessment.

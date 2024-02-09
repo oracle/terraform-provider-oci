@@ -12,10 +12,6 @@ import (
 )
 
 // ListComputedUsagesRequest wrapper for the ListComputedUsages operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListComputedUsages.go.html to see an example of how to use ListComputedUsagesRequest.
 type ListComputedUsagesRequest struct {
 
 	// The OCID of the root compartment.

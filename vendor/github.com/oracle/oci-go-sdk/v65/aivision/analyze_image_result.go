@@ -29,6 +29,9 @@ type AnalyzeImageResult struct {
 
 	ImageText *ImageText `mandatory:"false" json:"imageText"`
 
+	// The detected object proposals.
+	ObjectProposals []ObjectProposal `mandatory:"false" json:"objectProposals"`
+
 	// The detected faces.
 	DetectedFaces []Face `mandatory:"false" json:"detectedFaces"`
 
@@ -40,6 +43,9 @@ type AnalyzeImageResult struct {
 
 	// The text detection model version.
 	TextDetectionModelVersion *string `mandatory:"false" json:"textDetectionModelVersion"`
+
+	// The object proposal model version.
+	ObjectProposalModelVersion *string `mandatory:"false" json:"objectProposalModelVersion"`
 
 	// The face detection model version.
 	FaceDetectionModelVersion *string `mandatory:"false" json:"faceDetectionModelVersion"`

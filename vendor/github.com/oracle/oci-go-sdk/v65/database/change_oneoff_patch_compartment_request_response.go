@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeOneoffPatchCompartmentRequest wrapper for the ChangeOneoffPatchCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeOneoffPatchCompartment.go.html to see an example of how to use ChangeOneoffPatchCompartmentRequest.
 type ChangeOneoffPatchCompartmentRequest struct {
 
 	// Request to move one-off patch to a different compartment

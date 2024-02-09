@@ -12,10 +12,6 @@ import (
 )
 
 // ListOnPremiseVantagePointsRequest wrapper for the ListOnPremiseVantagePoints operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListOnPremiseVantagePoints.go.html to see an example of how to use ListOnPremiseVantagePointsRequest.
 type ListOnPremiseVantagePointsRequest struct {
 
 	// The APM domain ID the request is intended for.

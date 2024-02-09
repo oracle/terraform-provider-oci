@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateFusionEnvironmentFamilyRequest wrapper for the UpdateFusionEnvironmentFamily operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UpdateFusionEnvironmentFamily.go.html to see an example of how to use UpdateFusionEnvironmentFamilyRequest.
 type UpdateFusionEnvironmentFamilyRequest struct {
 
 	// The unique identifier (OCID) of the FusionEnvironmentFamily.

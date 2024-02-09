@@ -12,10 +12,6 @@ import (
 )
 
 // CreateModelVersionSetRequest wrapper for the CreateModelVersionSet operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelVersionSet.go.html to see an example of how to use CreateModelVersionSetRequest.
 type CreateModelVersionSetRequest struct {
 
 	// Details for creating a new modelVersionSet.

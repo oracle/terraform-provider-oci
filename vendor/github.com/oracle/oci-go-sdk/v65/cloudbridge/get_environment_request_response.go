@@ -12,10 +12,6 @@ import (
 )
 
 // GetEnvironmentRequest wrapper for the GetEnvironment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetEnvironment.go.html to see an example of how to use GetEnvironmentRequest.
 type GetEnvironmentRequest struct {
 
 	// Unique environment identifier.

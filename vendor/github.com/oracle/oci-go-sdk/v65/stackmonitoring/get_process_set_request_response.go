@@ -12,10 +12,6 @@ import (
 )
 
 // GetProcessSetRequest wrapper for the GetProcessSet operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetProcessSet.go.html to see an example of how to use GetProcessSetRequest.
 type GetProcessSetRequest struct {
 
 	// The Process Set ID

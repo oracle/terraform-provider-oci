@@ -94,10 +94,6 @@ func (client *OperationsInsightsClient) ConfigurationProvider() *common.Configur
 }
 
 // AddExadataInsightMembers Add new members (e.g. databases and hosts) to an Exadata system in Operations Insights. Exadata-related metric collection and analysis will be started.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/AddExadataInsightMembers.go.html to see an example of how to use AddExadataInsightMembers API.
 // A default retry strategy applies to this operation AddExadataInsightMembers()
 func (client OperationsInsightsClient) AddExadataInsightMembers(ctx context.Context, request AddExadataInsightMembersRequest) (response AddExadataInsightMembersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -157,10 +153,6 @@ func (client OperationsInsightsClient) addExadataInsightMembers(ctx context.Cont
 }
 
 // ChangeAutonomousDatabaseInsightAdvancedFeatures Update connection detail for advanced features of Autonomous Database in Operations Insights.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use ChangeAutonomousDatabaseInsightAdvancedFeatures API.
 // A default retry strategy applies to this operation ChangeAutonomousDatabaseInsightAdvancedFeatures()
 func (client OperationsInsightsClient) ChangeAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request ChangeAutonomousDatabaseInsightAdvancedFeaturesRequest) (response ChangeAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -220,10 +212,6 @@ func (client OperationsInsightsClient) changeAutonomousDatabaseInsightAdvancedFe
 }
 
 // ChangeAwrHubSourceCompartment Moves an AwrHubSource resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeAwrHubSourceCompartment.go.html to see an example of how to use ChangeAwrHubSourceCompartment API.
 // A default retry strategy applies to this operation ChangeAwrHubSourceCompartment()
 func (client OperationsInsightsClient) ChangeAwrHubSourceCompartment(ctx context.Context, request ChangeAwrHubSourceCompartmentRequest) (response ChangeAwrHubSourceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -283,10 +271,6 @@ func (client OperationsInsightsClient) changeAwrHubSourceCompartment(ctx context
 }
 
 // ChangeDatabaseInsightCompartment Moves a DatabaseInsight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeDatabaseInsightCompartment.go.html to see an example of how to use ChangeDatabaseInsightCompartment API.
 // A default retry strategy applies to this operation ChangeDatabaseInsightCompartment()
 func (client OperationsInsightsClient) ChangeDatabaseInsightCompartment(ctx context.Context, request ChangeDatabaseInsightCompartmentRequest) (response ChangeDatabaseInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -346,10 +330,6 @@ func (client OperationsInsightsClient) changeDatabaseInsightCompartment(ctx cont
 }
 
 // ChangeEnterpriseManagerBridgeCompartment Moves a EnterpriseManagerBridge resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeEnterpriseManagerBridgeCompartment.go.html to see an example of how to use ChangeEnterpriseManagerBridgeCompartment API.
 // A default retry strategy applies to this operation ChangeEnterpriseManagerBridgeCompartment()
 func (client OperationsInsightsClient) ChangeEnterpriseManagerBridgeCompartment(ctx context.Context, request ChangeEnterpriseManagerBridgeCompartmentRequest) (response ChangeEnterpriseManagerBridgeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -404,10 +384,6 @@ func (client OperationsInsightsClient) changeEnterpriseManagerBridgeCompartment(
 }
 
 // ChangeExadataInsightCompartment Moves an Exadata insight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeExadataInsightCompartment.go.html to see an example of how to use ChangeExadataInsightCompartment API.
 // A default retry strategy applies to this operation ChangeExadataInsightCompartment()
 func (client OperationsInsightsClient) ChangeExadataInsightCompartment(ctx context.Context, request ChangeExadataInsightCompartmentRequest) (response ChangeExadataInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -467,10 +443,6 @@ func (client OperationsInsightsClient) changeExadataInsightCompartment(ctx conte
 }
 
 // ChangeHostInsightCompartment Moves a HostInsight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeHostInsightCompartment.go.html to see an example of how to use ChangeHostInsightCompartment API.
 // A default retry strategy applies to this operation ChangeHostInsightCompartment()
 func (client OperationsInsightsClient) ChangeHostInsightCompartment(ctx context.Context, request ChangeHostInsightCompartmentRequest) (response ChangeHostInsightCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -530,10 +502,6 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 }
 
 // ChangeNewsReportCompartment Moves a news report resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeNewsReportCompartment.go.html to see an example of how to use ChangeNewsReportCompartment API.
 // A default retry strategy applies to this operation ChangeNewsReportCompartment()
 func (client OperationsInsightsClient) ChangeNewsReportCompartment(ctx context.Context, request ChangeNewsReportCompartmentRequest) (response ChangeNewsReportCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -593,10 +561,6 @@ func (client OperationsInsightsClient) changeNewsReportCompartment(ctx context.C
 }
 
 // ChangeOperationsInsightsPrivateEndpointCompartment Moves a private endpoint from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeOperationsInsightsPrivateEndpointCompartment.go.html to see an example of how to use ChangeOperationsInsightsPrivateEndpointCompartment API.
 // A default retry strategy applies to this operation ChangeOperationsInsightsPrivateEndpointCompartment()
 func (client OperationsInsightsClient) ChangeOperationsInsightsPrivateEndpointCompartment(ctx context.Context, request ChangeOperationsInsightsPrivateEndpointCompartmentRequest) (response ChangeOperationsInsightsPrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -656,10 +620,6 @@ func (client OperationsInsightsClient) changeOperationsInsightsPrivateEndpointCo
 }
 
 // ChangeOperationsInsightsWarehouseCompartment Moves a Operations Insights Warehouse resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeOperationsInsightsWarehouseCompartment.go.html to see an example of how to use ChangeOperationsInsightsWarehouseCompartment API.
 // A default retry strategy applies to this operation ChangeOperationsInsightsWarehouseCompartment()
 func (client OperationsInsightsClient) ChangeOperationsInsightsWarehouseCompartment(ctx context.Context, request ChangeOperationsInsightsWarehouseCompartmentRequest) (response ChangeOperationsInsightsWarehouseCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -719,10 +679,6 @@ func (client OperationsInsightsClient) changeOperationsInsightsWarehouseCompartm
 }
 
 // ChangeOpsiConfigurationCompartment Moves an OpsiConfiguration resource from one compartment to another.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeOpsiConfigurationCompartment.go.html to see an example of how to use ChangeOpsiConfigurationCompartment API.
 // A default retry strategy applies to this operation ChangeOpsiConfigurationCompartment()
 func (client OperationsInsightsClient) ChangeOpsiConfigurationCompartment(ctx context.Context, request ChangeOpsiConfigurationCompartmentRequest) (response ChangeOpsiConfigurationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -782,10 +738,6 @@ func (client OperationsInsightsClient) changeOpsiConfigurationCompartment(ctx co
 }
 
 // ChangePeComanagedDatabaseInsight Change the connection details of a co-managed  database insight. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangePeComanagedDatabaseInsight.go.html to see an example of how to use ChangePeComanagedDatabaseInsight API.
 // A default retry strategy applies to this operation ChangePeComanagedDatabaseInsight()
 func (client OperationsInsightsClient) ChangePeComanagedDatabaseInsight(ctx context.Context, request ChangePeComanagedDatabaseInsightRequest) (response ChangePeComanagedDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -846,10 +798,6 @@ func (client OperationsInsightsClient) changePeComanagedDatabaseInsight(ctx cont
 
 // CreateAwrHub Create a AWR hub resource for the tenant in Operations Insights.
 // This resource will be created in root compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateAwrHub.go.html to see an example of how to use CreateAwrHub API.
 // A default retry strategy applies to this operation CreateAwrHub()
 func (client OperationsInsightsClient) CreateAwrHub(ctx context.Context, request CreateAwrHubRequest) (response CreateAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -909,10 +857,6 @@ func (client OperationsInsightsClient) createAwrHub(ctx context.Context, request
 }
 
 // CreateAwrHubSource Register Awr Hub source
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateAwrHubSource.go.html to see an example of how to use CreateAwrHubSource API.
 // A default retry strategy applies to this operation CreateAwrHubSource()
 func (client OperationsInsightsClient) CreateAwrHubSource(ctx context.Context, request CreateAwrHubSourceRequest) (response CreateAwrHubSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -972,10 +916,6 @@ func (client OperationsInsightsClient) createAwrHubSource(ctx context.Context, r
 }
 
 // CreateDatabaseInsight Create a Database Insight resource for a database in Operations Insights. The database will be enabled in Operations Insights. Database metric collection and analysis will be started.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateDatabaseInsight.go.html to see an example of how to use CreateDatabaseInsight API.
 // A default retry strategy applies to this operation CreateDatabaseInsight()
 func (client OperationsInsightsClient) CreateDatabaseInsight(ctx context.Context, request CreateDatabaseInsightRequest) (response CreateDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1035,10 +975,6 @@ func (client OperationsInsightsClient) createDatabaseInsight(ctx context.Context
 }
 
 // CreateEnterpriseManagerBridge Create a Enterprise Manager bridge in Operations Insights.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateEnterpriseManagerBridge.go.html to see an example of how to use CreateEnterpriseManagerBridge API.
 // A default retry strategy applies to this operation CreateEnterpriseManagerBridge()
 func (client OperationsInsightsClient) CreateEnterpriseManagerBridge(ctx context.Context, request CreateEnterpriseManagerBridgeRequest) (response CreateEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1098,10 +1034,6 @@ func (client OperationsInsightsClient) createEnterpriseManagerBridge(ctx context
 }
 
 // CreateExadataInsight Create an Exadata insight resource for an Exadata system in Operations Insights. The Exadata system will be enabled in Operations Insights. Exadata-related metric collection and analysis will be started.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateExadataInsight.go.html to see an example of how to use CreateExadataInsight API.
 // A default retry strategy applies to this operation CreateExadataInsight()
 func (client OperationsInsightsClient) CreateExadataInsight(ctx context.Context, request CreateExadataInsightRequest) (response CreateExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1161,10 +1093,6 @@ func (client OperationsInsightsClient) createExadataInsight(ctx context.Context,
 }
 
 // CreateHostInsight Create a Host Insight resource for a host in Operations Insights. The host will be enabled in Operations Insights. Host metric collection and analysis will be started.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateHostInsight.go.html to see an example of how to use CreateHostInsight API.
 // A default retry strategy applies to this operation CreateHostInsight()
 func (client OperationsInsightsClient) CreateHostInsight(ctx context.Context, request CreateHostInsightRequest) (response CreateHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1224,10 +1152,6 @@ func (client OperationsInsightsClient) createHostInsight(ctx context.Context, re
 }
 
 // CreateNewsReport Create a news report in Operations Insights. The report will be enabled in Operations Insights. Insights will be emailed as per selected frequency.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateNewsReport.go.html to see an example of how to use CreateNewsReport API.
 // A default retry strategy applies to this operation CreateNewsReport()
 func (client OperationsInsightsClient) CreateNewsReport(ctx context.Context, request CreateNewsReportRequest) (response CreateNewsReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1288,10 +1212,6 @@ func (client OperationsInsightsClient) createNewsReport(ctx context.Context, req
 
 // CreateOperationsInsightsPrivateEndpoint Create a private endpoint resource for the tenant in Operations Insights.
 // This resource will be created in customer compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateOperationsInsightsPrivateEndpoint.go.html to see an example of how to use CreateOperationsInsightsPrivateEndpoint API.
 // A default retry strategy applies to this operation CreateOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) CreateOperationsInsightsPrivateEndpoint(ctx context.Context, request CreateOperationsInsightsPrivateEndpointRequest) (response CreateOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1353,10 +1273,6 @@ func (client OperationsInsightsClient) createOperationsInsightsPrivateEndpoint(c
 // CreateOperationsInsightsWarehouse Create a Operations Insights Warehouse resource for the tenant in Operations Insights. New ADW will be provisioned for this tenant.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment. If the 'opsi-warehouse-type'
 // header is passed to the API, a warehouse resource without ADW or Schema provisioning is created.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateOperationsInsightsWarehouse.go.html to see an example of how to use CreateOperationsInsightsWarehouse API.
 // A default retry strategy applies to this operation CreateOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) CreateOperationsInsightsWarehouse(ctx context.Context, request CreateOperationsInsightsWarehouseRequest) (response CreateOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1417,10 +1333,6 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouse(ctx con
 
 // CreateOperationsInsightsWarehouseUser Create a Operations Insights Warehouse user resource for the tenant in Operations Insights.
 // This resource will be created in root compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateOperationsInsightsWarehouseUser.go.html to see an example of how to use CreateOperationsInsightsWarehouseUser API.
 // A default retry strategy applies to this operation CreateOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) CreateOperationsInsightsWarehouseUser(ctx context.Context, request CreateOperationsInsightsWarehouseUserRequest) (response CreateOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1480,10 +1392,6 @@ func (client OperationsInsightsClient) createOperationsInsightsWarehouseUser(ctx
 }
 
 // CreateOpsiConfiguration Create an OPSI configuration resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateOpsiConfiguration.go.html to see an example of how to use CreateOpsiConfiguration API.
 // A default retry strategy applies to this operation CreateOpsiConfiguration()
 func (client OperationsInsightsClient) CreateOpsiConfiguration(ctx context.Context, request CreateOpsiConfigurationRequest) (response CreateOpsiConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1543,10 +1451,6 @@ func (client OperationsInsightsClient) createOpsiConfiguration(ctx context.Conte
 }
 
 // DeleteAwrHub Deletes an AWR hub.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteAwrHub.go.html to see an example of how to use DeleteAwrHub API.
 // A default retry strategy applies to this operation DeleteAwrHub()
 func (client OperationsInsightsClient) DeleteAwrHub(ctx context.Context, request DeleteAwrHubRequest) (response DeleteAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1601,10 +1505,6 @@ func (client OperationsInsightsClient) deleteAwrHub(ctx context.Context, request
 }
 
 // DeleteAwrHubObject Deletes an Awr Hub object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteAwrHubObject.go.html to see an example of how to use DeleteAwrHubObject API.
 // A default retry strategy applies to this operation DeleteAwrHubObject()
 func (client OperationsInsightsClient) DeleteAwrHubObject(ctx context.Context, request DeleteAwrHubObjectRequest) (response DeleteAwrHubObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1659,10 +1559,6 @@ func (client OperationsInsightsClient) deleteAwrHubObject(ctx context.Context, r
 }
 
 // DeleteAwrHubSource Deletes an Awr Hub source object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteAwrHubSource.go.html to see an example of how to use DeleteAwrHubSource API.
 // A default retry strategy applies to this operation DeleteAwrHubSource()
 func (client OperationsInsightsClient) DeleteAwrHubSource(ctx context.Context, request DeleteAwrHubSourceRequest) (response DeleteAwrHubSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1717,10 +1613,6 @@ func (client OperationsInsightsClient) deleteAwrHubSource(ctx context.Context, r
 }
 
 // DeleteDatabaseInsight Deletes a database insight. The database insight will be deleted and cannot be enabled again.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteDatabaseInsight.go.html to see an example of how to use DeleteDatabaseInsight API.
 // A default retry strategy applies to this operation DeleteDatabaseInsight()
 func (client OperationsInsightsClient) DeleteDatabaseInsight(ctx context.Context, request DeleteDatabaseInsightRequest) (response DeleteDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1775,10 +1667,6 @@ func (client OperationsInsightsClient) deleteDatabaseInsight(ctx context.Context
 }
 
 // DeleteEnterpriseManagerBridge Deletes an Operations Insights Enterprise Manager bridge. If any database insight is still referencing this bridge, the operation will fail.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteEnterpriseManagerBridge.go.html to see an example of how to use DeleteEnterpriseManagerBridge API.
 // A default retry strategy applies to this operation DeleteEnterpriseManagerBridge()
 func (client OperationsInsightsClient) DeleteEnterpriseManagerBridge(ctx context.Context, request DeleteEnterpriseManagerBridgeRequest) (response DeleteEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1833,10 +1721,6 @@ func (client OperationsInsightsClient) deleteEnterpriseManagerBridge(ctx context
 }
 
 // DeleteExadataInsight Deletes an Exadata insight. The Exadata insight will be deleted and cannot be enabled again.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteExadataInsight.go.html to see an example of how to use DeleteExadataInsight API.
 // A default retry strategy applies to this operation DeleteExadataInsight()
 func (client OperationsInsightsClient) DeleteExadataInsight(ctx context.Context, request DeleteExadataInsightRequest) (response DeleteExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1891,10 +1775,6 @@ func (client OperationsInsightsClient) deleteExadataInsight(ctx context.Context,
 }
 
 // DeleteHostInsight Deletes a host insight. The host insight will be deleted and cannot be enabled again.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteHostInsight.go.html to see an example of how to use DeleteHostInsight API.
 // A default retry strategy applies to this operation DeleteHostInsight()
 func (client OperationsInsightsClient) DeleteHostInsight(ctx context.Context, request DeleteHostInsightRequest) (response DeleteHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1949,10 +1829,6 @@ func (client OperationsInsightsClient) deleteHostInsight(ctx context.Context, re
 }
 
 // DeleteNewsReport Deletes a news report. The news report will be deleted and cannot be enabled again.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteNewsReport.go.html to see an example of how to use DeleteNewsReport API.
 // A default retry strategy applies to this operation DeleteNewsReport()
 func (client OperationsInsightsClient) DeleteNewsReport(ctx context.Context, request DeleteNewsReportRequest) (response DeleteNewsReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2007,10 +1883,6 @@ func (client OperationsInsightsClient) deleteNewsReport(ctx context.Context, req
 }
 
 // DeleteOperationsInsightsPrivateEndpoint Deletes a private endpoint.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteOperationsInsightsPrivateEndpoint.go.html to see an example of how to use DeleteOperationsInsightsPrivateEndpoint API.
 // A default retry strategy applies to this operation DeleteOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) DeleteOperationsInsightsPrivateEndpoint(ctx context.Context, request DeleteOperationsInsightsPrivateEndpointRequest) (response DeleteOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2068,10 +1940,6 @@ func (client OperationsInsightsClient) deleteOperationsInsightsPrivateEndpoint(c
 // The warehouse is expected to be in the root compartment.
 // User must delete AWR Hub resource for this warehouse before calling this operation.
 // User must delete the warehouse users before calling this operation.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteOperationsInsightsWarehouse.go.html to see an example of how to use DeleteOperationsInsightsWarehouse API.
 // A default retry strategy applies to this operation DeleteOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) DeleteOperationsInsightsWarehouse(ctx context.Context, request DeleteOperationsInsightsWarehouseRequest) (response DeleteOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2126,10 +1994,6 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouse(ctx con
 }
 
 // DeleteOperationsInsightsWarehouseUser Deletes an Operations Insights Warehouse User.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteOperationsInsightsWarehouseUser.go.html to see an example of how to use DeleteOperationsInsightsWarehouseUser API.
 // A default retry strategy applies to this operation DeleteOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) DeleteOperationsInsightsWarehouseUser(ctx context.Context, request DeleteOperationsInsightsWarehouseUserRequest) (response DeleteOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2184,10 +2048,6 @@ func (client OperationsInsightsClient) deleteOperationsInsightsWarehouseUser(ctx
 }
 
 // DeleteOpsiConfiguration Deletes an OPSI configuration resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteOpsiConfiguration.go.html to see an example of how to use DeleteOpsiConfiguration API.
 // A default retry strategy applies to this operation DeleteOpsiConfiguration()
 func (client OperationsInsightsClient) DeleteOpsiConfiguration(ctx context.Context, request DeleteOpsiConfigurationRequest) (response DeleteOpsiConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2242,10 +2102,6 @@ func (client OperationsInsightsClient) deleteOpsiConfiguration(ctx context.Conte
 }
 
 // DisableAutonomousDatabaseInsightAdvancedFeatures Disable advanced features for an Autonomous Database in Operations Insights. The connection detail and advanced features will be removed.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use DisableAutonomousDatabaseInsightAdvancedFeatures API.
 // A default retry strategy applies to this operation DisableAutonomousDatabaseInsightAdvancedFeatures()
 func (client OperationsInsightsClient) DisableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request DisableAutonomousDatabaseInsightAdvancedFeaturesRequest) (response DisableAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2305,10 +2161,6 @@ func (client OperationsInsightsClient) disableAutonomousDatabaseInsightAdvancedF
 }
 
 // DisableAwrHubSource Disables a Awr Hub source database in Operations Insights. This will stop the Awr data flow for the given Awr Hub source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableAwrHubSource.go.html to see an example of how to use DisableAwrHubSource API.
 // A default retry strategy applies to this operation DisableAwrHubSource()
 func (client OperationsInsightsClient) DisableAwrHubSource(ctx context.Context, request DisableAwrHubSourceRequest) (response DisableAwrHubSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2368,10 +2220,6 @@ func (client OperationsInsightsClient) disableAwrHubSource(ctx context.Context, 
 }
 
 // DisableDatabaseInsight Disables a database in Operations Insights. Database metric collection and analysis will be stopped.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableDatabaseInsight.go.html to see an example of how to use DisableDatabaseInsight API.
 // A default retry strategy applies to this operation DisableDatabaseInsight()
 func (client OperationsInsightsClient) DisableDatabaseInsight(ctx context.Context, request DisableDatabaseInsightRequest) (response DisableDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2431,10 +2279,6 @@ func (client OperationsInsightsClient) disableDatabaseInsight(ctx context.Contex
 }
 
 // DisableExadataInsight Disables an Exadata system in Operations Insights. Exadata-related metric collection and analysis will be stopped.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableExadataInsight.go.html to see an example of how to use DisableExadataInsight API.
 // A default retry strategy applies to this operation DisableExadataInsight()
 func (client OperationsInsightsClient) DisableExadataInsight(ctx context.Context, request DisableExadataInsightRequest) (response DisableExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2494,10 +2338,6 @@ func (client OperationsInsightsClient) disableExadataInsight(ctx context.Context
 }
 
 // DisableHostInsight Disables a host in Operations Insights. Host metric collection and analysis will be stopped.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DisableHostInsight.go.html to see an example of how to use DisableHostInsight API.
 // A default retry strategy applies to this operation DisableHostInsight()
 func (client OperationsInsightsClient) DisableHostInsight(ctx context.Context, request DisableHostInsightRequest) (response DisableHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2557,10 +2397,6 @@ func (client OperationsInsightsClient) disableHostInsight(ctx context.Context, r
 }
 
 // DownloadOperationsInsightsWarehouseWallet Download the ADW wallet for Operations Insights Warehouse using which the Hub data is exposed.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DownloadOperationsInsightsWarehouseWallet.go.html to see an example of how to use DownloadOperationsInsightsWarehouseWallet API.
 // A default retry strategy applies to this operation DownloadOperationsInsightsWarehouseWallet()
 func (client OperationsInsightsClient) DownloadOperationsInsightsWarehouseWallet(ctx context.Context, request DownloadOperationsInsightsWarehouseWalletRequest) (response DownloadOperationsInsightsWarehouseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2619,10 +2455,6 @@ func (client OperationsInsightsClient) downloadOperationsInsightsWarehouseWallet
 }
 
 // EnableAutonomousDatabaseInsightAdvancedFeatures Enables advanced features for an Autonomous Database in Operations Insights. A direct connection will be available for further collection.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableAutonomousDatabaseInsightAdvancedFeatures.go.html to see an example of how to use EnableAutonomousDatabaseInsightAdvancedFeatures API.
 // A default retry strategy applies to this operation EnableAutonomousDatabaseInsightAdvancedFeatures()
 func (client OperationsInsightsClient) EnableAutonomousDatabaseInsightAdvancedFeatures(ctx context.Context, request EnableAutonomousDatabaseInsightAdvancedFeaturesRequest) (response EnableAutonomousDatabaseInsightAdvancedFeaturesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2682,10 +2514,6 @@ func (client OperationsInsightsClient) enableAutonomousDatabaseInsightAdvancedFe
 }
 
 // EnableAwrHubSource Enables a Awr Hub source database in Operations Insights. This will resume the Awr data flow for the given Awr Hub source if it was stopped earlier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableAwrHubSource.go.html to see an example of how to use EnableAwrHubSource API.
 // A default retry strategy applies to this operation EnableAwrHubSource()
 func (client OperationsInsightsClient) EnableAwrHubSource(ctx context.Context, request EnableAwrHubSourceRequest) (response EnableAwrHubSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2745,10 +2573,6 @@ func (client OperationsInsightsClient) enableAwrHubSource(ctx context.Context, r
 }
 
 // EnableDatabaseInsight Enables a database in Operations Insights. Database metric collection and analysis will be started.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableDatabaseInsight.go.html to see an example of how to use EnableDatabaseInsight API.
 // A default retry strategy applies to this operation EnableDatabaseInsight()
 func (client OperationsInsightsClient) EnableDatabaseInsight(ctx context.Context, request EnableDatabaseInsightRequest) (response EnableDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2808,10 +2632,6 @@ func (client OperationsInsightsClient) enableDatabaseInsight(ctx context.Context
 }
 
 // EnableExadataInsight Enables an Exadata system in Operations Insights. Exadata-related metric collection and analysis will be started.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableExadataInsight.go.html to see an example of how to use EnableExadataInsight API.
 // A default retry strategy applies to this operation EnableExadataInsight()
 func (client OperationsInsightsClient) EnableExadataInsight(ctx context.Context, request EnableExadataInsightRequest) (response EnableExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2871,10 +2691,6 @@ func (client OperationsInsightsClient) enableExadataInsight(ctx context.Context,
 }
 
 // EnableHostInsight Enables a host in Operations Insights. Host metric collection and analysis will be started.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableHostInsight.go.html to see an example of how to use EnableHostInsight API.
 // A default retry strategy applies to this operation EnableHostInsight()
 func (client OperationsInsightsClient) EnableHostInsight(ctx context.Context, request EnableHostInsightRequest) (response EnableHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2934,10 +2750,6 @@ func (client OperationsInsightsClient) enableHostInsight(ctx context.Context, re
 }
 
 // GetAwrDatabaseReport Gets the AWR report for the specified database.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrDatabaseReport.go.html to see an example of how to use GetAwrDatabaseReport API.
 // A default retry strategy applies to this operation GetAwrDatabaseReport()
 func (client OperationsInsightsClient) GetAwrDatabaseReport(ctx context.Context, request GetAwrDatabaseReportRequest) (response GetAwrDatabaseReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2992,10 +2804,6 @@ func (client OperationsInsightsClient) getAwrDatabaseReport(ctx context.Context,
 }
 
 // GetAwrDatabaseSqlReport Gets the SQL health check report for one SQL of the specified database.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrDatabaseSqlReport.go.html to see an example of how to use GetAwrDatabaseSqlReport API.
 // A default retry strategy applies to this operation GetAwrDatabaseSqlReport()
 func (client OperationsInsightsClient) GetAwrDatabaseSqlReport(ctx context.Context, request GetAwrDatabaseSqlReportRequest) (response GetAwrDatabaseSqlReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3050,10 +2858,6 @@ func (client OperationsInsightsClient) getAwrDatabaseSqlReport(ctx context.Conte
 }
 
 // GetAwrHub Gets details of an AWR hub.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrHub.go.html to see an example of how to use GetAwrHub API.
 // A default retry strategy applies to this operation GetAwrHub()
 func (client OperationsInsightsClient) GetAwrHub(ctx context.Context, request GetAwrHubRequest) (response GetAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3108,10 +2912,6 @@ func (client OperationsInsightsClient) getAwrHub(ctx context.Context, request co
 }
 
 // GetAwrHubObject Gets the Awr Hub object metadata and body.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrHubObject.go.html to see an example of how to use GetAwrHubObject API.
 // A default retry strategy applies to this operation GetAwrHubObject()
 func (client OperationsInsightsClient) GetAwrHubObject(ctx context.Context, request GetAwrHubObjectRequest) (response GetAwrHubObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3165,10 +2965,6 @@ func (client OperationsInsightsClient) getAwrHubObject(ctx context.Context, requ
 }
 
 // GetAwrHubSource Gets the Awr Hub source object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrHubSource.go.html to see an example of how to use GetAwrHubSource API.
 // A default retry strategy applies to this operation GetAwrHubSource()
 func (client OperationsInsightsClient) GetAwrHubSource(ctx context.Context, request GetAwrHubSourceRequest) (response GetAwrHubSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3224,10 +3020,6 @@ func (client OperationsInsightsClient) getAwrHubSource(ctx context.Context, requ
 
 // GetAwrReport Gets the AWR report for the specified source database in the AWR hub. The difference between the timeGreaterThanOrEqualTo and timeLessThanOrEqualTo should not be greater than 7 days.
 // Either beginSnapshotIdentifierGreaterThanOrEqualTo & endSnapshotIdentifierLessThanOrEqualTo params Or timeGreaterThanOrEqualTo & timeLessThanOrEqualTo params are required.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrReport.go.html to see an example of how to use GetAwrReport API.
 // A default retry strategy applies to this operation GetAwrReport()
 func (client OperationsInsightsClient) GetAwrReport(ctx context.Context, request GetAwrReportRequest) (response GetAwrReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3282,10 +3074,6 @@ func (client OperationsInsightsClient) getAwrReport(ctx context.Context, request
 }
 
 // GetDatabaseInsight Gets details of a database insight.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetDatabaseInsight.go.html to see an example of how to use GetDatabaseInsight API.
 // A default retry strategy applies to this operation GetDatabaseInsight()
 func (client OperationsInsightsClient) GetDatabaseInsight(ctx context.Context, request GetDatabaseInsightRequest) (response GetDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3340,10 +3128,6 @@ func (client OperationsInsightsClient) getDatabaseInsight(ctx context.Context, r
 }
 
 // GetEnterpriseManagerBridge Gets details of an Operations Insights Enterprise Manager bridge.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetEnterpriseManagerBridge.go.html to see an example of how to use GetEnterpriseManagerBridge API.
 // A default retry strategy applies to this operation GetEnterpriseManagerBridge()
 func (client OperationsInsightsClient) GetEnterpriseManagerBridge(ctx context.Context, request GetEnterpriseManagerBridgeRequest) (response GetEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3398,10 +3182,6 @@ func (client OperationsInsightsClient) getEnterpriseManagerBridge(ctx context.Co
 }
 
 // GetExadataInsight Gets details of an Exadata insight.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetExadataInsight.go.html to see an example of how to use GetExadataInsight API.
 // A default retry strategy applies to this operation GetExadataInsight()
 func (client OperationsInsightsClient) GetExadataInsight(ctx context.Context, request GetExadataInsightRequest) (response GetExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3456,10 +3236,6 @@ func (client OperationsInsightsClient) getExadataInsight(ctx context.Context, re
 }
 
 // GetHostInsight Gets details of a host insight.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetHostInsight.go.html to see an example of how to use GetHostInsight API.
 // A default retry strategy applies to this operation GetHostInsight()
 func (client OperationsInsightsClient) GetHostInsight(ctx context.Context, request GetHostInsightRequest) (response GetHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3514,10 +3290,6 @@ func (client OperationsInsightsClient) getHostInsight(ctx context.Context, reque
 }
 
 // GetNewsReport Gets details of a news report.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetNewsReport.go.html to see an example of how to use GetNewsReport API.
 // A default retry strategy applies to this operation GetNewsReport()
 func (client OperationsInsightsClient) GetNewsReport(ctx context.Context, request GetNewsReportRequest) (response GetNewsReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3572,10 +3344,6 @@ func (client OperationsInsightsClient) getNewsReport(ctx context.Context, reques
 }
 
 // GetOperationsInsightsPrivateEndpoint Gets the details of the specified private endpoint.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOperationsInsightsPrivateEndpoint.go.html to see an example of how to use GetOperationsInsightsPrivateEndpoint API.
 // A default retry strategy applies to this operation GetOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) GetOperationsInsightsPrivateEndpoint(ctx context.Context, request GetOperationsInsightsPrivateEndpointRequest) (response GetOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3631,10 +3399,6 @@ func (client OperationsInsightsClient) getOperationsInsightsPrivateEndpoint(ctx 
 
 // GetOperationsInsightsWarehouse Gets details of an Operations Insights Warehouse.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOperationsInsightsWarehouse.go.html to see an example of how to use GetOperationsInsightsWarehouse API.
 // A default retry strategy applies to this operation GetOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) GetOperationsInsightsWarehouse(ctx context.Context, request GetOperationsInsightsWarehouseRequest) (response GetOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3689,10 +3453,6 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouse(ctx contex
 }
 
 // GetOperationsInsightsWarehouseUser Gets details of an Operations Insights Warehouse User.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOperationsInsightsWarehouseUser.go.html to see an example of how to use GetOperationsInsightsWarehouseUser API.
 // A default retry strategy applies to this operation GetOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) GetOperationsInsightsWarehouseUser(ctx context.Context, request GetOperationsInsightsWarehouseUserRequest) (response GetOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3749,10 +3509,6 @@ func (client OperationsInsightsClient) getOperationsInsightsWarehouseUser(ctx co
 // GetOpsiConfiguration Gets details of an OPSI configuration resource.
 // Values specified in configItemField and configItemCustomStatus query params will be considered, only if configItems field is requested as part of opsiConfigField query param.
 // Values specified in configItemCustomStatus will determine whether only customized configuration items or only non-customized configuration items or both have to be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOpsiConfiguration.go.html to see an example of how to use GetOpsiConfiguration API.
 // A default retry strategy applies to this operation GetOpsiConfiguration()
 func (client OperationsInsightsClient) GetOpsiConfiguration(ctx context.Context, request GetOpsiConfigurationRequest) (response GetOpsiConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3807,10 +3563,6 @@ func (client OperationsInsightsClient) getOpsiConfiguration(ctx context.Context,
 }
 
 // GetOpsiDataObject Gets details of an OPSI data object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOpsiDataObject.go.html to see an example of how to use GetOpsiDataObject API.
 // A default retry strategy applies to this operation GetOpsiDataObject()
 func (client OperationsInsightsClient) GetOpsiDataObject(ctx context.Context, request GetOpsiDataObjectRequest) (response GetOpsiDataObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3865,10 +3617,6 @@ func (client OperationsInsightsClient) getOpsiDataObject(ctx context.Context, re
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client OperationsInsightsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3923,10 +3671,6 @@ func (client OperationsInsightsClient) getWorkRequest(ctx context.Context, reque
 }
 
 // HeadAwrHubObject Gets the Awr Hub object's user-defined metadata and entity tag (ETag).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/HeadAwrHubObject.go.html to see an example of how to use HeadAwrHubObject API.
 // A default retry strategy applies to this operation HeadAwrHubObject()
 func (client OperationsInsightsClient) HeadAwrHubObject(ctx context.Context, request HeadAwrHubObjectRequest) (response HeadAwrHubObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3982,10 +3726,6 @@ func (client OperationsInsightsClient) headAwrHubObject(ctx context.Context, req
 
 // IngestAddmReports This endpoint takes in a JSON payload, persists it in Operation Insights ingest pipeline.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestAddmReports.go.html to see an example of how to use IngestAddmReports API.
 // A default retry strategy applies to this operation IngestAddmReports()
 func (client OperationsInsightsClient) IngestAddmReports(ctx context.Context, request IngestAddmReportsRequest) (response IngestAddmReportsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4045,10 +3785,6 @@ func (client OperationsInsightsClient) ingestAddmReports(ctx context.Context, re
 }
 
 // IngestDatabaseConfiguration This is a generic ingest endpoint for all database configuration metrics.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestDatabaseConfiguration.go.html to see an example of how to use IngestDatabaseConfiguration API.
 // A default retry strategy applies to this operation IngestDatabaseConfiguration()
 func (client OperationsInsightsClient) IngestDatabaseConfiguration(ctx context.Context, request IngestDatabaseConfigurationRequest) (response IngestDatabaseConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4108,10 +3844,6 @@ func (client OperationsInsightsClient) ingestDatabaseConfiguration(ctx context.C
 }
 
 // IngestHostConfiguration This is a generic ingest endpoint for all the host configuration metrics
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestHostConfiguration.go.html to see an example of how to use IngestHostConfiguration API.
 // A default retry strategy applies to this operation IngestHostConfiguration()
 func (client OperationsInsightsClient) IngestHostConfiguration(ctx context.Context, request IngestHostConfigurationRequest) (response IngestHostConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4171,10 +3903,6 @@ func (client OperationsInsightsClient) ingestHostConfiguration(ctx context.Conte
 }
 
 // IngestHostMetrics This is a generic ingest endpoint for all the host performance metrics
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestHostMetrics.go.html to see an example of how to use IngestHostMetrics API.
 // A default retry strategy applies to this operation IngestHostMetrics()
 func (client OperationsInsightsClient) IngestHostMetrics(ctx context.Context, request IngestHostMetricsRequest) (response IngestHostMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4235,10 +3963,6 @@ func (client OperationsInsightsClient) ingestHostMetrics(ctx context.Context, re
 
 // IngestSqlBucket The sqlbucket endpoint takes in a JSON payload, persists it in Operations Insights ingest pipeline.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestSqlBucket.go.html to see an example of how to use IngestSqlBucket API.
 // A default retry strategy applies to this operation IngestSqlBucket()
 func (client OperationsInsightsClient) IngestSqlBucket(ctx context.Context, request IngestSqlBucketRequest) (response IngestSqlBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4299,10 +4023,6 @@ func (client OperationsInsightsClient) ingestSqlBucket(ctx context.Context, requ
 
 // IngestSqlPlanLines The SqlPlanLines endpoint takes in a JSON payload, persists it in Operation Insights ingest pipeline.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestSqlPlanLines.go.html to see an example of how to use IngestSqlPlanLines API.
 // A default retry strategy applies to this operation IngestSqlPlanLines()
 func (client OperationsInsightsClient) IngestSqlPlanLines(ctx context.Context, request IngestSqlPlanLinesRequest) (response IngestSqlPlanLinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4363,10 +4083,6 @@ func (client OperationsInsightsClient) ingestSqlPlanLines(ctx context.Context, r
 
 // IngestSqlStats The SQL Stats endpoint takes in a JSON payload, persists it in Operations Insights ingest pipeline.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestSqlStats.go.html to see an example of how to use IngestSqlStats API.
 // A default retry strategy applies to this operation IngestSqlStats()
 func (client OperationsInsightsClient) IngestSqlStats(ctx context.Context, request IngestSqlStatsRequest) (response IngestSqlStatsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4428,10 +4144,6 @@ func (client OperationsInsightsClient) ingestSqlStats(ctx context.Context, reque
 // IngestSqlText The SqlText endpoint takes in a JSON payload, persists it in Operation Insights ingest pipeline.
 // Either databaseId or id must be specified.
 // Disclaimer: SQL text being uploaded explicitly via APIs is not masked. Any sensitive literals contained in the sqlFullText column should be masked prior to ingestion.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestSqlText.go.html to see an example of how to use IngestSqlText API.
 // A default retry strategy applies to this operation IngestSqlText()
 func (client OperationsInsightsClient) IngestSqlText(ctx context.Context, request IngestSqlTextRequest) (response IngestSqlTextResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4491,10 +4203,6 @@ func (client OperationsInsightsClient) ingestSqlText(ctx context.Context, reques
 }
 
 // ListAddmDbFindingCategories Gets list of ADDM finding categories.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbFindingCategories.go.html to see an example of how to use ListAddmDbFindingCategories API.
 // A default retry strategy applies to this operation ListAddmDbFindingCategories()
 func (client OperationsInsightsClient) ListAddmDbFindingCategories(ctx context.Context, request ListAddmDbFindingCategoriesRequest) (response ListAddmDbFindingCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4549,10 +4257,6 @@ func (client OperationsInsightsClient) listAddmDbFindingCategories(ctx context.C
 }
 
 // ListAddmDbFindingsTimeSeries Get the ADDM findings time series for the specified databases for a given time period.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbFindingsTimeSeries.go.html to see an example of how to use ListAddmDbFindingsTimeSeries API.
 // A default retry strategy applies to this operation ListAddmDbFindingsTimeSeries()
 func (client OperationsInsightsClient) ListAddmDbFindingsTimeSeries(ctx context.Context, request ListAddmDbFindingsTimeSeriesRequest) (response ListAddmDbFindingsTimeSeriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4607,10 +4311,6 @@ func (client OperationsInsightsClient) listAddmDbFindingsTimeSeries(ctx context.
 }
 
 // ListAddmDbParameterCategories Gets list of ADDM database parameter categories for the specified databases.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbParameterCategories.go.html to see an example of how to use ListAddmDbParameterCategories API.
 // A default retry strategy applies to this operation ListAddmDbParameterCategories()
 func (client OperationsInsightsClient) ListAddmDbParameterCategories(ctx context.Context, request ListAddmDbParameterCategoriesRequest) (response ListAddmDbParameterCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4665,10 +4365,6 @@ func (client OperationsInsightsClient) listAddmDbParameterCategories(ctx context
 }
 
 // ListAddmDbRecommendationCategories Gets list of ADDM recommendation categories for the specified databases.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbRecommendationCategories.go.html to see an example of how to use ListAddmDbRecommendationCategories API.
 // A default retry strategy applies to this operation ListAddmDbRecommendationCategories()
 func (client OperationsInsightsClient) ListAddmDbRecommendationCategories(ctx context.Context, request ListAddmDbRecommendationCategoriesRequest) (response ListAddmDbRecommendationCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4723,10 +4419,6 @@ func (client OperationsInsightsClient) listAddmDbRecommendationCategories(ctx co
 }
 
 // ListAddmDbRecommendationsTimeSeries Gets time series data for ADDM recommendations for the specified databases.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbRecommendationsTimeSeries.go.html to see an example of how to use ListAddmDbRecommendationsTimeSeries API.
 // A default retry strategy applies to this operation ListAddmDbRecommendationsTimeSeries()
 func (client OperationsInsightsClient) ListAddmDbRecommendationsTimeSeries(ctx context.Context, request ListAddmDbRecommendationsTimeSeriesRequest) (response ListAddmDbRecommendationsTimeSeriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4781,10 +4473,6 @@ func (client OperationsInsightsClient) listAddmDbRecommendationsTimeSeries(ctx c
 }
 
 // ListAddmDbs Gets a list of ADDM database information
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAddmDbs.go.html to see an example of how to use ListAddmDbs API.
 // A default retry strategy applies to this operation ListAddmDbs()
 func (client OperationsInsightsClient) ListAddmDbs(ctx context.Context, request ListAddmDbsRequest) (response ListAddmDbsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4839,10 +4527,6 @@ func (client OperationsInsightsClient) listAddmDbs(ctx context.Context, request 
 }
 
 // ListAwrDatabaseSnapshots Lists AWR snapshots for the specified database in the AWR.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrDatabaseSnapshots.go.html to see an example of how to use ListAwrDatabaseSnapshots API.
 // A default retry strategy applies to this operation ListAwrDatabaseSnapshots()
 func (client OperationsInsightsClient) ListAwrDatabaseSnapshots(ctx context.Context, request ListAwrDatabaseSnapshotsRequest) (response ListAwrDatabaseSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4897,10 +4581,6 @@ func (client OperationsInsightsClient) listAwrDatabaseSnapshots(ctx context.Cont
 }
 
 // ListAwrDatabases Gets the list of databases and their snapshot summary details available in the AWRHub.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrDatabases.go.html to see an example of how to use ListAwrDatabases API.
 // A default retry strategy applies to this operation ListAwrDatabases()
 func (client OperationsInsightsClient) ListAwrDatabases(ctx context.Context, request ListAwrDatabasesRequest) (response ListAwrDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4955,10 +4635,6 @@ func (client OperationsInsightsClient) listAwrDatabases(ctx context.Context, req
 }
 
 // ListAwrHubObjects Gets a list of Awr Hub objects. Awr Hub id needs to specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrHubObjects.go.html to see an example of how to use ListAwrHubObjects API.
 // A default retry strategy applies to this operation ListAwrHubObjects()
 func (client OperationsInsightsClient) ListAwrHubObjects(ctx context.Context, request ListAwrHubObjectsRequest) (response ListAwrHubObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5013,10 +4689,6 @@ func (client OperationsInsightsClient) listAwrHubObjects(ctx context.Context, re
 }
 
 // ListAwrHubSources Gets a list of Awr Hub source objects.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrHubSources.go.html to see an example of how to use ListAwrHubSources API.
 // A default retry strategy applies to this operation ListAwrHubSources()
 func (client OperationsInsightsClient) ListAwrHubSources(ctx context.Context, request ListAwrHubSourcesRequest) (response ListAwrHubSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5071,10 +4743,6 @@ func (client OperationsInsightsClient) listAwrHubSources(ctx context.Context, re
 }
 
 // ListAwrHubs Gets a list of AWR hubs. Either compartmentId or id must be specified. All these resources are expected to be in root compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrHubs.go.html to see an example of how to use ListAwrHubs API.
 // A default retry strategy applies to this operation ListAwrHubs()
 func (client OperationsInsightsClient) ListAwrHubs(ctx context.Context, request ListAwrHubsRequest) (response ListAwrHubsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5130,10 +4798,6 @@ func (client OperationsInsightsClient) listAwrHubs(ctx context.Context, request 
 
 // ListAwrSnapshots Lists AWR snapshots for the specified source database in the AWR hub. The difference between the timeGreaterThanOrEqualTo and timeLessThanOrEqualTo should not exceed an elapsed range of 1 day.
 // The timeGreaterThanOrEqualTo & timeLessThanOrEqualTo params are optional. If these params are not provided, by default last 1 day snapshots will be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListAwrSnapshots.go.html to see an example of how to use ListAwrSnapshots API.
 // A default retry strategy applies to this operation ListAwrSnapshots()
 func (client OperationsInsightsClient) ListAwrSnapshots(ctx context.Context, request ListAwrSnapshotsRequest) (response ListAwrSnapshotsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5189,10 +4853,6 @@ func (client OperationsInsightsClient) listAwrSnapshots(ctx context.Context, req
 
 // ListDatabaseConfigurations Gets a list of database insight configurations based on the query parameters specified. Either compartmentId or databaseInsightId query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of database insight configurations in that compartment and in all sub-compartments will be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListDatabaseConfigurations.go.html to see an example of how to use ListDatabaseConfigurations API.
 // A default retry strategy applies to this operation ListDatabaseConfigurations()
 func (client OperationsInsightsClient) ListDatabaseConfigurations(ctx context.Context, request ListDatabaseConfigurationsRequest) (response ListDatabaseConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5248,10 +4908,6 @@ func (client OperationsInsightsClient) listDatabaseConfigurations(ctx context.Co
 
 // ListDatabaseInsights Gets a list of database insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of database insights in that compartment and in all sub-compartments will be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListDatabaseInsights.go.html to see an example of how to use ListDatabaseInsights API.
 // A default retry strategy applies to this operation ListDatabaseInsights()
 func (client OperationsInsightsClient) ListDatabaseInsights(ctx context.Context, request ListDatabaseInsightsRequest) (response ListDatabaseInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5307,10 +4963,6 @@ func (client OperationsInsightsClient) listDatabaseInsights(ctx context.Context,
 
 // ListEnterpriseManagerBridges Gets a list of Operations Insights Enterprise Manager bridges. Either compartmentId or id must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of bridges in that compartment and in all sub-compartments will be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListEnterpriseManagerBridges.go.html to see an example of how to use ListEnterpriseManagerBridges API.
 // A default retry strategy applies to this operation ListEnterpriseManagerBridges()
 func (client OperationsInsightsClient) ListEnterpriseManagerBridges(ctx context.Context, request ListEnterpriseManagerBridgesRequest) (response ListEnterpriseManagerBridgesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5365,10 +5017,6 @@ func (client OperationsInsightsClient) listEnterpriseManagerBridges(ctx context.
 }
 
 // ListExadataConfigurations Gets a list of exadata insight configurations. Either compartmentId or exadataInsightsId query parameter must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListExadataConfigurations.go.html to see an example of how to use ListExadataConfigurations API.
 // A default retry strategy applies to this operation ListExadataConfigurations()
 func (client OperationsInsightsClient) ListExadataConfigurations(ctx context.Context, request ListExadataConfigurationsRequest) (response ListExadataConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5424,10 +5072,6 @@ func (client OperationsInsightsClient) listExadataConfigurations(ctx context.Con
 
 // ListExadataInsights Gets a list of Exadata insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of Exadata insights in that compartment and in all sub-compartments will be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListExadataInsights.go.html to see an example of how to use ListExadataInsights API.
 // A default retry strategy applies to this operation ListExadataInsights()
 func (client OperationsInsightsClient) ListExadataInsights(ctx context.Context, request ListExadataInsightsRequest) (response ListExadataInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5483,10 +5127,6 @@ func (client OperationsInsightsClient) listExadataInsights(ctx context.Context, 
 
 // ListHostConfigurations Gets a list of host insight configurations based on the query parameters specified. Either compartmentId or hostInsightId query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of host insight configurations in that compartment and in all sub-compartments will be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListHostConfigurations.go.html to see an example of how to use ListHostConfigurations API.
 // A default retry strategy applies to this operation ListHostConfigurations()
 func (client OperationsInsightsClient) ListHostConfigurations(ctx context.Context, request ListHostConfigurationsRequest) (response ListHostConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5542,10 +5182,6 @@ func (client OperationsInsightsClient) listHostConfigurations(ctx context.Contex
 
 // ListHostInsights Gets a list of host insights based on the query parameters specified. Either compartmentId or id query parameter must be specified.
 // When both compartmentId and compartmentIdInSubtree are specified, a list of host insights in that compartment and in all sub-compartments will be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListHostInsights.go.html to see an example of how to use ListHostInsights API.
 // A default retry strategy applies to this operation ListHostInsights()
 func (client OperationsInsightsClient) ListHostInsights(ctx context.Context, request ListHostInsightsRequest) (response ListHostInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5600,10 +5236,6 @@ func (client OperationsInsightsClient) listHostInsights(ctx context.Context, req
 }
 
 // ListHostedEntities Get a list of hosted entities details.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListHostedEntities.go.html to see an example of how to use ListHostedEntities API.
 // A default retry strategy applies to this operation ListHostedEntities()
 func (client OperationsInsightsClient) ListHostedEntities(ctx context.Context, request ListHostedEntitiesRequest) (response ListHostedEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5663,9 +5295,6 @@ func (client OperationsInsightsClient) listHostedEntities(ctx context.Context, r
 //  2. The agent availabilityStatus = 'ACTIVE'
 //  3. The agent lifecycleState = 'ACTIVE'
 //
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListImportableAgentEntities.go.html to see an example of how to use ListImportableAgentEntities API.
 // A default retry strategy applies to this operation ListImportableAgentEntities()
 func (client OperationsInsightsClient) ListImportableAgentEntities(ctx context.Context, request ListImportableAgentEntitiesRequest) (response ListImportableAgentEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5727,9 +5356,6 @@ func (client OperationsInsightsClient) listImportableAgentEntities(ctx context.C
 //     2.2 The agent availabilityStatus = 'ACTIVE'
 //     2.3 The agent lifecycleState = 'ACTIVE'
 //
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListImportableComputeEntities.go.html to see an example of how to use ListImportableComputeEntities API.
 // A default retry strategy applies to this operation ListImportableComputeEntities()
 func (client OperationsInsightsClient) ListImportableComputeEntities(ctx context.Context, request ListImportableComputeEntitiesRequest) (response ListImportableComputeEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5784,10 +5410,6 @@ func (client OperationsInsightsClient) listImportableComputeEntities(ctx context
 }
 
 // ListImportableEnterpriseManagerEntities Gets a list of importable entities for an Operations Insights Enterprise Manager bridge that have not been imported before.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListImportableEnterpriseManagerEntities.go.html to see an example of how to use ListImportableEnterpriseManagerEntities API.
 // A default retry strategy applies to this operation ListImportableEnterpriseManagerEntities()
 func (client OperationsInsightsClient) ListImportableEnterpriseManagerEntities(ctx context.Context, request ListImportableEnterpriseManagerEntitiesRequest) (response ListImportableEnterpriseManagerEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5842,10 +5464,6 @@ func (client OperationsInsightsClient) listImportableEnterpriseManagerEntities(c
 }
 
 // ListNewsReports Gets a list of news reports based on the query parameters specified. Either compartmentId or id query parameter must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListNewsReports.go.html to see an example of how to use ListNewsReports API.
 // A default retry strategy applies to this operation ListNewsReports()
 func (client OperationsInsightsClient) ListNewsReports(ctx context.Context, request ListNewsReportsRequest) (response ListNewsReportsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5900,10 +5518,6 @@ func (client OperationsInsightsClient) listNewsReports(ctx context.Context, requ
 }
 
 // ListOperationsInsightsPrivateEndpoints Gets a list of Operation Insights private endpoints.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListOperationsInsightsPrivateEndpoints.go.html to see an example of how to use ListOperationsInsightsPrivateEndpoints API.
 // A default retry strategy applies to this operation ListOperationsInsightsPrivateEndpoints()
 func (client OperationsInsightsClient) ListOperationsInsightsPrivateEndpoints(ctx context.Context, request ListOperationsInsightsPrivateEndpointsRequest) (response ListOperationsInsightsPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5958,10 +5572,6 @@ func (client OperationsInsightsClient) listOperationsInsightsPrivateEndpoints(ct
 }
 
 // ListOperationsInsightsWarehouseUsers Gets a list of Operations Insights Warehouse users. Either compartmentId or id must be specified. All these resources are expected to be in root compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListOperationsInsightsWarehouseUsers.go.html to see an example of how to use ListOperationsInsightsWarehouseUsers API.
 // A default retry strategy applies to this operation ListOperationsInsightsWarehouseUsers()
 func (client OperationsInsightsClient) ListOperationsInsightsWarehouseUsers(ctx context.Context, request ListOperationsInsightsWarehouseUsersRequest) (response ListOperationsInsightsWarehouseUsersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6017,10 +5627,6 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouseUsers(ctx 
 
 // ListOperationsInsightsWarehouses Gets a list of Operations Insights warehouses. Either compartmentId or id must be specified.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListOperationsInsightsWarehouses.go.html to see an example of how to use ListOperationsInsightsWarehouses API.
 // A default retry strategy applies to this operation ListOperationsInsightsWarehouses()
 func (client OperationsInsightsClient) ListOperationsInsightsWarehouses(ctx context.Context, request ListOperationsInsightsWarehousesRequest) (response ListOperationsInsightsWarehousesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6075,10 +5681,6 @@ func (client OperationsInsightsClient) listOperationsInsightsWarehouses(ctx cont
 }
 
 // ListOpsiConfigurations Gets a list of OPSI configuration resources based on the query parameters specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListOpsiConfigurations.go.html to see an example of how to use ListOpsiConfigurations API.
 // A default retry strategy applies to this operation ListOpsiConfigurations()
 func (client OperationsInsightsClient) ListOpsiConfigurations(ctx context.Context, request ListOpsiConfigurationsRequest) (response ListOpsiConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6133,10 +5735,6 @@ func (client OperationsInsightsClient) listOpsiConfigurations(ctx context.Contex
 }
 
 // ListOpsiDataObjects Gets a list of OPSI data objects based on the query parameters specified. CompartmentId id query parameter must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListOpsiDataObjects.go.html to see an example of how to use ListOpsiDataObjects API.
 // A default retry strategy applies to this operation ListOpsiDataObjects()
 func (client OperationsInsightsClient) ListOpsiDataObjects(ctx context.Context, request ListOpsiDataObjectsRequest) (response ListOpsiDataObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6192,10 +5790,6 @@ func (client OperationsInsightsClient) listOpsiDataObjects(ctx context.Context, 
 
 // ListSqlPlans Query SQL Warehouse to list the plan xml for a given SQL execution plan. This returns a SqlPlanCollection object, but is currently limited to a single plan.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListSqlPlans.go.html to see an example of how to use ListSqlPlans API.
 // A default retry strategy applies to this operation ListSqlPlans()
 func (client OperationsInsightsClient) ListSqlPlans(ctx context.Context, request ListSqlPlansRequest) (response ListSqlPlansResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6251,10 +5845,6 @@ func (client OperationsInsightsClient) listSqlPlans(ctx context.Context, request
 
 // ListSqlSearches Search SQL by SQL Identifier across databases in a compartment and in all sub-compartments if specified.
 // And get the SQL Text and the details of the databases executing the SQL for a given time period.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListSqlSearches.go.html to see an example of how to use ListSqlSearches API.
 // A default retry strategy applies to this operation ListSqlSearches()
 func (client OperationsInsightsClient) ListSqlSearches(ctx context.Context, request ListSqlSearchesRequest) (response ListSqlSearchesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6309,10 +5899,6 @@ func (client OperationsInsightsClient) listSqlSearches(ctx context.Context, requ
 }
 
 // ListSqlTexts Query SQL Warehouse to get the full SQL Text for a SQL in a compartment and in all sub-compartments if specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListSqlTexts.go.html to see an example of how to use ListSqlTexts API.
 // A default retry strategy applies to this operation ListSqlTexts()
 func (client OperationsInsightsClient) ListSqlTexts(ctx context.Context, request ListSqlTextsRequest) (response ListSqlTextsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6367,10 +5953,6 @@ func (client OperationsInsightsClient) listSqlTexts(ctx context.Context, request
 }
 
 // ListWarehouseDataObjects Gets a list of Warehouse data objects (e.g: views, tables), based on the query parameters specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListWarehouseDataObjects.go.html to see an example of how to use ListWarehouseDataObjects API.
 // A default retry strategy applies to this operation ListWarehouseDataObjects()
 func (client OperationsInsightsClient) ListWarehouseDataObjects(ctx context.Context, request ListWarehouseDataObjectsRequest) (response ListWarehouseDataObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6425,10 +6007,6 @@ func (client OperationsInsightsClient) listWarehouseDataObjects(ctx context.Cont
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client OperationsInsightsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6483,10 +6061,6 @@ func (client OperationsInsightsClient) listWorkRequestErrors(ctx context.Context
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client OperationsInsightsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6541,10 +6115,6 @@ func (client OperationsInsightsClient) listWorkRequestLogs(ctx context.Context, 
 }
 
 // ListWorkRequests Lists the work requests in a compartment. Either compartmentId or id must be specified. Only one of id, resourceId or relatedResourceId can be specified optionally.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client OperationsInsightsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6599,10 +6169,6 @@ func (client OperationsInsightsClient) listWorkRequests(ctx context.Context, req
 }
 
 // PutAwrHubObject Creates a new object or overwrites an existing object with the same name to the Awr Hub.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/PutAwrHubObject.go.html to see an example of how to use PutAwrHubObject API.
 // A default retry strategy applies to this operation PutAwrHubObject()
 func (client OperationsInsightsClient) PutAwrHubObject(ctx context.Context, request PutAwrHubObjectRequest) (response PutAwrHubObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6668,10 +6234,6 @@ func (client OperationsInsightsClient) putAwrHubObject(ctx context.Context, requ
 
 // QueryOpsiDataObjectData Queries an OPSI data object with the inputs provided and sends the result set back. Either analysisTimeInterval
 // or timeIntervalStart and timeIntervalEnd parameters need to be passed as well.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/QueryOpsiDataObjectData.go.html to see an example of how to use QueryOpsiDataObjectData API.
 // A default retry strategy applies to this operation QueryOpsiDataObjectData()
 func (client OperationsInsightsClient) QueryOpsiDataObjectData(ctx context.Context, request QueryOpsiDataObjectDataRequest) (response QueryOpsiDataObjectDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6727,10 +6289,6 @@ func (client OperationsInsightsClient) queryOpsiDataObjectData(ctx context.Conte
 
 // QueryWarehouseDataObjectData Queries Warehouse data objects (e.g: views, tables) with the inputs provided and sends the result set back.
 // Any data to which an OperationsInsightsWarehouseUser with a permission to the corresponding Warehouse can be queried.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/QueryWarehouseDataObjectData.go.html to see an example of how to use QueryWarehouseDataObjectData API.
 // A default retry strategy applies to this operation QueryWarehouseDataObjectData()
 func (client OperationsInsightsClient) QueryWarehouseDataObjectData(ctx context.Context, request QueryWarehouseDataObjectDataRequest) (response QueryWarehouseDataObjectDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6785,10 +6343,6 @@ func (client OperationsInsightsClient) queryWarehouseDataObjectData(ctx context.
 }
 
 // RotateOperationsInsightsWarehouseWallet Rotate the ADW wallet for Operations Insights Warehouse using which the Hub data is exposed.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/RotateOperationsInsightsWarehouseWallet.go.html to see an example of how to use RotateOperationsInsightsWarehouseWallet API.
 // A default retry strategy applies to this operation RotateOperationsInsightsWarehouseWallet()
 func (client OperationsInsightsClient) RotateOperationsInsightsWarehouseWallet(ctx context.Context, request RotateOperationsInsightsWarehouseWalletRequest) (response RotateOperationsInsightsWarehouseWalletResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6843,10 +6397,6 @@ func (client OperationsInsightsClient) rotateOperationsInsightsWarehouseWallet(c
 }
 
 // SummarizeAddmDbFindings Summarizes ADDM findings for the specified databases.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAddmDbFindings.go.html to see an example of how to use SummarizeAddmDbFindings API.
 // A default retry strategy applies to this operation SummarizeAddmDbFindings()
 func (client OperationsInsightsClient) SummarizeAddmDbFindings(ctx context.Context, request SummarizeAddmDbFindingsRequest) (response SummarizeAddmDbFindingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6903,10 +6453,6 @@ func (client OperationsInsightsClient) summarizeAddmDbFindings(ctx context.Conte
 // SummarizeAddmDbParameterChanges Summarizes the AWR database parameter change history for the specified parameter. There will
 // be one element for each time that parameter changed during the specified time period.
 // This API is limited to only one parameter per request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAddmDbParameterChanges.go.html to see an example of how to use SummarizeAddmDbParameterChanges API.
 // A default retry strategy applies to this operation SummarizeAddmDbParameterChanges()
 func (client OperationsInsightsClient) SummarizeAddmDbParameterChanges(ctx context.Context, request SummarizeAddmDbParameterChangesRequest) (response SummarizeAddmDbParameterChangesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6964,10 +6510,6 @@ func (client OperationsInsightsClient) summarizeAddmDbParameterChanges(ctx conte
 // with information on whether the parameter values were changed or not within the specified
 // time period. The response does not include the individual parameter changes within the time
 // period.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAddmDbParameters.go.html to see an example of how to use SummarizeAddmDbParameters API.
 // A default retry strategy applies to this operation SummarizeAddmDbParameters()
 func (client OperationsInsightsClient) SummarizeAddmDbParameters(ctx context.Context, request SummarizeAddmDbParametersRequest) (response SummarizeAddmDbParametersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7022,10 +6564,6 @@ func (client OperationsInsightsClient) summarizeAddmDbParameters(ctx context.Con
 }
 
 // SummarizeAddmDbRecommendations Summarizes ADDM recommendations for the specified databases.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAddmDbRecommendations.go.html to see an example of how to use SummarizeAddmDbRecommendations API.
 // A default retry strategy applies to this operation SummarizeAddmDbRecommendations()
 func (client OperationsInsightsClient) SummarizeAddmDbRecommendations(ctx context.Context, request SummarizeAddmDbRecommendationsRequest) (response SummarizeAddmDbRecommendationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7080,10 +6618,6 @@ func (client OperationsInsightsClient) summarizeAddmDbRecommendations(ctx contex
 }
 
 // SummarizeAddmDbSchemaObjects Summarizes Schema objects for the specified databases for the specified objectIdentifiers
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAddmDbSchemaObjects.go.html to see an example of how to use SummarizeAddmDbSchemaObjects API.
 // A default retry strategy applies to this operation SummarizeAddmDbSchemaObjects()
 func (client OperationsInsightsClient) SummarizeAddmDbSchemaObjects(ctx context.Context, request SummarizeAddmDbSchemaObjectsRequest) (response SummarizeAddmDbSchemaObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7138,10 +6672,6 @@ func (client OperationsInsightsClient) summarizeAddmDbSchemaObjects(ctx context.
 }
 
 // SummarizeAddmDbSqlStatements Summarizes SQL Statements for the specified databases for the specified sqlIdentifiers
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAddmDbSqlStatements.go.html to see an example of how to use SummarizeAddmDbSqlStatements API.
 // A default retry strategy applies to this operation SummarizeAddmDbSqlStatements()
 func (client OperationsInsightsClient) SummarizeAddmDbSqlStatements(ctx context.Context, request SummarizeAddmDbSqlStatementsRequest) (response SummarizeAddmDbSqlStatementsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7200,10 +6730,6 @@ func (client OperationsInsightsClient) summarizeAddmDbSqlStatements(ctx context.
 // - if time range is <=7 days then the metrics points will be for every MINUTES
 // - if time range is <=2 hours then the metrics points will be for every 10 SECONDS
 // - if time range is >7 days then the metrics points will be for every HOUR.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseCpuUsages.go.html to see an example of how to use SummarizeAwrDatabaseCpuUsages API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseCpuUsages()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseCpuUsages(ctx context.Context, request SummarizeAwrDatabaseCpuUsagesRequest) (response SummarizeAwrDatabaseCpuUsagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7258,10 +6784,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseCpuUsages(ctx context
 }
 
 // SummarizeAwrDatabaseMetrics Summarizes the metric samples for the specified database in the AWR. The metric samples are summarized based on the Time dimension for each metric.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseMetrics.go.html to see an example of how to use SummarizeAwrDatabaseMetrics API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseMetrics()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseMetrics(ctx context.Context, request SummarizeAwrDatabaseMetricsRequest) (response SummarizeAwrDatabaseMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7320,10 +6842,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseMetrics(ctx context.C
 // Note that this API only returns information on change history details for one database parameter.
 // To get a list of all the database parameters whose values were changed during a specified time range, use the following API endpoint:
 // /awrHubs/{awrHubId}/awrDbParameters?awrSourceDatabaseIdentifier={awrSourceDbId}
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseParameterChanges.go.html to see an example of how to use SummarizeAwrDatabaseParameterChanges API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseParameterChanges()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseParameterChanges(ctx context.Context, request SummarizeAwrDatabaseParameterChangesRequest) (response SummarizeAwrDatabaseParameterChangesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7386,10 +6904,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseParameterChanges(ctx 
 // Queryparam (valueChanged ="N" and  valueDefault = "FALSE") - Each parameter whose value was unchanged during the time range, however, the value is not the default value, "isChanged : true" & "isDefault : false" in response for the DB params.
 // Note that this API does not return information on the number of times each database parameter has been changed within the time range. To get the database parameter value change history for a specific parameter, use the following API endpoint:
 // /awrHubs/{awrHubId}/awrDbParameterChanges?awrSourceDatabaseIdentifier={awrSourceDbId}
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseParameters.go.html to see an example of how to use SummarizeAwrDatabaseParameters API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseParameters()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseParameters(ctx context.Context, request SummarizeAwrDatabaseParametersRequest) (response SummarizeAwrDatabaseParametersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7444,10 +6958,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseParameters(ctx contex
 }
 
 // SummarizeAwrDatabaseSnapshotRanges Summarizes the AWR snapshot ranges that contain continuous snapshots, for the specified AWRHub.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseSnapshotRanges.go.html to see an example of how to use SummarizeAwrDatabaseSnapshotRanges API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseSnapshotRanges()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseSnapshotRanges(ctx context.Context, request SummarizeAwrDatabaseSnapshotRangesRequest) (response SummarizeAwrDatabaseSnapshotRangesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7502,10 +7012,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseSnapshotRanges(ctx co
 }
 
 // SummarizeAwrDatabaseSysstats Summarizes the AWR SYSSTAT sample data for the specified database in AWR. The statistical data is summarized based on the Time dimension for each statistic.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseSysstats.go.html to see an example of how to use SummarizeAwrDatabaseSysstats API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseSysstats()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseSysstats(ctx context.Context, request SummarizeAwrDatabaseSysstatsRequest) (response SummarizeAwrDatabaseSysstatsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7560,10 +7066,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseSysstats(ctx context.
 }
 
 // SummarizeAwrDatabaseTopWaitEvents Summarizes the AWR top wait events.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseTopWaitEvents.go.html to see an example of how to use SummarizeAwrDatabaseTopWaitEvents API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseTopWaitEvents()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseTopWaitEvents(ctx context.Context, request SummarizeAwrDatabaseTopWaitEventsRequest) (response SummarizeAwrDatabaseTopWaitEventsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7618,10 +7120,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseTopWaitEvents(ctx con
 }
 
 // SummarizeAwrDatabaseWaitEventBuckets Summarizes AWR wait event data into value buckets and frequency, for the specified database in the AWR.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseWaitEventBuckets.go.html to see an example of how to use SummarizeAwrDatabaseWaitEventBuckets API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseWaitEventBuckets()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseWaitEventBuckets(ctx context.Context, request SummarizeAwrDatabaseWaitEventBucketsRequest) (response SummarizeAwrDatabaseWaitEventBucketsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7676,10 +7174,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseWaitEventBuckets(ctx 
 }
 
 // SummarizeAwrDatabaseWaitEvents Summarizes the AWR wait event sample data for the specified database in the AWR. The event data is summarized based on the Time dimension for each event.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseWaitEvents.go.html to see an example of how to use SummarizeAwrDatabaseWaitEvents API.
 // A default retry strategy applies to this operation SummarizeAwrDatabaseWaitEvents()
 func (client OperationsInsightsClient) SummarizeAwrDatabaseWaitEvents(ctx context.Context, request SummarizeAwrDatabaseWaitEventsRequest) (response SummarizeAwrDatabaseWaitEventsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7734,10 +7228,6 @@ func (client OperationsInsightsClient) summarizeAwrDatabaseWaitEvents(ctx contex
 }
 
 // SummarizeAwrSourcesSummaries Gets a list of summary of AWR Sources.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrSourcesSummaries.go.html to see an example of how to use SummarizeAwrSourcesSummaries API.
 // A default retry strategy applies to this operation SummarizeAwrSourcesSummaries()
 func (client OperationsInsightsClient) SummarizeAwrSourcesSummaries(ctx context.Context, request SummarizeAwrSourcesSummariesRequest) (response SummarizeAwrSourcesSummariesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7793,10 +7283,6 @@ func (client OperationsInsightsClient) summarizeAwrSourcesSummaries(ctx context.
 
 // SummarizeConfigurationItems Gets the applicable configuration items based on the query parameters specified. Configuration items for an opsiConfigType with respect to a compartmentId can be fetched.
 // Values specified in configItemField param will determine what fields for each configuration items have to be returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeConfigurationItems.go.html to see an example of how to use SummarizeConfigurationItems API.
 // A default retry strategy applies to this operation SummarizeConfigurationItems()
 func (client OperationsInsightsClient) SummarizeConfigurationItems(ctx context.Context, request SummarizeConfigurationItemsRequest) (response SummarizeConfigurationItemsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7853,10 +7339,6 @@ func (client OperationsInsightsClient) summarizeConfigurationItems(ctx context.C
 // SummarizeDatabaseInsightResourceCapacityTrend Returns response with time series data (endTimestamp, capacity, baseCapacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceCapacityTrend.go.html to see an example of how to use SummarizeDatabaseInsightResourceCapacityTrend API.
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceCapacityTrend(ctx context.Context, request SummarizeDatabaseInsightResourceCapacityTrendRequest) (response SummarizeDatabaseInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7912,10 +7394,6 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceCapacityT
 
 // SummarizeDatabaseInsightResourceForecastTrend Get Forecast predictions for CPU and Storage resources since a time in the past.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceForecastTrend.go.html to see an example of how to use SummarizeDatabaseInsightResourceForecastTrend API.
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceForecastTrend(ctx context.Context, request SummarizeDatabaseInsightResourceForecastTrendRequest) (response SummarizeDatabaseInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7971,10 +7449,6 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceForecastT
 
 // SummarizeDatabaseInsightResourceStatistics Lists the Resource statistics (usage,capacity, usage change percent, utilization percent, base capacity, isAutoScalingEnabled)
 // for each database filtered by utilization level in a compartment and in all sub-compartments if specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceStatistics.go.html to see an example of how to use SummarizeDatabaseInsightResourceStatistics API.
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceStatistics(ctx context.Context, request SummarizeDatabaseInsightResourceStatisticsRequest) (response SummarizeDatabaseInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8032,10 +7506,6 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceStatistic
 // For each database, the minimum data point with a ranking > the percentile value is included in the summation.
 // Linear regression functions are used to calculate the usage change percentage.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceUsage.go.html to see an example of how to use SummarizeDatabaseInsightResourceUsage API.
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUsage(ctx context.Context, request SummarizeDatabaseInsightResourceUsageRequest) (response SummarizeDatabaseInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8092,10 +7562,6 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsage(ctx
 // SummarizeDatabaseInsightResourceUsageTrend Returns response with time series data (endTimestamp, usage, capacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceUsageTrend.go.html to see an example of how to use SummarizeDatabaseInsightResourceUsageTrend API.
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUsageTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUsageTrend(ctx context.Context, request SummarizeDatabaseInsightResourceUsageTrendRequest) (response SummarizeDatabaseInsightResourceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8151,10 +7617,6 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUsageTren
 
 // SummarizeDatabaseInsightResourceUtilizationInsight Gets resources with current utilization (high and low) and projected utilization (high and low) for a resource type over specified time period.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightResourceUtilizationInsight.go.html to see an example of how to use SummarizeDatabaseInsightResourceUtilizationInsight API.
 // A default retry strategy applies to this operation SummarizeDatabaseInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightResourceUtilizationInsight(ctx context.Context, request SummarizeDatabaseInsightResourceUtilizationInsightRequest) (response SummarizeDatabaseInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8211,10 +7673,6 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightResourceUtilizati
 // SummarizeDatabaseInsightTablespaceUsageTrend Returns response with usage time series data (endTimestamp, usage, capacity) with breakdown by tablespaceName for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeDatabaseInsightTablespaceUsageTrend.go.html to see an example of how to use SummarizeDatabaseInsightTablespaceUsageTrend API.
 // A default retry strategy applies to this operation SummarizeDatabaseInsightTablespaceUsageTrend()
 func (client OperationsInsightsClient) SummarizeDatabaseInsightTablespaceUsageTrend(ctx context.Context, request SummarizeDatabaseInsightTablespaceUsageTrendRequest) (response SummarizeDatabaseInsightTablespaceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8276,10 +7734,6 @@ func (client OperationsInsightsClient) summarizeDatabaseInsightTablespaceUsageTr
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT. Storage server name is returned in name field for resourceMetric IOPS and THROUGHPUT
 // and asmName is returned in name field for resourceMetric STORAGE. StorageServerName query parameter applies to ResourceType STORAGE_SERVER.
 // Valid values for ResourceType DISKGROUP is STORAGE. Comma delimited (asmName,diskgroupName) is returned in name field.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceCapacityTrend.go.html to see an example of how to use SummarizeExadataInsightResourceCapacityTrend API.
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceCapacityTrend(ctx context.Context, request SummarizeExadataInsightResourceCapacityTrendRequest) (response SummarizeExadataInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8338,10 +7792,6 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceCapacityTr
 // Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE.
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceCapacityTrendAggregated.go.html to see an example of how to use SummarizeExadataInsightResourceCapacityTrendAggregated API.
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceCapacityTrendAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceCapacityTrendAggregated(ctx context.Context, request SummarizeExadataInsightResourceCapacityTrendAggregatedRequest) (response SummarizeExadataInsightResourceCapacityTrendAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8403,10 +7853,6 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceCapacityTr
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT. Storage server name is returned in name field for resourceMetric IOPS and THROUGHPUT
 // and asmName is returned in name field for resourceMetric STORAGE. StorageServerName query parameter applies to ResourceType STORAGE_SERVER.
 // Valid value for ResourceType DISKGROUP is STORAGE. Comma delimited (asmName,diskgroupName) is returned in name field.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceForecastTrend.go.html to see an example of how to use SummarizeExadataInsightResourceForecastTrend API.
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceForecastTrend(ctx context.Context, request SummarizeExadataInsightResourceForecastTrendRequest) (response SummarizeExadataInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8464,10 +7910,6 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceForecastTr
 // Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE.
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceForecastTrendAggregated.go.html to see an example of how to use SummarizeExadataInsightResourceForecastTrendAggregated API.
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceForecastTrendAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceForecastTrendAggregated(ctx context.Context, request SummarizeExadataInsightResourceForecastTrendAggregatedRequest) (response SummarizeExadataInsightResourceForecastTrendAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8526,10 +7968,6 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceForecastTr
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS, THROUGHPUT.
 // Valid value for ResourceType DISKGROUP is STORAGE.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceStatistics.go.html to see an example of how to use SummarizeExadataInsightResourceStatistics API.
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceStatistics(ctx context.Context, request SummarizeExadataInsightResourceStatisticsRequest) (response SummarizeExadataInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8589,10 +8027,6 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceStatistics
 // Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE.
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceUsage.go.html to see an example of how to use SummarizeExadataInsightResourceUsage API.
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUsage(ctx context.Context, request SummarizeExadataInsightResourceUsageRequest) (response SummarizeExadataInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8652,10 +8086,6 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUsage(ctx 
 // Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE.
 // Valid values for ResourceType HOST are CPU and MEMORY.
 // Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceUsageAggregated.go.html to see an example of how to use SummarizeExadataInsightResourceUsageAggregated API.
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceUsageAggregated()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUsageAggregated(ctx context.Context, request SummarizeExadataInsightResourceUsageAggregatedRequest) (response SummarizeExadataInsightResourceUsageAggregatedResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8710,10 +8140,6 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUsageAggre
 }
 
 // SummarizeExadataInsightResourceUtilizationInsight Gets current utilization, projected utilization and days to reach projectedUtilization for an exadata system over specified time period. Valid values for ResourceType DATABASE are CPU,MEMORY,IO and STORAGE. Valid values for ResourceType HOST are CPU and MEMORY. Valid values for ResourceType STORAGE_SERVER are STORAGE, IOPS and THROUGHPUT.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataInsightResourceUtilizationInsight.go.html to see an example of how to use SummarizeExadataInsightResourceUtilizationInsight API.
 // A default retry strategy applies to this operation SummarizeExadataInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeExadataInsightResourceUtilizationInsight(ctx context.Context, request SummarizeExadataInsightResourceUtilizationInsightRequest) (response SummarizeExadataInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8768,10 +8194,6 @@ func (client OperationsInsightsClient) summarizeExadataInsightResourceUtilizatio
 }
 
 // SummarizeExadataMembers Lists the software and hardware inventory of the Exadata System.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeExadataMembers.go.html to see an example of how to use SummarizeExadataMembers API.
 // A default retry strategy applies to this operation SummarizeExadataMembers()
 func (client OperationsInsightsClient) SummarizeExadataMembers(ctx context.Context, request SummarizeExadataMembersRequest) (response SummarizeExadataMembersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8826,10 +8248,6 @@ func (client OperationsInsightsClient) summarizeExadataMembers(ctx context.Conte
 }
 
 // SummarizeHostInsightDiskStatistics Returns response with disk(s) statistics for a host.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightDiskStatistics.go.html to see an example of how to use SummarizeHostInsightDiskStatistics API.
 // A default retry strategy applies to this operation SummarizeHostInsightDiskStatistics()
 func (client OperationsInsightsClient) SummarizeHostInsightDiskStatistics(ctx context.Context, request SummarizeHostInsightDiskStatisticsRequest) (response SummarizeHostInsightDiskStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8884,10 +8302,6 @@ func (client OperationsInsightsClient) summarizeHostInsightDiskStatistics(ctx co
 }
 
 // SummarizeHostInsightHostRecommendation Returns response with some recommendations if apply for a host.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightHostRecommendation.go.html to see an example of how to use SummarizeHostInsightHostRecommendation API.
 // A default retry strategy applies to this operation SummarizeHostInsightHostRecommendation()
 func (client OperationsInsightsClient) SummarizeHostInsightHostRecommendation(ctx context.Context, request SummarizeHostInsightHostRecommendationRequest) (response SummarizeHostInsightHostRecommendationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8942,10 +8356,6 @@ func (client OperationsInsightsClient) summarizeHostInsightHostRecommendation(ct
 }
 
 // SummarizeHostInsightNetworkUsageTrend Returns response with usage time series data with breakdown by network interface for the time period specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightNetworkUsageTrend.go.html to see an example of how to use SummarizeHostInsightNetworkUsageTrend API.
 // A default retry strategy applies to this operation SummarizeHostInsightNetworkUsageTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightNetworkUsageTrend(ctx context.Context, request SummarizeHostInsightNetworkUsageTrendRequest) (response SummarizeHostInsightNetworkUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9002,10 +8412,6 @@ func (client OperationsInsightsClient) summarizeHostInsightNetworkUsageTrend(ctx
 // SummarizeHostInsightResourceCapacityTrend Returns response with time series data (endTimestamp, capacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightResourceCapacityTrend.go.html to see an example of how to use SummarizeHostInsightResourceCapacityTrend API.
 // A default retry strategy applies to this operation SummarizeHostInsightResourceCapacityTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceCapacityTrend(ctx context.Context, request SummarizeHostInsightResourceCapacityTrendRequest) (response SummarizeHostInsightResourceCapacityTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9061,10 +8467,6 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceCapacityTrend
 
 // SummarizeHostInsightResourceForecastTrend Get Forecast predictions for CPU or memory resources since a time in the past.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightResourceForecastTrend.go.html to see an example of how to use SummarizeHostInsightResourceForecastTrend API.
 // A default retry strategy applies to this operation SummarizeHostInsightResourceForecastTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceForecastTrend(ctx context.Context, request SummarizeHostInsightResourceForecastTrendRequest) (response SummarizeHostInsightResourceForecastTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9120,10 +8522,6 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceForecastTrend
 
 // SummarizeHostInsightResourceStatistics Lists the resource statistics (usage, capacity, usage change percent, utilization percent, load) for each host filtered
 // by utilization level in a compartment and in all sub-compartments if specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightResourceStatistics.go.html to see an example of how to use SummarizeHostInsightResourceStatistics API.
 // A default retry strategy applies to this operation SummarizeHostInsightResourceStatistics()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceStatistics(ctx context.Context, request SummarizeHostInsightResourceStatisticsRequest) (response SummarizeHostInsightResourceStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9181,10 +8579,6 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceStatistics(ct
 // For each host, the minimum data point with a ranking > the percentile value is included in the summation.
 // Linear regression functions are used to calculate the usage change percentage.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightResourceUsage.go.html to see an example of how to use SummarizeHostInsightResourceUsage API.
 // A default retry strategy applies to this operation SummarizeHostInsightResourceUsage()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUsage(ctx context.Context, request SummarizeHostInsightResourceUsageRequest) (response SummarizeHostInsightResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9241,10 +8635,6 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUsage(ctx con
 // SummarizeHostInsightResourceUsageTrend Returns response with time series data (endTimestamp, usage, capacity) for the time period specified.
 // The maximum time range for analysis is 2 years, hence this is intentionally not paginated.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightResourceUsageTrend.go.html to see an example of how to use SummarizeHostInsightResourceUsageTrend API.
 // A default retry strategy applies to this operation SummarizeHostInsightResourceUsageTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUsageTrend(ctx context.Context, request SummarizeHostInsightResourceUsageTrendRequest) (response SummarizeHostInsightResourceUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9300,10 +8690,6 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUsageTrend(ct
 
 // SummarizeHostInsightResourceUtilizationInsight Gets resources with current utilization (high and low) and projected utilization (high and low) for a resource type over specified time period.
 // If compartmentIdInSubtree is specified, aggregates resources in a compartment and in all sub-compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightResourceUtilizationInsight.go.html to see an example of how to use SummarizeHostInsightResourceUtilizationInsight API.
 // A default retry strategy applies to this operation SummarizeHostInsightResourceUtilizationInsight()
 func (client OperationsInsightsClient) SummarizeHostInsightResourceUtilizationInsight(ctx context.Context, request SummarizeHostInsightResourceUtilizationInsightRequest) (response SummarizeHostInsightResourceUtilizationInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9358,10 +8744,6 @@ func (client OperationsInsightsClient) summarizeHostInsightResourceUtilizationIn
 }
 
 // SummarizeHostInsightStorageUsageTrend Returns response with usage time series data with breakdown by filesystem for the time period specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightStorageUsageTrend.go.html to see an example of how to use SummarizeHostInsightStorageUsageTrend API.
 // A default retry strategy applies to this operation SummarizeHostInsightStorageUsageTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightStorageUsageTrend(ctx context.Context, request SummarizeHostInsightStorageUsageTrendRequest) (response SummarizeHostInsightStorageUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9418,10 +8800,6 @@ func (client OperationsInsightsClient) summarizeHostInsightStorageUsageTrend(ctx
 // SummarizeHostInsightTopProcessesUsage Returns response with aggregated data (timestamp, usageData) for top processes on a specific date.
 // Data is aggregated for the time specified and processes are sorted descendent by the process metric specified (CPU, MEMORY, VIRTUAL_MEMORY).
 // hostInsightId, processMetric must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightTopProcessesUsage.go.html to see an example of how to use SummarizeHostInsightTopProcessesUsage API.
 // A default retry strategy applies to this operation SummarizeHostInsightTopProcessesUsage()
 func (client OperationsInsightsClient) SummarizeHostInsightTopProcessesUsage(ctx context.Context, request SummarizeHostInsightTopProcessesUsageRequest) (response SummarizeHostInsightTopProcessesUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9478,10 +8856,6 @@ func (client OperationsInsightsClient) summarizeHostInsightTopProcessesUsage(ctx
 // SummarizeHostInsightTopProcessesUsageTrend Returns response with aggregated time series data (timeIntervalstart, timeIntervalEnd, commandArgs, usageData) for top processes.
 // Data is aggregated for the time period specified and proceses are sorted descendent by the proces metric specified (CPU, MEMORY, VIRTUAL_MEMORY).
 // HostInsight Id and Process metric must be specified
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeHostInsightTopProcessesUsageTrend.go.html to see an example of how to use SummarizeHostInsightTopProcessesUsageTrend API.
 // A default retry strategy applies to this operation SummarizeHostInsightTopProcessesUsageTrend()
 func (client OperationsInsightsClient) SummarizeHostInsightTopProcessesUsageTrend(ctx context.Context, request SummarizeHostInsightTopProcessesUsageTrendRequest) (response SummarizeHostInsightTopProcessesUsageTrendResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9537,10 +8911,6 @@ func (client OperationsInsightsClient) summarizeHostInsightTopProcessesUsageTren
 
 // SummarizeOperationsInsightsWarehouseResourceUsage Gets the details of resources used by an Operations Insights Warehouse.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeOperationsInsightsWarehouseResourceUsage.go.html to see an example of how to use SummarizeOperationsInsightsWarehouseResourceUsage API.
 // A default retry strategy applies to this operation SummarizeOperationsInsightsWarehouseResourceUsage()
 func (client OperationsInsightsClient) SummarizeOperationsInsightsWarehouseResourceUsage(ctx context.Context, request SummarizeOperationsInsightsWarehouseResourceUsageRequest) (response SummarizeOperationsInsightsWarehouseResourceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9596,10 +8966,6 @@ func (client OperationsInsightsClient) summarizeOperationsInsightsWarehouseResou
 
 // SummarizeSqlInsights Query SQL Warehouse to get the performance insights for SQLs taking greater than X% database time for a given
 // time period across the given databases or database types in a compartment and in all sub-compartments if specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlInsights.go.html to see an example of how to use SummarizeSqlInsights API.
 // A default retry strategy applies to this operation SummarizeSqlInsights()
 func (client OperationsInsightsClient) SummarizeSqlInsights(ctx context.Context, request SummarizeSqlInsightsRequest) (response SummarizeSqlInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9655,10 +9021,6 @@ func (client OperationsInsightsClient) summarizeSqlInsights(ctx context.Context,
 
 // SummarizeSqlPlanInsights Query SQL Warehouse to get the performance insights on the execution plans for a given SQL for a given time period.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlPlanInsights.go.html to see an example of how to use SummarizeSqlPlanInsights API.
 // A default retry strategy applies to this operation SummarizeSqlPlanInsights()
 func (client OperationsInsightsClient) SummarizeSqlPlanInsights(ctx context.Context, request SummarizeSqlPlanInsightsRequest) (response SummarizeSqlPlanInsightsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9714,10 +9076,6 @@ func (client OperationsInsightsClient) summarizeSqlPlanInsights(ctx context.Cont
 
 // SummarizeSqlResponseTimeDistributions Query SQL Warehouse to summarize the response time distribution of query executions for a given SQL for a given time period.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlResponseTimeDistributions.go.html to see an example of how to use SummarizeSqlResponseTimeDistributions API.
 // A default retry strategy applies to this operation SummarizeSqlResponseTimeDistributions()
 func (client OperationsInsightsClient) SummarizeSqlResponseTimeDistributions(ctx context.Context, request SummarizeSqlResponseTimeDistributionsRequest) (response SummarizeSqlResponseTimeDistributionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9773,10 +9131,6 @@ func (client OperationsInsightsClient) summarizeSqlResponseTimeDistributions(ctx
 
 // SummarizeSqlStatistics Query SQL Warehouse to get the performance statistics for SQLs taking greater than X% database time for a given
 // time period across the given databases or database types in a compartment and in all sub-compartments if specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlStatistics.go.html to see an example of how to use SummarizeSqlStatistics API.
 // A default retry strategy applies to this operation SummarizeSqlStatistics()
 func (client OperationsInsightsClient) SummarizeSqlStatistics(ctx context.Context, request SummarizeSqlStatisticsRequest) (response SummarizeSqlStatisticsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9832,10 +9186,6 @@ func (client OperationsInsightsClient) summarizeSqlStatistics(ctx context.Contex
 
 // SummarizeSqlStatisticsTimeSeries Query SQL Warehouse to get the performance statistics time series for a given SQL across given databases for a
 // given time period in a compartment and in all sub-compartments if specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlStatisticsTimeSeries.go.html to see an example of how to use SummarizeSqlStatisticsTimeSeries API.
 // A default retry strategy applies to this operation SummarizeSqlStatisticsTimeSeries()
 func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeries(ctx context.Context, request SummarizeSqlStatisticsTimeSeriesRequest) (response SummarizeSqlStatisticsTimeSeriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9891,10 +9241,6 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeries(ctx cont
 
 // SummarizeSqlStatisticsTimeSeriesByPlan Query SQL Warehouse to get the performance statistics time series for a given SQL by execution plans for a given time period.
 // Either databaseId or id must be specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeSqlStatisticsTimeSeriesByPlan.go.html to see an example of how to use SummarizeSqlStatisticsTimeSeriesByPlan API.
 // A default retry strategy applies to this operation SummarizeSqlStatisticsTimeSeriesByPlan()
 func (client OperationsInsightsClient) SummarizeSqlStatisticsTimeSeriesByPlan(ctx context.Context, request SummarizeSqlStatisticsTimeSeriesByPlanRequest) (response SummarizeSqlStatisticsTimeSeriesByPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9949,10 +9295,6 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ct
 }
 
 // UpdateAwrHub Updates the configuration of a hub .
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateAwrHub.go.html to see an example of how to use UpdateAwrHub API.
 // A default retry strategy applies to this operation UpdateAwrHub()
 func (client OperationsInsightsClient) UpdateAwrHub(ctx context.Context, request UpdateAwrHubRequest) (response UpdateAwrHubResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10007,10 +9349,6 @@ func (client OperationsInsightsClient) updateAwrHub(ctx context.Context, request
 }
 
 // UpdateAwrHubSource Update Awr Hub Source object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateAwrHubSource.go.html to see an example of how to use UpdateAwrHubSource API.
 // A default retry strategy applies to this operation UpdateAwrHubSource()
 func (client OperationsInsightsClient) UpdateAwrHubSource(ctx context.Context, request UpdateAwrHubSourceRequest) (response UpdateAwrHubSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10065,10 +9403,6 @@ func (client OperationsInsightsClient) updateAwrHubSource(ctx context.Context, r
 }
 
 // UpdateDatabaseInsight Updates configuration of a database insight.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateDatabaseInsight.go.html to see an example of how to use UpdateDatabaseInsight API.
 // A default retry strategy applies to this operation UpdateDatabaseInsight()
 func (client OperationsInsightsClient) UpdateDatabaseInsight(ctx context.Context, request UpdateDatabaseInsightRequest) (response UpdateDatabaseInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10123,10 +9457,6 @@ func (client OperationsInsightsClient) updateDatabaseInsight(ctx context.Context
 }
 
 // UpdateEnterpriseManagerBridge Updates configuration of an Operations Insights Enterprise Manager bridge.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateEnterpriseManagerBridge.go.html to see an example of how to use UpdateEnterpriseManagerBridge API.
 // A default retry strategy applies to this operation UpdateEnterpriseManagerBridge()
 func (client OperationsInsightsClient) UpdateEnterpriseManagerBridge(ctx context.Context, request UpdateEnterpriseManagerBridgeRequest) (response UpdateEnterpriseManagerBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10181,10 +9511,6 @@ func (client OperationsInsightsClient) updateEnterpriseManagerBridge(ctx context
 }
 
 // UpdateExadataInsight Updates configuration of an Exadata insight.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateExadataInsight.go.html to see an example of how to use UpdateExadataInsight API.
 // A default retry strategy applies to this operation UpdateExadataInsight()
 func (client OperationsInsightsClient) UpdateExadataInsight(ctx context.Context, request UpdateExadataInsightRequest) (response UpdateExadataInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10239,10 +9565,6 @@ func (client OperationsInsightsClient) updateExadataInsight(ctx context.Context,
 }
 
 // UpdateHostInsight Updates configuration of a host insight.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateHostInsight.go.html to see an example of how to use UpdateHostInsight API.
 // A default retry strategy applies to this operation UpdateHostInsight()
 func (client OperationsInsightsClient) UpdateHostInsight(ctx context.Context, request UpdateHostInsightRequest) (response UpdateHostInsightResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10297,10 +9619,6 @@ func (client OperationsInsightsClient) updateHostInsight(ctx context.Context, re
 }
 
 // UpdateNewsReport Updates the  configuration of a news report.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateNewsReport.go.html to see an example of how to use UpdateNewsReport API.
 // A default retry strategy applies to this operation UpdateNewsReport()
 func (client OperationsInsightsClient) UpdateNewsReport(ctx context.Context, request UpdateNewsReportRequest) (response UpdateNewsReportResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10355,10 +9673,6 @@ func (client OperationsInsightsClient) updateNewsReport(ctx context.Context, req
 }
 
 // UpdateOperationsInsightsPrivateEndpoint Updates one or more attributes of the specified private endpoint.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateOperationsInsightsPrivateEndpoint.go.html to see an example of how to use UpdateOperationsInsightsPrivateEndpoint API.
 // A default retry strategy applies to this operation UpdateOperationsInsightsPrivateEndpoint()
 func (client OperationsInsightsClient) UpdateOperationsInsightsPrivateEndpoint(ctx context.Context, request UpdateOperationsInsightsPrivateEndpointRequest) (response UpdateOperationsInsightsPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10414,10 +9728,6 @@ func (client OperationsInsightsClient) updateOperationsInsightsPrivateEndpoint(c
 
 // UpdateOperationsInsightsWarehouse Updates the configuration of an Operations Insights Warehouse.
 // There is only expected to be 1 warehouse per tenant. The warehouse is expected to be in the root compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateOperationsInsightsWarehouse.go.html to see an example of how to use UpdateOperationsInsightsWarehouse API.
 // A default retry strategy applies to this operation UpdateOperationsInsightsWarehouse()
 func (client OperationsInsightsClient) UpdateOperationsInsightsWarehouse(ctx context.Context, request UpdateOperationsInsightsWarehouseRequest) (response UpdateOperationsInsightsWarehouseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10472,10 +9782,6 @@ func (client OperationsInsightsClient) updateOperationsInsightsWarehouse(ctx con
 }
 
 // UpdateOperationsInsightsWarehouseUser Updates the configuration of an Operations Insights Warehouse User.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateOperationsInsightsWarehouseUser.go.html to see an example of how to use UpdateOperationsInsightsWarehouseUser API.
 // A default retry strategy applies to this operation UpdateOperationsInsightsWarehouseUser()
 func (client OperationsInsightsClient) UpdateOperationsInsightsWarehouseUser(ctx context.Context, request UpdateOperationsInsightsWarehouseUserRequest) (response UpdateOperationsInsightsWarehouseUserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10530,10 +9836,6 @@ func (client OperationsInsightsClient) updateOperationsInsightsWarehouseUser(ctx
 }
 
 // UpdateOpsiConfiguration Updates an OPSI configuration resource with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/UpdateOpsiConfiguration.go.html to see an example of how to use UpdateOpsiConfiguration API.
 // A default retry strategy applies to this operation UpdateOpsiConfiguration()
 func (client OperationsInsightsClient) UpdateOpsiConfiguration(ctx context.Context, request UpdateOpsiConfigurationRequest) (response UpdateOpsiConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse

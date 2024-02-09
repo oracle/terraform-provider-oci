@@ -12,10 +12,6 @@ import (
 )
 
 // GetCertificateRequest wrapper for the GetCertificate operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/GetCertificate.go.html to see an example of how to use GetCertificateRequest.
 type GetCertificateRequest struct {
 
 	// A unique Deployment identifier.

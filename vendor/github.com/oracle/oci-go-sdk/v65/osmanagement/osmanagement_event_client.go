@@ -93,10 +93,6 @@ func (client *EventClient) ConfigurationProvider() *common.ConfigurationProvider
 }
 
 // DeleteEventContent Delete an event content ZIP archive from the service
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/DeleteEventContent.go.html to see an example of how to use DeleteEventContent API.
 func (client EventClient) DeleteEventContent(ctx context.Context, request DeleteEventContentRequest) (response DeleteEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -155,10 +151,6 @@ func (client EventClient) deleteEventContent(ctx context.Context, request common
 }
 
 // GetEvent Gets an Event by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetEvent.go.html to see an example of how to use GetEvent API.
 func (client EventClient) GetEvent(ctx context.Context, request GetEventRequest) (response GetEventResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -212,10 +204,6 @@ func (client EventClient) getEvent(ctx context.Context, request common.OCIReques
 }
 
 // GetEventContent Get additional data about a event as a ZIP archive. The archive content depends on the event eventType.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetEventContent.go.html to see an example of how to use GetEventContent API.
 func (client EventClient) GetEventContent(ctx context.Context, request GetEventContentRequest) (response GetEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -268,10 +256,6 @@ func (client EventClient) getEventContent(ctx context.Context, request common.OC
 }
 
 // GetEventReport Get summary information about events on this instance.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/GetEventReport.go.html to see an example of how to use GetEventReport API.
 func (client EventClient) GetEventReport(ctx context.Context, request GetEventReportRequest) (response GetEventReportResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -325,10 +309,6 @@ func (client EventClient) getEventReport(ctx context.Context, request common.OCI
 }
 
 // ListEvents Returns a list of Events.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListEvents.go.html to see an example of how to use ListEvents API.
 func (client EventClient) ListEvents(ctx context.Context, request ListEventsRequest) (response ListEventsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -382,10 +362,6 @@ func (client EventClient) listEvents(ctx context.Context, request common.OCIRequ
 }
 
 // ListRelatedEvents Returns a list of related events. For now pagination is not implemented.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListRelatedEvents.go.html to see an example of how to use ListRelatedEvents API.
 func (client EventClient) ListRelatedEvents(ctx context.Context, request ListRelatedEventsRequest) (response ListRelatedEventsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -439,10 +415,6 @@ func (client EventClient) listRelatedEvents(ctx context.Context, request common.
 }
 
 // UpdateEvent Updates an existing event associated to a managed instance
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UpdateEvent.go.html to see an example of how to use UpdateEvent API.
 func (client EventClient) UpdateEvent(ctx context.Context, request UpdateEventRequest) (response UpdateEventResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -496,10 +468,6 @@ func (client EventClient) updateEvent(ctx context.Context, request common.OCIReq
 }
 
 // UploadEventContent Upload the event content as a ZIP archive from the managed instance to the service
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UploadEventContent.go.html to see an example of how to use UploadEventContent API.
 func (client EventClient) UploadEventContent(ctx context.Context, request UploadEventContentRequest) (response UploadEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

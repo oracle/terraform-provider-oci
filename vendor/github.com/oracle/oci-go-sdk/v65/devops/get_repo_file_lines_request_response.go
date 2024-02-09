@@ -12,10 +12,6 @@ import (
 )
 
 // GetRepoFileLinesRequest wrapper for the GetRepoFileLines operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetRepoFileLines.go.html to see an example of how to use GetRepoFileLinesRequest.
 type GetRepoFileLinesRequest struct {
 
 	// Unique repository identifier.

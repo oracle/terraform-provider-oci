@@ -12,10 +12,6 @@ import (
 )
 
 // ListOpensearchClustersRequest wrapper for the ListOpensearchClusters operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/ListOpensearchClusters.go.html to see an example of how to use ListOpensearchClustersRequest.
 type ListOpensearchClustersRequest struct {
 
 	// The ID of the compartment in which to list resources.

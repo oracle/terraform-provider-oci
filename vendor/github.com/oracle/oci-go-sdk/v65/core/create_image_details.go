@@ -49,6 +49,10 @@ type CreateImageDetails struct {
 	// The OCID of the instance you want to use as the basis for the image.
 	InstanceId *string `mandatory:"false" json:"instanceId"`
 
+	// Indicates whether attached data volumes should be included in the created image when creating an image from an Instance.
+	// This is only valid if instanceId is provided.
+	ShouldIncludeDataVolumes *bool `mandatory:"false" json:"shouldIncludeDataVolumes"`
+
 	// Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
 	// * `NATIVE` - VM instances launch with paravirtualized boot and VFIO devices. The default value for platform images.
 	// * `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
@@ -79,13 +83,14 @@ func (m CreateImageDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateImageDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName        *string                           `json:"displayName"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		ImageSourceDetails imagesourcedetails                `json:"imageSourceDetails"`
-		InstanceId         *string                           `json:"instanceId"`
-		LaunchMode         CreateImageDetailsLaunchModeEnum  `json:"launchMode"`
-		CompartmentId      *string                           `json:"compartmentId"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName              *string                           `json:"displayName"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		ImageSourceDetails       imagesourcedetails                `json:"imageSourceDetails"`
+		InstanceId               *string                           `json:"instanceId"`
+		ShouldIncludeDataVolumes *bool                             `json:"shouldIncludeDataVolumes"`
+		LaunchMode               CreateImageDetailsLaunchModeEnum  `json:"launchMode"`
+		CompartmentId            *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -110,6 +115,8 @@ func (m *CreateImageDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.InstanceId = model.InstanceId
+
+	m.ShouldIncludeDataVolumes = model.ShouldIncludeDataVolumes
 
 	m.LaunchMode = model.LaunchMode
 

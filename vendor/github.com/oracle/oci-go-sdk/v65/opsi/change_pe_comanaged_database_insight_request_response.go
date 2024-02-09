@@ -12,10 +12,6 @@ import (
 )
 
 // ChangePeComanagedDatabaseInsightRequest wrapper for the ChangePeComanagedDatabaseInsight operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangePeComanagedDatabaseInsight.go.html to see an example of how to use ChangePeComanagedDatabaseInsightRequest.
 type ChangePeComanagedDatabaseInsightRequest struct {
 
 	// Unique database insight identifier

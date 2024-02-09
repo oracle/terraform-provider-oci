@@ -12,10 +12,6 @@ import (
 )
 
 // GetAuditProfileRequest wrapper for the GetAuditProfile operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAuditProfile.go.html to see an example of how to use GetAuditProfileRequest.
 type GetAuditProfileRequest struct {
 
 	// The OCID of the audit.

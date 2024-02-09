@@ -12,10 +12,6 @@ import (
 )
 
 // GetComputeClusterRequest wrapper for the GetComputeCluster operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetComputeCluster.go.html to see an example of how to use GetComputeClusterRequest.
 type GetComputeClusterRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster.

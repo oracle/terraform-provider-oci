@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeIntegrationInstanceNetworkEndpointRequest wrapper for the ChangeIntegrationInstanceNetworkEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/ChangeIntegrationInstanceNetworkEndpoint.go.html to see an example of how to use ChangeIntegrationInstanceNetworkEndpointRequest.
 type ChangeIntegrationInstanceNetworkEndpointRequest struct {
 
 	// Unique Integration Instance identifier.

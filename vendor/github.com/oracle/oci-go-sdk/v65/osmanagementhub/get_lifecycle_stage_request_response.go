@@ -12,10 +12,6 @@ import (
 )
 
 // GetLifecycleStageRequest wrapper for the GetLifecycleStage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetLifecycleStage.go.html to see an example of how to use GetLifecycleStageRequest.
 type GetLifecycleStageRequest struct {
 
 	// The OCID of the lifecycle stage.

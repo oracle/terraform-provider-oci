@@ -12,10 +12,6 @@ import (
 )
 
 // ExecuteBootstrapScriptRequest wrapper for the ExecuteBootstrapScript operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ExecuteBootstrapScript.go.html to see an example of how to use ExecuteBootstrapScriptRequest.
 type ExecuteBootstrapScriptRequest struct {
 
 	// The OCID of the cluster.

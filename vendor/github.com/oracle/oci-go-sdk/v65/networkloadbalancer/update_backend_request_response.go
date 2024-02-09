@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateBackendRequest wrapper for the UpdateBackend operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/UpdateBackend.go.html to see an example of how to use UpdateBackendRequest.
 type UpdateBackendRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.

@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDatabaseInsightRequest wrapper for the DeleteDatabaseInsight operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteDatabaseInsight.go.html to see an example of how to use DeleteDatabaseInsightRequest.
 type DeleteDatabaseInsightRequest struct {
 
 	// Unique database insight identifier

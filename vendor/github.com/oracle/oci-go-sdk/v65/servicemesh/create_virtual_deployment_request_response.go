@@ -12,10 +12,6 @@ import (
 )
 
 // CreateVirtualDeploymentRequest wrapper for the CreateVirtualDeployment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/CreateVirtualDeployment.go.html to see an example of how to use CreateVirtualDeploymentRequest.
 type CreateVirtualDeploymentRequest struct {
 
 	// Details for the new VirtualDeployment.

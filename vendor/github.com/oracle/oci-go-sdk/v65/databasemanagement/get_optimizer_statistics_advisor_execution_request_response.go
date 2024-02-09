@@ -12,10 +12,6 @@ import (
 )
 
 // GetOptimizerStatisticsAdvisorExecutionRequest wrapper for the GetOptimizerStatisticsAdvisorExecution operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetOptimizerStatisticsAdvisorExecution.go.html to see an example of how to use GetOptimizerStatisticsAdvisorExecutionRequest.
 type GetOptimizerStatisticsAdvisorExecutionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

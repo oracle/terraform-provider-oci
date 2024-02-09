@@ -79,6 +79,10 @@ type VolumeAttachment interface {
 	// The iscsi login state of the volume attachment. For a Iscsi volume attachment,
 	// all iscsi sessions need to be all logged-in or logged-out to be in logged-in or logged-out state.
 	GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum
+
+	// Flag indicating if this volume was created for the customer as part of a simplified launch.
+	// Used to determine whether the volume requires deletion on instance termination.
+	GetIsVolumeCreatedDuringLaunch() *bool
 }
 
 type volumeattachment struct {
@@ -90,6 +94,7 @@ type volumeattachment struct {
 	IsPvEncryptionInTransitEnabled *bool                               `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 	IsMultipath                    *bool                               `mandatory:"false" json:"isMultipath"`
 	IscsiLoginState                VolumeAttachmentIscsiLoginStateEnum `mandatory:"false" json:"iscsiLoginState,omitempty"`
+	IsVolumeCreatedDuringLaunch    *bool                               `mandatory:"false" json:"isVolumeCreatedDuringLaunch"`
 	AvailabilityDomain             *string                             `mandatory:"true" json:"availabilityDomain"`
 	CompartmentId                  *string                             `mandatory:"true" json:"compartmentId"`
 	Id                             *string                             `mandatory:"true" json:"id"`
@@ -125,6 +130,7 @@ func (m *volumeattachment) UnmarshalJSON(data []byte) error {
 	m.IsPvEncryptionInTransitEnabled = s.Model.IsPvEncryptionInTransitEnabled
 	m.IsMultipath = s.Model.IsMultipath
 	m.IscsiLoginState = s.Model.IscsiLoginState
+	m.IsVolumeCreatedDuringLaunch = s.Model.IsVolumeCreatedDuringLaunch
 	m.AttachmentType = s.Model.AttachmentType
 
 	return err
@@ -190,6 +196,11 @@ func (m volumeattachment) GetIsMultipath() *bool {
 // GetIscsiLoginState returns IscsiLoginState
 func (m volumeattachment) GetIscsiLoginState() VolumeAttachmentIscsiLoginStateEnum {
 	return m.IscsiLoginState
+}
+
+// GetIsVolumeCreatedDuringLaunch returns IsVolumeCreatedDuringLaunch
+func (m volumeattachment) GetIsVolumeCreatedDuringLaunch() *bool {
+	return m.IsVolumeCreatedDuringLaunch
 }
 
 // GetAvailabilityDomain returns AvailabilityDomain

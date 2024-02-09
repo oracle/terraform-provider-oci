@@ -12,10 +12,6 @@ import (
 )
 
 // ListDedicatedVantagePointsRequest wrapper for the ListDedicatedVantagePoints operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListDedicatedVantagePoints.go.html to see an example of how to use ListDedicatedVantagePointsRequest.
 type ListDedicatedVantagePointsRequest struct {
 
 	// The APM domain ID the request is intended for.

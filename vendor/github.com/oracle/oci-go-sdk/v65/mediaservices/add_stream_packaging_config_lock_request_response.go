@@ -12,10 +12,6 @@ import (
 )
 
 // AddStreamPackagingConfigLockRequest wrapper for the AddStreamPackagingConfigLock operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddStreamPackagingConfigLock.go.html to see an example of how to use AddStreamPackagingConfigLockRequest.
 type AddStreamPackagingConfigLockRequest struct {
 
 	// AddResourceLockDetails body parameter

@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDiscoveryScheduleRequest wrapper for the DeleteDiscoverySchedule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteDiscoverySchedule.go.html to see an example of how to use DeleteDiscoveryScheduleRequest.
 type DeleteDiscoveryScheduleRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule.

@@ -12,10 +12,6 @@ import (
 )
 
 // MaskDataRequest wrapper for the MaskData operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/MaskData.go.html to see an example of how to use MaskDataRequest.
 type MaskDataRequest struct {
 
 	// The OCID of the masking policy.

@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateDrPlanExecutionRequest wrapper for the UpdateDrPlanExecution operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/UpdateDrPlanExecution.go.html to see an example of how to use UpdateDrPlanExecutionRequest.
 type UpdateDrPlanExecutionRequest struct {
 
 	// Details for updating the DR plan execution.

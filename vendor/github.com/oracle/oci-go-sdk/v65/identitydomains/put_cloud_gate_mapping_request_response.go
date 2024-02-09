@@ -12,10 +12,6 @@ import (
 )
 
 // PutCloudGateMappingRequest wrapper for the PutCloudGateMapping operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutCloudGateMapping.go.html to see an example of how to use PutCloudGateMappingRequest.
 type PutCloudGateMappingRequest struct {
 
 	// ID of the resource

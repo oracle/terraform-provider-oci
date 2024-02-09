@@ -12,10 +12,6 @@ import (
 )
 
 // ListEffectivePropertiesRequest wrapper for the ListEffectiveProperties operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListEffectiveProperties.go.html to see an example of how to use ListEffectivePropertiesRequest.
 type ListEffectivePropertiesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

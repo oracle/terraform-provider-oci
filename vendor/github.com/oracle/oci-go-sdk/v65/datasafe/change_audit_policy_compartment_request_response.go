@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeAuditPolicyCompartmentRequest wrapper for the ChangeAuditPolicyCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeAuditPolicyCompartment.go.html to see an example of how to use ChangeAuditPolicyCompartmentRequest.
 type ChangeAuditPolicyCompartmentRequest struct {
 
 	// Unique audit policy identifier.

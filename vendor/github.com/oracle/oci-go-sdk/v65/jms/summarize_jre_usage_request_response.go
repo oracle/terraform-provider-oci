@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeJreUsageRequest wrapper for the SummarizeJreUsage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeJreUsage.go.html to see an example of how to use SummarizeJreUsageRequest.
 type SummarizeJreUsageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

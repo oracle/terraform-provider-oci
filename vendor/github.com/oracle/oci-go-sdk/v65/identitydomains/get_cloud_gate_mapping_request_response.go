@@ -12,10 +12,6 @@ import (
 )
 
 // GetCloudGateMappingRequest wrapper for the GetCloudGateMapping operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetCloudGateMapping.go.html to see an example of how to use GetCloudGateMappingRequest.
 type GetCloudGateMappingRequest struct {
 
 	// ID of the resource

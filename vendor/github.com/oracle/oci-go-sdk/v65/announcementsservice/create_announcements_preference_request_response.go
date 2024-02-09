@@ -12,10 +12,6 @@ import (
 )
 
 // CreateAnnouncementsPreferenceRequest wrapper for the CreateAnnouncementsPreference operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/CreateAnnouncementsPreference.go.html to see an example of how to use CreateAnnouncementsPreferenceRequest.
 type CreateAnnouncementsPreferenceRequest struct {
 
 	// The object that contains details about tenancy preferences for receiving announcements by email.

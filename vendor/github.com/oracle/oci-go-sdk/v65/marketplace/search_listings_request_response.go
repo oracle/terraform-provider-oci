@@ -12,10 +12,6 @@ import (
 )
 
 // SearchListingsRequest wrapper for the SearchListings operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/SearchListings.go.html to see an example of how to use SearchListingsRequest.
 type SearchListingsRequest struct {
 
 	// Details related to the search query

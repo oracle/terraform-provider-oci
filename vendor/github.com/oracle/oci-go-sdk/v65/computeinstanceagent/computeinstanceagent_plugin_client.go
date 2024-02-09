@@ -93,10 +93,6 @@ func (client *PluginClient) ConfigurationProvider() *common.ConfigurationProvide
 }
 
 // GetInstanceAgentPlugin The API to get information for a plugin.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentPlugin.go.html to see an example of how to use GetInstanceAgentPlugin API.
 func (client PluginClient) GetInstanceAgentPlugin(ctx context.Context, request GetInstanceAgentPluginRequest) (response GetInstanceAgentPluginResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -150,10 +146,6 @@ func (client PluginClient) getInstanceAgentPlugin(ctx context.Context, request c
 }
 
 // ListInstanceAgentPlugins The API to get one or more plugin information.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentPlugins.go.html to see an example of how to use ListInstanceAgentPlugins API.
 func (client PluginClient) ListInstanceAgentPlugins(ctx context.Context, request ListInstanceAgentPluginsRequest) (response ListInstanceAgentPluginsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

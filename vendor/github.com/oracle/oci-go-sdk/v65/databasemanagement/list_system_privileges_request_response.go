@@ -12,10 +12,6 @@ import (
 )
 
 // ListSystemPrivilegesRequest wrapper for the ListSystemPrivileges operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSystemPrivileges.go.html to see an example of how to use ListSystemPrivilegesRequest.
 type ListSystemPrivilegesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

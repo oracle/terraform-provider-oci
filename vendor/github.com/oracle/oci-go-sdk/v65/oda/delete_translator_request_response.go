@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteTranslatorRequest wrapper for the DeleteTranslator operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/DeleteTranslator.go.html to see an example of how to use DeleteTranslatorRequest.
 type DeleteTranslatorRequest struct {
 
 	// Unique Digital Assistant instance identifier.

@@ -12,10 +12,6 @@ import (
 )
 
 // CertificateServiceInfoRequest wrapper for the CertificateServiceInfo operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CertificateServiceInfo.go.html to see an example of how to use CertificateServiceInfoRequest.
 type CertificateServiceInfoRequest struct {
 
 	// The OCID of the cluster.

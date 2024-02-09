@@ -12,10 +12,6 @@ import (
 )
 
 // ListWorkRequestErrorsRequest wrapper for the ListWorkRequestErrors operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrorsRequest.
 type ListWorkRequestErrorsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.

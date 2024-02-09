@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteLifecycleEnvironmentRequest wrapper for the DeleteLifecycleEnvironment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteLifecycleEnvironment.go.html to see an example of how to use DeleteLifecycleEnvironmentRequest.
 type DeleteLifecycleEnvironmentRequest struct {
 
 	// The OCID of the lifecycle environment.

@@ -67,7 +67,7 @@ func newSubscriptionServiceClientFromBaseClient(baseClient common.BaseClient, co
 
 // SetRegion overrides the region of this client.
 func (client *SubscriptionServiceClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("ospgateway", "https://ospap.oracle.com")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("ospgateway", "https://osp-oci-integ.osp.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,10 +92,6 @@ func (client *SubscriptionServiceClient) ConfigurationProvider() *common.Configu
 }
 
 // AuthorizeSubscriptionPayment PSD2 authorization for subscription payment
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/AuthorizeSubscriptionPayment.go.html to see an example of how to use AuthorizeSubscriptionPayment API.
 // A default retry strategy applies to this operation AuthorizeSubscriptionPayment()
 func (client SubscriptionServiceClient) AuthorizeSubscriptionPayment(ctx context.Context, request AuthorizeSubscriptionPaymentRequest) (response AuthorizeSubscriptionPaymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,10 +151,6 @@ func (client SubscriptionServiceClient) authorizeSubscriptionPayment(ctx context
 }
 
 // GetSubscription Get the subscription plan.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetSubscription.go.html to see an example of how to use GetSubscription API.
 // A default retry strategy applies to this operation GetSubscription()
 func (client SubscriptionServiceClient) GetSubscription(ctx context.Context, request GetSubscriptionRequest) (response GetSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,10 +205,6 @@ func (client SubscriptionServiceClient) getSubscription(ctx context.Context, req
 }
 
 // ListSubscriptions Get the subscription data for the compartment
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListSubscriptions.go.html to see an example of how to use ListSubscriptions API.
 // A default retry strategy applies to this operation ListSubscriptions()
 func (client SubscriptionServiceClient) ListSubscriptions(ctx context.Context, request ListSubscriptionsRequest) (response ListSubscriptionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -271,10 +259,6 @@ func (client SubscriptionServiceClient) listSubscriptions(ctx context.Context, r
 }
 
 // PaySubscription Pay a subscription
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/PaySubscription.go.html to see an example of how to use PaySubscription API.
 // A default retry strategy applies to this operation PaySubscription()
 func (client SubscriptionServiceClient) PaySubscription(ctx context.Context, request PaySubscriptionRequest) (response PaySubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -334,10 +318,6 @@ func (client SubscriptionServiceClient) paySubscription(ctx context.Context, req
 }
 
 // UpdateSubscription Update plan of the subscription.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/UpdateSubscription.go.html to see an example of how to use UpdateSubscription API.
 // A default retry strategy applies to this operation UpdateSubscription()
 func (client SubscriptionServiceClient) UpdateSubscription(ctx context.Context, request UpdateSubscriptionRequest) (response UpdateSubscriptionResponse, err error) {
 	var ociResponse common.OCIResponse

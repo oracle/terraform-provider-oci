@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDynamicResourceGroupRequest wrapper for the DeleteDynamicResourceGroup operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteDynamicResourceGroup.go.html to see an example of how to use DeleteDynamicResourceGroupRequest.
 type DeleteDynamicResourceGroupRequest struct {
 
 	// ID of the resource

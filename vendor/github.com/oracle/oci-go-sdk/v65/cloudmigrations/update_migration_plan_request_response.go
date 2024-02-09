@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateMigrationPlanRequest wrapper for the UpdateMigrationPlan operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/UpdateMigrationPlan.go.html to see an example of how to use UpdateMigrationPlanRequest.
 type UpdateMigrationPlanRequest struct {
 
 	// Unique migration plan identifier

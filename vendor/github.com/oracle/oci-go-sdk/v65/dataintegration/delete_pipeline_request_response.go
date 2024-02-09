@@ -12,10 +12,6 @@ import (
 )
 
 // DeletePipelineRequest wrapper for the DeletePipeline operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/DeletePipeline.go.html to see an example of how to use DeletePipelineRequest.
 type DeletePipelineRequest struct {
 
 	// The workspace ID.

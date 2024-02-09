@@ -12,10 +12,6 @@ import (
 )
 
 // ListUserDefinedFunctionValidationsRequest wrapper for the ListUserDefinedFunctionValidations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListUserDefinedFunctionValidations.go.html to see an example of how to use ListUserDefinedFunctionValidationsRequest.
 type ListUserDefinedFunctionValidationsRequest struct {
 
 	// The workspace ID.

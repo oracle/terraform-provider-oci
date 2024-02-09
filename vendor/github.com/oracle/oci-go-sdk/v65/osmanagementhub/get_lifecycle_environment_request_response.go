@@ -12,10 +12,6 @@ import (
 )
 
 // GetLifecycleEnvironmentRequest wrapper for the GetLifecycleEnvironment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetLifecycleEnvironment.go.html to see an example of how to use GetLifecycleEnvironmentRequest.
 type GetLifecycleEnvironmentRequest struct {
 
 	// The OCID of the lifecycle environment.

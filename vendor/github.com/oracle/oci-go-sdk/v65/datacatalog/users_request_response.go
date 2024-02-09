@@ -12,10 +12,6 @@ import (
 )
 
 // UsersRequest wrapper for the Users operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/Users.go.html to see an example of how to use UsersRequest.
 type UsersRequest struct {
 
 	// Unique catalog identifier.

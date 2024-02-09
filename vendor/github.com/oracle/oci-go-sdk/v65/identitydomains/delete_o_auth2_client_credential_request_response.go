@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteOAuth2ClientCredentialRequest wrapper for the DeleteOAuth2ClientCredential operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteOAuth2ClientCredential.go.html to see an example of how to use DeleteOAuth2ClientCredentialRequest.
 type DeleteOAuth2ClientCredentialRequest struct {
 
 	// ID of the resource

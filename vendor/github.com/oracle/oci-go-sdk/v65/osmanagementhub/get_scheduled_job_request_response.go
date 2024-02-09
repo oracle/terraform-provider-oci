@@ -12,10 +12,6 @@ import (
 )
 
 // GetScheduledJobRequest wrapper for the GetScheduledJob operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetScheduledJob.go.html to see an example of how to use GetScheduledJobRequest.
 type GetScheduledJobRequest struct {
 
 	// The OCID of the scheduled job.

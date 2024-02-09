@@ -12,10 +12,6 @@ import (
 )
 
 // ListMaskingColumnsRequest wrapper for the ListMaskingColumns operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingColumns.go.html to see an example of how to use ListMaskingColumnsRequest.
 type ListMaskingColumnsRequest struct {
 
 	// The OCID of the masking policy.

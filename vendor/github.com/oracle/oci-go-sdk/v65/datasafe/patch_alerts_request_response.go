@@ -12,10 +12,6 @@ import (
 )
 
 // PatchAlertsRequest wrapper for the PatchAlerts operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchAlerts.go.html to see an example of how to use PatchAlertsRequest.
 type PatchAlertsRequest struct {
 
 	// The alert details to update the status of one or more alert specified by the alert IDs.

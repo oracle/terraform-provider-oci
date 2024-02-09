@@ -12,10 +12,6 @@ import (
 )
 
 // ListBrandingSettingsRequest wrapper for the ListBrandingSettings operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/ListBrandingSettings.go.html to see an example of how to use ListBrandingSettingsRequest.
 type ListBrandingSettingsRequest struct {
 
 	// A comma-delimited string that specifies the names of resource attributes that should be returned in the response. By default, a response that contains resource attributes contains only attributes that are defined in the schema for that resource type as returned=always or returned=default. An attribute that is defined as returned=request is returned in a response only if the request specifies its name in the value of this query parameter. If a request specifies this query parameter, the response contains the attributes that this query parameter specifies, as well as any attribute that is defined as returned=always.

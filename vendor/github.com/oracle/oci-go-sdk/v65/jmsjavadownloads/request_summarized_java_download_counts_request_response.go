@@ -12,10 +12,6 @@ import (
 )
 
 // RequestSummarizedJavaDownloadCountsRequest wrapper for the RequestSummarizedJavaDownloadCounts operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/RequestSummarizedJavaDownloadCounts.go.html to see an example of how to use RequestSummarizedJavaDownloadCountsRequest.
 type RequestSummarizedJavaDownloadCountsRequest struct {
 
 	// Details for retreiving the summary of download counts.

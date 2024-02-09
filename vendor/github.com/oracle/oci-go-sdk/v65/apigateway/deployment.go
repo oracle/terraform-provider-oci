@@ -41,12 +41,17 @@ type Deployment struct {
 	// The endpoint to access this deployment on the gateway.
 	Endpoint *string `mandatory:"true" json:"endpoint"`
 
-	Specification *ApiSpecification `mandatory:"true" json:"specification"`
-
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	// Example: `My new resource`
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of API Catalog resource
+	CatalogId *string `mandatory:"false" json:"catalogId"`
+
+	Specification *ApiSpecification `mandatory:"false" json:"specification"`
+
+	Catalog *CatalogSpecification `mandatory:"false" json:"catalog"`
 
 	// The time this resource was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -61,6 +66,9 @@ type Deployment struct {
 	// For example, can be used to provide actionable information for a
 	// resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see

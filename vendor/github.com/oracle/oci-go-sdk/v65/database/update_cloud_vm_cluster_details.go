@@ -68,6 +68,12 @@ type UpdateCloudVmClusterDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
+
+	// Details of the file system configuration of the VM cluster.
+	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
+
+	// The private zone id in which DNS records need to be created for Private DNS migration.
+	PrivateZoneId *string `mandatory:"false" json:"privateZoneId"`
 }
 
 func (m UpdateCloudVmClusterDetails) String() string {

@@ -12,10 +12,6 @@ import (
 )
 
 // ListHsmClustersRequest wrapper for the ListHsmClusters operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListHsmClusters.go.html to see an example of how to use ListHsmClustersRequest.
 type ListHsmClustersRequest struct {
 
 	// The OCID of the compartment.

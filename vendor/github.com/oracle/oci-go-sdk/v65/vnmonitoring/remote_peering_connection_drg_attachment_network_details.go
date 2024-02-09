@@ -22,6 +22,29 @@ type RemotePeeringConnectionDrgAttachmentNetworkDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network attached to the DRG.
 	Id *string `mandatory:"false" json:"id"`
+
+	// The remote Oracle Cloud Infrastructure region name.
+	PeerRegionName *string `mandatory:"false" json:"peerRegionName"`
+
+	// The attachment route target.
+	PeerAttachmentRouteTarget *string `mandatory:"false" json:"peerAttachmentRouteTarget"`
+
+	// Routes which may be imported from the attachment (subject to import policy) appear in the route reflectors
+	// tagged with the attachment's import route target.
+	ImportRouteTarget *string `mandatory:"false" json:"importRouteTarget"`
+
+	// Routes which are exported to the attachment are exported to the route reflectors
+	// with the route target set to the value of the attachment's export route target.
+	ExportRouteTarget *string `mandatory:"false" json:"exportRouteTarget"`
+
+	// The MPLS label of the DRG attachment.
+	MplsLabel *int `mandatory:"false" json:"mplsLabel"`
+
+	// The BGP ASN to use for the IPSec connection's route target.
+	RegionalOciAsn *string `mandatory:"false" json:"regionalOciAsn"`
+
+	// IPv4 address used to encapsulate ingress traffic to the DRG through this attachment
+	IngressVip *string `mandatory:"false" json:"ingressVip"`
 }
 
 // GetId returns Id

@@ -12,10 +12,6 @@ import (
 )
 
 // RotateAutonomousVmClusterOrdsCertsRequest wrapper for the RotateAutonomousVmClusterOrdsCerts operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RotateAutonomousVmClusterOrdsCerts.go.html to see an example of how to use RotateAutonomousVmClusterOrdsCertsRequest.
 type RotateAutonomousVmClusterOrdsCertsRequest struct {
 
 	// Request to rotate the Oracle REST Data Services (ORDS) certificates on Autonomous Exadata VM cluster.

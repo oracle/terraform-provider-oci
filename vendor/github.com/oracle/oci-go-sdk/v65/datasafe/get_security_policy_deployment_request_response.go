@@ -12,10 +12,6 @@ import (
 )
 
 // GetSecurityPolicyDeploymentRequest wrapper for the GetSecurityPolicyDeployment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicyDeployment.go.html to see an example of how to use GetSecurityPolicyDeploymentRequest.
 type GetSecurityPolicyDeploymentRequest struct {
 
 	// The OCID of the security policy deployment resource.

@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteComputeCapacityReservationRequest wrapper for the DeleteComputeCapacityReservation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteComputeCapacityReservation.go.html to see an example of how to use DeleteComputeCapacityReservationRequest.
 type DeleteComputeCapacityReservationRequest struct {
 
 	// The OCID of the compute capacity reservation.

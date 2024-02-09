@@ -12,16 +12,12 @@ import (
 )
 
 // TriggerResponderRequest wrapper for the TriggerResponder operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/TriggerResponder.go.html to see an example of how to use TriggerResponderRequest.
 type TriggerResponderRequest struct {
 
-	// OCId of the problem.
+	// OCID of the problem.
 	ProblemId *string `mandatory:"true" contributesTo:"path" name:"problemId"`
 
-	// The responder may update the problem.
+	// The responder may update the problem
 	TriggerResponderDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// CandidateResponderRule Candidate Responder Rule list in Detector rule
+// CandidateResponderRule Information for a responder rule that can be used to remediate a problem triggered by specific detector rule.
 type CandidateResponderRule struct {
 
-	// The unique identifier of the Responder rule
+	// The unique identifier of the responder rule
 	Id *string `mandatory:"false" json:"id"`
 
-	// The display name of the Responder rule
+	// The display name of the responder rule
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Preferred state
+	// Is this the preferred state?
 	IsPreferred *bool `mandatory:"false" json:"isPreferred"`
 }
 

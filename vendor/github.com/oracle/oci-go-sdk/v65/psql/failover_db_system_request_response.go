@@ -12,10 +12,6 @@ import (
 )
 
 // FailoverDbSystemRequest wrapper for the FailoverDbSystem operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/FailoverDbSystem.go.html to see an example of how to use FailoverDbSystemRequest.
 type FailoverDbSystemRequest struct {
 
 	// A unique identifier for the database system.

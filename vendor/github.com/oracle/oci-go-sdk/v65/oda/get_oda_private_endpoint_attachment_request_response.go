@@ -12,10 +12,6 @@ import (
 )
 
 // GetOdaPrivateEndpointAttachmentRequest wrapper for the GetOdaPrivateEndpointAttachment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetOdaPrivateEndpointAttachment.go.html to see an example of how to use GetOdaPrivateEndpointAttachmentRequest.
 type GetOdaPrivateEndpointAttachmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of ODA Private Endpoint Attachment.

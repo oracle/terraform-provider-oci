@@ -12,10 +12,6 @@ import (
 )
 
 // CreateOpaInstanceRequest wrapper for the CreateOpaInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opa/CreateOpaInstance.go.html to see an example of how to use CreateOpaInstanceRequest.
 type CreateOpaInstanceRequest struct {
 
 	// Details for the new OpaInstance.

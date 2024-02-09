@@ -12,10 +12,6 @@ import (
 )
 
 // CreateOnPremiseVantagePointRequest wrapper for the CreateOnPremiseVantagePoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/CreateOnPremiseVantagePoint.go.html to see an example of how to use CreateOnPremiseVantagePointRequest.
 type CreateOnPremiseVantagePointRequest struct {
 
 	// The APM domain ID the request is intended for.

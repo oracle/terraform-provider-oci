@@ -12,10 +12,6 @@ import (
 )
 
 // GetGrantRequest wrapper for the GetGrant operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetGrant.go.html to see an example of how to use GetGrantRequest.
 type GetGrantRequest struct {
 
 	// ID of the resource

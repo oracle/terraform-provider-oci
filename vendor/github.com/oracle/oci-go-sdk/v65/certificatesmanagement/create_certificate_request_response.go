@@ -12,10 +12,6 @@ import (
 )
 
 // CreateCertificateRequest wrapper for the CreateCertificate operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/CreateCertificate.go.html to see an example of how to use CreateCertificateRequest.
 type CreateCertificateRequest struct {
 
 	// The details of the request to create a new certificate.

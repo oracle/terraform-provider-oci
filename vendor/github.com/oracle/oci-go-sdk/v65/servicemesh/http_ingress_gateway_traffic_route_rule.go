@@ -27,8 +27,22 @@ type HttpIngressGatewayTrafficRouteRule struct {
 	// Route to match
 	Path *string `mandatory:"false" json:"path"`
 
+	// Match criteria for headers.
+	Headers []StringMatch `mandatory:"false" json:"headers"`
+
+	// Match criteria for query params.
+	QueryParams []StringMatch `mandatory:"false" json:"queryParams"`
+
+	Method *StringValueMatch `mandatory:"false" json:"method"`
+
+	Authority *StringValueMatch `mandatory:"false" json:"authority"`
+
+	// Is path param case sensitive
+	IsPathCaseSensitive *bool `mandatory:"false" json:"isPathCaseSensitive"`
+
 	// If true, the rule will check that the content-type header has a application/grpc
 	// or one of the various application/grpc+ values.
+	// This attribute will be deprecated soon. Please use GRPC enum to match GRPC requests.
 	IsGrpc *bool `mandatory:"false" json:"isGrpc"`
 
 	// If true, the hostname will be rewritten to the target virtual deployment's DNS hostname.
@@ -96,14 +110,20 @@ type HttpIngressGatewayTrafficRouteRulePathTypeEnum string
 // Set of constants representing the allowable values for HttpIngressGatewayTrafficRouteRulePathTypeEnum
 const (
 	HttpIngressGatewayTrafficRouteRulePathTypePrefix HttpIngressGatewayTrafficRouteRulePathTypeEnum = "PREFIX"
+	HttpIngressGatewayTrafficRouteRulePathTypeRegex  HttpIngressGatewayTrafficRouteRulePathTypeEnum = "REGEX"
+	HttpIngressGatewayTrafficRouteRulePathTypeExact  HttpIngressGatewayTrafficRouteRulePathTypeEnum = "EXACT"
 )
 
 var mappingHttpIngressGatewayTrafficRouteRulePathTypeEnum = map[string]HttpIngressGatewayTrafficRouteRulePathTypeEnum{
 	"PREFIX": HttpIngressGatewayTrafficRouteRulePathTypePrefix,
+	"REGEX":  HttpIngressGatewayTrafficRouteRulePathTypeRegex,
+	"EXACT":  HttpIngressGatewayTrafficRouteRulePathTypeExact,
 }
 
 var mappingHttpIngressGatewayTrafficRouteRulePathTypeEnumLowerCase = map[string]HttpIngressGatewayTrafficRouteRulePathTypeEnum{
 	"prefix": HttpIngressGatewayTrafficRouteRulePathTypePrefix,
+	"regex":  HttpIngressGatewayTrafficRouteRulePathTypeRegex,
+	"exact":  HttpIngressGatewayTrafficRouteRulePathTypeExact,
 }
 
 // GetHttpIngressGatewayTrafficRouteRulePathTypeEnumValues Enumerates the set of values for HttpIngressGatewayTrafficRouteRulePathTypeEnum
@@ -119,6 +139,8 @@ func GetHttpIngressGatewayTrafficRouteRulePathTypeEnumValues() []HttpIngressGate
 func GetHttpIngressGatewayTrafficRouteRulePathTypeEnumStringValues() []string {
 	return []string{
 		"PREFIX",
+		"REGEX",
+		"EXACT",
 	}
 }
 

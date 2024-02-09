@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateInstanceRequest wrapper for the UpdateInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInstance.go.html to see an example of how to use UpdateInstanceRequest.
 type UpdateInstanceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.

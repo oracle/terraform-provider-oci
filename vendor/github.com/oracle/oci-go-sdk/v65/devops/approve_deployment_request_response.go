@@ -12,10 +12,6 @@ import (
 )
 
 // ApproveDeploymentRequest wrapper for the ApproveDeployment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ApproveDeployment.go.html to see an example of how to use ApproveDeploymentRequest.
 type ApproveDeploymentRequest struct {
 
 	// Unique deployment identifier.

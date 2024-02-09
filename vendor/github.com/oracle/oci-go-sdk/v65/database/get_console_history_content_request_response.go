@@ -13,10 +13,6 @@ import (
 )
 
 // GetConsoleHistoryContentRequest wrapper for the GetConsoleHistoryContent operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetConsoleHistoryContent.go.html to see an example of how to use GetConsoleHistoryContentRequest.
 type GetConsoleHistoryContentRequest struct {
 
 	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

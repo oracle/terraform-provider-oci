@@ -33,6 +33,11 @@ type LabelSourceSummary struct {
 	// The label condition.
 	LabelCondition *string `mandatory:"false" json:"labelCondition"`
 
+	// String representation of the label condition.
+	ConditionString *string `mandatory:"false" json:"conditionString"`
+
+	ConditionBlock *ConditionBlock `mandatory:"false" json:"conditionBlock"`
+
 	// The label field display name.
 	LabelFieldDisplayname *string `mandatory:"false" json:"labelFieldDisplayname"`
 

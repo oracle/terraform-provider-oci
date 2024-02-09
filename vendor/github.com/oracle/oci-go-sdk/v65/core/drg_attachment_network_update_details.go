@@ -56,6 +56,18 @@ func (m *drgattachmentnetworkupdatedetails) UnmarshalPolymorphicJSON(data []byte
 
 	var err error
 	switch m.Type {
+	case "INTERNET":
+		mm := InternetDrgAttachmentNetworkUpdateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VIRTUAL_CIRCUIT":
+		mm := VirtualCircuitDrgAttachmentNetworkUpdateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "LOOPBACK":
+		mm := LoopbackDrgAttachmentNetworkUpdateDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VCN":
 		mm := VcnDrgAttachmentNetworkUpdateDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -87,15 +99,24 @@ type DrgAttachmentNetworkUpdateDetailsTypeEnum string
 
 // Set of constants representing the allowable values for DrgAttachmentNetworkUpdateDetailsTypeEnum
 const (
-	DrgAttachmentNetworkUpdateDetailsTypeVcn DrgAttachmentNetworkUpdateDetailsTypeEnum = "VCN"
+	DrgAttachmentNetworkUpdateDetailsTypeVcn            DrgAttachmentNetworkUpdateDetailsTypeEnum = "VCN"
+	DrgAttachmentNetworkUpdateDetailsTypeVirtualCircuit DrgAttachmentNetworkUpdateDetailsTypeEnum = "VIRTUAL_CIRCUIT"
+	DrgAttachmentNetworkUpdateDetailsTypeLoopback       DrgAttachmentNetworkUpdateDetailsTypeEnum = "LOOPBACK"
+	DrgAttachmentNetworkUpdateDetailsTypeInternet       DrgAttachmentNetworkUpdateDetailsTypeEnum = "INTERNET"
 )
 
 var mappingDrgAttachmentNetworkUpdateDetailsTypeEnum = map[string]DrgAttachmentNetworkUpdateDetailsTypeEnum{
-	"VCN": DrgAttachmentNetworkUpdateDetailsTypeVcn,
+	"VCN":             DrgAttachmentNetworkUpdateDetailsTypeVcn,
+	"VIRTUAL_CIRCUIT": DrgAttachmentNetworkUpdateDetailsTypeVirtualCircuit,
+	"LOOPBACK":        DrgAttachmentNetworkUpdateDetailsTypeLoopback,
+	"INTERNET":        DrgAttachmentNetworkUpdateDetailsTypeInternet,
 }
 
 var mappingDrgAttachmentNetworkUpdateDetailsTypeEnumLowerCase = map[string]DrgAttachmentNetworkUpdateDetailsTypeEnum{
-	"vcn": DrgAttachmentNetworkUpdateDetailsTypeVcn,
+	"vcn":             DrgAttachmentNetworkUpdateDetailsTypeVcn,
+	"virtual_circuit": DrgAttachmentNetworkUpdateDetailsTypeVirtualCircuit,
+	"loopback":        DrgAttachmentNetworkUpdateDetailsTypeLoopback,
+	"internet":        DrgAttachmentNetworkUpdateDetailsTypeInternet,
 }
 
 // GetDrgAttachmentNetworkUpdateDetailsTypeEnumValues Enumerates the set of values for DrgAttachmentNetworkUpdateDetailsTypeEnum
@@ -111,6 +132,9 @@ func GetDrgAttachmentNetworkUpdateDetailsTypeEnumValues() []DrgAttachmentNetwork
 func GetDrgAttachmentNetworkUpdateDetailsTypeEnumStringValues() []string {
 	return []string{
 		"VCN",
+		"VIRTUAL_CIRCUIT",
+		"LOOPBACK",
+		"INTERNET",
 	}
 }
 

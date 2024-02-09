@@ -55,6 +55,10 @@ func (m *targetdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := SecurityZoneTargetDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FACLOUD":
+		mm := FaTargetDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for TargetDetails: %s.", m.TargetResourceType)
 		return *m, nil

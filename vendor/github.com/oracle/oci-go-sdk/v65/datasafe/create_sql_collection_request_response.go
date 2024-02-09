@@ -12,10 +12,6 @@ import (
 )
 
 // CreateSqlCollectionRequest wrapper for the CreateSqlCollection operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSqlCollection.go.html to see an example of how to use CreateSqlCollectionRequest.
 type CreateSqlCollectionRequest struct {
 
 	// Details of the SQL collection.

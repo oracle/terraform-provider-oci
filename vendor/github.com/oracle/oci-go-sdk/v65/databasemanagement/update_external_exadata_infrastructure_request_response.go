@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateExternalExadataInfrastructureRequest wrapper for the UpdateExternalExadataInfrastructure operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalExadataInfrastructure.go.html to see an example of how to use UpdateExternalExadataInfrastructureRequest.
 type UpdateExternalExadataInfrastructureRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.

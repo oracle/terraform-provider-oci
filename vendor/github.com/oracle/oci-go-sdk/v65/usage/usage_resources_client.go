@@ -67,7 +67,7 @@ func newResourcesClientFromBaseClient(baseClient common.BaseClient, configProvid
 
 // SetRegion overrides the region of this client.
 func (client *ResourcesClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("usage", "https://identity.{region}.oci.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("identity", "https://identity.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -93,10 +93,6 @@ func (client *ResourcesClient) ConfigurationProvider() *common.ConfigurationProv
 
 // ListResourceQuota Returns the resource quota details under a tenancy
 // > **Important**: Calls to this API will only succeed against the endpoint in the home region.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResourceQuota.go.html to see an example of how to use ListResourceQuota API.
 // A default retry strategy applies to this operation ListResourceQuota()
 func (client ResourcesClient) ListResourceQuota(ctx context.Context, request ListResourceQuotaRequest) (response ListResourceQuotaResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -152,10 +148,6 @@ func (client ResourcesClient) listResourceQuota(ctx context.Context, request com
 
 // ListResources Returns the resource details for a service
 // > **Important**: Calls to this API will only succeed against the endpoint in the home region.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResources.go.html to see an example of how to use ListResources API.
 // A default retry strategy applies to this operation ListResources()
 func (client ResourcesClient) ListResources(ctx context.Context, request ListResourcesRequest) (response ListResourcesResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -16,6 +16,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -86,6 +87,13 @@ type UpdateInstanceDetails struct {
 
 	ShapeConfig *UpdateInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
+	SourceDetails UpdateInstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
+
+	// The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
+	// * `LIVE_MIGRATE` - Run maintenance using a live migration.
+	// * `REBOOT` - Run maintenance using a reboot.
+	PreferredMaintenanceAction UpdateInstanceDetailsPreferredMaintenanceActionEnum `mandatory:"false" json:"preferredMaintenanceAction,omitempty"`
+
 	// The parameter acts as a fail-safe to prevent unwanted downtime when updating a running instance.
 	// The default is ALLOW_DOWNTIME.
 	// * `ALLOW_DOWNTIME` - Compute might reboot the instance while updating the instance if a reboot is required.
@@ -130,6 +138,8 @@ type UpdateInstanceDetails struct {
 	// - that is, you can't move an instance from on-demand capacity to dedicated capacity,
 	// nor can you move an instance from dedicated capacity to on-demand capacity.
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
+
+	PlatformConfig UpdateInstancePlatformConfig `mandatory:"false" json:"platformConfig"`
 }
 
 func (m UpdateInstanceDetails) String() string {
@@ -142,6 +152,9 @@ func (m UpdateInstanceDetails) String() string {
 func (m UpdateInstanceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdateInstanceDetailsPreferredMaintenanceActionEnum(string(m.PreferredMaintenanceAction)); !ok && m.PreferredMaintenanceAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PreferredMaintenanceAction: %s. Supported values are: %s.", m.PreferredMaintenanceAction, strings.Join(GetUpdateInstanceDetailsPreferredMaintenanceActionEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingUpdateInstanceDetailsUpdateOperationConstraintEnum(string(m.UpdateOperationConstraint)); !ok && m.UpdateOperationConstraint != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateOperationConstraint: %s. Supported values are: %s.", m.UpdateOperationConstraint, strings.Join(GetUpdateInstanceDetailsUpdateOperationConstraintEnumStringValues(), ",")))
 	}
@@ -149,6 +162,134 @@ func (m UpdateInstanceDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CapacityReservationId      *string                                             `json:"capacityReservationId"`
+		DefinedTags                map[string]map[string]interface{}                   `json:"definedTags"`
+		DisplayName                *string                                             `json:"displayName"`
+		FreeformTags               map[string]string                                   `json:"freeformTags"`
+		AgentConfig                *UpdateInstanceAgentConfigDetails                   `json:"agentConfig"`
+		Metadata                   map[string]string                                   `json:"metadata"`
+		ExtendedMetadata           map[string]interface{}                              `json:"extendedMetadata"`
+		Shape                      *string                                             `json:"shape"`
+		ShapeConfig                *UpdateInstanceShapeConfigDetails                   `json:"shapeConfig"`
+		SourceDetails              updateinstancesourcedetails                         `json:"sourceDetails"`
+		PreferredMaintenanceAction UpdateInstanceDetailsPreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
+		UpdateOperationConstraint  UpdateInstanceDetailsUpdateOperationConstraintEnum  `json:"updateOperationConstraint"`
+		InstanceOptions            *InstanceOptions                                    `json:"instanceOptions"`
+		FaultDomain                *string                                             `json:"faultDomain"`
+		LaunchOptions              *UpdateLaunchOptions                                `json:"launchOptions"`
+		AvailabilityConfig         *UpdateInstanceAvailabilityConfigDetails            `json:"availabilityConfig"`
+		TimeMaintenanceRebootDue   *common.SDKTime                                     `json:"timeMaintenanceRebootDue"`
+		DedicatedVmHostId          *string                                             `json:"dedicatedVmHostId"`
+		PlatformConfig             updateinstanceplatformconfig                        `json:"platformConfig"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CapacityReservationId = model.CapacityReservationId
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DisplayName = model.DisplayName
+
+	m.FreeformTags = model.FreeformTags
+
+	m.AgentConfig = model.AgentConfig
+
+	m.Metadata = model.Metadata
+
+	m.ExtendedMetadata = model.ExtendedMetadata
+
+	m.Shape = model.Shape
+
+	m.ShapeConfig = model.ShapeConfig
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceDetails = nn.(UpdateInstanceSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
+
+	m.PreferredMaintenanceAction = model.PreferredMaintenanceAction
+
+	m.UpdateOperationConstraint = model.UpdateOperationConstraint
+
+	m.InstanceOptions = model.InstanceOptions
+
+	m.FaultDomain = model.FaultDomain
+
+	m.LaunchOptions = model.LaunchOptions
+
+	m.AvailabilityConfig = model.AvailabilityConfig
+
+	m.TimeMaintenanceRebootDue = model.TimeMaintenanceRebootDue
+
+	m.DedicatedVmHostId = model.DedicatedVmHostId
+
+	nn, e = model.PlatformConfig.UnmarshalPolymorphicJSON(model.PlatformConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlatformConfig = nn.(UpdateInstancePlatformConfig)
+	} else {
+		m.PlatformConfig = nil
+	}
+
+	return
+}
+
+// UpdateInstanceDetailsPreferredMaintenanceActionEnum Enum with underlying type: string
+type UpdateInstanceDetailsPreferredMaintenanceActionEnum string
+
+// Set of constants representing the allowable values for UpdateInstanceDetailsPreferredMaintenanceActionEnum
+const (
+	UpdateInstanceDetailsPreferredMaintenanceActionLiveMigrate UpdateInstanceDetailsPreferredMaintenanceActionEnum = "LIVE_MIGRATE"
+	UpdateInstanceDetailsPreferredMaintenanceActionReboot      UpdateInstanceDetailsPreferredMaintenanceActionEnum = "REBOOT"
+)
+
+var mappingUpdateInstanceDetailsPreferredMaintenanceActionEnum = map[string]UpdateInstanceDetailsPreferredMaintenanceActionEnum{
+	"LIVE_MIGRATE": UpdateInstanceDetailsPreferredMaintenanceActionLiveMigrate,
+	"REBOOT":       UpdateInstanceDetailsPreferredMaintenanceActionReboot,
+}
+
+var mappingUpdateInstanceDetailsPreferredMaintenanceActionEnumLowerCase = map[string]UpdateInstanceDetailsPreferredMaintenanceActionEnum{
+	"live_migrate": UpdateInstanceDetailsPreferredMaintenanceActionLiveMigrate,
+	"reboot":       UpdateInstanceDetailsPreferredMaintenanceActionReboot,
+}
+
+// GetUpdateInstanceDetailsPreferredMaintenanceActionEnumValues Enumerates the set of values for UpdateInstanceDetailsPreferredMaintenanceActionEnum
+func GetUpdateInstanceDetailsPreferredMaintenanceActionEnumValues() []UpdateInstanceDetailsPreferredMaintenanceActionEnum {
+	values := make([]UpdateInstanceDetailsPreferredMaintenanceActionEnum, 0)
+	for _, v := range mappingUpdateInstanceDetailsPreferredMaintenanceActionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateInstanceDetailsPreferredMaintenanceActionEnumStringValues Enumerates the set of values in String for UpdateInstanceDetailsPreferredMaintenanceActionEnum
+func GetUpdateInstanceDetailsPreferredMaintenanceActionEnumStringValues() []string {
+	return []string{
+		"LIVE_MIGRATE",
+		"REBOOT",
+	}
+}
+
+// GetMappingUpdateInstanceDetailsPreferredMaintenanceActionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateInstanceDetailsPreferredMaintenanceActionEnum(val string) (UpdateInstanceDetailsPreferredMaintenanceActionEnum, bool) {
+	enum, ok := mappingUpdateInstanceDetailsPreferredMaintenanceActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // UpdateInstanceDetailsUpdateOperationConstraintEnum Enum with underlying type: string

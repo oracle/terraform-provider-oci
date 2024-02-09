@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeAwrDatabaseTopWaitEventsRequest wrapper for the SummarizeAwrDatabaseTopWaitEvents operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseTopWaitEvents.go.html to see an example of how to use SummarizeAwrDatabaseTopWaitEventsRequest.
 type SummarizeAwrDatabaseTopWaitEventsRequest struct {
 
 	// Unique Awr Hub identifier

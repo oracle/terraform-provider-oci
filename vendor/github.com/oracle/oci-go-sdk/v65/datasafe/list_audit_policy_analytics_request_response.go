@@ -12,10 +12,6 @@ import (
 )
 
 // ListAuditPolicyAnalyticsRequest wrapper for the ListAuditPolicyAnalytics operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListAuditPolicyAnalytics.go.html to see an example of how to use ListAuditPolicyAnalyticsRequest.
 type ListAuditPolicyAnalyticsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

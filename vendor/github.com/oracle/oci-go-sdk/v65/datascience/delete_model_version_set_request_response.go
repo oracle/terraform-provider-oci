@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteModelVersionSetRequest wrapper for the DeleteModelVersionSet operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteModelVersionSet.go.html to see an example of how to use DeleteModelVersionSetRequest.
 type DeleteModelVersionSetRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model version set.

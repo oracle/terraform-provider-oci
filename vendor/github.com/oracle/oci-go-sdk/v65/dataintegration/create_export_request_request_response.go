@@ -12,10 +12,6 @@ import (
 )
 
 // CreateExportRequestRequest wrapper for the CreateExportRequest operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateExportRequest.go.html to see an example of how to use CreateExportRequestRequest.
 type CreateExportRequestRequest struct {
 
 	// The workspace ID.

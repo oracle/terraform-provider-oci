@@ -12,10 +12,6 @@ import (
 )
 
 // CalculateAuditVolumeCollectedRequest wrapper for the CalculateAuditVolumeCollected operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CalculateAuditVolumeCollected.go.html to see an example of how to use CalculateAuditVolumeCollectedRequest.
 type CalculateAuditVolumeCollectedRequest struct {
 
 	// The OCID of the audit.

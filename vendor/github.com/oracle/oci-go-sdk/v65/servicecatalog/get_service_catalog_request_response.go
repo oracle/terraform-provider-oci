@@ -12,10 +12,6 @@ import (
 )
 
 // GetServiceCatalogRequest wrapper for the GetServiceCatalog operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetServiceCatalog.go.html to see an example of how to use GetServiceCatalogRequest.
 type GetServiceCatalogRequest struct {
 
 	// The unique identifier for the service catalog.

@@ -24,6 +24,9 @@ type ContainerInstanceShapeSummary struct {
 	// A short description of the container instance's processor (CPU).
 	ProcessorDescription *string `mandatory:"true" json:"processorDescription"`
 
+	// List of ADs / FDs in which the given shape is available.
+	AvailabilityDetails []FaultDomainDetails `mandatory:"false" json:"availabilityDetails"`
+
 	OcpuOptions *ShapeOcpuOptions `mandatory:"false" json:"ocpuOptions"`
 
 	MemoryOptions *ShapeMemoryOptions `mandatory:"false" json:"memoryOptions"`

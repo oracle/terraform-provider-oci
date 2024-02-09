@@ -27,6 +27,20 @@ type UpdateVcnDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// A DNS label for the VCN, used in conjunction with the VNIC's hostname and
+	// subnet's DNS label to form a fully qualified domain name (FQDN) for each VNIC
+	// within this subnet (for example, `bminstance1.subnet123.vcn1.oraclevcn.com`).
+	// Not required to be unique, but it's a best practice to set unique DNS labels
+	// for VCNs in your tenancy. Must be an alphanumeric string that begins with a letter.
+	// The value cannot be changed.
+	// You must set this value if you want instances to be able to use hostnames to
+	// resolve other instances in the VCN. Otherwise the Internet and VCN Resolver
+	// will not work.
+	// For more information, see
+	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
+	// Example: `vcn1`
+	DnsLabel *string `mandatory:"false" json:"dnsLabel"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

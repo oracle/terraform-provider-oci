@@ -12,10 +12,6 @@ import (
 )
 
 // RotateVaultKeyRequest wrapper for the RotateVaultKey operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RotateVaultKey.go.html to see an example of how to use RotateVaultKeyRequest.
 type RotateVaultKeyRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -12,10 +12,6 @@ import (
 )
 
 // ListSecurityFeaturesRequest wrapper for the ListSecurityFeatures operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSecurityFeatures.go.html to see an example of how to use ListSecurityFeaturesRequest.
 type ListSecurityFeaturesRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

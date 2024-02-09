@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeOperationsInsightsWarehouseCompartmentRequest wrapper for the ChangeOperationsInsightsWarehouseCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeOperationsInsightsWarehouseCompartment.go.html to see an example of how to use ChangeOperationsInsightsWarehouseCompartmentRequest.
 type ChangeOperationsInsightsWarehouseCompartmentRequest struct {
 
 	// Unique Operations Insights Warehouse identifier

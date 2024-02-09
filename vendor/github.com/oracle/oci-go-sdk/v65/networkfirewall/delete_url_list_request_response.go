@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteUrlListRequest wrapper for the DeleteUrlList operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteUrlList.go.html to see an example of how to use DeleteUrlListRequest.
 type DeleteUrlListRequest struct {
 
 	// Unique Network Firewall Policy identifier

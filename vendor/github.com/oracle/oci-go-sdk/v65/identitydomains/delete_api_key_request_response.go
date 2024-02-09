@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteApiKeyRequest wrapper for the DeleteApiKey operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApiKey.go.html to see an example of how to use DeleteApiKeyRequest.
 type DeleteApiKeyRequest struct {
 
 	// ID of the resource

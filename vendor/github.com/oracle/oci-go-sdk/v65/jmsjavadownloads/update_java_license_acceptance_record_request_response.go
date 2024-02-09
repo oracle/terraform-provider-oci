@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateJavaLicenseAcceptanceRecordRequest wrapper for the UpdateJavaLicenseAcceptanceRecord operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/UpdateJavaLicenseAcceptanceRecord.go.html to see an example of how to use UpdateJavaLicenseAcceptanceRecordRequest.
 type UpdateJavaLicenseAcceptanceRecordRequest struct {
 
 	// Unique Java license acceptance record identifier.

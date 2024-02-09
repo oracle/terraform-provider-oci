@@ -12,14 +12,13 @@ import (
 )
 
 // ListChannelsRequest wrapper for the ListChannels operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/ListChannels.go.html to see an example of how to use ListChannelsRequest.
 type ListChannelsRequest struct {
 
 	// The unique queue identifier.
 	QueueId *string `mandatory:"true" contributesTo:"path" name:"queueId"`
+
+	// Optional parameter to specify a consumer group.
+	ConsumerGroupId *string `mandatory:"false" contributesTo:"query" name:"consumerGroupId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

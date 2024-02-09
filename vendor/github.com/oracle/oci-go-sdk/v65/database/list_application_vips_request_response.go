@@ -12,10 +12,6 @@ import (
 )
 
 // ListApplicationVipsRequest wrapper for the ListApplicationVips operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListApplicationVips.go.html to see an example of how to use ListApplicationVipsRequest.
 type ListApplicationVipsRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

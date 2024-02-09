@@ -38,6 +38,9 @@ type ApiSummary struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The current state of the API.
 	LifecycleState ApiSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
@@ -58,6 +61,21 @@ type ApiSummary struct {
 
 	// Status of each feature available from the API.
 	ValidationResults []ApiValidationResult `mandatory:"false" json:"validationResults"`
+
+	// Version of the API as defined in the OAS Info block
+	Version *string `mandatory:"false" json:"version"`
+
+	// Title of the API as defined in the OAS Info block
+	Title *string `mandatory:"false" json:"title"`
+
+	// Title provided in OAS extension x-oci-apigateway-catalog.titleSlug
+	TitleSlug *string `mandatory:"false" json:"titleSlug"`
+
+	// Version provided in OAS extension x-oci-apigateway-catalog.versionSlug
+	VersionSlug *string `mandatory:"false" json:"versionSlug"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of API revision
+	RevisionId *string `mandatory:"false" json:"revisionId"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see

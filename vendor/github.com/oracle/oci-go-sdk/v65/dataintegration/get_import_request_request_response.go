@@ -12,10 +12,6 @@ import (
 )
 
 // GetImportRequestRequest wrapper for the GetImportRequest operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetImportRequest.go.html to see an example of how to use GetImportRequestRequest.
 type GetImportRequestRequest struct {
 
 	// The workspace ID.

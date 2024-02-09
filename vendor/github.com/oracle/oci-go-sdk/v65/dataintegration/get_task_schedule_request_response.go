@@ -12,10 +12,6 @@ import (
 )
 
 // GetTaskScheduleRequest wrapper for the GetTaskSchedule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetTaskSchedule.go.html to see an example of how to use GetTaskScheduleRequest.
 type GetTaskScheduleRequest struct {
 
 	// The workspace ID.

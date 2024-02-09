@@ -67,7 +67,7 @@ func newAddressServiceClientFromBaseClient(baseClient common.BaseClient, configP
 
 // SetRegion overrides the region of this client.
 func (client *AddressServiceClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("ospgateway", "https://ospap.oracle.com")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("ospgateway", "https://osp-oci-integ.osp.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,10 +92,6 @@ func (client *AddressServiceClient) ConfigurationProvider() *common.Configuratio
 }
 
 // GetAddress Get the address by id for the compartment
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddress.go.html to see an example of how to use GetAddress API.
 // A default retry strategy applies to this operation GetAddress()
 func (client AddressServiceClient) GetAddress(ctx context.Context, request GetAddressRequest) (response GetAddressResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -150,10 +146,6 @@ func (client AddressServiceClient) getAddress(ctx context.Context, request commo
 }
 
 // VerifyAddress Verify address
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/VerifyAddress.go.html to see an example of how to use VerifyAddress API.
 // A default retry strategy applies to this operation VerifyAddress()
 func (client AddressServiceClient) VerifyAddress(ctx context.Context, request VerifyAddressRequest) (response VerifyAddressResponse, err error) {
 	var ociResponse common.OCIResponse

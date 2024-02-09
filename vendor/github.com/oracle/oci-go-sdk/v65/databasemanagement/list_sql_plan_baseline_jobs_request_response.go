@@ -12,10 +12,6 @@ import (
 )
 
 // ListSqlPlanBaselineJobsRequest wrapper for the ListSqlPlanBaselineJobs operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlPlanBaselineJobs.go.html to see an example of how to use ListSqlPlanBaselineJobsRequest.
 type ListSqlPlanBaselineJobsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

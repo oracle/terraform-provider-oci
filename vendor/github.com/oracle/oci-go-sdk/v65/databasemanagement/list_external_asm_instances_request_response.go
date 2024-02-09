@@ -12,10 +12,6 @@ import (
 )
 
 // ListExternalAsmInstancesRequest wrapper for the ListExternalAsmInstances operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalAsmInstances.go.html to see an example of how to use ListExternalAsmInstancesRequest.
 type ListExternalAsmInstancesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

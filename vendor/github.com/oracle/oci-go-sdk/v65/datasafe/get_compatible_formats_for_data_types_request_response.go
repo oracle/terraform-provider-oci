@@ -12,10 +12,6 @@ import (
 )
 
 // GetCompatibleFormatsForDataTypesRequest wrapper for the GetCompatibleFormatsForDataTypes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetCompatibleFormatsForDataTypes.go.html to see an example of how to use GetCompatibleFormatsForDataTypesRequest.
 type GetCompatibleFormatsForDataTypesRequest struct {
 
 	// For list pagination. The maximum number of items to return per page in a paginated "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).

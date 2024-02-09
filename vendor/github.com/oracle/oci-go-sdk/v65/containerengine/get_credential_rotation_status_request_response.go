@@ -12,10 +12,6 @@ import (
 )
 
 // GetCredentialRotationStatusRequest wrapper for the GetCredentialRotationStatus operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetCredentialRotationStatus.go.html to see an example of how to use GetCredentialRotationStatusRequest.
 type GetCredentialRotationStatusRequest struct {
 
 	// The OCID of the cluster.

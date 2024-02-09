@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// ProblemEndpointCollection Provides the list of problem endpoints
+// ProblemEndpointCollection Collection of problem endpoint summaries.
 type ProblemEndpointCollection struct {
 
-	// List of problem endpoints
+	// List of ProblemEndpointSummary resources
 	Items []ProblemEndpointSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ProblemEndpointCollection) String() string {

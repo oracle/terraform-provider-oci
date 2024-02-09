@@ -12,10 +12,6 @@ import (
 )
 
 // GetRefreshActivityRequest wrapper for the GetRefreshActivity operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetRefreshActivity.go.html to see an example of how to use GetRefreshActivityRequest.
 type GetRefreshActivityRequest struct {
 
 	// unique FusionEnvironment identifier

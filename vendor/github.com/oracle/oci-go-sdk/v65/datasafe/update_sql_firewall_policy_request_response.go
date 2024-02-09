@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateSqlFirewallPolicyRequest wrapper for the UpdateSqlFirewallPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSqlFirewallPolicy.go.html to see an example of how to use UpdateSqlFirewallPolicyRequest.
 type UpdateSqlFirewallPolicyRequest struct {
 
 	// The OCID of the SQL Firewall policy resource.

@@ -12,10 +12,6 @@ import (
 )
 
 // RemoveAgentDependencyRequest wrapper for the RemoveAgentDependency operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/RemoveAgentDependency.go.html to see an example of how to use RemoveAgentDependencyRequest.
 type RemoveAgentDependencyRequest struct {
 
 	// Unique environment identifier.

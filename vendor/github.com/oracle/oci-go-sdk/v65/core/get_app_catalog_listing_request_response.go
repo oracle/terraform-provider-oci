@@ -12,10 +12,6 @@ import (
 )
 
 // GetAppCatalogListingRequest wrapper for the GetAppCatalogListing operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAppCatalogListing.go.html to see an example of how to use GetAppCatalogListingRequest.
 type GetAppCatalogListingRequest struct {
 
 	// The OCID of the listing.

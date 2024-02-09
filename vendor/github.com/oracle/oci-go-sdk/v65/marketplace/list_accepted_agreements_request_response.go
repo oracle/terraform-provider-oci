@@ -12,10 +12,6 @@ import (
 )
 
 // ListAcceptedAgreementsRequest wrapper for the ListAcceptedAgreements operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/marketplace/ListAcceptedAgreements.go.html to see an example of how to use ListAcceptedAgreementsRequest.
 type ListAcceptedAgreementsRequest struct {
 
 	// The unique identifier for the compartment.

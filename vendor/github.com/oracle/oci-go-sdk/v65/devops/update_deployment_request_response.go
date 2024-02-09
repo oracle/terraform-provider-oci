@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateDeploymentRequest wrapper for the UpdateDeployment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateDeployment.go.html to see an example of how to use UpdateDeploymentRequest.
 type UpdateDeploymentRequest struct {
 
 	// Unique deployment identifier.

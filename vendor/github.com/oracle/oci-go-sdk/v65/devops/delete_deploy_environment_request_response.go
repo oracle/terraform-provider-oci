@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDeployEnvironmentRequest wrapper for the DeleteDeployEnvironment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/DeleteDeployEnvironment.go.html to see an example of how to use DeleteDeployEnvironmentRequest.
 type DeleteDeployEnvironmentRequest struct {
 
 	// Unique environment identifier.

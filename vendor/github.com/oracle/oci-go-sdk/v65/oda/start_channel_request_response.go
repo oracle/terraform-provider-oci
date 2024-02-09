@@ -12,10 +12,6 @@ import (
 )
 
 // StartChannelRequest wrapper for the StartChannel operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/StartChannel.go.html to see an example of how to use StartChannelRequest.
 type StartChannelRequest struct {
 
 	// Unique Digital Assistant instance identifier.

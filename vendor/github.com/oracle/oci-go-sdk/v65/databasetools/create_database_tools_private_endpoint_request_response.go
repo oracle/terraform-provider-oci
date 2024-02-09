@@ -12,10 +12,6 @@ import (
 )
 
 // CreateDatabaseToolsPrivateEndpointRequest wrapper for the CreateDatabaseToolsPrivateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/CreateDatabaseToolsPrivateEndpoint.go.html to see an example of how to use CreateDatabaseToolsPrivateEndpointRequest.
 type CreateDatabaseToolsPrivateEndpointRequest struct {
 
 	// Details for the new DatabaseToolsPrivateEndpoint.

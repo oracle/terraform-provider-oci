@@ -64,7 +64,7 @@ type Node struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The state of the node.
+	// The state of the node. For more information, see Monitoring Clusters (https://docs.cloud.oracle.com/Content/ContEng/Tasks/contengmonitoringclusters.htm)
 	LifecycleState NodeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Details about the state of the node.

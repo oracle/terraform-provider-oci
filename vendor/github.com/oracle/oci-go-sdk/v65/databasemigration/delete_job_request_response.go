@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteJobRequest wrapper for the DeleteJob operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteJob.go.html to see an example of how to use DeleteJobRequest.
 type DeleteJobRequest struct {
 
 	// The OCID of the job

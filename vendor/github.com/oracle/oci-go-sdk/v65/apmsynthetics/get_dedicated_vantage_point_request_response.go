@@ -12,10 +12,6 @@ import (
 )
 
 // GetDedicatedVantagePointRequest wrapper for the GetDedicatedVantagePoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/GetDedicatedVantagePoint.go.html to see an example of how to use GetDedicatedVantagePointRequest.
 type GetDedicatedVantagePointRequest struct {
 
 	// The APM domain ID the request is intended for.

@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteSecurityRuleRequest wrapper for the DeleteSecurityRule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteSecurityRule.go.html to see an example of how to use DeleteSecurityRuleRequest.
 type DeleteSecurityRuleRequest struct {
 
 	// Unique Network Firewall Policy identifier

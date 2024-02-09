@@ -12,10 +12,6 @@ import (
 )
 
 // CancelDeploymentUpgradeRequest wrapper for the CancelDeploymentUpgrade operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CancelDeploymentUpgrade.go.html to see an example of how to use CancelDeploymentUpgradeRequest.
 type CancelDeploymentUpgradeRequest struct {
 
 	// A unique Deployment Upgrade identifier.

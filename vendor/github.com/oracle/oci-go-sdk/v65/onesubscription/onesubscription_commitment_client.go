@@ -92,10 +92,6 @@ func (client *CommitmentClient) ConfigurationProvider() *common.ConfigurationPro
 }
 
 // GetCommitment This API returns the commitment details corresponding to the id provided
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/GetCommitment.go.html to see an example of how to use GetCommitment API.
 func (client CommitmentClient) GetCommitment(ctx context.Context, request GetCommitmentRequest) (response GetCommitmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -149,10 +145,6 @@ func (client CommitmentClient) getCommitment(ctx context.Context, request common
 }
 
 // ListCommitments This list API returns all commitments for a particular Subscribed Service
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListCommitments.go.html to see an example of how to use ListCommitments API.
 func (client CommitmentClient) ListCommitments(ctx context.Context, request ListCommitmentsRequest) (response ListCommitmentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

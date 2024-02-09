@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeAwrDatabaseSnapshotRangesRequest wrapper for the SummarizeAwrDatabaseSnapshotRanges operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrDatabaseSnapshotRanges.go.html to see an example of how to use SummarizeAwrDatabaseSnapshotRangesRequest.
 type SummarizeAwrDatabaseSnapshotRangesRequest struct {
 
 	// Unique Awr Hub identifier

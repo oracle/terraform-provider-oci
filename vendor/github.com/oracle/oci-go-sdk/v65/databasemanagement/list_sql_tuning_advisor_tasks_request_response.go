@@ -12,10 +12,6 @@ import (
 )
 
 // ListSqlTuningAdvisorTasksRequest wrapper for the ListSqlTuningAdvisorTasks operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListSqlTuningAdvisorTasks.go.html to see an example of how to use ListSqlTuningAdvisorTasksRequest.
 type ListSqlTuningAdvisorTasksRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

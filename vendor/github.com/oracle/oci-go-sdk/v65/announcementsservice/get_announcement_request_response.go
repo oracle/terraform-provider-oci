@@ -12,10 +12,6 @@ import (
 )
 
 // GetAnnouncementRequest wrapper for the GetAnnouncement operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncement.go.html to see an example of how to use GetAnnouncementRequest.
 type GetAnnouncementRequest struct {
 
 	// The OCID of the announcement.

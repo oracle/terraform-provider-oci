@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateReplicaRequest wrapper for the UpdateReplica operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateReplica.go.html to see an example of how to use UpdateReplicaRequest.
 type UpdateReplicaRequest struct {
 
 	// The Replica OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

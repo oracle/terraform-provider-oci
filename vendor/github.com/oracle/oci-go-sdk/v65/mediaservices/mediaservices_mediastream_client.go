@@ -93,10 +93,6 @@ func (client *MediaStreamClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // GeneratePlaylist Gets the playlist content for the specified Packaging Configuration and Media Asset combination. This API call is made using the MediaStreamsClient, which requires the endpoint to be set with the value of the distribution channel domain name (for example, https://example_channel.dc.mediaservices.example_region.oci.oraclecloud.com) to generate a session token or playlist for a media asset registered in this distribution channel.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GeneratePlaylist.go.html to see an example of how to use GeneratePlaylist API.
 // A default retry strategy applies to this operation GeneratePlaylist()
 func (client MediaStreamClient) GeneratePlaylist(ctx context.Context, request GeneratePlaylistRequest) (response GeneratePlaylistResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -150,10 +146,6 @@ func (client MediaStreamClient) generatePlaylist(ctx context.Context, request co
 }
 
 // GenerateSessionToken Generate a new streaming session token. This API call is made using the MediaStreamsClient, which requires the endpoint to be set with the value of the distribution channel domain name (for example, https://example_channel.dc.mediaservices.example_region.oci.oraclecloud.com) to generate a session token or playlist for a media asset registered in this distribution channel.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GenerateSessionToken.go.html to see an example of how to use GenerateSessionToken API.
 // A default retry strategy applies to this operation GenerateSessionToken()
 func (client MediaStreamClient) GenerateSessionToken(ctx context.Context, request GenerateSessionTokenRequest) (response GenerateSessionTokenResponse, err error) {
 	var ociResponse common.OCIResponse

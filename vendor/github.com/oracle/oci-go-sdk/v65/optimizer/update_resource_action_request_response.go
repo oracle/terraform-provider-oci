@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateResourceActionRequest wrapper for the UpdateResourceAction operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/optimizer/UpdateResourceAction.go.html to see an example of how to use UpdateResourceActionRequest.
 type UpdateResourceActionRequest struct {
 
 	// The unique OCID associated with the resource action.

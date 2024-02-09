@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeRemediationRecipeCompartmentRequest wrapper for the ChangeRemediationRecipeCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ChangeRemediationRecipeCompartment.go.html to see an example of how to use ChangeRemediationRecipeCompartmentRequest.
 type ChangeRemediationRecipeCompartmentRequest struct {
 
 	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Remediation Recipe, as a URL path parameter.

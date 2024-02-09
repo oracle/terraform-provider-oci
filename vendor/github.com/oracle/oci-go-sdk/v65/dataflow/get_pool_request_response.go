@@ -12,10 +12,6 @@ import (
 )
 
 // GetPoolRequest wrapper for the GetPool operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/GetPool.go.html to see an example of how to use GetPoolRequest.
 type GetPoolRequest struct {
 
 	// The unique ID for a pool.

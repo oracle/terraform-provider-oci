@@ -12,10 +12,6 @@ import (
 )
 
 // GetDeployPipelineRequest wrapper for the GetDeployPipeline operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployPipeline.go.html to see an example of how to use GetDeployPipelineRequest.
 type GetDeployPipelineRequest struct {
 
 	// Unique pipeline identifier.

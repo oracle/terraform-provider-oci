@@ -12,10 +12,6 @@ import (
 )
 
 // VerifyAddressRequest wrapper for the VerifyAddress operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/VerifyAddress.go.html to see an example of how to use VerifyAddressRequest.
 type VerifyAddressRequest struct {
 
 	// The home region's public name of the logged in user.

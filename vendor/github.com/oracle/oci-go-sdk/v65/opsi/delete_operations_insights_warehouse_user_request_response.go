@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteOperationsInsightsWarehouseUserRequest wrapper for the DeleteOperationsInsightsWarehouseUser operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteOperationsInsightsWarehouseUser.go.html to see an example of how to use DeleteOperationsInsightsWarehouseUserRequest.
 type DeleteOperationsInsightsWarehouseUserRequest struct {
 
 	// Unique Operations Insights Warehouse User identifier

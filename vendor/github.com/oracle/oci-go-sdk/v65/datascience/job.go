@@ -48,10 +48,14 @@ type Job struct {
 	// A short description of the job.
 	Description *string `mandatory:"false" json:"description"`
 
+	JobEnvironmentConfigurationDetails JobEnvironmentConfigurationDetails `mandatory:"false" json:"jobEnvironmentConfigurationDetails"`
+
 	JobLogConfigurationDetails *JobLogConfigurationDetails `mandatory:"false" json:"jobLogConfigurationDetails"`
 
 	// Collection of JobStorageMountConfigurationDetails.
 	JobStorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"jobStorageMountConfigurationDetailsList"`
+
+	JobNodeConfigurationDetails JobNodeConfigurationDetails `mandatory:"false" json:"jobNodeConfigurationDetails"`
 
 	// The state of the job.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -89,8 +93,10 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName                             *string                               `json:"displayName"`
 		Description                             *string                               `json:"description"`
+		JobEnvironmentConfigurationDetails      jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationDetails"`
 		JobLogConfigurationDetails              *JobLogConfigurationDetails           `json:"jobLogConfigurationDetails"`
 		JobStorageMountConfigurationDetailsList []storagemountconfigurationdetails    `json:"jobStorageMountConfigurationDetailsList"`
+		JobNodeConfigurationDetails             jobnodeconfigurationdetails           `json:"jobNodeConfigurationDetails"`
 		LifecycleDetails                        *string                               `json:"lifecycleDetails"`
 		FreeformTags                            map[string]string                     `json:"freeformTags"`
 		DefinedTags                             map[string]map[string]interface{}     `json:"definedTags"`
@@ -113,6 +119,16 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 
 	m.Description = model.Description
 
+	nn, e = model.JobEnvironmentConfigurationDetails.UnmarshalPolymorphicJSON(model.JobEnvironmentConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.JobEnvironmentConfigurationDetails = nn.(JobEnvironmentConfigurationDetails)
+	} else {
+		m.JobEnvironmentConfigurationDetails = nil
+	}
+
 	m.JobLogConfigurationDetails = model.JobLogConfigurationDetails
 
 	m.JobStorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.JobStorageMountConfigurationDetailsList))
@@ -127,6 +143,16 @@ func (m *Job) UnmarshalJSON(data []byte) (e error) {
 			m.JobStorageMountConfigurationDetailsList[i] = nil
 		}
 	}
+	nn, e = model.JobNodeConfigurationDetails.UnmarshalPolymorphicJSON(model.JobNodeConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.JobNodeConfigurationDetails = nn.(JobNodeConfigurationDetails)
+	} else {
+		m.JobNodeConfigurationDetails = nil
+	}
+
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

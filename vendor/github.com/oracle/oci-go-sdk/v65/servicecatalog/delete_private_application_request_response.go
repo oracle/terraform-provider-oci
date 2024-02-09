@@ -12,10 +12,6 @@ import (
 )
 
 // DeletePrivateApplicationRequest wrapper for the DeletePrivateApplication operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/DeletePrivateApplication.go.html to see an example of how to use DeletePrivateApplicationRequest.
 type DeletePrivateApplicationRequest struct {
 
 	// The unique identifier for the private application.

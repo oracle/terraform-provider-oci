@@ -12,10 +12,6 @@ import (
 )
 
 // RequestJavaMigrationAnalysesRequest wrapper for the RequestJavaMigrationAnalyses operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RequestJavaMigrationAnalyses.go.html to see an example of how to use RequestJavaMigrationAnalysesRequest.
 type RequestJavaMigrationAnalysesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

@@ -12,10 +12,6 @@ import (
 )
 
 // CreateStreamCdnConfigRequest wrapper for the CreateStreamCdnConfig operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/CreateStreamCdnConfig.go.html to see an example of how to use CreateStreamCdnConfigRequest.
 type CreateStreamCdnConfigRequest struct {
 
 	// Details for the new StreamCdnConfig.

@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeDataguardRoleRequest wrapper for the ChangeDataguardRole operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeDataguardRole.go.html to see an example of how to use ChangeDataguardRoleRequest.
 type ChangeDataguardRoleRequest struct {
 
 	// Request to Change the Autonomous Container Database Dataguard role.

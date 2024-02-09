@@ -12,10 +12,6 @@ import (
 )
 
 // CompareUserAssessmentRequest wrapper for the CompareUserAssessment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CompareUserAssessment.go.html to see an example of how to use CompareUserAssessmentRequest.
 type CompareUserAssessmentRequest struct {
 
 	// The OCID of the user assessment.

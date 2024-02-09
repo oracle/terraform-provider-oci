@@ -85,10 +85,6 @@ func (m *modeldetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := PreTrainedSentimentAnalysisModelDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "PRE_TRAINED_PHI":
-		mm := PreTrainedPhiModelDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "PRE_TRAINED_TEXT_CLASSIFICATION":
 		mm := PreTrainedTextClassificationModelDetails{}
 		err = json.Unmarshal(data, &mm)

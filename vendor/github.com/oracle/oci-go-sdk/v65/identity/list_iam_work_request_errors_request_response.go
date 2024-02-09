@@ -12,10 +12,6 @@ import (
 )
 
 // ListIamWorkRequestErrorsRequest wrapper for the ListIamWorkRequestErrors operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListIamWorkRequestErrors.go.html to see an example of how to use ListIamWorkRequestErrorsRequest.
 type ListIamWorkRequestErrorsRequest struct {
 
 	// The OCID of the IAM work request.

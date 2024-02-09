@@ -12,10 +12,6 @@ import (
 )
 
 // GetMonitoredResourceTypeRequest wrapper for the GetMonitoredResourceType operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMonitoredResourceType.go.html to see an example of how to use GetMonitoredResourceTypeRequest.
 type GetMonitoredResourceTypeRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource type.

@@ -13,10 +13,6 @@ import (
 )
 
 // GetJobArtifactContentRequest wrapper for the GetJobArtifactContent operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetJobArtifactContent.go.html to see an example of how to use GetJobArtifactContentRequest.
 type GetJobArtifactContentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.

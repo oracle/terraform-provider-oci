@@ -12,10 +12,6 @@ import (
 )
 
 // CreateImageJobRequest wrapper for the CreateImageJob operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aivision/CreateImageJob.go.html to see an example of how to use CreateImageJobRequest.
 type CreateImageJobRequest struct {
 
 	// The details of the batch image analysis.

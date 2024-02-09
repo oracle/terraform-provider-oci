@@ -12,10 +12,6 @@ import (
 )
 
 // ListComputeCapacityReservationsRequest wrapper for the ListComputeCapacityReservations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListComputeCapacityReservations.go.html to see an example of how to use ListComputeCapacityReservationsRequest.
 type ListComputeCapacityReservationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

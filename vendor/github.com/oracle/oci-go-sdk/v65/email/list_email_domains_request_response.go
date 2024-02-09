@@ -12,10 +12,6 @@ import (
 )
 
 // ListEmailDomainsRequest wrapper for the ListEmailDomains operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/ListEmailDomains.go.html to see an example of how to use ListEmailDomainsRequest.
 type ListEmailDomainsRequest struct {
 
 	// The OCID for the compartment.
@@ -29,6 +25,9 @@ type ListEmailDomainsRequest struct {
 
 	// A filter to only return resources that match the given name exactly.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
+
+	// A filter to only return resources that match the given private endpoint ID exactly.
+	EmailPrivateEndpointId *string `mandatory:"false" contributesTo:"query" name:"emailPrivateEndpointId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. `1` is the minimum, `1000` is the maximum. For important details about

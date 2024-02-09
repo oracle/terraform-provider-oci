@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteAppRequest wrapper for the DeleteApp operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteApp.go.html to see an example of how to use DeleteAppRequest.
 type DeleteAppRequest struct {
 
 	// ID of the resource

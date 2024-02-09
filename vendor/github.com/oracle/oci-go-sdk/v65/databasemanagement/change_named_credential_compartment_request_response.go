@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeNamedCredentialCompartmentRequest wrapper for the ChangeNamedCredentialCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeNamedCredentialCompartment.go.html to see an example of how to use ChangeNamedCredentialCompartmentRequest.
 type ChangeNamedCredentialCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the named credential.

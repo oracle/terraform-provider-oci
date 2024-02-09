@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateWebAppAccelerationRequest wrapper for the UpdateWebAppAcceleration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/UpdateWebAppAcceleration.go.html to see an example of how to use UpdateWebAppAccelerationRequest.
 type UpdateWebAppAccelerationRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the WebAppAcceleration.

@@ -12,10 +12,6 @@ import (
 )
 
 // GetMySqlFleetMetricRequest wrapper for the GetMySqlFleetMetric operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetMySqlFleetMetric.go.html to see an example of how to use GetMySqlFleetMetricRequest.
 type GetMySqlFleetMetricRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -46,6 +42,9 @@ type GetMySqlFleetMetricRequest struct {
 
 	// The parameter to filter by MySQL database version.
 	FilterByMySqlDatabaseVersion *string `mandatory:"false" contributesTo:"query" name:"filterByMySqlDatabaseVersion"`
+
+	// The parameter to filter based on whether HeatWave is enabled for the database.
+	IsHeatWaveEnabled *bool `mandatory:"false" contributesTo:"query" name:"isHeatWaveEnabled"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

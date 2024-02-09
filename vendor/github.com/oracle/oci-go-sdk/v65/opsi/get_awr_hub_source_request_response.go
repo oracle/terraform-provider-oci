@@ -12,10 +12,6 @@ import (
 )
 
 // GetAwrHubSourceRequest wrapper for the GetAwrHubSource operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrHubSource.go.html to see an example of how to use GetAwrHubSourceRequest.
 type GetAwrHubSourceRequest struct {
 
 	// Unique Awr Hub Source identifier

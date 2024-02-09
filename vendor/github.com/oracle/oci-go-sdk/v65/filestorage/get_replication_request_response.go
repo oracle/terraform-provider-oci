@@ -12,10 +12,6 @@ import (
 )
 
 // GetReplicationRequest wrapper for the GetReplication operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetReplication.go.html to see an example of how to use GetReplicationRequest.
 type GetReplicationRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.

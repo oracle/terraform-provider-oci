@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeAwrSourcesSummariesRequest wrapper for the SummarizeAwrSourcesSummaries operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/SummarizeAwrSourcesSummaries.go.html to see an example of how to use SummarizeAwrSourcesSummariesRequest.
 type SummarizeAwrSourcesSummariesRequest struct {
 
 	// Unique Awr Hub identifier

@@ -12,10 +12,6 @@ import (
 )
 
 // GetManagedDatabaseRequest wrapper for the GetManagedDatabase operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetManagedDatabase.go.html to see an example of how to use GetManagedDatabaseRequest.
 type GetManagedDatabaseRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
@@ -78,6 +74,9 @@ type GetManagedDatabaseResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
 func (response GetManagedDatabaseResponse) String() string {

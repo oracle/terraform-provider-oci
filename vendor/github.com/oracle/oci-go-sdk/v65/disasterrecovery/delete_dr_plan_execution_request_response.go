@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDrPlanExecutionRequest wrapper for the DeleteDrPlanExecution operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/DeleteDrPlanExecution.go.html to see an example of how to use DeleteDrPlanExecutionRequest.
 type DeleteDrPlanExecutionRequest struct {
 
 	// The OCID of the DR plan execution.

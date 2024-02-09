@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteConsoleHistoryRequest wrapper for the DeleteConsoleHistory operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeleteConsoleHistory.go.html to see an example of how to use DeleteConsoleHistoryRequest.
 type DeleteConsoleHistoryRequest struct {
 
 	// The database node OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

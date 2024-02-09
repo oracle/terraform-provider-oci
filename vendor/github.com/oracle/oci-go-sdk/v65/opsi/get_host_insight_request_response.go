@@ -12,10 +12,6 @@ import (
 )
 
 // GetHostInsightRequest wrapper for the GetHostInsight operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetHostInsight.go.html to see an example of how to use GetHostInsightRequest.
 type GetHostInsightRequest struct {
 
 	// Unique host insight identifier

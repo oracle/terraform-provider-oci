@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteAnnouncementSubscriptionRequest wrapper for the DeleteAnnouncementSubscription operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/DeleteAnnouncementSubscription.go.html to see an example of how to use DeleteAnnouncementSubscriptionRequest.
 type DeleteAnnouncementSubscriptionRequest struct {
 
 	// The OCID of the announcement subscription.

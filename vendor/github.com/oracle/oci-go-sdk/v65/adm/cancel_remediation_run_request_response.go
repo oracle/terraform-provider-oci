@@ -12,10 +12,6 @@ import (
 )
 
 // CancelRemediationRunRequest wrapper for the CancelRemediationRun operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/CancelRemediationRun.go.html to see an example of how to use CancelRemediationRunRequest.
 type CancelRemediationRunRequest struct {
 
 	// Unique Remediation Run identifier path parameter.

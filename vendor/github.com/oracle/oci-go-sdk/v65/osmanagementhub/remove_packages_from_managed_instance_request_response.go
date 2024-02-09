@@ -12,10 +12,6 @@ import (
 )
 
 // RemovePackagesFromManagedInstanceRequest wrapper for the RemovePackagesFromManagedInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RemovePackagesFromManagedInstance.go.html to see an example of how to use RemovePackagesFromManagedInstanceRequest.
 type RemovePackagesFromManagedInstanceRequest struct {
 
 	// The OCID of the managed instance.

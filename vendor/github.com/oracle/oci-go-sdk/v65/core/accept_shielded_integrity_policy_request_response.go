@@ -12,10 +12,6 @@ import (
 )
 
 // AcceptShieldedIntegrityPolicyRequest wrapper for the AcceptShieldedIntegrityPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AcceptShieldedIntegrityPolicy.go.html to see an example of how to use AcceptShieldedIntegrityPolicyRequest.
 type AcceptShieldedIntegrityPolicyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance.

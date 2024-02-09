@@ -12,10 +12,6 @@ import (
 )
 
 // ListDrsFilesRequest wrapper for the ListDrsFiles operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListDrsFiles.go.html to see an example of how to use ListDrsFilesRequest.
 type ListDrsFilesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

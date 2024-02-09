@@ -74,6 +74,9 @@ type VolumeGroup struct {
 
 	// The list of volume group replicas of this volume group.
 	VolumeGroupReplicas []VolumeGroupReplicaInfo `mandatory:"false" json:"volumeGroupReplicas"`
+
+	// The scope of the volume group
+	VolumeGroupScope VolumeGroupVolumeGroupScopeEnum `mandatory:"false" json:"volumeGroupScope,omitempty"`
 }
 
 func (m VolumeGroup) String() string {
@@ -89,6 +92,9 @@ func (m VolumeGroup) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetVolumeGroupLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingVolumeGroupVolumeGroupScopeEnum(string(m.VolumeGroupScope)); !ok && m.VolumeGroupScope != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VolumeGroupScope: %s. Supported values are: %s.", m.VolumeGroupScope, strings.Join(GetVolumeGroupVolumeGroupScopeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -104,6 +110,7 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 		SourceDetails       volumegroupsourcedetails          `json:"sourceDetails"`
 		IsHydrated          *bool                             `json:"isHydrated"`
 		VolumeGroupReplicas []VolumeGroupReplicaInfo          `json:"volumeGroupReplicas"`
+		VolumeGroupScope    VolumeGroupVolumeGroupScopeEnum   `json:"volumeGroupScope"`
 		AvailabilityDomain  *string                           `json:"availabilityDomain"`
 		CompartmentId       *string                           `json:"compartmentId"`
 		DisplayName         *string                           `json:"displayName"`
@@ -139,6 +146,8 @@ func (m *VolumeGroup) UnmarshalJSON(data []byte) (e error) {
 
 	m.VolumeGroupReplicas = make([]VolumeGroupReplicaInfo, len(model.VolumeGroupReplicas))
 	copy(m.VolumeGroupReplicas, model.VolumeGroupReplicas)
+	m.VolumeGroupScope = model.VolumeGroupScope
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
@@ -213,5 +222,47 @@ func GetVolumeGroupLifecycleStateEnumStringValues() []string {
 // GetMappingVolumeGroupLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVolumeGroupLifecycleStateEnum(val string) (VolumeGroupLifecycleStateEnum, bool) {
 	enum, ok := mappingVolumeGroupLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VolumeGroupVolumeGroupScopeEnum Enum with underlying type: string
+type VolumeGroupVolumeGroupScopeEnum string
+
+// Set of constants representing the allowable values for VolumeGroupVolumeGroupScopeEnum
+const (
+	VolumeGroupVolumeGroupScopeRegional VolumeGroupVolumeGroupScopeEnum = "REGIONAL"
+	VolumeGroupVolumeGroupScopeAdLocal  VolumeGroupVolumeGroupScopeEnum = "AD_LOCAL"
+)
+
+var mappingVolumeGroupVolumeGroupScopeEnum = map[string]VolumeGroupVolumeGroupScopeEnum{
+	"REGIONAL": VolumeGroupVolumeGroupScopeRegional,
+	"AD_LOCAL": VolumeGroupVolumeGroupScopeAdLocal,
+}
+
+var mappingVolumeGroupVolumeGroupScopeEnumLowerCase = map[string]VolumeGroupVolumeGroupScopeEnum{
+	"regional": VolumeGroupVolumeGroupScopeRegional,
+	"ad_local": VolumeGroupVolumeGroupScopeAdLocal,
+}
+
+// GetVolumeGroupVolumeGroupScopeEnumValues Enumerates the set of values for VolumeGroupVolumeGroupScopeEnum
+func GetVolumeGroupVolumeGroupScopeEnumValues() []VolumeGroupVolumeGroupScopeEnum {
+	values := make([]VolumeGroupVolumeGroupScopeEnum, 0)
+	for _, v := range mappingVolumeGroupVolumeGroupScopeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVolumeGroupVolumeGroupScopeEnumStringValues Enumerates the set of values in String for VolumeGroupVolumeGroupScopeEnum
+func GetVolumeGroupVolumeGroupScopeEnumStringValues() []string {
+	return []string{
+		"REGIONAL",
+		"AD_LOCAL",
+	}
+}
+
+// GetMappingVolumeGroupVolumeGroupScopeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVolumeGroupVolumeGroupScopeEnum(val string) (VolumeGroupVolumeGroupScopeEnum, bool) {
+	enum, ok := mappingVolumeGroupVolumeGroupScopeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

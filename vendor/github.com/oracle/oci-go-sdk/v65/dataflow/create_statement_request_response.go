@@ -12,10 +12,6 @@ import (
 )
 
 // CreateStatementRequest wrapper for the CreateStatement operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CreateStatement.go.html to see an example of how to use CreateStatementRequest.
 type CreateStatementRequest struct {
 
 	// Details for creating a statement.

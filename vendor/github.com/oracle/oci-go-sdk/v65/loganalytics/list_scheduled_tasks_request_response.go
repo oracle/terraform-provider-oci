@@ -12,10 +12,6 @@ import (
 )
 
 // ListScheduledTasksRequest wrapper for the ListScheduledTasks operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListScheduledTasks.go.html to see an example of how to use ListScheduledTasksRequest.
 type ListScheduledTasksRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -51,6 +47,9 @@ type ListScheduledTasksRequest struct {
 
 	// A filter to return only resources whose display name contains the substring.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
+
+	// The target service to use for filtering.
+	TargetService *string `mandatory:"false" contributesTo:"query" name:"targetService"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

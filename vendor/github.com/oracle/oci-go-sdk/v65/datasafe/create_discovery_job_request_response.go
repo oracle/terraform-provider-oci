@@ -12,10 +12,6 @@ import (
 )
 
 // CreateDiscoveryJobRequest wrapper for the CreateDiscoveryJob operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateDiscoveryJob.go.html to see an example of how to use CreateDiscoveryJobRequest.
 type CreateDiscoveryJobRequest struct {
 
 	// The details used to run an incremental data discovery job

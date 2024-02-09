@@ -12,10 +12,6 @@ import (
 )
 
 // GetAwrDatabaseSqlReportRequest wrapper for the GetAwrDatabaseSqlReport operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrDatabaseSqlReport.go.html to see an example of how to use GetAwrDatabaseSqlReportRequest.
 type GetAwrDatabaseSqlReportRequest struct {
 
 	// Unique Awr Hub identifier

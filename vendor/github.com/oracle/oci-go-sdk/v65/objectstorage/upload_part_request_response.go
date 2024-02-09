@@ -13,10 +13,6 @@ import (
 )
 
 // UploadPartRequest wrapper for the UploadPart operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UploadPart.go.html to see an example of how to use UploadPartRequest.
 type UploadPartRequest struct {
 
 	// The Object Storage namespace used for the request.

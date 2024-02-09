@@ -45,6 +45,9 @@ type CreateNatGatewayDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the public IP address associated with the NAT gateway.
 	PublicIpId *string `mandatory:"false" json:"publicIpId"`
 
+	// The name of the Oracle managed public IP Pool from which the IP address associated with the NAT gateway is allocated.
+	InternalPublicIpPoolName CreateNatGatewayDetailsInternalPublicIpPoolNameEnum `mandatory:"false" json:"internalPublicIpPoolName,omitempty"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the NAT gateway.
 	// If you don't specify a route table here, the NAT gateway is created without an associated route
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
@@ -62,8 +65,53 @@ func (m CreateNatGatewayDetails) String() string {
 func (m CreateNatGatewayDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateNatGatewayDetailsInternalPublicIpPoolNameEnum(string(m.InternalPublicIpPoolName)); !ok && m.InternalPublicIpPoolName != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InternalPublicIpPoolName: %s. Supported values are: %s.", m.InternalPublicIpPoolName, strings.Join(GetCreateNatGatewayDetailsInternalPublicIpPoolNameEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateNatGatewayDetailsInternalPublicIpPoolNameEnum Enum with underlying type: string
+type CreateNatGatewayDetailsInternalPublicIpPoolNameEnum string
+
+// Set of constants representing the allowable values for CreateNatGatewayDetailsInternalPublicIpPoolNameEnum
+const (
+	CreateNatGatewayDetailsInternalPublicIpPoolNameExternal   CreateNatGatewayDetailsInternalPublicIpPoolNameEnum = "EXTERNAL"
+	CreateNatGatewayDetailsInternalPublicIpPoolNameSociEgress CreateNatGatewayDetailsInternalPublicIpPoolNameEnum = "SOCI_EGRESS"
+)
+
+var mappingCreateNatGatewayDetailsInternalPublicIpPoolNameEnum = map[string]CreateNatGatewayDetailsInternalPublicIpPoolNameEnum{
+	"EXTERNAL":    CreateNatGatewayDetailsInternalPublicIpPoolNameExternal,
+	"SOCI_EGRESS": CreateNatGatewayDetailsInternalPublicIpPoolNameSociEgress,
+}
+
+var mappingCreateNatGatewayDetailsInternalPublicIpPoolNameEnumLowerCase = map[string]CreateNatGatewayDetailsInternalPublicIpPoolNameEnum{
+	"external":    CreateNatGatewayDetailsInternalPublicIpPoolNameExternal,
+	"soci_egress": CreateNatGatewayDetailsInternalPublicIpPoolNameSociEgress,
+}
+
+// GetCreateNatGatewayDetailsInternalPublicIpPoolNameEnumValues Enumerates the set of values for CreateNatGatewayDetailsInternalPublicIpPoolNameEnum
+func GetCreateNatGatewayDetailsInternalPublicIpPoolNameEnumValues() []CreateNatGatewayDetailsInternalPublicIpPoolNameEnum {
+	values := make([]CreateNatGatewayDetailsInternalPublicIpPoolNameEnum, 0)
+	for _, v := range mappingCreateNatGatewayDetailsInternalPublicIpPoolNameEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateNatGatewayDetailsInternalPublicIpPoolNameEnumStringValues Enumerates the set of values in String for CreateNatGatewayDetailsInternalPublicIpPoolNameEnum
+func GetCreateNatGatewayDetailsInternalPublicIpPoolNameEnumStringValues() []string {
+	return []string{
+		"EXTERNAL",
+		"SOCI_EGRESS",
+	}
+}
+
+// GetMappingCreateNatGatewayDetailsInternalPublicIpPoolNameEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateNatGatewayDetailsInternalPublicIpPoolNameEnum(val string) (CreateNatGatewayDetailsInternalPublicIpPoolNameEnum, bool) {
+	enum, ok := mappingCreateNatGatewayDetailsInternalPublicIpPoolNameEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

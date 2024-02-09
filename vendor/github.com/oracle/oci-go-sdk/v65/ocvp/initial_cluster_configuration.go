@@ -71,6 +71,9 @@ type InitialClusterConfiguration struct {
 	// A list of datastore info for the Cluster.
 	// This value is required only when `initialHostShapeName` is a standard shape.
 	Datastores []DatastoreInfo `mandatory:"false" json:"datastores"`
+
+	// A list of datastore clusters.
+	DatastoreClusterIds []string `mandatory:"false" json:"datastoreClusterIds"`
 }
 
 func (m InitialClusterConfiguration) String() string {

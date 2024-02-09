@@ -12,10 +12,6 @@ import (
 )
 
 // MigrateNetworkFirewallPolicyRequest wrapper for the MigrateNetworkFirewallPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/MigrateNetworkFirewallPolicy.go.html to see an example of how to use MigrateNetworkFirewallPolicyRequest.
 type MigrateNetworkFirewallPolicyRequest struct {
 
 	// Unique Network Firewall Policy identifier

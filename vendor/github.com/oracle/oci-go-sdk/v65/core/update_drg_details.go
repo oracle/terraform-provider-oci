@@ -39,6 +39,9 @@ type UpdateDrgDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Indicates if this is a Regional DRG or a Global DRG
+	Type DrgTypeEnum `mandatory:"false" json:"type,omitempty"`
 }
 
 func (m UpdateDrgDetails) String() string {
@@ -51,6 +54,9 @@ func (m UpdateDrgDetails) String() string {
 func (m UpdateDrgDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDrgTypeEnum(string(m.Type)); !ok && m.Type != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDrgTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -12,10 +12,6 @@ import (
 )
 
 // PatchDbSystemRequest wrapper for the PatchDbSystem operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/PatchDbSystem.go.html to see an example of how to use PatchDbSystemRequest.
 type PatchDbSystemRequest struct {
 
 	// A unique identifier for the database system.

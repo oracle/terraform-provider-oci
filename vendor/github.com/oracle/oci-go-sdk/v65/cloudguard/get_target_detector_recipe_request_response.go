@@ -12,16 +12,12 @@ import (
 )
 
 // GetTargetDetectorRecipeRequest wrapper for the GetTargetDetectorRecipe operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetTargetDetectorRecipe.go.html to see an example of how to use GetTargetDetectorRecipeRequest.
 type GetTargetDetectorRecipeRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetDetectorRecipe
+	// OCID of the target detector recipe.
 	TargetDetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetDetectorRecipeId"`
 
 	// The client request ID for tracing.

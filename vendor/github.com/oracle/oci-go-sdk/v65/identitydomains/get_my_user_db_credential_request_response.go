@@ -12,10 +12,6 @@ import (
 )
 
 // GetMyUserDbCredentialRequest wrapper for the GetMyUserDbCredential operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyUserDbCredential.go.html to see an example of how to use GetMyUserDbCredentialRequest.
 type GetMyUserDbCredentialRequest struct {
 
 	// ID of the resource

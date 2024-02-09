@@ -4,11 +4,10 @@
 
 // Email Delivery API
 //
-// API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//
-// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
+// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -22,9 +21,27 @@ import (
 // UpdateEmailDomainDetails The attributes to update in the email domain.
 type UpdateEmailDomainDetails struct {
 
+	// Id for Domain in Domain Management (under governance) if DOMAINID verification method used.
+	DomainVerificationId *string `mandatory:"false" json:"domainVerificationId"`
+
+	// Controls when use of a private endpoint for email routing is required.
+	// SEND means all mail from senders in this email domain will be privately routed.
+	// RECEIVE means all mail sent to this recipient domain will be privately routed.
+	// BOTH means both rules apply.
+	// This can not be set to RECEIVE or BOTH without valid domain verification.
+	// This can not be set to a value other than NONE unless emailPrivateEndpointId references an ACTIVE bi-directional submission email private endpoint.
+	RequirePrivatePath RequirePrivatePathTypeEnum `mandatory:"false" json:"requirePrivatePath,omitempty"`
+
+	// Id for the bi-directional submission Email Private Endpoint to use if requiring any private path.
+	EmailPrivateEndpointId *string `mandatory:"false" json:"emailPrivateEndpointId"`
+
 	// A string that describes the details about the domain. It does not have to be unique,
 	// and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
+
+	// A list of custom log headers.
+	// Example: `["X-Campaign-ID", "Group-ID"]`
+	CustomHeaders []string `mandatory:"false" json:"customHeaders"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -47,6 +64,9 @@ func (m UpdateEmailDomainDetails) String() string {
 func (m UpdateEmailDomainDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRequirePrivatePathTypeEnum(string(m.RequirePrivatePath)); !ok && m.RequirePrivatePath != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequirePrivatePath: %s. Supported values are: %s.", m.RequirePrivatePath, strings.Join(GetRequirePrivatePathTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteEnvironmentRequest wrapper for the DeleteEnvironment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteEnvironment.go.html to see an example of how to use DeleteEnvironmentRequest.
 type DeleteEnvironmentRequest struct {
 
 	// Unique environment identifier.

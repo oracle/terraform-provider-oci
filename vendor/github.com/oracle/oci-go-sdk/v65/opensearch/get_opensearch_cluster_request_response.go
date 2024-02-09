@@ -12,10 +12,6 @@ import (
 )
 
 // GetOpensearchClusterRequest wrapper for the GetOpensearchCluster operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opensearch/GetOpensearchCluster.go.html to see an example of how to use GetOpensearchClusterRequest.
 type GetOpensearchClusterRequest struct {
 
 	// unique OpensearchCluster identifier

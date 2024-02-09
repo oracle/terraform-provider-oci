@@ -12,10 +12,6 @@ import (
 )
 
 // CreateDrgRouteTableRequest wrapper for the CreateDrgRouteTable operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateDrgRouteTable.go.html to see an example of how to use CreateDrgRouteTableRequest.
 type CreateDrgRouteTableRequest struct {
 
 	// Details for creating a DRG route table.

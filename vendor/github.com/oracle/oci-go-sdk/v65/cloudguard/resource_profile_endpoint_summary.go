@@ -16,52 +16,52 @@ import (
 	"strings"
 )
 
-// ResourceProfileEndpointSummary Resource Profile Endpoints summary.
+// ResourceProfileEndpointSummary Summary information for resource profile endpoints.
 type ResourceProfileEndpointSummary struct {
 
 	// Unique identifier for sighting endpoints
 	Id *string `mandatory:"true" json:"id"`
 
-	// Resource profile Id associated with the imacted resource
+	// Resource profile ID associated with the impacted resource
 	ResourceProfileId *string `mandatory:"true" json:"resourceProfileId"`
 
-	// Identifier for the sighting type
+	// Type of sighting for sighting endpoints
 	SightingType *string `mandatory:"true" json:"sightingType"`
 
-	// Name of the sighting type
+	// Display name of the sighting type
 	SightingTypeDisplayName *string `mandatory:"true" json:"sightingTypeDisplayName"`
 
-	// IP Address
+	// IP address for sighting
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
-	// IP Address type
+	// Type of IP address for sighting
 	IpAddressType *string `mandatory:"true" json:"ipAddressType"`
 
-	// Time when activities were created
+	// Date and time when activities were created
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// Problem Id for sighting endpoints
+	// Problem ID for sighting endpoints
 	ProblemId *string `mandatory:"false" json:"problemId"`
 
-	// IP Address classification type
+	// IP address classification type
 	IpClassificationType *string `mandatory:"false" json:"ipClassificationType"`
 
-	// Country
+	// Country of sighting
 	Country *string `mandatory:"false" json:"country"`
 
-	// Latitude
+	// Latitude of sighting
 	Latitude *float64 `mandatory:"false" json:"latitude"`
 
-	// Longitude
+	// Longitude of sighting
 	Longitude *float64 `mandatory:"false" json:"longitude"`
 
-	// ASN number
+	// ASN number of sighting
 	AsnNumber *string `mandatory:"false" json:"asnNumber"`
 
-	// Regions where activities were performed from this IP
+	// Regions where activities were performed from this IP address
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// Services where activities were performed from this IP
+	// List of services where activities were performed from this IP address
 	Services []string `mandatory:"false" json:"services"`
 }
 

@@ -12,10 +12,6 @@ import (
 )
 
 // GetAiPrivateEndpointRequest wrapper for the GetAiPrivateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/GetAiPrivateEndpoint.go.html to see an example of how to use GetAiPrivateEndpointRequest.
 type GetAiPrivateEndpointRequest struct {
 
 	// Unique private reverse connection identifier.

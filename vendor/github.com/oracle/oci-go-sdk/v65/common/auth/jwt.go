@@ -8,10 +8,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 	"time"
-
-	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
 type jwtToken struct {

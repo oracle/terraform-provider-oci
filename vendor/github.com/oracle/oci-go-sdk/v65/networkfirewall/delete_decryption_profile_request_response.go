@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDecryptionProfileRequest wrapper for the DeleteDecryptionProfile operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteDecryptionProfile.go.html to see an example of how to use DeleteDecryptionProfileRequest.
 type DeleteDecryptionProfileRequest struct {
 
 	// Unique Network Firewall Policy identifier

@@ -12,10 +12,6 @@ import (
 )
 
 // EstimateRecallDataSizeRequest wrapper for the EstimateRecallDataSize operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EstimateRecallDataSize.go.html to see an example of how to use EstimateRecallDataSizeRequest.
 type EstimateRecallDataSizeRequest struct {
 
 	// The Logging Analytics namespace used for the request.

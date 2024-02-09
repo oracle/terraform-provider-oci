@@ -12,10 +12,6 @@ import (
 )
 
 // RevokeAccessRequestRequest wrapper for the RevokeAccessRequest operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/RevokeAccessRequest.go.html to see an example of how to use RevokeAccessRequestRequest.
 type RevokeAccessRequestRequest struct {
 
 	// unique AccessRequest identifier

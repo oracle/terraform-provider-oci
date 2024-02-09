@@ -90,6 +90,20 @@ type CreateOpensearchClusterDetails struct {
 	// The password hash of the master user that are used to manage security config
 	SecurityMasterUserPasswordHash *string `mandatory:"false" json:"securityMasterUserPasswordHash"`
 
+	// The plain text password of the master user that are used to manage security config
+	SecurityMasterUserPassword *string `mandatory:"false" json:"securityMasterUserPassword"`
+
+	SecuritySamlConfig *SecuritySamlConfig `mandatory:"false" json:"securitySamlConfig"`
+
+	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
+
+	// The customer IP addresses of the endpoint in customer VCN
+	ReverseConnectionEndpointCustomerIps []string `mandatory:"false" json:"reverseConnectionEndpointCustomerIps"`
+
+	RemoteClusterConfig *RemoteClusterConfig `mandatory:"false" json:"remoteClusterConfig"`
+
+	MaintenanceDetails *CreateMaintenanceDetails `mandatory:"false" json:"maintenanceDetails"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

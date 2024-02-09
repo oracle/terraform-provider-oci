@@ -12,10 +12,6 @@ import (
 )
 
 // CreateExternalDatabaseConnectorRequest wrapper for the CreateExternalDatabaseConnector operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateExternalDatabaseConnector.go.html to see an example of how to use CreateExternalDatabaseConnectorRequest.
 type CreateExternalDatabaseConnectorRequest struct {
 
 	// Request to create a connector to an external database.

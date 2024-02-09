@@ -93,10 +93,6 @@ func (client *AnnouncementClient) ConfigurationProvider() *common.ConfigurationP
 
 // GetAnnouncement Gets the details of a specific announcement.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncement.go.html to see an example of how to use GetAnnouncement API.
 func (client AnnouncementClient) GetAnnouncement(ctx context.Context, request GetAnnouncementRequest) (response GetAnnouncementResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -151,10 +147,6 @@ func (client AnnouncementClient) getAnnouncement(ctx context.Context, request co
 
 // GetAnnouncementUserStatus Gets information about whether a specific announcement was acknowledged by a user.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/GetAnnouncementUserStatus.go.html to see an example of how to use GetAnnouncementUserStatus API.
 func (client AnnouncementClient) GetAnnouncementUserStatus(ctx context.Context, request GetAnnouncementUserStatusRequest) (response GetAnnouncementUserStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -209,10 +201,6 @@ func (client AnnouncementClient) getAnnouncementUserStatus(ctx context.Context, 
 
 // ListAnnouncements Gets a list of announcements for the current tenancy.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/ListAnnouncements.go.html to see an example of how to use ListAnnouncements API.
 func (client AnnouncementClient) ListAnnouncements(ctx context.Context, request ListAnnouncementsRequest) (response ListAnnouncementsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -267,10 +255,6 @@ func (client AnnouncementClient) listAnnouncements(ctx context.Context, request 
 
 // UpdateAnnouncementUserStatus Updates the status of the specified announcement with regard to whether it has been marked as read.
 // This call is subject to an Announcements limit that applies to the total number of requests across all read or write operations. Announcements might throttle this call to reject an otherwise valid request when the total rate of operations exceeds 20 requests per second for a given user. The service might also throttle this call to reject an otherwise valid request when the total rate of operations exceeds 100 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementUserStatus.go.html to see an example of how to use UpdateAnnouncementUserStatus API.
 func (client AnnouncementClient) UpdateAnnouncementUserStatus(ctx context.Context, request UpdateAnnouncementUserStatusRequest) (response UpdateAnnouncementUserStatusResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

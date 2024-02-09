@@ -73,6 +73,9 @@ type LaunchInstanceDetails struct {
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
+	// The OCID of the cluster placement group of the instance.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -178,8 +181,22 @@ type LaunchInstanceDetails struct {
 	// At least one of them is required; if you provide both, the values must match.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Volume attachments to create as part of the launch instance operation.
+	LaunchVolumeAttachments []LaunchAttachVolumeDetails `mandatory:"false" json:"launchVolumeAttachments"`
+
+	// Volume attachments to create as part of the launch instance operation.
+	VolumeAttachments []AttachVolumeDetails `mandatory:"false" json:"volumeAttachments"`
+
+	// Secondary VNICS to create and attach as part of the launch instance operation.
+	SecondaryVnicAttachments []AttachVnicDetails `mandatory:"false" json:"secondaryVnicAttachments"`
+
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+
+	// The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
+	// * `LIVE_MIGRATE` - Run maintenance using a live migration.
+	// * `REBOOT` - Run maintenance using a reboot.
+	PreferredMaintenanceAction LaunchInstanceDetailsPreferredMaintenanceActionEnum `mandatory:"false" json:"preferredMaintenanceAction,omitempty"`
 
 	PlatformConfig LaunchInstancePlatformConfig `mandatory:"false" json:"platformConfig"`
 
@@ -197,6 +214,9 @@ func (m LaunchInstanceDetails) String() string {
 func (m LaunchInstanceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingLaunchInstanceDetailsPreferredMaintenanceActionEnum(string(m.PreferredMaintenanceAction)); !ok && m.PreferredMaintenanceAction != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PreferredMaintenanceAction: %s. Supported values are: %s.", m.PreferredMaintenanceAction, strings.Join(GetLaunchInstanceDetailsPreferredMaintenanceActionEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -206,33 +226,38 @@ func (m LaunchInstanceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CapacityReservationId          *string                                  `json:"capacityReservationId"`
-		CreateVnicDetails              *CreateVnicDetails                       `json:"createVnicDetails"`
-		DedicatedVmHostId              *string                                  `json:"dedicatedVmHostId"`
-		DefinedTags                    map[string]map[string]interface{}        `json:"definedTags"`
-		DisplayName                    *string                                  `json:"displayName"`
-		ExtendedMetadata               map[string]interface{}                   `json:"extendedMetadata"`
-		FaultDomain                    *string                                  `json:"faultDomain"`
-		FreeformTags                   map[string]string                        `json:"freeformTags"`
-		ComputeClusterId               *string                                  `json:"computeClusterId"`
-		HostnameLabel                  *string                                  `json:"hostnameLabel"`
-		ImageId                        *string                                  `json:"imageId"`
-		IpxeScript                     *string                                  `json:"ipxeScript"`
-		LaunchOptions                  *LaunchOptions                           `json:"launchOptions"`
-		InstanceOptions                *InstanceOptions                         `json:"instanceOptions"`
-		AvailabilityConfig             *LaunchInstanceAvailabilityConfigDetails `json:"availabilityConfig"`
-		PreemptibleInstanceConfig      *PreemptibleInstanceConfigDetails        `json:"preemptibleInstanceConfig"`
-		Metadata                       map[string]string                        `json:"metadata"`
-		AgentConfig                    *LaunchInstanceAgentConfigDetails        `json:"agentConfig"`
-		Shape                          *string                                  `json:"shape"`
-		ShapeConfig                    *LaunchInstanceShapeConfigDetails        `json:"shapeConfig"`
-		SourceDetails                  instancesourcedetails                    `json:"sourceDetails"`
-		SubnetId                       *string                                  `json:"subnetId"`
-		IsPvEncryptionInTransitEnabled *bool                                    `json:"isPvEncryptionInTransitEnabled"`
-		PlatformConfig                 launchinstanceplatformconfig             `json:"platformConfig"`
-		InstanceConfigurationId        *string                                  `json:"instanceConfigurationId"`
-		AvailabilityDomain             *string                                  `json:"availabilityDomain"`
-		CompartmentId                  *string                                  `json:"compartmentId"`
+		CapacityReservationId          *string                                             `json:"capacityReservationId"`
+		CreateVnicDetails              *CreateVnicDetails                                  `json:"createVnicDetails"`
+		DedicatedVmHostId              *string                                             `json:"dedicatedVmHostId"`
+		DefinedTags                    map[string]map[string]interface{}                   `json:"definedTags"`
+		DisplayName                    *string                                             `json:"displayName"`
+		ExtendedMetadata               map[string]interface{}                              `json:"extendedMetadata"`
+		FaultDomain                    *string                                             `json:"faultDomain"`
+		ClusterPlacementGroupId        *string                                             `json:"clusterPlacementGroupId"`
+		FreeformTags                   map[string]string                                   `json:"freeformTags"`
+		ComputeClusterId               *string                                             `json:"computeClusterId"`
+		HostnameLabel                  *string                                             `json:"hostnameLabel"`
+		ImageId                        *string                                             `json:"imageId"`
+		IpxeScript                     *string                                             `json:"ipxeScript"`
+		LaunchOptions                  *LaunchOptions                                      `json:"launchOptions"`
+		InstanceOptions                *InstanceOptions                                    `json:"instanceOptions"`
+		AvailabilityConfig             *LaunchInstanceAvailabilityConfigDetails            `json:"availabilityConfig"`
+		PreemptibleInstanceConfig      *PreemptibleInstanceConfigDetails                   `json:"preemptibleInstanceConfig"`
+		Metadata                       map[string]string                                   `json:"metadata"`
+		AgentConfig                    *LaunchInstanceAgentConfigDetails                   `json:"agentConfig"`
+		Shape                          *string                                             `json:"shape"`
+		ShapeConfig                    *LaunchInstanceShapeConfigDetails                   `json:"shapeConfig"`
+		SourceDetails                  instancesourcedetails                               `json:"sourceDetails"`
+		SubnetId                       *string                                             `json:"subnetId"`
+		LaunchVolumeAttachments        []launchattachvolumedetails                         `json:"launchVolumeAttachments"`
+		VolumeAttachments              []attachvolumedetails                               `json:"volumeAttachments"`
+		SecondaryVnicAttachments       []AttachVnicDetails                                 `json:"secondaryVnicAttachments"`
+		IsPvEncryptionInTransitEnabled *bool                                               `json:"isPvEncryptionInTransitEnabled"`
+		PreferredMaintenanceAction     LaunchInstanceDetailsPreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
+		PlatformConfig                 launchinstanceplatformconfig                        `json:"platformConfig"`
+		InstanceConfigurationId        *string                                             `json:"instanceConfigurationId"`
+		AvailabilityDomain             *string                                             `json:"availabilityDomain"`
+		CompartmentId                  *string                                             `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -253,6 +278,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ExtendedMetadata = model.ExtendedMetadata
 
 	m.FaultDomain = model.FaultDomain
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.FreeformTags = model.FreeformTags
 
@@ -292,7 +319,35 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.SubnetId = model.SubnetId
 
+	m.LaunchVolumeAttachments = make([]LaunchAttachVolumeDetails, len(model.LaunchVolumeAttachments))
+	for i, n := range model.LaunchVolumeAttachments {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.LaunchVolumeAttachments[i] = nn.(LaunchAttachVolumeDetails)
+		} else {
+			m.LaunchVolumeAttachments[i] = nil
+		}
+	}
+	m.VolumeAttachments = make([]AttachVolumeDetails, len(model.VolumeAttachments))
+	for i, n := range model.VolumeAttachments {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.VolumeAttachments[i] = nn.(AttachVolumeDetails)
+		} else {
+			m.VolumeAttachments[i] = nil
+		}
+	}
+	m.SecondaryVnicAttachments = make([]AttachVnicDetails, len(model.SecondaryVnicAttachments))
+	copy(m.SecondaryVnicAttachments, model.SecondaryVnicAttachments)
 	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
+
+	m.PreferredMaintenanceAction = model.PreferredMaintenanceAction
 
 	nn, e = model.PlatformConfig.UnmarshalPolymorphicJSON(model.PlatformConfig.JsonData)
 	if e != nil {
@@ -311,4 +366,46 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.CompartmentId = model.CompartmentId
 
 	return
+}
+
+// LaunchInstanceDetailsPreferredMaintenanceActionEnum Enum with underlying type: string
+type LaunchInstanceDetailsPreferredMaintenanceActionEnum string
+
+// Set of constants representing the allowable values for LaunchInstanceDetailsPreferredMaintenanceActionEnum
+const (
+	LaunchInstanceDetailsPreferredMaintenanceActionLiveMigrate LaunchInstanceDetailsPreferredMaintenanceActionEnum = "LIVE_MIGRATE"
+	LaunchInstanceDetailsPreferredMaintenanceActionReboot      LaunchInstanceDetailsPreferredMaintenanceActionEnum = "REBOOT"
+)
+
+var mappingLaunchInstanceDetailsPreferredMaintenanceActionEnum = map[string]LaunchInstanceDetailsPreferredMaintenanceActionEnum{
+	"LIVE_MIGRATE": LaunchInstanceDetailsPreferredMaintenanceActionLiveMigrate,
+	"REBOOT":       LaunchInstanceDetailsPreferredMaintenanceActionReboot,
+}
+
+var mappingLaunchInstanceDetailsPreferredMaintenanceActionEnumLowerCase = map[string]LaunchInstanceDetailsPreferredMaintenanceActionEnum{
+	"live_migrate": LaunchInstanceDetailsPreferredMaintenanceActionLiveMigrate,
+	"reboot":       LaunchInstanceDetailsPreferredMaintenanceActionReboot,
+}
+
+// GetLaunchInstanceDetailsPreferredMaintenanceActionEnumValues Enumerates the set of values for LaunchInstanceDetailsPreferredMaintenanceActionEnum
+func GetLaunchInstanceDetailsPreferredMaintenanceActionEnumValues() []LaunchInstanceDetailsPreferredMaintenanceActionEnum {
+	values := make([]LaunchInstanceDetailsPreferredMaintenanceActionEnum, 0)
+	for _, v := range mappingLaunchInstanceDetailsPreferredMaintenanceActionEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetLaunchInstanceDetailsPreferredMaintenanceActionEnumStringValues Enumerates the set of values in String for LaunchInstanceDetailsPreferredMaintenanceActionEnum
+func GetLaunchInstanceDetailsPreferredMaintenanceActionEnumStringValues() []string {
+	return []string{
+		"LIVE_MIGRATE",
+		"REBOOT",
+	}
+}
+
+// GetMappingLaunchInstanceDetailsPreferredMaintenanceActionEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingLaunchInstanceDetailsPreferredMaintenanceActionEnum(val string) (LaunchInstanceDetailsPreferredMaintenanceActionEnum, bool) {
+	enum, ok := mappingLaunchInstanceDetailsPreferredMaintenanceActionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

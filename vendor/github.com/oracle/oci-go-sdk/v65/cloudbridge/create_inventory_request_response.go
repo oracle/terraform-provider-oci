@@ -12,10 +12,6 @@ import (
 )
 
 // CreateInventoryRequest wrapper for the CreateInventory operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/CreateInventory.go.html to see an example of how to use CreateInventoryRequest.
 type CreateInventoryRequest struct {
 
 	// The information to be updated.

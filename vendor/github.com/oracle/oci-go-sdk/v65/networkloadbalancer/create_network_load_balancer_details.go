@@ -16,7 +16,7 @@ import (
 )
 
 // CreateNetworkLoadBalancerDetails The properties that define a network load balancer. For more information, see
-// Managing a network load balancer (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingloadbalancer.htm).
+// Managing a network load balancer (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/NetworkLoadBalancers/network-load-balancer-management.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized, then
 // contact an administrator. If you are an administrator who writes policies to give users access, then see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -38,6 +38,10 @@ type CreateNetworkLoadBalancerDetails struct {
 	// enabled on the load balancer VNIC, and packets are sent to the backend with the entire IP header intact.
 	IsPreserveSourceDestination *bool `mandatory:"false" json:"isPreserveSourceDestination"`
 
+	// This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.
+	// This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
+	IsSymmetricHashEnabled *bool `mandatory:"false" json:"isSymmetricHashEnabled"`
+
 	// An array of reserved Ips.
 	ReservedIps []ReservedIp `mandatory:"false" json:"reservedIps"`
 
@@ -47,7 +51,7 @@ type CreateNetworkLoadBalancerDetails struct {
 	// A public network load balancer is accessible from the internet, depending on the
 	// security list rules (https://docs.cloud.oracle.com/Content/network/Concepts/securitylists.htm) for your virtual cloud network. For more information about public and
 	// private network load balancers,
-	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/Balance/Concepts/balanceoverview.htm#how-network-load-balancing-works).
+	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/overview.htm).
 	// This value is true by default.
 	// Example: `true`
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
@@ -65,11 +69,35 @@ type CreateNetworkLoadBalancerDetails struct {
 	// IP version associated with the NLB.
 	NlbIpVersion NlbIpVersionEnum `mandatory:"false" json:"nlbIpVersion,omitempty"`
 
+	// IPv6 subnet prefix selection. If Ipv6 subnet prefix is passed, Nlb Ipv6 Address would be assign within the cidr block. NLB has to be dual or single stack ipv6 to support this.
+	SubnetIpv6Cidr *string `mandatory:"false" json:"subnetIpv6Cidr"`
+
+	// Private IP address to be assigned to the network load balancer being created.
+	// This IP address has to be in the CIDR range of the subnet where network load balancer is being created
+	// Example: "10.0.0.1"
+	AssignedPrivateIpv4 *string `mandatory:"false" json:"assignedPrivateIpv4"`
+
+	// IPv6 address to be assigned to the network load balancer being created.
+	// This IP address has to be part of one of the prefixes supported by the subnet.
+	// Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"
+	AssignedIpv6 *string `mandatory:"false" json:"assignedIpv6"`
+
 	// Listeners associated with the network load balancer.
 	Listeners map[string]ListenerDetails `mandatory:"false" json:"listeners"`
 
 	// Backend sets associated with the network load balancer.
 	BackendSets map[string]BackendSetDetails `mandatory:"false" json:"backendSets"`
+
+	// VnicShape for NLB.
+	// Example: `VNICAAS_FIXED0400`
+	Shape *string `mandatory:"false" json:"shape"`
+
+	// Unique id of the shard where the VNIC will be allocated for the NLB.
+	// Example: `test_shard1`
+	ShardId *string `mandatory:"false" json:"shardId"`
+
+	// Indicates if VNIC is latency sensitive and needs to be placed in dedicated latency sensitive pod.
+	IsLatencySensitive *bool `mandatory:"false" json:"isLatencySensitive"`
 
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

@@ -12,10 +12,6 @@ import (
 )
 
 // ListManagedInstanceGroupInstalledPackagesRequest wrapper for the ListManagedInstanceGroupInstalledPackages operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupInstalledPackages.go.html to see an example of how to use ListManagedInstanceGroupInstalledPackagesRequest.
 type ListManagedInstanceGroupInstalledPackagesRequest struct {
 
 	// The managed instance group OCID.

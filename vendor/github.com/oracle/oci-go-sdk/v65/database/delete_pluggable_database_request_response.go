@@ -12,10 +12,6 @@ import (
 )
 
 // DeletePluggableDatabaseRequest wrapper for the DeletePluggableDatabase operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DeletePluggableDatabase.go.html to see an example of how to use DeletePluggableDatabaseRequest.
 type DeletePluggableDatabaseRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

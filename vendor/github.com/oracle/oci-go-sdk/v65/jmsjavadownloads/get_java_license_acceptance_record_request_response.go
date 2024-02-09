@@ -12,10 +12,6 @@ import (
 )
 
 // GetJavaLicenseAcceptanceRecordRequest wrapper for the GetJavaLicenseAcceptanceRecord operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaLicenseAcceptanceRecord.go.html to see an example of how to use GetJavaLicenseAcceptanceRecordRequest.
 type GetJavaLicenseAcceptanceRecordRequest struct {
 
 	// Unique Java license acceptance record identifier.

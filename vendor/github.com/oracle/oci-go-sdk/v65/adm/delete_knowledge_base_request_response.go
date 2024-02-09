@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteKnowledgeBaseRequest wrapper for the DeleteKnowledgeBase operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteKnowledgeBase.go.html to see an example of how to use DeleteKnowledgeBaseRequest.
 type DeleteKnowledgeBaseRequest struct {
 
 	// The Oracle Cloud Identifier (OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)) of a Knowledge Base, as a URL path parameter.

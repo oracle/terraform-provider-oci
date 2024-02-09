@@ -12,10 +12,6 @@ import (
 )
 
 // AddMetastoreLockRequest wrapper for the AddMetastoreLock operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AddMetastoreLock.go.html to see an example of how to use AddMetastoreLockRequest.
 type AddMetastoreLockRequest struct {
 
 	// The metastore's OCID.

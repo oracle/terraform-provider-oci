@@ -12,10 +12,6 @@ import (
 )
 
 // GetBastionRequest wrapper for the GetBastion operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/GetBastion.go.html to see an example of how to use GetBastionRequest.
 type GetBastionRequest struct {
 
 	// The unique identifier (OCID) of the bastion.

@@ -12,10 +12,6 @@ import (
 )
 
 // ListDbManagementPrivateEndpointsRequest wrapper for the ListDbManagementPrivateEndpoints operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListDbManagementPrivateEndpoints.go.html to see an example of how to use ListDbManagementPrivateEndpointsRequest.
 type ListDbManagementPrivateEndpointsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

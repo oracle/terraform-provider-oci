@@ -12,10 +12,6 @@ import (
 )
 
 // ListBillingSchedulesRequest wrapper for the ListBillingSchedules operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/onesubscription/ListBillingSchedules.go.html to see an example of how to use ListBillingSchedulesRequest.
 type ListBillingSchedulesRequest struct {
 
 	// The OCID of the root compartment.

@@ -12,10 +12,6 @@ import (
 )
 
 // BatchDetectLanguageSentimentsRequest wrapper for the BatchDetectLanguageSentiments operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguageSentiments.go.html to see an example of how to use BatchDetectLanguageSentimentsRequest.
 type BatchDetectLanguageSentimentsRequest struct {
 
 	// The details to make sentiment detect call.

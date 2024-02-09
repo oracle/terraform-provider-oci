@@ -12,10 +12,6 @@ import (
 )
 
 // GetManagementSavedSearchRequest wrapper for the GetManagementSavedSearch operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/GetManagementSavedSearch.go.html to see an example of how to use GetManagementSavedSearchRequest.
 type GetManagementSavedSearchRequest struct {
 
 	// A unique saved search identifier.

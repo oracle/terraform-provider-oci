@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeAwrDbSnapshotRangesRequest wrapper for the SummarizeAwrDbSnapshotRanges operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbSnapshotRanges.go.html to see an example of how to use SummarizeAwrDbSnapshotRangesRequest.
 type SummarizeAwrDbSnapshotRangesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

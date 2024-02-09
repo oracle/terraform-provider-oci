@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeProjectCompartmentRequest wrapper for the ChangeProjectCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartmentRequest.
 type ChangeProjectCompartmentRequest struct {
 
 	// Unique project identifier.

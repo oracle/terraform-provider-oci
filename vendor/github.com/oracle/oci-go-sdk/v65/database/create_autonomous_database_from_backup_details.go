@@ -35,23 +35,25 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// AL16UTF16 or UTF8.
 	NcharacterSet *string `mandatory:"false" json:"ncharacterSet"`
 
-	// The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy. It is required in all cases except when creating a cross-region Autonomous Data Guard standby instance or a cross-region disaster recovery standby instance.
+	// Database name. It must start with an alphabetic character followed by up to 13 alphanumeric characters, and special characters are prohibited. It must be unique within the compartment in the region. It is required in all cases except when creating a cross-region Autonomous Data Guard standby instance or a cross-region disaster recovery standby instance.
 	DbName *string `mandatory:"false" json:"dbName"`
 
-	// The number of OCPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
+	// The number of CPU cores to be made available to the database. For Autonomous Databases on dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
 	// Retention period, in days, for long-term backups
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
-	// The compute amount available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure, the 'ECPU' compute model requires values in multiples of two. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value.
+	// The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
+	// For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
 	// The number of OCPU cores to be made available to the database.
 	// The following points apply:
 	// - For Autonomous Databases on Dedicated Exadata infrastructure, to provision less than 1 core, enter a fractional value in an increment of 0.1. For example, you can provision 0.3 or 0.4 cores, but not 0.35 cores. (Note that fractional OCPU values are not supported for Autonomous Database Serverless instances.)
 	// - To provision 1 or more cores, you must enter an integer between 1 and the maximum number of cores available for the infrastructure shape. For example, you can provision 2 cores or 3 cores, but not 2.5 cores. This applies to an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
+	// - For Autonomous Database Serverless instances, this parameter is not used.
 	// For Autonomous Databases on Dedicated Exadata infrastructure, the maximum number of cores is determined by the infrastructure shape. See Characteristics of Infrastructure Shapes (https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.
 	// **Note:** This parameter cannot be used with the `cpuCoreCount` parameter.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
@@ -74,8 +76,10 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
+
+	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
 
 	// **Important** The `adminPassword` or `secretId` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	// This cannot be used in conjunction with with OCI vault secrets (secretId).
@@ -84,19 +88,22 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/shared/index.html).
+	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
 	IsPreviewVersionWithServiceTermsAccepted *bool `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
 
-	// Indicates if auto scaling is enabled for the Autonomous Database OCPU core count. The default value is `FALSE`.
+	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is `TRUE`.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
+
+	// This project introduces Autonomous Database for Developers (ADB-Dev), a free tier on dedicated infrastructure, and Cloud@Customer for database development purposes. ADB-Dev enables ExaDB customers to experiment with ADB for free and incentivizes enterprises to use ADB for new development projects.Note that ADB-Dev have 4 CPU and 20GB of memory. For ADB-Dev , memory and CPU cannot be scaled
+	IsDevTier *bool `mandatory:"false" json:"isDevTier"`
 
 	// True if the database is on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
-	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Used only by Autonomous Database on Dedicated Exadata Infrastructure.
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
 
-	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database.
+	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database. This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
 	InMemoryPercentage *int `mandatory:"false" json:"inMemoryPercentage"`
 
 	// Indicates if the database-level access control is enabled.
@@ -104,13 +111,14 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional,
 	//  if database-level access control is enabled and no rules are specified, the database will become inaccessible. The rules can be added later using the `UpdateAutonomousDatabase` API operation or edit option in console.
 	// When creating a database clone, the desired access control setting should be specified. By default, database-level access control will be disabled for the clone.
-	// This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
+	// This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform. For Autonomous Database Serverless instances, `whitelistedIps` is used.
 	IsAccessControlEnabled *bool `mandatory:"false" json:"isAccessControlEnabled"`
 
 	// The client IP access control list (ACL). This feature is available for Autonomous Database Serverless  (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
+	// If `arePrimaryWhitelistedIpsUsed` is 'TRUE' then Autonomous Database uses this primary's IP access control list (ACL) for the disaster recovery peer called `standbywhitelistedips`.
 	// For Autonomous Database Serverless, this is an array of CIDR (classless inter-domain routing) notations for a subnet or VCN OCID (virtual cloud network Oracle Cloud ID).
-	// Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs.
+	// Multiple IPs and VCN OCIDs should be separate strings separated by commas, but if it’s other configurations that need multiple pieces of information then its each piece is connected with semicolon (;) as a delimiter.
 	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.<unique_id>","ocid1.vcn.oc1.sea.<unique_id1>;1.1.1.1","ocid1.vcn.oc1.sea.<unique_id2>;1.1.0.0/16"]`
 	// For Exadata Cloud@Customer, this is an array of IP addresses or CIDR notations.
 	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
@@ -125,8 +133,9 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 
 	// The client IP access control list (ACL). This feature is available for Autonomous Database Serverless  (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) and on Exadata Cloud@Customer.
 	// Only clients connecting from an IP address included in the ACL may access the Autonomous Database instance.
+	// If `arePrimaryWhitelistedIpsUsed` is 'TRUE' then Autonomous Database uses this primary's IP access control list (ACL) for the disaster recovery peer called `standbywhitelistedips`.
 	// For Autonomous Database Serverless, this is an array of CIDR (classless inter-domain routing) notations for a subnet or VCN OCID (virtual cloud network Oracle Cloud ID).
-	// Use a semicolon (;) as a deliminator between the VCN-specific subnets or IPs.
+	// Multiple IPs and VCN OCIDs should be separate strings separated by commas, but if it’s other configurations that need multiple pieces of information then its each piece is connected with semicolon (;) as a delimiter.
 	// Example: `["1.1.1.1","1.1.1.0/24","ocid1.vcn.oc1.sea.<unique_id>","ocid1.vcn.oc1.sea.<unique_id1>;1.1.1.1","ocid1.vcn.oc1.sea.<unique_id2>;1.1.0.0/16"]`
 	// For Exadata Cloud@Customer, this is an array of IP addresses or CIDR notations.
 	// Example: `["1.1.1.1","1.1.1.0/24","1.1.2.25"]`
@@ -155,7 +164,10 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The resource's private endpoint label. Setting this to an empty string, after the creation of the private endpoint database, changes the private endpoint database to a public endpoint database.
+	// The resource's private endpoint label.
+	// - Setting the endpoint label to a non-empty string creates a private endpoint database.
+	// - Resetting the endpoint label to an empty string, after the creation of the private endpoint database, changes the private endpoint database to a public endpoint database.
+	// - Setting the endpoint label to a non-empty string value, updates to a new private endpoint database, when the database is disabled and re-enabled.
 	// This setting cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbWorkload, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	PrivateEndpointLabel *string `mandatory:"false" json:"privateEndpointLabel"`
 
@@ -178,7 +190,7 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 
 	// Specifies if the Autonomous Database requires mTLS connections.
-	// This may not be updated in parallel with any of the following: licenseModel, databaseEdition, cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, whitelistedIps, openMode, permissionLevel, db-workload, privateEndpointLabel, nsgIds, customerContacts, dbVersion, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
+	// This may not be updated in parallel with any of the following: licenseModel, databaseEdition, cpuCoreCount, computeCount, dataStorageSizeInTBs, whitelistedIps, openMode, permissionLevel, db-workload, privateEndpointLabel, nsgIds, customerContacts, dbVersion, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	// Service Change: The default value of the isMTLSConnectionRequired attribute will change from true to false on July 1, 2023 in the following APIs:
 	// - CreateAutonomousDatabase
 	// - GetAutonomousDatabase
@@ -193,15 +205,15 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 
 	ResourcePoolSummary *ResourcePoolSummary `mandatory:"false" json:"resourcePoolSummary"`
 
-	// The list of scheduled operations.
+	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
+	IsOracleServiceGatewayAllowed *bool `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
+
+	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
 
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 	IsAutoScalingForStorageEnabled *bool `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
-
-	// The number of Max OCPU cores to be made available to the autonomous database with auto scaling of cpu enabled.
-	MaxCpuCoreCount *int `mandatory:"false" json:"maxCpuCoreCount"`
 
 	// The list of database tools details.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
@@ -220,7 +232,7 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The Oracle Database Edition that applies to the Autonomous databases.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
-	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value.
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
 	ComputeModel CreateAutonomousDatabaseBaseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The Autonomous Database workload type. The following values are valid:
@@ -234,8 +246,8 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the
-	// Autonomous Exadata Infrastructure level. When provisioning an Autonomous Database Serverless  (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`.
-	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
+	// Autonomous Exadata Infrastructure level. When provisioning an Autonomous Database Serverless  (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`. Bring your own license (BYOL) also allows you to select the DB edition using the optional parameter.
+	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	LicenseModel CreateAutonomousDatabaseBaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
 	// The maintenance schedule type of the Autonomous Database Serverless. An EARLY maintenance schedule
@@ -318,6 +330,11 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
+// GetEncryptionKey returns EncryptionKey
+func (m CreateAutonomousDatabaseFromBackupDetails) GetEncryptionKey() AutonomousDatabaseEncryptionKeyDetails {
+	return m.EncryptionKey
+}
+
 // GetAdminPassword returns AdminPassword
 func (m CreateAutonomousDatabaseFromBackupDetails) GetAdminPassword() *string {
 	return m.AdminPassword
@@ -341,6 +358,11 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetIsPreviewVersionWithServic
 // GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m CreateAutonomousDatabaseFromBackupDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
+}
+
+// GetIsDevTier returns IsDevTier
+func (m CreateAutonomousDatabaseFromBackupDetails) GetIsDevTier() *bool {
+	return m.IsDevTier
 }
 
 // GetIsDedicated returns IsDedicated
@@ -448,6 +470,11 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetAutonomousMaintenanceSched
 	return m.AutonomousMaintenanceScheduleType
 }
 
+// GetIsOracleServiceGatewayAllowed returns IsOracleServiceGatewayAllowed
+func (m CreateAutonomousDatabaseFromBackupDetails) GetIsOracleServiceGatewayAllowed() *bool {
+	return m.IsOracleServiceGatewayAllowed
+}
+
 // GetScheduledOperations returns ScheduledOperations
 func (m CreateAutonomousDatabaseFromBackupDetails) GetScheduledOperations() []ScheduledOperationDetails {
 	return m.ScheduledOperations
@@ -456,11 +483,6 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetScheduledOperations() []Sc
 // GetIsAutoScalingForStorageEnabled returns IsAutoScalingForStorageEnabled
 func (m CreateAutonomousDatabaseFromBackupDetails) GetIsAutoScalingForStorageEnabled() *bool {
 	return m.IsAutoScalingForStorageEnabled
-}
-
-// GetMaxCpuCoreCount returns MaxCpuCoreCount
-func (m CreateAutonomousDatabaseFromBackupDetails) GetMaxCpuCoreCount() *int {
-	return m.MaxCpuCoreCount
 }
 
 // GetDatabaseEdition returns DatabaseEdition
@@ -529,6 +551,183 @@ func (m CreateAutonomousDatabaseFromBackupDetails) MarshalJSON() (buff []byte, e
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateAutonomousDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CharacterSet                             *string                                                           `json:"characterSet"`
+		NcharacterSet                            *string                                                           `json:"ncharacterSet"`
+		DbName                                   *string                                                           `json:"dbName"`
+		CpuCoreCount                             *int                                                              `json:"cpuCoreCount"`
+		BackupRetentionPeriodInDays              *int                                                              `json:"backupRetentionPeriodInDays"`
+		ComputeModel                             CreateAutonomousDatabaseBaseComputeModelEnum                      `json:"computeModel"`
+		ComputeCount                             *float32                                                          `json:"computeCount"`
+		OcpuCount                                *float32                                                          `json:"ocpuCount"`
+		DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum                        `json:"dbWorkload"`
+		DataStorageSizeInTBs                     *int                                                              `json:"dataStorageSizeInTBs"`
+		DataStorageSizeInGBs                     *int                                                              `json:"dataStorageSizeInGBs"`
+		IsFreeTier                               *bool                                                             `json:"isFreeTier"`
+		KmsKeyId                                 *string                                                           `json:"kmsKeyId"`
+		VaultId                                  *string                                                           `json:"vaultId"`
+		EncryptionKey                            autonomousdatabaseencryptionkeydetails                            `json:"encryptionKey"`
+		AdminPassword                            *string                                                           `json:"adminPassword"`
+		DisplayName                              *string                                                           `json:"displayName"`
+		LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                      `json:"licenseModel"`
+		IsPreviewVersionWithServiceTermsAccepted *bool                                                             `json:"isPreviewVersionWithServiceTermsAccepted"`
+		IsAutoScalingEnabled                     *bool                                                             `json:"isAutoScalingEnabled"`
+		IsDevTier                                *bool                                                             `json:"isDevTier"`
+		IsDedicated                              *bool                                                             `json:"isDedicated"`
+		AutonomousContainerDatabaseId            *string                                                           `json:"autonomousContainerDatabaseId"`
+		InMemoryPercentage                       *int                                                              `json:"inMemoryPercentage"`
+		IsAccessControlEnabled                   *bool                                                             `json:"isAccessControlEnabled"`
+		WhitelistedIps                           []string                                                          `json:"whitelistedIps"`
+		ArePrimaryWhitelistedIpsUsed             *bool                                                             `json:"arePrimaryWhitelistedIpsUsed"`
+		StandbyWhitelistedIps                    []string                                                          `json:"standbyWhitelistedIps"`
+		IsDataGuardEnabled                       *bool                                                             `json:"isDataGuardEnabled"`
+		IsLocalDataGuardEnabled                  *bool                                                             `json:"isLocalDataGuardEnabled"`
+		SubnetId                                 *string                                                           `json:"subnetId"`
+		NsgIds                                   []string                                                          `json:"nsgIds"`
+		PrivateEndpointLabel                     *string                                                           `json:"privateEndpointLabel"`
+		FreeformTags                             map[string]string                                                 `json:"freeformTags"`
+		DefinedTags                              map[string]map[string]interface{}                                 `json:"definedTags"`
+		PrivateEndpointIp                        *string                                                           `json:"privateEndpointIp"`
+		DbVersion                                *string                                                           `json:"dbVersion"`
+		CustomerContacts                         []CustomerContact                                                 `json:"customerContacts"`
+		IsMtlsConnectionRequired                 *bool                                                             `json:"isMtlsConnectionRequired"`
+		ResourcePoolLeaderId                     *string                                                           `json:"resourcePoolLeaderId"`
+		ResourcePoolSummary                      *ResourcePoolSummary                                              `json:"resourcePoolSummary"`
+		AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
+		IsOracleServiceGatewayAllowed            *bool                                                             `json:"isOracleServiceGatewayAllowed"`
+		ScheduledOperations                      []ScheduledOperationDetails                                       `json:"scheduledOperations"`
+		IsAutoScalingForStorageEnabled           *bool                                                             `json:"isAutoScalingForStorageEnabled"`
+		DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `json:"databaseEdition"`
+		DbToolsDetails                           []DatabaseTool                                                    `json:"dbToolsDetails"`
+		SecretId                                 *string                                                           `json:"secretId"`
+		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		CompartmentId                            *string                                                           `json:"compartmentId"`
+		AutonomousDatabaseBackupId               *string                                                           `json:"autonomousDatabaseBackupId"`
+		CloneType                                CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum            `json:"cloneType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CharacterSet = model.CharacterSet
+
+	m.NcharacterSet = model.NcharacterSet
+
+	m.DbName = model.DbName
+
+	m.CpuCoreCount = model.CpuCoreCount
+
+	m.BackupRetentionPeriodInDays = model.BackupRetentionPeriodInDays
+
+	m.ComputeModel = model.ComputeModel
+
+	m.ComputeCount = model.ComputeCount
+
+	m.OcpuCount = model.OcpuCount
+
+	m.DbWorkload = model.DbWorkload
+
+	m.DataStorageSizeInTBs = model.DataStorageSizeInTBs
+
+	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
+
+	m.IsFreeTier = model.IsFreeTier
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.VaultId = model.VaultId
+
+	nn, e = model.EncryptionKey.UnmarshalPolymorphicJSON(model.EncryptionKey.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKey = nn.(AutonomousDatabaseEncryptionKeyDetails)
+	} else {
+		m.EncryptionKey = nil
+	}
+
+	m.AdminPassword = model.AdminPassword
+
+	m.DisplayName = model.DisplayName
+
+	m.LicenseModel = model.LicenseModel
+
+	m.IsPreviewVersionWithServiceTermsAccepted = model.IsPreviewVersionWithServiceTermsAccepted
+
+	m.IsAutoScalingEnabled = model.IsAutoScalingEnabled
+
+	m.IsDevTier = model.IsDevTier
+
+	m.IsDedicated = model.IsDedicated
+
+	m.AutonomousContainerDatabaseId = model.AutonomousContainerDatabaseId
+
+	m.InMemoryPercentage = model.InMemoryPercentage
+
+	m.IsAccessControlEnabled = model.IsAccessControlEnabled
+
+	m.WhitelistedIps = make([]string, len(model.WhitelistedIps))
+	copy(m.WhitelistedIps, model.WhitelistedIps)
+	m.ArePrimaryWhitelistedIpsUsed = model.ArePrimaryWhitelistedIpsUsed
+
+	m.StandbyWhitelistedIps = make([]string, len(model.StandbyWhitelistedIps))
+	copy(m.StandbyWhitelistedIps, model.StandbyWhitelistedIps)
+	m.IsDataGuardEnabled = model.IsDataGuardEnabled
+
+	m.IsLocalDataGuardEnabled = model.IsLocalDataGuardEnabled
+
+	m.SubnetId = model.SubnetId
+
+	m.NsgIds = make([]string, len(model.NsgIds))
+	copy(m.NsgIds, model.NsgIds)
+	m.PrivateEndpointLabel = model.PrivateEndpointLabel
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.PrivateEndpointIp = model.PrivateEndpointIp
+
+	m.DbVersion = model.DbVersion
+
+	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
+	copy(m.CustomerContacts, model.CustomerContacts)
+	m.IsMtlsConnectionRequired = model.IsMtlsConnectionRequired
+
+	m.ResourcePoolLeaderId = model.ResourcePoolLeaderId
+
+	m.ResourcePoolSummary = model.ResourcePoolSummary
+
+	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
+
+	m.IsOracleServiceGatewayAllowed = model.IsOracleServiceGatewayAllowed
+
+	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
+	copy(m.ScheduledOperations, model.ScheduledOperations)
+	m.IsAutoScalingForStorageEnabled = model.IsAutoScalingForStorageEnabled
+
+	m.DatabaseEdition = model.DatabaseEdition
+
+	m.DbToolsDetails = make([]DatabaseTool, len(model.DbToolsDetails))
+	copy(m.DbToolsDetails, model.DbToolsDetails)
+	m.SecretId = model.SecretId
+
+	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.CompartmentId = model.CompartmentId
+
+	m.AutonomousDatabaseBackupId = model.AutonomousDatabaseBackupId
+
+	m.CloneType = model.CloneType
+
+	return
 }
 
 // CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum Enum with underlying type: string

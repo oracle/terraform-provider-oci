@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteTargetAssetRequest wrapper for the DeleteTargetAsset operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/DeleteTargetAsset.go.html to see an example of how to use DeleteTargetAssetRequest.
 type DeleteTargetAssetRequest struct {
 
 	// Unique target asset identifier

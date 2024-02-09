@@ -12,10 +12,6 @@ import (
 )
 
 // CreateFilesystemSnapshotPolicyRequest wrapper for the CreateFilesystemSnapshotPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/CreateFilesystemSnapshotPolicy.go.html to see an example of how to use CreateFilesystemSnapshotPolicyRequest.
 type CreateFilesystemSnapshotPolicyRequest struct {
 
 	// Details for creating a new file system snapshot policy.

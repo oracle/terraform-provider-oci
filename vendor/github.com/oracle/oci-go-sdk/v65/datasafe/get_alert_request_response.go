@@ -12,10 +12,6 @@ import (
 )
 
 // GetAlertRequest wrapper for the GetAlert operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetAlert.go.html to see an example of how to use GetAlertRequest.
 type GetAlertRequest struct {
 
 	// The OCID of alert.

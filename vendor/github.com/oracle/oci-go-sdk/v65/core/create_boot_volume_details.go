@@ -59,6 +59,9 @@ type CreateBootVolumeDetails struct {
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
+	// The clusterPlacementGroup Id of the volume for volume placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The number of volume performance units (VPUs) that will be applied to this volume per GB,
 	// representing the Block Volume service's elastic performance options.
 	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
@@ -79,6 +82,12 @@ type CreateBootVolumeDetails struct {
 
 	// The list of autotune policies to be enabled for this volume.
 	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
+
+	// The OCID of the Vault service key which is the master encryption key for the boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys.
+	// For more information about the Vault service and encryption keys, see
+	// Overview of Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
+	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
+	XrcKmsKeyId *string `mandatory:"false" json:"xrcKmsKeyId"`
 }
 
 func (m CreateBootVolumeDetails) String() string {
@@ -100,19 +109,21 @@ func (m CreateBootVolumeDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AvailabilityDomain *string                           `json:"availabilityDomain"`
-		BackupPolicyId     *string                           `json:"backupPolicyId"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName        *string                           `json:"displayName"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		KmsKeyId           *string                           `json:"kmsKeyId"`
-		SizeInGBs          *int64                            `json:"sizeInGBs"`
-		VpusPerGB          *int64                            `json:"vpusPerGB"`
-		IsAutoTuneEnabled  *bool                             `json:"isAutoTuneEnabled"`
-		BootVolumeReplicas []BootVolumeReplicaDetails        `json:"bootVolumeReplicas"`
-		AutotunePolicies   []autotunepolicy                  `json:"autotunePolicies"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		SourceDetails      bootvolumesourcedetails           `json:"sourceDetails"`
+		AvailabilityDomain      *string                           `json:"availabilityDomain"`
+		BackupPolicyId          *string                           `json:"backupPolicyId"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName             *string                           `json:"displayName"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		KmsKeyId                *string                           `json:"kmsKeyId"`
+		SizeInGBs               *int64                            `json:"sizeInGBs"`
+		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		VpusPerGB               *int64                            `json:"vpusPerGB"`
+		IsAutoTuneEnabled       *bool                             `json:"isAutoTuneEnabled"`
+		BootVolumeReplicas      []BootVolumeReplicaDetails        `json:"bootVolumeReplicas"`
+		AutotunePolicies        []autotunepolicy                  `json:"autotunePolicies"`
+		XrcKmsKeyId             *string                           `json:"xrcKmsKeyId"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		SourceDetails           bootvolumesourcedetails           `json:"sourceDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -134,6 +145,8 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.SizeInGBs = model.SizeInGBs
 
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
 	m.VpusPerGB = model.VpusPerGB
 
 	m.IsAutoTuneEnabled = model.IsAutoTuneEnabled
@@ -152,6 +165,8 @@ func (m *CreateBootVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 			m.AutotunePolicies[i] = nil
 		}
 	}
+	m.XrcKmsKeyId = model.XrcKmsKeyId
+
 	m.CompartmentId = model.CompartmentId
 
 	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)

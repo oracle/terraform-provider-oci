@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateExportSetRequest wrapper for the UpdateExportSet operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateExportSet.go.html to see an example of how to use UpdateExportSetRequest.
 type UpdateExportSetRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the export set.

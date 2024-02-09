@@ -67,7 +67,7 @@ func newAddressRuleServiceClientFromBaseClient(baseClient common.BaseClient, con
 
 // SetRegion overrides the region of this client.
 func (client *AddressRuleServiceClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("ospgateway", "https://ospap.oracle.com")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("ospgateway", "https://osp-oci-integ.osp.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,10 +92,6 @@ func (client *AddressRuleServiceClient) ConfigurationProvider() *common.Configur
 }
 
 // GetAddressRule Get the address rule for the compartment based on the country code
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddressRule.go.html to see an example of how to use GetAddressRule API.
 // A default retry strategy applies to this operation GetAddressRule()
 func (client AddressRuleServiceClient) GetAddressRule(ctx context.Context, request GetAddressRuleRequest) (response GetAddressRuleResponse, err error) {
 	var ociResponse common.OCIResponse

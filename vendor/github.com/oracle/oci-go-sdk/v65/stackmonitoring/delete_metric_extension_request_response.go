@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteMetricExtensionRequest wrapper for the DeleteMetricExtension operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMetricExtension.go.html to see an example of how to use DeleteMetricExtensionRequest.
 type DeleteMetricExtensionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.

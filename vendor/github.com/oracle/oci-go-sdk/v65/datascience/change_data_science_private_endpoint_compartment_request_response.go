@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeDataSciencePrivateEndpointCompartmentRequest wrapper for the ChangeDataSciencePrivateEndpointCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeDataSciencePrivateEndpointCompartment.go.html to see an example of how to use ChangeDataSciencePrivateEndpointCompartmentRequest.
 type ChangeDataSciencePrivateEndpointCompartmentRequest struct {
 
 	// The unique ID for a Data Science private endpoint.

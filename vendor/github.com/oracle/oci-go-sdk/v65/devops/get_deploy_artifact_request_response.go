@@ -12,10 +12,6 @@ import (
 )
 
 // GetDeployArtifactRequest wrapper for the GetDeployArtifact operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetDeployArtifact.go.html to see an example of how to use GetDeployArtifactRequest.
 type GetDeployArtifactRequest struct {
 
 	// Unique artifact identifier.

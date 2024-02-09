@@ -12,10 +12,6 @@ import (
 )
 
 // EnableExternalContainerDatabaseStackMonitoringRequest wrapper for the EnableExternalContainerDatabaseStackMonitoring operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/EnableExternalContainerDatabaseStackMonitoring.go.html to see an example of how to use EnableExternalContainerDatabaseStackMonitoringRequest.
 type EnableExternalContainerDatabaseStackMonitoringRequest struct {
 
 	// The ExternalContainerDatabase OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

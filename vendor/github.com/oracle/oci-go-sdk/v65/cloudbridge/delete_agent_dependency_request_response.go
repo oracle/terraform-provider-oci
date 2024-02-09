@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteAgentDependencyRequest wrapper for the DeleteAgentDependency operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/DeleteAgentDependency.go.html to see an example of how to use DeleteAgentDependencyRequest.
 type DeleteAgentDependencyRequest struct {
 
 	// A unique AgentDependency identifier.

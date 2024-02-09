@@ -12,10 +12,6 @@ import (
 )
 
 // ListAutoAssociationsRequest wrapper for the ListAutoAssociations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListAutoAssociations.go.html to see an example of how to use ListAutoAssociationsRequest.
 type ListAutoAssociationsRequest struct {
 
 	// The Logging Analytics namespace used for the request.

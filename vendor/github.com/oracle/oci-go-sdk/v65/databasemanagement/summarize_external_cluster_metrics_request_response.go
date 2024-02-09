@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeExternalClusterMetricsRequest wrapper for the SummarizeExternalClusterMetrics operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeExternalClusterMetrics.go.html to see an example of how to use SummarizeExternalClusterMetricsRequest.
 type SummarizeExternalClusterMetricsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external cluster.

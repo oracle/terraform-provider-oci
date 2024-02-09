@@ -12,10 +12,6 @@ import (
 )
 
 // GetApprovalWorkflowAssignmentRequest wrapper for the GetApprovalWorkflowAssignment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetApprovalWorkflowAssignment.go.html to see an example of how to use GetApprovalWorkflowAssignmentRequest.
 type GetApprovalWorkflowAssignmentRequest struct {
 
 	// ID of the resource

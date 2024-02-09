@@ -12,10 +12,6 @@ import (
 )
 
 // RemoveStreamCdnConfigLockRequest wrapper for the RemoveStreamCdnConfigLock operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamCdnConfigLock.go.html to see an example of how to use RemoveStreamCdnConfigLockRequest.
 type RemoveStreamCdnConfigLockRequest struct {
 
 	// RemoveResourceLockDetails body parameter

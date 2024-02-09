@@ -12,13 +12,9 @@ import (
 )
 
 // GetSecurityRecipeRequest wrapper for the GetSecurityRecipe operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSecurityRecipe.go.html to see an example of how to use GetSecurityRecipeRequest.
 type GetSecurityRecipeRequest struct {
 
-	// The unique identifier of the security zone recipe (`SecurityRecipe`)
+	// The unique identifier of the security zone recipe. (`SecurityRecipe`)
 	SecurityRecipeId *string `mandatory:"true" contributesTo:"path" name:"securityRecipeId"`
 
 	// The client request ID for tracing.

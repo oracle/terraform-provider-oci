@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteVirtualServiceRouteTableRequest wrapper for the DeleteVirtualServiceRouteTable operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/DeleteVirtualServiceRouteTable.go.html to see an example of how to use DeleteVirtualServiceRouteTableRequest.
 type DeleteVirtualServiceRouteTableRequest struct {
 
 	// Unique VirtualServiceRouteTable identifier.

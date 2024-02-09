@@ -61,6 +61,9 @@ type RouteTable struct {
 	// The date and time the route table was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Indicates whether or not ECMP is enabled on the route table.
+	IsEcmpEnabled *bool `mandatory:"false" json:"isEcmpEnabled"`
 }
 
 func (m RouteTable) String() string {

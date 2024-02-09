@@ -12,10 +12,6 @@ import (
 )
 
 // ListPublicVantagePointsRequest wrapper for the ListPublicVantagePoints operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/ListPublicVantagePoints.go.html to see an example of how to use ListPublicVantagePointsRequest.
 type ListPublicVantagePointsRequest struct {
 
 	// The APM domain ID the request is intended for.

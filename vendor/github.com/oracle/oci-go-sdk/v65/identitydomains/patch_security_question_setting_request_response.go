@@ -12,10 +12,6 @@ import (
 )
 
 // PatchSecurityQuestionSettingRequest wrapper for the PatchSecurityQuestionSetting operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchSecurityQuestionSetting.go.html to see an example of how to use PatchSecurityQuestionSettingRequest.
 type PatchSecurityQuestionSettingRequest struct {
 
 	// ID of the resource

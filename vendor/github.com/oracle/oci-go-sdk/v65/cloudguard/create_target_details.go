@@ -11,22 +11,23 @@
 package cloudguard
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// CreateTargetDetails The information about new Target.
+// CreateTargetDetails Parameters used to create a new target.
 type CreateTargetDetails struct {
 
-	// DetectorTemplate identifier.
+	// Display name for the target.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// possible type of targets(COMPARTMENT/FACLOUD)
+	// Type of resource that target support (COMPARTMENT/FACLOUD)
 	TargetResourceType TargetResourceTypeEnum `mandatory:"true" json:"targetResourceType"`
 
 	// Resource ID which the target uses to monitor
@@ -36,14 +37,19 @@ type CreateTargetDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of detector recipes to associate with target
+	// List of detector recipes to attach to target
 	TargetDetectorRecipes []CreateTargetDetectorRecipeDetails `mandatory:"false" json:"targetDetectorRecipes"`
 
-	// List of responder recipes to associate with target
+	// List of responder recipes to attach to target
 	TargetResponderRecipes []CreateTargetResponderRecipeDetails `mandatory:"false" json:"targetResponderRecipes"`
 
-	// The current state of the DetectorRule.
+	// The enablement state of the detector rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Should problems be emitted to OCI Events service?
+	DoesEmitProblemsToEvents *bool `mandatory:"false" json:"doesEmitProblemsToEvents"`
+
+	TargetDetails CreateTargetAdditionalDetails `mandatory:"false" json:"targetDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -75,4 +81,61 @@ func (m CreateTargetDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateTargetDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Description              *string                              `json:"description"`
+		TargetDetectorRecipes    []CreateTargetDetectorRecipeDetails  `json:"targetDetectorRecipes"`
+		TargetResponderRecipes   []CreateTargetResponderRecipeDetails `json:"targetResponderRecipes"`
+		LifecycleState           LifecycleStateEnum                   `json:"lifecycleState"`
+		DoesEmitProblemsToEvents *bool                                `json:"doesEmitProblemsToEvents"`
+		TargetDetails            createtargetadditionaldetails        `json:"targetDetails"`
+		FreeformTags             map[string]string                    `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}    `json:"definedTags"`
+		DisplayName              *string                              `json:"displayName"`
+		CompartmentId            *string                              `json:"compartmentId"`
+		TargetResourceType       TargetResourceTypeEnum               `json:"targetResourceType"`
+		TargetResourceId         *string                              `json:"targetResourceId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Description = model.Description
+
+	m.TargetDetectorRecipes = make([]CreateTargetDetectorRecipeDetails, len(model.TargetDetectorRecipes))
+	copy(m.TargetDetectorRecipes, model.TargetDetectorRecipes)
+	m.TargetResponderRecipes = make([]CreateTargetResponderRecipeDetails, len(model.TargetResponderRecipes))
+	copy(m.TargetResponderRecipes, model.TargetResponderRecipes)
+	m.LifecycleState = model.LifecycleState
+
+	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents
+
+	nn, e = model.TargetDetails.UnmarshalPolymorphicJSON(model.TargetDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TargetDetails = nn.(CreateTargetAdditionalDetails)
+	} else {
+		m.TargetDetails = nil
+	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.TargetResourceType = model.TargetResourceType
+
+	m.TargetResourceId = model.TargetResourceId
+
+	return
 }

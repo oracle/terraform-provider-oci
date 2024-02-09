@@ -12,10 +12,6 @@ import (
 )
 
 // GetRuntimeOperatorRequest wrapper for the GetRuntimeOperator operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetRuntimeOperator.go.html to see an example of how to use GetRuntimeOperatorRequest.
 type GetRuntimeOperatorRequest struct {
 
 	// The workspace ID.

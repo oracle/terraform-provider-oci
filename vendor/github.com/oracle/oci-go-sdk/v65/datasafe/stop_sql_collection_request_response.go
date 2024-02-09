@@ -12,10 +12,6 @@ import (
 )
 
 // StopSqlCollectionRequest wrapper for the StopSqlCollection operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/StopSqlCollection.go.html to see an example of how to use StopSqlCollectionRequest.
 type StopSqlCollectionRequest struct {
 
 	// The OCID of the SQL collection resource.

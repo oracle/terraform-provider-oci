@@ -12,10 +12,6 @@ import (
 )
 
 // GetExternalContainerDatabaseRequest wrapper for the GetExternalContainerDatabase operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetExternalContainerDatabase.go.html to see an example of how to use GetExternalContainerDatabaseRequest.
 type GetExternalContainerDatabaseRequest struct {
 
 	// The ExternalContainerDatabase OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

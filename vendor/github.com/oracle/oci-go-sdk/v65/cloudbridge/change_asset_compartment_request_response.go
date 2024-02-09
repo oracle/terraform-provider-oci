@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeAssetCompartmentRequest wrapper for the ChangeAssetCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ChangeAssetCompartment.go.html to see an example of how to use ChangeAssetCompartmentRequest.
 type ChangeAssetCompartmentRequest struct {
 
 	// Unique asset identifier.

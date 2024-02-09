@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteProjectRequest wrapper for the DeleteProject operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/DeleteProject.go.html to see an example of how to use DeleteProjectRequest.
 type DeleteProjectRequest struct {
 
 	// A unique project identifier.
@@ -30,6 +26,9 @@ type DeleteProjectRequest struct {
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

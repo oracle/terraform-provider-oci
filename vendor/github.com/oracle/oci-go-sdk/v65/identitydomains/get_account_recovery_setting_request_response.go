@@ -12,10 +12,6 @@ import (
 )
 
 // GetAccountRecoverySettingRequest wrapper for the GetAccountRecoverySetting operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetAccountRecoverySetting.go.html to see an example of how to use GetAccountRecoverySettingRequest.
 type GetAccountRecoverySettingRequest struct {
 
 	// ID of the resource

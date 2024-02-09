@@ -12,13 +12,9 @@ import (
 )
 
 // GetDataMaskRuleRequest wrapper for the GetDataMaskRule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetDataMaskRule.go.html to see an example of how to use GetDataMaskRuleRequest.
 type GetDataMaskRuleRequest struct {
 
-	// OCID of dataMaskRule
+	// OCID of the data mask rule
 	DataMaskRuleId *string `mandatory:"true" contributesTo:"path" name:"dataMaskRuleId"`
 
 	// The client request ID for tracing.

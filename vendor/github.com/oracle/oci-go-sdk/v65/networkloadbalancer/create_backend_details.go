@@ -16,7 +16,7 @@ import (
 )
 
 // CreateBackendDetails The configuration of a backend server that is a member of a network load balancer backend set.
-// For more information, see Managing Backend Servers (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendservers.htm).
+// For more information, see Managing Backend Servers (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/BackendServers/backend-server-management.htm).
 type CreateBackendDetails struct {
 
 	// The communication port for the backend server.
@@ -26,6 +26,9 @@ type CreateBackendDetails struct {
 	// Optional unique name identifying the backend within the backend set. If not specified, then one will be generated.
 	// Example: `webServer1`
 	Name *string `mandatory:"false" json:"name"`
+
+	// IP version associated with the `CreateBackendDetails` object.
+	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
 
 	// The IP address of the backend server.
 	// Example: `10.0.0.3`
@@ -39,7 +42,7 @@ type CreateBackendDetails struct {
 	// proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections
 	// as a server weighted '1'.
 	// For more information about load balancing policies, see
-	// How Network Load Balancing Policies Work (https://docs.cloud.oracle.com/Content/Balance/Reference/lbpolicies.htm).
+	// How Network Load Balancing Policies Work (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introducton.htm#Policies).
 	// Example: `3`
 	Weight *int `mandatory:"false" json:"weight"`
 
@@ -69,6 +72,9 @@ func (m CreateBackendDetails) String() string {
 func (m CreateBackendDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingIpVersionEnum(string(m.IpVersion)); !ok && m.IpVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpVersion: %s. Supported values are: %s.", m.IpVersion, strings.Join(GetIpVersionEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -12,10 +12,6 @@ import (
 )
 
 // GetVolumeBackupPolicyAssetAssignmentRequest wrapper for the GetVolumeBackupPolicyAssetAssignment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetVolumeBackupPolicyAssetAssignment.go.html to see an example of how to use GetVolumeBackupPolicyAssetAssignmentRequest.
 type GetVolumeBackupPolicyAssetAssignmentRequest struct {
 
 	// The OCID of an asset (e.g. a volume).

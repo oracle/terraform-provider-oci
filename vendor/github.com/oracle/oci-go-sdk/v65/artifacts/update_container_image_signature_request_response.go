@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateContainerImageSignatureRequest wrapper for the UpdateContainerImageSignature operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/artifacts/UpdateContainerImageSignature.go.html to see an example of how to use UpdateContainerImageSignatureRequest.
 type UpdateContainerImageSignatureRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container image signature.

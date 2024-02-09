@@ -12,10 +12,6 @@ import (
 )
 
 // DisablePluggableDatabaseManagementRequest wrapper for the DisablePluggableDatabaseManagement operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisablePluggableDatabaseManagement.go.html to see an example of how to use DisablePluggableDatabaseManagementRequest.
 type DisablePluggableDatabaseManagementRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

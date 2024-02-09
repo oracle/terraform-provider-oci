@@ -12,10 +12,6 @@ import (
 )
 
 // CreateDrsFileRequest wrapper for the CreateDrsFile operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/CreateDrsFile.go.html to see an example of how to use CreateDrsFileRequest.
 type CreateDrsFileRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

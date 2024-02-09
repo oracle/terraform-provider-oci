@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeLogAnalyticsEmBridgeCompartmentRequest wrapper for the ChangeLogAnalyticsEmBridgeCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeLogAnalyticsEmBridgeCompartment.go.html to see an example of how to use ChangeLogAnalyticsEmBridgeCompartmentRequest.
 type ChangeLogAnalyticsEmBridgeCompartmentRequest struct {
 
 	// The Logging Analytics namespace used for the request.

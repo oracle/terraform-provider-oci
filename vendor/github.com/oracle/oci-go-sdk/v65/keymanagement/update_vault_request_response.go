@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateVaultRequest wrapper for the UpdateVault operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateVault.go.html to see an example of how to use UpdateVaultRequest.
 type UpdateVaultRequest struct {
 
 	// The OCID of the vault.

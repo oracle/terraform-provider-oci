@@ -34,6 +34,9 @@ type ModelTrainingDetails struct {
 
 	// This value would determine the window size of the training algorithm.
 	WindowSize *int `mandatory:"false" json:"windowSize"`
+
+	// If set to true then backend will try to finish the training under 24 hrs.
+	IsQuickModeEnabled *bool `mandatory:"false" json:"isQuickModeEnabled"`
 }
 
 func (m ModelTrainingDetails) String() string {
@@ -60,18 +63,27 @@ type ModelTrainingDetailsAlgorithmHintEnum string
 
 // Set of constants representing the allowable values for ModelTrainingDetailsAlgorithmHintEnum
 const (
-	ModelTrainingDetailsAlgorithmHintMultivariateMset ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MSET"
-	ModelTrainingDetailsAlgorithmHintUnivariateOcsvm  ModelTrainingDetailsAlgorithmHintEnum = "UNIVARIATE_OCSVM"
+	ModelTrainingDetailsAlgorithmHintMultivariateMadora               ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MADORA"
+	ModelTrainingDetailsAlgorithmHintMultivariateMadoraReconstruction ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MADORA_RECONSTRUCTION"
+	ModelTrainingDetailsAlgorithmHintMultivariateMadoraForecasting    ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MADORA_FORECASTING"
+	ModelTrainingDetailsAlgorithmHintMultivariateMset                 ModelTrainingDetailsAlgorithmHintEnum = "MULTIVARIATE_MSET"
+	ModelTrainingDetailsAlgorithmHintUnivariateOcsvm                  ModelTrainingDetailsAlgorithmHintEnum = "UNIVARIATE_OCSVM"
 )
 
 var mappingModelTrainingDetailsAlgorithmHintEnum = map[string]ModelTrainingDetailsAlgorithmHintEnum{
-	"MULTIVARIATE_MSET": ModelTrainingDetailsAlgorithmHintMultivariateMset,
-	"UNIVARIATE_OCSVM":  ModelTrainingDetailsAlgorithmHintUnivariateOcsvm,
+	"MULTIVARIATE_MADORA":                ModelTrainingDetailsAlgorithmHintMultivariateMadora,
+	"MULTIVARIATE_MADORA_RECONSTRUCTION": ModelTrainingDetailsAlgorithmHintMultivariateMadoraReconstruction,
+	"MULTIVARIATE_MADORA_FORECASTING":    ModelTrainingDetailsAlgorithmHintMultivariateMadoraForecasting,
+	"MULTIVARIATE_MSET":                  ModelTrainingDetailsAlgorithmHintMultivariateMset,
+	"UNIVARIATE_OCSVM":                   ModelTrainingDetailsAlgorithmHintUnivariateOcsvm,
 }
 
 var mappingModelTrainingDetailsAlgorithmHintEnumLowerCase = map[string]ModelTrainingDetailsAlgorithmHintEnum{
-	"multivariate_mset": ModelTrainingDetailsAlgorithmHintMultivariateMset,
-	"univariate_ocsvm":  ModelTrainingDetailsAlgorithmHintUnivariateOcsvm,
+	"multivariate_madora":                ModelTrainingDetailsAlgorithmHintMultivariateMadora,
+	"multivariate_madora_reconstruction": ModelTrainingDetailsAlgorithmHintMultivariateMadoraReconstruction,
+	"multivariate_madora_forecasting":    ModelTrainingDetailsAlgorithmHintMultivariateMadoraForecasting,
+	"multivariate_mset":                  ModelTrainingDetailsAlgorithmHintMultivariateMset,
+	"univariate_ocsvm":                   ModelTrainingDetailsAlgorithmHintUnivariateOcsvm,
 }
 
 // GetModelTrainingDetailsAlgorithmHintEnumValues Enumerates the set of values for ModelTrainingDetailsAlgorithmHintEnum
@@ -86,6 +98,9 @@ func GetModelTrainingDetailsAlgorithmHintEnumValues() []ModelTrainingDetailsAlgo
 // GetModelTrainingDetailsAlgorithmHintEnumStringValues Enumerates the set of values in String for ModelTrainingDetailsAlgorithmHintEnum
 func GetModelTrainingDetailsAlgorithmHintEnumStringValues() []string {
 	return []string{
+		"MULTIVARIATE_MADORA",
+		"MULTIVARIATE_MADORA_RECONSTRUCTION",
+		"MULTIVARIATE_MADORA_FORECASTING",
 		"MULTIVARIATE_MSET",
 		"UNIVARIATE_OCSVM",
 	}

@@ -12,10 +12,6 @@ import (
 )
 
 // AddMigrationObjectsRequest wrapper for the AddMigrationObjects operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/AddMigrationObjects.go.html to see an example of how to use AddMigrationObjectsRequest.
 type AddMigrationObjectsRequest struct {
 
 	// The OCID of the migration

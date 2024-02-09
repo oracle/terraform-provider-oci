@@ -12,10 +12,6 @@ import (
 )
 
 // ListAnnouncementsRequest wrapper for the ListAnnouncements operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListAnnouncements.go.html to see an example of how to use ListAnnouncementsRequest.
 type ListAnnouncementsRequest struct {
 
 	// Filter the list with summary contains the given value.

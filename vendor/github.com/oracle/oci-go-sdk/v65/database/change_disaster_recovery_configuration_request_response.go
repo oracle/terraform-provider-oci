@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeDisasterRecoveryConfigurationRequest wrapper for the ChangeDisasterRecoveryConfiguration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeDisasterRecoveryConfiguration.go.html to see an example of how to use ChangeDisasterRecoveryConfigurationRequest.
 type ChangeDisasterRecoveryConfigurationRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

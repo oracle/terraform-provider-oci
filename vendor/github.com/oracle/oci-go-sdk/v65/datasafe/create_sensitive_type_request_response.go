@@ -12,10 +12,6 @@ import (
 )
 
 // CreateSensitiveTypeRequest wrapper for the CreateSensitiveType operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateSensitiveType.go.html to see an example of how to use CreateSensitiveTypeRequest.
 type CreateSensitiveTypeRequest struct {
 
 	// Details to create a new sensitive type.

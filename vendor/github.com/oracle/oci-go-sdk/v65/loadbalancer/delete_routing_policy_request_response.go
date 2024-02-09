@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteRoutingPolicyRequest wrapper for the DeleteRoutingPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loadbalancer/DeleteRoutingPolicy.go.html to see an example of how to use DeleteRoutingPolicyRequest.
 type DeleteRoutingPolicyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the load balancer associated with the routing policy to delete.

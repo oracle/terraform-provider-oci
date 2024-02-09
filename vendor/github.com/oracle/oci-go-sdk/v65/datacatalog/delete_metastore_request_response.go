@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteMetastoreRequest wrapper for the DeleteMetastore operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/DeleteMetastore.go.html to see an example of how to use DeleteMetastoreRequest.
 type DeleteMetastoreRequest struct {
 
 	// The metastore's OCID.

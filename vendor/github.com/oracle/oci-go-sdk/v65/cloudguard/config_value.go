@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// ConfigValue configuration item for multi list data type
+// ConfigValue Details for a configuration value for a managed list.
 type ConfigValue struct {
 
-	// configuration list item type, either CUSTOM or MANAGED
+	// Configuration list item type (CUSTOM or MANAGED)
 	ListType ConfigurationListItemTypeEnum `mandatory:"true" json:"listType"`
 
-	// type of the managed list
+	// Type of content in the managed list
 	ManagedListType *string `mandatory:"true" json:"managedListType"`
 
-	// configuration value
+	// Configuration value
 	Value *string `mandatory:"true" json:"value"`
 }
 

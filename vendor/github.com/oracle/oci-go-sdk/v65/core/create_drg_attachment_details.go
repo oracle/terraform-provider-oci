@@ -61,6 +61,10 @@ type CreateDrgAttachmentDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 	// This field is deprecated. Instead, use the `networkDetails` field to specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the attached resource.
 	VcnId *string `mandatory:"false" json:"vcnId"`
+
+	// Indicates if transitive traffic is enabled for this DRG attachment. This field is
+	// only supported for VirtualCircuit and IPSec DRG attachments.
+	TransitiveTrafficEnabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `mandatory:"false" json:"transitiveTrafficEnabled,omitempty"`
 }
 
 func (m CreateDrgAttachmentDetails) String() string {
@@ -73,6 +77,9 @@ func (m CreateDrgAttachmentDetails) String() string {
 func (m CreateDrgAttachmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum(string(m.TransitiveTrafficEnabled)); !ok && m.TransitiveTrafficEnabled != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransitiveTrafficEnabled: %s. Supported values are: %s.", m.TransitiveTrafficEnabled, strings.Join(GetCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -82,14 +89,15 @@ func (m CreateDrgAttachmentDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName     *string                           `json:"displayName"`
-		DrgRouteTableId *string                           `json:"drgRouteTableId"`
-		NetworkDetails  drgattachmentnetworkcreatedetails `json:"networkDetails"`
-		DefinedTags     map[string]map[string]interface{} `json:"definedTags"`
-		FreeformTags    map[string]string                 `json:"freeformTags"`
-		RouteTableId    *string                           `json:"routeTableId"`
-		VcnId           *string                           `json:"vcnId"`
-		DrgId           *string                           `json:"drgId"`
+		DisplayName              *string                                                `json:"displayName"`
+		DrgRouteTableId          *string                                                `json:"drgRouteTableId"`
+		NetworkDetails           drgattachmentnetworkcreatedetails                      `json:"networkDetails"`
+		DefinedTags              map[string]map[string]interface{}                      `json:"definedTags"`
+		FreeformTags             map[string]string                                      `json:"freeformTags"`
+		RouteTableId             *string                                                `json:"routeTableId"`
+		VcnId                    *string                                                `json:"vcnId"`
+		TransitiveTrafficEnabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `json:"transitiveTrafficEnabled"`
+		DrgId                    *string                                                `json:"drgId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -119,7 +127,47 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.VcnId = model.VcnId
 
+	m.TransitiveTrafficEnabled = model.TransitiveTrafficEnabled
+
 	m.DrgId = model.DrgId
 
 	return
+}
+
+// CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum Enum with underlying type: string
+type CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum string
+
+// Set of constants representing the allowable values for CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum
+const (
+	CreateDrgAttachmentDetailsTransitiveTrafficEnabledDisabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum = "DISABLED"
+)
+
+var mappingCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum = map[string]CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum{
+	"DISABLED": CreateDrgAttachmentDetailsTransitiveTrafficEnabledDisabled,
+}
+
+var mappingCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnumLowerCase = map[string]CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum{
+	"disabled": CreateDrgAttachmentDetailsTransitiveTrafficEnabledDisabled,
+}
+
+// GetCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnumValues Enumerates the set of values for CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum
+func GetCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnumValues() []CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum {
+	values := make([]CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum, 0)
+	for _, v := range mappingCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnumStringValues Enumerates the set of values in String for CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum
+func GetCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnumStringValues() []string {
+	return []string{
+		"DISABLED",
+	}
+}
+
+// GetMappingCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum(val string) (CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum, bool) {
+	enum, ok := mappingCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

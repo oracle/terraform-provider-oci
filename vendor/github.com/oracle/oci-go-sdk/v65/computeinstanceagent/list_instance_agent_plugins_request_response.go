@@ -12,10 +12,6 @@ import (
 )
 
 // ListInstanceAgentPluginsRequest wrapper for the ListInstanceAgentPlugins operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentPlugins.go.html to see an example of how to use ListInstanceAgentPluginsRequest.
 type ListInstanceAgentPluginsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

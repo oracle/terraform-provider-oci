@@ -12,10 +12,6 @@ import (
 )
 
 // ListKnowledgeBasesRequest wrapper for the ListKnowledgeBases operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListKnowledgeBases.go.html to see an example of how to use ListKnowledgeBasesRequest.
 type ListKnowledgeBasesRequest struct {
 
 	// A filter to return only resources that match the specified identifier.

@@ -99,10 +99,6 @@ func (client *AIServiceLanguageClient) ConfigurationProvider() *common.Configura
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
 // - The total of characters to process in a request can be up to 20,000 characters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectDominantLanguage.go.html to see an example of how to use BatchDetectDominantLanguage API.
 func (client AIServiceLanguageClient) BatchDetectDominantLanguage(ctx context.Context, request BatchDetectDominantLanguageRequest) (response BatchDetectDominantLanguageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -161,10 +157,6 @@ func (client AIServiceLanguageClient) batchDetectDominantLanguage(ctx context.Co
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
 // - The total of characters to process in a request can be up to 20,000 characters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguageEntities.go.html to see an example of how to use BatchDetectLanguageEntities API.
 func (client AIServiceLanguageClient) BatchDetectLanguageEntities(ctx context.Context, request BatchDetectLanguageEntitiesRequest) (response BatchDetectLanguageEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -222,10 +214,6 @@ func (client AIServiceLanguageClient) batchDetectLanguageEntities(ctx context.Co
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
 // - The total of characters to process in a request can be up to 20,000 characters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguageKeyPhrases.go.html to see an example of how to use BatchDetectLanguageKeyPhrases API.
 func (client AIServiceLanguageClient) BatchDetectLanguageKeyPhrases(ctx context.Context, request BatchDetectLanguageKeyPhrasesRequest) (response BatchDetectLanguageKeyPhrasesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -283,10 +271,6 @@ func (client AIServiceLanguageClient) batchDetectLanguageKeyPhrases(ctx context.
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
 // - The total of characters to process in a request can be up to 20,000 characters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguagePiiEntities.go.html to see an example of how to use BatchDetectLanguagePiiEntities API.
 func (client AIServiceLanguageClient) BatchDetectLanguagePiiEntities(ctx context.Context, request BatchDetectLanguagePiiEntitiesRequest) (response BatchDetectLanguagePiiEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -347,10 +331,6 @@ func (client AIServiceLanguageClient) batchDetectLanguagePiiEntities(ctx context
 //   - A batch may have up to 100 records.
 //   - A record may be up to 5000 characters long.
 //   - The total of characters to process in a request can be up to 20,000 characters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguageSentiments.go.html to see an example of how to use BatchDetectLanguageSentiments API.
 func (client AIServiceLanguageClient) BatchDetectLanguageSentiments(ctx context.Context, request BatchDetectLanguageSentimentsRequest) (response BatchDetectLanguageSentimentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -410,10 +390,6 @@ func (client AIServiceLanguageClient) batchDetectLanguageSentiments(ctx context.
 // - A batch may have up to 100 records.
 // - A record may be up to 5000 characters long.
 // - The total of characters to process in a request can be up to 20,000 characters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchDetectLanguageTextClassification.go.html to see an example of how to use BatchDetectLanguageTextClassification API.
 func (client AIServiceLanguageClient) BatchDetectLanguageTextClassification(ctx context.Context, request BatchDetectLanguageTextClassificationRequest) (response BatchDetectLanguageTextClassificationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -466,16 +442,11 @@ func (client AIServiceLanguageClient) batchDetectLanguageTextClassification(ctx 
 	return response, err
 }
 
-// BatchLanguageTranslation Translate text to other language over pre-deployed model.
-// Use state of the art neural machine translation to translate text between more than 15 languages.
-// Limitations:
-//   - A batch may have up to 100 records.
-//   - A record may be up to 5000 characters long.
-//   - The total of characters to process in a request can be up to 20,000 characters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/BatchLanguageTranslation.go.html to see an example of how to use BatchLanguageTranslation API.
+// BatchLanguageTranslation Translates a batch of text documents from source to target language.
+// A batch can contain:
+//   - up to 100 records.
+//   - documents length less than 5000 characters.
+//   - 20,000 characters in total as a sum of all documents length.
 func (client AIServiceLanguageClient) BatchLanguageTranslation(ctx context.Context, request BatchLanguageTranslationRequest) (response BatchLanguageTranslationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -529,10 +500,6 @@ func (client AIServiceLanguageClient) batchLanguageTranslation(ctx context.Conte
 }
 
 // ChangeEndpointCompartment Moves a Endpoint into a different compartment. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ChangeEndpointCompartment.go.html to see an example of how to use ChangeEndpointCompartment API.
 // A default retry strategy applies to this operation ChangeEndpointCompartment()
 func (client AIServiceLanguageClient) ChangeEndpointCompartment(ctx context.Context, request ChangeEndpointCompartmentRequest) (response ChangeEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -592,10 +559,6 @@ func (client AIServiceLanguageClient) changeEndpointCompartment(ctx context.Cont
 }
 
 // ChangeModelCompartment Moves a Model into a different compartment. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 // A default retry strategy applies to this operation ChangeModelCompartment()
 func (client AIServiceLanguageClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -655,10 +618,6 @@ func (client AIServiceLanguageClient) changeModelCompartment(ctx context.Context
 }
 
 // ChangeProjectCompartment Moves a Project into a different compartment. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 // A default retry strategy applies to this operation ChangeProjectCompartment()
 func (client AIServiceLanguageClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -718,10 +677,6 @@ func (client AIServiceLanguageClient) changeProjectCompartment(ctx context.Conte
 }
 
 // CreateEndpoint Creates a new endpoint and deploy the trained model
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/CreateEndpoint.go.html to see an example of how to use CreateEndpoint API.
 // A default retry strategy applies to this operation CreateEndpoint()
 func (client AIServiceLanguageClient) CreateEndpoint(ctx context.Context, request CreateEndpointRequest) (response CreateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -781,10 +736,6 @@ func (client AIServiceLanguageClient) createEndpoint(ctx context.Context, reques
 }
 
 // CreateModel Creates a new model for training and train the model with date provided.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/CreateModel.go.html to see an example of how to use CreateModel API.
 // A default retry strategy applies to this operation CreateModel()
 func (client AIServiceLanguageClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -844,10 +795,6 @@ func (client AIServiceLanguageClient) createModel(ctx context.Context, request c
 }
 
 // CreateProject Creates a new Project.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/CreateProject.go.html to see an example of how to use CreateProject API.
 // A default retry strategy applies to this operation CreateProject()
 func (client AIServiceLanguageClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -907,10 +854,6 @@ func (client AIServiceLanguageClient) createProject(ctx context.Context, request
 }
 
 // DeleteEndpoint Deletes a provisioned endpoint resource by identifier. This operation fails with a 409 error unless all associated resources are in a DELETED state. You must delete all associated resources before deleting a model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DeleteEndpoint.go.html to see an example of how to use DeleteEndpoint API.
 // A default retry strategy applies to this operation DeleteEndpoint()
 func (client AIServiceLanguageClient) DeleteEndpoint(ctx context.Context, request DeleteEndpointRequest) (response DeleteEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -965,10 +908,6 @@ func (client AIServiceLanguageClient) deleteEndpoint(ctx context.Context, reques
 }
 
 // DeleteModel Deletes a provisioned model resource by identifier. This operation fails with a 409 error unless all associated resources are in a DELETED state. You must delete all associated resources before deleting a model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DeleteModel.go.html to see an example of how to use DeleteModel API.
 // A default retry strategy applies to this operation DeleteModel()
 func (client AIServiceLanguageClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1023,10 +962,6 @@ func (client AIServiceLanguageClient) deleteModel(ctx context.Context, request c
 }
 
 // DeleteProject Deletes a Project resource by identifier. This operation fails with a 409 error unless all associated resources (models deployments or data assets) are in a DELETED state. You must delete all associated resources before deleting a project.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DeleteProject.go.html to see an example of how to use DeleteProject API.
 // A default retry strategy applies to this operation DeleteProject()
 func (client AIServiceLanguageClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1080,15 +1015,12 @@ func (client AIServiceLanguageClient) deleteProject(ctx context.Context, request
 	return response, err
 }
 
-// DetectDominantLanguage This API will be retired on Monday, 10 Oct 2023 00:00:00 GMT
-// The API returns the detected language and a related confidence score (between 0 and 1).
-// List of supported languages. (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#lang-detect)
+// DetectDominantLanguage **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
+// We recommend you replace this API with the batch API, BatchDetectDominantLanguage (https://docs.cloud.oracle.com/iaas/api/#/en/language/20221001/BatchDetectDominantLanguage/BatchDetectDominantLanguage).
+// The DetectDominantLanguage API returns the detected language and a related confidence score (between 0 and 1).
+// List of supported languages (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#lang-detect)
 // Limitations:
 // - A record may be up to 1000 characters long.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DetectDominantLanguage.go.html to see an example of how to use DetectDominantLanguage API.
 func (client AIServiceLanguageClient) DetectDominantLanguage(ctx context.Context, request DetectDominantLanguageRequest) (response DetectDominantLanguageResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1141,14 +1073,11 @@ func (client AIServiceLanguageClient) detectDominantLanguage(ctx context.Context
 	return response, err
 }
 
-// DetectLanguageEntities This API will be retired on Monday, 10 Oct 2023 00:00:00 GMT
-// The API extracts entities in text records. For each entity, its type and confidence score (between 0 and 1) is returned.
+// DetectLanguageEntities **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
+// We recommend you replace this API with the batch API, BatchDetectLanguageEntities (https://docs.cloud.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageEntities/BatchDetectLanguageEntities).
+// The DetectLanguageEntities API extracts entities in text records. For each entity, its type and confidence score (between 0 and 1) is returned.
 // Limitations:
 // - A text may be up to 1000 characters long.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DetectLanguageEntities.go.html to see an example of how to use DetectLanguageEntities API.
 func (client AIServiceLanguageClient) DetectLanguageEntities(ctx context.Context, request DetectLanguageEntitiesRequest) (response DetectLanguageEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1201,14 +1130,13 @@ func (client AIServiceLanguageClient) detectLanguageEntities(ctx context.Context
 	return response, err
 }
 
-// DetectLanguageKeyPhrases This API will be retired on Monday, 10 Oct 2023 00:00:00 GMT
-// The API extracts key-phrases in text records. For each key-phrase, a score (between 0 and 1) is returned that highlights the importance of the key-phrase in the context of the text.
+// DetectLanguageKeyPhrases **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
+//
+//	We recommend you replace this API with the batch API, BatchDetectLanguageKeyPhrases (https://docs.cloud.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageKeyPhrases/BatchDetectLanguageKeyPhrases).
+//	The DetectLanguageKeyPhrases API extracts key-phrases in text records. For each key-phrase, a score (between 0 and 1) is returned that highlights the importance of the key-phrase in the context of the text.
+//
 // Limitations:
 // - A record may be up to 1000 characters long.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DetectLanguageKeyPhrases.go.html to see an example of how to use DetectLanguageKeyPhrases API.
 func (client AIServiceLanguageClient) DetectLanguageKeyPhrases(ctx context.Context, request DetectLanguageKeyPhrasesRequest) (response DetectLanguageKeyPhrasesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1261,17 +1189,14 @@ func (client AIServiceLanguageClient) detectLanguageKeyPhrases(ctx context.Conte
 	return response, err
 }
 
-// DetectLanguageSentiments This API will be retired on Monday, 10 Oct 2023 00:00:00 GMT
-// The API extracts aspect-based in text records.
+// DetectLanguageSentiments **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
+// We recommend you replace this API with the batch API, BatchDetectLanguageSentiments (https://docs.cloud.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageSentiments/BatchDetectLanguageSentiments).
+// The DetectLanguageSentiments API extracts aspect-based in text records.
 // For aspect-based sentiment analysis, a set of aspects and their respective sentiment is returned.
 // For sentiment analysis, confidence scores are provided for each of the classes (positive, negative, neutral).
 // Learn more about sentiment analysis here (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#sentiment).
 // Limitations:
 //   - A record may be up to 1000 characters long.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DetectLanguageSentiments.go.html to see an example of how to use DetectLanguageSentiments API.
 func (client AIServiceLanguageClient) DetectLanguageSentiments(ctx context.Context, request DetectLanguageSentimentsRequest) (response DetectLanguageSentimentsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1324,15 +1249,12 @@ func (client AIServiceLanguageClient) detectLanguageSentiments(ctx context.Conte
 	return response, err
 }
 
-// DetectLanguageTextClassification This API will be retired on Monday, 10 Oct 2023 00:00:00 GMT
-// The API automatically classifies text into a set of pre-determined classes and sub-classes. A single class/subclass is returned for each record classified.
+// DetectLanguageTextClassification **Deprecated**: This API will be retired Tuesday, 10 Oct 2023 00:00:00 GMT.
+// We recommend you replace this API with the batch API, BatchDetectLanguageTextClassification (https://docs.cloud.oracle.com/iaas/api/#/en/language/20221001/BatchDetectLanguageTextClassification/BatchDetectLanguageTextClassification).
+// The DetectLanguageTextClassification API automatically classifies text into a set of pre-determined classes and sub-classes. A single class/subclass is returned for each record classified.
 // Learn more about text classification here (https://docs.cloud.oracle.com/iaas/language/using/pretrain-models.htm#text-class).
 // Limitations:
 // - A record may be up to 1000 characters long.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DetectLanguageTextClassification.go.html to see an example of how to use DetectLanguageTextClassification API.
 func (client AIServiceLanguageClient) DetectLanguageTextClassification(ctx context.Context, request DetectLanguageTextClassificationRequest) (response DetectLanguageTextClassificationResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1386,10 +1308,6 @@ func (client AIServiceLanguageClient) detectLanguageTextClassification(ctx conte
 }
 
 // GetEndpoint Gets an endpoint by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetEndpoint.go.html to see an example of how to use GetEndpoint API.
 // A default retry strategy applies to this operation GetEndpoint()
 func (client AIServiceLanguageClient) GetEndpoint(ctx context.Context, request GetEndpointRequest) (response GetEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1444,10 +1362,6 @@ func (client AIServiceLanguageClient) getEndpoint(ctx context.Context, request c
 }
 
 // GetModel Gets a model by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetModel.go.html to see an example of how to use GetModel API.
 // A default retry strategy applies to this operation GetModel()
 func (client AIServiceLanguageClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1502,10 +1416,6 @@ func (client AIServiceLanguageClient) getModel(ctx context.Context, request comm
 }
 
 // GetModelType Gets model capabilities
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetModelType.go.html to see an example of how to use GetModelType API.
 // A default retry strategy applies to this operation GetModelType()
 func (client AIServiceLanguageClient) GetModelType(ctx context.Context, request GetModelTypeRequest) (response GetModelTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1560,10 +1470,6 @@ func (client AIServiceLanguageClient) getModelType(ctx context.Context, request 
 }
 
 // GetProject Gets a Project by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetProject.go.html to see an example of how to use GetProject API.
 // A default retry strategy applies to this operation GetProject()
 func (client AIServiceLanguageClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1618,10 +1524,6 @@ func (client AIServiceLanguageClient) getProject(ctx context.Context, request co
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client AIServiceLanguageClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1676,10 +1578,6 @@ func (client AIServiceLanguageClient) getWorkRequest(ctx context.Context, reques
 }
 
 // ListEndpoints Returns a list of Endpoints.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ListEndpoints.go.html to see an example of how to use ListEndpoints API.
 // A default retry strategy applies to this operation ListEndpoints()
 func (client AIServiceLanguageClient) ListEndpoints(ctx context.Context, request ListEndpointsRequest) (response ListEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1734,10 +1632,6 @@ func (client AIServiceLanguageClient) listEndpoints(ctx context.Context, request
 }
 
 // ListEvaluationResults Get a (paginated) list of evaluation results for a given model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ListEvaluationResults.go.html to see an example of how to use ListEvaluationResults API.
 // A default retry strategy applies to this operation ListEvaluationResults()
 func (client AIServiceLanguageClient) ListEvaluationResults(ctx context.Context, request ListEvaluationResultsRequest) (response ListEvaluationResultsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1792,10 +1686,6 @@ func (client AIServiceLanguageClient) listEvaluationResults(ctx context.Context,
 }
 
 // ListModels Returns a list of models.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ListModels.go.html to see an example of how to use ListModels API.
 // A default retry strategy applies to this operation ListModels()
 func (client AIServiceLanguageClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1850,10 +1740,6 @@ func (client AIServiceLanguageClient) listModels(ctx context.Context, request co
 }
 
 // ListProjects Returns a list of  Projects.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ListProjects.go.html to see an example of how to use ListProjects API.
 // A default retry strategy applies to this operation ListProjects()
 func (client AIServiceLanguageClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1908,10 +1794,6 @@ func (client AIServiceLanguageClient) listProjects(ctx context.Context, request 
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client AIServiceLanguageClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1966,10 +1848,6 @@ func (client AIServiceLanguageClient) listWorkRequestErrors(ctx context.Context,
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client AIServiceLanguageClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2024,10 +1902,6 @@ func (client AIServiceLanguageClient) listWorkRequestLogs(ctx context.Context, r
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client AIServiceLanguageClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2082,10 +1956,6 @@ func (client AIServiceLanguageClient) listWorkRequests(ctx context.Context, requ
 }
 
 // UpdateEndpoint Update the Endpoint identified by the id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/UpdateEndpoint.go.html to see an example of how to use UpdateEndpoint API.
 // A default retry strategy applies to this operation UpdateEndpoint()
 func (client AIServiceLanguageClient) UpdateEndpoint(ctx context.Context, request UpdateEndpointRequest) (response UpdateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2140,10 +2010,6 @@ func (client AIServiceLanguageClient) updateEndpoint(ctx context.Context, reques
 }
 
 // UpdateModel Updates the model
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/UpdateModel.go.html to see an example of how to use UpdateModel API.
 // A default retry strategy applies to this operation UpdateModel()
 func (client AIServiceLanguageClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2198,10 +2064,6 @@ func (client AIServiceLanguageClient) updateModel(ctx context.Context, request c
 }
 
 // UpdateProject Updates the Project
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/UpdateProject.go.html to see an example of how to use UpdateProject API.
 // A default retry strategy applies to this operation UpdateProject()
 func (client AIServiceLanguageClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse

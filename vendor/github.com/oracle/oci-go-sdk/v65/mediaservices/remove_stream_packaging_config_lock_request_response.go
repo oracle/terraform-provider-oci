@@ -12,10 +12,6 @@ import (
 )
 
 // RemoveStreamPackagingConfigLockRequest wrapper for the RemoveStreamPackagingConfigLock operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamPackagingConfigLock.go.html to see an example of how to use RemoveStreamPackagingConfigLockRequest.
 type RemoveStreamPackagingConfigLockRequest struct {
 
 	// RemoveResourceLockDetails body parameter

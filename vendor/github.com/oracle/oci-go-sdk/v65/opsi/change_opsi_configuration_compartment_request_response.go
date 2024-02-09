@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeOpsiConfigurationCompartmentRequest wrapper for the ChangeOpsiConfigurationCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeOpsiConfigurationCompartment.go.html to see an example of how to use ChangeOpsiConfigurationCompartmentRequest.
 type ChangeOpsiConfigurationCompartmentRequest struct {
 
 	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of OPSI configuration resource.

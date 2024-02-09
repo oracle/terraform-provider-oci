@@ -12,10 +12,6 @@ import (
 )
 
 // ListNetworkAddressListsRequest wrapper for the ListNetworkAddressLists operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListNetworkAddressLists.go.html to see an example of how to use ListNetworkAddressListsRequest.
 type ListNetworkAddressListsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.

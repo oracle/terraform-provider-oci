@@ -12,10 +12,6 @@ import (
 )
 
 // GetSightingRequest wrapper for the GetSighting operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSighting.go.html to see an example of how to use GetSightingRequest.
 type GetSightingRequest struct {
 
 	// OCID of the sighting.

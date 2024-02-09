@@ -58,6 +58,12 @@ type UnifiedAgentAuditdParser struct {
 
 	// Specify the timeout for parse processing. This is mainly for detecting an incorrect regexp pattern.
 	TimeoutInMilliseconds *int `mandatory:"false" json:"timeoutInMilliseconds"`
+
+	// If true, merges a multiline with the same timestamp in audit logs.
+	IsMergeMultilineRecordsForAudit *bool `mandatory:"false" json:"isMergeMultilineRecordsForAudit"`
+
+	// When set to true, the plugin will convert the proctitle payload and convert it from hexadecimal to ASCII format.
+	IsConvertProctitleToAsciiForAudit *bool `mandatory:"false" json:"isConvertProctitleToAsciiForAudit"`
 }
 
 // GetFieldTimeKey returns FieldTimeKey

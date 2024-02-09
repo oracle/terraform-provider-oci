@@ -12,10 +12,6 @@ import (
 )
 
 // ListDrgRouteRulesRequest wrapper for the ListDrgRouteRules operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListDrgRouteRules.go.html to see an example of how to use ListDrgRouteRulesRequest.
 type ListDrgRouteRulesRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
@@ -35,6 +31,11 @@ type ListDrgRouteRulesRequest struct {
 	// Static routes are specified through the DRG route table API.
 	// Dynamic routes are learned by the DRG from the DRG attachments through various routing protocols.
 	RouteType ListDrgRouteRulesRouteTypeEnum `mandatory:"false" contributesTo:"query" name:"routeType" omitEmpty:"true"`
+
+	// Enables filtering routes on a Global DRG route table by the Oracle Cloud
+	// Infrastructure (region)[iaas/General/Concepts/regions.htm] where this route rule originates.
+	// Example: 'phx'
+	RouteRegion *string `mandatory:"false" contributesTo:"query" name:"routeRegion"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

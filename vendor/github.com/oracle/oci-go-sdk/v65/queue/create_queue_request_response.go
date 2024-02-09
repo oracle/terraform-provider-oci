@@ -12,10 +12,6 @@ import (
 )
 
 // CreateQueueRequest wrapper for the CreateQueue operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/CreateQueue.go.html to see an example of how to use CreateQueueRequest.
 type CreateQueueRequest struct {
 
 	// Details for the new Queue.

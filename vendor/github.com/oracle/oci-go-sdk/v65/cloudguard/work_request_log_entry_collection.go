@@ -16,11 +16,16 @@ import (
 	"strings"
 )
 
-// WorkRequestLogEntryCollection Results of a workRequestLog search. Contains both workRequestLog items and other information, such as metadata.
+// WorkRequestLogEntryCollection The collection of work request log entries. These result from a
+// workRequestLog search. Contains both workRequestLog items and
+// other information, such as metadata.
 type WorkRequestLogEntryCollection struct {
 
-	// List of workRequestLogEntries.
+	// List of workRequestLogEntry resources
 	Items []WorkRequestLogEntry `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m WorkRequestLogEntryCollection) String() string {

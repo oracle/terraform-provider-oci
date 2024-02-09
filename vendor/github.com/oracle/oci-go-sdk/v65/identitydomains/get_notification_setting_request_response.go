@@ -12,10 +12,6 @@ import (
 )
 
 // GetNotificationSettingRequest wrapper for the GetNotificationSetting operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetNotificationSetting.go.html to see an example of how to use GetNotificationSettingRequest.
 type GetNotificationSettingRequest struct {
 
 	// ID of the resource

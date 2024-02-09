@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateAnnouncementUserStatusRequest wrapper for the UpdateAnnouncementUserStatus operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateAnnouncementUserStatus.go.html to see an example of how to use UpdateAnnouncementUserStatusRequest.
 type UpdateAnnouncementUserStatusRequest struct {
 
 	// The OCID of the announcement.

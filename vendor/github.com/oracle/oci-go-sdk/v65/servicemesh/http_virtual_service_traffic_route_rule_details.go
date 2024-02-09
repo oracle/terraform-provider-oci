@@ -25,6 +25,19 @@ type HttpVirtualServiceTrafficRouteRuleDetails struct {
 	// Route to match
 	Path *string `mandatory:"false" json:"path"`
 
+	// Match criteria for headers.
+	Headers []StringMatch `mandatory:"false" json:"headers"`
+
+	// Match criteria for query params.
+	QueryParams []StringMatch `mandatory:"false" json:"queryParams"`
+
+	Method *StringValueMatch `mandatory:"false" json:"method"`
+
+	Authority *StringValueMatch `mandatory:"false" json:"authority"`
+
+	// Is path param case sensitive
+	IsPathCaseSensitive *bool `mandatory:"false" json:"isPathCaseSensitive"`
+
 	// If true, the rule will check that the content-type header has a application/grpc
 	// or one of the various application/grpc+ values.
 	IsGrpc *bool `mandatory:"false" json:"isGrpc"`
@@ -34,6 +47,8 @@ type HttpVirtualServiceTrafficRouteRuleDetails struct {
 	// The value 0 (zero) indicates that the timeout is disabled.
 	// For streaming responses from the target service, consider either keeping the timeout disabled or set a sufficiently high value.
 	RequestTimeoutInMs *int64 `mandatory:"false" json:"requestTimeoutInMs"`
+
+	RetryConfiguration *HttpRetryConfiguration `mandatory:"false" json:"retryConfiguration"`
 
 	// Match type for the route
 	PathType HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum `mandatory:"false" json:"pathType,omitempty"`
@@ -83,14 +98,20 @@ type HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum string
 // Set of constants representing the allowable values for HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum
 const (
 	HttpVirtualServiceTrafficRouteRuleDetailsPathTypePrefix HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum = "PREFIX"
+	HttpVirtualServiceTrafficRouteRuleDetailsPathTypeRegex  HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum = "REGEX"
+	HttpVirtualServiceTrafficRouteRuleDetailsPathTypeExact  HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum = "EXACT"
 )
 
 var mappingHttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum = map[string]HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum{
 	"PREFIX": HttpVirtualServiceTrafficRouteRuleDetailsPathTypePrefix,
+	"REGEX":  HttpVirtualServiceTrafficRouteRuleDetailsPathTypeRegex,
+	"EXACT":  HttpVirtualServiceTrafficRouteRuleDetailsPathTypeExact,
 }
 
 var mappingHttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnumLowerCase = map[string]HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum{
 	"prefix": HttpVirtualServiceTrafficRouteRuleDetailsPathTypePrefix,
+	"regex":  HttpVirtualServiceTrafficRouteRuleDetailsPathTypeRegex,
+	"exact":  HttpVirtualServiceTrafficRouteRuleDetailsPathTypeExact,
 }
 
 // GetHttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnumValues Enumerates the set of values for HttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnum
@@ -106,6 +127,8 @@ func GetHttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnumValues() []HttpVirt
 func GetHttpVirtualServiceTrafficRouteRuleDetailsPathTypeEnumStringValues() []string {
 	return []string{
 		"PREFIX",
+		"REGEX",
+		"EXACT",
 	}
 }
 

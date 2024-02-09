@@ -12,10 +12,6 @@ import (
 )
 
 // DisableExternalNonContainerDatabaseDatabaseManagementRequest wrapper for the DisableExternalNonContainerDatabaseDatabaseManagement operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisableExternalNonContainerDatabaseDatabaseManagement.go.html to see an example of how to use DisableExternalNonContainerDatabaseDatabaseManagementRequest.
 type DisableExternalNonContainerDatabaseDatabaseManagementRequest struct {
 
 	// The external non-container database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

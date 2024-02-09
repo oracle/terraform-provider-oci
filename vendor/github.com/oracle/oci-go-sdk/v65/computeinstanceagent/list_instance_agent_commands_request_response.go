@@ -12,10 +12,6 @@ import (
 )
 
 // ListInstanceAgentCommandsRequest wrapper for the ListInstanceAgentCommands operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/ListInstanceAgentCommands.go.html to see an example of how to use ListInstanceAgentCommandsRequest.
 type ListInstanceAgentCommandsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

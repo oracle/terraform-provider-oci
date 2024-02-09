@@ -12,10 +12,6 @@ import (
 )
 
 // CreateApplicationGroupRequest wrapper for the CreateApplicationGroup operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateApplicationGroup.go.html to see an example of how to use CreateApplicationGroupRequest.
 type CreateApplicationGroupRequest struct {
 
 	// Unique Network Firewall Policy identifier

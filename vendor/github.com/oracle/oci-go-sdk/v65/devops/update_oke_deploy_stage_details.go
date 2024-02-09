@@ -36,6 +36,8 @@ type UpdateOkeDeployStageDetails struct {
 	// Kubernetes cluster environment OCID for deployment.
 	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
 
+	OkeEnvironmentDetails OkeEnvironmentDetails `mandatory:"false" json:"okeEnvironmentDetails"`
+
 	// List of Kubernetes manifest artifact OCIDs.
 	KubernetesManifestDeployArtifactIds []string `mandatory:"false" json:"kubernetesManifestDeployArtifactIds"`
 
@@ -109,6 +111,7 @@ func (m *UpdateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                        map[string]string                 `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
 		OkeClusterDeployEnvironmentId       *string                           `json:"okeClusterDeployEnvironmentId"`
+		OkeEnvironmentDetails               okeenvironmentdetails             `json:"okeEnvironmentDetails"`
 		KubernetesManifestDeployArtifactIds []string                          `json:"kubernetesManifestDeployArtifactIds"`
 		Namespace                           *string                           `json:"namespace"`
 		RollbackPolicy                      deploystagerollbackpolicy         `json:"rollbackPolicy"`
@@ -130,6 +133,16 @@ func (m *UpdateOkeDeployStageDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
+
+	nn, e = model.OkeEnvironmentDetails.UnmarshalPolymorphicJSON(model.OkeEnvironmentDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OkeEnvironmentDetails = nn.(OkeEnvironmentDetails)
+	} else {
+		m.OkeEnvironmentDetails = nil
+	}
 
 	m.KubernetesManifestDeployArtifactIds = make([]string, len(model.KubernetesManifestDeployArtifactIds))
 	copy(m.KubernetesManifestDeployArtifactIds, model.KubernetesManifestDeployArtifactIds)

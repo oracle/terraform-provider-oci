@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// DataSource Details of Data source
+// DataSource Detailed information for a data source (DataSource resource).
 type DataSource struct {
 
-	// Ocid for Data source
+	// OCID for the data source
 	Id *string `mandatory:"true" json:"id"`
 
-	// DisplayName of Data source.
+	// Display name of the data source
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Possible type of dataSourceFeed Provider(LoggingQuery)
 	DataSourceFeedProvider DataSourceFeedProviderEnum `mandatory:"true" json:"dataSourceFeedProvider"`
 
-	// CompartmentId of Data source.
+	// Compartment OCID of data source
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	DataSourceDetails DataSourceDetails `mandatory:"false" json:"dataSourceDetails"`
@@ -37,10 +37,10 @@ type DataSource struct {
 	// The date and time the Data source was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the Data source was updated. Format defined by RFC3339.
+	// The date and time the data source was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Status of data Source
+	// Enablement status of the data source
 	Status DataSourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// Information about the detector recipe and rule attached
@@ -49,8 +49,11 @@ type DataSource struct {
 	// Information about the region and status of query replication
 	RegionStatusDetail []RegionStatusDetail `mandatory:"false" json:"regionStatusDetail"`
 
-	// The current state of the resource.
+	// The current lifecycle state of the resource.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -103,6 +106,7 @@ func (m *DataSource) UnmarshalJSON(data []byte) (e error) {
 		DataSourceDetectorMappingInfo []DataSourceMappingInfo           `json:"dataSourceDetectorMappingInfo"`
 		RegionStatusDetail            []RegionStatusDetail              `json:"regionStatusDetail"`
 		LifecycleState                LifecycleStateEnum                `json:"lifecycleState"`
+		Locks                         []ResourceLock                    `json:"locks"`
 		FreeformTags                  map[string]string                 `json:"freeformTags"`
 		DefinedTags                   map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                    map[string]map[string]interface{} `json:"systemTags"`
@@ -139,6 +143,8 @@ func (m *DataSource) UnmarshalJSON(data []byte) (e error) {
 	copy(m.RegionStatusDetail, model.RegionStatusDetail)
 	m.LifecycleState = model.LifecycleState
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

@@ -12,10 +12,6 @@ import (
 )
 
 // GetDrgRouteDistributionRequest wrapper for the GetDrgRouteDistribution operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDrgRouteDistribution.go.html to see an example of how to use GetDrgRouteDistributionRequest.
 type GetDrgRouteDistributionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route distribution.

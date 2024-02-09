@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeRetentionRequest wrapper for the ChangeRetention operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeRetention.go.html to see an example of how to use ChangeRetentionRequest.
 type ChangeRetentionRequest struct {
 
 	// The OCID of the audit.

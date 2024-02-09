@@ -12,10 +12,6 @@ import (
 )
 
 // ReplaceHostRequest wrapper for the ReplaceHost operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/ReplaceHost.go.html to see an example of how to use ReplaceHostRequest.
 type ReplaceHostRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host.

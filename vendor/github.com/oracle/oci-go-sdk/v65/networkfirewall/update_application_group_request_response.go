@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateApplicationGroupRequest wrapper for the UpdateApplicationGroup operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateApplicationGroup.go.html to see an example of how to use UpdateApplicationGroupRequest.
 type UpdateApplicationGroupRequest struct {
 
 	// Unique Network Firewall Policy identifier

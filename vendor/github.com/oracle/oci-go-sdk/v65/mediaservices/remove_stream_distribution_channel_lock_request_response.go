@@ -12,10 +12,6 @@ import (
 )
 
 // RemoveStreamDistributionChannelLockRequest wrapper for the RemoveStreamDistributionChannelLock operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/RemoveStreamDistributionChannelLock.go.html to see an example of how to use RemoveStreamDistributionChannelLockRequest.
 type RemoveStreamDistributionChannelLockRequest struct {
 
 	// RemoveResourceLockDetails body parameter

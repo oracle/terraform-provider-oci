@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteAiPrivateEndpointRequest wrapper for the DeleteAiPrivateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteAiPrivateEndpoint.go.html to see an example of how to use DeleteAiPrivateEndpointRequest.
 type DeleteAiPrivateEndpointRequest struct {
 
 	// Unique private reverse connection identifier.

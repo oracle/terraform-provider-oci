@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateDataAssetRequest wrapper for the UpdateDataAsset operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/UpdateDataAsset.go.html to see an example of how to use UpdateDataAssetRequest.
 type UpdateDataAssetRequest struct {
 
 	// The OCID of the Data Asset.

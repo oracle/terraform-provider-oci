@@ -12,10 +12,6 @@ import (
 )
 
 // EnableExadataInsightRequest wrapper for the EnableExadataInsight operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/EnableExadataInsight.go.html to see an example of how to use EnableExadataInsightRequest.
 type EnableExadataInsightRequest struct {
 
 	// Details for the Exadata system to be enabled in Operations Insights.

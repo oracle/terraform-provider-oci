@@ -12,10 +12,6 @@ import (
 )
 
 // CreateMetricExtensionRequest wrapper for the CreateMetricExtension operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMetricExtension.go.html to see an example of how to use CreateMetricExtensionRequest.
 type CreateMetricExtensionRequest struct {
 
 	// Details required for creating new Metric Extension

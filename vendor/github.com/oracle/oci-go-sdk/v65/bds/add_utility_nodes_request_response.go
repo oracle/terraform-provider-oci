@@ -12,10 +12,6 @@ import (
 )
 
 // AddUtilityNodesRequest wrapper for the AddUtilityNodes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddUtilityNodes.go.html to see an example of how to use AddUtilityNodesRequest.
 type AddUtilityNodesRequest struct {
 
 	// The OCID of the cluster.

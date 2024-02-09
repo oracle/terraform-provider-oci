@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeConfigCompartmentRequest wrapper for the ChangeConfigCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeConfigCompartment.go.html to see an example of how to use ChangeConfigCompartmentRequest.
 type ChangeConfigCompartmentRequest struct {
 
 	// Unique Config identifier.

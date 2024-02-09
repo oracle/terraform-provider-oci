@@ -92,10 +92,6 @@ func (client *JavaManagementServiceClient) ConfigurationProvider() *common.Confi
 }
 
 // AddFleetInstallationSites Add Java installation sites in a Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/AddFleetInstallationSites.go.html to see an example of how to use AddFleetInstallationSites API.
 // A default retry strategy applies to this operation AddFleetInstallationSites()
 func (client JavaManagementServiceClient) AddFleetInstallationSites(ctx context.Context, request AddFleetInstallationSitesRequest) (response AddFleetInstallationSitesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,10 +151,6 @@ func (client JavaManagementServiceClient) addFleetInstallationSites(ctx context.
 }
 
 // CancelWorkRequest Deletes the work request specified by an identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client JavaManagementServiceClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -213,10 +205,6 @@ func (client JavaManagementServiceClient) cancelWorkRequest(ctx context.Context,
 }
 
 // ChangeFleetCompartment Move a specified Fleet into the compartment identified in the POST form. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ChangeFleetCompartment.go.html to see an example of how to use ChangeFleetCompartment API.
 // A default retry strategy applies to this operation ChangeFleetCompartment()
 func (client JavaManagementServiceClient) ChangeFleetCompartment(ctx context.Context, request ChangeFleetCompartmentRequest) (response ChangeFleetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -276,10 +264,6 @@ func (client JavaManagementServiceClient) changeFleetCompartment(ctx context.Con
 }
 
 // CreateBlocklist Add a new record to the fleet blocklist.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/CreateBlocklist.go.html to see an example of how to use CreateBlocklist API.
 // A default retry strategy applies to this operation CreateBlocklist()
 func (client JavaManagementServiceClient) CreateBlocklist(ctx context.Context, request CreateBlocklistRequest) (response CreateBlocklistResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -339,10 +323,6 @@ func (client JavaManagementServiceClient) createBlocklist(ctx context.Context, r
 }
 
 // CreateDrsFile Request to perform validaition of the DRS file and create the file to the Object Storage.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/CreateDrsFile.go.html to see an example of how to use CreateDrsFile API.
 // A default retry strategy applies to this operation CreateDrsFile()
 func (client JavaManagementServiceClient) CreateDrsFile(ctx context.Context, request CreateDrsFileRequest) (response CreateDrsFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -407,10 +387,6 @@ func (client JavaManagementServiceClient) createDrsFile(ctx context.Context, req
 // before July 15, 2022 to ensure the applications continue to work.
 // See the Service Change Notice (https://docs.oracle.com/en-us/iaas/Content/servicechanges.htm#JMS) for more details.
 // Migrate existing fleets using the `UpdateFleet` API to set the `inventoryLog` parameter.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/CreateFleet.go.html to see an example of how to use CreateFleet API.
 // A default retry strategy applies to this operation CreateFleet()
 func (client JavaManagementServiceClient) CreateFleet(ctx context.Context, request CreateFleetRequest) (response CreateFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -470,10 +446,6 @@ func (client JavaManagementServiceClient) createFleet(ctx context.Context, reque
 }
 
 // DeleteBlocklist Deletes the blocklist record specified by an identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteBlocklist.go.html to see an example of how to use DeleteBlocklist API.
 // A default retry strategy applies to this operation DeleteBlocklist()
 func (client JavaManagementServiceClient) DeleteBlocklist(ctx context.Context, request DeleteBlocklistRequest) (response DeleteBlocklistResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -528,10 +500,6 @@ func (client JavaManagementServiceClient) deleteBlocklist(ctx context.Context, r
 }
 
 // DeleteCryptoAnalysisResult Deletes the metadata for the result of a Crypto event analysis. The actual report shall remain in the object storage.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteCryptoAnalysisResult.go.html to see an example of how to use DeleteCryptoAnalysisResult API.
 // A default retry strategy applies to this operation DeleteCryptoAnalysisResult()
 func (client JavaManagementServiceClient) DeleteCryptoAnalysisResult(ctx context.Context, request DeleteCryptoAnalysisResultRequest) (response DeleteCryptoAnalysisResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -586,10 +554,6 @@ func (client JavaManagementServiceClient) deleteCryptoAnalysisResult(ctx context
 }
 
 // DeleteDrsFile Request to delete the DRS file from the Object Storage.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteDrsFile.go.html to see an example of how to use DeleteDrsFile API.
 // A default retry strategy applies to this operation DeleteDrsFile()
 func (client JavaManagementServiceClient) DeleteDrsFile(ctx context.Context, request DeleteDrsFileRequest) (response DeleteDrsFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -644,10 +608,6 @@ func (client JavaManagementServiceClient) deleteDrsFile(ctx context.Context, req
 }
 
 // DeleteFleet Deletes the Fleet specified by an identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteFleet.go.html to see an example of how to use DeleteFleet API.
 // A default retry strategy applies to this operation DeleteFleet()
 func (client JavaManagementServiceClient) DeleteFleet(ctx context.Context, request DeleteFleetRequest) (response DeleteFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -702,10 +662,6 @@ func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, reque
 }
 
 // DeleteJavaMigrationAnalysisResult Delete the Java migration analysis result. The actual report will remain in the Object Storage bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeleteJavaMigrationAnalysisResult.go.html to see an example of how to use DeleteJavaMigrationAnalysisResult API.
 // A default retry strategy applies to this operation DeleteJavaMigrationAnalysisResult()
 func (client JavaManagementServiceClient) DeleteJavaMigrationAnalysisResult(ctx context.Context, request DeleteJavaMigrationAnalysisResultRequest) (response DeleteJavaMigrationAnalysisResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -760,10 +716,6 @@ func (client JavaManagementServiceClient) deleteJavaMigrationAnalysisResult(ctx 
 }
 
 // DeletePerformanceTuningAnalysisResult Deletes only the metadata of the Performance Tuning Analysis result, but the file remains in the object storage.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DeletePerformanceTuningAnalysisResult.go.html to see an example of how to use DeletePerformanceTuningAnalysisResult API.
 // A default retry strategy applies to this operation DeletePerformanceTuningAnalysisResult()
 func (client JavaManagementServiceClient) DeletePerformanceTuningAnalysisResult(ctx context.Context, request DeletePerformanceTuningAnalysisResultRequest) (response DeletePerformanceTuningAnalysisResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -818,10 +770,6 @@ func (client JavaManagementServiceClient) deletePerformanceTuningAnalysisResult(
 }
 
 // DisableDrs Request to disable the DRS in the selected target in the Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/DisableDrs.go.html to see an example of how to use DisableDrs API.
 // A default retry strategy applies to this operation DisableDrs()
 func (client JavaManagementServiceClient) DisableDrs(ctx context.Context, request DisableDrsRequest) (response DisableDrsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -881,10 +829,6 @@ func (client JavaManagementServiceClient) disableDrs(ctx context.Context, reques
 }
 
 // EnableDrs Request to enable the DRS in the selected target in the Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/EnableDrs.go.html to see an example of how to use EnableDrs API.
 // A default retry strategy applies to this operation EnableDrs()
 func (client JavaManagementServiceClient) EnableDrs(ctx context.Context, request EnableDrsRequest) (response EnableDrsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -944,10 +888,6 @@ func (client JavaManagementServiceClient) enableDrs(ctx context.Context, request
 }
 
 // GenerateAgentDeployScript Generates Agent Deploy Script for Fleet using the information provided.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GenerateAgentDeployScript.go.html to see an example of how to use GenerateAgentDeployScript API.
 // A default retry strategy applies to this operation GenerateAgentDeployScript()
 func (client JavaManagementServiceClient) GenerateAgentDeployScript(ctx context.Context, request GenerateAgentDeployScriptRequest) (response GenerateAgentDeployScriptResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1001,10 +941,6 @@ func (client JavaManagementServiceClient) generateAgentDeployScript(ctx context.
 }
 
 // GetCryptoAnalysisResult Retrieve the metadata for the result of a Crypto event analysis.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetCryptoAnalysisResult.go.html to see an example of how to use GetCryptoAnalysisResult API.
 // A default retry strategy applies to this operation GetCryptoAnalysisResult()
 func (client JavaManagementServiceClient) GetCryptoAnalysisResult(ctx context.Context, request GetCryptoAnalysisResultRequest) (response GetCryptoAnalysisResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1059,10 +995,6 @@ func (client JavaManagementServiceClient) getCryptoAnalysisResult(ctx context.Co
 }
 
 // GetDrsFile Get the detail about the created DRS file in the Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetDrsFile.go.html to see an example of how to use GetDrsFile API.
 // A default retry strategy applies to this operation GetDrsFile()
 func (client JavaManagementServiceClient) GetDrsFile(ctx context.Context, request GetDrsFileRequest) (response GetDrsFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1117,10 +1049,6 @@ func (client JavaManagementServiceClient) getDrsFile(ctx context.Context, reques
 }
 
 // GetExportSetting Returns export setting for the specified Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetExportSetting.go.html to see an example of how to use GetExportSetting API.
 // A default retry strategy applies to this operation GetExportSetting()
 func (client JavaManagementServiceClient) GetExportSetting(ctx context.Context, request GetExportSettingRequest) (response GetExportSettingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1175,10 +1103,6 @@ func (client JavaManagementServiceClient) getExportSetting(ctx context.Context, 
 }
 
 // GetExportStatus Returns last export status for the specified Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetExportStatus.go.html to see an example of how to use GetExportStatus API.
 // A default retry strategy applies to this operation GetExportStatus()
 func (client JavaManagementServiceClient) GetExportStatus(ctx context.Context, request GetExportStatusRequest) (response GetExportStatusResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1233,10 +1157,6 @@ func (client JavaManagementServiceClient) getExportStatus(ctx context.Context, r
 }
 
 // GetFleet Retrieve a Fleet with the specified identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetFleet.go.html to see an example of how to use GetFleet API.
 // A default retry strategy applies to this operation GetFleet()
 func (client JavaManagementServiceClient) GetFleet(ctx context.Context, request GetFleetRequest) (response GetFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1291,10 +1211,6 @@ func (client JavaManagementServiceClient) getFleet(ctx context.Context, request 
 }
 
 // GetFleetAdvancedFeatureConfiguration Returns Fleet level advanced feature configuration.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetFleetAdvancedFeatureConfiguration.go.html to see an example of how to use GetFleetAdvancedFeatureConfiguration API.
 // A default retry strategy applies to this operation GetFleetAdvancedFeatureConfiguration()
 func (client JavaManagementServiceClient) GetFleetAdvancedFeatureConfiguration(ctx context.Context, request GetFleetAdvancedFeatureConfigurationRequest) (response GetFleetAdvancedFeatureConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1349,10 +1265,6 @@ func (client JavaManagementServiceClient) getFleetAdvancedFeatureConfiguration(c
 }
 
 // GetFleetAgentConfiguration Retrieve a Fleet Agent Configuration for the specified Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetFleetAgentConfiguration.go.html to see an example of how to use GetFleetAgentConfiguration API.
 // A default retry strategy applies to this operation GetFleetAgentConfiguration()
 func (client JavaManagementServiceClient) GetFleetAgentConfiguration(ctx context.Context, request GetFleetAgentConfigurationRequest) (response GetFleetAgentConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1407,10 +1319,6 @@ func (client JavaManagementServiceClient) getFleetAgentConfiguration(ctx context
 }
 
 // GetJavaFamily Returns metadata associated with a specific Java release family.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetJavaFamily.go.html to see an example of how to use GetJavaFamily API.
 // A default retry strategy applies to this operation GetJavaFamily()
 func (client JavaManagementServiceClient) GetJavaFamily(ctx context.Context, request GetJavaFamilyRequest) (response GetJavaFamilyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1465,10 +1373,6 @@ func (client JavaManagementServiceClient) getJavaFamily(ctx context.Context, req
 }
 
 // GetJavaMigrationAnalysisResult Retrieve Java Migration Analysis result.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetJavaMigrationAnalysisResult.go.html to see an example of how to use GetJavaMigrationAnalysisResult API.
 // A default retry strategy applies to this operation GetJavaMigrationAnalysisResult()
 func (client JavaManagementServiceClient) GetJavaMigrationAnalysisResult(ctx context.Context, request GetJavaMigrationAnalysisResultRequest) (response GetJavaMigrationAnalysisResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1523,10 +1427,6 @@ func (client JavaManagementServiceClient) getJavaMigrationAnalysisResult(ctx con
 }
 
 // GetJavaRelease Returns detail of a Java release.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetJavaRelease.go.html to see an example of how to use GetJavaRelease API.
 // A default retry strategy applies to this operation GetJavaRelease()
 func (client JavaManagementServiceClient) GetJavaRelease(ctx context.Context, request GetJavaReleaseRequest) (response GetJavaReleaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1581,10 +1481,6 @@ func (client JavaManagementServiceClient) getJavaRelease(ctx context.Context, re
 }
 
 // GetPerformanceTuningAnalysisResult Retrieve metadata of the Performance Tuning Analysis result.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetPerformanceTuningAnalysisResult.go.html to see an example of how to use GetPerformanceTuningAnalysisResult API.
 // A default retry strategy applies to this operation GetPerformanceTuningAnalysisResult()
 func (client JavaManagementServiceClient) GetPerformanceTuningAnalysisResult(ctx context.Context, request GetPerformanceTuningAnalysisResultRequest) (response GetPerformanceTuningAnalysisResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1639,10 +1535,6 @@ func (client JavaManagementServiceClient) getPerformanceTuningAnalysisResult(ctx
 }
 
 // GetWorkRequest Retrieve the details of a work request with the specified ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client JavaManagementServiceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1697,10 +1589,6 @@ func (client JavaManagementServiceClient) getWorkRequest(ctx context.Context, re
 }
 
 // ListAnnouncements Return a list of AnnouncementSummary items
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListAnnouncements.go.html to see an example of how to use ListAnnouncements API.
 // A default retry strategy applies to this operation ListAnnouncements()
 func (client JavaManagementServiceClient) ListAnnouncements(ctx context.Context, request ListAnnouncementsRequest) (response ListAnnouncementsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1755,10 +1643,6 @@ func (client JavaManagementServiceClient) listAnnouncements(ctx context.Context,
 }
 
 // ListBlocklists Returns a list of blocklist entities contained by a fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListBlocklists.go.html to see an example of how to use ListBlocklists API.
 // A default retry strategy applies to this operation ListBlocklists()
 func (client JavaManagementServiceClient) ListBlocklists(ctx context.Context, request ListBlocklistsRequest) (response ListBlocklistsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1813,10 +1697,6 @@ func (client JavaManagementServiceClient) listBlocklists(ctx context.Context, re
 }
 
 // ListCryptoAnalysisResults Lists the results of a Crypto event analysis.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListCryptoAnalysisResults.go.html to see an example of how to use ListCryptoAnalysisResults API.
 // A default retry strategy applies to this operation ListCryptoAnalysisResults()
 func (client JavaManagementServiceClient) ListCryptoAnalysisResults(ctx context.Context, request ListCryptoAnalysisResultsRequest) (response ListCryptoAnalysisResultsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1871,10 +1751,6 @@ func (client JavaManagementServiceClient) listCryptoAnalysisResults(ctx context.
 }
 
 // ListDrsFiles List the details about the created DRS files in the Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListDrsFiles.go.html to see an example of how to use ListDrsFiles API.
 // A default retry strategy applies to this operation ListDrsFiles()
 func (client JavaManagementServiceClient) ListDrsFiles(ctx context.Context, request ListDrsFilesRequest) (response ListDrsFilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1929,10 +1805,6 @@ func (client JavaManagementServiceClient) listDrsFiles(ctx context.Context, requ
 }
 
 // ListFleetDiagnoses List potential diagnoses that would put a fleet into FAILED or NEEDS_ATTENTION lifecycle state.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListFleetDiagnoses.go.html to see an example of how to use ListFleetDiagnoses API.
 // A default retry strategy applies to this operation ListFleetDiagnoses()
 func (client JavaManagementServiceClient) ListFleetDiagnoses(ctx context.Context, request ListFleetDiagnosesRequest) (response ListFleetDiagnosesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1988,10 +1860,6 @@ func (client JavaManagementServiceClient) listFleetDiagnoses(ctx context.Context
 
 // ListFleets Returns a list of all the Fleets contained by a compartment. The query parameter `compartmentId`
 // is required unless the query parameter `id` is specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListFleets.go.html to see an example of how to use ListFleets API.
 // A default retry strategy applies to this operation ListFleets()
 func (client JavaManagementServiceClient) ListFleets(ctx context.Context, request ListFleetsRequest) (response ListFleetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2046,10 +1914,6 @@ func (client JavaManagementServiceClient) listFleets(ctx context.Context, reques
 }
 
 // ListInstallationSites List Java installation sites in a Fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListInstallationSites.go.html to see an example of how to use ListInstallationSites API.
 // A default retry strategy applies to this operation ListInstallationSites()
 func (client JavaManagementServiceClient) ListInstallationSites(ctx context.Context, request ListInstallationSitesRequest) (response ListInstallationSitesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2105,10 +1969,6 @@ func (client JavaManagementServiceClient) listInstallationSites(ctx context.Cont
 
 // ListJavaFamilies Returns a list of the Java release family information.
 // A Java release family is typically a major version in the Java version identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJavaFamilies.go.html to see an example of how to use ListJavaFamilies API.
 // A default retry strategy applies to this operation ListJavaFamilies()
 func (client JavaManagementServiceClient) ListJavaFamilies(ctx context.Context, request ListJavaFamiliesRequest) (response ListJavaFamiliesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2163,10 +2023,6 @@ func (client JavaManagementServiceClient) listJavaFamilies(ctx context.Context, 
 }
 
 // ListJavaMigrationAnalysisResults Lists the results of a Java migration analysis.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJavaMigrationAnalysisResults.go.html to see an example of how to use ListJavaMigrationAnalysisResults API.
 // A default retry strategy applies to this operation ListJavaMigrationAnalysisResults()
 func (client JavaManagementServiceClient) ListJavaMigrationAnalysisResults(ctx context.Context, request ListJavaMigrationAnalysisResultsRequest) (response ListJavaMigrationAnalysisResultsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2221,10 +2077,6 @@ func (client JavaManagementServiceClient) listJavaMigrationAnalysisResults(ctx c
 }
 
 // ListJavaReleases Returns a list of Java releases.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJavaReleases.go.html to see an example of how to use ListJavaReleases API.
 // A default retry strategy applies to this operation ListJavaReleases()
 func (client JavaManagementServiceClient) ListJavaReleases(ctx context.Context, request ListJavaReleasesRequest) (response ListJavaReleasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2279,10 +2131,6 @@ func (client JavaManagementServiceClient) listJavaReleases(ctx context.Context, 
 }
 
 // ListJreUsage List Java Runtime usage in a specified host filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListJreUsage.go.html to see an example of how to use ListJreUsage API.
 // A default retry strategy applies to this operation ListJreUsage()
 func (client JavaManagementServiceClient) ListJreUsage(ctx context.Context, request ListJreUsageRequest) (response ListJreUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2337,10 +2185,6 @@ func (client JavaManagementServiceClient) listJreUsage(ctx context.Context, requ
 }
 
 // ListPerformanceTuningAnalysisResults List Performance Tuning Analysis results.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListPerformanceTuningAnalysisResults.go.html to see an example of how to use ListPerformanceTuningAnalysisResults API.
 // A default retry strategy applies to this operation ListPerformanceTuningAnalysisResults()
 func (client JavaManagementServiceClient) ListPerformanceTuningAnalysisResults(ctx context.Context, request ListPerformanceTuningAnalysisResultsRequest) (response ListPerformanceTuningAnalysisResultsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2395,10 +2239,6 @@ func (client JavaManagementServiceClient) listPerformanceTuningAnalysisResults(c
 }
 
 // ListWorkItems Retrieve a paginated list of work items for a specified work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListWorkItems.go.html to see an example of how to use ListWorkItems API.
 // A default retry strategy applies to this operation ListWorkItems()
 func (client JavaManagementServiceClient) ListWorkItems(ctx context.Context, request ListWorkItemsRequest) (response ListWorkItemsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2453,10 +2293,6 @@ func (client JavaManagementServiceClient) listWorkItems(ctx context.Context, req
 }
 
 // ListWorkRequestErrors Retrieve a (paginated) list of errors for a specified work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client JavaManagementServiceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2511,10 +2347,6 @@ func (client JavaManagementServiceClient) listWorkRequestErrors(ctx context.Cont
 }
 
 // ListWorkRequestLogs Retrieve a paginated list of logs for a specified work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client JavaManagementServiceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2569,10 +2401,6 @@ func (client JavaManagementServiceClient) listWorkRequestLogs(ctx context.Contex
 }
 
 // ListWorkRequests List the work requests in a compartment. The query parameter `compartmentId` is required unless the query parameter `id` or `fleetId` is specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client JavaManagementServiceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2627,10 +2455,6 @@ func (client JavaManagementServiceClient) listWorkRequests(ctx context.Context, 
 }
 
 // RemoveFleetInstallationSites Remove Java installation sites in a Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RemoveFleetInstallationSites.go.html to see an example of how to use RemoveFleetInstallationSites API.
 // A default retry strategy applies to this operation RemoveFleetInstallationSites()
 func (client JavaManagementServiceClient) RemoveFleetInstallationSites(ctx context.Context, request RemoveFleetInstallationSitesRequest) (response RemoveFleetInstallationSitesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2690,10 +2514,6 @@ func (client JavaManagementServiceClient) removeFleetInstallationSites(ctx conte
 }
 
 // RequestCryptoAnalyses Request to perform crypto analysis on one or more selected targets in the Fleet. The result of the crypto analysis will be uploaded to the object storage bucket created by JMS on enabling the Crypto Event Analysis feature in the Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RequestCryptoAnalyses.go.html to see an example of how to use RequestCryptoAnalyses API.
 // A default retry strategy applies to this operation RequestCryptoAnalyses()
 func (client JavaManagementServiceClient) RequestCryptoAnalyses(ctx context.Context, request RequestCryptoAnalysesRequest) (response RequestCryptoAnalysesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2749,10 +2569,6 @@ func (client JavaManagementServiceClient) requestCryptoAnalyses(ctx context.Cont
 
 // RequestJavaMigrationAnalyses Request to perform a Java migration analysis. The results of the Java migration analysis will be uploaded to the
 // Object Storage bucket that you designate when you enable the Java Migration Analysis feature.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RequestJavaMigrationAnalyses.go.html to see an example of how to use RequestJavaMigrationAnalyses API.
 // A default retry strategy applies to this operation RequestJavaMigrationAnalyses()
 func (client JavaManagementServiceClient) RequestJavaMigrationAnalyses(ctx context.Context, request RequestJavaMigrationAnalysesRequest) (response RequestJavaMigrationAnalysesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2807,10 +2623,6 @@ func (client JavaManagementServiceClient) requestJavaMigrationAnalyses(ctx conte
 }
 
 // RequestJfrRecordings Request to collect the JFR recordings on the selected target in the Fleet. The JFR files are uploaded to the object storage bucket created by JMS on enabling Generic JFR feature in the Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RequestJfrRecordings.go.html to see an example of how to use RequestJfrRecordings API.
 // A default retry strategy applies to this operation RequestJfrRecordings()
 func (client JavaManagementServiceClient) RequestJfrRecordings(ctx context.Context, request RequestJfrRecordingsRequest) (response RequestJfrRecordingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2866,10 +2678,6 @@ func (client JavaManagementServiceClient) requestJfrRecordings(ctx context.Conte
 
 // RequestPerformanceTuningAnalyses Request to perform performance tuning analyses. The result of performance tuning analysis will be uploaded to the
 // object storage bucket that you designated when you enabled the recording feature.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/RequestPerformanceTuningAnalyses.go.html to see an example of how to use RequestPerformanceTuningAnalyses API.
 // A default retry strategy applies to this operation RequestPerformanceTuningAnalyses()
 func (client JavaManagementServiceClient) RequestPerformanceTuningAnalyses(ctx context.Context, request RequestPerformanceTuningAnalysesRequest) (response RequestPerformanceTuningAnalysesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2924,10 +2732,6 @@ func (client JavaManagementServiceClient) requestPerformanceTuningAnalyses(ctx c
 }
 
 // ScanJavaServerUsage Scan Java Server usage in a fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ScanJavaServerUsage.go.html to see an example of how to use ScanJavaServerUsage API.
 // A default retry strategy applies to this operation ScanJavaServerUsage()
 func (client JavaManagementServiceClient) ScanJavaServerUsage(ctx context.Context, request ScanJavaServerUsageRequest) (response ScanJavaServerUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2987,10 +2791,6 @@ func (client JavaManagementServiceClient) scanJavaServerUsage(ctx context.Contex
 }
 
 // ScanLibraryUsage Scan library usage in a fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/ScanLibraryUsage.go.html to see an example of how to use ScanLibraryUsage API.
 // A default retry strategy applies to this operation ScanLibraryUsage()
 func (client JavaManagementServiceClient) ScanLibraryUsage(ctx context.Context, request ScanLibraryUsageRequest) (response ScanLibraryUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3050,10 +2850,6 @@ func (client JavaManagementServiceClient) scanLibraryUsage(ctx context.Context, 
 }
 
 // SummarizeApplicationInstallationUsage Summarizes the application installation usage in a Fleet filtered by query parameters. In contrast to SummarizeApplicationUsage, which provides only information aggregated by application name, this operation provides installation details. This allows for better focusing of actions.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeApplicationInstallationUsage.go.html to see an example of how to use SummarizeApplicationInstallationUsage API.
 // A default retry strategy applies to this operation SummarizeApplicationInstallationUsage()
 func (client JavaManagementServiceClient) SummarizeApplicationInstallationUsage(ctx context.Context, request SummarizeApplicationInstallationUsageRequest) (response SummarizeApplicationInstallationUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3108,10 +2904,6 @@ func (client JavaManagementServiceClient) summarizeApplicationInstallationUsage(
 }
 
 // SummarizeApplicationUsage List application usage in a Fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeApplicationUsage.go.html to see an example of how to use SummarizeApplicationUsage API.
 // A default retry strategy applies to this operation SummarizeApplicationUsage()
 func (client JavaManagementServiceClient) SummarizeApplicationUsage(ctx context.Context, request SummarizeApplicationUsageRequest) (response SummarizeApplicationUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3166,10 +2958,6 @@ func (client JavaManagementServiceClient) summarizeApplicationUsage(ctx context.
 }
 
 // SummarizeDeployedApplicationInstallationUsage Summarize installation usage of an application deployed on Java servers in a fleet filtered by query parameters. In contrast to SummarizeDeployedApplicationUsage, which provides only information aggregated by the deployment information, this operation provides installation details and allows for better focusing of actions.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeDeployedApplicationInstallationUsage.go.html to see an example of how to use SummarizeDeployedApplicationInstallationUsage API.
 // A default retry strategy applies to this operation SummarizeDeployedApplicationInstallationUsage()
 func (client JavaManagementServiceClient) SummarizeDeployedApplicationInstallationUsage(ctx context.Context, request SummarizeDeployedApplicationInstallationUsageRequest) (response SummarizeDeployedApplicationInstallationUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3224,10 +3012,6 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationInstallati
 }
 
 // SummarizeDeployedApplicationUsage List of deployed applications in a Fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeDeployedApplicationUsage.go.html to see an example of how to use SummarizeDeployedApplicationUsage API.
 // A default retry strategy applies to this operation SummarizeDeployedApplicationUsage()
 func (client JavaManagementServiceClient) SummarizeDeployedApplicationUsage(ctx context.Context, request SummarizeDeployedApplicationUsageRequest) (response SummarizeDeployedApplicationUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3282,10 +3066,6 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationUsage(ctx 
 }
 
 // SummarizeInstallationUsage List Java installation usage in a Fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeInstallationUsage.go.html to see an example of how to use SummarizeInstallationUsage API.
 // A default retry strategy applies to this operation SummarizeInstallationUsage()
 func (client JavaManagementServiceClient) SummarizeInstallationUsage(ctx context.Context, request SummarizeInstallationUsageRequest) (response SummarizeInstallationUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3340,10 +3120,6 @@ func (client JavaManagementServiceClient) summarizeInstallationUsage(ctx context
 }
 
 // SummarizeJavaServerInstanceUsage List Java Server instances in a fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeJavaServerInstanceUsage.go.html to see an example of how to use SummarizeJavaServerInstanceUsage API.
 // A default retry strategy applies to this operation SummarizeJavaServerInstanceUsage()
 func (client JavaManagementServiceClient) SummarizeJavaServerInstanceUsage(ctx context.Context, request SummarizeJavaServerInstanceUsageRequest) (response SummarizeJavaServerInstanceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3398,10 +3174,6 @@ func (client JavaManagementServiceClient) summarizeJavaServerInstanceUsage(ctx c
 }
 
 // SummarizeJavaServerUsage List of Java servers in a Fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeJavaServerUsage.go.html to see an example of how to use SummarizeJavaServerUsage API.
 // A default retry strategy applies to this operation SummarizeJavaServerUsage()
 func (client JavaManagementServiceClient) SummarizeJavaServerUsage(ctx context.Context, request SummarizeJavaServerUsageRequest) (response SummarizeJavaServerUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3456,10 +3228,6 @@ func (client JavaManagementServiceClient) summarizeJavaServerUsage(ctx context.C
 }
 
 // SummarizeJreUsage List Java Runtime usage in a specified Fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeJreUsage.go.html to see an example of how to use SummarizeJreUsage API.
 // A default retry strategy applies to this operation SummarizeJreUsage()
 func (client JavaManagementServiceClient) SummarizeJreUsage(ctx context.Context, request SummarizeJreUsageRequest) (response SummarizeJreUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3514,10 +3282,6 @@ func (client JavaManagementServiceClient) summarizeJreUsage(ctx context.Context,
 }
 
 // SummarizeLibraryUsage List libraries in a fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeLibraryUsage.go.html to see an example of how to use SummarizeLibraryUsage API.
 // A default retry strategy applies to this operation SummarizeLibraryUsage()
 func (client JavaManagementServiceClient) SummarizeLibraryUsage(ctx context.Context, request SummarizeLibraryUsageRequest) (response SummarizeLibraryUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3572,10 +3336,6 @@ func (client JavaManagementServiceClient) summarizeLibraryUsage(ctx context.Cont
 }
 
 // SummarizeManagedInstanceUsage List managed instance usage in a Fleet filtered by query parameters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeManagedInstanceUsage.go.html to see an example of how to use SummarizeManagedInstanceUsage API.
 // A default retry strategy applies to this operation SummarizeManagedInstanceUsage()
 func (client JavaManagementServiceClient) SummarizeManagedInstanceUsage(ctx context.Context, request SummarizeManagedInstanceUsageRequest) (response SummarizeManagedInstanceUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3630,10 +3390,6 @@ func (client JavaManagementServiceClient) summarizeManagedInstanceUsage(ctx cont
 }
 
 // SummarizeResourceInventory Retrieve the inventory of JMS resources in the specified compartment: a list of the number of _active_ fleets, managed instances, Java Runtimes, Java installations, and applications.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeResourceInventory.go.html to see an example of how to use SummarizeResourceInventory API.
 // A default retry strategy applies to this operation SummarizeResourceInventory()
 func (client JavaManagementServiceClient) SummarizeResourceInventory(ctx context.Context, request SummarizeResourceInventoryRequest) (response SummarizeResourceInventoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3688,10 +3444,6 @@ func (client JavaManagementServiceClient) summarizeResourceInventory(ctx context
 }
 
 // UpdateDrsFile Request to perform validaition of the DRS file and update the existing file in the Object Storage.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateDrsFile.go.html to see an example of how to use UpdateDrsFile API.
 // A default retry strategy applies to this operation UpdateDrsFile()
 func (client JavaManagementServiceClient) UpdateDrsFile(ctx context.Context, request UpdateDrsFileRequest) (response UpdateDrsFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3751,10 +3503,6 @@ func (client JavaManagementServiceClient) updateDrsFile(ctx context.Context, req
 }
 
 // UpdateExportSetting Updates existing export setting for the specified Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateExportSetting.go.html to see an example of how to use UpdateExportSetting API.
 // A default retry strategy applies to this operation UpdateExportSetting()
 func (client JavaManagementServiceClient) UpdateExportSetting(ctx context.Context, request UpdateExportSettingRequest) (response UpdateExportSettingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3809,10 +3557,6 @@ func (client JavaManagementServiceClient) updateExportSetting(ctx context.Contex
 }
 
 // UpdateFleet Update the Fleet specified by an identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateFleet.go.html to see an example of how to use UpdateFleet API.
 // A default retry strategy applies to this operation UpdateFleet()
 func (client JavaManagementServiceClient) UpdateFleet(ctx context.Context, request UpdateFleetRequest) (response UpdateFleetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3868,10 +3612,6 @@ func (client JavaManagementServiceClient) updateFleet(ctx context.Context, reque
 
 // UpdateFleetAdvancedFeatureConfiguration Update advanced feature configurations for the Fleet.
 // Ensure that the namespace and bucket storage are created prior to turning on the JfrRecording or CryptoEventAnalysis feature.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateFleetAdvancedFeatureConfiguration.go.html to see an example of how to use UpdateFleetAdvancedFeatureConfiguration API.
 // A default retry strategy applies to this operation UpdateFleetAdvancedFeatureConfiguration()
 func (client JavaManagementServiceClient) UpdateFleetAdvancedFeatureConfiguration(ctx context.Context, request UpdateFleetAdvancedFeatureConfigurationRequest) (response UpdateFleetAdvancedFeatureConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3931,10 +3671,6 @@ func (client JavaManagementServiceClient) updateFleetAdvancedFeatureConfiguratio
 }
 
 // UpdateFleetAgentConfiguration Update the Fleet Agent Configuration for the specified Fleet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/UpdateFleetAgentConfiguration.go.html to see an example of how to use UpdateFleetAgentConfiguration API.
 // A default retry strategy applies to this operation UpdateFleetAgentConfiguration()
 func (client JavaManagementServiceClient) UpdateFleetAgentConfiguration(ctx context.Context, request UpdateFleetAgentConfigurationRequest) (response UpdateFleetAgentConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse

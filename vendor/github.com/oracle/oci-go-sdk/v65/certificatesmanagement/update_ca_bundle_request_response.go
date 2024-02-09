@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateCaBundleRequest wrapper for the UpdateCaBundle operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/UpdateCaBundle.go.html to see an example of how to use UpdateCaBundleRequest.
 type UpdateCaBundleRequest struct {
 
 	// The OCID of the CA bundle.

@@ -12,10 +12,6 @@ import (
 )
 
 // ListDependentObjectsRequest wrapper for the ListDependentObjects operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListDependentObjects.go.html to see an example of how to use ListDependentObjectsRequest.
 type ListDependentObjectsRequest struct {
 
 	// The workspace ID.

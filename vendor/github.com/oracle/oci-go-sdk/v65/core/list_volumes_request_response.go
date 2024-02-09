@@ -12,10 +12,6 @@ import (
 )
 
 // ListVolumesRequest wrapper for the ListVolumes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumes.go.html to see an example of how to use ListVolumesRequest.
 type ListVolumesRequest struct {
 
 	// The name of the availability domain.
@@ -52,8 +48,15 @@ type ListVolumesRequest struct {
 	// is case sensitive.
 	SortOrder ListVolumesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// Specifies whether to list regional volumes or not. When set to `true`, only regional volumes are listed.
+	// Otherwise AD local volumes are returned. The default value is `false`.
+	IsRegional *bool `mandatory:"false" contributesTo:"query" name:"isRegional"`
+
 	// The OCID of the volume group.
 	VolumeGroupId *string `mandatory:"false" contributesTo:"query" name:"volumeGroupId"`
+
+	// A filter to return only resources that match the given cluster placement group Id exactly.
+	ClusterPlacementGroupId *string `mandatory:"false" contributesTo:"query" name:"clusterPlacementGroupId"`
 
 	// A filter to only return resources that match the given lifecycle state. The state
 	// value is case-insensitive.

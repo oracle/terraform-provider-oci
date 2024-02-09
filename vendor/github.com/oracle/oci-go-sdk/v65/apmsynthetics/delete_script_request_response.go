@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteScriptRequest wrapper for the DeleteScript operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/DeleteScript.go.html to see an example of how to use DeleteScriptRequest.
 type DeleteScriptRequest struct {
 
 	// The APM domain ID the request is intended for.

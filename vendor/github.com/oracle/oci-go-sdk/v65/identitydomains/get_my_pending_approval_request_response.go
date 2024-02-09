@@ -12,10 +12,6 @@ import (
 )
 
 // GetMyPendingApprovalRequest wrapper for the GetMyPendingApproval operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetMyPendingApproval.go.html to see an example of how to use GetMyPendingApprovalRequest.
 type GetMyPendingApprovalRequest struct {
 
 	// ID of the resource

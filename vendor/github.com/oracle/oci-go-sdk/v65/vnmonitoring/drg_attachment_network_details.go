@@ -60,6 +60,10 @@ func (m *drgattachmentnetworkdetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := VcnDrgAttachmentNetworkDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "INTERNET":
+		mm := InternetDrgAttachmentNetworkDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LOOPBACK":
 		mm := LoopBackDrgAttachmentNetworkDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -112,6 +116,8 @@ const (
 	DrgAttachmentNetworkDetailsTypeIpsecTunnel             DrgAttachmentNetworkDetailsTypeEnum = "IPSEC_TUNNEL"
 	DrgAttachmentNetworkDetailsTypeVirtualCircuit          DrgAttachmentNetworkDetailsTypeEnum = "VIRTUAL_CIRCUIT"
 	DrgAttachmentNetworkDetailsTypeRemotePeeringConnection DrgAttachmentNetworkDetailsTypeEnum = "REMOTE_PEERING_CONNECTION"
+	DrgAttachmentNetworkDetailsTypeLoopback                DrgAttachmentNetworkDetailsTypeEnum = "LOOPBACK"
+	DrgAttachmentNetworkDetailsTypeInternet                DrgAttachmentNetworkDetailsTypeEnum = "INTERNET"
 )
 
 var mappingDrgAttachmentNetworkDetailsTypeEnum = map[string]DrgAttachmentNetworkDetailsTypeEnum{
@@ -119,6 +125,8 @@ var mappingDrgAttachmentNetworkDetailsTypeEnum = map[string]DrgAttachmentNetwork
 	"IPSEC_TUNNEL":              DrgAttachmentNetworkDetailsTypeIpsecTunnel,
 	"VIRTUAL_CIRCUIT":           DrgAttachmentNetworkDetailsTypeVirtualCircuit,
 	"REMOTE_PEERING_CONNECTION": DrgAttachmentNetworkDetailsTypeRemotePeeringConnection,
+	"LOOPBACK":                  DrgAttachmentNetworkDetailsTypeLoopback,
+	"INTERNET":                  DrgAttachmentNetworkDetailsTypeInternet,
 }
 
 var mappingDrgAttachmentNetworkDetailsTypeEnumLowerCase = map[string]DrgAttachmentNetworkDetailsTypeEnum{
@@ -126,6 +134,8 @@ var mappingDrgAttachmentNetworkDetailsTypeEnumLowerCase = map[string]DrgAttachme
 	"ipsec_tunnel":              DrgAttachmentNetworkDetailsTypeIpsecTunnel,
 	"virtual_circuit":           DrgAttachmentNetworkDetailsTypeVirtualCircuit,
 	"remote_peering_connection": DrgAttachmentNetworkDetailsTypeRemotePeeringConnection,
+	"loopback":                  DrgAttachmentNetworkDetailsTypeLoopback,
+	"internet":                  DrgAttachmentNetworkDetailsTypeInternet,
 }
 
 // GetDrgAttachmentNetworkDetailsTypeEnumValues Enumerates the set of values for DrgAttachmentNetworkDetailsTypeEnum
@@ -144,6 +154,8 @@ func GetDrgAttachmentNetworkDetailsTypeEnumStringValues() []string {
 		"IPSEC_TUNNEL",
 		"VIRTUAL_CIRCUIT",
 		"REMOTE_PEERING_CONNECTION",
+		"LOOPBACK",
+		"INTERNET",
 	}
 }
 

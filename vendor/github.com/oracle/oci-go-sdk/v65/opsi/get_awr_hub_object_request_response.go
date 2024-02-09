@@ -13,10 +13,6 @@ import (
 )
 
 // GetAwrHubObjectRequest wrapper for the GetAwrHubObject operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetAwrHubObject.go.html to see an example of how to use GetAwrHubObjectRequest.
 type GetAwrHubObjectRequest struct {
 
 	// Unique Awr Hub Source identifier

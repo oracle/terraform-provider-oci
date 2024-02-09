@@ -12,10 +12,6 @@ import (
 )
 
 // GetReplicationTargetRequest wrapper for the GetReplicationTarget operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/GetReplicationTarget.go.html to see an example of how to use GetReplicationTargetRequest.
 type GetReplicationTargetRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target.

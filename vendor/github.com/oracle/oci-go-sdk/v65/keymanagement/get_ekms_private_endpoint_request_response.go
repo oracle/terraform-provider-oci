@@ -12,10 +12,6 @@ import (
 )
 
 // GetEkmsPrivateEndpointRequest wrapper for the GetEkmsPrivateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetEkmsPrivateEndpoint.go.html to see an example of how to use GetEkmsPrivateEndpointRequest.
 type GetEkmsPrivateEndpointRequest struct {
 
 	// Unique EKMS private endpoint identifier.

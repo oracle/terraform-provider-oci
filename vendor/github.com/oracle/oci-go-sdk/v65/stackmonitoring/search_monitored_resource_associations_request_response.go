@@ -12,10 +12,6 @@ import (
 )
 
 // SearchMonitoredResourceAssociationsRequest wrapper for the SearchMonitoredResourceAssociations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResourceAssociations.go.html to see an example of how to use SearchMonitoredResourceAssociationsRequest.
 type SearchMonitoredResourceAssociationsRequest struct {
 
 	// Search criteria for listing monitored resource associations.

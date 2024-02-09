@@ -12,10 +12,6 @@ import (
 )
 
 // AddStorageCapacityExadataInfrastructureRequest wrapper for the AddStorageCapacityExadataInfrastructure operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/AddStorageCapacityExadataInfrastructure.go.html to see an example of how to use AddStorageCapacityExadataInfrastructureRequest.
 type AddStorageCapacityExadataInfrastructureRequest struct {
 
 	// The Exadata infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -12,10 +12,6 @@ import (
 )
 
 // CreateHostInsightRequest wrapper for the CreateHostInsight operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateHostInsight.go.html to see an example of how to use CreateHostInsightRequest.
 type CreateHostInsightRequest struct {
 
 	// Details for the host for which a Host Insight resource will be created in Operations Insights.

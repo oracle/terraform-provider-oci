@@ -12,10 +12,6 @@ import (
 )
 
 // CreateConnectionAssignmentRequest wrapper for the CreateConnectionAssignment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/CreateConnectionAssignment.go.html to see an example of how to use CreateConnectionAssignmentRequest.
 type CreateConnectionAssignmentRequest struct {
 
 	// Specification of the connection assignment to create.

@@ -76,6 +76,9 @@ type Snapshot struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Not used by File Systems but required for SPLAT tag integration.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The time when this snapshot will be deleted.
 	ExpirationTime *common.SDKTime `mandatory:"false" json:"expirationTime"`
 

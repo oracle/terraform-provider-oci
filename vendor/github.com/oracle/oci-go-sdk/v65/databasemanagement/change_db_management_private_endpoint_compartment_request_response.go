@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeDbManagementPrivateEndpointCompartmentRequest wrapper for the ChangeDbManagementPrivateEndpointCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ChangeDbManagementPrivateEndpointCompartment.go.html to see an example of how to use ChangeDbManagementPrivateEndpointCompartmentRequest.
 type ChangeDbManagementPrivateEndpointCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.

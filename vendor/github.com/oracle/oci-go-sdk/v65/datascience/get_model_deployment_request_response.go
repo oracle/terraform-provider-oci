@@ -12,10 +12,6 @@ import (
 )
 
 // GetModelDeploymentRequest wrapper for the GetModelDeployment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelDeployment.go.html to see an example of how to use GetModelDeploymentRequest.
 type GetModelDeploymentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model deployment.

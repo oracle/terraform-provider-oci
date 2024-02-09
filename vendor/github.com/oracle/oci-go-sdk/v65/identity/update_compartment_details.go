@@ -25,6 +25,10 @@ type UpdateCompartmentDetails struct {
 	// Avoid entering confidential information.
 	Name *string `mandatory:"false" json:"name"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Security Zone to associate this compartment with.
+	// Leave value as empty string to dis-associate this compartment from any Security Zone.
+	SecurityZoneId *string `mandatory:"false" json:"securityZoneId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

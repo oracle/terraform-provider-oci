@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteSqlEndpointRequest wrapper for the DeleteSqlEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeleteSqlEndpoint.go.html to see an example of how to use DeleteSqlEndpointRequest.
 type DeleteSqlEndpointRequest struct {
 
 	// The unique id of the SQL Endpoint.

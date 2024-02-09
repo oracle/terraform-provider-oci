@@ -91,11 +91,125 @@ func (client *AIServiceDocumentClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
+// AddModelLock Adds a lock to a resource.
+// A default retry strategy applies to this operation AddModelLock()
+func (client AIServiceDocumentClient) AddModelLock(ctx context.Context, request AddModelLockRequest) (response AddModelLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addModelLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddModelLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddModelLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddModelLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddModelLockResponse")
+	}
+	return
+}
+
+// addModelLock implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceDocumentClient) addModelLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddModelLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/AddModelLock"
+		err = common.PostProcessServiceError(err, "AIServiceDocument", "AddModelLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// AddProjectLock Adds a lock to a resource.
+// A default retry strategy applies to this operation AddProjectLock()
+func (client AIServiceDocumentClient) AddProjectLock(ctx context.Context, request AddProjectLockRequest) (response AddProjectLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addProjectLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddProjectLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddProjectLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddProjectLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddProjectLockResponse")
+	}
+	return
+}
+
+// addProjectLock implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceDocumentClient) addProjectLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects/{projectId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddProjectLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Project/AddProjectLock"
+		err = common.PostProcessServiceError(err, "AIServiceDocument", "AddProjectLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AnalyzeDocument Perform different types of document analysis.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/AnalyzeDocument.go.html to see an example of how to use AnalyzeDocument API.
 // A default retry strategy applies to this operation AnalyzeDocument()
 func (client AIServiceDocumentClient) AnalyzeDocument(ctx context.Context, request AnalyzeDocumentRequest) (response AnalyzeDocumentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -150,10 +264,6 @@ func (client AIServiceDocumentClient) analyzeDocument(ctx context.Context, reque
 }
 
 // CancelProcessorJob Cancel a processor job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CancelProcessorJob.go.html to see an example of how to use CancelProcessorJob API.
 func (client AIServiceDocumentClient) CancelProcessorJob(ctx context.Context, request CancelProcessorJobRequest) (response CancelProcessorJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -207,10 +317,6 @@ func (client AIServiceDocumentClient) cancelProcessorJob(ctx context.Context, re
 }
 
 // CancelWorkRequest Cancel the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 func (client AIServiceDocumentClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -264,10 +370,6 @@ func (client AIServiceDocumentClient) cancelWorkRequest(ctx context.Context, req
 }
 
 // ChangeModelCompartment Moves a model from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 func (client AIServiceDocumentClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -321,10 +423,6 @@ func (client AIServiceDocumentClient) changeModelCompartment(ctx context.Context
 }
 
 // ChangeProjectCompartment Move a project from one compartment to another. When provided, If-Match is checked against the ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 func (client AIServiceDocumentClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -378,10 +476,6 @@ func (client AIServiceDocumentClient) changeProjectCompartment(ctx context.Conte
 }
 
 // CreateModel Create a new model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CreateModel.go.html to see an example of how to use CreateModel API.
 // A default retry strategy applies to this operation CreateModel()
 func (client AIServiceDocumentClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -441,10 +535,6 @@ func (client AIServiceDocumentClient) createModel(ctx context.Context, request c
 }
 
 // CreateProcessorJob Create a processor job for document analysis.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CreateProcessorJob.go.html to see an example of how to use CreateProcessorJob API.
 // A default retry strategy applies to this operation CreateProcessorJob()
 func (client AIServiceDocumentClient) CreateProcessorJob(ctx context.Context, request CreateProcessorJobRequest) (response CreateProcessorJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -504,10 +594,6 @@ func (client AIServiceDocumentClient) createProcessorJob(ctx context.Context, re
 }
 
 // CreateProject Create a new project.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CreateProject.go.html to see an example of how to use CreateProject API.
 // A default retry strategy applies to this operation CreateProject()
 func (client AIServiceDocumentClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -567,10 +653,6 @@ func (client AIServiceDocumentClient) createProject(ctx context.Context, request
 }
 
 // DeleteModel Delete a model by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/DeleteModel.go.html to see an example of how to use DeleteModel API.
 func (client AIServiceDocumentClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -624,10 +706,6 @@ func (client AIServiceDocumentClient) deleteModel(ctx context.Context, request c
 }
 
 // DeleteProject Delete a project by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/DeleteProject.go.html to see an example of how to use DeleteProject API.
 func (client AIServiceDocumentClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -681,10 +759,6 @@ func (client AIServiceDocumentClient) deleteProject(ctx context.Context, request
 }
 
 // GetModel Get a model by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/GetModel.go.html to see an example of how to use GetModel API.
 // A default retry strategy applies to this operation GetModel()
 func (client AIServiceDocumentClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -739,10 +813,6 @@ func (client AIServiceDocumentClient) getModel(ctx context.Context, request comm
 }
 
 // GetProcessorJob Get the details of a processor job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/GetProcessorJob.go.html to see an example of how to use GetProcessorJob API.
 // A default retry strategy applies to this operation GetProcessorJob()
 func (client AIServiceDocumentClient) GetProcessorJob(ctx context.Context, request GetProcessorJobRequest) (response GetProcessorJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -797,10 +867,6 @@ func (client AIServiceDocumentClient) getProcessorJob(ctx context.Context, reque
 }
 
 // GetProject Get a project by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/GetProject.go.html to see an example of how to use GetProject API.
 // A default retry strategy applies to this operation GetProject()
 func (client AIServiceDocumentClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -855,10 +921,6 @@ func (client AIServiceDocumentClient) getProject(ctx context.Context, request co
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client AIServiceDocumentClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -913,10 +975,6 @@ func (client AIServiceDocumentClient) getWorkRequest(ctx context.Context, reques
 }
 
 // ListModels Returns a list of models in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListModels.go.html to see an example of how to use ListModels API.
 // A default retry strategy applies to this operation ListModels()
 func (client AIServiceDocumentClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -971,10 +1029,6 @@ func (client AIServiceDocumentClient) listModels(ctx context.Context, request co
 }
 
 // ListProjects Returns a list of projects.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListProjects.go.html to see an example of how to use ListProjects API.
 // A default retry strategy applies to this operation ListProjects()
 func (client AIServiceDocumentClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1029,10 +1083,6 @@ func (client AIServiceDocumentClient) listProjects(ctx context.Context, request 
 }
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client AIServiceDocumentClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1087,10 +1137,6 @@ func (client AIServiceDocumentClient) listWorkRequestErrors(ctx context.Context,
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client AIServiceDocumentClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1145,10 +1191,6 @@ func (client AIServiceDocumentClient) listWorkRequestLogs(ctx context.Context, r
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client AIServiceDocumentClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1203,10 +1245,6 @@ func (client AIServiceDocumentClient) listWorkRequests(ctx context.Context, requ
 }
 
 // PatchModel Updates the model metadata only selected path parameter.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/PatchModel.go.html to see an example of how to use PatchModel API.
 func (client AIServiceDocumentClient) PatchModel(ctx context.Context, request PatchModelRequest) (response PatchModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1259,11 +1297,125 @@ func (client AIServiceDocumentClient) patchModel(ctx context.Context, request co
 	return response, err
 }
 
+// RemoveModelLock Remove a lock from a resource.
+// A default retry strategy applies to this operation RemoveModelLock()
+func (client AIServiceDocumentClient) RemoveModelLock(ctx context.Context, request RemoveModelLockRequest) (response RemoveModelLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeModelLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveModelLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveModelLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveModelLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveModelLockResponse")
+	}
+	return
+}
+
+// removeModelLock implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceDocumentClient) removeModelLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveModelLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Model/RemoveModelLock"
+		err = common.PostProcessServiceError(err, "AIServiceDocument", "RemoveModelLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveProjectLock Remove a lock from a resource.
+// A default retry strategy applies to this operation RemoveProjectLock()
+func (client AIServiceDocumentClient) RemoveProjectLock(ctx context.Context, request RemoveProjectLockRequest) (response RemoveProjectLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeProjectLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveProjectLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveProjectLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveProjectLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveProjectLockResponse")
+	}
+	return
+}
+
+// removeProjectLock implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceDocumentClient) removeProjectLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/projects/{projectId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveProjectLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/document-understanding/20221109/Project/RemoveProjectLock"
+		err = common.PostProcessServiceError(err, "AIServiceDocument", "RemoveProjectLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateModel Updates the model metadata.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/UpdateModel.go.html to see an example of how to use UpdateModel API.
 func (client AIServiceDocumentClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1317,10 +1469,6 @@ func (client AIServiceDocumentClient) updateModel(ctx context.Context, request c
 }
 
 // UpdateProject Update the project metadata.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/UpdateProject.go.html to see an example of how to use UpdateProject API.
 func (client AIServiceDocumentClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

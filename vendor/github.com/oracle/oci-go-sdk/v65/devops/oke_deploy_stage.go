@@ -31,14 +31,8 @@ type OkeDeployStage struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Kubernetes cluster environment OCID for deployment.
-	OkeClusterDeployEnvironmentId *string `mandatory:"true" json:"okeClusterDeployEnvironmentId"`
-
 	// List of Kubernetes manifest artifact OCIDs.
 	KubernetesManifestDeployArtifactIds []string `mandatory:"true" json:"kubernetesManifestDeployArtifactIds"`
-
-	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
-	Namespace *string `mandatory:"true" json:"namespace"`
 
 	// Optional description about the deployment stage.
 	Description *string `mandatory:"false" json:"description"`
@@ -65,6 +59,14 @@ type OkeDeployStage struct {
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Kubernetes cluster environment OCID for deployment.
+	OkeClusterDeployEnvironmentId *string `mandatory:"false" json:"okeClusterDeployEnvironmentId"`
+
+	OkeEnvironmentDetails OkeEnvironmentDetails `mandatory:"false" json:"okeEnvironmentDetails"`
+
+	// Default namespace to be used for Kubernetes deployment when not specified in the manifest.
+	Namespace *string `mandatory:"false" json:"namespace"`
 
 	RollbackPolicy DeployStageRollbackPolicy `mandatory:"false" json:"rollbackPolicy"`
 
@@ -188,14 +190,15 @@ func (m *OkeDeployStage) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                        map[string]string                 `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                          map[string]map[string]interface{} `json:"systemTags"`
+		OkeClusterDeployEnvironmentId       *string                           `json:"okeClusterDeployEnvironmentId"`
+		OkeEnvironmentDetails               okeenvironmentdetails             `json:"okeEnvironmentDetails"`
+		Namespace                           *string                           `json:"namespace"`
 		RollbackPolicy                      deploystagerollbackpolicy         `json:"rollbackPolicy"`
 		Id                                  *string                           `json:"id"`
 		ProjectId                           *string                           `json:"projectId"`
 		DeployPipelineId                    *string                           `json:"deployPipelineId"`
 		CompartmentId                       *string                           `json:"compartmentId"`
-		OkeClusterDeployEnvironmentId       *string                           `json:"okeClusterDeployEnvironmentId"`
 		KubernetesManifestDeployArtifactIds []string                          `json:"kubernetesManifestDeployArtifactIds"`
-		Namespace                           *string                           `json:"namespace"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -223,6 +226,20 @@ func (m *OkeDeployStage) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
+
+	nn, e = model.OkeEnvironmentDetails.UnmarshalPolymorphicJSON(model.OkeEnvironmentDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.OkeEnvironmentDetails = nn.(OkeEnvironmentDetails)
+	} else {
+		m.OkeEnvironmentDetails = nil
+	}
+
+	m.Namespace = model.Namespace
+
 	nn, e = model.RollbackPolicy.UnmarshalPolymorphicJSON(model.RollbackPolicy.JsonData)
 	if e != nil {
 		return
@@ -241,11 +258,7 @@ func (m *OkeDeployStage) UnmarshalJSON(data []byte) (e error) {
 
 	m.CompartmentId = model.CompartmentId
 
-	m.OkeClusterDeployEnvironmentId = model.OkeClusterDeployEnvironmentId
-
 	m.KubernetesManifestDeployArtifactIds = make([]string, len(model.KubernetesManifestDeployArtifactIds))
 	copy(m.KubernetesManifestDeployArtifactIds, model.KubernetesManifestDeployArtifactIds)
-	m.Namespace = model.Namespace
-
 	return
 }

@@ -12,10 +12,6 @@ import (
 )
 
 // CreateOdaPrivateEndpointRequest wrapper for the CreateOdaPrivateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateOdaPrivateEndpoint.go.html to see an example of how to use CreateOdaPrivateEndpointRequest.
 type CreateOdaPrivateEndpointRequest struct {
 
 	// Details for the new ODA Private Endpoint.

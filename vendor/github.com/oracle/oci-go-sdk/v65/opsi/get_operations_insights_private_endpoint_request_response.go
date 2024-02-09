@@ -12,10 +12,6 @@ import (
 )
 
 // GetOperationsInsightsPrivateEndpointRequest wrapper for the GetOperationsInsightsPrivateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/GetOperationsInsightsPrivateEndpoint.go.html to see an example of how to use GetOperationsInsightsPrivateEndpointRequest.
 type GetOperationsInsightsPrivateEndpointRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Operation Insights private endpoint.

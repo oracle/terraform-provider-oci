@@ -12,10 +12,6 @@ import (
 )
 
 // SearchSoftwareSourcePackageGroupsRequest wrapper for the SearchSoftwareSourcePackageGroups operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SearchSoftwareSourcePackageGroups.go.html to see an example of how to use SearchSoftwareSourcePackageGroupsRequest.
 type SearchSoftwareSourcePackageGroupsRequest struct {
 
 	// Request body that takes in a list of software sources and other search parameters.

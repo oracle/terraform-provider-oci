@@ -12,10 +12,6 @@ import (
 )
 
 // GetDrgAttachmentRequest wrapper for the GetDrgAttachment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDrgAttachment.go.html to see an example of how to use GetDrgAttachmentRequest.
 type GetDrgAttachmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.

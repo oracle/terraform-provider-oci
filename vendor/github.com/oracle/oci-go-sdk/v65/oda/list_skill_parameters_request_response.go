@@ -12,10 +12,6 @@ import (
 )
 
 // ListSkillParametersRequest wrapper for the ListSkillParameters operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListSkillParameters.go.html to see an example of how to use ListSkillParametersRequest.
 type ListSkillParametersRequest struct {
 
 	// Unique Digital Assistant instance identifier.

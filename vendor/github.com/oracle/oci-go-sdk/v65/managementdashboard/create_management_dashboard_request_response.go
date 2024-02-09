@@ -12,10 +12,6 @@ import (
 )
 
 // CreateManagementDashboardRequest wrapper for the CreateManagementDashboard operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/CreateManagementDashboard.go.html to see an example of how to use CreateManagementDashboardRequest.
 type CreateManagementDashboardRequest struct {
 
 	// JSON metadata for creating a new dashboard.

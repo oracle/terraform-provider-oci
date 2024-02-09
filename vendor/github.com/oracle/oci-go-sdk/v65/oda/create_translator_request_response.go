@@ -12,10 +12,6 @@ import (
 )
 
 // CreateTranslatorRequest wrapper for the CreateTranslator operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateTranslator.go.html to see an example of how to use CreateTranslatorRequest.
 type CreateTranslatorRequest struct {
 
 	// Unique Digital Assistant instance identifier.

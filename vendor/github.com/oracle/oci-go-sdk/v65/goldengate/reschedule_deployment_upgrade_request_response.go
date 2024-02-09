@@ -12,10 +12,6 @@ import (
 )
 
 // RescheduleDeploymentUpgradeRequest wrapper for the RescheduleDeploymentUpgrade operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/RescheduleDeploymentUpgrade.go.html to see an example of how to use RescheduleDeploymentUpgradeRequest.
 type RescheduleDeploymentUpgradeRequest struct {
 
 	// A unique Deployment Upgrade identifier.

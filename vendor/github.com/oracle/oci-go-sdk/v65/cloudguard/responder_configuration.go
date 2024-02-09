@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// ResponderConfiguration A single configuration applied to a responder
+// ResponderConfiguration Details for a configuration to be applied to a responder.
 type ResponderConfiguration struct {
 
-	// Unique name of the configuration
+	// Unique identifier of the configuration
 	ConfigKey *string `mandatory:"true" json:"configKey"`
 
-	// configuration name
+	// Configuration name
 	Name *string `mandatory:"true" json:"name"`
 
-	// configuration value
+	// Configuration value
 	Value *string `mandatory:"true" json:"value"`
 }
 

@@ -12,10 +12,6 @@ import (
 )
 
 // ListCertificateAuthorityVersionsRequest wrapper for the ListCertificateAuthorityVersions operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/certificatesmanagement/ListCertificateAuthorityVersions.go.html to see an example of how to use ListCertificateAuthorityVersionsRequest.
 type ListCertificateAuthorityVersionsRequest struct {
 
 	// The OCID of the certificate authority (CA).

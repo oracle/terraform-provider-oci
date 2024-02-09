@@ -37,6 +37,11 @@ type CreateKeyDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// A parameter specifying whether the auto key rotation is enabled or not.
+	IsAutoRotationEnabled *bool `mandatory:"false" json:"isAutoRotationEnabled"`
+
+	AutoKeyRotationDetails *AutoKeyRotationDetails `mandatory:"false" json:"autoKeyRotationDetails"`
+
 	// The key's protection mode indicates how the key persists and where cryptographic operations that use the key are performed.
 	// A protection mode of `HSM` means that the key persists on a hardware security module (HSM) and all cryptographic operations are performed inside
 	// the HSM. A protection mode of `SOFTWARE` means that the key persists on the server, protected by the vault's RSA wrapping key which persists

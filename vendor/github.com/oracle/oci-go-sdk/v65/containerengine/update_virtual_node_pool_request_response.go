@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateVirtualNodePoolRequest wrapper for the UpdateVirtualNodePool operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/UpdateVirtualNodePool.go.html to see an example of how to use UpdateVirtualNodePoolRequest.
 type UpdateVirtualNodePoolRequest struct {
 
 	// The OCID of the virtual node pool.

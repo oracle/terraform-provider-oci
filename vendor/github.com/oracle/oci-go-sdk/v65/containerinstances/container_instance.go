@@ -92,6 +92,9 @@ type ContainerInstance struct {
 
 	// The image pulls secrets so you can access private registry to pull container images.
 	ImagePullSecrets []ImagePullSecret `mandatory:"false" json:"imagePullSecrets"`
+
+	// Customer's streaming OCID which is used for receiving a message whenever container health check status changes.
+	StreamId *string `mandatory:"false" json:"streamId"`
 }
 
 func (m ContainerInstance) String() string {
@@ -130,6 +133,7 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 		DnsConfig                        *ContainerDnsConfig                         `json:"dnsConfig"`
 		GracefulShutdownTimeoutInSeconds *int64                                      `json:"gracefulShutdownTimeoutInSeconds"`
 		ImagePullSecrets                 []imagepullsecret                           `json:"imagePullSecrets"`
+		StreamId                         *string                                     `json:"streamId"`
 		Id                               *string                                     `json:"id"`
 		DisplayName                      *string                                     `json:"displayName"`
 		CompartmentId                    *string                                     `json:"compartmentId"`
@@ -191,6 +195,8 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 			m.ImagePullSecrets[i] = nil
 		}
 	}
+	m.StreamId = model.StreamId
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName

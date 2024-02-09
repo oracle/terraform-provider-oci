@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateSessionRequest wrapper for the UpdateSession operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/UpdateSession.go.html to see an example of how to use UpdateSessionRequest.
 type UpdateSessionRequest struct {
 
 	// The unique identifier (OCID) of the session.

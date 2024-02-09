@@ -12,10 +12,6 @@ import (
 )
 
 // ListRolesRequest wrapper for the ListRoles operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListRoles.go.html to see an example of how to use ListRolesRequest.
 type ListRolesRequest struct {
 
 	// The OCID of the Data Safe target database.

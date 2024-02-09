@@ -12,10 +12,6 @@ import (
 )
 
 // UploadEventContentRequest wrapper for the UploadEventContent operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/UploadEventContent.go.html to see an example of how to use UploadEventContentRequest.
 type UploadEventContentRequest struct {
 
 	// Instance Oracle Cloud identifier (ocid)

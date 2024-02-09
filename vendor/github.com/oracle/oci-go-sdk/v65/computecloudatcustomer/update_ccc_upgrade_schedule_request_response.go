@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateCccUpgradeScheduleRequest wrapper for the UpdateCccUpgradeSchedule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/UpdateCccUpgradeSchedule.go.html to see an example of how to use UpdateCccUpgradeScheduleRequest.
 type UpdateCccUpgradeScheduleRequest struct {
 
 	// Compute Cloud@Customer upgrade schedule

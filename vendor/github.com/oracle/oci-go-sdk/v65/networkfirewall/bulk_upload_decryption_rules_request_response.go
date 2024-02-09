@@ -13,10 +13,6 @@ import (
 )
 
 // BulkUploadDecryptionRulesRequest wrapper for the BulkUploadDecryptionRules operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/BulkUploadDecryptionRules.go.html to see an example of how to use BulkUploadDecryptionRulesRequest.
 type BulkUploadDecryptionRulesRequest struct {
 
 	// Unique Network Firewall Policy identifier

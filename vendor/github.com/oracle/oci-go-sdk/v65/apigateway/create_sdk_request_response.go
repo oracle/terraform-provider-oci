@@ -12,10 +12,6 @@ import (
 )
 
 // CreateSdkRequest wrapper for the CreateSdk operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateSdk.go.html to see an example of how to use CreateSdkRequest.
 type CreateSdkRequest struct {
 
 	// Details for the new SDK.

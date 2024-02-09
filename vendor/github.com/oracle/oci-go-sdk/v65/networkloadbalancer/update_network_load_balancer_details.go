@@ -28,8 +28,20 @@ type UpdateNetworkLoadBalancerDetails struct {
 	// enabled on the load balancer VNIC, and packets are sent to the backend with the entire IP header intact.
 	IsPreserveSourceDestination *bool `mandatory:"false" json:"isPreserveSourceDestination"`
 
+	// This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.
+	// This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
+	IsSymmetricHashEnabled *bool `mandatory:"false" json:"isSymmetricHashEnabled"`
+
 	// IP version associated with the NLB.
 	NlbIpVersion NlbIpVersionEnum `mandatory:"false" json:"nlbIpVersion,omitempty"`
+
+	// IPv6 subnet prefix selection. If Ipv6 subnet prefix is passed, Nlb Ipv6 Address would be assign within the cidr block. NLB has to be dual or single stack ipv6 to support this.
+	SubnetIpv6Cidr *string `mandatory:"false" json:"subnetIpv6Cidr"`
+
+	// IPv6 address to be assigned to the network load balancer being created.
+	// This IP address has to be part of one of the prefixes supported by the subnet.
+	// Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789"
+	AssignedIpv6 *string `mandatory:"false" json:"assignedIpv6"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

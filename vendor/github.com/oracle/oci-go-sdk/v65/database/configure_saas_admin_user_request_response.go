@@ -12,10 +12,6 @@ import (
 )
 
 // ConfigureSaasAdminUserRequest wrapper for the ConfigureSaasAdminUser operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ConfigureSaasAdminUser.go.html to see an example of how to use ConfigureSaasAdminUserRequest.
 type ConfigureSaasAdminUserRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeSecurityAssessmentCompartmentRequest wrapper for the ChangeSecurityAssessmentCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeSecurityAssessmentCompartment.go.html to see an example of how to use ChangeSecurityAssessmentCompartmentRequest.
 type ChangeSecurityAssessmentCompartmentRequest struct {
 
 	// The OCID of the security assessment.

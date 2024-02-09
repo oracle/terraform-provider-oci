@@ -12,10 +12,6 @@ import (
 )
 
 // VerifyServiceAttachmentRequest wrapper for the VerifyServiceAttachment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/VerifyServiceAttachment.go.html to see an example of how to use VerifyServiceAttachmentRequest.
 type VerifyServiceAttachmentRequest struct {
 
 	// Details for the service attachment.

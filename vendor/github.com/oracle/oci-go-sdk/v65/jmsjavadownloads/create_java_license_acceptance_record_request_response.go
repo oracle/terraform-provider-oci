@@ -12,10 +12,6 @@ import (
 )
 
 // CreateJavaLicenseAcceptanceRecordRequest wrapper for the CreateJavaLicenseAcceptanceRecord operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/CreateJavaLicenseAcceptanceRecord.go.html to see an example of how to use CreateJavaLicenseAcceptanceRecordRequest.
 type CreateJavaLicenseAcceptanceRecordRequest struct {
 
 	// Details for the new JavaLicenseAcceptanceRecord.

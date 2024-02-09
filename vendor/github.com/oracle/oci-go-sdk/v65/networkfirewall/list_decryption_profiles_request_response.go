@@ -12,10 +12,6 @@ import (
 )
 
 // ListDecryptionProfilesRequest wrapper for the ListDecryptionProfiles operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListDecryptionProfiles.go.html to see an example of how to use ListDecryptionProfilesRequest.
 type ListDecryptionProfilesRequest struct {
 
 	// Unique Network Firewall Policy identifier

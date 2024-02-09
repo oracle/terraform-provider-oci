@@ -12,10 +12,6 @@ import (
 )
 
 // GetFunctionLibraryRequest wrapper for the GetFunctionLibrary operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetFunctionLibrary.go.html to see an example of how to use GetFunctionLibraryRequest.
 type GetFunctionLibraryRequest struct {
 
 	// The workspace ID.

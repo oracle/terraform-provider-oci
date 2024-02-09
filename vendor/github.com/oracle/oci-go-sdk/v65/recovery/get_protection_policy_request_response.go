@@ -12,10 +12,6 @@ import (
 )
 
 // GetProtectionPolicyRequest wrapper for the GetProtectionPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/GetProtectionPolicy.go.html to see an example of how to use GetProtectionPolicyRequest.
 type GetProtectionPolicyRequest struct {
 
 	// The protection policy OCID.

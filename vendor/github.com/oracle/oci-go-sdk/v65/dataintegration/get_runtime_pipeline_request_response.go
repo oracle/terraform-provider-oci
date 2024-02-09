@@ -12,10 +12,6 @@ import (
 )
 
 // GetRuntimePipelineRequest wrapper for the GetRuntimePipeline operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/GetRuntimePipeline.go.html to see an example of how to use GetRuntimePipelineRequest.
 type GetRuntimePipelineRequest struct {
 
 	// The workspace ID.

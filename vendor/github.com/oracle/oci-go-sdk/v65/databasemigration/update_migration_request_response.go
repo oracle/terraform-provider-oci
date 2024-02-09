@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateMigrationRequest wrapper for the UpdateMigration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateMigration.go.html to see an example of how to use UpdateMigrationRequest.
 type UpdateMigrationRequest struct {
 
 	// The OCID of the migration

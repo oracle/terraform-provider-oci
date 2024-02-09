@@ -21,6 +21,8 @@ type UpdateAutonomousContainerDatabaseDetails struct {
 	// The display name for the Autonomous Container Database.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	NfsStorageDetails *NfsStorageDetails `mandatory:"false" json:"nfsStorageDetails"`
+
 	// Database Patch model preference.
 	PatchModel UpdateAutonomousContainerDatabaseDetailsPatchModelEnum `mandatory:"false" json:"patchModel,omitempty"`
 
@@ -46,6 +48,9 @@ type UpdateAutonomousContainerDatabaseDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	BackupConfig *AutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`
+
+	// Indicates if FIPS-140 compliant cryptography is enabled for the Autonomous Container Database.
+	IsFipsEnabled *bool `mandatory:"false" json:"isFipsEnabled"`
 }
 
 func (m UpdateAutonomousContainerDatabaseDetails) String() string {

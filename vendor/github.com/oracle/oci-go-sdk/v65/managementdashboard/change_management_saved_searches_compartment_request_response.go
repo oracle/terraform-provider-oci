@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeManagementSavedSearchesCompartmentRequest wrapper for the ChangeManagementSavedSearchesCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ChangeManagementSavedSearchesCompartment.go.html to see an example of how to use ChangeManagementSavedSearchesCompartmentRequest.
 type ChangeManagementSavedSearchesCompartmentRequest struct {
 
 	// A unique saved search identifier.

@@ -12,10 +12,6 @@ import (
 )
 
 // GetSqlFirewallPolicyRequest wrapper for the GetSqlFirewallPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSqlFirewallPolicy.go.html to see an example of how to use GetSqlFirewallPolicyRequest.
 type GetSqlFirewallPolicyRequest struct {
 
 	// The OCID of the SQL Firewall policy resource.

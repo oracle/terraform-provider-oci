@@ -12,10 +12,6 @@ import (
 )
 
 // GetKmsiSettingRequest wrapper for the GetKmsiSetting operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetKmsiSetting.go.html to see an example of how to use GetKmsiSettingRequest.
 type GetKmsiSettingRequest struct {
 
 	// ID of the resource

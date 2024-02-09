@@ -12,10 +12,6 @@ import (
 )
 
 // ListResourcesRequest wrapper for the ListResources operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usage/ListResources.go.html to see an example of how to use ListResourcesRequest.
 type ListResourcesRequest struct {
 
 	// Service Name.

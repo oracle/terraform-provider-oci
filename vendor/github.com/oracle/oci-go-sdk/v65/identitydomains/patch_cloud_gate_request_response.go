@@ -12,10 +12,6 @@ import (
 )
 
 // PatchCloudGateRequest wrapper for the PatchCloudGate operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCloudGate.go.html to see an example of how to use PatchCloudGateRequest.
 type PatchCloudGateRequest struct {
 
 	// ID of the resource

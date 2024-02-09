@@ -12,10 +12,6 @@ import (
 )
 
 // SearchSoftwareSourceModuleStreamsRequest wrapper for the SearchSoftwareSourceModuleStreams operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SearchSoftwareSourceModuleStreams.go.html to see an example of how to use SearchSoftwareSourceModuleStreamsRequest.
 type SearchSoftwareSourceModuleStreamsRequest struct {
 
 	// Request body that takes a list of software sources and any search filters.

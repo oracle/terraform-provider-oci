@@ -12,10 +12,6 @@ import (
 )
 
 // ListAllowedDomainLicenseTypesRequest wrapper for the ListAllowedDomainLicenseTypes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/ListAllowedDomainLicenseTypes.go.html to see an example of how to use ListAllowedDomainLicenseTypesRequest.
 type ListAllowedDomainLicenseTypesRequest struct {
 
 	// The license type of the identity domain.

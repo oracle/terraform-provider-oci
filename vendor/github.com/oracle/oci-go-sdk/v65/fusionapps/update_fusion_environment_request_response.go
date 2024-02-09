@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateFusionEnvironmentRequest wrapper for the UpdateFusionEnvironment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/UpdateFusionEnvironment.go.html to see an example of how to use UpdateFusionEnvironmentRequest.
 type UpdateFusionEnvironmentRequest struct {
 
 	// unique FusionEnvironment identifier

@@ -16,46 +16,46 @@ import (
 	"strings"
 )
 
-// SightingEndpointSummary Sighting Endpoints summary.
+// SightingEndpointSummary A summary of sighting endpoints.
 type SightingEndpointSummary struct {
 
 	// Unique identifier for sighting endpoints
 	Id *string `mandatory:"true" json:"id"`
 
-	// Sighitng Id for sighting endpoints
+	// Sighting ID for sighting endpoints
 	SightingId *string `mandatory:"true" json:"sightingId"`
 
-	// IP Address
+	// IP address involved in sighting
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
-	// IP Address type
+	// Type of IP address involved in sighting
 	IpAddressType *string `mandatory:"true" json:"ipAddressType"`
 
-	// Time when activities were created
+	// Date and time when activities were created
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// Problem Id for sighting endpoints
+	// Problem ID for sighting endpoints
 	ProblemId *string `mandatory:"false" json:"problemId"`
 
-	// IP Address classification type
+	// IP address classification type
 	IpClassificationType *string `mandatory:"false" json:"ipClassificationType"`
 
-	// Country
+	// Country involved in sighting
 	Country *string `mandatory:"false" json:"country"`
 
-	// Latitude
+	// Latitude of sighting
 	Latitude *float64 `mandatory:"false" json:"latitude"`
 
-	// Longitude
+	// Longitude of sighting
 	Longitude *float64 `mandatory:"false" json:"longitude"`
 
-	// ASN number
+	// ASN number of sighting
 	AsnNumber *string `mandatory:"false" json:"asnNumber"`
 
-	// Regions where activities were performed from this IP
+	// List of regions where activities were performed from this IP address
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// Services where activities were performed from this IP
+	// List of services where activities were performed from this IP address
 	Services []string `mandatory:"false" json:"services"`
 }
 

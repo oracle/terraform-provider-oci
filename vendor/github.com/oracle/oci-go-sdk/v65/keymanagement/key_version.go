@@ -59,6 +59,9 @@ type KeyVersion struct {
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 
 	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
+
+	// A Boolean Value indicating whether this keyversion is generated from auto rotation of key
+	IsAutoRotated *bool `mandatory:"false" json:"isAutoRotated"`
 }
 
 func (m KeyVersion) String() string {

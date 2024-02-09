@@ -12,10 +12,6 @@ import (
 )
 
 // ListUsagePlansRequest wrapper for the ListUsagePlans operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListUsagePlans.go.html to see an example of how to use ListUsagePlansRequest.
 type ListUsagePlansRequest struct {
 
 	// The ocid of the compartment in which to list resources.

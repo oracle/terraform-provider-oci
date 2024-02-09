@@ -12,10 +12,6 @@ import (
 )
 
 // ListProcessSetsRequest wrapper for the ListProcessSets operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListProcessSets.go.html to see an example of how to use ListProcessSetsRequest.
 type ListProcessSetsRequest struct {
 
 	// The ID of the compartment in which data is listed.

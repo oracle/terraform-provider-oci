@@ -726,7 +726,6 @@ func MakeDefaultHTTPRequestWithTaggedStruct(method, path string, requestStruct i
 	if err != nil {
 		return
 	}
-
 	return
 }
 

@@ -12,10 +12,6 @@ import (
 )
 
 // ListAssetSourcesRequest wrapper for the ListAssetSources operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/ListAssetSources.go.html to see an example of how to use ListAssetSourcesRequest.
 type ListAssetSourcesRequest struct {
 
 	// The ID of the compartment in which to list resources.

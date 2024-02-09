@@ -12,10 +12,6 @@ import (
 )
 
 // PatchMaskingColumnsRequest wrapper for the PatchMaskingColumns operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchMaskingColumns.go.html to see an example of how to use PatchMaskingColumnsRequest.
 type PatchMaskingColumnsRequest struct {
 
 	// The OCID of the masking policy.

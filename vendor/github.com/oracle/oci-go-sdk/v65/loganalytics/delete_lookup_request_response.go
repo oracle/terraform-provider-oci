@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteLookupRequest wrapper for the DeleteLookup operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLookup.go.html to see an example of how to use DeleteLookupRequest.
 type DeleteLookupRequest struct {
 
 	// The Logging Analytics namespace used for the request.

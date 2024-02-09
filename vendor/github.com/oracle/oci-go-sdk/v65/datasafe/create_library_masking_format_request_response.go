@@ -12,10 +12,6 @@ import (
 )
 
 // CreateLibraryMaskingFormatRequest wrapper for the CreateLibraryMaskingFormat operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateLibraryMaskingFormat.go.html to see an example of how to use CreateLibraryMaskingFormatRequest.
 type CreateLibraryMaskingFormatRequest struct {
 
 	// Details to create a new library masking format.

@@ -12,10 +12,6 @@ import (
 )
 
 // CreateImportedPackageRequest wrapper for the CreateImportedPackage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CreateImportedPackage.go.html to see an example of how to use CreateImportedPackageRequest.
 type CreateImportedPackageRequest struct {
 
 	// Parameter values required to import the package.

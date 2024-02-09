@@ -12,10 +12,6 @@ import (
 )
 
 // GetTargetAssetRequest wrapper for the GetTargetAsset operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/GetTargetAsset.go.html to see an example of how to use GetTargetAssetRequest.
 type GetTargetAssetRequest struct {
 
 	// Unique target asset identifier

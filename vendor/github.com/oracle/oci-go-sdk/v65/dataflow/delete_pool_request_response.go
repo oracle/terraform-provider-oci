@@ -12,10 +12,6 @@ import (
 )
 
 // DeletePoolRequest wrapper for the DeletePool operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/DeletePool.go.html to see an example of how to use DeletePoolRequest.
 type DeletePoolRequest struct {
 
 	// The unique ID for a pool.

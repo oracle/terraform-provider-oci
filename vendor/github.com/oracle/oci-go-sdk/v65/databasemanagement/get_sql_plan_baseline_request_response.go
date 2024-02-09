@@ -12,10 +12,6 @@ import (
 )
 
 // GetSqlPlanBaselineRequest wrapper for the GetSqlPlanBaseline operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetSqlPlanBaseline.go.html to see an example of how to use GetSqlPlanBaselineRequest.
 type GetSqlPlanBaselineRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

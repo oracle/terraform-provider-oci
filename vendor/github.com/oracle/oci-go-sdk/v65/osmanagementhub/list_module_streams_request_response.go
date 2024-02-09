@@ -12,10 +12,6 @@ import (
 )
 
 // ListModuleStreamsRequest wrapper for the ListModuleStreams operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListModuleStreams.go.html to see an example of how to use ListModuleStreamsRequest.
 type ListModuleStreamsRequest struct {
 
 	// The software source OCID.

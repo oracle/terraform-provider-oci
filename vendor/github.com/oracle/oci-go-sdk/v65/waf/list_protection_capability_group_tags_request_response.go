@@ -12,10 +12,6 @@ import (
 )
 
 // ListProtectionCapabilityGroupTagsRequest wrapper for the ListProtectionCapabilityGroupTags operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waf/ListProtectionCapabilityGroupTags.go.html to see an example of how to use ListProtectionCapabilityGroupTagsRequest.
 type ListProtectionCapabilityGroupTagsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.

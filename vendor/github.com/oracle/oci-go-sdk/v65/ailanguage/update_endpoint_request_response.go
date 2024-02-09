@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateEndpointRequest wrapper for the UpdateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/UpdateEndpoint.go.html to see an example of how to use UpdateEndpointRequest.
 type UpdateEndpointRequest struct {
 
 	// The OCID of the endpoint.

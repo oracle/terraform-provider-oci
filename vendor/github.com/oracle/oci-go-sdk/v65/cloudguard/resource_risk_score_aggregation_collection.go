@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// ResourceRiskScoreAggregationCollection Collection of Resource risk scores
+// ResourceRiskScoreAggregationCollection Collection of risk score aggregations.
 type ResourceRiskScoreAggregationCollection struct {
 
-	// Type of filter. Valid Values - problem_id and resource_id
+	// Type of filter
 	FilterType *string `mandatory:"true" json:"filterType"`
 
-	// Id value on which risk scores are filtered
+	// ID for filter that to be used to filter risk scores
 	FilterId *string `mandatory:"true" json:"filterId"`
 
-	// List of ResourceRiskScoreAggregation
+	// List of ResourceRiskScoreAggregation resources
 	Items []ResourceRiskScoreAggregation `mandatory:"true" json:"items"`
 
-	// Risk Score
+	// Risk score value that triggers a problem
 	RiskThreshold *int `mandatory:"false" json:"riskThreshold"`
 }
 

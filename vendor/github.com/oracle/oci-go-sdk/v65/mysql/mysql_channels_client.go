@@ -92,10 +92,6 @@ func (client *ChannelsClient) ConfigurationProvider() *common.ConfigurationProvi
 }
 
 // CreateChannel Creates a Channel to establish replication from a source to a target.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/CreateChannel.go.html to see an example of how to use CreateChannel API.
 // A default retry strategy applies to this operation CreateChannel()
 func (client ChannelsClient) CreateChannel(ctx context.Context, request CreateChannelRequest) (response CreateChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -155,10 +151,6 @@ func (client ChannelsClient) createChannel(ctx context.Context, request common.O
 }
 
 // DeleteChannel Deletes the specified Channel.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/DeleteChannel.go.html to see an example of how to use DeleteChannel API.
 // A default retry strategy applies to this operation DeleteChannel()
 func (client ChannelsClient) DeleteChannel(ctx context.Context, request DeleteChannelRequest) (response DeleteChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -215,10 +207,6 @@ func (client ChannelsClient) deleteChannel(ctx context.Context, request common.O
 // GetChannel Gets the full details of the specified Channel, including the user-specified
 // configuration parameters (passwords are omitted), as well as information about
 // the state of the Channel, its sources and targets.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/GetChannel.go.html to see an example of how to use GetChannel API.
 // A default retry strategy applies to this operation GetChannel()
 func (client ChannelsClient) GetChannel(ctx context.Context, request GetChannelRequest) (response GetChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -273,10 +261,6 @@ func (client ChannelsClient) getChannel(ctx context.Context, request common.OCIR
 }
 
 // ListChannels Lists all the Channels that match the specified filters.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ListChannels.go.html to see an example of how to use ListChannels API.
 // A default retry strategy applies to this operation ListChannels()
 func (client ChannelsClient) ListChannels(ctx context.Context, request ListChannelsRequest) (response ListChannelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -332,10 +316,6 @@ func (client ChannelsClient) listChannels(ctx context.Context, request common.OC
 
 // ResetChannel Resets the specified Channel by purging its cached information, leaving the Channel
 // as if it had just been created. This operation is only accepted in Inactive Channels.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ResetChannel.go.html to see an example of how to use ResetChannel API.
 // A default retry strategy applies to this operation ResetChannel()
 func (client ChannelsClient) ResetChannel(ctx context.Context, request ResetChannelRequest) (response ResetChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -397,10 +377,6 @@ func (client ChannelsClient) resetChannel(ctx context.Context, request common.OC
 // ResumeChannel Resumes an enabled Channel that has become Inactive due to an error. The resume operation
 // requires that the error that cause the Channel to become Inactive has already been fixed,
 // otherwise the operation may fail.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/ResumeChannel.go.html to see an example of how to use ResumeChannel API.
 // A default retry strategy applies to this operation ResumeChannel()
 func (client ChannelsClient) ResumeChannel(ctx context.Context, request ResumeChannelRequest) (response ResumeChannelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -463,10 +439,6 @@ func (client ChannelsClient) resumeChannel(ctx context.Context, request common.O
 // If the Channel is Active the Update operation will asynchronously apply the new configuration
 // parameters to the Channel and the Channel may become temporarily unavailable. Otherwise, the
 // new configuration will be applied the next time the Channel becomes Active.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mysql/UpdateChannel.go.html to see an example of how to use UpdateChannel API.
 // A default retry strategy applies to this operation UpdateChannel()
 func (client ChannelsClient) UpdateChannel(ctx context.Context, request UpdateChannelRequest) (response UpdateChannelResponse, err error) {
 	var ociResponse common.OCIResponse

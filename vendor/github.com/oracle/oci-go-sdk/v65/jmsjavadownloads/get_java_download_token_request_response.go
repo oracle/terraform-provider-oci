@@ -12,10 +12,6 @@ import (
 )
 
 // GetJavaDownloadTokenRequest wrapper for the GetJavaDownloadToken operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/GetJavaDownloadToken.go.html to see an example of how to use GetJavaDownloadTokenRequest.
 type GetJavaDownloadTokenRequest struct {
 
 	// Unique JavaDownloadToken identifier.

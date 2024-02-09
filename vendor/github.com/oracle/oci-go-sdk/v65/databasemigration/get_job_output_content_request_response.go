@@ -13,10 +13,6 @@ import (
 )
 
 // GetJobOutputContentRequest wrapper for the GetJobOutputContent operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetJobOutputContent.go.html to see an example of how to use GetJobOutputContentRequest.
 type GetJobOutputContentRequest struct {
 
 	// The OCID of the job

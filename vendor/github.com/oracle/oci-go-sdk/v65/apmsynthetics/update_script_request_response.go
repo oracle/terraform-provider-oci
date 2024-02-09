@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateScriptRequest wrapper for the UpdateScript operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmsynthetics/UpdateScript.go.html to see an example of how to use UpdateScriptRequest.
 type UpdateScriptRequest struct {
 
 	// The APM domain ID the request is intended for.

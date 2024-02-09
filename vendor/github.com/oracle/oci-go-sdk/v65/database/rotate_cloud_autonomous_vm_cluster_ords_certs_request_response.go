@@ -12,10 +12,6 @@ import (
 )
 
 // RotateCloudAutonomousVmClusterOrdsCertsRequest wrapper for the RotateCloudAutonomousVmClusterOrdsCerts operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/RotateCloudAutonomousVmClusterOrdsCerts.go.html to see an example of how to use RotateCloudAutonomousVmClusterOrdsCertsRequest.
 type RotateCloudAutonomousVmClusterOrdsCertsRequest struct {
 
 	// The Cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

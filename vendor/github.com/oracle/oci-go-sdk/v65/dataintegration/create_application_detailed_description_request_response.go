@@ -12,10 +12,6 @@ import (
 )
 
 // CreateApplicationDetailedDescriptionRequest wrapper for the CreateApplicationDetailedDescription operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateApplicationDetailedDescription.go.html to see an example of how to use CreateApplicationDetailedDescriptionRequest.
 type CreateApplicationDetailedDescriptionRequest struct {
 
 	// The workspace ID.

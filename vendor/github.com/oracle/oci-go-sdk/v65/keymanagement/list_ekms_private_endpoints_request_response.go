@@ -12,10 +12,6 @@ import (
 )
 
 // ListEkmsPrivateEndpointsRequest wrapper for the ListEkmsPrivateEndpoints operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListEkmsPrivateEndpoints.go.html to see an example of how to use ListEkmsPrivateEndpointsRequest.
 type ListEkmsPrivateEndpointsRequest struct {
 
 	// The OCID of the compartment.

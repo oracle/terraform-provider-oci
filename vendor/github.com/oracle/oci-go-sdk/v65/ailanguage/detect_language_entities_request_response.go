@@ -12,10 +12,6 @@ import (
 )
 
 // DetectLanguageEntitiesRequest wrapper for the DetectLanguageEntities operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DetectLanguageEntities.go.html to see an example of how to use DetectLanguageEntitiesRequest.
 type DetectLanguageEntitiesRequest struct {
 
 	// The details to make a Entity detect call.

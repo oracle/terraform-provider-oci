@@ -12,10 +12,6 @@ import (
 )
 
 // CreateExternalNonContainerDatabaseRequest wrapper for the CreateExternalNonContainerDatabase operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateExternalNonContainerDatabase.go.html to see an example of how to use CreateExternalNonContainerDatabaseRequest.
 type CreateExternalNonContainerDatabaseRequest struct {
 
 	// Request to create a new external non-container database.

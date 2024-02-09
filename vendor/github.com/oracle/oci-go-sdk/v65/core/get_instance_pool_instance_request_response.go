@@ -12,10 +12,6 @@ import (
 )
 
 // GetInstancePoolInstanceRequest wrapper for the GetInstancePoolInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstancePoolInstance.go.html to see an example of how to use GetInstancePoolInstanceRequest.
 type GetInstancePoolInstanceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool.

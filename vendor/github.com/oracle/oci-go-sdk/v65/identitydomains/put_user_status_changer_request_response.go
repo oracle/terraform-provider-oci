@@ -12,10 +12,6 @@ import (
 )
 
 // PutUserStatusChangerRequest wrapper for the PutUserStatusChanger operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUserStatusChanger.go.html to see an example of how to use PutUserStatusChangerRequest.
 type PutUserStatusChangerRequest struct {
 
 	// ID of the resource

@@ -93,11 +93,60 @@ func (client *GatewayClient) ConfigurationProvider() *common.ConfigurationProvid
 	return client.config
 }
 
+// AddGatewayLock Adds a lock to a Gateway resource.
+func (client GatewayClient) AddGatewayLock(ctx context.Context, request AddGatewayLockRequest) (response AddGatewayLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addGatewayLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddGatewayLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddGatewayLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddGatewayLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddGatewayLockResponse")
+	}
+	return
+}
+
+// addGatewayLock implements the OCIOperation interface (enables retrying operations)
+func (client GatewayClient) addGatewayLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways/{gatewayId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddGatewayLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Gateway/AddGatewayLock"
+		err = common.PostProcessServiceError(err, "Gateway", "AddGatewayLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeGatewayCompartment Changes the gateway compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ChangeGatewayCompartment.go.html to see an example of how to use ChangeGatewayCompartment API.
 func (client GatewayClient) ChangeGatewayCompartment(ctx context.Context, request ChangeGatewayCompartmentRequest) (response ChangeGatewayCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -156,10 +205,6 @@ func (client GatewayClient) changeGatewayCompartment(ctx context.Context, reques
 }
 
 // CreateGateway Creates a new gateway.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/CreateGateway.go.html to see an example of how to use CreateGateway API.
 // A default retry strategy applies to this operation CreateGateway()
 func (client GatewayClient) CreateGateway(ctx context.Context, request CreateGatewayRequest) (response CreateGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -219,10 +264,6 @@ func (client GatewayClient) createGateway(ctx context.Context, request common.OC
 }
 
 // DeleteGateway Deletes the gateway with the given identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteGateway.go.html to see an example of how to use DeleteGateway API.
 func (client GatewayClient) DeleteGateway(ctx context.Context, request DeleteGatewayRequest) (response DeleteGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -276,10 +317,6 @@ func (client GatewayClient) deleteGateway(ctx context.Context, request common.OC
 }
 
 // GetGateway Gets a gateway by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/GetGateway.go.html to see an example of how to use GetGateway API.
 // A default retry strategy applies to this operation GetGateway()
 func (client GatewayClient) GetGateway(ctx context.Context, request GetGatewayRequest) (response GetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -334,10 +371,6 @@ func (client GatewayClient) getGateway(ctx context.Context, request common.OCIRe
 }
 
 // ListGateways Returns a list of gateways.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/ListGateways.go.html to see an example of how to use ListGateways API.
 // A default retry strategy applies to this operation ListGateways()
 func (client GatewayClient) ListGateways(ctx context.Context, request ListGatewaysRequest) (response ListGatewaysResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -391,11 +424,60 @@ func (client GatewayClient) listGateways(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// RemoveGatewayLock Removes a lock from a Gateway resource.
+func (client GatewayClient) RemoveGatewayLock(ctx context.Context, request RemoveGatewayLockRequest) (response RemoveGatewayLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeGatewayLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveGatewayLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveGatewayLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveGatewayLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveGatewayLockResponse")
+	}
+	return
+}
+
+// removeGatewayLock implements the OCIOperation interface (enables retrying operations)
+func (client GatewayClient) removeGatewayLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/gateways/{gatewayId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveGatewayLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/api-gateway/20190501/Gateway/RemoveGatewayLock"
+		err = common.PostProcessServiceError(err, "Gateway", "RemoveGatewayLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateGateway Updates the gateway with the given identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/UpdateGateway.go.html to see an example of how to use UpdateGateway API.
 func (client GatewayClient) UpdateGateway(ctx context.Context, request UpdateGatewayRequest) (response UpdateGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

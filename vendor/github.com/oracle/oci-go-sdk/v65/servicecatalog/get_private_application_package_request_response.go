@@ -12,10 +12,6 @@ import (
 )
 
 // GetPrivateApplicationPackageRequest wrapper for the GetPrivateApplicationPackage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/GetPrivateApplicationPackage.go.html to see an example of how to use GetPrivateApplicationPackageRequest.
 type GetPrivateApplicationPackageRequest struct {
 
 	// The unique identifier for the private application package.

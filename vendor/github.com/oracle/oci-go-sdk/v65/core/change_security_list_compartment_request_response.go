@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeSecurityListCompartmentRequest wrapper for the ChangeSecurityListCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeSecurityListCompartment.go.html to see an example of how to use ChangeSecurityListCompartmentRequest.
 type ChangeSecurityListCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the security list.

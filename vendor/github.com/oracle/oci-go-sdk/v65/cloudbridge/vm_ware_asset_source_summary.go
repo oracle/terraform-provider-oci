@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// VmWareAssetSourceSummary Description of an asset source.
+// VmWareAssetSourceSummary Summary of an VMware asset source provided in the list.
 type VmWareAssetSourceSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource.

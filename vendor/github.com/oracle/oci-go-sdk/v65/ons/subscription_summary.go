@@ -35,7 +35,7 @@ type SubscriptionSummary struct {
 	//   * `SLACK`
 	//   * `SMS`
 	// For information about subscription protocols, see
-	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
+	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
 	Protocol *string `mandatory:"true" json:"protocol"`
 
 	// A locator that corresponds to the subscription protocol.

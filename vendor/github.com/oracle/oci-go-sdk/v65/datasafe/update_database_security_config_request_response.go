@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateDatabaseSecurityConfigRequest wrapper for the UpdateDatabaseSecurityConfig operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateDatabaseSecurityConfig.go.html to see an example of how to use UpdateDatabaseSecurityConfigRequest.
 type UpdateDatabaseSecurityConfigRequest struct {
 
 	// The OCID of the database security configuration resource.

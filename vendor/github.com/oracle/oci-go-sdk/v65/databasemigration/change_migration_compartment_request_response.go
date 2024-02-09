@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeMigrationCompartmentRequest wrapper for the ChangeMigrationCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ChangeMigrationCompartment.go.html to see an example of how to use ChangeMigrationCompartmentRequest.
 type ChangeMigrationCompartmentRequest struct {
 
 	// The OCID of the migration

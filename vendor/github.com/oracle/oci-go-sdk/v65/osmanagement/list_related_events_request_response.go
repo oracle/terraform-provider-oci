@@ -12,10 +12,6 @@ import (
 )
 
 // ListRelatedEventsRequest wrapper for the ListRelatedEvents operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListRelatedEvents.go.html to see an example of how to use ListRelatedEventsRequest.
 type ListRelatedEventsRequest struct {
 
 	// Event fingerprint identifier

@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteBackendSetRequest wrapper for the DeleteBackendSet operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/DeleteBackendSet.go.html to see an example of how to use DeleteBackendSetRequest.
 type DeleteBackendSetRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network load balancer to update.

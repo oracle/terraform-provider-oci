@@ -20,6 +20,9 @@ type RemoveLockDetails struct {
 
 	// Type of the lock.
 	Type RemoveLockDetailsTypeEnum `mandatory:"true" json:"type"`
+
+	// The compartment ID of the lock.
+	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 
 func (m RemoveLockDetails) String() string {

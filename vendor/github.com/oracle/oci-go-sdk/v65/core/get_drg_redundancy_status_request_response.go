@@ -12,10 +12,6 @@ import (
 )
 
 // GetDrgRedundancyStatusRequest wrapper for the GetDrgRedundancyStatus operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetDrgRedundancyStatus.go.html to see an example of how to use GetDrgRedundancyStatusRequest.
 type GetDrgRedundancyStatusRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.

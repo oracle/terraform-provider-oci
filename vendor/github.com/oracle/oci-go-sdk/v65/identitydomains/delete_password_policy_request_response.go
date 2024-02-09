@@ -12,10 +12,6 @@ import (
 )
 
 // DeletePasswordPolicyRequest wrapper for the DeletePasswordPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeletePasswordPolicy.go.html to see an example of how to use DeletePasswordPolicyRequest.
 type DeletePasswordPolicyRequest struct {
 
 	// ID of the resource

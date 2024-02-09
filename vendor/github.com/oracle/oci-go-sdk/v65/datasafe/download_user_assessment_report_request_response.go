@@ -13,10 +13,6 @@ import (
 )
 
 // DownloadUserAssessmentReportRequest wrapper for the DownloadUserAssessmentReport operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DownloadUserAssessmentReport.go.html to see an example of how to use DownloadUserAssessmentReportRequest.
 type DownloadUserAssessmentReportRequest struct {
 
 	// The OCID of the user assessment.

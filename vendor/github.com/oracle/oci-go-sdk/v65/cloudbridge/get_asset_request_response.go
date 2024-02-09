@@ -12,10 +12,6 @@ import (
 )
 
 // GetAssetRequest wrapper for the GetAsset operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetAsset.go.html to see an example of how to use GetAssetRequest.
 type GetAssetRequest struct {
 
 	// Unique asset identifier.

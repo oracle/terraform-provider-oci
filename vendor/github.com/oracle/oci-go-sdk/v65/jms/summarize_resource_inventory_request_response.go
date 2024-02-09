@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeResourceInventoryRequest wrapper for the SummarizeResourceInventory operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeResourceInventory.go.html to see an example of how to use SummarizeResourceInventoryRequest.
 type SummarizeResourceInventoryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.

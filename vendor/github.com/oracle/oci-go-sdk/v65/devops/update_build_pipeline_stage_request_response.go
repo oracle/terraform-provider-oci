@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateBuildPipelineStageRequest wrapper for the UpdateBuildPipelineStage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateBuildPipelineStage.go.html to see an example of how to use UpdateBuildPipelineStageRequest.
 type UpdateBuildPipelineStageRequest struct {
 
 	// Unique stage identifier.

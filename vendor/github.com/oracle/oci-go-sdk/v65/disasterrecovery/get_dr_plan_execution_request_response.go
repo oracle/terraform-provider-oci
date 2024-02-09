@@ -12,10 +12,6 @@ import (
 )
 
 // GetDrPlanExecutionRequest wrapper for the GetDrPlanExecution operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/GetDrPlanExecution.go.html to see an example of how to use GetDrPlanExecutionRequest.
 type GetDrPlanExecutionRequest struct {
 
 	// The OCID of the DR plan execution.

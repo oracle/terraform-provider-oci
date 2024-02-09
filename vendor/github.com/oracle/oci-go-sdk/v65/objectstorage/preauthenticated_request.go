@@ -58,6 +58,9 @@ type PreauthenticatedRequest struct {
 
 	// The full Path for the object.
 	FullPath *string `mandatory:"false" json:"fullPath"`
+
+	// query object detail field is required for PARs for querying objects.
+	QueryObjectDetails *interface{} `mandatory:"false" json:"queryObjectDetails"`
 }
 
 func (m PreauthenticatedRequest) String() string {
@@ -135,6 +138,7 @@ const (
 	PreauthenticatedRequestAccessTypeAnyobjectwrite     PreauthenticatedRequestAccessTypeEnum = "AnyObjectWrite"
 	PreauthenticatedRequestAccessTypeAnyobjectread      PreauthenticatedRequestAccessTypeEnum = "AnyObjectRead"
 	PreauthenticatedRequestAccessTypeAnyobjectreadwrite PreauthenticatedRequestAccessTypeEnum = "AnyObjectReadWrite"
+	PreauthenticatedRequestAccessTypeObjectquery        PreauthenticatedRequestAccessTypeEnum = "ObjectQuery"
 )
 
 var mappingPreauthenticatedRequestAccessTypeEnum = map[string]PreauthenticatedRequestAccessTypeEnum{
@@ -144,6 +148,7 @@ var mappingPreauthenticatedRequestAccessTypeEnum = map[string]PreauthenticatedRe
 	"AnyObjectWrite":     PreauthenticatedRequestAccessTypeAnyobjectwrite,
 	"AnyObjectRead":      PreauthenticatedRequestAccessTypeAnyobjectread,
 	"AnyObjectReadWrite": PreauthenticatedRequestAccessTypeAnyobjectreadwrite,
+	"ObjectQuery":        PreauthenticatedRequestAccessTypeObjectquery,
 }
 
 var mappingPreauthenticatedRequestAccessTypeEnumLowerCase = map[string]PreauthenticatedRequestAccessTypeEnum{
@@ -153,6 +158,7 @@ var mappingPreauthenticatedRequestAccessTypeEnumLowerCase = map[string]Preauthen
 	"anyobjectwrite":     PreauthenticatedRequestAccessTypeAnyobjectwrite,
 	"anyobjectread":      PreauthenticatedRequestAccessTypeAnyobjectread,
 	"anyobjectreadwrite": PreauthenticatedRequestAccessTypeAnyobjectreadwrite,
+	"objectquery":        PreauthenticatedRequestAccessTypeObjectquery,
 }
 
 // GetPreauthenticatedRequestAccessTypeEnumValues Enumerates the set of values for PreauthenticatedRequestAccessTypeEnum
@@ -173,6 +179,7 @@ func GetPreauthenticatedRequestAccessTypeEnumStringValues() []string {
 		"AnyObjectWrite",
 		"AnyObjectRead",
 		"AnyObjectReadWrite",
+		"ObjectQuery",
 	}
 }
 

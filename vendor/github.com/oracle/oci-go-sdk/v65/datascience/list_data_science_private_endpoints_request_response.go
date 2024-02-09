@@ -12,10 +12,6 @@ import (
 )
 
 // ListDataSciencePrivateEndpointsRequest wrapper for the ListDataSciencePrivateEndpoints operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListDataSciencePrivateEndpoints.go.html to see an example of how to use ListDataSciencePrivateEndpointsRequest.
 type ListDataSciencePrivateEndpointsRequest struct {
 
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

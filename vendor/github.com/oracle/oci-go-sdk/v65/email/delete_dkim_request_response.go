@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDkimRequest wrapper for the DeleteDkim operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/DeleteDkim.go.html to see an example of how to use DeleteDkimRequest.
 type DeleteDkimRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of this DKIM.

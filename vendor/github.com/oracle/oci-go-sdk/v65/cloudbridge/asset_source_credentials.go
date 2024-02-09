@@ -22,8 +22,11 @@ type AssetSourceCredentials struct {
 	Type AssetSourceCredentialsTypeEnum `mandatory:"true" json:"type"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the secret in a vault.
-	// If the the type of the credentials is BASIC`, the secret must contain the username and
-	// password in JSON format, which is in the form of `{ "username": "<VMwareUser>", "password": "<VMwarePassword>" }`.
+	// If the type of the credentials is `BASIC`, the secret must contain the username and
+	// password in JSON format, which is in the form of `{ "username": "<User>", "password": "<Password>" }`.
+	// If the type of the credentials is `API_KEY`, the secret must contain the accessKeyId and
+	// secretAccessKey in JSON format,
+	// which is in the form of `{ "accessKeyId": "<AccessKey>", "secretAccessKey": "<AccessKeyValue>" }`.
 	SecretId *string `mandatory:"true" json:"secretId"`
 }
 

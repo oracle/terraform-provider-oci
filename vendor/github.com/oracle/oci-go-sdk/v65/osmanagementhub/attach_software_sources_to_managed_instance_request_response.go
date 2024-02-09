@@ -12,10 +12,6 @@ import (
 )
 
 // AttachSoftwareSourcesToManagedInstanceRequest wrapper for the AttachSoftwareSourcesToManagedInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachSoftwareSourcesToManagedInstance.go.html to see an example of how to use AttachSoftwareSourcesToManagedInstanceRequest.
 type AttachSoftwareSourcesToManagedInstanceRequest struct {
 
 	// The OCID of the managed instance.

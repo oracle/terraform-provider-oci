@@ -12,10 +12,6 @@ import (
 )
 
 // GetContainerInstanceRequest wrapper for the GetContainerInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerinstances/GetContainerInstance.go.html to see an example of how to use GetContainerInstanceRequest.
 type GetContainerInstanceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the container instance.

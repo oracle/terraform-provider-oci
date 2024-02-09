@@ -12,10 +12,6 @@ import (
 )
 
 // CreateBuildRunRequest wrapper for the CreateBuildRun operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateBuildRun.go.html to see an example of how to use CreateBuildRunRequest.
 type CreateBuildRunRequest struct {
 
 	// Parameter details required to create a new build run.

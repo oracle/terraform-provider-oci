@@ -16,31 +16,34 @@ import (
 	"strings"
 )
 
-// TargetDetectorRecipeDetectorRuleSummary Summary of the Detector Recipe Rule.
+// TargetDetectorRecipeDetectorRuleSummary Summary information for a detector rule in a detector recipe.
 type TargetDetectorRecipeDetectorRuleSummary struct {
 
 	// The unique identifier of the detector rule
 	Id *string `mandatory:"true" json:"id"`
 
-	// possible type of detectors
+	// Type of detector
 	Detector DetectorEnumEnum `mandatory:"true" json:"detector"`
 
-	// DetectorTemplate Identifier, can be renamed
+	// The unique identifier of source detector rule
+	SourceDetectorRuleId *string `mandatory:"false" json:"sourceDetectorRuleId"`
+
+	// Detector template display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// DetectorTemplate Identifier, can be renamed
+	// Detector template description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recommendation for TargetDetectorRecipeDetectorRule
+	// Recommendation for TargetDetectorRecipeDetectorRule resource
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// service type of the configuration to which the rule is applied
+	// Service type of the configuration to which the rule is applied
 	ServiceType *string `mandatory:"false" json:"serviceType"`
 
-	// resource type of the configuration to which the rule is applied
+	// Resource type of the configuration to which the rule is applied
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// List of cloudguard managed list types related to this rule
+	// List of managed list types related to this rule
 	ManagedListTypes []TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum `mandatory:"false" json:"managedListTypes,omitempty"`
 
 	DetectorDetails *TargetDetectorDetails `mandatory:"false" json:"detectorDetails"`
@@ -48,20 +51,23 @@ type TargetDetectorRecipeDetectorRuleSummary struct {
 	// The date and time the target detector recipe rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target detector recipe rule was updated. Format defined by RFC3339.
+	// The date and time the target detector recipe rule was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the target detector recipe rule
+	// The current lifecycle state of the target detector recipe rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The id of the attached DataSource.
+	// The unique identifier of the attached data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source entities mapping for a Detector Rule
+	// Data source entities mapping for a detector rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetDetectorRecipeDetectorRuleSummary) String() string {
@@ -97,48 +103,54 @@ type TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum string
 
 // Set of constants representing the allowable values for TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum
 const (
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCidrBlock    TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "CIDR_BLOCK"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesUsers        TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "USERS"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGroups       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "GROUPS"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv4address  TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "IPV4ADDRESS"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv6address  TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "IPV6ADDRESS"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesResourceOcid TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "RESOURCE_OCID"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesRegion       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "REGION"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCountry      TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "COUNTRY"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesState        TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "STATE"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCity         TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "CITY"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesTags         TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "TAGS"
-	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGeneric      TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "GENERIC"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCidrBlock            TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "CIDR_BLOCK"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesUsers                TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "USERS"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGroups               TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "GROUPS"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv4address          TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "IPV4ADDRESS"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv6address          TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "IPV6ADDRESS"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesResourceOcid         TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "RESOURCE_OCID"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesRegion               TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "REGION"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCountry              TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "COUNTRY"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesState                TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "STATE"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCity                 TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "CITY"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesTags                 TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "TAGS"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGeneric              TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "GENERIC"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesFusionAppsRole       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "FUSION_APPS_ROLE"
+	TargetDetectorRecipeDetectorRuleSummaryManagedListTypesFusionAppsPermission TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = "FUSION_APPS_PERMISSION"
 )
 
 var mappingTargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum = map[string]TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum{
-	"CIDR_BLOCK":    TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCidrBlock,
-	"USERS":         TargetDetectorRecipeDetectorRuleSummaryManagedListTypesUsers,
-	"GROUPS":        TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGroups,
-	"IPV4ADDRESS":   TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv4address,
-	"IPV6ADDRESS":   TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv6address,
-	"RESOURCE_OCID": TargetDetectorRecipeDetectorRuleSummaryManagedListTypesResourceOcid,
-	"REGION":        TargetDetectorRecipeDetectorRuleSummaryManagedListTypesRegion,
-	"COUNTRY":       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCountry,
-	"STATE":         TargetDetectorRecipeDetectorRuleSummaryManagedListTypesState,
-	"CITY":          TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCity,
-	"TAGS":          TargetDetectorRecipeDetectorRuleSummaryManagedListTypesTags,
-	"GENERIC":       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGeneric,
+	"CIDR_BLOCK":             TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCidrBlock,
+	"USERS":                  TargetDetectorRecipeDetectorRuleSummaryManagedListTypesUsers,
+	"GROUPS":                 TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGroups,
+	"IPV4ADDRESS":            TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv4address,
+	"IPV6ADDRESS":            TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv6address,
+	"RESOURCE_OCID":          TargetDetectorRecipeDetectorRuleSummaryManagedListTypesResourceOcid,
+	"REGION":                 TargetDetectorRecipeDetectorRuleSummaryManagedListTypesRegion,
+	"COUNTRY":                TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCountry,
+	"STATE":                  TargetDetectorRecipeDetectorRuleSummaryManagedListTypesState,
+	"CITY":                   TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCity,
+	"TAGS":                   TargetDetectorRecipeDetectorRuleSummaryManagedListTypesTags,
+	"GENERIC":                TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGeneric,
+	"FUSION_APPS_ROLE":       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesFusionAppsRole,
+	"FUSION_APPS_PERMISSION": TargetDetectorRecipeDetectorRuleSummaryManagedListTypesFusionAppsPermission,
 }
 
 var mappingTargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnumLowerCase = map[string]TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum{
-	"cidr_block":    TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCidrBlock,
-	"users":         TargetDetectorRecipeDetectorRuleSummaryManagedListTypesUsers,
-	"groups":        TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGroups,
-	"ipv4address":   TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv4address,
-	"ipv6address":   TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv6address,
-	"resource_ocid": TargetDetectorRecipeDetectorRuleSummaryManagedListTypesResourceOcid,
-	"region":        TargetDetectorRecipeDetectorRuleSummaryManagedListTypesRegion,
-	"country":       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCountry,
-	"state":         TargetDetectorRecipeDetectorRuleSummaryManagedListTypesState,
-	"city":          TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCity,
-	"tags":          TargetDetectorRecipeDetectorRuleSummaryManagedListTypesTags,
-	"generic":       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGeneric,
+	"cidr_block":             TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCidrBlock,
+	"users":                  TargetDetectorRecipeDetectorRuleSummaryManagedListTypesUsers,
+	"groups":                 TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGroups,
+	"ipv4address":            TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv4address,
+	"ipv6address":            TargetDetectorRecipeDetectorRuleSummaryManagedListTypesIpv6address,
+	"resource_ocid":          TargetDetectorRecipeDetectorRuleSummaryManagedListTypesResourceOcid,
+	"region":                 TargetDetectorRecipeDetectorRuleSummaryManagedListTypesRegion,
+	"country":                TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCountry,
+	"state":                  TargetDetectorRecipeDetectorRuleSummaryManagedListTypesState,
+	"city":                   TargetDetectorRecipeDetectorRuleSummaryManagedListTypesCity,
+	"tags":                   TargetDetectorRecipeDetectorRuleSummaryManagedListTypesTags,
+	"generic":                TargetDetectorRecipeDetectorRuleSummaryManagedListTypesGeneric,
+	"fusion_apps_role":       TargetDetectorRecipeDetectorRuleSummaryManagedListTypesFusionAppsRole,
+	"fusion_apps_permission": TargetDetectorRecipeDetectorRuleSummaryManagedListTypesFusionAppsPermission,
 }
 
 // GetTargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnumValues Enumerates the set of values for TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum
@@ -165,6 +177,8 @@ func GetTargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnumStringValues(
 		"CITY",
 		"TAGS",
 		"GENERIC",
+		"FUSION_APPS_ROLE",
+		"FUSION_APPS_PERMISSION",
 	}
 }
 

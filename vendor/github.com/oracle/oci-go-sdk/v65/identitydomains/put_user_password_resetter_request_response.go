@@ -12,10 +12,6 @@ import (
 )
 
 // PutUserPasswordResetterRequest wrapper for the PutUserPasswordResetter operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutUserPasswordResetter.go.html to see an example of how to use PutUserPasswordResetterRequest.
 type PutUserPasswordResetterRequest struct {
 
 	// ID of the resource

@@ -12,10 +12,6 @@ import (
 )
 
 // GetPdbConversionHistoryEntryRequest wrapper for the GetPdbConversionHistoryEntry operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/GetPdbConversionHistoryEntry.go.html to see an example of how to use GetPdbConversionHistoryEntryRequest.
 type GetPdbConversionHistoryEntryRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

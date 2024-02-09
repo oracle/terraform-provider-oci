@@ -12,10 +12,6 @@ import (
 )
 
 // ListMigrationObjectsRequest wrapper for the ListMigrationObjects operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationObjects.go.html to see an example of how to use ListMigrationObjectsRequest.
 type ListMigrationObjectsRequest struct {
 
 	// The OCID of the migration

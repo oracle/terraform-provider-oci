@@ -92,10 +92,6 @@ func (client *DataScienceClient) ConfigurationProvider() *common.ConfigurationPr
 }
 
 // ActivateModel Activates the model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ActivateModel.go.html to see an example of how to use ActivateModel API.
 // A default retry strategy applies to this operation ActivateModel()
 func (client DataScienceClient) ActivateModel(ctx context.Context, request ActivateModelRequest) (response ActivateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -150,10 +146,6 @@ func (client DataScienceClient) activateModel(ctx context.Context, request commo
 }
 
 // ActivateModelDeployment Activates the model deployment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ActivateModelDeployment.go.html to see an example of how to use ActivateModelDeployment API.
 func (client DataScienceClient) ActivateModelDeployment(ctx context.Context, request ActivateModelDeploymentRequest) (response ActivateModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -207,10 +199,6 @@ func (client DataScienceClient) activateModelDeployment(ctx context.Context, req
 }
 
 // ActivateNotebookSession Activates the notebook session.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ActivateNotebookSession.go.html to see an example of how to use ActivateNotebookSession API.
 func (client DataScienceClient) ActivateNotebookSession(ctx context.Context, request ActivateNotebookSessionRequest) (response ActivateNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -264,10 +252,6 @@ func (client DataScienceClient) activateNotebookSession(ctx context.Context, req
 }
 
 // CancelJobRun Cancels an IN_PROGRESS job run.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CancelJobRun.go.html to see an example of how to use CancelJobRun API.
 // A default retry strategy applies to this operation CancelJobRun()
 func (client DataScienceClient) CancelJobRun(ctx context.Context, request CancelJobRunRequest) (response CancelJobRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -322,10 +306,6 @@ func (client DataScienceClient) cancelJobRun(ctx context.Context, request common
 }
 
 // CancelPipelineRun Cancel a PipelineRun.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CancelPipelineRun.go.html to see an example of how to use CancelPipelineRun API.
 // A default retry strategy applies to this operation CancelPipelineRun()
 func (client DataScienceClient) CancelPipelineRun(ctx context.Context, request CancelPipelineRunRequest) (response CancelPipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -385,10 +365,6 @@ func (client DataScienceClient) cancelPipelineRun(ctx context.Context, request c
 }
 
 // CancelWorkRequest Cancels a work request that has not started.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 func (client DataScienceClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -441,11 +417,66 @@ func (client DataScienceClient) cancelWorkRequest(ctx context.Context, request c
 	return response, err
 }
 
+// ChangeComputeTargetCompartment Moves a compute target into a different compartment. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeComputeTargetCompartment()
+func (client DataScienceClient) ChangeComputeTargetCompartment(ctx context.Context, request ChangeComputeTargetCompartmentRequest) (response ChangeComputeTargetCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeComputeTargetCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeComputeTargetCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeComputeTargetCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeComputeTargetCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeComputeTargetCompartmentResponse")
+	}
+	return
+}
+
+// changeComputeTargetCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeComputeTargetCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeTargets/{computeTargetId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeComputeTargetCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTarget/ChangeComputeTargetCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeComputeTargetCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDataSciencePrivateEndpointCompartment Moves a private endpoint into a different compartment. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeDataSciencePrivateEndpointCompartment.go.html to see an example of how to use ChangeDataSciencePrivateEndpointCompartment API.
 // A default retry strategy applies to this operation ChangeDataSciencePrivateEndpointCompartment()
 func (client DataScienceClient) ChangeDataSciencePrivateEndpointCompartment(ctx context.Context, request ChangeDataSciencePrivateEndpointCompartmentRequest) (response ChangeDataSciencePrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -505,10 +536,6 @@ func (client DataScienceClient) changeDataSciencePrivateEndpointCompartment(ctx 
 }
 
 // ChangeJobCompartment Changes a job's compartment
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeJobCompartment.go.html to see an example of how to use ChangeJobCompartment API.
 func (client DataScienceClient) ChangeJobCompartment(ctx context.Context, request ChangeJobCompartmentRequest) (response ChangeJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -562,10 +589,6 @@ func (client DataScienceClient) changeJobCompartment(ctx context.Context, reques
 }
 
 // ChangeJobRunCompartment Changes a job run's compartment
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeJobRunCompartment.go.html to see an example of how to use ChangeJobRunCompartment API.
 func (client DataScienceClient) ChangeJobRunCompartment(ctx context.Context, request ChangeJobRunCompartmentRequest) (response ChangeJobRunCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -618,11 +641,243 @@ func (client DataScienceClient) changeJobRunCompartment(ctx context.Context, req
 	return response, err
 }
 
+// ChangeMlApplicationCompartment Moves a MlApplication resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeMlApplicationCompartment()
+func (client DataScienceClient) ChangeMlApplicationCompartment(ctx context.Context, request ChangeMlApplicationCompartmentRequest) (response ChangeMlApplicationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMlApplicationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMlApplicationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMlApplicationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMlApplicationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMlApplicationCompartmentResponse")
+	}
+	return
+}
+
+// changeMlApplicationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeMlApplicationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplications/{mlApplicationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMlApplicationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplication/ChangeMlApplicationCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeMlApplicationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeMlApplicationImplementationCompartment Moves a MlApplicationImplementation resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeMlApplicationImplementationCompartment()
+func (client DataScienceClient) ChangeMlApplicationImplementationCompartment(ctx context.Context, request ChangeMlApplicationImplementationCompartmentRequest) (response ChangeMlApplicationImplementationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMlApplicationImplementationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMlApplicationImplementationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMlApplicationImplementationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMlApplicationImplementationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMlApplicationImplementationCompartmentResponse")
+	}
+	return
+}
+
+// changeMlApplicationImplementationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeMlApplicationImplementationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationImplementations/{mlApplicationImplementationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMlApplicationImplementationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/ChangeMlApplicationImplementationCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeMlApplicationImplementationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeMlApplicationInstanceCompartment Moves a MlApplicationInstance resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeMlApplicationInstanceCompartment()
+func (client DataScienceClient) ChangeMlApplicationInstanceCompartment(ctx context.Context, request ChangeMlApplicationInstanceCompartmentRequest) (response ChangeMlApplicationInstanceCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMlApplicationInstanceCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMlApplicationInstanceCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMlApplicationInstanceCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMlApplicationInstanceCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMlApplicationInstanceCompartmentResponse")
+	}
+	return
+}
+
+// changeMlApplicationInstanceCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeMlApplicationInstanceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstances/{mlApplicationInstanceId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMlApplicationInstanceCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstance/ChangeMlApplicationInstanceCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeMlApplicationInstanceCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeMlApplicationInstanceViewCompartment Moves a MlApplicationInstanceView resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeMlApplicationInstanceViewCompartment()
+func (client DataScienceClient) ChangeMlApplicationInstanceViewCompartment(ctx context.Context, request ChangeMlApplicationInstanceViewCompartmentRequest) (response ChangeMlApplicationInstanceViewCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMlApplicationInstanceViewCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMlApplicationInstanceViewCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMlApplicationInstanceViewCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMlApplicationInstanceViewCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMlApplicationInstanceViewCompartmentResponse")
+	}
+	return
+}
+
+// changeMlApplicationInstanceViewCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) changeMlApplicationInstanceViewCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMlApplicationInstanceViewCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/ChangeMlApplicationInstanceViewCompartment"
+		err = common.PostProcessServiceError(err, "DataScience", "ChangeMlApplicationInstanceViewCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeModelCompartment Moves a model resource into a different compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeModelCompartment.go.html to see an example of how to use ChangeModelCompartment API.
 func (client DataScienceClient) ChangeModelCompartment(ctx context.Context, request ChangeModelCompartmentRequest) (response ChangeModelCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -681,10 +936,6 @@ func (client DataScienceClient) changeModelCompartment(ctx context.Context, requ
 }
 
 // ChangeModelDeploymentCompartment Moves a model deployment into a different compartment. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeModelDeploymentCompartment.go.html to see an example of how to use ChangeModelDeploymentCompartment API.
 func (client DataScienceClient) ChangeModelDeploymentCompartment(ctx context.Context, request ChangeModelDeploymentCompartmentRequest) (response ChangeModelDeploymentCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -743,10 +994,6 @@ func (client DataScienceClient) changeModelDeploymentCompartment(ctx context.Con
 }
 
 // ChangeModelVersionSetCompartment Moves a modelVersionSet resource into a different compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeModelVersionSetCompartment.go.html to see an example of how to use ChangeModelVersionSetCompartment API.
 func (client DataScienceClient) ChangeModelVersionSetCompartment(ctx context.Context, request ChangeModelVersionSetCompartmentRequest) (response ChangeModelVersionSetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -805,10 +1052,6 @@ func (client DataScienceClient) changeModelVersionSetCompartment(ctx context.Con
 }
 
 // ChangeNotebookSessionCompartment Moves a notebook session resource into a different compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeNotebookSessionCompartment.go.html to see an example of how to use ChangeNotebookSessionCompartment API.
 func (client DataScienceClient) ChangeNotebookSessionCompartment(ctx context.Context, request ChangeNotebookSessionCompartmentRequest) (response ChangeNotebookSessionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -867,10 +1110,6 @@ func (client DataScienceClient) changeNotebookSessionCompartment(ctx context.Con
 }
 
 // ChangePipelineCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangePipelineCompartment.go.html to see an example of how to use ChangePipelineCompartment API.
 func (client DataScienceClient) ChangePipelineCompartment(ctx context.Context, request ChangePipelineCompartmentRequest) (response ChangePipelineCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -924,10 +1163,6 @@ func (client DataScienceClient) changePipelineCompartment(ctx context.Context, r
 }
 
 // ChangePipelineRunCompartment Moves a resource into a different compartment. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangePipelineRunCompartment.go.html to see an example of how to use ChangePipelineRunCompartment API.
 func (client DataScienceClient) ChangePipelineRunCompartment(ctx context.Context, request ChangePipelineRunCompartmentRequest) (response ChangePipelineRunCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -981,10 +1216,6 @@ func (client DataScienceClient) changePipelineRunCompartment(ctx context.Context
 }
 
 // ChangeProjectCompartment Moves a project resource into a different compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartment API.
 func (client DataScienceClient) ChangeProjectCompartment(ctx context.Context, request ChangeProjectCompartmentRequest) (response ChangeProjectCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1042,11 +1273,66 @@ func (client DataScienceClient) changeProjectCompartment(ctx context.Context, re
 	return response, err
 }
 
+// CreateComputeTarget Creates a new compute target resource.
+// A default retry strategy applies to this operation CreateComputeTarget()
+func (client DataScienceClient) CreateComputeTarget(ctx context.Context, request CreateComputeTargetRequest) (response CreateComputeTargetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createComputeTarget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateComputeTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateComputeTargetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateComputeTargetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateComputeTargetResponse")
+	}
+	return
+}
+
+// createComputeTarget implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createComputeTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeTargets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateComputeTargetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTarget/CreateComputeTarget"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateComputeTarget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateDataSciencePrivateEndpoint Creates a Data Science private endpoint to be used by a Data Science resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateDataSciencePrivateEndpoint.go.html to see an example of how to use CreateDataSciencePrivateEndpoint API.
 // A default retry strategy applies to this operation CreateDataSciencePrivateEndpoint()
 func (client DataScienceClient) CreateDataSciencePrivateEndpoint(ctx context.Context, request CreateDataSciencePrivateEndpointRequest) (response CreateDataSciencePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1106,10 +1392,6 @@ func (client DataScienceClient) createDataSciencePrivateEndpoint(ctx context.Con
 }
 
 // CreateJob Creates a job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateJob.go.html to see an example of how to use CreateJob API.
 // A default retry strategy applies to this operation CreateJob()
 func (client DataScienceClient) CreateJob(ctx context.Context, request CreateJobRequest) (response CreateJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1169,10 +1451,6 @@ func (client DataScienceClient) createJob(ctx context.Context, request common.OC
 }
 
 // CreateJobArtifact Uploads a job artifact.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateJobArtifact.go.html to see an example of how to use CreateJobArtifact API.
 func (client DataScienceClient) CreateJobArtifact(ctx context.Context, request CreateJobArtifactRequest) (response CreateJobArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1241,10 +1519,6 @@ func (client DataScienceClient) createJobArtifact(ctx context.Context, request c
 }
 
 // CreateJobRun Creates a job run.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateJobRun.go.html to see an example of how to use CreateJobRun API.
 // A default retry strategy applies to this operation CreateJobRun()
 func (client DataScienceClient) CreateJobRun(ctx context.Context, request CreateJobRunRequest) (response CreateJobRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1303,11 +1577,184 @@ func (client DataScienceClient) createJobRun(ctx context.Context, request common
 	return response, err
 }
 
+// CreateMlApplication Creates a new MlApplication.
+// A default retry strategy applies to this operation CreateMlApplication()
+func (client DataScienceClient) CreateMlApplication(ctx context.Context, request CreateMlApplicationRequest) (response CreateMlApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMlApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMlApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMlApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMlApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMlApplicationResponse")
+	}
+	return
+}
+
+// createMlApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createMlApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMlApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplication/CreateMlApplication"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateMlApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateMlApplicationImplementation Creates a new MlApplicationImplementation.
+// A default retry strategy applies to this operation CreateMlApplicationImplementation()
+func (client DataScienceClient) CreateMlApplicationImplementation(ctx context.Context, request CreateMlApplicationImplementationRequest) (response CreateMlApplicationImplementationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMlApplicationImplementation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMlApplicationImplementationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMlApplicationImplementationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMlApplicationImplementationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMlApplicationImplementationResponse")
+	}
+	return
+}
+
+// createMlApplicationImplementation implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createMlApplicationImplementation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationImplementations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMlApplicationImplementationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/CreateMlApplicationImplementation"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateMlApplicationImplementation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateMlApplicationInstance Creates a new MlApplicationInstance.
+// A default retry strategy applies to this operation CreateMlApplicationInstance()
+func (client DataScienceClient) CreateMlApplicationInstance(ctx context.Context, request CreateMlApplicationInstanceRequest) (response CreateMlApplicationInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMlApplicationInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMlApplicationInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMlApplicationInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMlApplicationInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMlApplicationInstanceResponse")
+	}
+	return
+}
+
+// createMlApplicationInstance implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) createMlApplicationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMlApplicationInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstance/CreateMlApplicationInstance"
+		err = common.PostProcessServiceError(err, "DataScience", "CreateMlApplicationInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateModel Creates a new model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModel.go.html to see an example of how to use CreateModel API.
 // A default retry strategy applies to this operation CreateModel()
 func (client DataScienceClient) CreateModel(ctx context.Context, request CreateModelRequest) (response CreateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1367,10 +1814,6 @@ func (client DataScienceClient) createModel(ctx context.Context, request common.
 }
 
 // CreateModelArtifact Creates model artifact for specified model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelArtifact.go.html to see an example of how to use CreateModelArtifact API.
 // A default retry strategy applies to this operation CreateModelArtifact()
 func (client DataScienceClient) CreateModelArtifact(ctx context.Context, request CreateModelArtifactRequest) (response CreateModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1440,10 +1883,6 @@ func (client DataScienceClient) createModelArtifact(ctx context.Context, request
 }
 
 // CreateModelDeployment Creates a new model deployment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelDeployment.go.html to see an example of how to use CreateModelDeployment API.
 // A default retry strategy applies to this operation CreateModelDeployment()
 func (client DataScienceClient) CreateModelDeployment(ctx context.Context, request CreateModelDeploymentRequest) (response CreateModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1503,10 +1942,6 @@ func (client DataScienceClient) createModelDeployment(ctx context.Context, reque
 }
 
 // CreateModelProvenance Creates provenance information for the specified model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelProvenance.go.html to see an example of how to use CreateModelProvenance API.
 // A default retry strategy applies to this operation CreateModelProvenance()
 func (client DataScienceClient) CreateModelProvenance(ctx context.Context, request CreateModelProvenanceRequest) (response CreateModelProvenanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1566,10 +2001,6 @@ func (client DataScienceClient) createModelProvenance(ctx context.Context, reque
 }
 
 // CreateModelVersionSet Creates a new modelVersionSet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateModelVersionSet.go.html to see an example of how to use CreateModelVersionSet API.
 // A default retry strategy applies to this operation CreateModelVersionSet()
 func (client DataScienceClient) CreateModelVersionSet(ctx context.Context, request CreateModelVersionSetRequest) (response CreateModelVersionSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1629,10 +2060,6 @@ func (client DataScienceClient) createModelVersionSet(ctx context.Context, reque
 }
 
 // CreateNotebookSession Creates a new notebook session.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateNotebookSession.go.html to see an example of how to use CreateNotebookSession API.
 // A default retry strategy applies to this operation CreateNotebookSession()
 func (client DataScienceClient) CreateNotebookSession(ctx context.Context, request CreateNotebookSessionRequest) (response CreateNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1692,10 +2119,6 @@ func (client DataScienceClient) createNotebookSession(ctx context.Context, reque
 }
 
 // CreatePipeline Creates a new Pipeline.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreatePipeline.go.html to see an example of how to use CreatePipeline API.
 // A default retry strategy applies to this operation CreatePipeline()
 func (client DataScienceClient) CreatePipeline(ctx context.Context, request CreatePipelineRequest) (response CreatePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1755,10 +2178,6 @@ func (client DataScienceClient) createPipeline(ctx context.Context, request comm
 }
 
 // CreatePipelineRun Creates a new PipelineRun.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreatePipelineRun.go.html to see an example of how to use CreatePipelineRun API.
 // A default retry strategy applies to this operation CreatePipelineRun()
 func (client DataScienceClient) CreatePipelineRun(ctx context.Context, request CreatePipelineRunRequest) (response CreatePipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1818,10 +2237,6 @@ func (client DataScienceClient) createPipelineRun(ctx context.Context, request c
 }
 
 // CreateProject Creates a new project.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateProject.go.html to see an example of how to use CreateProject API.
 // A default retry strategy applies to this operation CreateProject()
 func (client DataScienceClient) CreateProject(ctx context.Context, request CreateProjectRequest) (response CreateProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1881,10 +2296,6 @@ func (client DataScienceClient) createProject(ctx context.Context, request commo
 }
 
 // CreateStepArtifact Upload the artifact for a step in the pipeline.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateStepArtifact.go.html to see an example of how to use CreateStepArtifact API.
 func (client DataScienceClient) CreateStepArtifact(ctx context.Context, request CreateStepArtifactRequest) (response CreateStepArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1953,10 +2364,6 @@ func (client DataScienceClient) createStepArtifact(ctx context.Context, request 
 }
 
 // DeactivateModel Deactivates the model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeactivateModel.go.html to see an example of how to use DeactivateModel API.
 // A default retry strategy applies to this operation DeactivateModel()
 func (client DataScienceClient) DeactivateModel(ctx context.Context, request DeactivateModelRequest) (response DeactivateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2011,10 +2418,6 @@ func (client DataScienceClient) deactivateModel(ctx context.Context, request com
 }
 
 // DeactivateModelDeployment Deactivates the model deployment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeactivateModelDeployment.go.html to see an example of how to use DeactivateModelDeployment API.
 func (client DataScienceClient) DeactivateModelDeployment(ctx context.Context, request DeactivateModelDeploymentRequest) (response DeactivateModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2068,10 +2471,6 @@ func (client DataScienceClient) deactivateModelDeployment(ctx context.Context, r
 }
 
 // DeactivateNotebookSession Deactivates the notebook session.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeactivateNotebookSession.go.html to see an example of how to use DeactivateNotebookSession API.
 func (client DataScienceClient) DeactivateNotebookSession(ctx context.Context, request DeactivateNotebookSessionRequest) (response DeactivateNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2124,11 +2523,61 @@ func (client DataScienceClient) deactivateNotebookSession(ctx context.Context, r
 	return response, err
 }
 
+// DeleteComputeTarget Deletes the specified compute target.
+// A default retry strategy applies to this operation DeleteComputeTarget()
+func (client DataScienceClient) DeleteComputeTarget(ctx context.Context, request DeleteComputeTargetRequest) (response DeleteComputeTargetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteComputeTarget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteComputeTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteComputeTargetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteComputeTargetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteComputeTargetResponse")
+	}
+	return
+}
+
+// deleteComputeTarget implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteComputeTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/computeTargets/{computeTargetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteComputeTargetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTarget/DeleteComputeTarget"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteComputeTarget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteDataSciencePrivateEndpoint Deletes a private endpoint using `privateEndpointId`.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteDataSciencePrivateEndpoint.go.html to see an example of how to use DeleteDataSciencePrivateEndpoint API.
 func (client DataScienceClient) DeleteDataSciencePrivateEndpoint(ctx context.Context, request DeleteDataSciencePrivateEndpointRequest) (response DeleteDataSciencePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2182,10 +2631,6 @@ func (client DataScienceClient) deleteDataSciencePrivateEndpoint(ctx context.Con
 }
 
 // DeleteJob Deletes a job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteJob.go.html to see an example of how to use DeleteJob API.
 // A default retry strategy applies to this operation DeleteJob()
 func (client DataScienceClient) DeleteJob(ctx context.Context, request DeleteJobRequest) (response DeleteJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2240,10 +2685,6 @@ func (client DataScienceClient) deleteJob(ctx context.Context, request common.OC
 }
 
 // DeleteJobRun Deletes a job run.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteJobRun.go.html to see an example of how to use DeleteJobRun API.
 // A default retry strategy applies to this operation DeleteJobRun()
 func (client DataScienceClient) DeleteJobRun(ctx context.Context, request DeleteJobRunRequest) (response DeleteJobRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2297,11 +2738,169 @@ func (client DataScienceClient) deleteJobRun(ctx context.Context, request common
 	return response, err
 }
 
+// DeleteMlApplication Deletes a MlApplication resource by identifier
+// A default retry strategy applies to this operation DeleteMlApplication()
+func (client DataScienceClient) DeleteMlApplication(ctx context.Context, request DeleteMlApplicationRequest) (response DeleteMlApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMlApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMlApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMlApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMlApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMlApplicationResponse")
+	}
+	return
+}
+
+// deleteMlApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteMlApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/mlApplications/{mlApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMlApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplication/DeleteMlApplication"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteMlApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteMlApplicationImplementation Deletes a MlApplicationImplementation resource by identifier
+// A default retry strategy applies to this operation DeleteMlApplicationImplementation()
+func (client DataScienceClient) DeleteMlApplicationImplementation(ctx context.Context, request DeleteMlApplicationImplementationRequest) (response DeleteMlApplicationImplementationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMlApplicationImplementation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMlApplicationImplementationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMlApplicationImplementationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMlApplicationImplementationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMlApplicationImplementationResponse")
+	}
+	return
+}
+
+// deleteMlApplicationImplementation implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteMlApplicationImplementation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/mlApplicationImplementations/{mlApplicationImplementationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMlApplicationImplementationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/DeleteMlApplicationImplementation"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteMlApplicationImplementation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteMlApplicationInstance Deletes a MlApplicationInstance resource by identifier
+// A default retry strategy applies to this operation DeleteMlApplicationInstance()
+func (client DataScienceClient) DeleteMlApplicationInstance(ctx context.Context, request DeleteMlApplicationInstanceRequest) (response DeleteMlApplicationInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMlApplicationInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMlApplicationInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMlApplicationInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMlApplicationInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMlApplicationInstanceResponse")
+	}
+	return
+}
+
+// deleteMlApplicationInstance implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) deleteMlApplicationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/mlApplicationInstances/{mlApplicationInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMlApplicationInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstance/DeleteMlApplicationInstance"
+		err = common.PostProcessServiceError(err, "DataScience", "DeleteMlApplicationInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteModel Deletes the specified model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteModel.go.html to see an example of how to use DeleteModel API.
 // A default retry strategy applies to this operation DeleteModel()
 func (client DataScienceClient) DeleteModel(ctx context.Context, request DeleteModelRequest) (response DeleteModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2356,10 +2955,6 @@ func (client DataScienceClient) deleteModel(ctx context.Context, request common.
 }
 
 // DeleteModelDeployment Deletes the specified model deployment. Any unsaved work in this model deployment is lost.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteModelDeployment.go.html to see an example of how to use DeleteModelDeployment API.
 // A default retry strategy applies to this operation DeleteModelDeployment()
 func (client DataScienceClient) DeleteModelDeployment(ctx context.Context, request DeleteModelDeploymentRequest) (response DeleteModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2414,10 +3009,6 @@ func (client DataScienceClient) deleteModelDeployment(ctx context.Context, reque
 }
 
 // DeleteModelVersionSet Deletes the specified modelVersionSet.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteModelVersionSet.go.html to see an example of how to use DeleteModelVersionSet API.
 // A default retry strategy applies to this operation DeleteModelVersionSet()
 func (client DataScienceClient) DeleteModelVersionSet(ctx context.Context, request DeleteModelVersionSetRequest) (response DeleteModelVersionSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2472,10 +3063,6 @@ func (client DataScienceClient) deleteModelVersionSet(ctx context.Context, reque
 }
 
 // DeleteNotebookSession Deletes the specified notebook session. Any unsaved work in this notebook session are lost.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteNotebookSession.go.html to see an example of how to use DeleteNotebookSession API.
 // A default retry strategy applies to this operation DeleteNotebookSession()
 func (client DataScienceClient) DeleteNotebookSession(ctx context.Context, request DeleteNotebookSessionRequest) (response DeleteNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2530,10 +3117,6 @@ func (client DataScienceClient) deleteNotebookSession(ctx context.Context, reque
 }
 
 // DeletePipeline Deletes a Pipeline resource by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeletePipeline.go.html to see an example of how to use DeletePipeline API.
 func (client DataScienceClient) DeletePipeline(ctx context.Context, request DeletePipelineRequest) (response DeletePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2587,10 +3170,6 @@ func (client DataScienceClient) deletePipeline(ctx context.Context, request comm
 }
 
 // DeletePipelineRun Deletes a PipelineRun resource by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeletePipelineRun.go.html to see an example of how to use DeletePipelineRun API.
 func (client DataScienceClient) DeletePipelineRun(ctx context.Context, request DeletePipelineRunRequest) (response DeletePipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2644,10 +3223,6 @@ func (client DataScienceClient) deletePipelineRun(ctx context.Context, request c
 }
 
 // DeleteProject Deletes the specified project. This operation fails unless all associated resources (notebook sessions or models) are in a DELETED state. You must delete all associated resources before deleting a project.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteProject.go.html to see an example of how to use DeleteProject API.
 // A default retry strategy applies to this operation DeleteProject()
 func (client DataScienceClient) DeleteProject(ctx context.Context, request DeleteProjectRequest) (response DeleteProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2701,11 +3276,125 @@ func (client DataScienceClient) deleteProject(ctx context.Context, request commo
 	return response, err
 }
 
+// DisableMlApplicationInstanceViewTrigger Disable trigger of given name for given ML Application Instance View flow
+// A default retry strategy applies to this operation DisableMlApplicationInstanceViewTrigger()
+func (client DataScienceClient) DisableMlApplicationInstanceViewTrigger(ctx context.Context, request DisableMlApplicationInstanceViewTriggerRequest) (response DisableMlApplicationInstanceViewTriggerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableMlApplicationInstanceViewTrigger, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableMlApplicationInstanceViewTriggerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableMlApplicationInstanceViewTriggerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableMlApplicationInstanceViewTriggerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableMlApplicationInstanceViewTriggerResponse")
+	}
+	return
+}
+
+// disableMlApplicationInstanceViewTrigger implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) disableMlApplicationInstanceViewTrigger(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/disableTrigger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableMlApplicationInstanceViewTriggerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/DisableMlApplicationInstanceViewTrigger"
+		err = common.PostProcessServiceError(err, "DataScience", "DisableMlApplicationInstanceViewTrigger", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableMlApplicationInstanceViewTrigger Enable trigger of given name for given ML Application Instance View flow
+// A default retry strategy applies to this operation EnableMlApplicationInstanceViewTrigger()
+func (client DataScienceClient) EnableMlApplicationInstanceViewTrigger(ctx context.Context, request EnableMlApplicationInstanceViewTriggerRequest) (response EnableMlApplicationInstanceViewTriggerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableMlApplicationInstanceViewTrigger, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableMlApplicationInstanceViewTriggerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableMlApplicationInstanceViewTriggerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableMlApplicationInstanceViewTriggerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableMlApplicationInstanceViewTriggerResponse")
+	}
+	return
+}
+
+// enableMlApplicationInstanceViewTrigger implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) enableMlApplicationInstanceViewTrigger(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/enableTrigger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableMlApplicationInstanceViewTriggerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/EnableMlApplicationInstanceViewTrigger"
+		err = common.PostProcessServiceError(err, "DataScience", "EnableMlApplicationInstanceViewTrigger", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ExportModelArtifact Export model artifact from source to the service bucket
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ExportModelArtifact.go.html to see an example of how to use ExportModelArtifact API.
 // A default retry strategy applies to this operation ExportModelArtifact()
 func (client DataScienceClient) ExportModelArtifact(ctx context.Context, request ExportModelArtifactRequest) (response ExportModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2764,11 +3453,61 @@ func (client DataScienceClient) exportModelArtifact(ctx context.Context, request
 	return response, err
 }
 
+// GetComputeTarget Retrieves the compute target for the specified `computeTargetId`.
+// A default retry strategy applies to this operation GetComputeTarget()
+func (client DataScienceClient) GetComputeTarget(ctx context.Context, request GetComputeTargetRequest) (response GetComputeTargetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getComputeTarget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComputeTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComputeTargetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComputeTargetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComputeTargetResponse")
+	}
+	return
+}
+
+// getComputeTarget implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getComputeTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeTargets/{computeTargetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetComputeTargetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTarget/GetComputeTarget"
+		err = common.PostProcessServiceError(err, "DataScience", "GetComputeTarget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDataSciencePrivateEndpoint Retrieves an private endpoint using a `privateEndpointId`.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetDataSciencePrivateEndpoint.go.html to see an example of how to use GetDataSciencePrivateEndpoint API.
 // A default retry strategy applies to this operation GetDataSciencePrivateEndpoint()
 func (client DataScienceClient) GetDataSciencePrivateEndpoint(ctx context.Context, request GetDataSciencePrivateEndpointRequest) (response GetDataSciencePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2823,10 +3562,6 @@ func (client DataScienceClient) getDataSciencePrivateEndpoint(ctx context.Contex
 }
 
 // GetJob Gets a job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetJob.go.html to see an example of how to use GetJob API.
 // A default retry strategy applies to this operation GetJob()
 func (client DataScienceClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2881,10 +3616,6 @@ func (client DataScienceClient) getJob(ctx context.Context, request common.OCIRe
 }
 
 // GetJobArtifactContent Downloads job artifact content for specified job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetJobArtifactContent.go.html to see an example of how to use GetJobArtifactContent API.
 // A default retry strategy applies to this operation GetJobArtifactContent()
 func (client DataScienceClient) GetJobArtifactContent(ctx context.Context, request GetJobArtifactContentRequest) (response GetJobArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2938,10 +3669,6 @@ func (client DataScienceClient) getJobArtifactContent(ctx context.Context, reque
 }
 
 // GetJobRun Gets a job run.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetJobRun.go.html to see an example of how to use GetJobRun API.
 // A default retry strategy applies to this operation GetJobRun()
 func (client DataScienceClient) GetJobRun(ctx context.Context, request GetJobRunRequest) (response GetJobRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2995,11 +3722,383 @@ func (client DataScienceClient) getJobRun(ctx context.Context, request common.OC
 	return response, err
 }
 
+// GetMlApplication Gets a MlApplication by identifier
+// A default retry strategy applies to this operation GetMlApplication()
+func (client DataScienceClient) GetMlApplication(ctx context.Context, request GetMlApplicationRequest) (response GetMlApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationResponse")
+	}
+	return
+}
+
+// getMlApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplications/{mlApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplication/GetMlApplication"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationHistoricalPackageContent Retrieves ML Application package for MlApplicationImplementationVersion with given id.
+// A default retry strategy applies to this operation GetMlApplicationHistoricalPackageContent()
+func (client DataScienceClient) GetMlApplicationHistoricalPackageContent(ctx context.Context, request GetMlApplicationHistoricalPackageContentRequest) (response GetMlApplicationHistoricalPackageContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationHistoricalPackageContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationHistoricalPackageContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationHistoricalPackageContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationHistoricalPackageContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationHistoricalPackageContentResponse")
+	}
+	return
+}
+
+// getMlApplicationHistoricalPackageContent implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationHistoricalPackageContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementationVersions/{mlApplicationImplementationVersionId}/mlApplicationHistoricalPackage/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationHistoricalPackageContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersion/GetMlApplicationHistoricalPackageContent"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationHistoricalPackageContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationImplementation Gets a MlApplicationImplementation by identifier
+// A default retry strategy applies to this operation GetMlApplicationImplementation()
+func (client DataScienceClient) GetMlApplicationImplementation(ctx context.Context, request GetMlApplicationImplementationRequest) (response GetMlApplicationImplementationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationImplementation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationImplementationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationImplementationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationImplementationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationImplementationResponse")
+	}
+	return
+}
+
+// getMlApplicationImplementation implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationImplementation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementations/{mlApplicationImplementationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationImplementationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/GetMlApplicationImplementation"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationImplementation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationImplementationVersion Gets a MlApplicationImplementationVersion by identifier
+// A default retry strategy applies to this operation GetMlApplicationImplementationVersion()
+func (client DataScienceClient) GetMlApplicationImplementationVersion(ctx context.Context, request GetMlApplicationImplementationVersionRequest) (response GetMlApplicationImplementationVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationImplementationVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationImplementationVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationImplementationVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationImplementationVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationImplementationVersionResponse")
+	}
+	return
+}
+
+// getMlApplicationImplementationVersion implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationImplementationVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementationVersions/{mlApplicationImplementationVersionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationImplementationVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersion/GetMlApplicationImplementationVersion"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationImplementationVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationInstance Gets a MlApplicationInstance by identifier
+// A default retry strategy applies to this operation GetMlApplicationInstance()
+func (client DataScienceClient) GetMlApplicationInstance(ctx context.Context, request GetMlApplicationInstanceRequest) (response GetMlApplicationInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationInstanceResponse")
+	}
+	return
+}
+
+// getMlApplicationInstance implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationInstances/{mlApplicationInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstance/GetMlApplicationInstance"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationInstanceView Gets a MlApplicationInstanceView by identifier
+// A default retry strategy applies to this operation GetMlApplicationInstanceView()
+func (client DataScienceClient) GetMlApplicationInstanceView(ctx context.Context, request GetMlApplicationInstanceViewRequest) (response GetMlApplicationInstanceViewResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationInstanceView, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationInstanceViewResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationInstanceViewResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationInstanceViewResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationInstanceViewResponse")
+	}
+	return
+}
+
+// getMlApplicationInstanceView implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationInstanceView(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationInstanceViewResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/GetMlApplicationInstanceView"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationInstanceView", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMlApplicationPackageContent Retrieves last ML Application package uploaded for given ML Application Implementation
+// A default retry strategy applies to this operation GetMlApplicationPackageContent()
+func (client DataScienceClient) GetMlApplicationPackageContent(ctx context.Context, request GetMlApplicationPackageContentRequest) (response GetMlApplicationPackageContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMlApplicationPackageContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMlApplicationPackageContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMlApplicationPackageContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMlApplicationPackageContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMlApplicationPackageContentResponse")
+	}
+	return
+}
+
+// getMlApplicationPackageContent implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) getMlApplicationPackageContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementations/{mlApplicationImplementationId}/mlApplicationPackage/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMlApplicationPackageContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/GetMlApplicationPackageContent"
+		err = common.PostProcessServiceError(err, "DataScience", "GetMlApplicationPackageContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetModel Gets the specified model's information.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModel.go.html to see an example of how to use GetModel API.
 // A default retry strategy applies to this operation GetModel()
 func (client DataScienceClient) GetModel(ctx context.Context, request GetModelRequest) (response GetModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3054,10 +4153,6 @@ func (client DataScienceClient) getModel(ctx context.Context, request common.OCI
 }
 
 // GetModelArtifactContent Downloads model artifact content for specified model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelArtifactContent.go.html to see an example of how to use GetModelArtifactContent API.
 // A default retry strategy applies to this operation GetModelArtifactContent()
 func (client DataScienceClient) GetModelArtifactContent(ctx context.Context, request GetModelArtifactContentRequest) (response GetModelArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3111,10 +4206,6 @@ func (client DataScienceClient) getModelArtifactContent(ctx context.Context, req
 }
 
 // GetModelDeployment Retrieves the model deployment for the specified `modelDeploymentId`.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelDeployment.go.html to see an example of how to use GetModelDeployment API.
 // A default retry strategy applies to this operation GetModelDeployment()
 func (client DataScienceClient) GetModelDeployment(ctx context.Context, request GetModelDeploymentRequest) (response GetModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3169,10 +4260,6 @@ func (client DataScienceClient) getModelDeployment(ctx context.Context, request 
 }
 
 // GetModelProvenance Gets provenance information for specified model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelProvenance.go.html to see an example of how to use GetModelProvenance API.
 // A default retry strategy applies to this operation GetModelProvenance()
 func (client DataScienceClient) GetModelProvenance(ctx context.Context, request GetModelProvenanceRequest) (response GetModelProvenanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3227,10 +4314,6 @@ func (client DataScienceClient) getModelProvenance(ctx context.Context, request 
 }
 
 // GetModelVersionSet Gets the specified model version set information.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetModelVersionSet.go.html to see an example of how to use GetModelVersionSet API.
 // A default retry strategy applies to this operation GetModelVersionSet()
 func (client DataScienceClient) GetModelVersionSet(ctx context.Context, request GetModelVersionSetRequest) (response GetModelVersionSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3285,10 +4368,6 @@ func (client DataScienceClient) getModelVersionSet(ctx context.Context, request 
 }
 
 // GetNotebookSession Gets the specified notebook session's information.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetNotebookSession.go.html to see an example of how to use GetNotebookSession API.
 // A default retry strategy applies to this operation GetNotebookSession()
 func (client DataScienceClient) GetNotebookSession(ctx context.Context, request GetNotebookSessionRequest) (response GetNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3343,10 +4422,6 @@ func (client DataScienceClient) getNotebookSession(ctx context.Context, request 
 }
 
 // GetPipeline Gets a Pipeline by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetPipeline.go.html to see an example of how to use GetPipeline API.
 // A default retry strategy applies to this operation GetPipeline()
 func (client DataScienceClient) GetPipeline(ctx context.Context, request GetPipelineRequest) (response GetPipelineResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3401,10 +4476,6 @@ func (client DataScienceClient) getPipeline(ctx context.Context, request common.
 }
 
 // GetPipelineRun Gets a PipelineRun by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetPipelineRun.go.html to see an example of how to use GetPipelineRun API.
 // A default retry strategy applies to this operation GetPipelineRun()
 func (client DataScienceClient) GetPipelineRun(ctx context.Context, request GetPipelineRunRequest) (response GetPipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3459,10 +4530,6 @@ func (client DataScienceClient) getPipelineRun(ctx context.Context, request comm
 }
 
 // GetProject Gets the specified project's information.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetProject.go.html to see an example of how to use GetProject API.
 // A default retry strategy applies to this operation GetProject()
 func (client DataScienceClient) GetProject(ctx context.Context, request GetProjectRequest) (response GetProjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3517,10 +4584,6 @@ func (client DataScienceClient) getProject(ctx context.Context, request common.O
 }
 
 // GetStepArtifactContent Download the artifact for a step in the pipeline.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetStepArtifactContent.go.html to see an example of how to use GetStepArtifactContent API.
 // A default retry strategy applies to this operation GetStepArtifactContent()
 func (client DataScienceClient) GetStepArtifactContent(ctx context.Context, request GetStepArtifactContentRequest) (response GetStepArtifactContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3584,10 +4647,6 @@ func (client DataScienceClient) getStepArtifactContent(ctx context.Context, requ
 }
 
 // GetWorkRequest Gets the specified work request's information.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client DataScienceClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3642,10 +4701,6 @@ func (client DataScienceClient) getWorkRequest(ctx context.Context, request comm
 }
 
 // HeadJobArtifact Gets job artifact metadata.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/HeadJobArtifact.go.html to see an example of how to use HeadJobArtifact API.
 // A default retry strategy applies to this operation HeadJobArtifact()
 func (client DataScienceClient) HeadJobArtifact(ctx context.Context, request HeadJobArtifactRequest) (response HeadJobArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3700,10 +4755,6 @@ func (client DataScienceClient) headJobArtifact(ctx context.Context, request com
 }
 
 // HeadModelArtifact Gets model artifact metadata for specified model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/HeadModelArtifact.go.html to see an example of how to use HeadModelArtifact API.
 // A default retry strategy applies to this operation HeadModelArtifact()
 func (client DataScienceClient) HeadModelArtifact(ctx context.Context, request HeadModelArtifactRequest) (response HeadModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3758,10 +4809,6 @@ func (client DataScienceClient) headModelArtifact(ctx context.Context, request c
 }
 
 // HeadStepArtifact Get the artifact metadata for a step in the pipeline.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/HeadStepArtifact.go.html to see an example of how to use HeadStepArtifact API.
 // A default retry strategy applies to this operation HeadStepArtifact()
 func (client DataScienceClient) HeadStepArtifact(ctx context.Context, request HeadStepArtifactRequest) (response HeadStepArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3816,10 +4863,6 @@ func (client DataScienceClient) headStepArtifact(ctx context.Context, request co
 }
 
 // ImportModelArtifact Import model artifact from service bucket
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ImportModelArtifact.go.html to see an example of how to use ImportModelArtifact API.
 func (client DataScienceClient) ImportModelArtifact(ctx context.Context, request ImportModelArtifactRequest) (response ImportModelArtifactResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3872,11 +4915,61 @@ func (client DataScienceClient) importModelArtifact(ctx context.Context, request
 	return response, err
 }
 
+// ListComputeTargets List all compute targets in the specified compartment. Supports queries on various other parameters in the query alongside compartmentId (must be included).
+// A default retry strategy applies to this operation ListComputeTargets()
+func (client DataScienceClient) ListComputeTargets(ctx context.Context, request ListComputeTargetsRequest) (response ListComputeTargetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeTargets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeTargetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeTargetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeTargetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeTargetsResponse")
+	}
+	return
+}
+
+// listComputeTargets implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listComputeTargets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeTargets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListComputeTargetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTargetSummary/ListComputeTargets"
+		err = common.PostProcessServiceError(err, "DataScience", "ListComputeTargets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDataSciencePrivateEndpoints Lists all Data Science private endpoints in the specified compartment. The query must include compartmentId. The query can also include one other parameter. If the query doesn't include compartmentId, or includes compartmentId with two or more other parameters, then an error is returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListDataSciencePrivateEndpoints.go.html to see an example of how to use ListDataSciencePrivateEndpoints API.
 // A default retry strategy applies to this operation ListDataSciencePrivateEndpoints()
 func (client DataScienceClient) ListDataSciencePrivateEndpoints(ctx context.Context, request ListDataSciencePrivateEndpointsRequest) (response ListDataSciencePrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3931,10 +5024,6 @@ func (client DataScienceClient) listDataSciencePrivateEndpoints(ctx context.Cont
 }
 
 // ListFastLaunchJobConfigs List fast launch capable job configs in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListFastLaunchJobConfigs.go.html to see an example of how to use ListFastLaunchJobConfigs API.
 // A default retry strategy applies to this operation ListFastLaunchJobConfigs()
 func (client DataScienceClient) ListFastLaunchJobConfigs(ctx context.Context, request ListFastLaunchJobConfigsRequest) (response ListFastLaunchJobConfigsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3989,10 +5078,6 @@ func (client DataScienceClient) listFastLaunchJobConfigs(ctx context.Context, re
 }
 
 // ListJobRuns List out job runs.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListJobRuns.go.html to see an example of how to use ListJobRuns API.
 // A default retry strategy applies to this operation ListJobRuns()
 func (client DataScienceClient) ListJobRuns(ctx context.Context, request ListJobRunsRequest) (response ListJobRunsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4047,10 +5132,6 @@ func (client DataScienceClient) listJobRuns(ctx context.Context, request common.
 }
 
 // ListJobShapes List job shapes available in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListJobShapes.go.html to see an example of how to use ListJobShapes API.
 // A default retry strategy applies to this operation ListJobShapes()
 func (client DataScienceClient) ListJobShapes(ctx context.Context, request ListJobShapesRequest) (response ListJobShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4105,10 +5186,6 @@ func (client DataScienceClient) listJobShapes(ctx context.Context, request commo
 }
 
 // ListJobs List jobs in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListJobs.go.html to see an example of how to use ListJobs API.
 // A default retry strategy applies to this operation ListJobs()
 func (client DataScienceClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4162,11 +5239,277 @@ func (client DataScienceClient) listJobs(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// ListMlApplicationImplementationVersions Returns a list of MlApplicationImplementationVersions.
+// A default retry strategy applies to this operation ListMlApplicationImplementationVersions()
+func (client DataScienceClient) ListMlApplicationImplementationVersions(ctx context.Context, request ListMlApplicationImplementationVersionsRequest) (response ListMlApplicationImplementationVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMlApplicationImplementationVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMlApplicationImplementationVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMlApplicationImplementationVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMlApplicationImplementationVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMlApplicationImplementationVersionsResponse")
+	}
+	return
+}
+
+// listMlApplicationImplementationVersions implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listMlApplicationImplementationVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementationVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMlApplicationImplementationVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersionSummary/ListMlApplicationImplementationVersions"
+		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationImplementationVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMlApplicationImplementations Returns a list of MlApplicationImplementations.
+// A default retry strategy applies to this operation ListMlApplicationImplementations()
+func (client DataScienceClient) ListMlApplicationImplementations(ctx context.Context, request ListMlApplicationImplementationsRequest) (response ListMlApplicationImplementationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMlApplicationImplementations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMlApplicationImplementationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMlApplicationImplementationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMlApplicationImplementationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMlApplicationImplementationsResponse")
+	}
+	return
+}
+
+// listMlApplicationImplementations implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listMlApplicationImplementations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationImplementations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMlApplicationImplementationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationSummary/ListMlApplicationImplementations"
+		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationImplementations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMlApplicationInstanceViews Returns a list of MlApplicationInstanceViews.
+// A default retry strategy applies to this operation ListMlApplicationInstanceViews()
+func (client DataScienceClient) ListMlApplicationInstanceViews(ctx context.Context, request ListMlApplicationInstanceViewsRequest) (response ListMlApplicationInstanceViewsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMlApplicationInstanceViews, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMlApplicationInstanceViewsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMlApplicationInstanceViewsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMlApplicationInstanceViewsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMlApplicationInstanceViewsResponse")
+	}
+	return
+}
+
+// listMlApplicationInstanceViews implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listMlApplicationInstanceViews(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationInstanceViews", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMlApplicationInstanceViewsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceViewSummary/ListMlApplicationInstanceViews"
+		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationInstanceViews", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMlApplicationInstances Returns a list of MlApplicationsInstances.
+// A default retry strategy applies to this operation ListMlApplicationInstances()
+func (client DataScienceClient) ListMlApplicationInstances(ctx context.Context, request ListMlApplicationInstancesRequest) (response ListMlApplicationInstancesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMlApplicationInstances, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMlApplicationInstancesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMlApplicationInstancesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMlApplicationInstancesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMlApplicationInstancesResponse")
+	}
+	return
+}
+
+// listMlApplicationInstances implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listMlApplicationInstances(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplicationInstances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMlApplicationInstancesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceSummary/ListMlApplicationInstances"
+		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationInstances", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMlApplications Returns a list of MlApplications.
+// A default retry strategy applies to this operation ListMlApplications()
+func (client DataScienceClient) ListMlApplications(ctx context.Context, request ListMlApplicationsRequest) (response ListMlApplicationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMlApplications, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMlApplicationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMlApplicationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMlApplicationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMlApplicationsResponse")
+	}
+	return
+}
+
+// listMlApplications implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listMlApplications(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/mlApplications", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMlApplicationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationSummary/ListMlApplications"
+		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplications", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListModelDeploymentShapes Lists the valid model deployment shapes.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModelDeploymentShapes.go.html to see an example of how to use ListModelDeploymentShapes API.
 // A default retry strategy applies to this operation ListModelDeploymentShapes()
 func (client DataScienceClient) ListModelDeploymentShapes(ctx context.Context, request ListModelDeploymentShapesRequest) (response ListModelDeploymentShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4221,10 +5564,6 @@ func (client DataScienceClient) listModelDeploymentShapes(ctx context.Context, r
 }
 
 // ListModelDeployments Lists all model deployments in the specified compartment. Only one parameter other than compartmentId may also be included in a query. The query must include compartmentId. If the query does not include compartmentId, or includes compartmentId but two or more other parameters an error is returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModelDeployments.go.html to see an example of how to use ListModelDeployments API.
 // A default retry strategy applies to this operation ListModelDeployments()
 func (client DataScienceClient) ListModelDeployments(ctx context.Context, request ListModelDeploymentsRequest) (response ListModelDeploymentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4279,10 +5618,6 @@ func (client DataScienceClient) listModelDeployments(ctx context.Context, reques
 }
 
 // ListModelVersionSets Lists model version sets in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModelVersionSets.go.html to see an example of how to use ListModelVersionSets API.
 // A default retry strategy applies to this operation ListModelVersionSets()
 func (client DataScienceClient) ListModelVersionSets(ctx context.Context, request ListModelVersionSetsRequest) (response ListModelVersionSetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4337,10 +5672,6 @@ func (client DataScienceClient) listModelVersionSets(ctx context.Context, reques
 }
 
 // ListModels Lists models in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListModels.go.html to see an example of how to use ListModels API.
 // A default retry strategy applies to this operation ListModels()
 func (client DataScienceClient) ListModels(ctx context.Context, request ListModelsRequest) (response ListModelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4395,10 +5726,6 @@ func (client DataScienceClient) listModels(ctx context.Context, request common.O
 }
 
 // ListNotebookSessionShapes Lists the valid notebook session shapes.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListNotebookSessionShapes.go.html to see an example of how to use ListNotebookSessionShapes API.
 // A default retry strategy applies to this operation ListNotebookSessionShapes()
 func (client DataScienceClient) ListNotebookSessionShapes(ctx context.Context, request ListNotebookSessionShapesRequest) (response ListNotebookSessionShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4453,10 +5780,6 @@ func (client DataScienceClient) listNotebookSessionShapes(ctx context.Context, r
 }
 
 // ListNotebookSessions Lists the notebook sessions in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListNotebookSessions.go.html to see an example of how to use ListNotebookSessions API.
 // A default retry strategy applies to this operation ListNotebookSessions()
 func (client DataScienceClient) ListNotebookSessions(ctx context.Context, request ListNotebookSessionsRequest) (response ListNotebookSessionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4511,10 +5834,6 @@ func (client DataScienceClient) listNotebookSessions(ctx context.Context, reques
 }
 
 // ListPipelineRuns Returns a list of PipelineRuns.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListPipelineRuns.go.html to see an example of how to use ListPipelineRuns API.
 // A default retry strategy applies to this operation ListPipelineRuns()
 func (client DataScienceClient) ListPipelineRuns(ctx context.Context, request ListPipelineRunsRequest) (response ListPipelineRunsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4569,10 +5888,6 @@ func (client DataScienceClient) listPipelineRuns(ctx context.Context, request co
 }
 
 // ListPipelines Returns a list of Pipelines.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListPipelines.go.html to see an example of how to use ListPipelines API.
 // A default retry strategy applies to this operation ListPipelines()
 func (client DataScienceClient) ListPipelines(ctx context.Context, request ListPipelinesRequest) (response ListPipelinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4627,10 +5942,6 @@ func (client DataScienceClient) listPipelines(ctx context.Context, request commo
 }
 
 // ListProjects Lists projects in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListProjects.go.html to see an example of how to use ListProjects API.
 // A default retry strategy applies to this operation ListProjects()
 func (client DataScienceClient) ListProjects(ctx context.Context, request ListProjectsRequest) (response ListProjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4685,10 +5996,6 @@ func (client DataScienceClient) listProjects(ctx context.Context, request common
 }
 
 // ListWorkRequestErrors Lists work request errors for the specified work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client DataScienceClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4743,10 +6050,6 @@ func (client DataScienceClient) listWorkRequestErrors(ctx context.Context, reque
 }
 
 // ListWorkRequestLogs Lists work request logs for the specified work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client DataScienceClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4801,10 +6104,6 @@ func (client DataScienceClient) listWorkRequestLogs(ctx context.Context, request
 }
 
 // ListWorkRequests Lists work requests in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client DataScienceClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4858,13 +6157,300 @@ func (client DataScienceClient) listWorkRequests(ctx context.Context, request co
 	return response, err
 }
 
+// PutMlApplicationPackage Upload ML Application Package
+// A default retry strategy applies to this operation PutMlApplicationPackage()
+func (client DataScienceClient) PutMlApplicationPackage(ctx context.Context, request PutMlApplicationPackageRequest) (response PutMlApplicationPackageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.putMlApplicationPackage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PutMlApplicationPackageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PutMlApplicationPackageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PutMlApplicationPackageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PutMlApplicationPackageResponse")
+	}
+	return
+}
+
+// putMlApplicationPackage implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) putMlApplicationPackage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplicationImplementations/{mlApplicationImplementationId}/mlApplicationPackage", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PutMlApplicationPackageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/PutMlApplicationPackage"
+		err = common.PostProcessServiceError(err, "DataScience", "PutMlApplicationPackage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RecoverMlApplicationInstanceView Provider can initiate recovery of the resource only if MlApplicationInstanceView is in one of the recoverable sub-states (RECOVERABLE_PROVIDER_ISSUE, RECOVERABLE_SERVICE_ISSUE).
+// Provider should investigate (using MlApplicationInstanceView lifecycleDetails, relevant logs and metrics) and fix the issue before the recovery is initiated.
+// A default retry strategy applies to this operation RecoverMlApplicationInstanceView()
+func (client DataScienceClient) RecoverMlApplicationInstanceView(ctx context.Context, request RecoverMlApplicationInstanceViewRequest) (response RecoverMlApplicationInstanceViewResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.recoverMlApplicationInstanceView, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RecoverMlApplicationInstanceViewResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RecoverMlApplicationInstanceViewResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RecoverMlApplicationInstanceViewResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RecoverMlApplicationInstanceViewResponse")
+	}
+	return
+}
+
+// recoverMlApplicationInstanceView implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) recoverMlApplicationInstanceView(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/recover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RecoverMlApplicationInstanceViewResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/RecoverMlApplicationInstanceView"
+		err = common.PostProcessServiceError(err, "DataScience", "RecoverMlApplicationInstanceView", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// TriggerMlApplicationInstanceFlow Trigger ML Application Instance flow if possible
+// A default retry strategy applies to this operation TriggerMlApplicationInstanceFlow()
+func (client DataScienceClient) TriggerMlApplicationInstanceFlow(ctx context.Context, request TriggerMlApplicationInstanceFlowRequest) (response TriggerMlApplicationInstanceFlowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.triggerMlApplicationInstanceFlow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TriggerMlApplicationInstanceFlowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TriggerMlApplicationInstanceFlowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TriggerMlApplicationInstanceFlowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TriggerMlApplicationInstanceFlowResponse")
+	}
+	return
+}
+
+// triggerMlApplicationInstanceFlow implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) triggerMlApplicationInstanceFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstances/{mlApplicationInstanceId}/actions/trigger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TriggerMlApplicationInstanceFlowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstance/TriggerMlApplicationInstanceFlow"
+		err = common.PostProcessServiceError(err, "DataScience", "TriggerMlApplicationInstanceFlow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// TriggerMlApplicationInstanceViewFlow Trigger ML Application Instance View flow if possible
+// A default retry strategy applies to this operation TriggerMlApplicationInstanceViewFlow()
+func (client DataScienceClient) TriggerMlApplicationInstanceViewFlow(ctx context.Context, request TriggerMlApplicationInstanceViewFlowRequest) (response TriggerMlApplicationInstanceViewFlowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.triggerMlApplicationInstanceViewFlow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TriggerMlApplicationInstanceViewFlowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TriggerMlApplicationInstanceViewFlowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TriggerMlApplicationInstanceViewFlowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TriggerMlApplicationInstanceViewFlowResponse")
+	}
+	return
+}
+
+// triggerMlApplicationInstanceViewFlow implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) triggerMlApplicationInstanceViewFlow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}/actions/trigger", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TriggerMlApplicationInstanceViewFlowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/TriggerMlApplicationInstanceViewFlow"
+		err = common.PostProcessServiceError(err, "DataScience", "TriggerMlApplicationInstanceViewFlow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateComputeTarget Updates the compute target.
+// A default retry strategy applies to this operation UpdateComputeTarget()
+func (client DataScienceClient) UpdateComputeTarget(ctx context.Context, request UpdateComputeTargetRequest) (response UpdateComputeTargetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateComputeTarget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateComputeTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateComputeTargetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateComputeTargetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateComputeTargetResponse")
+	}
+	return
+}
+
+// updateComputeTarget implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateComputeTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeTargets/{computeTargetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateComputeTargetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ComputeTarget/UpdateComputeTarget"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateComputeTarget", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateDataSciencePrivateEndpoint Updates a private endpoint using a `privateEndpointId`.  If changes to a private endpoint match
 // a previously defined private endpoint, then a 409 status code is returned.  This indicates
 // that a conflict has been detected.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateDataSciencePrivateEndpoint.go.html to see an example of how to use UpdateDataSciencePrivateEndpoint API.
 func (client DataScienceClient) UpdateDataSciencePrivateEndpoint(ctx context.Context, request UpdateDataSciencePrivateEndpointRequest) (response UpdateDataSciencePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4918,10 +6504,6 @@ func (client DataScienceClient) updateDataSciencePrivateEndpoint(ctx context.Con
 }
 
 // UpdateJob Updates a job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateJob.go.html to see an example of how to use UpdateJob API.
 // A default retry strategy applies to this operation UpdateJob()
 func (client DataScienceClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4976,10 +6558,6 @@ func (client DataScienceClient) updateJob(ctx context.Context, request common.OC
 }
 
 // UpdateJobRun Updates a job run.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateJobRun.go.html to see an example of how to use UpdateJobRun API.
 // A default retry strategy applies to this operation UpdateJobRun()
 func (client DataScienceClient) UpdateJobRun(ctx context.Context, request UpdateJobRunRequest) (response UpdateJobRunResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5033,11 +6611,276 @@ func (client DataScienceClient) updateJobRun(ctx context.Context, request common
 	return response, err
 }
 
+// UpdateMlApplication Updates the MlApplication
+// A default retry strategy applies to this operation UpdateMlApplication()
+func (client DataScienceClient) UpdateMlApplication(ctx context.Context, request UpdateMlApplicationRequest) (response UpdateMlApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMlApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMlApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMlApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMlApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMlApplicationResponse")
+	}
+	return
+}
+
+// updateMlApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateMlApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplications/{mlApplicationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMlApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplication/UpdateMlApplication"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateMlApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMlApplicationImplementation Updates the MlApplicationImplementation
+// A default retry strategy applies to this operation UpdateMlApplicationImplementation()
+func (client DataScienceClient) UpdateMlApplicationImplementation(ctx context.Context, request UpdateMlApplicationImplementationRequest) (response UpdateMlApplicationImplementationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMlApplicationImplementation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMlApplicationImplementationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMlApplicationImplementationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMlApplicationImplementationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMlApplicationImplementationResponse")
+	}
+	return
+}
+
+// updateMlApplicationImplementation implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateMlApplicationImplementation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplicationImplementations/{mlApplicationImplementationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMlApplicationImplementationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/UpdateMlApplicationImplementation"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateMlApplicationImplementation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMlApplicationImplementationVersion Updates the MlApplicationImplementationVersion
+// A default retry strategy applies to this operation UpdateMlApplicationImplementationVersion()
+func (client DataScienceClient) UpdateMlApplicationImplementationVersion(ctx context.Context, request UpdateMlApplicationImplementationVersionRequest) (response UpdateMlApplicationImplementationVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMlApplicationImplementationVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMlApplicationImplementationVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMlApplicationImplementationVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMlApplicationImplementationVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMlApplicationImplementationVersionResponse")
+	}
+	return
+}
+
+// updateMlApplicationImplementationVersion implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateMlApplicationImplementationVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplicationImplementationVersions/{mlApplicationImplementationVersionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMlApplicationImplementationVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersion/UpdateMlApplicationImplementationVersion"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateMlApplicationImplementationVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMlApplicationInstance Updates the MlApplicationInstance
+// A default retry strategy applies to this operation UpdateMlApplicationInstance()
+func (client DataScienceClient) UpdateMlApplicationInstance(ctx context.Context, request UpdateMlApplicationInstanceRequest) (response UpdateMlApplicationInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMlApplicationInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMlApplicationInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMlApplicationInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMlApplicationInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMlApplicationInstanceResponse")
+	}
+	return
+}
+
+// updateMlApplicationInstance implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateMlApplicationInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplicationInstances/{mlApplicationInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMlApplicationInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstance/UpdateMlApplicationInstance"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateMlApplicationInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateMlApplicationInstanceView Updates the MlApplicationInstanceView
+func (client DataScienceClient) UpdateMlApplicationInstanceView(ctx context.Context, request UpdateMlApplicationInstanceViewRequest) (response UpdateMlApplicationInstanceViewResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMlApplicationInstanceView, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMlApplicationInstanceViewResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMlApplicationInstanceViewResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMlApplicationInstanceViewResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMlApplicationInstanceViewResponse")
+	}
+	return
+}
+
+// updateMlApplicationInstanceView implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) updateMlApplicationInstanceView(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/mlApplicationInstanceViews/{mlApplicationInstanceViewId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMlApplicationInstanceViewResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/UpdateMlApplicationInstanceView"
+		err = common.PostProcessServiceError(err, "DataScience", "UpdateMlApplicationInstanceView", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateModel Updates the properties of a model. You can update the `displayName`, `description`, `freeformTags`, and `definedTags` properties.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModel.go.html to see an example of how to use UpdateModel API.
 // A default retry strategy applies to this operation UpdateModel()
 func (client DataScienceClient) UpdateModel(ctx context.Context, request UpdateModelRequest) (response UpdateModelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5095,10 +6938,6 @@ func (client DataScienceClient) updateModel(ctx context.Context, request common.
 // when the model deployment's lifecycle state is ACTIVE or NEEDS_ATTENTION i.e `instanceShapeName`, `instanceCount` and `modelId`, separately `loadBalancerShape` or `CategoryLogDetails`
 // can also be updated independently. All of the fields can be updated when the deployment is in the INACTIVE lifecycle state. Changes will take effect the next time the model
 // deployment is activated.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModelDeployment.go.html to see an example of how to use UpdateModelDeployment API.
 // A default retry strategy applies to this operation UpdateModelDeployment()
 func (client DataScienceClient) UpdateModelDeployment(ctx context.Context, request UpdateModelDeploymentRequest) (response UpdateModelDeploymentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5153,10 +6992,6 @@ func (client DataScienceClient) updateModelDeployment(ctx context.Context, reque
 }
 
 // UpdateModelProvenance Updates the provenance information for the specified model.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModelProvenance.go.html to see an example of how to use UpdateModelProvenance API.
 // A default retry strategy applies to this operation UpdateModelProvenance()
 func (client DataScienceClient) UpdateModelProvenance(ctx context.Context, request UpdateModelProvenanceRequest) (response UpdateModelProvenanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5211,10 +7046,6 @@ func (client DataScienceClient) updateModelProvenance(ctx context.Context, reque
 }
 
 // UpdateModelVersionSet Updates the properties of a model version set. User can update the `description` property.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModelVersionSet.go.html to see an example of how to use UpdateModelVersionSet API.
 // A default retry strategy applies to this operation UpdateModelVersionSet()
 func (client DataScienceClient) UpdateModelVersionSet(ctx context.Context, request UpdateModelVersionSetRequest) (response UpdateModelVersionSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5271,10 +7102,6 @@ func (client DataScienceClient) updateModelVersionSet(ctx context.Context, reque
 // UpdateNotebookSession Updates the properties of a notebook session. You can update the `displayName`, `freeformTags`, and `definedTags` properties.
 // When the notebook session is in the INACTIVE lifecycle state, you can update `notebookSessionConfigurationDetails` and change `shape`, `subnetId`, and `blockStorageSizeInGBs`.
 // Changes to the `notebookSessionConfigurationDetails` take effect the next time the `ActivateNotebookSession` action is invoked on the notebook session resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateNotebookSession.go.html to see an example of how to use UpdateNotebookSession API.
 // A default retry strategy applies to this operation UpdateNotebookSession()
 func (client DataScienceClient) UpdateNotebookSession(ctx context.Context, request UpdateNotebookSessionRequest) (response UpdateNotebookSessionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5329,10 +7156,6 @@ func (client DataScienceClient) updateNotebookSession(ctx context.Context, reque
 }
 
 // UpdatePipeline Updates the Pipeline.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdatePipeline.go.html to see an example of how to use UpdatePipeline API.
 func (client DataScienceClient) UpdatePipeline(ctx context.Context, request UpdatePipelineRequest) (response UpdatePipelineResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5386,10 +7209,6 @@ func (client DataScienceClient) updatePipeline(ctx context.Context, request comm
 }
 
 // UpdatePipelineRun Updates the PipelineRun.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdatePipelineRun.go.html to see an example of how to use UpdatePipelineRun API.
 func (client DataScienceClient) UpdatePipelineRun(ctx context.Context, request UpdatePipelineRunRequest) (response UpdatePipelineRunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5443,10 +7262,6 @@ func (client DataScienceClient) updatePipelineRun(ctx context.Context, request c
 }
 
 // UpdateProject Updates the properties of a project. You can update the `displayName`, `description`, `freeformTags`, and `definedTags` properties.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateProject.go.html to see an example of how to use UpdateProject API.
 // A default retry strategy applies to this operation UpdateProject()
 func (client DataScienceClient) UpdateProject(ctx context.Context, request UpdateProjectRequest) (response UpdateProjectResponse, err error) {
 	var ociResponse common.OCIResponse

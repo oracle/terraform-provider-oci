@@ -59,6 +59,10 @@ type InstancePoolSummary struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// The last date and time the instance pool state was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeStateUpdated *common.SDKTime `mandatory:"false" json:"timeStateUpdated"`
 }
 
 func (m InstancePoolSummary) String() string {

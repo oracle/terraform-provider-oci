@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// WorkRequestSummaryCollection Results of a workRequest search. Contains both WorkRequest items and other information, such as metadata.
+// WorkRequestSummaryCollection Collection of work request summaries.
 type WorkRequestSummaryCollection struct {
 
-	// List of workRequestSummary objects.
+	// List of workRequestSummary resources
 	Items []WorkRequestSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m WorkRequestSummaryCollection) String() string {

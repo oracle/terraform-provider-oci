@@ -13,10 +13,6 @@ import (
 )
 
 // UploadLogEventsFileRequest wrapper for the UploadLogEventsFile operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadLogEventsFile.go.html to see an example of how to use UploadLogEventsFileRequest.
 type UploadLogEventsFileRequest struct {
 
 	// The Logging Analytics namespace used for the request.
@@ -50,6 +46,9 @@ type UploadLogEventsFileRequest struct {
 	// has been deleted and purged from the system, then a retry of the original creation request
 	// might be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+
+	// Metadata key and value pairs separated by a semicolon. Example k1:v1;k2:v2;k3:v3
+	OpcMetaProperties *string `mandatory:"false" contributesTo:"header" name:"opc-meta-properties"`
 
 	// A value of `100-continue` requests preliminary verification of the request method, path, and headers before the request body is sent.
 	// If no error results from such verification, the server will send a 100 (Continue) interim response to indicate readiness for the request body.

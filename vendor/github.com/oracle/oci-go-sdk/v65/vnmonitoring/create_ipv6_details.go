@@ -44,6 +44,9 @@ type CreateIpv6Details struct {
 
 	// The IPv6 CIDR allocated to the subnet. This is required if more than one IPv6 CIDR exists on the subnet.
 	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
+
+	// The host name associated with respect to the IPv6 address.Only the hostname label, not the FQDN.
+	Hostname *string `mandatory:"false" json:"hostname"`
 }
 
 func (m CreateIpv6Details) String() string {

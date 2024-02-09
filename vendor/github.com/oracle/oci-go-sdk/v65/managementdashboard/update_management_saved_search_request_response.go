@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateManagementSavedSearchRequest wrapper for the UpdateManagementSavedSearch operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/UpdateManagementSavedSearch.go.html to see an example of how to use UpdateManagementSavedSearchRequest.
 type UpdateManagementSavedSearchRequest struct {
 
 	// A unique saved search identifier.

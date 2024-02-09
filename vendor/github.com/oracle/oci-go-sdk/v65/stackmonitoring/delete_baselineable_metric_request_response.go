@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteBaselineableMetricRequest wrapper for the DeleteBaselineableMetric operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteBaselineableMetric.go.html to see an example of how to use DeleteBaselineableMetricRequest.
 type DeleteBaselineableMetricRequest struct {
 
 	// Identifier for the metric

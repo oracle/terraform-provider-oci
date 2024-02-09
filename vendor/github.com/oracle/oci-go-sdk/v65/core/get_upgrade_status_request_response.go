@@ -12,10 +12,6 @@ import (
 )
 
 // GetUpgradeStatusRequest wrapper for the GetUpgradeStatus operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetUpgradeStatus.go.html to see an example of how to use GetUpgradeStatusRequest.
 type GetUpgradeStatusRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.

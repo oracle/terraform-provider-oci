@@ -12,10 +12,6 @@ import (
 )
 
 // ListAutonomousVmClusterAcdResourceUsageRequest wrapper for the ListAutonomousVmClusterAcdResourceUsage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListAutonomousVmClusterAcdResourceUsage.go.html to see an example of how to use ListAutonomousVmClusterAcdResourceUsageRequest.
 type ListAutonomousVmClusterAcdResourceUsageRequest struct {
 
 	// The autonomous VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

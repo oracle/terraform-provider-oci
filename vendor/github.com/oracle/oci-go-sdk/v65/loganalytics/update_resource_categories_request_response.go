@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateResourceCategoriesRequest wrapper for the UpdateResourceCategories operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateResourceCategories.go.html to see an example of how to use UpdateResourceCategoriesRequest.
 type UpdateResourceCategoriesRequest struct {
 
 	// The Logging Analytics namespace used for the request.

@@ -12,10 +12,6 @@ import (
 )
 
 // ListOdaPrivateEndpointScanProxiesRequest wrapper for the ListOdaPrivateEndpointScanProxies operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ListOdaPrivateEndpointScanProxies.go.html to see an example of how to use ListOdaPrivateEndpointScanProxiesRequest.
 type ListOdaPrivateEndpointScanProxiesRequest struct {
 
 	// Unique ODA Private Endpoint identifier which is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

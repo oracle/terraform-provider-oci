@@ -47,10 +47,10 @@ type UpdateMonitorDetails struct {
 	TimeoutInSeconds *int `mandatory:"false" json:"timeoutInSeconds"`
 
 	// Specify the endpoint on which to run the monitor.
-	// For BROWSER, REST and NETWORK monitor types, target is mandatory.
+	// For BROWSER, REST, NETWORK, DNS and FTP monitor types, target is mandatory.
 	// If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint.
 	// If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is.
-	// For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80
+	// For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80.
 	Target *string `mandatory:"false" json:"target"`
 
 	// List of script parameters in the monitor.
@@ -80,6 +80,9 @@ type UpdateMonitorDetails struct {
 
 	// Time interval between two runs in round robin batch mode (SchedulingPolicy - BATCHED_ROUND_ROBIN).
 	BatchIntervalInSeconds *int `mandatory:"false" json:"batchIntervalInSeconds"`
+
+	// If enabled, domain name will resolve to an IPv6 address.
+	IsIPv6 *bool `mandatory:"false" json:"isIPv6"`
 }
 
 func (m UpdateMonitorDetails) String() string {
@@ -124,6 +127,7 @@ func (m *UpdateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 		IsRunNow                  *bool                             `json:"isRunNow"`
 		SchedulingPolicy          SchedulingPolicyEnum              `json:"schedulingPolicy"`
 		BatchIntervalInSeconds    *int                              `json:"batchIntervalInSeconds"`
+		IsIPv6                    *bool                             `json:"isIPv6"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -172,6 +176,8 @@ func (m *UpdateMonitorDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SchedulingPolicy = model.SchedulingPolicy
 
 	m.BatchIntervalInSeconds = model.BatchIntervalInSeconds
+
+	m.IsIPv6 = model.IsIPv6
 
 	return
 }

@@ -78,6 +78,9 @@ type VolumeBackup struct {
 	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
+	// The size (in Bytes) of the blocks for this block volume, between 512B to 32KB.
+	IoAlignmentSizeInBytes *int `mandatory:"false" json:"ioAlignmentSizeInBytes"`
+
 	// The size of the volume, in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -102,6 +105,9 @@ type VolumeBackup struct {
 	// consumed on the volume and whether the backup is full or incremental.
 	// This field is deprecated. Please use uniqueSizeInGBs.
 	UniqueSizeInMbs *int64 `mandatory:"false" json:"uniqueSizeInMbs"`
+
+	// The percentage complete of the operation to create the volume backup, based on the volume backup size.
+	BackupProgress *int `mandatory:"false" json:"backupProgress"`
 
 	// The OCID of the volume.
 	VolumeId *string `mandatory:"false" json:"volumeId"`

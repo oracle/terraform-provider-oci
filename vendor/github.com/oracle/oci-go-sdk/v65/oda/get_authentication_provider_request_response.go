@@ -12,10 +12,6 @@ import (
 )
 
 // GetAuthenticationProviderRequest wrapper for the GetAuthenticationProvider operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/GetAuthenticationProvider.go.html to see an example of how to use GetAuthenticationProviderRequest.
 type GetAuthenticationProviderRequest struct {
 
 	// Unique Digital Assistant instance identifier.

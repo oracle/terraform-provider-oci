@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateTaskScheduleRequest wrapper for the UpdateTaskSchedule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateTaskSchedule.go.html to see an example of how to use UpdateTaskScheduleRequest.
 type UpdateTaskScheduleRequest struct {
 
 	// The workspace ID.

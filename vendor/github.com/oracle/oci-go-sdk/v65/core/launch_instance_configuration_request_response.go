@@ -12,10 +12,6 @@ import (
 )
 
 // LaunchInstanceConfigurationRequest wrapper for the LaunchInstanceConfiguration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/LaunchInstanceConfiguration.go.html to see an example of how to use LaunchInstanceConfigurationRequest.
 type LaunchInstanceConfigurationRequest struct {
 
 	// The OCID of the instance configuration.
@@ -30,6 +26,9 @@ type LaunchInstanceConfigurationRequest struct {
 	// has been deleted and purged from the system, then a retry of the original creation request
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+
+	// Name of the pool in which to launch an instance. This feature is currently in preview and may change before public release. Do not use it for production workloads.
+	OpcPoolName *string `mandatory:"false" contributesTo:"query" name:"opc-pool-name"`
 
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.

@@ -12,10 +12,6 @@ import (
 )
 
 // ListWorkRequestLogsRequest wrapper for the ListWorkRequestLogs operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bastion/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogsRequest.
 type ListWorkRequestLogsRequest struct {
 
 	// The unique identifier (OCID) of the asynchronous request.

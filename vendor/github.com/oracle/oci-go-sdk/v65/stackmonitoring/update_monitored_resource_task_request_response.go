@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateMonitoredResourceTaskRequest wrapper for the UpdateMonitoredResourceTask operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMonitoredResourceTask.go.html to see an example of how to use UpdateMonitoredResourceTaskRequest.
 type UpdateMonitoredResourceTaskRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of stack monitoring resource task.

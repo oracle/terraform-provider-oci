@@ -12,10 +12,6 @@ import (
 )
 
 // ListCrossConnectLocationsRequest wrapper for the ListCrossConnectLocations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListCrossConnectLocations.go.html to see an example of how to use ListCrossConnectLocationsRequest.
 type ListCrossConnectLocationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

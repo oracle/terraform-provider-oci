@@ -12,10 +12,6 @@ import (
 )
 
 // ListMirrorsRequest wrapper for the ListMirrors operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListMirrors.go.html to see an example of how to use ListMirrorsRequest.
 type ListMirrorsRequest struct {
 
 	// The OCID of the management station.

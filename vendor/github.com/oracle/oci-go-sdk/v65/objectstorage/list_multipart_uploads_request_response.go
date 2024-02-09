@@ -12,10 +12,6 @@ import (
 )
 
 // ListMultipartUploadsRequest wrapper for the ListMultipartUploads operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListMultipartUploads.go.html to see an example of how to use ListMultipartUploadsRequest.
 type ListMultipartUploadsRequest struct {
 
 	// The Object Storage namespace used for the request.

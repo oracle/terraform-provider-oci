@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateExternalContainerDatabaseRequest wrapper for the UpdateExternalContainerDatabase operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateExternalContainerDatabase.go.html to see an example of how to use UpdateExternalContainerDatabaseRequest.
 type UpdateExternalContainerDatabaseRequest struct {
 
 	// The ExternalContainerDatabase OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

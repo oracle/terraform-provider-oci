@@ -54,6 +54,15 @@ type Backup struct {
 	// The size of the database in gigabytes at the time the backup was taken.
 	DatabaseSizeInGBs *float64 `mandatory:"false" json:"databaseSizeInGBs"`
 
+	// The region location of the source database.
+	SourceDbRegion *string `mandatory:"false" json:"sourceDbRegion"`
+
+	// The name (`dbName`) of the database from which the backup was created.
+	SourceDbName *string `mandatory:"false" json:"sourceDbName"`
+
+	// The DB system name of the source database.
+	SourceDbSystemName *string `mandatory:"false" json:"sourceDbSystemName"`
+
 	// Shape of the backup's source database.
 	Shape *string `mandatory:"false" json:"shape"`
 
@@ -63,13 +72,13 @@ type Backup struct {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
 	// The wallet name for Oracle Key Vault.

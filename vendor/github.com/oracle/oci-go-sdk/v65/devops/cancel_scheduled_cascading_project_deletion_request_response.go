@@ -12,10 +12,6 @@ import (
 )
 
 // CancelScheduledCascadingProjectDeletionRequest wrapper for the CancelScheduledCascadingProjectDeletion operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CancelScheduledCascadingProjectDeletion.go.html to see an example of how to use CancelScheduledCascadingProjectDeletionRequest.
 type CancelScheduledCascadingProjectDeletionRequest struct {
 
 	// Unique project identifier.

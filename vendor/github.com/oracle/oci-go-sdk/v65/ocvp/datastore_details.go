@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DatastoreDetails Datastore summary for a getting an Sddc.
+// DatastoreDetails Datastore details for a getting an Sddc.
 type DatastoreDetails struct {
 
 	// A list of OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)s of Block Storage Volumes.

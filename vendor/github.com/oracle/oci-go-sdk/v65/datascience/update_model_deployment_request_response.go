@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateModelDeploymentRequest wrapper for the UpdateModelDeployment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/UpdateModelDeployment.go.html to see an example of how to use UpdateModelDeploymentRequest.
 type UpdateModelDeploymentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model deployment.

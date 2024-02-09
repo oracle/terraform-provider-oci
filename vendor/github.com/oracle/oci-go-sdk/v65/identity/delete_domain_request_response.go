@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDomainRequest wrapper for the DeleteDomain operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/DeleteDomain.go.html to see an example of how to use DeleteDomainRequest.
 type DeleteDomainRequest struct {
 
 	// The OCID of the identity domain.

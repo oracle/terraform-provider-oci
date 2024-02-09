@@ -63,6 +63,10 @@ func (m *virtualservicetrafficrouteruledetails) UnmarshalPolymorphicJSON(data []
 		mm := TlsPassthroughVirtualServiceTrafficRouteRuleDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GRPC":
+		mm := GrpcVirtualServiceTrafficRouteRuleDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HTTP":
 		mm := HttpVirtualServiceTrafficRouteRuleDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -102,18 +106,21 @@ const (
 	VirtualServiceTrafficRouteRuleDetailsTypeHttp           VirtualServiceTrafficRouteRuleDetailsTypeEnum = "HTTP"
 	VirtualServiceTrafficRouteRuleDetailsTypeTlsPassthrough VirtualServiceTrafficRouteRuleDetailsTypeEnum = "TLS_PASSTHROUGH"
 	VirtualServiceTrafficRouteRuleDetailsTypeTcp            VirtualServiceTrafficRouteRuleDetailsTypeEnum = "TCP"
+	VirtualServiceTrafficRouteRuleDetailsTypeGrpc           VirtualServiceTrafficRouteRuleDetailsTypeEnum = "GRPC"
 )
 
 var mappingVirtualServiceTrafficRouteRuleDetailsTypeEnum = map[string]VirtualServiceTrafficRouteRuleDetailsTypeEnum{
 	"HTTP":            VirtualServiceTrafficRouteRuleDetailsTypeHttp,
 	"TLS_PASSTHROUGH": VirtualServiceTrafficRouteRuleDetailsTypeTlsPassthrough,
 	"TCP":             VirtualServiceTrafficRouteRuleDetailsTypeTcp,
+	"GRPC":            VirtualServiceTrafficRouteRuleDetailsTypeGrpc,
 }
 
 var mappingVirtualServiceTrafficRouteRuleDetailsTypeEnumLowerCase = map[string]VirtualServiceTrafficRouteRuleDetailsTypeEnum{
 	"http":            VirtualServiceTrafficRouteRuleDetailsTypeHttp,
 	"tls_passthrough": VirtualServiceTrafficRouteRuleDetailsTypeTlsPassthrough,
 	"tcp":             VirtualServiceTrafficRouteRuleDetailsTypeTcp,
+	"grpc":            VirtualServiceTrafficRouteRuleDetailsTypeGrpc,
 }
 
 // GetVirtualServiceTrafficRouteRuleDetailsTypeEnumValues Enumerates the set of values for VirtualServiceTrafficRouteRuleDetailsTypeEnum
@@ -131,6 +138,7 @@ func GetVirtualServiceTrafficRouteRuleDetailsTypeEnumStringValues() []string {
 		"HTTP",
 		"TLS_PASSTHROUGH",
 		"TCP",
+		"GRPC",
 	}
 }
 

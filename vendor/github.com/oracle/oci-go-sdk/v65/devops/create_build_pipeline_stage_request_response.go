@@ -12,10 +12,6 @@ import (
 )
 
 // CreateBuildPipelineStageRequest wrapper for the CreateBuildPipelineStage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/CreateBuildPipelineStage.go.html to see an example of how to use CreateBuildPipelineStageRequest.
 type CreateBuildPipelineStageRequest struct {
 
 	// Details for the new stage.

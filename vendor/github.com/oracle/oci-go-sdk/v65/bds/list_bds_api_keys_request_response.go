@@ -12,10 +12,6 @@ import (
 )
 
 // ListBdsApiKeysRequest wrapper for the ListBdsApiKeys operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListBdsApiKeys.go.html to see an example of how to use ListBdsApiKeysRequest.
 type ListBdsApiKeysRequest struct {
 
 	// The OCID of the cluster.

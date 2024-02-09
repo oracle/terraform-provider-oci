@@ -12,10 +12,6 @@ import (
 )
 
 // GetSecurityPolicyReportRequest wrapper for the GetSecurityPolicyReport operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSecurityPolicyReport.go.html to see an example of how to use GetSecurityPolicyReportRequest.
 type GetSecurityPolicyReportRequest struct {
 
 	// The OCID of the security policy report resource.

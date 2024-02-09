@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateCompartmentRequest wrapper for the UpdateCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/UpdateCompartment.go.html to see an example of how to use UpdateCompartmentRequest.
 type UpdateCompartmentRequest struct {
 
 	// The OCID of the compartment.

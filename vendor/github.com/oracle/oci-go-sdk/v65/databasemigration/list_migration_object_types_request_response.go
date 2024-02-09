@@ -12,10 +12,6 @@ import (
 )
 
 // ListMigrationObjectTypesRequest wrapper for the ListMigrationObjectTypes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationObjectTypes.go.html to see an example of how to use ListMigrationObjectTypesRequest.
 type ListMigrationObjectTypesRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

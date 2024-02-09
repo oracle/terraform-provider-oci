@@ -12,10 +12,6 @@ import (
 )
 
 // GetPolicyRequest wrapper for the GetPolicy operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetPolicy.go.html to see an example of how to use GetPolicyRequest.
 type GetPolicyRequest struct {
 
 	// ID of the resource

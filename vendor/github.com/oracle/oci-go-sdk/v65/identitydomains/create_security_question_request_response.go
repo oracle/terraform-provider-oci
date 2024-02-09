@@ -12,10 +12,6 @@ import (
 )
 
 // CreateSecurityQuestionRequest wrapper for the CreateSecurityQuestion operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateSecurityQuestion.go.html to see an example of how to use CreateSecurityQuestionRequest.
 type CreateSecurityQuestionRequest struct {
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.

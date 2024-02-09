@@ -12,10 +12,6 @@ import (
 )
 
 // CreateDatabaseToolsConnectionRequest wrapper for the CreateDatabaseToolsConnection operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasetools/CreateDatabaseToolsConnection.go.html to see an example of how to use CreateDatabaseToolsConnectionRequest.
 type CreateDatabaseToolsConnectionRequest struct {
 
 	// Details for the new `DatabaseToolsConnection`.

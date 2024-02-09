@@ -39,6 +39,9 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// as the instance that was used to create the instance configuration.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// The OCID of the cluster placement group of the instance.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	CreateVnicDetails *InstanceConfigurationCreateVnicDetails `mandatory:"false" json:"createVnicDetails"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -204,6 +207,7 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 		AvailabilityDomain             *string                                                                  `json:"availabilityDomain"`
 		CapacityReservationId          *string                                                                  `json:"capacityReservationId"`
 		CompartmentId                  *string                                                                  `json:"compartmentId"`
+		ClusterPlacementGroupId        *string                                                                  `json:"clusterPlacementGroupId"`
 		CreateVnicDetails              *InstanceConfigurationCreateVnicDetails                                  `json:"createVnicDetails"`
 		DefinedTags                    map[string]map[string]interface{}                                        `json:"definedTags"`
 		DisplayName                    *string                                                                  `json:"displayName"`
@@ -237,6 +241,8 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	m.CapacityReservationId = model.CapacityReservationId
 
 	m.CompartmentId = model.CompartmentId
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.CreateVnicDetails = model.CreateVnicDetails
 

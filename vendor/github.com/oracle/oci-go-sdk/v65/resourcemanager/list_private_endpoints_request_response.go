@@ -12,10 +12,6 @@ import (
 )
 
 // ListPrivateEndpointsRequest wrapper for the ListPrivateEndpoints operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListPrivateEndpoints.go.html to see an example of how to use ListPrivateEndpointsRequest.
 type ListPrivateEndpointsRequest struct {
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

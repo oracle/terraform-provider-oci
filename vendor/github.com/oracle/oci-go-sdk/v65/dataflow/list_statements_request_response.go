@@ -12,10 +12,6 @@ import (
 )
 
 // ListStatementsRequest wrapper for the ListStatements operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/ListStatements.go.html to see an example of how to use ListStatementsRequest.
 type ListStatementsRequest struct {
 
 	// The unique ID for the run

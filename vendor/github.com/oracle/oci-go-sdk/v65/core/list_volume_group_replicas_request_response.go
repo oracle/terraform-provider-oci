@@ -12,10 +12,6 @@ import (
 )
 
 // ListVolumeGroupReplicasRequest wrapper for the ListVolumeGroupReplicas operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeGroupReplicas.go.html to see an example of how to use ListVolumeGroupReplicasRequest.
 type ListVolumeGroupReplicasRequest struct {
 
 	// The name of the availability domain.

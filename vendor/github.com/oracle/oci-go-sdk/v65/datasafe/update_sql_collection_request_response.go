@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateSqlCollectionRequest wrapper for the UpdateSqlCollection operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSqlCollection.go.html to see an example of how to use UpdateSqlCollectionRequest.
 type UpdateSqlCollectionRequest struct {
 
 	// The OCID of the SQL collection resource.

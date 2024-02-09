@@ -12,10 +12,6 @@ import (
 )
 
 // PutAppRequest wrapper for the PutApp operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutApp.go.html to see an example of how to use PutAppRequest.
 type PutAppRequest struct {
 
 	// ID of the resource

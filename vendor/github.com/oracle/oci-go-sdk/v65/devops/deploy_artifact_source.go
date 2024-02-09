@@ -62,6 +62,10 @@ func (m *deployartifactsource) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := OcirDeployArtifactSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HELM_COMMAND_SPEC":
+		mm := HelmCommandSpecArtifactSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INLINE":
 		mm := InlineDeployArtifactSource{}
 		err = json.Unmarshal(data, &mm)

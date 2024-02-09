@@ -12,10 +12,6 @@ import (
 )
 
 // CreateNamedCredentialRequest wrapper for the CreateNamedCredential operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/CreateNamedCredential.go.html to see an example of how to use CreateNamedCredentialRequest.
 type CreateNamedCredentialRequest struct {
 
 	// The details required to create a named credential.

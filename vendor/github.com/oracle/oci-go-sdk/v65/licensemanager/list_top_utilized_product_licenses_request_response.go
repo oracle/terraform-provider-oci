@@ -12,10 +12,6 @@ import (
 )
 
 // ListTopUtilizedProductLicensesRequest wrapper for the ListTopUtilizedProductLicenses operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/ListTopUtilizedProductLicenses.go.html to see an example of how to use ListTopUtilizedProductLicensesRequest.
 type ListTopUtilizedProductLicensesRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) used for the license record, product license, and configuration.

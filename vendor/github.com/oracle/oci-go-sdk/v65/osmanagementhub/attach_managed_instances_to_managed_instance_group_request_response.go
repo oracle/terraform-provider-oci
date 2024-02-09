@@ -12,10 +12,6 @@ import (
 )
 
 // AttachManagedInstancesToManagedInstanceGroupRequest wrapper for the AttachManagedInstancesToManagedInstanceGroup operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachManagedInstancesToManagedInstanceGroup.go.html to see an example of how to use AttachManagedInstancesToManagedInstanceGroupRequest.
 type AttachManagedInstancesToManagedInstanceGroupRequest struct {
 
 	// The managed instance group OCID.

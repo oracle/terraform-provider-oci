@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteHostInsightRequest wrapper for the DeleteHostInsight operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteHostInsight.go.html to see an example of how to use DeleteHostInsightRequest.
 type DeleteHostInsightRequest struct {
 
 	// Unique host insight identifier

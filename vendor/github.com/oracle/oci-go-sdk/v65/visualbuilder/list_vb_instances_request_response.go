@@ -12,10 +12,6 @@ import (
 )
 
 // ListVbInstancesRequest wrapper for the ListVbInstances operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ListVbInstances.go.html to see an example of how to use ListVbInstancesRequest.
 type ListVbInstancesRequest struct {
 
 	// The ID of the compartment in which to list resources.

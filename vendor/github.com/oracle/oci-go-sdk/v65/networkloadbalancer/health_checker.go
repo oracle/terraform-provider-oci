@@ -16,7 +16,7 @@ import (
 )
 
 // HealthChecker The health check policy configuration.
-// For more information, see Editing Health Check Policies (https://docs.cloud.oracle.com/Content/Balance/Tasks/editinghealthcheck.htm).
+// For more information, see Editing Health Check Policies (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/HealthCheckPolicies/health-check-policy-management.htm).
 type HealthChecker struct {
 
 	// The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.
@@ -60,6 +60,8 @@ type HealthChecker struct {
 
 	// Base64 encoded pattern to be validated as UDP or TCP health check probe response.
 	ResponseData []byte `mandatory:"false" json:"responseData"`
+
+	Dns *DnsHealthCheckerDetails `mandatory:"false" json:"dns"`
 }
 
 func (m HealthChecker) String() string {

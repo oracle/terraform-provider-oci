@@ -12,10 +12,6 @@ import (
 )
 
 // ListDbServersRequest wrapper for the ListDbServers operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbServers.go.html to see an example of how to use ListDbServersRequest.
 type ListDbServersRequest struct {
 
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

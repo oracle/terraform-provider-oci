@@ -2,11 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Connector Hub API
+// Connector Hub API
 //
-// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Connector Hub, see
+// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// Connector Hub is formerly known as Service Connector Hub.
 //
 
 package sch
@@ -18,15 +19,15 @@ import (
 	"strings"
 )
 
-// LoggingAnalyticsTargetDetails The log group used for the Logging Analytics target.
+// LoggingAnalyticsTargetDetails The destination log group for data transferred from the source.
 // For configuration instructions, see
-// To create a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create).
+// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
 type LoggingAnalyticsTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Logging Analytics log group.
 	LogGroupId *string `mandatory:"true" json:"logGroupId"`
 
-	// Identifier of the log source that you want to use for processing data received from the service connector source.
+	// Identifier of the log source that you want to use for processing data received from the connector source.
 	// Applies to `StreamingSource` only.
 	// Equivalent to `name` at LogAnalyticsSource.
 	LogSourceIdentifier *string `mandatory:"false" json:"logSourceIdentifier"`

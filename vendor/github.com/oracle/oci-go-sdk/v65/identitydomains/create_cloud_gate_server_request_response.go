@@ -12,10 +12,6 @@ import (
 )
 
 // CreateCloudGateServerRequest wrapper for the CreateCloudGateServer operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateCloudGateServer.go.html to see an example of how to use CreateCloudGateServerRequest.
 type CreateCloudGateServerRequest struct {
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.

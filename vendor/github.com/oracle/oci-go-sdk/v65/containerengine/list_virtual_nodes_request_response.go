@@ -12,10 +12,6 @@ import (
 )
 
 // ListVirtualNodesRequest wrapper for the ListVirtualNodes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/ListVirtualNodes.go.html to see an example of how to use ListVirtualNodesRequest.
 type ListVirtualNodesRequest struct {
 
 	// The OCID of the virtual node pool.

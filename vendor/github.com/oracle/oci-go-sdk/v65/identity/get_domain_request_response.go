@@ -12,10 +12,6 @@ import (
 )
 
 // GetDomainRequest wrapper for the GetDomain operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/GetDomain.go.html to see an example of how to use GetDomainRequest.
 type GetDomainRequest struct {
 
 	// The OCID of the identity domain.

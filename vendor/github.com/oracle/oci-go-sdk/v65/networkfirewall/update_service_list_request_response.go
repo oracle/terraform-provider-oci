@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateServiceListRequest wrapper for the UpdateServiceList operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateServiceList.go.html to see an example of how to use UpdateServiceListRequest.
 type UpdateServiceListRequest struct {
 
 	// Unique Network Firewall Policy identifier

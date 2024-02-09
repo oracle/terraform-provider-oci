@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateHsmClusterRequest wrapper for the UpdateHsmCluster operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateHsmCluster.go.html to see an example of how to use UpdateHsmClusterRequest.
 type UpdateHsmClusterRequest struct {
 
 	// The OCID of the HSM Cluster.

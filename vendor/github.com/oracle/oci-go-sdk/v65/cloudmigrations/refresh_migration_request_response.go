@@ -12,10 +12,6 @@ import (
 )
 
 // RefreshMigrationRequest wrapper for the RefreshMigration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/RefreshMigration.go.html to see an example of how to use RefreshMigrationRequest.
 type RefreshMigrationRequest struct {
 
 	// Unique migration identifier

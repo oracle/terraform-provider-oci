@@ -12,10 +12,6 @@ import (
 )
 
 // CreateComputeClusterRequest wrapper for the CreateComputeCluster operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateComputeCluster.go.html to see an example of how to use CreateComputeClusterRequest.
 type CreateComputeClusterRequest struct {
 
 	// The data for creating a compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm). A compute cluster

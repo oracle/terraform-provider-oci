@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateMetricExtensionRequest wrapper for the UpdateMetricExtension operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMetricExtension.go.html to see an example of how to use UpdateMetricExtensionRequest.
 type UpdateMetricExtensionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.

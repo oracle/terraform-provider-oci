@@ -12,10 +12,6 @@ import (
 )
 
 // CreatePipelineRunRequest wrapper for the CreatePipelineRun operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreatePipelineRun.go.html to see an example of how to use CreatePipelineRunRequest.
 type CreatePipelineRunRequest struct {
 
 	// Details for the new PipelineRun.
@@ -26,6 +22,9 @@ type CreatePipelineRunRequest struct {
 
 	// Unique Oracle assigned identifier for the request. If you need to contact Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// URL to fetch the Resource Principal Token from the parent resource.
+	OpcParentRptUrl *string `mandatory:"false" contributesTo:"header" name:"opc-parent-rpt-url"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

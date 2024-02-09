@@ -12,10 +12,6 @@ import (
 )
 
 // ReviewAccessRequestRequest wrapper for the ReviewAccessRequest operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/ReviewAccessRequest.go.html to see an example of how to use ReviewAccessRequestRequest.
 type ReviewAccessRequestRequest struct {
 
 	// unique AccessRequest identifier

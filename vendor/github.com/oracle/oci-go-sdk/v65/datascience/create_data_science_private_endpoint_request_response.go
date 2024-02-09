@@ -12,10 +12,6 @@ import (
 )
 
 // CreateDataSciencePrivateEndpointRequest wrapper for the CreateDataSciencePrivateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/CreateDataSciencePrivateEndpoint.go.html to see an example of how to use CreateDataSciencePrivateEndpointRequest.
 type CreateDataSciencePrivateEndpointRequest struct {
 
 	// The parameters required to create a private endpoint.

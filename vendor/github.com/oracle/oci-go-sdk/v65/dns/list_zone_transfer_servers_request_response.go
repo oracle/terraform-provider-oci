@@ -12,10 +12,6 @@ import (
 )
 
 // ListZoneTransferServersRequest wrapper for the ListZoneTransferServers operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/ListZoneTransferServers.go.html to see an example of how to use ListZoneTransferServersRequest.
 type ListZoneTransferServersRequest struct {
 
 	// The OCID of the compartment the resource belongs to.

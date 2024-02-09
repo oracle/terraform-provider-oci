@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteCloudGateServerRequest wrapper for the DeleteCloudGateServer operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCloudGateServer.go.html to see an example of how to use DeleteCloudGateServerRequest.
 type DeleteCloudGateServerRequest struct {
 
 	// ID of the resource

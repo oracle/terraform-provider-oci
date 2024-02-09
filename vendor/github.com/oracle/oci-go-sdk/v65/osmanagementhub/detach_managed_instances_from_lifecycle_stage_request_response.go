@@ -12,10 +12,6 @@ import (
 )
 
 // DetachManagedInstancesFromLifecycleStageRequest wrapper for the DetachManagedInstancesFromLifecycleStage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachManagedInstancesFromLifecycleStage.go.html to see an example of how to use DetachManagedInstancesFromLifecycleStageRequest.
 type DetachManagedInstancesFromLifecycleStageRequest struct {
 
 	// The OCID of the lifecycle stage.

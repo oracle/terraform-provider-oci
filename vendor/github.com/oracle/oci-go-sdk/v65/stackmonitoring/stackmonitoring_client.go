@@ -94,10 +94,6 @@ func (client *StackMonitoringClient) ConfigurationProvider() *common.Configurati
 // AssociateMonitoredResources Create an association between two monitored resources. Associations can be created
 // between resources from different compartments as long they are in same tenancy.
 // User should have required access in both the compartments.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/AssociateMonitoredResources.go.html to see an example of how to use AssociateMonitoredResources API.
 func (client StackMonitoringClient) AssociateMonitoredResources(ctx context.Context, request AssociateMonitoredResourcesRequest) (response AssociateMonitoredResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -163,10 +159,6 @@ func (client StackMonitoringClient) associateMonitoredResources(ctx context.Cont
 // So this operation will have the same effect as deleting the configuration item in the old compartment and
 // recreating it in another compartment.
 // When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeConfigCompartment.go.html to see an example of how to use ChangeConfigCompartment API.
 // A default retry strategy applies to this operation ChangeConfigCompartment()
 func (client StackMonitoringClient) ChangeConfigCompartment(ctx context.Context, request ChangeConfigCompartmentRequest) (response ChangeConfigCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -227,10 +219,6 @@ func (client StackMonitoringClient) changeConfigCompartment(ctx context.Context,
 
 // ChangeMetricExtensionCompartment Moves a Metric Extension resource from one compartment identifier to another.
 // When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeMetricExtensionCompartment.go.html to see an example of how to use ChangeMetricExtensionCompartment API.
 func (client StackMonitoringClient) ChangeMetricExtensionCompartment(ctx context.Context, request ChangeMetricExtensionCompartmentRequest) (response ChangeMetricExtensionCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -290,10 +278,6 @@ func (client StackMonitoringClient) changeMetricExtensionCompartment(ctx context
 
 // ChangeMonitoredResourceCompartment Moves a monitored resource from one compartment to another.
 // When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeMonitoredResourceCompartment.go.html to see an example of how to use ChangeMonitoredResourceCompartment API.
 func (client StackMonitoringClient) ChangeMonitoredResourceCompartment(ctx context.Context, request ChangeMonitoredResourceCompartmentRequest) (response ChangeMonitoredResourceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -352,10 +336,6 @@ func (client StackMonitoringClient) changeMonitoredResourceCompartment(ctx conte
 }
 
 // ChangeMonitoredResourceTaskCompartment Moves a stack monitoring resource task from one compartment to another.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeMonitoredResourceTaskCompartment.go.html to see an example of how to use ChangeMonitoredResourceTaskCompartment API.
 // A default retry strategy applies to this operation ChangeMonitoredResourceTaskCompartment()
 func (client StackMonitoringClient) ChangeMonitoredResourceTaskCompartment(ctx context.Context, request ChangeMonitoredResourceTaskCompartmentRequest) (response ChangeMonitoredResourceTaskCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -405,7 +385,7 @@ func (client StackMonitoringClient) changeMonitoredResourceTaskCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/monitoredResourceTask/ChangeMonitoredResourceTaskCompartment"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceTask/ChangeMonitoredResourceTaskCompartment"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ChangeMonitoredResourceTaskCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -415,10 +395,6 @@ func (client StackMonitoringClient) changeMonitoredResourceTaskCompartment(ctx c
 }
 
 // ChangeProcessSetCompartment Moves a ProcessSet resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ChangeProcessSetCompartment.go.html to see an example of how to use ChangeProcessSetCompartment API.
 // A default retry strategy applies to this operation ChangeProcessSetCompartment()
 func (client StackMonitoringClient) ChangeProcessSetCompartment(ctx context.Context, request ChangeProcessSetCompartmentRequest) (response ChangeProcessSetCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -478,10 +454,6 @@ func (client StackMonitoringClient) changeProcessSetCompartment(ctx context.Cont
 }
 
 // CreateBaselineableMetric Creates the specified Baseline-able metric
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateBaselineableMetric.go.html to see an example of how to use CreateBaselineableMetric API.
 // A default retry strategy applies to this operation CreateBaselineableMetric()
 func (client StackMonitoringClient) CreateBaselineableMetric(ctx context.Context, request CreateBaselineableMetricRequest) (response CreateBaselineableMetricResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -531,7 +503,7 @@ func (client StackMonitoringClient) createBaselineableMetric(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/CreateBaselineableMetricDetails/CreateBaselineableMetric"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/CreateBaselineableMetric"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
@@ -546,10 +518,6 @@ func (client StackMonitoringClient) createBaselineableMetric(ctx context.Context
 // this Management Agent can potentially get promoted to a HOST resource.
 // The configuration item will determine if HOST resources in the selected compartment will be
 // discovered automatically.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateConfig.go.html to see an example of how to use CreateConfig API.
 // A default retry strategy applies to this operation CreateConfig()
 func (client StackMonitoringClient) CreateConfig(ctx context.Context, request CreateConfigRequest) (response CreateConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -609,10 +577,6 @@ func (client StackMonitoringClient) createConfig(ctx context.Context, request co
 }
 
 // CreateDiscoveryJob API to create discovery Job and submit discovery Details to agent.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateDiscoveryJob.go.html to see an example of how to use CreateDiscoveryJob API.
 func (client StackMonitoringClient) CreateDiscoveryJob(ctx context.Context, request CreateDiscoveryJobRequest) (response CreateDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -671,10 +635,6 @@ func (client StackMonitoringClient) createDiscoveryJob(ctx context.Context, requ
 }
 
 // CreateMetricExtension Creates a new metric extension resource for a given compartment
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMetricExtension.go.html to see an example of how to use CreateMetricExtension API.
 func (client StackMonitoringClient) CreateMetricExtension(ctx context.Context, request CreateMetricExtensionRequest) (response CreateMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -735,10 +695,6 @@ func (client StackMonitoringClient) createMetricExtension(ctx context.Context, r
 // CreateMonitoredResource Creates a new monitored resource for the given resource type with the details and submits
 // a work request for promoting the resource to agent. Once the resource is successfully
 // added to agent, resource state will be marked active.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResource.go.html to see an example of how to use CreateMonitoredResource API.
 func (client StackMonitoringClient) CreateMonitoredResource(ctx context.Context, request CreateMonitoredResourceRequest) (response CreateMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -797,10 +753,6 @@ func (client StackMonitoringClient) createMonitoredResource(ctx context.Context,
 }
 
 // CreateMonitoredResourceTask Create a new stack monitoring resource task.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResourceTask.go.html to see an example of how to use CreateMonitoredResourceTask API.
 // A default retry strategy applies to this operation CreateMonitoredResourceTask()
 func (client StackMonitoringClient) CreateMonitoredResourceTask(ctx context.Context, request CreateMonitoredResourceTaskRequest) (response CreateMonitoredResourceTaskResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -860,10 +812,6 @@ func (client StackMonitoringClient) createMonitoredResourceTask(ctx context.Cont
 }
 
 // CreateMonitoredResourceType Creates a new monitored resource type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMonitoredResourceType.go.html to see an example of how to use CreateMonitoredResourceType API.
 // A default retry strategy applies to this operation CreateMonitoredResourceType()
 func (client StackMonitoringClient) CreateMonitoredResourceType(ctx context.Context, request CreateMonitoredResourceTypeRequest) (response CreateMonitoredResourceTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -923,10 +871,6 @@ func (client StackMonitoringClient) createMonitoredResourceType(ctx context.Cont
 }
 
 // CreateProcessSet API to create Process Set.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateProcessSet.go.html to see an example of how to use CreateProcessSet API.
 // A default retry strategy applies to this operation CreateProcessSet()
 func (client StackMonitoringClient) CreateProcessSet(ctx context.Context, request CreateProcessSetRequest) (response CreateProcessSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -986,10 +930,6 @@ func (client StackMonitoringClient) createProcessSet(ctx context.Context, reques
 }
 
 // DeleteBaselineableMetric Deletes the Baseline-able metric for the given id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteBaselineableMetric.go.html to see an example of how to use DeleteBaselineableMetric API.
 // A default retry strategy applies to this operation DeleteBaselineableMetric()
 func (client StackMonitoringClient) DeleteBaselineableMetric(ctx context.Context, request DeleteBaselineableMetricRequest) (response DeleteBaselineableMetricResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1044,10 +984,6 @@ func (client StackMonitoringClient) deleteBaselineableMetric(ctx context.Context
 }
 
 // DeleteConfig Deletes a configuration identified by the id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteConfig.go.html to see an example of how to use DeleteConfig API.
 // A default retry strategy applies to this operation DeleteConfig()
 func (client StackMonitoringClient) DeleteConfig(ctx context.Context, request DeleteConfigRequest) (response DeleteConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1102,10 +1038,6 @@ func (client StackMonitoringClient) deleteConfig(ctx context.Context, request co
 }
 
 // DeleteDiscoveryJob Deletes a DiscoveryJob by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteDiscoveryJob.go.html to see an example of how to use DeleteDiscoveryJob API.
 // A default retry strategy applies to this operation DeleteDiscoveryJob()
 func (client StackMonitoringClient) DeleteDiscoveryJob(ctx context.Context, request DeleteDiscoveryJobRequest) (response DeleteDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1160,10 +1092,6 @@ func (client StackMonitoringClient) deleteDiscoveryJob(ctx context.Context, requ
 }
 
 // DeleteMetricExtension Deletes a metric extension by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMetricExtension.go.html to see an example of how to use DeleteMetricExtension API.
 func (client StackMonitoringClient) DeleteMetricExtension(ctx context.Context, request DeleteMetricExtensionRequest) (response DeleteMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1220,10 +1148,6 @@ func (client StackMonitoringClient) deleteMetricExtension(ctx context.Context, r
 // By default, only the specified resource is deleted. If the parameter 'isDeleteMembers' is set to true,
 // then the member resources will be deleted too. If the operation fails partially, the deleted entries
 // will not be rolled back.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMonitoredResource.go.html to see an example of how to use DeleteMonitoredResource API.
 func (client StackMonitoringClient) DeleteMonitoredResource(ctx context.Context, request DeleteMonitoredResourceRequest) (response DeleteMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1277,10 +1201,6 @@ func (client StackMonitoringClient) deleteMonitoredResource(ctx context.Context,
 }
 
 // DeleteMonitoredResourceType Deletes a monitored resource type by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMonitoredResourceType.go.html to see an example of how to use DeleteMonitoredResourceType API.
 func (client StackMonitoringClient) DeleteMonitoredResourceType(ctx context.Context, request DeleteMonitoredResourceTypeRequest) (response DeleteMonitoredResourceTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1334,10 +1254,6 @@ func (client StackMonitoringClient) deleteMonitoredResourceType(ctx context.Cont
 }
 
 // DeleteProcessSet Deletes a Process Set
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteProcessSet.go.html to see an example of how to use DeleteProcessSet API.
 // A default retry strategy applies to this operation DeleteProcessSet()
 func (client StackMonitoringClient) DeleteProcessSet(ctx context.Context, request DeleteProcessSetRequest) (response DeleteProcessSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1393,10 +1309,6 @@ func (client StackMonitoringClient) deleteProcessSet(ctx context.Context, reques
 
 // DisableExternalDatabase Disable external database resource monitoring. All the references in DBaaS,
 // DBM and resource service will be deleted as part of this operation.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DisableExternalDatabase.go.html to see an example of how to use DisableExternalDatabase API.
 func (client StackMonitoringClient) DisableExternalDatabase(ctx context.Context, request DisableExternalDatabaseRequest) (response DisableExternalDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1455,10 +1367,6 @@ func (client StackMonitoringClient) disableExternalDatabase(ctx context.Context,
 }
 
 // DisableMetricExtension Submits a request to disable matching metric extension Id for the given Resource IDs
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DisableMetricExtension.go.html to see an example of how to use DisableMetricExtension API.
 func (client StackMonitoringClient) DisableMetricExtension(ctx context.Context, request DisableMetricExtensionRequest) (response DisableMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1517,10 +1425,6 @@ func (client StackMonitoringClient) disableMetricExtension(ctx context.Context, 
 }
 
 // DisassociateMonitoredResources Removes associations between two monitored resources.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DisassociateMonitoredResources.go.html to see an example of how to use DisassociateMonitoredResources API.
 func (client StackMonitoringClient) DisassociateMonitoredResources(ctx context.Context, request DisassociateMonitoredResourcesRequest) (response DisassociateMonitoredResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1579,10 +1483,6 @@ func (client StackMonitoringClient) disassociateMonitoredResources(ctx context.C
 }
 
 // EnableMetricExtension Submits a request to enable matching metric extension Id for the given Resource IDs
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/EnableMetricExtension.go.html to see an example of how to use EnableMetricExtension API.
 func (client StackMonitoringClient) EnableMetricExtension(ctx context.Context, request EnableMetricExtensionRequest) (response EnableMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1641,10 +1541,6 @@ func (client StackMonitoringClient) enableMetricExtension(ctx context.Context, r
 }
 
 // EvaluateBaselineableMetric Evaluates metric for anomalies for the given data points
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/EvaluateBaselineableMetric.go.html to see an example of how to use EvaluateBaselineableMetric API.
 // A default retry strategy applies to this operation EvaluateBaselineableMetric()
 func (client StackMonitoringClient) EvaluateBaselineableMetric(ctx context.Context, request EvaluateBaselineableMetricRequest) (response EvaluateBaselineableMetricResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1694,7 +1590,7 @@ func (client StackMonitoringClient) evaluateBaselineableMetric(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/EvaluateBaselineableMetricResult/EvaluateBaselineableMetric"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/EvaluateBaselineableMetric"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "EvaluateBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
@@ -1705,10 +1601,6 @@ func (client StackMonitoringClient) evaluateBaselineableMetric(ctx context.Conte
 
 // ExportMetricExtension Export generates a template used to create new metric extension resources similar to matching metric extension id.
 // Response is a file that contains metric extension definition with placeholders for fields to be changed.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ExportMetricExtension.go.html to see an example of how to use ExportMetricExtension API.
 // A default retry strategy applies to this operation ExportMetricExtension()
 func (client StackMonitoringClient) ExportMetricExtension(ctx context.Context, request ExportMetricExtensionRequest) (response ExportMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1767,10 +1659,6 @@ func (client StackMonitoringClient) exportMetricExtension(ctx context.Context, r
 }
 
 // GetBaselineableMetric Get the Baseline-able metric for the given id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetBaselineableMetric.go.html to see an example of how to use GetBaselineableMetric API.
 // A default retry strategy applies to this operation GetBaselineableMetric()
 func (client StackMonitoringClient) GetBaselineableMetric(ctx context.Context, request GetBaselineableMetricRequest) (response GetBaselineableMetricResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1825,10 +1713,6 @@ func (client StackMonitoringClient) getBaselineableMetric(ctx context.Context, r
 }
 
 // GetConfig Gets the details of a configuration.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetConfig.go.html to see an example of how to use GetConfig API.
 // A default retry strategy applies to this operation GetConfig()
 func (client StackMonitoringClient) GetConfig(ctx context.Context, request GetConfigRequest) (response GetConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1883,10 +1767,6 @@ func (client StackMonitoringClient) getConfig(ctx context.Context, request commo
 }
 
 // GetDiscoveryJob API to get the details of discovery Job by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetDiscoveryJob.go.html to see an example of how to use GetDiscoveryJob API.
 // A default retry strategy applies to this operation GetDiscoveryJob()
 func (client StackMonitoringClient) GetDiscoveryJob(ctx context.Context, request GetDiscoveryJobRequest) (response GetDiscoveryJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1941,10 +1821,6 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 }
 
 // GetMetricExtension Gets a Metric Extension by identifier
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMetricExtension.go.html to see an example of how to use GetMetricExtension API.
 // A default retry strategy applies to this operation GetMetricExtension()
 func (client StackMonitoringClient) GetMetricExtension(ctx context.Context, request GetMetricExtensionRequest) (response GetMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1999,10 +1875,6 @@ func (client StackMonitoringClient) getMetricExtension(ctx context.Context, requ
 }
 
 // GetMonitoredResource Get monitored resource for the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMonitoredResource.go.html to see an example of how to use GetMonitoredResource API.
 // A default retry strategy applies to this operation GetMonitoredResource()
 func (client StackMonitoringClient) GetMonitoredResource(ctx context.Context, request GetMonitoredResourceRequest) (response GetMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2057,10 +1929,6 @@ func (client StackMonitoringClient) getMonitoredResource(ctx context.Context, re
 }
 
 // GetMonitoredResourceTask Gets stack monitoring resource task details by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMonitoredResourceTask.go.html to see an example of how to use GetMonitoredResourceTask API.
 // A default retry strategy applies to this operation GetMonitoredResourceTask()
 func (client StackMonitoringClient) GetMonitoredResourceTask(ctx context.Context, request GetMonitoredResourceTaskRequest) (response GetMonitoredResourceTaskResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2115,10 +1983,6 @@ func (client StackMonitoringClient) getMonitoredResourceTask(ctx context.Context
 }
 
 // GetMonitoredResourceType Gets a monitored resource type by identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMonitoredResourceType.go.html to see an example of how to use GetMonitoredResourceType API.
 // A default retry strategy applies to this operation GetMonitoredResourceType()
 func (client StackMonitoringClient) GetMonitoredResourceType(ctx context.Context, request GetMonitoredResourceTypeRequest) (response GetMonitoredResourceTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2173,10 +2037,6 @@ func (client StackMonitoringClient) getMonitoredResourceType(ctx context.Context
 }
 
 // GetProcessSet API to get the details of a Process Set by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetProcessSet.go.html to see an example of how to use GetProcessSet API.
 // A default retry strategy applies to this operation GetProcessSet()
 func (client StackMonitoringClient) GetProcessSet(ctx context.Context, request GetProcessSetRequest) (response GetProcessSetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2231,10 +2091,6 @@ func (client StackMonitoringClient) getProcessSet(ctx context.Context, request c
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client StackMonitoringClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2289,10 +2145,6 @@ func (client StackMonitoringClient) getWorkRequest(ctx context.Context, request 
 }
 
 // ListBaselineableMetrics List of summary of baseline-able metrics for a given resource group if specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListBaselineableMetrics.go.html to see an example of how to use ListBaselineableMetrics API.
 // A default retry strategy applies to this operation ListBaselineableMetrics()
 func (client StackMonitoringClient) ListBaselineableMetrics(ctx context.Context, request ListBaselineableMetricsRequest) (response ListBaselineableMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2337,7 +2189,7 @@ func (client StackMonitoringClient) listBaselineableMetrics(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetricSummary/ListBaselineableMetrics"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/ListBaselineableMetrics"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListBaselineableMetrics", apiReferenceLink)
 		return response, err
 	}
@@ -2347,10 +2199,6 @@ func (client StackMonitoringClient) listBaselineableMetrics(ctx context.Context,
 }
 
 // ListConfigs Get a list of configurations in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListConfigs.go.html to see an example of how to use ListConfigs API.
 // A default retry strategy applies to this operation ListConfigs()
 func (client StackMonitoringClient) ListConfigs(ctx context.Context, request ListConfigsRequest) (response ListConfigsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2405,10 +2253,6 @@ func (client StackMonitoringClient) listConfigs(ctx context.Context, request com
 }
 
 // ListDiscoveryJobLogs API to get all the logs of a Discovery Job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListDiscoveryJobLogs.go.html to see an example of how to use ListDiscoveryJobLogs API.
 // A default retry strategy applies to this operation ListDiscoveryJobLogs()
 func (client StackMonitoringClient) ListDiscoveryJobLogs(ctx context.Context, request ListDiscoveryJobLogsRequest) (response ListDiscoveryJobLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2463,10 +2307,6 @@ func (client StackMonitoringClient) listDiscoveryJobLogs(ctx context.Context, re
 }
 
 // ListDiscoveryJobs API to get the details of all Discovery Jobs.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListDiscoveryJobs.go.html to see an example of how to use ListDiscoveryJobs API.
 // A default retry strategy applies to this operation ListDiscoveryJobs()
 func (client StackMonitoringClient) ListDiscoveryJobs(ctx context.Context, request ListDiscoveryJobsRequest) (response ListDiscoveryJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2521,10 +2361,6 @@ func (client StackMonitoringClient) listDiscoveryJobs(ctx context.Context, reque
 }
 
 // ListMetricExtensions Returns a list of metric extensions
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMetricExtensions.go.html to see an example of how to use ListMetricExtensions API.
 // A default retry strategy applies to this operation ListMetricExtensions()
 func (client StackMonitoringClient) ListMetricExtensions(ctx context.Context, request ListMetricExtensionsRequest) (response ListMetricExtensionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2579,10 +2415,6 @@ func (client StackMonitoringClient) listMetricExtensions(ctx context.Context, re
 }
 
 // ListMonitoredResourceTasks Returns a list of stack monitoring resource tasks in the compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResourceTasks.go.html to see an example of how to use ListMonitoredResourceTasks API.
 // A default retry strategy applies to this operation ListMonitoredResourceTasks()
 func (client StackMonitoringClient) ListMonitoredResourceTasks(ctx context.Context, request ListMonitoredResourceTasksRequest) (response ListMonitoredResourceTasksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2642,10 +2474,6 @@ func (client StackMonitoringClient) listMonitoredResourceTasks(ctx context.Conte
 // and are accessible to all the tenant users. User resource types are created in the context
 // of a tenancy and are visible only for the tenancy. By default, both System resource types
 // and User resource types are returned.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResourceTypes.go.html to see an example of how to use ListMonitoredResourceTypes API.
 // A default retry strategy applies to this operation ListMonitoredResourceTypes()
 func (client StackMonitoringClient) ListMonitoredResourceTypes(ctx context.Context, request ListMonitoredResourceTypesRequest) (response ListMonitoredResourceTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2700,10 +2528,6 @@ func (client StackMonitoringClient) listMonitoredResourceTypes(ctx context.Conte
 }
 
 // ListMonitoredResources Returns a list of monitored resources.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMonitoredResources.go.html to see an example of how to use ListMonitoredResources API.
 // A default retry strategy applies to this operation ListMonitoredResources()
 func (client StackMonitoringClient) ListMonitoredResources(ctx context.Context, request ListMonitoredResourcesRequest) (response ListMonitoredResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2758,10 +2582,6 @@ func (client StackMonitoringClient) listMonitoredResources(ctx context.Context, 
 }
 
 // ListProcessSets API to get the details of all Process Sets.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListProcessSets.go.html to see an example of how to use ListProcessSets API.
 // A default retry strategy applies to this operation ListProcessSets()
 func (client StackMonitoringClient) ListProcessSets(ctx context.Context, request ListProcessSetsRequest) (response ListProcessSetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2816,10 +2636,6 @@ func (client StackMonitoringClient) listProcessSets(ctx context.Context, request
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client StackMonitoringClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2874,10 +2690,6 @@ func (client StackMonitoringClient) listWorkRequestErrors(ctx context.Context, r
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client StackMonitoringClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2932,10 +2744,6 @@ func (client StackMonitoringClient) listWorkRequestLogs(ctx context.Context, req
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client StackMonitoringClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2994,10 +2802,6 @@ func (client StackMonitoringClient) listWorkRequests(ctx context.Context, reques
 // Specify the license type to be updated for the parent resource in the topology.
 // The license type value is propagated to the member resources as well.
 // Member resource is a resource which has "contains" association with the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ManageLicense.go.html to see an example of how to use ManageLicense API.
 // A default retry strategy applies to this operation ManageLicense()
 func (client StackMonitoringClient) ManageLicense(ctx context.Context, request ManageLicenseRequest) (response ManageLicenseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3057,10 +2861,6 @@ func (client StackMonitoringClient) manageLicense(ctx context.Context, request c
 }
 
 // PublishMetricExtension Publish the Metric Extension identified by the id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/PublishMetricExtension.go.html to see an example of how to use PublishMetricExtension API.
 func (client StackMonitoringClient) PublishMetricExtension(ctx context.Context, request PublishMetricExtensionRequest) (response PublishMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3119,10 +2919,6 @@ func (client StackMonitoringClient) publishMetricExtension(ctx context.Context, 
 }
 
 // RequestMonitoredResourcesSummarizedCount Gets resource count based on the aggregation criteria specified using "groupBy" parameter.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/RequestMonitoredResourcesSummarizedCount.go.html to see an example of how to use RequestMonitoredResourcesSummarizedCount API.
 // A default retry strategy applies to this operation RequestMonitoredResourcesSummarizedCount()
 func (client StackMonitoringClient) RequestMonitoredResourcesSummarizedCount(ctx context.Context, request RequestMonitoredResourcesSummarizedCountRequest) (response RequestMonitoredResourcesSummarizedCountResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3178,10 +2974,6 @@ func (client StackMonitoringClient) requestMonitoredResourcesSummarizedCount(ctx
 
 // SearchAssociatedResources List all associated resources recursively up-to a specified level,
 // for the monitored resources of type specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchAssociatedResources.go.html to see an example of how to use SearchAssociatedResources API.
 // A default retry strategy applies to this operation SearchAssociatedResources()
 func (client StackMonitoringClient) SearchAssociatedResources(ctx context.Context, request SearchAssociatedResourcesRequest) (response SearchAssociatedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3241,10 +3033,6 @@ func (client StackMonitoringClient) searchAssociatedResources(ctx context.Contex
 }
 
 // SearchMonitoredResourceAssociations Search associations in the given compartment based on the search criteria.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResourceAssociations.go.html to see an example of how to use SearchMonitoredResourceAssociations API.
 // A default retry strategy applies to this operation SearchMonitoredResourceAssociations()
 func (client StackMonitoringClient) SearchMonitoredResourceAssociations(ctx context.Context, request SearchMonitoredResourceAssociationsRequest) (response SearchMonitoredResourceAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3304,10 +3092,6 @@ func (client StackMonitoringClient) searchMonitoredResourceAssociations(ctx cont
 }
 
 // SearchMonitoredResourceMembers List the member resources for the given monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResourceMembers.go.html to see an example of how to use SearchMonitoredResourceMembers API.
 // A default retry strategy applies to this operation SearchMonitoredResourceMembers()
 func (client StackMonitoringClient) SearchMonitoredResourceMembers(ctx context.Context, request SearchMonitoredResourceMembersRequest) (response SearchMonitoredResourceMembersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3367,10 +3151,6 @@ func (client StackMonitoringClient) searchMonitoredResourceMembers(ctx context.C
 }
 
 // SearchMonitoredResources Gets a list of all monitored resources in a compartment for the given search criteria.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/SearchMonitoredResources.go.html to see an example of how to use SearchMonitoredResources API.
 // A default retry strategy applies to this operation SearchMonitoredResources()
 func (client StackMonitoringClient) SearchMonitoredResources(ctx context.Context, request SearchMonitoredResourcesRequest) (response SearchMonitoredResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3430,10 +3210,6 @@ func (client StackMonitoringClient) searchMonitoredResources(ctx context.Context
 }
 
 // TestMetricExtension Performs test of Metric Extension on a specific resource Id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/TestMetricExtension.go.html to see an example of how to use TestMetricExtension API.
 func (client StackMonitoringClient) TestMetricExtension(ctx context.Context, request TestMetricExtensionRequest) (response TestMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3495,10 +3271,6 @@ func (client StackMonitoringClient) testMetricExtension(ctx context.Context, req
 // Resources to be updated are identified based on association types specified.
 // If association types not specified, then tags will be updated only for the resource identified by
 // the given monitored resource identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateAndPropagateTags.go.html to see an example of how to use UpdateAndPropagateTags API.
 // A default retry strategy applies to this operation UpdateAndPropagateTags()
 func (client StackMonitoringClient) UpdateAndPropagateTags(ctx context.Context, request UpdateAndPropagateTagsRequest) (response UpdateAndPropagateTagsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3558,10 +3330,6 @@ func (client StackMonitoringClient) updateAndPropagateTags(ctx context.Context, 
 }
 
 // UpdateBaselineableMetric Updates the Baseline-able metric for the given id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateBaselineableMetric.go.html to see an example of how to use UpdateBaselineableMetric API.
 // A default retry strategy applies to this operation UpdateBaselineableMetric()
 func (client StackMonitoringClient) UpdateBaselineableMetric(ctx context.Context, request UpdateBaselineableMetricRequest) (response UpdateBaselineableMetricResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3606,7 +3374,7 @@ func (client StackMonitoringClient) updateBaselineableMetric(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/UpdateBaselineableMetricDetails/UpdateBaselineableMetric"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/UpdateBaselineableMetric"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
@@ -3616,10 +3384,6 @@ func (client StackMonitoringClient) updateBaselineableMetric(ctx context.Context
 }
 
 // UpdateConfig Updates the configuration identified by the id given.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateConfig.go.html to see an example of how to use UpdateConfig API.
 // A default retry strategy applies to this operation UpdateConfig()
 func (client StackMonitoringClient) UpdateConfig(ctx context.Context, request UpdateConfigRequest) (response UpdateConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3674,10 +3438,6 @@ func (client StackMonitoringClient) updateConfig(ctx context.Context, request co
 }
 
 // UpdateMetricExtension Updates the Metric Extension
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMetricExtension.go.html to see an example of how to use UpdateMetricExtension API.
 func (client StackMonitoringClient) UpdateMetricExtension(ctx context.Context, request UpdateMetricExtensionRequest) (response UpdateMetricExtensionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3733,10 +3493,6 @@ func (client StackMonitoringClient) updateMetricExtension(ctx context.Context, r
 // UpdateMonitoredResource Update monitored resource by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 // Note that "properties" object, if specified, will entirely replace the existing object,
 // as part this operation.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMonitoredResource.go.html to see an example of how to use UpdateMonitoredResource API.
 func (client StackMonitoringClient) UpdateMonitoredResource(ctx context.Context, request UpdateMonitoredResourceRequest) (response UpdateMonitoredResourceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3790,10 +3546,6 @@ func (client StackMonitoringClient) updateMonitoredResource(ctx context.Context,
 }
 
 // UpdateMonitoredResourceTask Update stack monitoring resource task by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMonitoredResourceTask.go.html to see an example of how to use UpdateMonitoredResourceTask API.
 func (client StackMonitoringClient) UpdateMonitoredResourceTask(ctx context.Context, request UpdateMonitoredResourceTaskRequest) (response UpdateMonitoredResourceTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3847,10 +3599,6 @@ func (client StackMonitoringClient) updateMonitoredResourceTask(ctx context.Cont
 }
 
 // UpdateMonitoredResourceType Update the Monitored Resource Type identified by the identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMonitoredResourceType.go.html to see an example of how to use UpdateMonitoredResourceType API.
 func (client StackMonitoringClient) UpdateMonitoredResourceType(ctx context.Context, request UpdateMonitoredResourceTypeRequest) (response UpdateMonitoredResourceTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3904,10 +3652,6 @@ func (client StackMonitoringClient) updateMonitoredResourceType(ctx context.Cont
 }
 
 // UpdateProcessSet API to update a Process Set identified by a given ocid.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateProcessSet.go.html to see an example of how to use UpdateProcessSet API.
 // A default retry strategy applies to this operation UpdateProcessSet()
 func (client StackMonitoringClient) UpdateProcessSet(ctx context.Context, request UpdateProcessSetRequest) (response UpdateProcessSetResponse, err error) {
 	var ociResponse common.OCIResponse

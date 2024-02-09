@@ -12,10 +12,6 @@ import (
 )
 
 // ListErrataRequest wrapper for the ListErrata operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListErrata.go.html to see an example of how to use ListErrataRequest.
 type ListErrataRequest struct {
 
 	// The OCID of the compartment that contains the resources to list. This parameter is required.

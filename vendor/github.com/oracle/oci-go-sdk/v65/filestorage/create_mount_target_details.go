@@ -79,6 +79,15 @@ type CreateMountTargetDetails struct {
 
 	Kerberos *CreateKerberosDetails `mandatory:"false" json:"kerberos"`
 
+	// Immediately available IOPS performance for the associated mount target. Three values are accepted: 50000,
+	// 200000, and 400000. The default IOPS value of 50000 translates to a standard shape with 10 Gbps throughput.
+	// The values of 200000 and 400000 translate to high performance shapes with 40 Gbps or 80 Gbps throughput,
+	// respectively.
+	BaselineIops *int64 `mandatory:"false" json:"baselineIops"`
+
+	// Maximum IOPS performance that associated Mount Target can scale to in response to load.
+	MaximumIops *int64 `mandatory:"false" json:"maximumIops"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -89,6 +98,9 @@ type CreateMountTargetDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Not used by File Systems but required for SPLAT tag integration.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m CreateMountTargetDetails) String() string {

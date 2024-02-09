@@ -12,10 +12,6 @@ import (
 )
 
 // GetQueueRequest wrapper for the GetQueue operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/GetQueue.go.html to see an example of how to use GetQueueRequest.
 type GetQueueRequest struct {
 
 	// The unique queue identifier.

@@ -12,10 +12,6 @@ import (
 )
 
 // EvaluateBaselineableMetricRequest wrapper for the EvaluateBaselineableMetric operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/EvaluateBaselineableMetric.go.html to see an example of how to use EvaluateBaselineableMetricRequest.
 type EvaluateBaselineableMetricRequest struct {
 
 	// Metric details

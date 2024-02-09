@@ -54,8 +54,19 @@ const (
 	OperationTypeUpdateRepository                        OperationTypeEnum = "UPDATE_REPOSITORY"
 	OperationTypeDeleteRepository                        OperationTypeEnum = "DELETE_REPOSITORY"
 	OperationTypeMirrorRepository                        OperationTypeEnum = "MIRROR_REPOSITORY"
+	OperationTypeForkRepository                          OperationTypeEnum = "FORK_REPOSITORY"
+	OperationTypeSyncForkRepository                      OperationTypeEnum = "SYNC_FORK_REPOSITORY"
 	OperationTypeScheduleCascadingProjectDeletion        OperationTypeEnum = "SCHEDULE_CASCADING_PROJECT_DELETION"
 	OperationTypeCancelScheduledCascadingProjectDeletion OperationTypeEnum = "CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION"
+	OperationTypeCreatePullRequest                       OperationTypeEnum = "CREATE_PULL_REQUEST"
+	OperationTypeUpdatePullRequest                       OperationTypeEnum = "UPDATE_PULL_REQUEST"
+	OperationTypeDeletePullRequest                       OperationTypeEnum = "DELETE_PULL_REQUEST"
+	OperationTypeMovePullRequest                         OperationTypeEnum = "MOVE_PULL_REQUEST"
+	OperationTypeMergePullRequest                        OperationTypeEnum = "MERGE_PULL_REQUEST"
+	OperationTypeCreateRepositoryPrivateAccess           OperationTypeEnum = "CREATE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeUpdateRepositoryPrivateAccess           OperationTypeEnum = "UPDATE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeDeleteRepositoryPrivateAccess           OperationTypeEnum = "DELETE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeMoveRepositoryPrivateAccess             OperationTypeEnum = "MOVE_REPOSITORY_PRIVATE_ACCESS"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -95,8 +106,19 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_REPOSITORY":                           OperationTypeUpdateRepository,
 	"DELETE_REPOSITORY":                           OperationTypeDeleteRepository,
 	"MIRROR_REPOSITORY":                           OperationTypeMirrorRepository,
+	"FORK_REPOSITORY":                             OperationTypeForkRepository,
+	"SYNC_FORK_REPOSITORY":                        OperationTypeSyncForkRepository,
 	"SCHEDULE_CASCADING_PROJECT_DELETION":         OperationTypeScheduleCascadingProjectDeletion,
 	"CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION": OperationTypeCancelScheduledCascadingProjectDeletion,
+	"CREATE_PULL_REQUEST":                         OperationTypeCreatePullRequest,
+	"UPDATE_PULL_REQUEST":                         OperationTypeUpdatePullRequest,
+	"DELETE_PULL_REQUEST":                         OperationTypeDeletePullRequest,
+	"MOVE_PULL_REQUEST":                           OperationTypeMovePullRequest,
+	"MERGE_PULL_REQUEST":                          OperationTypeMergePullRequest,
+	"CREATE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeCreateRepositoryPrivateAccess,
+	"UPDATE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeUpdateRepositoryPrivateAccess,
+	"DELETE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeDeleteRepositoryPrivateAccess,
+	"MOVE_REPOSITORY_PRIVATE_ACCESS":              OperationTypeMoveRepositoryPrivateAccess,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -136,8 +158,19 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_repository":                           OperationTypeUpdateRepository,
 	"delete_repository":                           OperationTypeDeleteRepository,
 	"mirror_repository":                           OperationTypeMirrorRepository,
+	"fork_repository":                             OperationTypeForkRepository,
+	"sync_fork_repository":                        OperationTypeSyncForkRepository,
 	"schedule_cascading_project_deletion":         OperationTypeScheduleCascadingProjectDeletion,
 	"cancel_scheduled_cascading_project_deletion": OperationTypeCancelScheduledCascadingProjectDeletion,
+	"create_pull_request":                         OperationTypeCreatePullRequest,
+	"update_pull_request":                         OperationTypeUpdatePullRequest,
+	"delete_pull_request":                         OperationTypeDeletePullRequest,
+	"move_pull_request":                           OperationTypeMovePullRequest,
+	"merge_pull_request":                          OperationTypeMergePullRequest,
+	"create_repository_private_access":            OperationTypeCreateRepositoryPrivateAccess,
+	"update_repository_private_access":            OperationTypeUpdateRepositoryPrivateAccess,
+	"delete_repository_private_access":            OperationTypeDeleteRepositoryPrivateAccess,
+	"move_repository_private_access":              OperationTypeMoveRepositoryPrivateAccess,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -188,8 +221,19 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_REPOSITORY",
 		"DELETE_REPOSITORY",
 		"MIRROR_REPOSITORY",
+		"FORK_REPOSITORY",
+		"SYNC_FORK_REPOSITORY",
 		"SCHEDULE_CASCADING_PROJECT_DELETION",
 		"CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION",
+		"CREATE_PULL_REQUEST",
+		"UPDATE_PULL_REQUEST",
+		"DELETE_PULL_REQUEST",
+		"MOVE_PULL_REQUEST",
+		"MERGE_PULL_REQUEST",
+		"CREATE_REPOSITORY_PRIVATE_ACCESS",
+		"UPDATE_REPOSITORY_PRIVATE_ACCESS",
+		"DELETE_REPOSITORY_PRIVATE_ACCESS",
+		"MOVE_REPOSITORY_PRIVATE_ACCESS",
 	}
 }
 

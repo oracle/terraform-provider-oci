@@ -12,10 +12,6 @@ import (
 )
 
 // GetCccInfrastructureRequest wrapper for the GetCccInfrastructure operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/GetCccInfrastructure.go.html to see an example of how to use GetCccInfrastructureRequest.
 type GetCccInfrastructureRequest struct {
 
 	// An OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for a

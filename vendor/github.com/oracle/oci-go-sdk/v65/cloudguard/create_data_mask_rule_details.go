@@ -17,32 +17,32 @@ import (
 	"strings"
 )
 
-// CreateDataMaskRuleDetails The information about new Data Mask Rule.
+// CreateDataMaskRuleDetails Parameters to us to create a new data mask rule.
 type CreateDataMaskRuleDetails struct {
 
-	// Data mask rule name.
+	// Data mask rule display name
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// IAM Group id associated with the data mask rule
+	// IAM group ID associated with the data mask rule
 	IamGroupId *string `mandatory:"true" json:"iamGroupId"`
 
 	TargetSelected TargetSelected `mandatory:"true" json:"targetSelected"`
 
-	// Data Mask Categories
+	// Data mask rule categories
 	DataMaskCategories []DataMaskCategoryEnum `mandatory:"true" json:"dataMaskCategories"`
 
-	// The data mask rule description.
+	// The data mask rule description
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The status of the dataMaskRule.
+	// The current status of the data mask rule
 	DataMaskRuleStatus DataMaskRuleStatusEnum `mandatory:"false" json:"dataMaskRuleStatus,omitempty"`
 
-	// The current state of the DataMaskRule.
+	// The current lifecycle state of the data mask rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

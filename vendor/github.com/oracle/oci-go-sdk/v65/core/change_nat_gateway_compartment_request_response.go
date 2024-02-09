@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeNatGatewayCompartmentRequest wrapper for the ChangeNatGatewayCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeNatGatewayCompartment.go.html to see an example of how to use ChangeNatGatewayCompartmentRequest.
 type ChangeNatGatewayCompartmentRequest struct {
 
 	// The NAT gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

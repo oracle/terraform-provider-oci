@@ -12,10 +12,6 @@ import (
 )
 
 // ListEventsRequest wrapper for the ListEvents operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagement/ListEvents.go.html to see an example of how to use ListEventsRequest.
 type ListEventsRequest struct {
 
 	// Instance Oracle Cloud identifier (ocid)

@@ -16,13 +16,14 @@ import (
 	"strings"
 )
 
-// CreateTargetResponderRecipeDetails The information required to create TargetResponderRecipe
+// CreateTargetResponderRecipeDetails Parameters to be used to create a new target responder recipe (TargetDetectorRecipe
+// resource).
 type CreateTargetResponderRecipeDetails struct {
 
-	// Identifier for ResponderRecipe.
+	// Unique identifier for responder recipe
 	ResponderRecipeId *string `mandatory:"true" json:"responderRecipeId"`
 
-	// Override responder rules associated with reponder recipe in a target.
+	// List of overrides to be applied to responder rules associated with the target
 	ResponderRules []UpdateTargetRecipeResponderRuleDetails `mandatory:"false" json:"responderRules"`
 }
 

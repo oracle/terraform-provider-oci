@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeAccessPolicyCompartmentRequest wrapper for the ChangeAccessPolicyCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ChangeAccessPolicyCompartment.go.html to see an example of how to use ChangeAccessPolicyCompartmentRequest.
 type ChangeAccessPolicyCompartmentRequest struct {
 
 	// Unique AccessPolicy identifier.

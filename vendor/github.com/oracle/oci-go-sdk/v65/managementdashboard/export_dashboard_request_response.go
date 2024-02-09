@@ -12,10 +12,6 @@ import (
 )
 
 // ExportDashboardRequest wrapper for the ExportDashboard operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementdashboard/ExportDashboard.go.html to see an example of how to use ExportDashboardRequest.
 type ExportDashboardRequest struct {
 
 	// List of dashboardIds in plain text. The syntax is '{"dashboardIds":["dashboardId1", "dashboardId2", ...]}'. Escaping is needed when using in OCI CLI. For example, "{\"dashboardIds\":[\"ocid1.managementdashboard.oc1..dashboardId1\"]}" .

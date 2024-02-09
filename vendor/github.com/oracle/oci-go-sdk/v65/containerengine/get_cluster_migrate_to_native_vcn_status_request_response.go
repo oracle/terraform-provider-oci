@@ -12,10 +12,6 @@ import (
 )
 
 // GetClusterMigrateToNativeVcnStatusRequest wrapper for the GetClusterMigrateToNativeVcnStatus operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/GetClusterMigrateToNativeVcnStatus.go.html to see an example of how to use GetClusterMigrateToNativeVcnStatusRequest.
 type GetClusterMigrateToNativeVcnStatusRequest struct {
 
 	// The OCID of the cluster.

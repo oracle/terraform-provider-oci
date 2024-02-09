@@ -12,10 +12,6 @@ import (
 )
 
 // PutSchemaRequest wrapper for the PutSchema operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PutSchema.go.html to see an example of how to use PutSchemaRequest.
 type PutSchemaRequest struct {
 
 	// ID of the resource

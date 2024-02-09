@@ -12,10 +12,6 @@ import (
 )
 
 // CreateMappedSecretRequest wrapper for the CreateMappedSecret operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateMappedSecret.go.html to see an example of how to use CreateMappedSecretRequest.
 type CreateMappedSecretRequest struct {
 
 	// Unique Network Firewall Policy identifier

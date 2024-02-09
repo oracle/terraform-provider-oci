@@ -12,13 +12,9 @@ import (
 )
 
 // UpdateClusterRequest wrapper for the UpdateCluster operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/UpdateCluster.go.html to see an example of how to use UpdateClusterRequest.
 type UpdateClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Cluster.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the SDDC Cluster.
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
 
 	// The information to be updated.

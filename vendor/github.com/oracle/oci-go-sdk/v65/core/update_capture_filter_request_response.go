@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateCaptureFilterRequest wrapper for the UpdateCaptureFilter operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateCaptureFilter.go.html to see an example of how to use UpdateCaptureFilterRequest.
 type UpdateCaptureFilterRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the capture filter.

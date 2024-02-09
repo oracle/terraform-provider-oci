@@ -12,10 +12,6 @@ import (
 )
 
 // AttachManagedInstancesToLifecycleStageRequest wrapper for the AttachManagedInstancesToLifecycleStage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachManagedInstancesToLifecycleStage.go.html to see an example of how to use AttachManagedInstancesToLifecycleStageRequest.
 type AttachManagedInstancesToLifecycleStageRequest struct {
 
 	// The OCID of the lifecycle stage.

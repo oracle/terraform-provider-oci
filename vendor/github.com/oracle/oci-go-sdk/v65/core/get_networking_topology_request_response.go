@@ -12,10 +12,6 @@ import (
 )
 
 // GetNetworkingTopologyRequest wrapper for the GetNetworkingTopology operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetNetworkingTopology.go.html to see an example of how to use GetNetworkingTopologyRequest.
 type GetNetworkingTopologyRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

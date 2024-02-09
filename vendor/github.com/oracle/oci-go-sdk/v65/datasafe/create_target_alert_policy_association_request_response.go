@@ -12,10 +12,6 @@ import (
 )
 
 // CreateTargetAlertPolicyAssociationRequest wrapper for the CreateTargetAlertPolicyAssociation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/CreateTargetAlertPolicyAssociation.go.html to see an example of how to use CreateTargetAlertPolicyAssociationRequest.
 type CreateTargetAlertPolicyAssociationRequest struct {
 
 	// The details used to create a new target-alert policy association.

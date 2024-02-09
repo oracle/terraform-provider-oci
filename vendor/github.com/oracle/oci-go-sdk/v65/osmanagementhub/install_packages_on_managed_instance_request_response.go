@@ -12,10 +12,6 @@ import (
 )
 
 // InstallPackagesOnManagedInstanceRequest wrapper for the InstallPackagesOnManagedInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallPackagesOnManagedInstance.go.html to see an example of how to use InstallPackagesOnManagedInstanceRequest.
 type InstallPackagesOnManagedInstanceRequest struct {
 
 	// The OCID of the managed instance.

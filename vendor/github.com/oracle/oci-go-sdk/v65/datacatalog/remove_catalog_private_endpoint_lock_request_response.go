@@ -12,10 +12,6 @@ import (
 )
 
 // RemoveCatalogPrivateEndpointLockRequest wrapper for the RemoveCatalogPrivateEndpointLock operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/RemoveCatalogPrivateEndpointLock.go.html to see an example of how to use RemoveCatalogPrivateEndpointLockRequest.
 type RemoveCatalogPrivateEndpointLockRequest struct {
 
 	// Unique private reverse connection identifier.

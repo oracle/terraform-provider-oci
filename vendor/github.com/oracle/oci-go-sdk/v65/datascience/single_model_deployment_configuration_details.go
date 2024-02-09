@@ -20,6 +20,8 @@ import (
 type SingleModelDeploymentConfigurationDetails struct {
 	ModelConfigurationDetails *ModelConfigurationDetails `mandatory:"true" json:"modelConfigurationDetails"`
 
+	StreamConfigurationDetails *StreamConfigurationDetails `mandatory:"false" json:"streamConfigurationDetails"`
+
 	EnvironmentConfigurationDetails ModelDeploymentEnvironmentConfigurationDetails `mandatory:"false" json:"environmentConfigurationDetails"`
 }
 
@@ -56,6 +58,7 @@ func (m SingleModelDeploymentConfigurationDetails) MarshalJSON() (buff []byte, e
 // UnmarshalJSON unmarshals from json
 func (m *SingleModelDeploymentConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		StreamConfigurationDetails      *StreamConfigurationDetails                    `json:"streamConfigurationDetails"`
 		EnvironmentConfigurationDetails modeldeploymentenvironmentconfigurationdetails `json:"environmentConfigurationDetails"`
 		ModelConfigurationDetails       *ModelConfigurationDetails                     `json:"modelConfigurationDetails"`
 	}{}
@@ -65,6 +68,8 @@ func (m *SingleModelDeploymentConfigurationDetails) UnmarshalJSON(data []byte) (
 		return
 	}
 	var nn interface{}
+	m.StreamConfigurationDetails = model.StreamConfigurationDetails
+
 	nn, e = model.EnvironmentConfigurationDetails.UnmarshalPolymorphicJSON(model.EnvironmentConfigurationDetails.JsonData)
 	if e != nil {
 		return

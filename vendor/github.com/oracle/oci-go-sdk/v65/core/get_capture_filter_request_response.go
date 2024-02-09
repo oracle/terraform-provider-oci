@@ -12,10 +12,6 @@ import (
 )
 
 // GetCaptureFilterRequest wrapper for the GetCaptureFilter operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetCaptureFilter.go.html to see an example of how to use GetCaptureFilterRequest.
 type GetCaptureFilterRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the capture filter.

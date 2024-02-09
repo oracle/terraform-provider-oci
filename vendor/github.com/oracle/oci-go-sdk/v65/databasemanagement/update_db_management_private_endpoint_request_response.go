@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateDbManagementPrivateEndpointRequest wrapper for the UpdateDbManagementPrivateEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateDbManagementPrivateEndpoint.go.html to see an example of how to use UpdateDbManagementPrivateEndpointRequest.
 type UpdateDbManagementPrivateEndpointRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.

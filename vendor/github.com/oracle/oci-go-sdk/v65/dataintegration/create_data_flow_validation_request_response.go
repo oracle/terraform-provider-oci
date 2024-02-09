@@ -12,10 +12,6 @@ import (
 )
 
 // CreateDataFlowValidationRequest wrapper for the CreateDataFlowValidation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateDataFlowValidation.go.html to see an example of how to use CreateDataFlowValidationRequest.
 type CreateDataFlowValidationRequest struct {
 
 	// The workspace ID.

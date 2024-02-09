@@ -12,10 +12,6 @@ import (
 )
 
 // AddMediaWorkflowConfigurationLockRequest wrapper for the AddMediaWorkflowConfigurationLock operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/AddMediaWorkflowConfigurationLock.go.html to see an example of how to use AddMediaWorkflowConfigurationLockRequest.
 type AddMediaWorkflowConfigurationLockRequest struct {
 
 	// AddResourceLockDetails body parameter

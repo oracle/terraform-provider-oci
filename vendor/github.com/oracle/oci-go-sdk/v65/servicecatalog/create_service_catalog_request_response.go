@@ -12,10 +12,6 @@ import (
 )
 
 // CreateServiceCatalogRequest wrapper for the CreateServiceCatalog operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicecatalog/CreateServiceCatalog.go.html to see an example of how to use CreateServiceCatalogRequest.
 type CreateServiceCatalogRequest struct {
 
 	// The details for creating a service catalog.

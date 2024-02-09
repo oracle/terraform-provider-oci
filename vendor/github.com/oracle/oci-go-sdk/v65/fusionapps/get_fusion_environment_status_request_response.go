@@ -12,10 +12,6 @@ import (
 )
 
 // GetFusionEnvironmentStatusRequest wrapper for the GetFusionEnvironmentStatus operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GetFusionEnvironmentStatus.go.html to see an example of how to use GetFusionEnvironmentStatusRequest.
 type GetFusionEnvironmentStatusRequest struct {
 
 	// unique FusionEnvironment identifier

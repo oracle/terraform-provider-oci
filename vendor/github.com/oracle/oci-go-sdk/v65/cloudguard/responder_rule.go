@@ -16,25 +16,32 @@ import (
 	"strings"
 )
 
-// ResponderRule Definition of ResponderRule.
+// ResponderRule A ResponderRule resource contains the default settings for a single
+// responder rule that Cloud Guard provides.
+// A ResponderRule resource:
+// * Is used as the original source for a rule in an Oracle-managed
+// responder of the specified type.
+// * Is not directly visible in the Cloud Guard UI.
+// * Can’t be modified by users, programmatically or through the UI.
+// * May be modified from time to time by Cloud Guard.
 type ResponderRule struct {
 
-	// Identifier for ResponderRule.
+	// Unique identifier for the responder rule
 	Id *string `mandatory:"true" json:"id"`
 
-	// ResponderRule Display Name
+	// Responder rule display name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// ResponderRule Description
+	// Responder rule description
 	Description *string `mandatory:"true" json:"description"`
 
-	// Type of Responder
+	// Type of responder
 	Type ResponderTypeEnum `mandatory:"true" json:"type"`
 
-	// List of Policy
+	// List of policies
 	Policies []string `mandatory:"false" json:"policies"`
 
-	// Supported Execution Modes
+	// Supported execution modes for the responder rule
 	SupportedModes []ResponderRuleSupportedModesEnum `mandatory:"false" json:"supportedModes,omitempty"`
 
 	Details *ResponderRuleDetails `mandatory:"false" json:"details"`
@@ -42,14 +49,17 @@ type ResponderRule struct {
 	// The date and time the responder rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the responder rule was updated. Format defined by RFC3339.
+	// The date and time the responder rule was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the ResponderRule.
+	// The current lifecycle state of the responder rule.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResponderRule) String() string {

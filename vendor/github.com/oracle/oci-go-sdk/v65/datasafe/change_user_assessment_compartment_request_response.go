@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeUserAssessmentCompartmentRequest wrapper for the ChangeUserAssessmentCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeUserAssessmentCompartment.go.html to see an example of how to use ChangeUserAssessmentCompartmentRequest.
 type ChangeUserAssessmentCompartmentRequest struct {
 
 	// The OCID of the user assessment.

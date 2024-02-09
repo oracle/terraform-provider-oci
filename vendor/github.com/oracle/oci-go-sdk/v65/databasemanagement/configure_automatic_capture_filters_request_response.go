@@ -12,10 +12,6 @@ import (
 )
 
 // ConfigureAutomaticCaptureFiltersRequest wrapper for the ConfigureAutomaticCaptureFilters operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ConfigureAutomaticCaptureFilters.go.html to see an example of how to use ConfigureAutomaticCaptureFiltersRequest.
 type ConfigureAutomaticCaptureFiltersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

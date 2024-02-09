@@ -12,10 +12,6 @@ import (
 )
 
 // ListOutboundConnectorsRequest wrapper for the ListOutboundConnectors operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListOutboundConnectors.go.html to see an example of how to use ListOutboundConnectorsRequest.
 type ListOutboundConnectorsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -154,6 +150,7 @@ type ListOutboundConnectorsLifecycleStateEnum string
 const (
 	ListOutboundConnectorsLifecycleStateCreating ListOutboundConnectorsLifecycleStateEnum = "CREATING"
 	ListOutboundConnectorsLifecycleStateActive   ListOutboundConnectorsLifecycleStateEnum = "ACTIVE"
+	ListOutboundConnectorsLifecycleStateUpdating ListOutboundConnectorsLifecycleStateEnum = "UPDATING"
 	ListOutboundConnectorsLifecycleStateDeleting ListOutboundConnectorsLifecycleStateEnum = "DELETING"
 	ListOutboundConnectorsLifecycleStateDeleted  ListOutboundConnectorsLifecycleStateEnum = "DELETED"
 	ListOutboundConnectorsLifecycleStateFailed   ListOutboundConnectorsLifecycleStateEnum = "FAILED"
@@ -162,6 +159,7 @@ const (
 var mappingListOutboundConnectorsLifecycleStateEnum = map[string]ListOutboundConnectorsLifecycleStateEnum{
 	"CREATING": ListOutboundConnectorsLifecycleStateCreating,
 	"ACTIVE":   ListOutboundConnectorsLifecycleStateActive,
+	"UPDATING": ListOutboundConnectorsLifecycleStateUpdating,
 	"DELETING": ListOutboundConnectorsLifecycleStateDeleting,
 	"DELETED":  ListOutboundConnectorsLifecycleStateDeleted,
 	"FAILED":   ListOutboundConnectorsLifecycleStateFailed,
@@ -170,6 +168,7 @@ var mappingListOutboundConnectorsLifecycleStateEnum = map[string]ListOutboundCon
 var mappingListOutboundConnectorsLifecycleStateEnumLowerCase = map[string]ListOutboundConnectorsLifecycleStateEnum{
 	"creating": ListOutboundConnectorsLifecycleStateCreating,
 	"active":   ListOutboundConnectorsLifecycleStateActive,
+	"updating": ListOutboundConnectorsLifecycleStateUpdating,
 	"deleting": ListOutboundConnectorsLifecycleStateDeleting,
 	"deleted":  ListOutboundConnectorsLifecycleStateDeleted,
 	"failed":   ListOutboundConnectorsLifecycleStateFailed,
@@ -189,6 +188,7 @@ func GetListOutboundConnectorsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

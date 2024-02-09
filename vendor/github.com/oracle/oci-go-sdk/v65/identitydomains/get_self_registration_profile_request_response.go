@@ -12,10 +12,6 @@ import (
 )
 
 // GetSelfRegistrationProfileRequest wrapper for the GetSelfRegistrationProfile operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetSelfRegistrationProfile.go.html to see an example of how to use GetSelfRegistrationProfileRequest.
 type GetSelfRegistrationProfileRequest struct {
 
 	// ID of the resource

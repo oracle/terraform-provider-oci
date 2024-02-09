@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeExadataInsightCompartmentRequest wrapper for the ChangeExadataInsightCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeExadataInsightCompartment.go.html to see an example of how to use ChangeExadataInsightCompartmentRequest.
 type ChangeExadataInsightCompartmentRequest struct {
 
 	// Unique Exadata insight identifier

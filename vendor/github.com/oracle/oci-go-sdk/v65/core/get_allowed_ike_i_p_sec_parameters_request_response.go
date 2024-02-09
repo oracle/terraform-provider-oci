@@ -12,10 +12,6 @@ import (
 )
 
 // GetAllowedIkeIPSecParametersRequest wrapper for the GetAllowedIkeIPSecParameters operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetAllowedIkeIPSecParameters.go.html to see an example of how to use GetAllowedIkeIPSecParametersRequest.
 type GetAllowedIkeIPSecParametersRequest struct {
 
 	// Unique identifier for the request.

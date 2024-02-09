@@ -12,10 +12,6 @@ import (
 )
 
 // CompleteCredentialRotationRequest wrapper for the CompleteCredentialRotation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/containerengine/CompleteCredentialRotation.go.html to see an example of how to use CompleteCredentialRotationRequest.
 type CompleteCredentialRotationRequest struct {
 
 	// The OCID of the cluster.

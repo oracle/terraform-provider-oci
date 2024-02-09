@@ -12,10 +12,6 @@ import (
 )
 
 // ExportDigitalAssistantRequest wrapper for the ExportDigitalAssistant operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ExportDigitalAssistant.go.html to see an example of how to use ExportDigitalAssistantRequest.
 type ExportDigitalAssistantRequest struct {
 
 	// Unique Digital Assistant instance identifier.

@@ -12,10 +12,6 @@ import (
 )
 
 // CreateDbSystemRequest wrapper for the CreateDbSystem operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/CreateDbSystem.go.html to see an example of how to use CreateDbSystemRequest.
 type CreateDbSystemRequest struct {
 
 	// Details for the new database system.

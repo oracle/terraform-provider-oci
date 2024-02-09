@@ -41,6 +41,13 @@ type InstanceConfigurationParavirtualizedAttachVolumeDetails struct {
 	// be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `mandatory:"false" json:"isShareable"`
 
+	// When launching from a Compute Image, it is possible for more than one volume to be defined in the Image definition.
+	// If the relative index of one of these volumes is provided in this field, then the provided createVolumeDetails
+	// descriptor will be utilized to modify the default creation/attachment parameters for this volume rather than the
+	// defaults.
+	// If this field is provided, then CreateVolumeDetails must be specified.
+	ImageVolumeIndex *int `mandatory:"false" json:"imageVolumeIndex"`
+
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 }
@@ -63,6 +70,11 @@ func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) GetDevice() *st
 // GetIsShareable returns IsShareable
 func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) GetIsShareable() *bool {
 	return m.IsShareable
+}
+
+// GetImageVolumeIndex returns ImageVolumeIndex
+func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) GetImageVolumeIndex() *int {
+	return m.ImageVolumeIndex
 }
 
 func (m InstanceConfigurationParavirtualizedAttachVolumeDetails) String() string {

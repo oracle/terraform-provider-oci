@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteUserAssessmentRequest wrapper for the DeleteUserAssessment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteUserAssessment.go.html to see an example of how to use DeleteUserAssessmentRequest.
 type DeleteUserAssessmentRequest struct {
 
 	// The OCID of the user assessment.

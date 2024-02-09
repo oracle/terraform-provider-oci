@@ -41,6 +41,12 @@ type UpdateVirtualNodePoolDetails struct {
 	// The pod configuration for pods run on virtual nodes of this virtual node pool.
 	PodConfiguration *PodConfiguration `mandatory:"false" json:"podConfiguration"`
 
+	// The version of Kubernetes running on the nodes in the node pool.
+	KubernetesVersion *string `mandatory:"false" json:"kubernetesVersion"`
+
+	// Whether or not to enable automatic kubernetes upgrades on the virtual node pool.
+	IsAutomaticKubernetesUpgradeEnabled *bool `mandatory:"false" json:"isAutomaticKubernetesUpgradeEnabled"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -52,6 +58,8 @@ type UpdateVirtualNodePoolDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	VirtualNodeTags *VirtualNodeTags `mandatory:"false" json:"virtualNodeTags"`
+
+	VirtualNodePoolCyclingDetails *VirtualNodePoolCyclingDetails `mandatory:"false" json:"virtualNodePoolCyclingDetails"`
 }
 
 func (m UpdateVirtualNodePoolDetails) String() string {

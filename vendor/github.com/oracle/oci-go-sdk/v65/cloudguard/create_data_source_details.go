@@ -17,17 +17,20 @@ import (
 	"strings"
 )
 
-// CreateDataSourceDetails Creation of Data Source.
+// CreateDataSourceDetails Parameters for creating a data source (DataSource resource).
 type CreateDataSourceDetails struct {
 
-	// Data Source display name.
+	// Data source display name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// CompartmentId of Data Source.
+	// Compartment OCID of the data source
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Possible type of dataSourceFeed Provider(LoggingQuery)
+	// Type of data source feed provider (LoggingQuery)
 	DataSourceFeedProvider DataSourceFeedProviderEnum `mandatory:"true" json:"dataSourceFeedProvider"`
+
+	// Enablement status of data source. Default value is DISABLE
+	Status DataSourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	DataSourceDetails DataSourceDetails `mandatory:"false" json:"dataSourceDetails"`
 
@@ -54,6 +57,9 @@ func (m CreateDataSourceDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSourceFeedProvider: %s. Supported values are: %s.", m.DataSourceFeedProvider, strings.Join(GetDataSourceFeedProviderEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDataSourceStatusEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetDataSourceStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -63,6 +69,7 @@ func (m CreateDataSourceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDataSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Status                 DataSourceStatusEnum              `json:"status"`
 		DataSourceDetails      datasourcedetails                 `json:"dataSourceDetails"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
@@ -76,6 +83,8 @@ func (m *CreateDataSourceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Status = model.Status
+
 	nn, e = model.DataSourceDetails.UnmarshalPolymorphicJSON(model.DataSourceDetails.JsonData)
 	if e != nil {
 		return

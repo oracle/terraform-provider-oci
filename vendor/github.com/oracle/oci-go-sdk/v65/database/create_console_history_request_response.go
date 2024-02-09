@@ -12,10 +12,6 @@ import (
 )
 
 // CreateConsoleHistoryRequest wrapper for the CreateConsoleHistory operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/CreateConsoleHistory.go.html to see an example of how to use CreateConsoleHistoryRequest.
 type CreateConsoleHistoryRequest struct {
 
 	// Request object for creating a console history.

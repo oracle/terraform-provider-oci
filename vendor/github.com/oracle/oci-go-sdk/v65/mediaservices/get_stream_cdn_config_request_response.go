@@ -12,10 +12,6 @@ import (
 )
 
 // GetStreamCdnConfigRequest wrapper for the GetStreamCdnConfig operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetStreamCdnConfig.go.html to see an example of how to use GetStreamCdnConfigRequest.
 type GetStreamCdnConfigRequest struct {
 
 	// Unique StreamCdnConfig identifier.

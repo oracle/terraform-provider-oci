@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeAnalyticsInstanceCompartmentRequest wrapper for the ChangeAnalyticsInstanceCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/analytics/ChangeAnalyticsInstanceCompartment.go.html to see an example of how to use ChangeAnalyticsInstanceCompartmentRequest.
 type ChangeAnalyticsInstanceCompartmentRequest struct {
 
 	// The OCID of the AnalyticsInstance.

@@ -184,7 +184,7 @@ var GlobalRetry *RetryPolicy = nil
 // RetryPolicyOption is the type of the options for NewRetryPolicy.
 type RetryPolicyOption func(rp *RetryPolicy)
 
-// String Converts retry policy to human-readable string representation
+// String Convert retry policy to human-readable string representation
 func (rp RetryPolicy) String() string {
 	return fmt.Sprintf("{MaximumNumberAttempts=%v, MinSleepBetween=%v, MaxSleepBetween=%v, ExponentialBackoffBase=%v, NonEventuallyConsistentPolicy=%v}",
 		rp.MaximumNumberAttempts, rp.MinSleepBetween, rp.MaxSleepBetween, rp.ExponentialBackoffBase, rp.NonEventuallyConsistentPolicy)
@@ -841,17 +841,12 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 			}
 		}
 
-		// some legacy code constructing RetryPolicy instances directly may not have set DeterminePolicyToUse.
-		// In that case, just assume that it doesn't handle eventual consistency.
-		if policy.DeterminePolicyToUse == nil {
-			policy.DeterminePolicyToUse = returnSamePolicy
-		}
-
 		// this determines which policy to use, when the eventual consistency window ends, and what the backoff
 		// scaling factor should be
 		policyToUse, endOfWindowTime, backoffScalingFactor := policy.DeterminePolicyToUse(policy)
 		Debugln(fmt.Sprintf("Retry policy to use: %v", policyToUse))
 		retryStartTime := time.Now()
+
 		extraHeaders := make(map[string]string)
 
 		if policy.MaximumNumberAttempts == 1 {
@@ -877,7 +872,6 @@ func Retry(ctx context.Context, request OCIRetryableRequest, operation OCIOperat
 				retrierChannel <- retrierResult{response, err}
 				return
 			}
-
 			// if the request body type is stream, requested retry but doesn't resettable, throw error and stop retrying
 			if isBinaryRequest && !isSeekable {
 				retrierChannel <- retrierResult{response, NonSeekableRequestRetryFailure{err}}

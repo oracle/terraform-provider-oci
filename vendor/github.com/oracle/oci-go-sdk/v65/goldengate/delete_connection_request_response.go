@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteConnectionRequest wrapper for the DeleteConnection operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/DeleteConnection.go.html to see an example of how to use DeleteConnectionRequest.
 type DeleteConnectionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a Connection.

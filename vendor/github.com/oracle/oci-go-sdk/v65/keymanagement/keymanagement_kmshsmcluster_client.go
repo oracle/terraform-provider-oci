@@ -92,10 +92,6 @@ func (client *KmsHsmClusterClient) ConfigurationProvider() *common.Configuration
 }
 
 // CancelHsmClusterDeletion Cancels deletion of specified HSM Cluster, restores it and associated HSM partitions to pre-deletion states.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CancelHsmClusterDeletion.go.html to see an example of how to use CancelHsmClusterDeletion API.
 func (client KmsHsmClusterClient) CancelHsmClusterDeletion(ctx context.Context, request CancelHsmClusterDeletionRequest) (response CancelHsmClusterDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -154,10 +150,6 @@ func (client KmsHsmClusterClient) cancelHsmClusterDeletion(ctx context.Context, 
 }
 
 // ChangeHsmClusterCompartment Moves a HSM Cluster resource to a different compartment within the same tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ChangeHsmClusterCompartment.go.html to see an example of how to use ChangeHsmClusterCompartment API.
 func (client KmsHsmClusterClient) ChangeHsmClusterCompartment(ctx context.Context, request ChangeHsmClusterCompartmentRequest) (response ChangeHsmClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -216,10 +208,6 @@ func (client KmsHsmClusterClient) changeHsmClusterCompartment(ctx context.Contex
 }
 
 // CreateHsmCluster Creates a new HSM cluster resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/CreateHsmCluster.go.html to see an example of how to use CreateHsmCluster API.
 func (client KmsHsmClusterClient) CreateHsmCluster(ctx context.Context, request CreateHsmClusterRequest) (response CreateHsmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -278,10 +266,6 @@ func (client KmsHsmClusterClient) createHsmCluster(ctx context.Context, request 
 }
 
 // DownloadCertificateSigningRequest Retrieves the certificate signing request for the designated HSM Cluster resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/DownloadCertificateSigningRequest.go.html to see an example of how to use DownloadCertificateSigningRequest API.
 func (client KmsHsmClusterClient) DownloadCertificateSigningRequest(ctx context.Context, request DownloadCertificateSigningRequestRequest) (response DownloadCertificateSigningRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -344,10 +328,6 @@ func (client KmsHsmClusterClient) downloadCertificateSigningRequest(ctx context.
 // the total number of requests across all provisioning read operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // read operations exceeds 10 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetHsmCluster.go.html to see an example of how to use GetHsmCluster API.
 func (client KmsHsmClusterClient) GetHsmCluster(ctx context.Context, request GetHsmClusterRequest) (response GetHsmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -401,10 +381,6 @@ func (client KmsHsmClusterClient) getHsmCluster(ctx context.Context, request com
 }
 
 // GetHsmPartition Retrieves HSM partition details for the specified HSM cluster.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetHsmPartition.go.html to see an example of how to use GetHsmPartition API.
 func (client KmsHsmClusterClient) GetHsmPartition(ctx context.Context, request GetHsmPartitionRequest) (response GetHsmPartitionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -463,10 +439,6 @@ func (client KmsHsmClusterClient) getHsmPartition(ctx context.Context, request c
 }
 
 // GetPreCoUserCredentials Retrieves Pre Crypto Officer user credentials for the specified HSM cluster.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetPreCoUserCredentials.go.html to see an example of how to use GetPreCoUserCredentials API.
 func (client KmsHsmClusterClient) GetPreCoUserCredentials(ctx context.Context, request GetPreCoUserCredentialsRequest) (response GetPreCoUserCredentialsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -529,10 +501,6 @@ func (client KmsHsmClusterClient) getPreCoUserCredentials(ctx context.Context, r
 // the total number of requests across all provisioning read operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // read operations exceeds 10 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListHsmClusters.go.html to see an example of how to use ListHsmClusters API.
 func (client KmsHsmClusterClient) ListHsmClusters(ctx context.Context, request ListHsmClustersRequest) (response ListHsmClustersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -586,10 +554,6 @@ func (client KmsHsmClusterClient) listHsmClusters(ctx context.Context, request c
 }
 
 // ListHsmPartitions Lists all HSM partitions within the specified HSM Cluster resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ListHsmPartitions.go.html to see an example of how to use ListHsmPartitions API.
 func (client KmsHsmClusterClient) ListHsmPartitions(ctx context.Context, request ListHsmPartitionsRequest) (response ListHsmPartitionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -644,10 +608,6 @@ func (client KmsHsmClusterClient) listHsmPartitions(ctx context.Context, request
 
 // ScheduleHsmClusterDeletion Schedules HSM cluster for deletion, update its lifecycle state to 'PENDING_DELETION'
 // and deletes it after the retention period.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/ScheduleHsmClusterDeletion.go.html to see an example of how to use ScheduleHsmClusterDeletion API.
 func (client KmsHsmClusterClient) ScheduleHsmClusterDeletion(ctx context.Context, request ScheduleHsmClusterDeletionRequest) (response ScheduleHsmClusterDeletionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -710,10 +670,6 @@ func (client KmsHsmClusterClient) scheduleHsmClusterDeletion(ctx context.Context
 // the total number of requests across all provisioning write operations. Key Management might
 // throttle this call to reject an otherwise valid request when the total rate of provisioning
 // write operations exceeds 10 requests per second for a given tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateHsmCluster.go.html to see an example of how to use UpdateHsmCluster API.
 func (client KmsHsmClusterClient) UpdateHsmCluster(ctx context.Context, request UpdateHsmClusterRequest) (response UpdateHsmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -767,10 +723,6 @@ func (client KmsHsmClusterClient) updateHsmCluster(ctx context.Context, request 
 }
 
 // UploadPartitionCertificates Uploads the partition owner certificates to the HSM Cluster resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UploadPartitionCertificates.go.html to see an example of how to use UploadPartitionCertificates API.
 func (client KmsHsmClusterClient) UploadPartitionCertificates(ctx context.Context, request UploadPartitionCertificatesRequest) (response UploadPartitionCertificatesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

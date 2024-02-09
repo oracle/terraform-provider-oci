@@ -12,10 +12,6 @@ import (
 )
 
 // InstallOsPatchRequest wrapper for the InstallOsPatch operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/InstallOsPatch.go.html to see an example of how to use InstallOsPatchRequest.
 type InstallOsPatchRequest struct {
 
 	// The OCID of the cluster.

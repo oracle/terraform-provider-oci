@@ -12,10 +12,6 @@ import (
 )
 
 // ListSnapshotsRequest wrapper for the ListSnapshots operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/ListSnapshots.go.html to see an example of how to use ListSnapshotsRequest.
 type ListSnapshotsRequest struct {
 
 	// For list pagination. The maximum number of results per page,
@@ -39,6 +35,12 @@ type ListSnapshotsRequest struct {
 	// Filter results by OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Must be an OCID of the correct type for
 	// the resouce type.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
+
+	// The field to sort by. You can provide either value, but not both.
+	// By default, when you sort by time created, results are shown
+	// in descending order. When you sort by name, results are
+	// shown in alphabetical order.
+	SortBy ListSnapshotsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system snapshot policy
 	// that is used to create the snapshots.
@@ -98,6 +100,9 @@ func (request ListSnapshotsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListSnapshotsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListSnapshotsLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingListSnapshotsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListSnapshotsSortByEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListSnapshotsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSnapshotsSortOrderEnumStringValues(), ",")))
 	}
@@ -144,6 +149,7 @@ type ListSnapshotsLifecycleStateEnum string
 const (
 	ListSnapshotsLifecycleStateCreating ListSnapshotsLifecycleStateEnum = "CREATING"
 	ListSnapshotsLifecycleStateActive   ListSnapshotsLifecycleStateEnum = "ACTIVE"
+	ListSnapshotsLifecycleStateUpdating ListSnapshotsLifecycleStateEnum = "UPDATING"
 	ListSnapshotsLifecycleStateDeleting ListSnapshotsLifecycleStateEnum = "DELETING"
 	ListSnapshotsLifecycleStateDeleted  ListSnapshotsLifecycleStateEnum = "DELETED"
 	ListSnapshotsLifecycleStateFailed   ListSnapshotsLifecycleStateEnum = "FAILED"
@@ -152,6 +158,7 @@ const (
 var mappingListSnapshotsLifecycleStateEnum = map[string]ListSnapshotsLifecycleStateEnum{
 	"CREATING": ListSnapshotsLifecycleStateCreating,
 	"ACTIVE":   ListSnapshotsLifecycleStateActive,
+	"UPDATING": ListSnapshotsLifecycleStateUpdating,
 	"DELETING": ListSnapshotsLifecycleStateDeleting,
 	"DELETED":  ListSnapshotsLifecycleStateDeleted,
 	"FAILED":   ListSnapshotsLifecycleStateFailed,
@@ -160,6 +167,7 @@ var mappingListSnapshotsLifecycleStateEnum = map[string]ListSnapshotsLifecycleSt
 var mappingListSnapshotsLifecycleStateEnumLowerCase = map[string]ListSnapshotsLifecycleStateEnum{
 	"creating": ListSnapshotsLifecycleStateCreating,
 	"active":   ListSnapshotsLifecycleStateActive,
+	"updating": ListSnapshotsLifecycleStateUpdating,
 	"deleting": ListSnapshotsLifecycleStateDeleting,
 	"deleted":  ListSnapshotsLifecycleStateDeleted,
 	"failed":   ListSnapshotsLifecycleStateFailed,
@@ -179,6 +187,7 @@ func GetListSnapshotsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",
@@ -188,6 +197,48 @@ func GetListSnapshotsLifecycleStateEnumStringValues() []string {
 // GetMappingListSnapshotsLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListSnapshotsLifecycleStateEnum(val string) (ListSnapshotsLifecycleStateEnum, bool) {
 	enum, ok := mappingListSnapshotsLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListSnapshotsSortByEnum Enum with underlying type: string
+type ListSnapshotsSortByEnum string
+
+// Set of constants representing the allowable values for ListSnapshotsSortByEnum
+const (
+	ListSnapshotsSortByTimecreated ListSnapshotsSortByEnum = "TIMECREATED"
+	ListSnapshotsSortByName        ListSnapshotsSortByEnum = "NAME"
+)
+
+var mappingListSnapshotsSortByEnum = map[string]ListSnapshotsSortByEnum{
+	"TIMECREATED": ListSnapshotsSortByTimecreated,
+	"NAME":        ListSnapshotsSortByName,
+}
+
+var mappingListSnapshotsSortByEnumLowerCase = map[string]ListSnapshotsSortByEnum{
+	"timecreated": ListSnapshotsSortByTimecreated,
+	"name":        ListSnapshotsSortByName,
+}
+
+// GetListSnapshotsSortByEnumValues Enumerates the set of values for ListSnapshotsSortByEnum
+func GetListSnapshotsSortByEnumValues() []ListSnapshotsSortByEnum {
+	values := make([]ListSnapshotsSortByEnum, 0)
+	for _, v := range mappingListSnapshotsSortByEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListSnapshotsSortByEnumStringValues Enumerates the set of values in String for ListSnapshotsSortByEnum
+func GetListSnapshotsSortByEnumStringValues() []string {
+	return []string{
+		"TIMECREATED",
+		"NAME",
+	}
+}
+
+// GetMappingListSnapshotsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListSnapshotsSortByEnum(val string) (ListSnapshotsSortByEnum, bool) {
+	enum, ok := mappingListSnapshotsSortByEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

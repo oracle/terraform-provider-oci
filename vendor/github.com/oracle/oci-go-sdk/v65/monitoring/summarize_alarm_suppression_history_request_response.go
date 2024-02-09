@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeAlarmSuppressionHistoryRequest wrapper for the SummarizeAlarmSuppressionHistory operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/monitoring/SummarizeAlarmSuppressionHistory.go.html to see an example of how to use SummarizeAlarmSuppressionHistoryRequest.
 type SummarizeAlarmSuppressionHistoryRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of an alarm.

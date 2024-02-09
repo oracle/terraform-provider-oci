@@ -93,10 +93,6 @@ func (client *ComputeCloudAtCustomerClient) ConfigurationProvider() *common.Conf
 }
 
 // ChangeCccInfrastructureCompartment Moves a Compute Cloud@Customer infrastructure resource from one compartment to another.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ChangeCccInfrastructureCompartment.go.html to see an example of how to use ChangeCccInfrastructureCompartment API.
 // A default retry strategy applies to this operation ChangeCccInfrastructureCompartment()
 func (client ComputeCloudAtCustomerClient) ChangeCccInfrastructureCompartment(ctx context.Context, request ChangeCccInfrastructureCompartmentRequest) (response ChangeCccInfrastructureCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -157,10 +153,6 @@ func (client ComputeCloudAtCustomerClient) changeCccInfrastructureCompartment(ct
 
 // ChangeCccUpgradeScheduleCompartment Moves a Compute Cloud@Customer upgrade schedule from one compartment to another using the
 // specified OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ChangeCccUpgradeScheduleCompartment.go.html to see an example of how to use ChangeCccUpgradeScheduleCompartment API.
 // A default retry strategy applies to this operation ChangeCccUpgradeScheduleCompartment()
 func (client ComputeCloudAtCustomerClient) ChangeCccUpgradeScheduleCompartment(ctx context.Context, request ChangeCccUpgradeScheduleCompartmentRequest) (response ChangeCccUpgradeScheduleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -221,10 +213,6 @@ func (client ComputeCloudAtCustomerClient) changeCccUpgradeScheduleCompartment(c
 
 // CreateCccInfrastructure Creates a Compute Cloud@Customer infrastructure. Once created, Oracle Services
 // must connect the rack in the data center to this Oracle Cloud Infrastructure resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/CreateCccInfrastructure.go.html to see an example of how to use CreateCccInfrastructure API.
 // A default retry strategy applies to this operation CreateCccInfrastructure()
 func (client ComputeCloudAtCustomerClient) CreateCccInfrastructure(ctx context.Context, request CreateCccInfrastructureRequest) (response CreateCccInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -284,10 +272,6 @@ func (client ComputeCloudAtCustomerClient) createCccInfrastructure(ctx context.C
 }
 
 // CreateCccUpgradeSchedule Creates a new Compute Cloud@Customer upgrade schedule.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/CreateCccUpgradeSchedule.go.html to see an example of how to use CreateCccUpgradeSchedule API.
 // A default retry strategy applies to this operation CreateCccUpgradeSchedule()
 func (client ComputeCloudAtCustomerClient) CreateCccUpgradeSchedule(ctx context.Context, request CreateCccUpgradeScheduleRequest) (response CreateCccUpgradeScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -348,10 +332,6 @@ func (client ComputeCloudAtCustomerClient) createCccUpgradeSchedule(ctx context.
 
 // DeleteCccInfrastructure Deletes a Compute Cloud@Customer infrastructure resource specified by the resource
 // OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/DeleteCccInfrastructure.go.html to see an example of how to use DeleteCccInfrastructure API.
 func (client ComputeCloudAtCustomerClient) DeleteCccInfrastructure(ctx context.Context, request DeleteCccInfrastructureRequest) (response DeleteCccInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -406,10 +386,6 @@ func (client ComputeCloudAtCustomerClient) deleteCccInfrastructure(ctx context.C
 
 // DeleteCccUpgradeSchedule Deletes a Compute Cloud@Customer upgrade schedule by the specified
 // OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/DeleteCccUpgradeSchedule.go.html to see an example of how to use DeleteCccUpgradeSchedule API.
 func (client ComputeCloudAtCustomerClient) DeleteCccUpgradeSchedule(ctx context.Context, request DeleteCccUpgradeScheduleRequest) (response DeleteCccUpgradeScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -464,10 +440,6 @@ func (client ComputeCloudAtCustomerClient) deleteCccUpgradeSchedule(ctx context.
 
 // GetCccInfrastructure Gets a Compute Cloud@Customer infrastructure using the infrastructure
 // OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/GetCccInfrastructure.go.html to see an example of how to use GetCccInfrastructure API.
 // A default retry strategy applies to this operation GetCccInfrastructure()
 func (client ComputeCloudAtCustomerClient) GetCccInfrastructure(ctx context.Context, request GetCccInfrastructureRequest) (response GetCccInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -523,10 +495,6 @@ func (client ComputeCloudAtCustomerClient) getCccInfrastructure(ctx context.Cont
 
 // GetCccUpgradeSchedule Gets a Compute Cloud@Customer upgrade schedule by the specified
 // OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/GetCccUpgradeSchedule.go.html to see an example of how to use GetCccUpgradeSchedule API.
 // A default retry strategy applies to this operation GetCccUpgradeSchedule()
 func (client ComputeCloudAtCustomerClient) GetCccUpgradeSchedule(ctx context.Context, request GetCccUpgradeScheduleRequest) (response GetCccUpgradeScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -581,10 +549,6 @@ func (client ComputeCloudAtCustomerClient) getCccUpgradeSchedule(ctx context.Con
 }
 
 // ListCccInfrastructures Returns a list of Compute Cloud@Customer infrastructures.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ListCccInfrastructures.go.html to see an example of how to use ListCccInfrastructures API.
 // A default retry strategy applies to this operation ListCccInfrastructures()
 func (client ComputeCloudAtCustomerClient) ListCccInfrastructures(ctx context.Context, request ListCccInfrastructuresRequest) (response ListCccInfrastructuresResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -639,10 +603,6 @@ func (client ComputeCloudAtCustomerClient) listCccInfrastructures(ctx context.Co
 }
 
 // ListCccUpgradeSchedules Returns a list of Compute Cloud@Customer upgrade schedules.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ListCccUpgradeSchedules.go.html to see an example of how to use ListCccUpgradeSchedules API.
 // A default retry strategy applies to this operation ListCccUpgradeSchedules()
 func (client ComputeCloudAtCustomerClient) ListCccUpgradeSchedules(ctx context.Context, request ListCccUpgradeSchedulesRequest) (response ListCccUpgradeSchedulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -697,10 +657,6 @@ func (client ComputeCloudAtCustomerClient) listCccUpgradeSchedules(ctx context.C
 }
 
 // UpdateCccInfrastructure Updates Compute Cloud@Customer infrastructure resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/UpdateCccInfrastructure.go.html to see an example of how to use UpdateCccInfrastructure API.
 func (client ComputeCloudAtCustomerClient) UpdateCccInfrastructure(ctx context.Context, request UpdateCccInfrastructureRequest) (response UpdateCccInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -754,10 +710,6 @@ func (client ComputeCloudAtCustomerClient) updateCccInfrastructure(ctx context.C
 }
 
 // UpdateCccUpgradeSchedule Updates the Compute Cloud@Customer upgrade schedule.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/UpdateCccUpgradeSchedule.go.html to see an example of how to use UpdateCccUpgradeSchedule API.
 func (client ComputeCloudAtCustomerClient) UpdateCccUpgradeSchedule(ctx context.Context, request UpdateCccUpgradeScheduleRequest) (response UpdateCccUpgradeScheduleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

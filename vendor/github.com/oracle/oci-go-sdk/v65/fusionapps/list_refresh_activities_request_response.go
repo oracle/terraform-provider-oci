@@ -12,10 +12,6 @@ import (
 )
 
 // ListRefreshActivitiesRequest wrapper for the ListRefreshActivities operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/ListRefreshActivities.go.html to see an example of how to use ListRefreshActivitiesRequest.
 type ListRefreshActivitiesRequest struct {
 
 	// unique FusionEnvironment identifier

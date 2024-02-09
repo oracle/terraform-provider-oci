@@ -12,10 +12,6 @@ import (
 )
 
 // ListJavaLicenseAcceptanceRecordsRequest wrapper for the ListJavaLicenseAcceptanceRecords operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/ListJavaLicenseAcceptanceRecords.go.html to see an example of how to use ListJavaLicenseAcceptanceRecordsRequest.
 type ListJavaLicenseAcceptanceRecordsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the tenancy.

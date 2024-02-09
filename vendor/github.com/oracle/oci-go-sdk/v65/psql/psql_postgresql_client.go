@@ -93,10 +93,6 @@ func (client *PostgresqlClient) ConfigurationProvider() *common.ConfigurationPro
 }
 
 // ChangeBackupCompartment Moves a backup from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ChangeBackupCompartment.go.html to see an example of how to use ChangeBackupCompartment API.
 // A default retry strategy applies to this operation ChangeBackupCompartment()
 func (client PostgresqlClient) ChangeBackupCompartment(ctx context.Context, request ChangeBackupCompartmentRequest) (response ChangeBackupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -156,10 +152,6 @@ func (client PostgresqlClient) changeBackupCompartment(ctx context.Context, requ
 }
 
 // ChangeConfigurationCompartment Moves a configuration from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ChangeConfigurationCompartment.go.html to see an example of how to use ChangeConfigurationCompartment API.
 // A default retry strategy applies to this operation ChangeConfigurationCompartment()
 func (client PostgresqlClient) ChangeConfigurationCompartment(ctx context.Context, request ChangeConfigurationCompartmentRequest) (response ChangeConfigurationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -219,10 +211,6 @@ func (client PostgresqlClient) changeConfigurationCompartment(ctx context.Contex
 }
 
 // ChangeDbSystemCompartment Moves a database system from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ChangeDbSystemCompartment.go.html to see an example of how to use ChangeDbSystemCompartment API.
 // A default retry strategy applies to this operation ChangeDbSystemCompartment()
 func (client PostgresqlClient) ChangeDbSystemCompartment(ctx context.Context, request ChangeDbSystemCompartmentRequest) (response ChangeDbSystemCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -282,10 +270,6 @@ func (client PostgresqlClient) changeDbSystemCompartment(ctx context.Context, re
 }
 
 // CreateBackup Creates a new backup.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/CreateBackup.go.html to see an example of how to use CreateBackup API.
 // A default retry strategy applies to this operation CreateBackup()
 func (client PostgresqlClient) CreateBackup(ctx context.Context, request CreateBackupRequest) (response CreateBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -345,10 +329,6 @@ func (client PostgresqlClient) createBackup(ctx context.Context, request common.
 }
 
 // CreateConfiguration Creates a new configuration.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/CreateConfiguration.go.html to see an example of how to use CreateConfiguration API.
 // A default retry strategy applies to this operation CreateConfiguration()
 func (client PostgresqlClient) CreateConfiguration(ctx context.Context, request CreateConfigurationRequest) (response CreateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -408,10 +388,6 @@ func (client PostgresqlClient) createConfiguration(ctx context.Context, request 
 }
 
 // CreateDbSystem Creates a new database system.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/CreateDbSystem.go.html to see an example of how to use CreateDbSystem API.
 // A default retry strategy applies to this operation CreateDbSystem()
 func (client PostgresqlClient) CreateDbSystem(ctx context.Context, request CreateDbSystemRequest) (response CreateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -471,10 +447,6 @@ func (client PostgresqlClient) createDbSystem(ctx context.Context, request commo
 }
 
 // DeleteBackup Deletes a backup by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/DeleteBackup.go.html to see an example of how to use DeleteBackup API.
 // A default retry strategy applies to this operation DeleteBackup()
 func (client PostgresqlClient) DeleteBackup(ctx context.Context, request DeleteBackupRequest) (response DeleteBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -529,10 +501,6 @@ func (client PostgresqlClient) deleteBackup(ctx context.Context, request common.
 }
 
 // DeleteConfiguration Deletes a configuration by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/DeleteConfiguration.go.html to see an example of how to use DeleteConfiguration API.
 // A default retry strategy applies to this operation DeleteConfiguration()
 func (client PostgresqlClient) DeleteConfiguration(ctx context.Context, request DeleteConfigurationRequest) (response DeleteConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -587,10 +555,6 @@ func (client PostgresqlClient) deleteConfiguration(ctx context.Context, request 
 }
 
 // DeleteDbSystem Deletes a database system by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/DeleteDbSystem.go.html to see an example of how to use DeleteDbSystem API.
 // A default retry strategy applies to this operation DeleteDbSystem()
 func (client PostgresqlClient) DeleteDbSystem(ctx context.Context, request DeleteDbSystemRequest) (response DeleteDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -645,10 +609,6 @@ func (client PostgresqlClient) deleteDbSystem(ctx context.Context, request commo
 }
 
 // FailoverDbSystem Runs a failover operation. Optionally, specify the desired AD for regions with three ADs.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/FailoverDbSystem.go.html to see an example of how to use FailoverDbSystem API.
 // A default retry strategy applies to this operation FailoverDbSystem()
 func (client PostgresqlClient) FailoverDbSystem(ctx context.Context, request FailoverDbSystemRequest) (response FailoverDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -708,10 +668,6 @@ func (client PostgresqlClient) failoverDbSystem(ctx context.Context, request com
 }
 
 // GetBackup Gets a backup by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetBackup.go.html to see an example of how to use GetBackup API.
 // A default retry strategy applies to this operation GetBackup()
 func (client PostgresqlClient) GetBackup(ctx context.Context, request GetBackupRequest) (response GetBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -766,10 +722,6 @@ func (client PostgresqlClient) getBackup(ctx context.Context, request common.OCI
 }
 
 // GetConfiguration Gets a configuration by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetConfiguration.go.html to see an example of how to use GetConfiguration API.
 // A default retry strategy applies to this operation GetConfiguration()
 func (client PostgresqlClient) GetConfiguration(ctx context.Context, request GetConfigurationRequest) (response GetConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -824,10 +776,6 @@ func (client PostgresqlClient) getConfiguration(ctx context.Context, request com
 }
 
 // GetConnectionDetails Gets the database system connection details.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetConnectionDetails.go.html to see an example of how to use GetConnectionDetails API.
 // A default retry strategy applies to this operation GetConnectionDetails()
 func (client PostgresqlClient) GetConnectionDetails(ctx context.Context, request GetConnectionDetailsRequest) (response GetConnectionDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -882,10 +830,6 @@ func (client PostgresqlClient) getConnectionDetails(ctx context.Context, request
 }
 
 // GetDbSystem Gets a database system by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetDbSystem.go.html to see an example of how to use GetDbSystem API.
 // A default retry strategy applies to this operation GetDbSystem()
 func (client PostgresqlClient) GetDbSystem(ctx context.Context, request GetDbSystemRequest) (response GetDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -940,10 +884,6 @@ func (client PostgresqlClient) getDbSystem(ctx context.Context, request common.O
 }
 
 // GetDefaultConfiguration Gets a default configuration by identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetDefaultConfiguration.go.html to see an example of how to use GetDefaultConfiguration API.
 // A default retry strategy applies to this operation GetDefaultConfiguration()
 func (client PostgresqlClient) GetDefaultConfiguration(ctx context.Context, request GetDefaultConfigurationRequest) (response GetDefaultConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -998,10 +938,6 @@ func (client PostgresqlClient) getDefaultConfiguration(ctx context.Context, requ
 }
 
 // GetPrimaryDbInstance Gets the primary database instance node details.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetPrimaryDbInstance.go.html to see an example of how to use GetPrimaryDbInstance API.
 // A default retry strategy applies to this operation GetPrimaryDbInstance()
 func (client PostgresqlClient) GetPrimaryDbInstance(ctx context.Context, request GetPrimaryDbInstanceRequest) (response GetPrimaryDbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1056,10 +992,6 @@ func (client PostgresqlClient) getPrimaryDbInstance(ctx context.Context, request
 }
 
 // GetWorkRequest Gets details of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client PostgresqlClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1114,10 +1046,6 @@ func (client PostgresqlClient) getWorkRequest(ctx context.Context, request commo
 }
 
 // ListBackups Returns a list of backups.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListBackups.go.html to see an example of how to use ListBackups API.
 // A default retry strategy applies to this operation ListBackups()
 func (client PostgresqlClient) ListBackups(ctx context.Context, request ListBackupsRequest) (response ListBackupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1172,10 +1100,6 @@ func (client PostgresqlClient) listBackups(ctx context.Context, request common.O
 }
 
 // ListConfigurations Returns a list of configurations.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListConfigurations.go.html to see an example of how to use ListConfigurations API.
 // A default retry strategy applies to this operation ListConfigurations()
 func (client PostgresqlClient) ListConfigurations(ctx context.Context, request ListConfigurationsRequest) (response ListConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1230,10 +1154,6 @@ func (client PostgresqlClient) listConfigurations(ctx context.Context, request c
 }
 
 // ListDbSystems Returns a list of database systems.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListDbSystems.go.html to see an example of how to use ListDbSystems API.
 // A default retry strategy applies to this operation ListDbSystems()
 func (client PostgresqlClient) ListDbSystems(ctx context.Context, request ListDbSystemsRequest) (response ListDbSystemsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1288,10 +1208,6 @@ func (client PostgresqlClient) listDbSystems(ctx context.Context, request common
 }
 
 // ListDefaultConfigurations Returns a list of default configurations.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListDefaultConfigurations.go.html to see an example of how to use ListDefaultConfigurations API.
 // A default retry strategy applies to this operation ListDefaultConfigurations()
 func (client PostgresqlClient) ListDefaultConfigurations(ctx context.Context, request ListDefaultConfigurationsRequest) (response ListDefaultConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1346,10 +1262,6 @@ func (client PostgresqlClient) listDefaultConfigurations(ctx context.Context, re
 }
 
 // ListShapes Returns the list of shapes allowed in the region.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListShapes.go.html to see an example of how to use ListShapes API.
 // A default retry strategy applies to this operation ListShapes()
 func (client PostgresqlClient) ListShapes(ctx context.Context, request ListShapesRequest) (response ListShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1404,10 +1316,6 @@ func (client PostgresqlClient) listShapes(ctx context.Context, request common.OC
 }
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client PostgresqlClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1462,10 +1370,6 @@ func (client PostgresqlClient) listWorkRequestErrors(ctx context.Context, reques
 }
 
 // ListWorkRequestLogs Returns a (paginated) list of logs for the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client PostgresqlClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1520,10 +1424,6 @@ func (client PostgresqlClient) listWorkRequestLogs(ctx context.Context, request 
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client PostgresqlClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1578,10 +1478,6 @@ func (client PostgresqlClient) listWorkRequests(ctx context.Context, request com
 }
 
 // PatchDbSystem Modifies the database system by adding or removing database instance nodes.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/PatchDbSystem.go.html to see an example of how to use PatchDbSystem API.
 // A default retry strategy applies to this operation PatchDbSystem()
 func (client PostgresqlClient) PatchDbSystem(ctx context.Context, request PatchDbSystemRequest) (response PatchDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1636,10 +1532,6 @@ func (client PostgresqlClient) patchDbSystem(ctx context.Context, request common
 }
 
 // ResetMasterUserPassword Resets the database system's master password.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ResetMasterUserPassword.go.html to see an example of how to use ResetMasterUserPassword API.
 // A default retry strategy applies to this operation ResetMasterUserPassword()
 func (client PostgresqlClient) ResetMasterUserPassword(ctx context.Context, request ResetMasterUserPasswordRequest) (response ResetMasterUserPasswordResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1699,10 +1591,6 @@ func (client PostgresqlClient) resetMasterUserPassword(ctx context.Context, requ
 }
 
 // RestartDbInstanceInDbSystem Restarts the running database instance node.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/RestartDbInstanceInDbSystem.go.html to see an example of how to use RestartDbInstanceInDbSystem API.
 // A default retry strategy applies to this operation RestartDbInstanceInDbSystem()
 func (client PostgresqlClient) RestartDbInstanceInDbSystem(ctx context.Context, request RestartDbInstanceInDbSystemRequest) (response RestartDbInstanceInDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1762,10 +1650,6 @@ func (client PostgresqlClient) restartDbInstanceInDbSystem(ctx context.Context, 
 }
 
 // RestoreDbSystem Restore the database system.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/RestoreDbSystem.go.html to see an example of how to use RestoreDbSystem API.
 // A default retry strategy applies to this operation RestoreDbSystem()
 func (client PostgresqlClient) RestoreDbSystem(ctx context.Context, request RestoreDbSystemRequest) (response RestoreDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1825,10 +1709,6 @@ func (client PostgresqlClient) restoreDbSystem(ctx context.Context, request comm
 }
 
 // UpdateBackup Updates the backup.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateBackup.go.html to see an example of how to use UpdateBackup API.
 // A default retry strategy applies to this operation UpdateBackup()
 func (client PostgresqlClient) UpdateBackup(ctx context.Context, request UpdateBackupRequest) (response UpdateBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1883,10 +1763,6 @@ func (client PostgresqlClient) updateBackup(ctx context.Context, request common.
 }
 
 // UpdateConfiguration Updates a display name or description of the configuration.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateConfiguration.go.html to see an example of how to use UpdateConfiguration API.
 // A default retry strategy applies to this operation UpdateConfiguration()
 func (client PostgresqlClient) UpdateConfiguration(ctx context.Context, request UpdateConfigurationRequest) (response UpdateConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1946,10 +1822,6 @@ func (client PostgresqlClient) updateConfiguration(ctx context.Context, request 
 }
 
 // UpdateDbSystem Updates the database system.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateDbSystem.go.html to see an example of how to use UpdateDbSystem API.
 // A default retry strategy applies to this operation UpdateDbSystem()
 func (client PostgresqlClient) UpdateDbSystem(ctx context.Context, request UpdateDbSystemRequest) (response UpdateDbSystemResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2009,10 +1881,6 @@ func (client PostgresqlClient) updateDbSystem(ctx context.Context, request commo
 }
 
 // UpdateDbSystemDbInstance Updates the database instance node.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/UpdateDbSystemDbInstance.go.html to see an example of how to use UpdateDbSystemDbInstance API.
 // A default retry strategy applies to this operation UpdateDbSystemDbInstance()
 func (client PostgresqlClient) UpdateDbSystemDbInstance(ctx context.Context, request UpdateDbSystemDbInstanceRequest) (response UpdateDbSystemDbInstanceResponse, err error) {
 	var ociResponse common.OCIResponse

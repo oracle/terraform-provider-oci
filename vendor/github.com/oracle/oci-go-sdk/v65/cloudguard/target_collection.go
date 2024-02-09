@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// TargetCollection Collection of Target
+// TargetCollection Collection of summary information for targets.
 type TargetCollection struct {
 
-	// List of TargetSummary
+	// List of TargetSummary resources
 	Items []TargetSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetCollection) String() string {

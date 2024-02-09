@@ -104,6 +104,10 @@ type DbSystemSnapshot struct {
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
+
+	// The region identifier of the region where the DB system exists.
+	// For more information, please see Regions and Availability Domains (https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm).
+	Region *string `mandatory:"false" json:"region"`
 }
 
 func (m DbSystemSnapshot) String() string {

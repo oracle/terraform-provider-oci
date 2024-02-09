@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteOpsiConfigurationRequest wrapper for the DeleteOpsiConfiguration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/DeleteOpsiConfiguration.go.html to see an example of how to use DeleteOpsiConfigurationRequest.
 type DeleteOpsiConfigurationRequest struct {
 
 	// OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of OPSI configuration resource.

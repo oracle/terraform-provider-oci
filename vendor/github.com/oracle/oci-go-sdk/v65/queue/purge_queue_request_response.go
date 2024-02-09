@@ -12,10 +12,6 @@ import (
 )
 
 // PurgeQueueRequest wrapper for the PurgeQueue operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/queue/PurgeQueue.go.html to see an example of how to use PurgeQueueRequest.
 type PurgeQueueRequest struct {
 
 	// The unique queue identifier.

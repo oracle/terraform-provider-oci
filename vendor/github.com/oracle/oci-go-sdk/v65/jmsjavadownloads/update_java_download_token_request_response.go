@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateJavaDownloadTokenRequest wrapper for the UpdateJavaDownloadToken operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jmsjavadownloads/UpdateJavaDownloadToken.go.html to see an example of how to use UpdateJavaDownloadTokenRequest.
 type UpdateJavaDownloadTokenRequest struct {
 
 	// Unique JavaDownloadToken identifier.

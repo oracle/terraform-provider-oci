@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateVbInstanceRequest wrapper for the UpdateVbInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/UpdateVbInstance.go.html to see an example of how to use UpdateVbInstanceRequest.
 type UpdateVbInstanceRequest struct {
 
 	// Unique Vb Instance identifier.

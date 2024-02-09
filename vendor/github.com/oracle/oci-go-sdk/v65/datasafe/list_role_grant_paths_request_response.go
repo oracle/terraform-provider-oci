@@ -12,10 +12,6 @@ import (
 )
 
 // ListRoleGrantPathsRequest wrapper for the ListRoleGrantPaths operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListRoleGrantPaths.go.html to see an example of how to use ListRoleGrantPathsRequest.
 type ListRoleGrantPathsRequest struct {
 
 	// The OCID of the security policy report resource.

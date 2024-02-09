@@ -55,6 +55,11 @@ type CreateLogAnalyticsEntityDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The date and time the resource was last discovered, in the format defined by RFC3339.
+	TimeLastDiscovered *common.SDKTime `mandatory:"false" json:"timeLastDiscovered"`
+
+	Metadata *LogAnalyticsMetadataDetails `mandatory:"false" json:"metadata"`
 }
 
 func (m CreateLogAnalyticsEntityDetails) String() string {

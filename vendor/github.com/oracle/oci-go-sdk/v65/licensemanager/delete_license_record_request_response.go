@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteLicenseRecordRequest wrapper for the DeleteLicenseRecord operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/DeleteLicenseRecord.go.html to see an example of how to use DeleteLicenseRecordRequest.
 type DeleteLicenseRecordRequest struct {
 
 	// Unique license record identifier.

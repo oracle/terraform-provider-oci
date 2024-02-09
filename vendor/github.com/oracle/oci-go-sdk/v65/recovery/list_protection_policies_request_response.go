@@ -12,10 +12,6 @@ import (
 )
 
 // ListProtectionPoliciesRequest wrapper for the ListProtectionPolicies operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ListProtectionPolicies.go.html to see an example of how to use ListProtectionPoliciesRequest.
 type ListProtectionPoliciesRequest struct {
 
 	// The compartment OCID.
@@ -141,30 +137,33 @@ type ListProtectionPoliciesLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListProtectionPoliciesLifecycleStateEnum
 const (
-	ListProtectionPoliciesLifecycleStateCreating ListProtectionPoliciesLifecycleStateEnum = "CREATING"
-	ListProtectionPoliciesLifecycleStateUpdating ListProtectionPoliciesLifecycleStateEnum = "UPDATING"
-	ListProtectionPoliciesLifecycleStateActive   ListProtectionPoliciesLifecycleStateEnum = "ACTIVE"
-	ListProtectionPoliciesLifecycleStateDeleting ListProtectionPoliciesLifecycleStateEnum = "DELETING"
-	ListProtectionPoliciesLifecycleStateDeleted  ListProtectionPoliciesLifecycleStateEnum = "DELETED"
-	ListProtectionPoliciesLifecycleStateFailed   ListProtectionPoliciesLifecycleStateEnum = "FAILED"
+	ListProtectionPoliciesLifecycleStateCreating        ListProtectionPoliciesLifecycleStateEnum = "CREATING"
+	ListProtectionPoliciesLifecycleStateUpdating        ListProtectionPoliciesLifecycleStateEnum = "UPDATING"
+	ListProtectionPoliciesLifecycleStateActive          ListProtectionPoliciesLifecycleStateEnum = "ACTIVE"
+	ListProtectionPoliciesLifecycleStateDeleteScheduled ListProtectionPoliciesLifecycleStateEnum = "DELETE_SCHEDULED"
+	ListProtectionPoliciesLifecycleStateDeleting        ListProtectionPoliciesLifecycleStateEnum = "DELETING"
+	ListProtectionPoliciesLifecycleStateDeleted         ListProtectionPoliciesLifecycleStateEnum = "DELETED"
+	ListProtectionPoliciesLifecycleStateFailed          ListProtectionPoliciesLifecycleStateEnum = "FAILED"
 )
 
 var mappingListProtectionPoliciesLifecycleStateEnum = map[string]ListProtectionPoliciesLifecycleStateEnum{
-	"CREATING": ListProtectionPoliciesLifecycleStateCreating,
-	"UPDATING": ListProtectionPoliciesLifecycleStateUpdating,
-	"ACTIVE":   ListProtectionPoliciesLifecycleStateActive,
-	"DELETING": ListProtectionPoliciesLifecycleStateDeleting,
-	"DELETED":  ListProtectionPoliciesLifecycleStateDeleted,
-	"FAILED":   ListProtectionPoliciesLifecycleStateFailed,
+	"CREATING":         ListProtectionPoliciesLifecycleStateCreating,
+	"UPDATING":         ListProtectionPoliciesLifecycleStateUpdating,
+	"ACTIVE":           ListProtectionPoliciesLifecycleStateActive,
+	"DELETE_SCHEDULED": ListProtectionPoliciesLifecycleStateDeleteScheduled,
+	"DELETING":         ListProtectionPoliciesLifecycleStateDeleting,
+	"DELETED":          ListProtectionPoliciesLifecycleStateDeleted,
+	"FAILED":           ListProtectionPoliciesLifecycleStateFailed,
 }
 
 var mappingListProtectionPoliciesLifecycleStateEnumLowerCase = map[string]ListProtectionPoliciesLifecycleStateEnum{
-	"creating": ListProtectionPoliciesLifecycleStateCreating,
-	"updating": ListProtectionPoliciesLifecycleStateUpdating,
-	"active":   ListProtectionPoliciesLifecycleStateActive,
-	"deleting": ListProtectionPoliciesLifecycleStateDeleting,
-	"deleted":  ListProtectionPoliciesLifecycleStateDeleted,
-	"failed":   ListProtectionPoliciesLifecycleStateFailed,
+	"creating":         ListProtectionPoliciesLifecycleStateCreating,
+	"updating":         ListProtectionPoliciesLifecycleStateUpdating,
+	"active":           ListProtectionPoliciesLifecycleStateActive,
+	"delete_scheduled": ListProtectionPoliciesLifecycleStateDeleteScheduled,
+	"deleting":         ListProtectionPoliciesLifecycleStateDeleting,
+	"deleted":          ListProtectionPoliciesLifecycleStateDeleted,
+	"failed":           ListProtectionPoliciesLifecycleStateFailed,
 }
 
 // GetListProtectionPoliciesLifecycleStateEnumValues Enumerates the set of values for ListProtectionPoliciesLifecycleStateEnum
@@ -182,6 +181,7 @@ func GetListProtectionPoliciesLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"DELETE_SCHEDULED",
 		"DELETING",
 		"DELETED",
 		"FAILED",

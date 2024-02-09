@@ -12,10 +12,6 @@ import (
 )
 
 // EnableExternalPluggableDatabaseOperationsInsightsRequest wrapper for the EnableExternalPluggableDatabaseOperationsInsights operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/EnableExternalPluggableDatabaseOperationsInsights.go.html to see an example of how to use EnableExternalPluggableDatabaseOperationsInsightsRequest.
 type EnableExternalPluggableDatabaseOperationsInsightsRequest struct {
 
 	// The ExternalPluggableDatabaseId OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

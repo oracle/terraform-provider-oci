@@ -46,6 +46,12 @@ type CreateBucketDetails struct {
 	// property is immutable after bucket is created.
 	StorageTier CreateBucketDetailsStorageTierEnum `mandatory:"false" json:"storageTier,omitempty"`
 
+	// The type of requests for which object-level audit logging is enabled on this bucket.
+	// This property is set to `Disabled` by default, where no audit logs will be produced at the object level for this
+	// bucket. If the property is set to `Write`, audit logs will be produced for operations such as `Put Object`. If the
+	// property is set to `ReadWrite`, audit logs will be produced for operations such as `Put Object` and `Get Object`.
+	ObjectLevelAuditMode CreateBucketDetailsObjectLevelAuditModeEnum `mandatory:"false" json:"objectLevelAuditMode,omitempty"`
+
 	// Whether or not events are emitted for object state changes in this bucket. By default, `objectEventsEnabled` is
 	// set to `false`. Set `objectEventsEnabled` to `true` to emit events for object state changes. For more information
 	// about events, see Overview of Events (https://docs.cloud.oracle.com/Content/Events/Concepts/eventsoverview.htm).
@@ -73,6 +79,9 @@ type CreateBucketDetails struct {
 	// `InfrequentAccess` are transitioned automatically between the 'Standard' and 'InfrequentAccess'
 	// tiers based on the access pattern of the objects.
 	AutoTiering BucketAutoTieringEnum `mandatory:"false" json:"autoTiering,omitempty"`
+
+	// The ID of the ACL Group that contains the network restriction rules to be applied to this bucket.
+	AclGroupId *string `mandatory:"false" json:"aclGroupId"`
 }
 
 func (m CreateBucketDetails) String() string {
@@ -90,6 +99,9 @@ func (m CreateBucketDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCreateBucketDetailsStorageTierEnum(string(m.StorageTier)); !ok && m.StorageTier != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageTier: %s. Supported values are: %s.", m.StorageTier, strings.Join(GetCreateBucketDetailsStorageTierEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCreateBucketDetailsObjectLevelAuditModeEnum(string(m.ObjectLevelAuditMode)); !ok && m.ObjectLevelAuditMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ObjectLevelAuditMode: %s. Supported values are: %s.", m.ObjectLevelAuditMode, strings.Join(GetCreateBucketDetailsObjectLevelAuditModeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingCreateBucketDetailsVersioningEnum(string(m.Versioning)); !ok && m.Versioning != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Versioning: %s. Supported values are: %s.", m.Versioning, strings.Join(GetCreateBucketDetailsVersioningEnumStringValues(), ",")))
@@ -188,6 +200,52 @@ func GetCreateBucketDetailsStorageTierEnumStringValues() []string {
 // GetMappingCreateBucketDetailsStorageTierEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCreateBucketDetailsStorageTierEnum(val string) (CreateBucketDetailsStorageTierEnum, bool) {
 	enum, ok := mappingCreateBucketDetailsStorageTierEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CreateBucketDetailsObjectLevelAuditModeEnum Enum with underlying type: string
+type CreateBucketDetailsObjectLevelAuditModeEnum string
+
+// Set of constants representing the allowable values for CreateBucketDetailsObjectLevelAuditModeEnum
+const (
+	CreateBucketDetailsObjectLevelAuditModeDisabled  CreateBucketDetailsObjectLevelAuditModeEnum = "Disabled"
+	CreateBucketDetailsObjectLevelAuditModeWrite     CreateBucketDetailsObjectLevelAuditModeEnum = "Write"
+	CreateBucketDetailsObjectLevelAuditModeReadwrite CreateBucketDetailsObjectLevelAuditModeEnum = "ReadWrite"
+)
+
+var mappingCreateBucketDetailsObjectLevelAuditModeEnum = map[string]CreateBucketDetailsObjectLevelAuditModeEnum{
+	"Disabled":  CreateBucketDetailsObjectLevelAuditModeDisabled,
+	"Write":     CreateBucketDetailsObjectLevelAuditModeWrite,
+	"ReadWrite": CreateBucketDetailsObjectLevelAuditModeReadwrite,
+}
+
+var mappingCreateBucketDetailsObjectLevelAuditModeEnumLowerCase = map[string]CreateBucketDetailsObjectLevelAuditModeEnum{
+	"disabled":  CreateBucketDetailsObjectLevelAuditModeDisabled,
+	"write":     CreateBucketDetailsObjectLevelAuditModeWrite,
+	"readwrite": CreateBucketDetailsObjectLevelAuditModeReadwrite,
+}
+
+// GetCreateBucketDetailsObjectLevelAuditModeEnumValues Enumerates the set of values for CreateBucketDetailsObjectLevelAuditModeEnum
+func GetCreateBucketDetailsObjectLevelAuditModeEnumValues() []CreateBucketDetailsObjectLevelAuditModeEnum {
+	values := make([]CreateBucketDetailsObjectLevelAuditModeEnum, 0)
+	for _, v := range mappingCreateBucketDetailsObjectLevelAuditModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateBucketDetailsObjectLevelAuditModeEnumStringValues Enumerates the set of values in String for CreateBucketDetailsObjectLevelAuditModeEnum
+func GetCreateBucketDetailsObjectLevelAuditModeEnumStringValues() []string {
+	return []string{
+		"Disabled",
+		"Write",
+		"ReadWrite",
+	}
+}
+
+// GetMappingCreateBucketDetailsObjectLevelAuditModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateBucketDetailsObjectLevelAuditModeEnum(val string) (CreateBucketDetailsObjectLevelAuditModeEnum, bool) {
+	enum, ok := mappingCreateBucketDetailsObjectLevelAuditModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

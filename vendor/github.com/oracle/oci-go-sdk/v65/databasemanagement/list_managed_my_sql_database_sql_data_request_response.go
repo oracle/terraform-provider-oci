@@ -12,10 +12,6 @@ import (
 )
 
 // ListManagedMySqlDatabaseSqlDataRequest wrapper for the ListManagedMySqlDatabaseSqlData operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListManagedMySqlDatabaseSqlData.go.html to see an example of how to use ListManagedMySqlDatabaseSqlDataRequest.
 type ListManagedMySqlDatabaseSqlDataRequest struct {
 
 	// The OCID of the Managed MySQL Database.
@@ -30,6 +26,7 @@ type ListManagedMySqlDatabaseSqlDataRequest struct {
 	EndTime *string `mandatory:"true" contributesTo:"query" name:"endTime"`
 
 	// The parameter to filter results by key criteria which include :
+	// - AVG_TIMER_WAIT
 	// - SUM_TIMER_WAIT
 	// - COUNT_STAR
 	// - SUM_ERRORS
@@ -41,6 +38,8 @@ type ListManagedMySqlDatabaseSqlDataRequest struct {
 	// - SUM_NO_GOOD_INDEX_USED
 	// - FIRST_SEEN
 	// - LAST_SEEN
+	// - HEATWAVE_OFFLOADED
+	// - HEATWAVE_OUT_OF_MEMORY
 	FilterColumn *string `mandatory:"false" contributesTo:"query" name:"filterColumn"`
 
 	// The client request ID for tracing.

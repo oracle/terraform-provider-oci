@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteSteeringPolicyAttachmentRequest wrapper for the DeleteSteeringPolicyAttachment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/DeleteSteeringPolicyAttachment.go.html to see an example of how to use DeleteSteeringPolicyAttachmentRequest.
 type DeleteSteeringPolicyAttachmentRequest struct {
 
 	// The OCID of the target steering policy attachment.
@@ -97,6 +93,10 @@ type DeleteSteeringPolicyAttachmentResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to
 	// contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Unique Oracle-assigned identifier for the asynchronous request.
+	// You can use this to query status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response DeleteSteeringPolicyAttachmentResponse) String() string {

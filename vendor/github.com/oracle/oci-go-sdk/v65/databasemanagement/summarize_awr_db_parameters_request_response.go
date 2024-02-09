@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeAwrDbParametersRequest wrapper for the SummarizeAwrDbParameters operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/SummarizeAwrDbParameters.go.html to see an example of how to use SummarizeAwrDbParametersRequest.
 type SummarizeAwrDbParametersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

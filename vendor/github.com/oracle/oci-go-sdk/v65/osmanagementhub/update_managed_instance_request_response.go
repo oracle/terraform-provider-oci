@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateManagedInstanceRequest wrapper for the UpdateManagedInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateManagedInstance.go.html to see an example of how to use UpdateManagedInstanceRequest.
 type UpdateManagedInstanceRequest struct {
 
 	// The OCID of the managed instance.

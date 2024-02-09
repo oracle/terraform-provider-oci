@@ -12,10 +12,6 @@ import (
 )
 
 // ListVirtualServicesRequest wrapper for the ListVirtualServices operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/ListVirtualServices.go.html to see an example of how to use ListVirtualServicesRequest.
 type ListVirtualServicesRequest struct {
 
 	// The ID of the compartment in which to list resources.

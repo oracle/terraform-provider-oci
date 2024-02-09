@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteDataAssetRequest wrapper for the DeleteDataAsset operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aianomalydetection/DeleteDataAsset.go.html to see an example of how to use DeleteDataAssetRequest.
 type DeleteDataAssetRequest struct {
 
 	// The OCID of the Data Asset.

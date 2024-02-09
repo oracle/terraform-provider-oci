@@ -12,10 +12,6 @@ import (
 )
 
 // CreateUserDefinedFunctionValidationRequest wrapper for the CreateUserDefinedFunctionValidation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/CreateUserDefinedFunctionValidation.go.html to see an example of how to use CreateUserDefinedFunctionValidationRequest.
 type CreateUserDefinedFunctionValidationRequest struct {
 
 	// The workspace ID.

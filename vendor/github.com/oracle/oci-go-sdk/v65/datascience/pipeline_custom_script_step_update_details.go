@@ -26,6 +26,8 @@ type PipelineCustomScriptStepUpdateDetails struct {
 	Description *string `mandatory:"false" json:"description"`
 
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"false" json:"stepConfigurationDetails"`
+
+	StepInfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"stepInfrastructureConfigurationDetails"`
 }
 
 // GetStepName returns StepName

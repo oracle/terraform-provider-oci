@@ -12,10 +12,6 @@ import (
 )
 
 // CreateByoipRangeRequest wrapper for the CreateByoipRange operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateByoipRange.go.html to see an example of how to use CreateByoipRangeRequest.
 type CreateByoipRangeRequest struct {
 
 	// Details needed to create a BYOIP CIDR block subrange.

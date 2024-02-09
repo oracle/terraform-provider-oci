@@ -12,10 +12,6 @@ import (
 )
 
 // QueryWarehouseDataObjectDataRequest wrapper for the QueryWarehouseDataObjectData operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/QueryWarehouseDataObjectData.go.html to see an example of how to use QueryWarehouseDataObjectDataRequest.
 type QueryWarehouseDataObjectDataRequest struct {
 
 	// Type of the Warehouse.

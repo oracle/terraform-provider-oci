@@ -12,10 +12,6 @@ import (
 )
 
 // CreateConnectionRequest wrapper for the CreateConnection operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CreateConnection.go.html to see an example of how to use CreateConnectionRequest.
 type CreateConnectionRequest struct {
 
 	// Database Connection properties.

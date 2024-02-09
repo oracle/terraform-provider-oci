@@ -12,10 +12,6 @@ import (
 )
 
 // ImportModelArtifactRequest wrapper for the ImportModelArtifact operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/ImportModelArtifact.go.html to see an example of how to use ImportModelArtifactRequest.
 type ImportModelArtifactRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.

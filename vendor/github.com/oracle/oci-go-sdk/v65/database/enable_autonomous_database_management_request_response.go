@@ -12,10 +12,6 @@ import (
 )
 
 // EnableAutonomousDatabaseManagementRequest wrapper for the EnableAutonomousDatabaseManagement operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/EnableAutonomousDatabaseManagement.go.html to see an example of how to use EnableAutonomousDatabaseManagementRequest.
 type EnableAutonomousDatabaseManagementRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

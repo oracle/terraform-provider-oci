@@ -12,10 +12,6 @@ import (
 )
 
 // RetrieveNamespaceMetricsRequest wrapper for the RetrieveNamespaceMetrics operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/RetrieveNamespaceMetrics.go.html to see an example of how to use RetrieveNamespaceMetricsRequest.
 type RetrieveNamespaceMetricsRequest struct {
 
 	// The APM Domain ID the request is intended for.

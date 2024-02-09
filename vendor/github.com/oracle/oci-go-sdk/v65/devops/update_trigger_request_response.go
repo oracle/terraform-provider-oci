@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateTriggerRequest wrapper for the UpdateTrigger operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/UpdateTrigger.go.html to see an example of how to use UpdateTriggerRequest.
 type UpdateTriggerRequest struct {
 
 	// Unique trigger identifier.

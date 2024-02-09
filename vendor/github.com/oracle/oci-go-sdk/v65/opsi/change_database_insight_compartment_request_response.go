@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeDatabaseInsightCompartmentRequest wrapper for the ChangeDatabaseInsightCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeDatabaseInsightCompartment.go.html to see an example of how to use ChangeDatabaseInsightCompartmentRequest.
 type ChangeDatabaseInsightCompartmentRequest struct {
 
 	// Unique database insight identifier

@@ -28,6 +28,9 @@ type CreateCompartmentDetails struct {
 	// The description you assign to the compartment during creation. Does not have to be unique, and it's changeable.
 	Description *string `mandatory:"true" json:"description"`
 
+	// The OCID of the Security Zone to associate this compartment with.
+	SecurityZoneId *string `mandatory:"false" json:"securityZoneId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

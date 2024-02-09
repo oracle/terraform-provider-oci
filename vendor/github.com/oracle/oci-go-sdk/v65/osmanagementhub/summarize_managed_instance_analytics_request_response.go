@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeManagedInstanceAnalyticsRequest wrapper for the SummarizeManagedInstanceAnalytics operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SummarizeManagedInstanceAnalytics.go.html to see an example of how to use SummarizeManagedInstanceAnalyticsRequest.
 type SummarizeManagedInstanceAnalyticsRequest struct {
 
 	// A filter to return only metrics whose name matches the given metric names.

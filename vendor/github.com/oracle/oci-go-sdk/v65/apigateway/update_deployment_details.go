@@ -27,6 +27,11 @@ type UpdateDeploymentDetails struct {
 
 	Specification *ApiSpecification `mandatory:"false" json:"specification"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of API Catalog resource
+	CatalogId *string `mandatory:"false" json:"catalogId"`
+
+	Catalog *CatalogSpecification `mandatory:"false" json:"catalog"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	// with no predefined name, type, or namespace. For more information, see
 	// Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

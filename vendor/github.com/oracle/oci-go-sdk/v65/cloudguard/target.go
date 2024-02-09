@@ -17,16 +17,18 @@ import (
 	"strings"
 )
 
-// Target Description of Target.
+// Target A target defines the scope of resources that Cloud Guard
+// monitors and the rules to be enforced in that monitoring. A Target resource
+// contains the settings for a specific target.
 type Target struct {
 
-	// Unique identifier that is immutable on creation.
+	// Unique identifier that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// possible type of targets
+	// Type of target
 	TargetResourceType TargetResourceTypeEnum `mandatory:"true" json:"targetResourceType"`
 
 	// Resource ID which the target uses to monitor
@@ -35,16 +37,19 @@ type Target struct {
 	// Total number of recipes attached to target
 	RecipeCount *int `mandatory:"true" json:"recipeCount"`
 
-	// Target display name, can be renamed.
+	// Target display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The target description.
+	// The target description
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of detector recipes associated with target
+	// Do problems in target's compartments emit OCI events?
+	DoesEmitProblemsToEvents *bool `mandatory:"false" json:"doesEmitProblemsToEvents"`
+
+	// List of detector recipes attached to target
 	TargetDetectorRecipes []TargetDetectorRecipe `mandatory:"false" json:"targetDetectorRecipes"`
 
-	// List of responder recipes associated with target
+	// List of responder recipes attached to target
 	TargetResponderRecipes []TargetResponderRecipe `mandatory:"false" json:"targetResponderRecipes"`
 
 	TargetDetails TargetDetails `mandatory:"false" json:"targetDetails"`
@@ -55,13 +60,13 @@ type Target struct {
 	// The date and time the target was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target was updated. Format defined by RFC3339.
+	// The date and time the target was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the Target.
+	// The current lifecycle state of the target
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current lifecycle state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecyleDetails *string `mandatory:"false" json:"lifecyleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -105,24 +110,25 @@ func (m Target) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName             *string                           `json:"displayName"`
-		Description             *string                           `json:"description"`
-		TargetDetectorRecipes   []TargetDetectorRecipe            `json:"targetDetectorRecipes"`
-		TargetResponderRecipes  []TargetResponderRecipe           `json:"targetResponderRecipes"`
-		TargetDetails           targetdetails                     `json:"targetDetails"`
-		InheritedByCompartments []string                          `json:"inheritedByCompartments"`
-		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleState          LifecycleStateEnum                `json:"lifecycleState"`
-		LifecyleDetails         *string                           `json:"lifecyleDetails"`
-		FreeformTags            map[string]string                 `json:"freeformTags"`
-		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
-		Id                      *string                           `json:"id"`
-		CompartmentId           *string                           `json:"compartmentId"`
-		TargetResourceType      TargetResourceTypeEnum            `json:"targetResourceType"`
-		TargetResourceId        *string                           `json:"targetResourceId"`
-		RecipeCount             *int                              `json:"recipeCount"`
+		DisplayName              *string                           `json:"displayName"`
+		Description              *string                           `json:"description"`
+		DoesEmitProblemsToEvents *bool                             `json:"doesEmitProblemsToEvents"`
+		TargetDetectorRecipes    []TargetDetectorRecipe            `json:"targetDetectorRecipes"`
+		TargetResponderRecipes   []TargetResponderRecipe           `json:"targetResponderRecipes"`
+		TargetDetails            targetdetails                     `json:"targetDetails"`
+		InheritedByCompartments  []string                          `json:"inheritedByCompartments"`
+		TimeCreated              *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated              *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleState           LifecycleStateEnum                `json:"lifecycleState"`
+		LifecyleDetails          *string                           `json:"lifecyleDetails"`
+		FreeformTags             map[string]string                 `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags               map[string]map[string]interface{} `json:"systemTags"`
+		Id                       *string                           `json:"id"`
+		CompartmentId            *string                           `json:"compartmentId"`
+		TargetResourceType       TargetResourceTypeEnum            `json:"targetResourceType"`
+		TargetResourceId         *string                           `json:"targetResourceId"`
+		RecipeCount              *int                              `json:"recipeCount"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -133,6 +139,8 @@ func (m *Target) UnmarshalJSON(data []byte) (e error) {
 	m.DisplayName = model.DisplayName
 
 	m.Description = model.Description
+
+	m.DoesEmitProblemsToEvents = model.DoesEmitProblemsToEvents
 
 	m.TargetDetectorRecipes = make([]TargetDetectorRecipe, len(model.TargetDetectorRecipes))
 	copy(m.TargetDetectorRecipes, model.TargetDetectorRecipes)

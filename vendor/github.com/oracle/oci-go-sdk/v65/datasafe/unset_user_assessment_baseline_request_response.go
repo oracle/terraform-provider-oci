@@ -12,10 +12,6 @@ import (
 )
 
 // UnsetUserAssessmentBaselineRequest wrapper for the UnsetUserAssessmentBaseline operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UnsetUserAssessmentBaseline.go.html to see an example of how to use UnsetUserAssessmentBaselineRequest.
 type UnsetUserAssessmentBaselineRequest struct {
 
 	// The OCID of the user assessment.

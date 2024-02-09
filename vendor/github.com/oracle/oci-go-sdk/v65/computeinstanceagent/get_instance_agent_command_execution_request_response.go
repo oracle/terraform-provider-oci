@@ -12,10 +12,6 @@ import (
 )
 
 // GetInstanceAgentCommandExecutionRequest wrapper for the GetInstanceAgentCommandExecution operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computeinstanceagent/GetInstanceAgentCommandExecution.go.html to see an example of how to use GetInstanceAgentCommandExecutionRequest.
 type GetInstanceAgentCommandExecutionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the command.

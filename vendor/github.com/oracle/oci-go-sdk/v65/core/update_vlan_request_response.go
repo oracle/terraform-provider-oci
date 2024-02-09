@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateVlanRequest wrapper for the UpdateVlan operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateVlan.go.html to see an example of how to use UpdateVlanRequest.
 type UpdateVlanRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.

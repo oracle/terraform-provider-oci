@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateDomainRequest wrapper for the UpdateDomain operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identity/UpdateDomain.go.html to see an example of how to use UpdateDomainRequest.
 type UpdateDomainRequest struct {
 
 	// The OCID of the identity domain.

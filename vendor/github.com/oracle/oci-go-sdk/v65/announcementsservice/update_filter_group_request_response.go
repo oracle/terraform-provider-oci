@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateFilterGroupRequest wrapper for the UpdateFilterGroup operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/announcementsservice/UpdateFilterGroup.go.html to see an example of how to use UpdateFilterGroupRequest.
 type UpdateFilterGroupRequest struct {
 
 	// The OCID of the announcement subscription.

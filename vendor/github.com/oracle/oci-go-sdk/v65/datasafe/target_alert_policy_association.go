@@ -48,6 +48,9 @@ type TargetAlertPolicyAssociation struct {
 	// Indicates if the target-alert policy association is enabled or disabled by user.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
+	// Details about the current state of the target-alert policy association.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

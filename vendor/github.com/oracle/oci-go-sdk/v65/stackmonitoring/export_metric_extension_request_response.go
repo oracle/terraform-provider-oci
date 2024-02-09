@@ -13,10 +13,6 @@ import (
 )
 
 // ExportMetricExtensionRequest wrapper for the ExportMetricExtension operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ExportMetricExtension.go.html to see an example of how to use ExportMetricExtensionRequest.
 type ExportMetricExtensionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the metric extension resource.

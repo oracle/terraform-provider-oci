@@ -12,10 +12,6 @@ import (
 )
 
 // PatchRuleRequest wrapper for the PatchRule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchRule.go.html to see an example of how to use PatchRuleRequest.
 type PatchRuleRequest struct {
 
 	// ID of the resource

@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// TlsPassthroughIngressGatewayTrafficRouteRule Rule for routing incoming ingress gateway traffic with TCP protocol.
+// TlsPassthroughIngressGatewayTrafficRouteRule Rule for routing incoming ingress gateway traffic with TLS_PASSTHROUGH protocol.
 type TlsPassthroughIngressGatewayTrafficRouteRule struct {
 
 	// The destination of the request.

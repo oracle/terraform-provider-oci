@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateSensitiveDataModelRequest wrapper for the UpdateSensitiveDataModel operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/UpdateSensitiveDataModel.go.html to see an example of how to use UpdateSensitiveDataModelRequest.
 type UpdateSensitiveDataModelRequest struct {
 
 	// The OCID of the sensitive data model.

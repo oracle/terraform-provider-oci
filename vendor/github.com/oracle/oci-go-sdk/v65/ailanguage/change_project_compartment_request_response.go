@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeProjectCompartmentRequest wrapper for the ChangeProjectCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/ChangeProjectCompartment.go.html to see an example of how to use ChangeProjectCompartmentRequest.
 type ChangeProjectCompartmentRequest struct {
 
 	// The OCID of the project.

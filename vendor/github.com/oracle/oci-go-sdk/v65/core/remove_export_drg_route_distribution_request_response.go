@@ -12,10 +12,6 @@ import (
 )
 
 // RemoveExportDrgRouteDistributionRequest wrapper for the RemoveExportDrgRouteDistribution operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveExportDrgRouteDistribution.go.html to see an example of how to use RemoveExportDrgRouteDistributionRequest.
 type RemoveExportDrgRouteDistributionRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG attachment.

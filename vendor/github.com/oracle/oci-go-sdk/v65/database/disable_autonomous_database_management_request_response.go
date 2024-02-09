@@ -12,10 +12,6 @@ import (
 )
 
 // DisableAutonomousDatabaseManagementRequest wrapper for the DisableAutonomousDatabaseManagement operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/DisableAutonomousDatabaseManagement.go.html to see an example of how to use DisableAutonomousDatabaseManagementRequest.
 type DisableAutonomousDatabaseManagementRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).

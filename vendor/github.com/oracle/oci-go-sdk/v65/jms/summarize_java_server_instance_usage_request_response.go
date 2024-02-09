@@ -12,10 +12,6 @@ import (
 )
 
 // SummarizeJavaServerInstanceUsageRequest wrapper for the SummarizeJavaServerInstanceUsage operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/SummarizeJavaServerInstanceUsage.go.html to see an example of how to use SummarizeJavaServerInstanceUsageRequest.
 type SummarizeJavaServerInstanceUsageRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

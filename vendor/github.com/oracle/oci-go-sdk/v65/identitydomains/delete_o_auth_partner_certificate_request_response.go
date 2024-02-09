@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteOAuthPartnerCertificateRequest wrapper for the DeleteOAuthPartnerCertificate operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteOAuthPartnerCertificate.go.html to see an example of how to use DeleteOAuthPartnerCertificateRequest.
 type DeleteOAuthPartnerCertificateRequest struct {
 
 	// ID of the resource

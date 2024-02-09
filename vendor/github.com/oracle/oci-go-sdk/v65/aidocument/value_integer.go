@@ -32,6 +32,12 @@ type ValueInteger struct {
 
 	// The detected text of a field.
 	Text *string `mandatory:"false" json:"text"`
+
+	// The normalized value.
+	NormalizedValue *string `mandatory:"false" json:"normalizedValue"`
+
+	// The normalized value confidence score between 0 and 1.
+	NormalizedConfidence *float32 `mandatory:"false" json:"normalizedConfidence"`
 }
 
 // GetText returns Text
@@ -52,6 +58,16 @@ func (m ValueInteger) GetBoundingPolygon() *BoundingPolygon {
 // GetWordIndexes returns WordIndexes
 func (m ValueInteger) GetWordIndexes() []int {
 	return m.WordIndexes
+}
+
+// GetNormalizedValue returns NormalizedValue
+func (m ValueInteger) GetNormalizedValue() *string {
+	return m.NormalizedValue
+}
+
+// GetNormalizedConfidence returns NormalizedConfidence
+func (m ValueInteger) GetNormalizedConfidence() *float32 {
+	return m.NormalizedConfidence
 }
 
 func (m ValueInteger) String() string {

@@ -12,10 +12,6 @@ import (
 )
 
 // StartAssetReplicationRequest wrapper for the StartAssetReplication operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/StartAssetReplication.go.html to see an example of how to use StartAssetReplicationRequest.
 type StartAssetReplicationRequest struct {
 
 	// Unique migration asset identifier

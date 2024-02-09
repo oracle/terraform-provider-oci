@@ -4,11 +4,11 @@
 
 // Work Requests API
 //
-// Many of the API operations that you use to create and configure Compute resources do not take effect
+// Many of the API operations that you use to create and configure cloud resources do not take effect
 // immediately. In these cases, the operation spawns an asynchronous workflow to fulfill the request.
 // Work requests provide visibility into the status of these in-progress, long-running workflows.
 // For more information about work requests and the operations that spawn work requests, see
-// Viewing the State of a Compute Work Request (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/viewingworkrequestcompute.htm).
+// Work Requests (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/workrequestoverview.htm).
 //
 
 package workrequests
@@ -67,6 +67,7 @@ const (
 	WorkRequestResourceActionTypeDeleted    WorkRequestResourceActionTypeEnum = "DELETED"
 	WorkRequestResourceActionTypeRelated    WorkRequestResourceActionTypeEnum = "RELATED"
 	WorkRequestResourceActionTypeInProgress WorkRequestResourceActionTypeEnum = "IN_PROGRESS"
+	WorkRequestResourceActionTypeFailed     WorkRequestResourceActionTypeEnum = "FAILED"
 )
 
 var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceActionTypeEnum{
@@ -75,6 +76,7 @@ var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceAct
 	"DELETED":     WorkRequestResourceActionTypeDeleted,
 	"RELATED":     WorkRequestResourceActionTypeRelated,
 	"IN_PROGRESS": WorkRequestResourceActionTypeInProgress,
+	"FAILED":      WorkRequestResourceActionTypeFailed,
 }
 
 var mappingWorkRequestResourceActionTypeEnumLowerCase = map[string]WorkRequestResourceActionTypeEnum{
@@ -83,6 +85,7 @@ var mappingWorkRequestResourceActionTypeEnumLowerCase = map[string]WorkRequestRe
 	"deleted":     WorkRequestResourceActionTypeDeleted,
 	"related":     WorkRequestResourceActionTypeRelated,
 	"in_progress": WorkRequestResourceActionTypeInProgress,
+	"failed":      WorkRequestResourceActionTypeFailed,
 }
 
 // GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionTypeEnum
@@ -102,6 +105,7 @@ func GetWorkRequestResourceActionTypeEnumStringValues() []string {
 		"DELETED",
 		"RELATED",
 		"IN_PROGRESS",
+		"FAILED",
 	}
 }
 

@@ -12,10 +12,6 @@ import (
 )
 
 // ImportBotRequest wrapper for the ImportBot operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/ImportBot.go.html to see an example of how to use ImportBotRequest.
 type ImportBotRequest struct {
 
 	// Unique Digital Assistant instance identifier.

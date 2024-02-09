@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteRemediationRunRequest wrapper for the DeleteRemediationRun operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/DeleteRemediationRun.go.html to see an example of how to use DeleteRemediationRunRequest.
 type DeleteRemediationRunRequest struct {
 
 	// Unique Remediation Run identifier path parameter.

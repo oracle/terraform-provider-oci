@@ -12,10 +12,6 @@ import (
 )
 
 // EnableAutomaticSpmEvolveAdvisorTaskRequest wrapper for the EnableAutomaticSpmEvolveAdvisorTask operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableAutomaticSpmEvolveAdvisorTask.go.html to see an example of how to use EnableAutomaticSpmEvolveAdvisorTaskRequest.
 type EnableAutomaticSpmEvolveAdvisorTaskRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

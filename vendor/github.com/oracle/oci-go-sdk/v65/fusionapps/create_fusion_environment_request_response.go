@@ -12,10 +12,6 @@ import (
 )
 
 // CreateFusionEnvironmentRequest wrapper for the CreateFusionEnvironment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/CreateFusionEnvironment.go.html to see an example of how to use CreateFusionEnvironmentRequest.
 type CreateFusionEnvironmentRequest struct {
 
 	// Details for the new FusionEnvironment.

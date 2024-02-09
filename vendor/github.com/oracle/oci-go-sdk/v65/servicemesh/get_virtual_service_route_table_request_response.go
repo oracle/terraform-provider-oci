@@ -12,10 +12,6 @@ import (
 )
 
 // GetVirtualServiceRouteTableRequest wrapper for the GetVirtualServiceRouteTable operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/servicemesh/GetVirtualServiceRouteTable.go.html to see an example of how to use GetVirtualServiceRouteTableRequest.
 type GetVirtualServiceRouteTableRequest struct {
 
 	// Unique VirtualServiceRouteTable identifier.

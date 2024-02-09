@@ -12,10 +12,6 @@ import (
 )
 
 // ListSqlCollectionsRequest wrapper for the ListSqlCollections operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlCollections.go.html to see an example of how to use ListSqlCollectionsRequest.
 type ListSqlCollectionsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

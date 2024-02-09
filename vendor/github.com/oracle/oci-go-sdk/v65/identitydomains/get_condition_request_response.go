@@ -12,10 +12,6 @@ import (
 )
 
 // GetConditionRequest wrapper for the GetCondition operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/GetCondition.go.html to see an example of how to use GetConditionRequest.
 type GetConditionRequest struct {
 
 	// ID of the resource

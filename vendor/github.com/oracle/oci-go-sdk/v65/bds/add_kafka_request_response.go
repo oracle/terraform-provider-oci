@@ -12,10 +12,6 @@ import (
 )
 
 // AddKafkaRequest wrapper for the AddKafka operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddKafka.go.html to see an example of how to use AddKafkaRequest.
 type AddKafkaRequest struct {
 
 	// The OCID of the cluster.

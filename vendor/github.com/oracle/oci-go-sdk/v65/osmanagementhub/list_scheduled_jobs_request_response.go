@@ -12,10 +12,6 @@ import (
 )
 
 // ListScheduledJobsRequest wrapper for the ListScheduledJobs operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListScheduledJobs.go.html to see an example of how to use ListScheduledJobsRequest.
 type ListScheduledJobsRequest struct {
 
 	// The OCID of the compartment that contains the resources to list.

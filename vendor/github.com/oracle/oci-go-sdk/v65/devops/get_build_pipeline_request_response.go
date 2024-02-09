@@ -12,10 +12,6 @@ import (
 )
 
 // GetBuildPipelineRequest wrapper for the GetBuildPipeline operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/GetBuildPipeline.go.html to see an example of how to use GetBuildPipelineRequest.
 type GetBuildPipelineRequest struct {
 
 	// Unique build pipeline identifier.

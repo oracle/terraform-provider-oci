@@ -12,10 +12,6 @@ import (
 )
 
 // ListOsPatchesRequest wrapper for the ListOsPatches operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListOsPatches.go.html to see an example of how to use ListOsPatchesRequest.
 type ListOsPatchesRequest struct {
 
 	// The OCID of the cluster.

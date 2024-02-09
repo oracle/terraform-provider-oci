@@ -12,10 +12,6 @@ import (
 )
 
 // ListRemediationRecipesRequest wrapper for the ListRemediationRecipes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListRemediationRecipes.go.html to see an example of how to use ListRemediationRecipesRequest.
 type ListRemediationRecipesRequest struct {
 
 	// A filter to return only resources that match the specified identifier.

@@ -12,10 +12,6 @@ import (
 )
 
 // ListSqlFirewallAllowedSqlAnalyticsRequest wrapper for the ListSqlFirewallAllowedSqlAnalytics operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSqlFirewallAllowedSqlAnalytics.go.html to see an example of how to use ListSqlFirewallAllowedSqlAnalyticsRequest.
 type ListSqlFirewallAllowedSqlAnalyticsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

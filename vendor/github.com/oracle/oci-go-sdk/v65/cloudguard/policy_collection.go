@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// PolicyCollection Collection of policy statements required by cloud guard
+// PolicyCollection Collection of policy statements required by Cloud Guard.
 type PolicyCollection struct {
 
 	// List of global policy statements
 	Items []PolicySummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m PolicyCollection) String() string {

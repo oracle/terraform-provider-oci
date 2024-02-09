@@ -94,10 +94,6 @@ func (client *OnboardingClient) ConfigurationProvider() *common.ConfigurationPro
 // CreateProfile Creates a registration profile.
 // A profile is a supplementary file for the OS Management Hub agentry
 // that dictates the content for a managed instance at registration time.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateProfile.go.html to see an example of how to use CreateProfile API.
 // A default retry strategy applies to this operation CreateProfile()
 func (client OnboardingClient) CreateProfile(ctx context.Context, request CreateProfileRequest) (response CreateProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -157,10 +153,6 @@ func (client OnboardingClient) createProfile(ctx context.Context, request common
 }
 
 // DeleteProfile Deletes a specified registration profile.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteProfile.go.html to see an example of how to use DeleteProfile API.
 // A default retry strategy applies to this operation DeleteProfile()
 func (client OnboardingClient) DeleteProfile(ctx context.Context, request DeleteProfileRequest) (response DeleteProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -215,10 +207,6 @@ func (client OnboardingClient) deleteProfile(ctx context.Context, request common
 }
 
 // GetProfile Gets information about the specified registration profile.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetProfile.go.html to see an example of how to use GetProfile API.
 // A default retry strategy applies to this operation GetProfile()
 func (client OnboardingClient) GetProfile(ctx context.Context, request GetProfileRequest) (response GetProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -274,10 +262,6 @@ func (client OnboardingClient) getProfile(ctx context.Context, request common.OC
 
 // ListProfiles Lists registration profiles that match the specified compartment or profile OCID. Filter the list against a
 // variety of criteria including but not limited to its name, status, vendor name, and architecture type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListProfiles.go.html to see an example of how to use ListProfiles API.
 // A default retry strategy applies to this operation ListProfiles()
 func (client OnboardingClient) ListProfiles(ctx context.Context, request ListProfilesRequest) (response ListProfilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -332,10 +316,6 @@ func (client OnboardingClient) listProfiles(ctx context.Context, request common.
 }
 
 // UpdateProfile Updates the specified profile's name, description, and tags.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateProfile.go.html to see an example of how to use UpdateProfile API.
 // A default retry strategy applies to this operation UpdateProfile()
 func (client OnboardingClient) UpdateProfile(ctx context.Context, request UpdateProfileRequest) (response UpdateProfileResponse, err error) {
 	var ociResponse common.OCIResponse

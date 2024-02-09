@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateStreamPackagingConfigRequest wrapper for the UpdateStreamPackagingConfig operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/UpdateStreamPackagingConfig.go.html to see an example of how to use UpdateStreamPackagingConfigRequest.
 type UpdateStreamPackagingConfigRequest struct {
 
 	// Unique Stream Packaging Configuration path identifier.

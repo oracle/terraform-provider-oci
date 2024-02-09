@@ -12,10 +12,6 @@ import (
 )
 
 // PatchIdentityProviderRequest wrapper for the PatchIdentityProvider operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchIdentityProvider.go.html to see an example of how to use PatchIdentityProviderRequest.
 type PatchIdentityProviderRequest struct {
 
 	// ID of the resource

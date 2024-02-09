@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// ServiceTypeSummary Summary of Service type
+// ServiceTypeSummary Summary information for a service type.
 type ServiceTypeSummary struct {
 
-	// name of the service type
+	// Name of the service type
 	Name *string `mandatory:"true" json:"name"`
 
-	// List of Resource
+	// List of resource types
 	ResourceTypes []ResourceTypeSummary `mandatory:"true" json:"resourceTypes"`
 }
 

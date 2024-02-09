@@ -12,10 +12,6 @@ import (
 )
 
 // ListCopyObjectRequestsRequest wrapper for the ListCopyObjectRequests operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ListCopyObjectRequests.go.html to see an example of how to use ListCopyObjectRequestsRequest.
 type ListCopyObjectRequestsRequest struct {
 
 	// The workspace ID.

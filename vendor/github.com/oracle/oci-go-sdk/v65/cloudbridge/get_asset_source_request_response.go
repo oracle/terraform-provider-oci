@@ -12,10 +12,6 @@ import (
 )
 
 // GetAssetSourceRequest wrapper for the GetAssetSource operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetAssetSource.go.html to see an example of how to use GetAssetSourceRequest.
 type GetAssetSourceRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the asset source.

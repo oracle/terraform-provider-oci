@@ -12,10 +12,6 @@ import (
 )
 
 // GetDiscoveryScheduleRequest wrapper for the GetDiscoverySchedule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/GetDiscoverySchedule.go.html to see an example of how to use GetDiscoveryScheduleRequest.
 type GetDiscoveryScheduleRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the discovery schedule.

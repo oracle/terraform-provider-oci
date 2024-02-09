@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteSubscriberRequest wrapper for the DeleteSubscriber operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apigateway/DeleteSubscriber.go.html to see an example of how to use DeleteSubscriberRequest.
 type DeleteSubscriberRequest struct {
 
 	// The ocid of the subscriber.
@@ -30,6 +26,9 @@ type DeleteSubscriberRequest struct {
 
 	// The client request id for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

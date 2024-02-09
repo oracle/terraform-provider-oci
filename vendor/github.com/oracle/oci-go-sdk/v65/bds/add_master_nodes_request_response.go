@@ -12,10 +12,6 @@ import (
 )
 
 // AddMasterNodesRequest wrapper for the AddMasterNodes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/AddMasterNodes.go.html to see an example of how to use AddMasterNodesRequest.
 type AddMasterNodesRequest struct {
 
 	// The OCID of the cluster.

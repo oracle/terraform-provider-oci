@@ -12,10 +12,6 @@ import (
 )
 
 // ListSecurityRulesRequest wrapper for the ListSecurityRules operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListSecurityRules.go.html to see an example of how to use ListSecurityRulesRequest.
 type ListSecurityRulesRequest struct {
 
 	// Unique Network Firewall Policy identifier

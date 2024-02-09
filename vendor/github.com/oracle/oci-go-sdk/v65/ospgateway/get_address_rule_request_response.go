@@ -12,10 +12,6 @@ import (
 )
 
 // GetAddressRuleRequest wrapper for the GetAddressRule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddressRule.go.html to see an example of how to use GetAddressRuleRequest.
 type GetAddressRuleRequest struct {
 
 	// The home region's public name of the logged in user.

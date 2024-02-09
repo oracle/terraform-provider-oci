@@ -40,6 +40,14 @@ type VmwareVmAsset struct {
 	// The time when the asset was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	Compute *ComputeProperties `mandatory:"true" json:"compute"`
+
+	Vm *VmProperties `mandatory:"true" json:"vm"`
+
+	VmwareVm *VmwareVmProperties `mandatory:"true" json:"vmwareVm"`
+
+	VmwareVCenter *VmwareVCenterProperties `mandatory:"true" json:"vmwareVCenter"`
+
 	// Asset display name.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
@@ -60,14 +68,6 @@ type VmwareVmAsset struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
-	Compute *ComputeProperties `mandatory:"false" json:"compute"`
-
-	Vm *VmProperties `mandatory:"false" json:"vm"`
-
-	VmwareVm *VmwareVmProperties `mandatory:"false" json:"vmwareVm"`
-
-	VmwareVCenter *VmwareVCenterProperties `mandatory:"false" json:"vmwareVCenter"`
 
 	// The current state of the asset.
 	LifecycleState AssetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`

@@ -12,10 +12,6 @@ import (
 )
 
 // GetDataSourceRequest wrapper for the GetDataSource operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/managementagent/GetDataSource.go.html to see an example of how to use GetDataSourceRequest.
 type GetDataSourceRequest struct {
 
 	// Unique Management Agent identifier

@@ -12,10 +12,6 @@ import (
 )
 
 // ListManagedInstanceErrataRequest wrapper for the ListManagedInstanceErrata operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceErrata.go.html to see an example of how to use ListManagedInstanceErrataRequest.
 type ListManagedInstanceErrataRequest struct {
 
 	// The OCID of the managed instance.

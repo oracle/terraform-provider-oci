@@ -12,10 +12,6 @@ import (
 )
 
 // ListWebAppAccelerationsRequest wrapper for the ListWebAppAccelerations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/waa/ListWebAppAccelerations.go.html to see an example of how to use ListWebAppAccelerationsRequest.
 type ListWebAppAccelerationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.

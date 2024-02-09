@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateExportRequestRequest wrapper for the UpdateExportRequest operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/UpdateExportRequest.go.html to see an example of how to use UpdateExportRequestRequest.
 type UpdateExportRequestRequest struct {
 
 	// The workspace ID.

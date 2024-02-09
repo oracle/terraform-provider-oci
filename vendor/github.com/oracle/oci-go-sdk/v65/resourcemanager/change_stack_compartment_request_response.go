@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeStackCompartmentRequest wrapper for the ChangeStackCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangeStackCompartment.go.html to see an example of how to use ChangeStackCompartmentRequest.
 type ChangeStackCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stack.
@@ -39,6 +35,9 @@ type ChangeStackCompartmentRequest struct {
 	// if a resource has been deleted and purged from the system, then a retry of the original
 	// creation request may be rejected.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
+
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

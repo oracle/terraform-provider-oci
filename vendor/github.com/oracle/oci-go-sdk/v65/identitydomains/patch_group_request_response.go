@@ -12,10 +12,6 @@ import (
 )
 
 // PatchGroupRequest wrapper for the PatchGroup operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchGroup.go.html to see an example of how to use PatchGroupRequest.
 type PatchGroupRequest struct {
 
 	// ID of the resource

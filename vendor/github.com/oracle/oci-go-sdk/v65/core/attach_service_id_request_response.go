@@ -12,10 +12,6 @@ import (
 )
 
 // AttachServiceIdRequest wrapper for the AttachServiceId operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/AttachServiceId.go.html to see an example of how to use AttachServiceIdRequest.
 type AttachServiceIdRequest struct {
 
 	// The service gateway's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

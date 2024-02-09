@@ -90,6 +90,10 @@ type ClusterSummary struct {
 
 	// The initial OCPU count of the Cluster's ESXi hosts.
 	InitialHostOcpuCount *float32 `mandatory:"false" json:"initialHostOcpuCount"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ClusterSummary) String() string {

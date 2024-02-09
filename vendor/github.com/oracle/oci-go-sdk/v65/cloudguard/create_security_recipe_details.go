@@ -16,16 +16,17 @@ import (
 	"strings"
 )
 
-// CreateSecurityRecipeDetails Details about a new security zone recipe
+// CreateSecurityRecipeDetails Parameters to be used to create a security recipe.
 type CreateSecurityRecipeDetails struct {
 
-	// The recipe's name
+	// The recipe's display name.
+	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The list of `SecurityPolicy` ids to include in the recipe
+	// The list of security policy IDs to include in the recipe
 	SecurityPolicies []string `mandatory:"true" json:"securityPolicies"`
 
-	// The compartment in which to create the recipe
+	// The OCID of the compartment in which to create the recipe
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The recipe's description

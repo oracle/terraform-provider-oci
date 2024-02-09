@@ -12,10 +12,6 @@ import (
 )
 
 // GetMediaWorkflowConfigurationRequest wrapper for the GetMediaWorkflowConfiguration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/mediaservices/GetMediaWorkflowConfiguration.go.html to see an example of how to use GetMediaWorkflowConfigurationRequest.
 type GetMediaWorkflowConfigurationRequest struct {
 
 	// Unique MediaWorkflowConfiguration identifier.

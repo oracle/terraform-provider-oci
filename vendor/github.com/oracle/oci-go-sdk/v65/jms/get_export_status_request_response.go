@@ -12,10 +12,6 @@ import (
 )
 
 // GetExportStatusRequest wrapper for the GetExportStatus operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/jms/GetExportStatus.go.html to see an example of how to use GetExportStatusRequest.
 type GetExportStatusRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Fleet.

@@ -43,6 +43,12 @@ type CreateContainerDetails struct {
 	// The total size of all arguments combined must be 64 KB or smaller.
 	Arguments []string `mandatory:"false" json:"arguments"`
 
+	// Additional capabilities that can be configured for the container.
+	AdditionalCapabilities []ContainerCapabilityEnum `mandatory:"false" json:"additionalCapabilities,omitempty"`
+
+	// A flag to indicate whether PKI certs and regionInfo related files are mounted to the container.
+	IsPkiCertsProvided *bool `mandatory:"false" json:"isPkiCertsProvided"`
+
 	// The working directory within the container's filesystem for
 	// the container process. If not specified, the default
 	// working directory from the image is used.
@@ -89,6 +95,12 @@ func (m CreateContainerDetails) String() string {
 func (m CreateContainerDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	for _, val := range m.AdditionalCapabilities {
+		if _, ok := GetMappingContainerCapabilityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdditionalCapabilities: %s. Supported values are: %s.", val, strings.Join(GetContainerCapabilityEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -101,6 +113,8 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                 *string                               `json:"displayName"`
 		Command                     []string                              `json:"command"`
 		Arguments                   []string                              `json:"arguments"`
+		AdditionalCapabilities      []ContainerCapabilityEnum             `json:"additionalCapabilities"`
+		IsPkiCertsProvided          *bool                                 `json:"isPkiCertsProvided"`
 		WorkingDirectory            *string                               `json:"workingDirectory"`
 		EnvironmentVariables        map[string]string                     `json:"environmentVariables"`
 		VolumeMounts                []CreateVolumeMountDetails            `json:"volumeMounts"`
@@ -124,6 +138,10 @@ func (m *CreateContainerDetails) UnmarshalJSON(data []byte) (e error) {
 	copy(m.Command, model.Command)
 	m.Arguments = make([]string, len(model.Arguments))
 	copy(m.Arguments, model.Arguments)
+	m.AdditionalCapabilities = make([]ContainerCapabilityEnum, len(model.AdditionalCapabilities))
+	copy(m.AdditionalCapabilities, model.AdditionalCapabilities)
+	m.IsPkiCertsProvided = model.IsPkiCertsProvided
+
 	m.WorkingDirectory = model.WorkingDirectory
 
 	m.EnvironmentVariables = model.EnvironmentVariables

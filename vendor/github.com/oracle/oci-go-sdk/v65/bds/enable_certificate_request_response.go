@@ -12,10 +12,6 @@ import (
 )
 
 // EnableCertificateRequest wrapper for the EnableCertificate operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/EnableCertificate.go.html to see an example of how to use EnableCertificateRequest.
 type EnableCertificateRequest struct {
 
 	// The OCID of the cluster.

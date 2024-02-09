@@ -12,10 +12,6 @@ import (
 )
 
 // ListApplicationDependencyRecommendationsRequest wrapper for the ListApplicationDependencyRecommendations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/adm/ListApplicationDependencyRecommendations.go.html to see an example of how to use ListApplicationDependencyRecommendationsRequest.
 type ListApplicationDependencyRecommendationsRequest struct {
 
 	// Unique Remediation Run identifier path parameter.

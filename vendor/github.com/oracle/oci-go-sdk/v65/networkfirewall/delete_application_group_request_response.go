@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteApplicationGroupRequest wrapper for the DeleteApplicationGroup operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteApplicationGroup.go.html to see an example of how to use DeleteApplicationGroupRequest.
 type DeleteApplicationGroupRequest struct {
 
 	// Unique Network Firewall Policy identifier

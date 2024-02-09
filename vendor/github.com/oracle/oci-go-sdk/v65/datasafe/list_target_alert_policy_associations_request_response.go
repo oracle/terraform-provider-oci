@@ -12,10 +12,6 @@ import (
 )
 
 // ListTargetAlertPolicyAssociationsRequest wrapper for the ListTargetAlertPolicyAssociations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListTargetAlertPolicyAssociations.go.html to see an example of how to use ListTargetAlertPolicyAssociationsRequest.
 type ListTargetAlertPolicyAssociationsRequest struct {
 
 	// A filter to return only resources that match the specified compartment OCID.

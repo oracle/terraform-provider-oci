@@ -13,10 +13,6 @@ import (
 )
 
 // GetGenericArtifactContentRequest wrapper for the GetGenericArtifactContent operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/genericartifactscontent/GetGenericArtifactContent.go.html to see an example of how to use GetGenericArtifactContentRequest.
 type GetGenericArtifactContentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the artifact.

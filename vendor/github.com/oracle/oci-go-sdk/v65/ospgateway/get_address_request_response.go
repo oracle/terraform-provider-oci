@@ -12,10 +12,6 @@ import (
 )
 
 // GetAddressRequest wrapper for the GetAddress operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetAddress.go.html to see an example of how to use GetAddressRequest.
 type GetAddressRequest struct {
 
 	// The home region's public name of the logged in user.

@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateReplicationRequest wrapper for the UpdateReplication operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/filestorage/UpdateReplication.go.html to see an example of how to use UpdateReplicationRequest.
 type UpdateReplicationRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication.

@@ -12,10 +12,6 @@ import (
 )
 
 // CreateBucketRequest wrapper for the CreateBucket operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreateBucket.go.html to see an example of how to use CreateBucketRequest.
 type CreateBucketRequest struct {
 
 	// The Object Storage namespace used for the request.

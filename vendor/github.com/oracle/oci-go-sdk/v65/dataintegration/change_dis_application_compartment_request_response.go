@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeDisApplicationCompartmentRequest wrapper for the ChangeDisApplicationCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataintegration/ChangeDisApplicationCompartment.go.html to see an example of how to use ChangeDisApplicationCompartmentRequest.
 type ChangeDisApplicationCompartmentRequest struct {
 
 	// The workspace ID.

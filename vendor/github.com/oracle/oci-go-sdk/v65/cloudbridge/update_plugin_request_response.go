@@ -12,10 +12,6 @@ import (
 )
 
 // UpdatePluginRequest wrapper for the UpdatePlugin operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudbridge/UpdatePlugin.go.html to see an example of how to use UpdatePluginRequest.
 type UpdatePluginRequest struct {
 
 	// Unique Agent identifier path parameter.
@@ -85,15 +81,12 @@ type UpdatePluginResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The Plugin instance
-	Plugin `presentIn:"body"`
-
-	// For optimistic concurrency control. See `if-match`.
-	Etag *string `presentIn:"header" name:"etag"`
-
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response UpdatePluginResponse) String() string {

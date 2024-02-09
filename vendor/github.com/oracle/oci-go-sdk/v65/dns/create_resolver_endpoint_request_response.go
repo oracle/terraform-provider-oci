@@ -12,10 +12,6 @@ import (
 )
 
 // CreateResolverEndpointRequest wrapper for the CreateResolverEndpoint operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/CreateResolverEndpoint.go.html to see an example of how to use CreateResolverEndpointRequest.
 type CreateResolverEndpointRequest struct {
 
 	// The OCID of the target resolver.

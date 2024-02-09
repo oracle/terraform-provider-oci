@@ -12,10 +12,6 @@ import (
 )
 
 // DisableExternalDatabaseRequest wrapper for the DisableExternalDatabase operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DisableExternalDatabase.go.html to see an example of how to use DisableExternalDatabaseRequest.
 type DisableExternalDatabaseRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of monitored resource.

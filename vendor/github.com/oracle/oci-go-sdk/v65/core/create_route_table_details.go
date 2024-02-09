@@ -46,6 +46,9 @@ type CreateRouteTableDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Indicates whether ECMP is enabled or not on the route table.
+	IsEcmpEnabled *bool `mandatory:"false" json:"isEcmpEnabled"`
 }
 
 func (m CreateRouteTableDetails) String() string {

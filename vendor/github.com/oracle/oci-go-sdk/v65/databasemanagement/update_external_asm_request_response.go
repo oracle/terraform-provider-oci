@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateExternalAsmRequest wrapper for the UpdateExternalAsm operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalAsm.go.html to see an example of how to use UpdateExternalAsmRequest.
 type UpdateExternalAsmRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external ASM.

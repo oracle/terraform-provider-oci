@@ -12,10 +12,6 @@ import (
 )
 
 // RotateSecretRequest wrapper for the RotateSecret operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/vault/RotateSecret.go.html to see an example of how to use RotateSecretRequest.
 type RotateSecretRequest struct {
 
 	// The OCID of the secret.

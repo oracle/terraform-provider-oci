@@ -12,10 +12,6 @@ import (
 )
 
 // CreateMeRequest wrapper for the CreateMe operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/CreateMe.go.html to see an example of how to use CreateMeRequest.
 type CreateMeRequest struct {
 
 	// The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.

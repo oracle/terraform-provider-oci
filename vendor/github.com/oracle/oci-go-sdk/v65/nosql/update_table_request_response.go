@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateTableRequest wrapper for the UpdateTable operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/nosql/UpdateTable.go.html to see an example of how to use UpdateTableRequest.
 type UpdateTableRequest struct {
 
 	// A table name within the compartment, or a table OCID.

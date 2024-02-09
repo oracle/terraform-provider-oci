@@ -62,7 +62,7 @@ type CircuitBreakerSetting struct {
 	numberOfRecordedHistoryResponse int
 }
 
-// String Converts CircuitBreakerSetting to human-readable string representation
+// String Convert CircuitBreakerSetting to human-readable string representation
 func (cbst CircuitBreakerSetting) String() string {
 	return fmt.Sprintf("{name=%v, isEnabled=%v, closeStateWindow=%v, openStateWindow=%v, failureRateThreshold=%v, minimumRequests=%v, successStatCodeMap=%v, successStatErrCodeMap=%v, serviceName=%v, historyCount=%v}",
 		cbst.name, cbst.isEnabled, cbst.closeStateWindow, cbst.openStateWindow, cbst.failureRateThreshold, cbst.minimumRequests, cbst.successStatCodeMap, cbst.successStatErrCodeMap, cbst.serviceName, cbst.numberOfRecordedHistoryResponse)
@@ -77,7 +77,7 @@ type ResponseHistory struct {
 	statusCode   int
 }
 
-// String Converts ResponseHistory to human-readable string representation
+// String Convert ResponseHistory to human-readable string representation
 func (rh ResponseHistory) String() string {
 	return fmt.Sprintf("Opc-Req-id - %v\nErrorCode - %v - %v\nErrorMessage - %v\n\n", rh.opcReqID, rh.statusCode, rh.errorCode, rh.errorMessage)
 }
@@ -106,7 +106,6 @@ func (ocb *OciCircuitBreaker) AddToHistory(resp *http.Response, err ServiceError
 			break
 		}
 	}
-	return
 }
 
 // GetHistory processes the rsponse in queue to construct a String
@@ -133,7 +132,6 @@ func NewOciCircuitBreaker(cbst *CircuitBreakerSetting, gbcb *gobreaker.CircuitBr
 	ocb := new(OciCircuitBreaker)
 	ocb.Cbst = cbst
 	if ocb.Cbst.numberOfRecordedHistoryResponse == 0 {
-		fmt.Println("num hist empty")
 		ocb.Cbst.numberOfRecordedHistoryResponse = getDefaultNumHistoryCount()
 	}
 	ocb.Cb = gbcb
@@ -225,7 +223,6 @@ func NewCircuitBreaker(cbst *CircuitBreakerSetting) *OciCircuitBreaker {
 	if !cbst.isEnabled {
 		return nil
 	}
-
 	st := gobreaker.Settings{}
 	customizeGoBreakerSetting(&st, cbst)
 	gbcb := gobreaker.NewCircuitBreaker(st)

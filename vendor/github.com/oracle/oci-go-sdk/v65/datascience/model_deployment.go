@@ -52,8 +52,13 @@ type ModelDeployment struct {
 
 	CategoryLogDetails *CategoryLogDetails `mandatory:"false" json:"categoryLogDetails"`
 
+	ModelDeploymentSystemData ModelDeploymentSystemData `mandatory:"false" json:"modelDeploymentSystemData"`
+
 	// Details about the state of the model deployment.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The mode of model deployment.
+	DeploymentMode ModelDeploymentDeploymentModeEnum `mandatory:"false" json:"deploymentMode,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -77,6 +82,9 @@ func (m ModelDeployment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetModelDeploymentLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingModelDeploymentDeploymentModeEnum(string(m.DeploymentMode)); !ok && m.DeploymentMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentMode: %s. Supported values are: %s.", m.DeploymentMode, strings.Join(GetModelDeploymentDeploymentModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -89,7 +97,9 @@ func (m *ModelDeployment) UnmarshalJSON(data []byte) (e error) {
 		Description                         *string                             `json:"description"`
 		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails `json:"modelDeploymentConfigurationDetails"`
 		CategoryLogDetails                  *CategoryLogDetails                 `json:"categoryLogDetails"`
+		ModelDeploymentSystemData           modeldeploymentsystemdata           `json:"modelDeploymentSystemData"`
 		LifecycleDetails                    *string                             `json:"lifecycleDetails"`
+		DeploymentMode                      ModelDeploymentDeploymentModeEnum   `json:"deploymentMode"`
 		FreeformTags                        map[string]string                   `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}   `json:"definedTags"`
 		Id                                  *string                             `json:"id"`
@@ -121,7 +131,19 @@ func (m *ModelDeployment) UnmarshalJSON(data []byte) (e error) {
 
 	m.CategoryLogDetails = model.CategoryLogDetails
 
+	nn, e = model.ModelDeploymentSystemData.UnmarshalPolymorphicJSON(model.ModelDeploymentSystemData.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ModelDeploymentSystemData = nn.(ModelDeploymentSystemData)
+	} else {
+		m.ModelDeploymentSystemData = nil
+	}
+
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.DeploymentMode = model.DeploymentMode
 
 	m.FreeformTags = model.FreeformTags
 
@@ -144,4 +166,46 @@ func (m *ModelDeployment) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleState = model.LifecycleState
 
 	return
+}
+
+// ModelDeploymentDeploymentModeEnum Enum with underlying type: string
+type ModelDeploymentDeploymentModeEnum string
+
+// Set of constants representing the allowable values for ModelDeploymentDeploymentModeEnum
+const (
+	ModelDeploymentDeploymentModeHttpsOnly  ModelDeploymentDeploymentModeEnum = "HTTPS_ONLY"
+	ModelDeploymentDeploymentModeStreamOnly ModelDeploymentDeploymentModeEnum = "STREAM_ONLY"
+)
+
+var mappingModelDeploymentDeploymentModeEnum = map[string]ModelDeploymentDeploymentModeEnum{
+	"HTTPS_ONLY":  ModelDeploymentDeploymentModeHttpsOnly,
+	"STREAM_ONLY": ModelDeploymentDeploymentModeStreamOnly,
+}
+
+var mappingModelDeploymentDeploymentModeEnumLowerCase = map[string]ModelDeploymentDeploymentModeEnum{
+	"https_only":  ModelDeploymentDeploymentModeHttpsOnly,
+	"stream_only": ModelDeploymentDeploymentModeStreamOnly,
+}
+
+// GetModelDeploymentDeploymentModeEnumValues Enumerates the set of values for ModelDeploymentDeploymentModeEnum
+func GetModelDeploymentDeploymentModeEnumValues() []ModelDeploymentDeploymentModeEnum {
+	values := make([]ModelDeploymentDeploymentModeEnum, 0)
+	for _, v := range mappingModelDeploymentDeploymentModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetModelDeploymentDeploymentModeEnumStringValues Enumerates the set of values in String for ModelDeploymentDeploymentModeEnum
+func GetModelDeploymentDeploymentModeEnumStringValues() []string {
+	return []string{
+		"HTTPS_ONLY",
+		"STREAM_ONLY",
+	}
+}
+
+// GetMappingModelDeploymentDeploymentModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingModelDeploymentDeploymentModeEnum(val string) (ModelDeploymentDeploymentModeEnum, bool) {
+	enum, ok := mappingModelDeploymentDeploymentModeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -12,10 +12,6 @@ import (
 )
 
 // CreateClusterRequest wrapper for the CreateCluster operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ocvp/CreateCluster.go.html to see an example of how to use CreateClusterRequest.
 type CreateClusterRequest struct {
 
 	// Details for the Cluster.

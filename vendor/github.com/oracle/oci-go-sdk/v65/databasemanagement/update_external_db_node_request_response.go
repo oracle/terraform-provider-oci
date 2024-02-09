@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateExternalDbNodeRequest wrapper for the UpdateExternalDbNode operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/UpdateExternalDbNode.go.html to see an example of how to use UpdateExternalDbNodeRequest.
 type UpdateExternalDbNodeRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database node.

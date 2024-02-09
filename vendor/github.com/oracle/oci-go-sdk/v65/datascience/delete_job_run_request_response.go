@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteJobRunRequest wrapper for the DeleteJobRun operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/DeleteJobRun.go.html to see an example of how to use DeleteJobRunRequest.
 type DeleteJobRunRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run.

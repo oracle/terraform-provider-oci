@@ -12,10 +12,6 @@ import (
 )
 
 // UpdateComputeCapacityReservationRequest wrapper for the UpdateComputeCapacityReservation operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateComputeCapacityReservation.go.html to see an example of how to use UpdateComputeCapacityReservationRequest.
 type UpdateComputeCapacityReservationRequest struct {
 
 	// The OCID of the compute capacity reservation.

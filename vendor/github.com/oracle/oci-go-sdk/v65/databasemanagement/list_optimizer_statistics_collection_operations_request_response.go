@@ -12,10 +12,6 @@ import (
 )
 
 // ListOptimizerStatisticsCollectionOperationsRequest wrapper for the ListOptimizerStatisticsCollectionOperations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListOptimizerStatisticsCollectionOperations.go.html to see an example of how to use ListOptimizerStatisticsCollectionOperationsRequest.
 type ListOptimizerStatisticsCollectionOperationsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.

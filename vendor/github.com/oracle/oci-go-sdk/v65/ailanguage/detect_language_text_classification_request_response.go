@@ -12,10 +12,6 @@ import (
 )
 
 // DetectLanguageTextClassificationRequest wrapper for the DetectLanguageTextClassification operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ailanguage/DetectLanguageTextClassification.go.html to see an example of how to use DetectLanguageTextClassificationRequest.
 type DetectLanguageTextClassificationRequest struct {
 
 	// The details to make text classification detect call.

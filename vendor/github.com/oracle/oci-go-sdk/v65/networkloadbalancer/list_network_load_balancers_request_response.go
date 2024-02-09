@@ -12,10 +12,6 @@ import (
 )
 
 // ListNetworkLoadBalancersRequest wrapper for the ListNetworkLoadBalancers operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/ListNetworkLoadBalancers.go.html to see an example of how to use ListNetworkLoadBalancersRequest.
 type ListNetworkLoadBalancersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the network load balancers to list.

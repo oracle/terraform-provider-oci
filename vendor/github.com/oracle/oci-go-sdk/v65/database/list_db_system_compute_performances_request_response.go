@@ -12,10 +12,6 @@ import (
 )
 
 // ListDbSystemComputePerformancesRequest wrapper for the ListDbSystemComputePerformances operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ListDbSystemComputePerformances.go.html to see an example of how to use ListDbSystemComputePerformancesRequest.
 type ListDbSystemComputePerformancesRequest struct {
 
 	// If provided, filters the results to the set of database versions which are supported for the given shape.

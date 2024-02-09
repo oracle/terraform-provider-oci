@@ -12,10 +12,6 @@ import (
 )
 
 // GetProductLicenseRequest wrapper for the GetProductLicense operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/licensemanager/GetProductLicense.go.html to see an example of how to use GetProductLicenseRequest.
 type GetProductLicenseRequest struct {
 
 	// Unique product license identifier.

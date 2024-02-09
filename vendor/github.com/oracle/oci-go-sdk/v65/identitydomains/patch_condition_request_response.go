@@ -12,10 +12,6 @@ import (
 )
 
 // PatchConditionRequest wrapper for the PatchCondition operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/PatchCondition.go.html to see an example of how to use PatchConditionRequest.
 type PatchConditionRequest struct {
 
 	// ID of the resource

@@ -12,10 +12,6 @@ import (
 )
 
 // ListFindingsRequest wrapper for the ListFindings operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListFindings.go.html to see an example of how to use ListFindingsRequest.
 type ListFindingsRequest struct {
 
 	// The OCID of the security assessment.

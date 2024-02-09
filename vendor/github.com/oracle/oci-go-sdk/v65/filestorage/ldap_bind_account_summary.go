@@ -58,6 +58,9 @@ type LdapBindAccountSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Not used by File Systems but required for SPLAT tag integration.
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The current state of this outbound connector.
 	LifecycleState OutboundConnectorSummaryLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
@@ -100,6 +103,11 @@ func (m LdapBindAccountSummary) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m LdapBindAccountSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m LdapBindAccountSummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m LdapBindAccountSummary) String() string {

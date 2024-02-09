@@ -12,10 +12,6 @@ import (
 )
 
 // ListExternalClustersRequest wrapper for the ListExternalClusters operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ListExternalClusters.go.html to see an example of how to use ListExternalClustersRequest.
 type ListExternalClustersRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

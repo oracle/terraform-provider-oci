@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteCccUpgradeScheduleRequest wrapper for the DeleteCccUpgradeSchedule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/DeleteCccUpgradeSchedule.go.html to see an example of how to use DeleteCccUpgradeScheduleRequest.
 type DeleteCccUpgradeScheduleRequest struct {
 
 	// Compute Cloud@Customer upgrade schedule

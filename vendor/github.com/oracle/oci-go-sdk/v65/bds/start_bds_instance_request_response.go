@@ -12,10 +12,6 @@ import (
 )
 
 // StartBdsInstanceRequest wrapper for the StartBdsInstance operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/StartBdsInstance.go.html to see an example of how to use StartBdsInstanceRequest.
 type StartBdsInstanceRequest struct {
 
 	// The OCID of the cluster.

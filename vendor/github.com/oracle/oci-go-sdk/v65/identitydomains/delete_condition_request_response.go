@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteConditionRequest wrapper for the DeleteCondition operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteCondition.go.html to see an example of how to use DeleteConditionRequest.
 type DeleteConditionRequest struct {
 
 	// ID of the resource

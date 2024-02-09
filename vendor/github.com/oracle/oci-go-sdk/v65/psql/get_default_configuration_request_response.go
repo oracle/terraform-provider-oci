@@ -12,10 +12,6 @@ import (
 )
 
 // GetDefaultConfigurationRequest wrapper for the GetDefaultConfiguration operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/GetDefaultConfiguration.go.html to see an example of how to use GetDefaultConfigurationRequest.
 type GetDefaultConfigurationRequest struct {
 
 	// A unique identifier for the configuration.

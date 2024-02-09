@@ -10,6 +10,7 @@
 package queue
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -42,6 +43,9 @@ type CreateQueueDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the custom encryption key to be used to encrypt messages content.
 	CustomEncryptionKeyId *string `mandatory:"false" json:"customEncryptionKeyId"`
 
+	// The capability to add on the queue
+	Capabilities []CapabilityDetails `mandatory:"false" json:"capabilities"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -65,4 +69,60 @@ func (m CreateQueueDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateQueueDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		RetentionInSeconds           *int                              `json:"retentionInSeconds"`
+		VisibilityInSeconds          *int                              `json:"visibilityInSeconds"`
+		TimeoutInSeconds             *int                              `json:"timeoutInSeconds"`
+		ChannelConsumptionLimit      *int                              `json:"channelConsumptionLimit"`
+		DeadLetterQueueDeliveryCount *int                              `json:"deadLetterQueueDeliveryCount"`
+		CustomEncryptionKeyId        *string                           `json:"customEncryptionKeyId"`
+		Capabilities                 []capabilitydetails               `json:"capabilities"`
+		FreeformTags                 map[string]string                 `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName                  *string                           `json:"displayName"`
+		CompartmentId                *string                           `json:"compartmentId"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.RetentionInSeconds = model.RetentionInSeconds
+
+	m.VisibilityInSeconds = model.VisibilityInSeconds
+
+	m.TimeoutInSeconds = model.TimeoutInSeconds
+
+	m.ChannelConsumptionLimit = model.ChannelConsumptionLimit
+
+	m.DeadLetterQueueDeliveryCount = model.DeadLetterQueueDeliveryCount
+
+	m.CustomEncryptionKeyId = model.CustomEncryptionKeyId
+
+	m.Capabilities = make([]CapabilityDetails, len(model.Capabilities))
+	for i, n := range model.Capabilities {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.Capabilities[i] = nn.(CapabilityDetails)
+		} else {
+			m.Capabilities[i] = nil
+		}
+	}
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	return
 }

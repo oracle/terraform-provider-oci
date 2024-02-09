@@ -12,10 +12,6 @@ import (
 )
 
 // CancelProcessorJobRequest wrapper for the CancelProcessorJob operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/aidocument/CancelProcessorJob.go.html to see an example of how to use CancelProcessorJobRequest.
 type CancelProcessorJobRequest struct {
 
 	// Processor job id.

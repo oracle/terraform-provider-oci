@@ -148,10 +148,6 @@ func (client *ObjectStorageClient) refreshRegion() {
 }
 
 // AbortMultipartUpload Aborts an in-progress multipart upload and deletes all parts that have been uploaded.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/AbortMultipartUpload.go.html to see an example of how to use AbortMultipartUpload API.
 // A default retry strategy applies to this operation AbortMultipartUpload()
 func (client ObjectStorageClient) AbortMultipartUpload(ctx context.Context, request AbortMultipartUploadRequest) (response AbortMultipartUploadResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -212,11 +208,70 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 	return response, err
 }
 
+// BulkCopyObjects Creates a request to copy a batch of objects within a region or to another region.
+// See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
+// for object naming requirements.
+// A default retry strategy applies to this operation BulkCopyObjects()
+func (client ObjectStorageClient) BulkCopyObjects(ctx context.Context, request BulkCopyObjectsRequest) (response BulkCopyObjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.bulkCopyObjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkCopyObjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkCopyObjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkCopyObjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkCopyObjectsResponse")
+	}
+	return
+}
+
+// bulkCopyObjects implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) bulkCopyObjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/bulkCopyObjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(BulkCopyObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response BulkCopyObjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/BulkCopyObjects"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "BulkCopyObjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelWorkRequest Cancels a work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client ObjectStorageClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -277,11 +332,79 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 	return response, err
 }
 
+// CheckObject Retrieve an object's stored and calculated digests, specifically:
+//   - The content MD5;
+//   - The SHA-256 of each chunk on each storage server.
+//
+// If the MD5 digest calculated from the decrypted object data
+// does not match the MD5 digest stored in the object's metadata,
+// or any chunk's' SHA-256 does not match the one stored for it,
+// this API will signal an error.  The stored and calculated
+// digests are always included in the response.
+// This internal API allows Object Storage tooling to verify the
+// correctness of stored data.  Any tenancy's objects can be
+// verified with this API, so it must only protected by BOAT AAA.
+// A default retry strategy applies to this operation CheckObject()
+func (client ObjectStorageClient) CheckObject(ctx context.Context, request CheckObjectRequest) (response CheckObjectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.checkObject, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CheckObjectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CheckObjectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CheckObjectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CheckObjectResponse")
+	}
+	return
+}
+
+// checkObject implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) checkObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/actions/checkObject/{objectName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(CheckObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CheckObjectResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/CheckObject"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "CheckObject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CommitMultipartUpload Commits a multipart upload, which involves checking part numbers and entity tags (ETags) of the parts, to create an aggregate object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CommitMultipartUpload.go.html to see an example of how to use CommitMultipartUpload API.
 // A default retry strategy applies to this operation CommitMultipartUpload()
 func (client ObjectStorageClient) CommitMultipartUpload(ctx context.Context, request CommitMultipartUploadRequest) (response CommitMultipartUploadResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -345,10 +468,6 @@ func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, req
 // CopyObject Creates a request to copy an object within a region or to another region.
 // See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CopyObject.go.html to see an example of how to use CopyObject API.
 // A default retry strategy applies to this operation CopyObject()
 func (client ObjectStorageClient) CopyObject(ctx context.Context, request CopyObjectRequest) (response CopyObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -409,12 +528,202 @@ func (client ObjectStorageClient) copyObject(ctx context.Context, request common
 	return response, err
 }
 
+// CopyPart Copy part of an existing object to a destination object
+// A default retry strategy applies to this operation CopyPart()
+func (client ObjectStorageClient) CopyPart(ctx context.Context, request CopyPartRequest) (response CopyPartResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.copyPart, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CopyPartResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CopyPartResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CopyPartResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CopyPartResponse")
+	}
+	return
+}
+
+// copyPart implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) copyPart(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/b/{bucketName}/cp/{objectName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(CopyPartRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CopyPartResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/MultipartUpload/CopyPart"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "CopyPart", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateAcl Creates an Access-Control List. The ACL can be included in an ACL Group to restrict network access to certain
+// buckets and objects.
+// A default retry strategy applies to this operation CreateAcl()
+func (client ObjectStorageClient) CreateAcl(ctx context.Context, request CreateAclRequest) (response CreateAclResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAcl, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAclResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAclResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAclResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAclResponse")
+	}
+	return
+}
+
+// createAcl implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) createAcl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/security/acl", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(CreateAclRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateAclResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Acl/CreateAcl"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "CreateAcl", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateAclGroup Creates an ACL Group. These are used to restrict network access to certain buckets and objects.
+// A default retry strategy applies to this operation CreateAclGroup()
+func (client ObjectStorageClient) CreateAclGroup(ctx context.Context, request CreateAclGroupRequest) (response CreateAclGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAclGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAclGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAclGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAclGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAclGroupResponse")
+	}
+	return
+}
+
+// createAclGroup implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) createAclGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/security/aclgroup", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(CreateAclGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateAclGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/AclGroup/CreateAclGroup"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "CreateAclGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateBucket Creates a bucket in the given namespace with a bucket name and optional user-defined metadata. Avoid entering
 // confidential information in bucket names.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreateBucket.go.html to see an example of how to use CreateBucket API.
 // A default retry strategy applies to this operation CreateBucket()
 func (client ObjectStorageClient) CreateBucket(ctx context.Context, request CreateBucketRequest) (response CreateBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -478,10 +787,6 @@ func (client ObjectStorageClient) createBucket(ctx context.Context, request comm
 // CreateMultipartUpload Starts a new multipart upload to a specific object in the given bucket in the given namespace.
 // See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreateMultipartUpload.go.html to see an example of how to use CreateMultipartUpload API.
 // A default retry strategy applies to this operation CreateMultipartUpload()
 func (client ObjectStorageClient) CreateMultipartUpload(ctx context.Context, request CreateMultipartUploadRequest) (response CreateMultipartUploadResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -543,10 +848,6 @@ func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, req
 }
 
 // CreatePreauthenticatedRequest Creates a pre-authenticated request specific to the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreatePreauthenticatedRequest.go.html to see an example of how to use CreatePreauthenticatedRequest API.
 // A default retry strategy applies to this operation CreatePreauthenticatedRequest()
 func (client ObjectStorageClient) CreatePreauthenticatedRequest(ctx context.Context, request CreatePreauthenticatedRequestRequest) (response CreatePreauthenticatedRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -607,11 +908,73 @@ func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Cont
 	return response, err
 }
 
+// CreatePrivateEndpoint Create a PrivateEndpoint.
+// A default retry strategy applies to this operation CreatePrivateEndpoint()
+func (client ObjectStorageClient) CreatePrivateEndpoint(ctx context.Context, request CreatePrivateEndpointRequest) (response CreatePrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreatePrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreatePrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreatePrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreatePrivateEndpointResponse")
+	}
+	return
+}
+
+// createPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) createPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/pe", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(CreatePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreatePrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PrivateEndpoint/CreatePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "CreatePrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateReplicationPolicy Creates a replication policy for the specified bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreateReplicationPolicy.go.html to see an example of how to use CreateReplicationPolicy API.
 // A default retry strategy applies to this operation CreateReplicationPolicy()
 func (client ObjectStorageClient) CreateReplicationPolicy(ctx context.Context, request CreateReplicationPolicyRequest) (response CreateReplicationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -674,10 +1037,6 @@ func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, r
 
 // CreateRetentionRule Creates a new retention rule in the specified bucket. The new rule will take effect typically within 30 seconds.
 // Note that a maximum of 100 rules are supported on a bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/CreateRetentionRule.go.html to see an example of how to use CreateRetentionRule API.
 // A default retry strategy applies to this operation CreateRetentionRule()
 func (client ObjectStorageClient) CreateRetentionRule(ctx context.Context, request CreateRetentionRuleRequest) (response CreateRetentionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -738,14 +1097,132 @@ func (client ObjectStorageClient) createRetentionRule(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteAcl Deletes the specified ACL. The ACL must not be in any existing ACL Group.
+// A default retry strategy applies to this operation DeleteAcl()
+func (client ObjectStorageClient) DeleteAcl(ctx context.Context, request DeleteAclRequest) (response DeleteAclResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAcl, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAclResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAclResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAclResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAclResponse")
+	}
+	return
+}
+
+// deleteAcl implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) deleteAcl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/security/acl/{aclId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(DeleteAclRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteAclResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Acl/DeleteAcl"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteAcl", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAclGroup Deletes the specified ACL Group.
+// A default retry strategy applies to this operation DeleteAclGroup()
+func (client ObjectStorageClient) DeleteAclGroup(ctx context.Context, request DeleteAclGroupRequest) (response DeleteAclGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteAclGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAclGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAclGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAclGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAclGroupResponse")
+	}
+	return
+}
+
+// deleteAclGroup implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) deleteAclGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/security/aclgroup/{aclGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(DeleteAclGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteAclGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/AclGroup/DeleteAclGroup"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "DeleteAclGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBucket Deletes a bucket if the bucket is already empty. If the bucket is not empty, use
 // DeleteObject first. In addition,
 // you cannot delete a bucket that has a multipart upload in progress or a pre-authenticated
 // request associated with that bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteBucket.go.html to see an example of how to use DeleteBucket API.
 // A default retry strategy applies to this operation DeleteBucket()
 func (client ObjectStorageClient) DeleteBucket(ctx context.Context, request DeleteBucketRequest) (response DeleteBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -807,10 +1284,6 @@ func (client ObjectStorageClient) deleteBucket(ctx context.Context, request comm
 }
 
 // DeleteObject Deletes an object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteObject.go.html to see an example of how to use DeleteObject API.
 // A default retry strategy applies to this operation DeleteObject()
 func (client ObjectStorageClient) DeleteObject(ctx context.Context, request DeleteObjectRequest) (response DeleteObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -872,10 +1345,6 @@ func (client ObjectStorageClient) deleteObject(ctx context.Context, request comm
 }
 
 // DeleteObjectLifecyclePolicy Deletes the object lifecycle policy for the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteObjectLifecyclePolicy.go.html to see an example of how to use DeleteObjectLifecyclePolicy API.
 // A default retry strategy applies to this operation DeleteObjectLifecyclePolicy()
 func (client ObjectStorageClient) DeleteObjectLifecyclePolicy(ctx context.Context, request DeleteObjectLifecyclePolicyRequest) (response DeleteObjectLifecyclePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -937,10 +1406,6 @@ func (client ObjectStorageClient) deleteObjectLifecyclePolicy(ctx context.Contex
 }
 
 // DeletePreauthenticatedRequest Deletes the pre-authenticated request for the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeletePreauthenticatedRequest.go.html to see an example of how to use DeletePreauthenticatedRequest API.
 // A default retry strategy applies to this operation DeletePreauthenticatedRequest()
 func (client ObjectStorageClient) DeletePreauthenticatedRequest(ctx context.Context, request DeletePreauthenticatedRequestRequest) (response DeletePreauthenticatedRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1001,11 +1466,68 @@ func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Cont
 	return response, err
 }
 
+// DeletePrivateEndpoint Deletes a Private Endpoint if it exists in the given namespace.
+// A default retry strategy applies to this operation DeletePrivateEndpoint()
+func (client ObjectStorageClient) DeletePrivateEndpoint(ctx context.Context, request DeletePrivateEndpointRequest) (response DeletePrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deletePrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeletePrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeletePrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeletePrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeletePrivateEndpointResponse")
+	}
+	return
+}
+
+// deletePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) deletePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/n/{namespaceName}/pe/{peName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(DeletePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeletePrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PrivateEndpoint/DeletePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "DeletePrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteReplicationPolicy Deletes the replication policy associated with the source bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteReplicationPolicy.go.html to see an example of how to use DeleteReplicationPolicy API.
 // A default retry strategy applies to this operation DeleteReplicationPolicy()
 func (client ObjectStorageClient) DeleteReplicationPolicy(ctx context.Context, request DeleteReplicationPolicyRequest) (response DeleteReplicationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1067,10 +1589,6 @@ func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, r
 }
 
 // DeleteRetentionRule Deletes the specified rule. The deletion takes effect typically within 30 seconds.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/DeleteRetentionRule.go.html to see an example of how to use DeleteRetentionRule API.
 // A default retry strategy applies to this operation DeleteRetentionRule()
 func (client ObjectStorageClient) DeleteRetentionRule(ctx context.Context, request DeleteRetentionRuleRequest) (response DeleteRetentionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1131,11 +1649,129 @@ func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, reque
 	return response, err
 }
 
+// GetAcl Get the specified ACL.
+// A default retry strategy applies to this operation GetAcl()
+func (client ObjectStorageClient) GetAcl(ctx context.Context, request GetAclRequest) (response GetAclResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAcl, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAclResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAclResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAclResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAclResponse")
+	}
+	return
+}
+
+// getAcl implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) getAcl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/security/acl/{aclId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(GetAclRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetAclResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Acl/GetAcl"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "GetAcl", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAclGroup Get the specified ACL Group.
+// A default retry strategy applies to this operation GetAclGroup()
+func (client ObjectStorageClient) GetAclGroup(ctx context.Context, request GetAclGroupRequest) (response GetAclGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAclGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAclGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAclGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAclGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAclGroupResponse")
+	}
+	return
+}
+
+// getAclGroup implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) getAclGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/security/aclgroup/{aclGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(GetAclGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetAclGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/AclGroup/GetAclGroup"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "GetAclGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetBucket Gets the current representation of the given bucket in the given Object Storage namespace.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetBucket.go.html to see an example of how to use GetBucket API.
 // A default retry strategy applies to this operation GetBucket()
 func (client ObjectStorageClient) GetBucket(ctx context.Context, request GetBucketRequest) (response GetBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1196,16 +1832,74 @@ func (client ObjectStorageClient) getBucket(ctx context.Context, request common.
 	return response, err
 }
 
+// GetBucketOptions Lists the various options associated with the bucket. The options are returned as a JSON-formatted object.
+// This API is for internal-use only.
+// A default retry strategy applies to this operation GetBucketOptions()
+func (client ObjectStorageClient) GetBucketOptions(ctx context.Context, request GetBucketOptionsRequest) (response GetBucketOptionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBucketOptions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBucketOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBucketOptionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBucketOptionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBucketOptionsResponse")
+	}
+	return
+}
+
+// getBucketOptions implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) getBucketOptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/b/{bucketName}/actions/options", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(GetBucketOptionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetBucketOptionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/GetBucketOptions"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "GetBucketOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetNamespace Each Oracle Cloud Infrastructure tenant is assigned one unique and uneditable Object Storage namespace. The namespace
 // is a system-generated string assigned during account creation. For some older tenancies, the namespace string may be
 // the tenancy name in all lower-case letters. You cannot edit a namespace.
 // GetNamespace returns the name of the Object Storage namespace for the user making the request.
 // If an optional compartmentId query parameter is provided, GetNamespace returns the namespace name of the corresponding
 // tenancy, provided the user has access to it.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetNamespace.go.html to see an example of how to use GetNamespace API.
 // A default retry strategy applies to this operation GetNamespace()
 func (client ObjectStorageClient) GetNamespace(ctx context.Context, request GetNamespaceRequest) (response GetNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1267,10 +1961,6 @@ func (client ObjectStorageClient) getNamespace(ctx context.Context, request comm
 // not authorized, talk to an administrator. If you are an administrator who needs to write policies
 // to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetNamespaceMetadata.go.html to see an example of how to use GetNamespaceMetadata API.
 // A default retry strategy applies to this operation GetNamespaceMetadata()
 func (client ObjectStorageClient) GetNamespaceMetadata(ctx context.Context, request GetNamespaceMetadataRequest) (response GetNamespaceMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1332,10 +2022,6 @@ func (client ObjectStorageClient) getNamespaceMetadata(ctx context.Context, requ
 }
 
 // GetObject Gets the metadata and body of an object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetObject.go.html to see an example of how to use GetObject API.
 // A default retry strategy applies to this operation GetObject()
 func (client ObjectStorageClient) GetObject(ctx context.Context, request GetObjectRequest) (response GetObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1396,10 +2082,6 @@ func (client ObjectStorageClient) getObject(ctx context.Context, request common.
 }
 
 // GetObjectLifecyclePolicy Gets the object lifecycle policy for the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetObjectLifecyclePolicy.go.html to see an example of how to use GetObjectLifecyclePolicy API.
 // A default retry strategy applies to this operation GetObjectLifecyclePolicy()
 func (client ObjectStorageClient) GetObjectLifecyclePolicy(ctx context.Context, request GetObjectLifecyclePolicyRequest) (response GetObjectLifecyclePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1461,10 +2143,6 @@ func (client ObjectStorageClient) getObjectLifecyclePolicy(ctx context.Context, 
 }
 
 // GetPreauthenticatedRequest Gets the pre-authenticated request for the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetPreauthenticatedRequest.go.html to see an example of how to use GetPreauthenticatedRequest API.
 // A default retry strategy applies to this operation GetPreauthenticatedRequest()
 func (client ObjectStorageClient) GetPreauthenticatedRequest(ctx context.Context, request GetPreauthenticatedRequestRequest) (response GetPreauthenticatedRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1525,11 +2203,68 @@ func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context
 	return response, err
 }
 
+// GetPrivateEndpoint Gets the current representation of the given Private Endpoint in the given Object Storage namespace.
+// A default retry strategy applies to this operation GetPrivateEndpoint()
+func (client ObjectStorageClient) GetPrivateEndpoint(ctx context.Context, request GetPrivateEndpointRequest) (response GetPrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPrivateEndpointResponse")
+	}
+	return
+}
+
+// getPrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) getPrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/pe/{peName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(GetPrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetPrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PrivateEndpoint/GetPrivateEndpoint"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "GetPrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetReplicationPolicy Get the replication policy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetReplicationPolicy.go.html to see an example of how to use GetReplicationPolicy API.
 // A default retry strategy applies to this operation GetReplicationPolicy()
 func (client ObjectStorageClient) GetReplicationPolicy(ctx context.Context, request GetReplicationPolicyRequest) (response GetReplicationPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1591,10 +2326,6 @@ func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, requ
 }
 
 // GetRetentionRule Get the specified retention rule.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetRetentionRule.go.html to see an example of how to use GetRetentionRule API.
 // A default retry strategy applies to this operation GetRetentionRule()
 func (client ObjectStorageClient) GetRetentionRule(ctx context.Context, request GetRetentionRuleRequest) (response GetRetentionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1656,10 +2387,6 @@ func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request 
 }
 
 // GetWorkRequest Gets the status of the work request for the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ObjectStorageClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1721,10 +2448,6 @@ func (client ObjectStorageClient) getWorkRequest(ctx context.Context, request co
 }
 
 // HeadBucket Efficiently checks to see if a bucket exists and gets the current entity tag (ETag) for the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/HeadBucket.go.html to see an example of how to use HeadBucket API.
 // A default retry strategy applies to this operation HeadBucket()
 func (client ObjectStorageClient) HeadBucket(ctx context.Context, request HeadBucketRequest) (response HeadBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1786,10 +2509,6 @@ func (client ObjectStorageClient) headBucket(ctx context.Context, request common
 }
 
 // HeadObject Gets the user-defined metadata and entity tag (ETag) for an object.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/HeadObject.go.html to see an example of how to use HeadObject API.
 // A default retry strategy applies to this operation HeadObject()
 func (client ObjectStorageClient) HeadObject(ctx context.Context, request HeadObjectRequest) (response HeadObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1850,6 +2569,128 @@ func (client ObjectStorageClient) headObject(ctx context.Context, request common
 	return response, err
 }
 
+// ListAclGroups List the ACL Groups in the namespace residing in the given compartment.
+// A default retry strategy applies to this operation ListAclGroups()
+func (client ObjectStorageClient) ListAclGroups(ctx context.Context, request ListAclGroupsRequest) (response ListAclGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAclGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAclGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAclGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAclGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAclGroupsResponse")
+	}
+	return
+}
+
+// listAclGroups implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) listAclGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/security/aclgroup", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(ListAclGroupsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListAclGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/AclGroup/ListAclGroups"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "ListAclGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAcls List the ACLs in the namespace.
+// A default retry strategy applies to this operation ListAcls()
+func (client ObjectStorageClient) ListAcls(ctx context.Context, request ListAclsRequest) (response ListAclsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAcls, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAclsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAclsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAclsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAclsResponse")
+	}
+	return
+}
+
+// listAcls implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) listAcls(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/security/acl", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(ListAclsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListAclsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Acl/ListAcls"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "ListAcls", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListBuckets Gets a list of all BucketSummary items in a compartment. A BucketSummary contains only summary fields for the bucket
 // and does not contain fields like the user-defined metadata.
 // ListBuckets returns a BucketSummary containing at most 1000 buckets. To paginate through more buckets, use the returned
@@ -1857,10 +2698,6 @@ func (client ObjectStorageClient) headObject(ctx context.Context, request common
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListBuckets.go.html to see an example of how to use ListBuckets API.
 // A default retry strategy applies to this operation ListBuckets()
 func (client ObjectStorageClient) ListBuckets(ctx context.Context, request ListBucketsRequest) (response ListBucketsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1922,10 +2759,6 @@ func (client ObjectStorageClient) listBuckets(ctx context.Context, request commo
 }
 
 // ListMultipartUploadParts Lists the parts of an in-progress multipart upload.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListMultipartUploadParts.go.html to see an example of how to use ListMultipartUploadParts API.
 // A default retry strategy applies to this operation ListMultipartUploadParts()
 func (client ObjectStorageClient) ListMultipartUploadParts(ctx context.Context, request ListMultipartUploadPartsRequest) (response ListMultipartUploadPartsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1987,10 +2820,6 @@ func (client ObjectStorageClient) listMultipartUploadParts(ctx context.Context, 
 }
 
 // ListMultipartUploads Lists all of the in-progress multipart uploads for the given bucket in the given Object Storage namespace.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListMultipartUploads.go.html to see an example of how to use ListMultipartUploads API.
 // A default retry strategy applies to this operation ListMultipartUploads()
 func (client ObjectStorageClient) ListMultipartUploads(ctx context.Context, request ListMultipartUploadsRequest) (response ListMultipartUploadsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2057,10 +2886,6 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListObjectVersions.go.html to see an example of how to use ListObjectVersions API.
 // A default retry strategy applies to this operation ListObjectVersions()
 func (client ObjectStorageClient) ListObjectVersions(ctx context.Context, request ListObjectVersionsRequest) (response ListObjectVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2129,10 +2954,6 @@ func (client ObjectStorageClient) listObjectVersions(ctx context.Context, reques
 // To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
 // talk to an administrator. If you are an administrator who needs to write policies to give users access, see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListObjects.go.html to see an example of how to use ListObjects API.
 // A default retry strategy applies to this operation ListObjects()
 func (client ObjectStorageClient) ListObjects(ctx context.Context, request ListObjectsRequest) (response ListObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2194,10 +3015,6 @@ func (client ObjectStorageClient) listObjects(ctx context.Context, request commo
 }
 
 // ListPreauthenticatedRequests Lists pre-authenticated requests for the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListPreauthenticatedRequests.go.html to see an example of how to use ListPreauthenticatedRequests API.
 // A default retry strategy applies to this operation ListPreauthenticatedRequests()
 func (client ObjectStorageClient) ListPreauthenticatedRequests(ctx context.Context, request ListPreauthenticatedRequestsRequest) (response ListPreauthenticatedRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2258,11 +3075,71 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 	return response, err
 }
 
+// ListPrivateEndpoints Gets a list of all PrivateEndpointSummary in a compartment associated with a namespace.
+// To use this and other API operations, you must be authorized in an IAM policy. If you are not authorized,
+// talk to an administrator. If you are an administrator who needs to write policies to give users access, see
+// Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
+// A default retry strategy applies to this operation ListPrivateEndpoints()
+func (client ObjectStorageClient) ListPrivateEndpoints(ctx context.Context, request ListPrivateEndpointsRequest) (response ListPrivateEndpointsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPrivateEndpoints, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPrivateEndpointsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPrivateEndpointsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPrivateEndpointsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPrivateEndpointsResponse")
+	}
+	return
+}
+
+// listPrivateEndpoints implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) listPrivateEndpoints(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/n/{namespaceName}/pe", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(ListPrivateEndpointsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListPrivateEndpointsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PrivateEndpointSummary/ListPrivateEndpoints"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "ListPrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListReplicationPolicies List the replication policies associated with a bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListReplicationPolicies.go.html to see an example of how to use ListReplicationPolicies API.
 // A default retry strategy applies to this operation ListReplicationPolicies()
 func (client ObjectStorageClient) ListReplicationPolicies(ctx context.Context, request ListReplicationPoliciesRequest) (response ListReplicationPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2324,10 +3201,6 @@ func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, r
 }
 
 // ListReplicationSources List the replication sources of a destination bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListReplicationSources.go.html to see an example of how to use ListReplicationSources API.
 // A default retry strategy applies to this operation ListReplicationSources()
 func (client ObjectStorageClient) ListReplicationSources(ctx context.Context, request ListReplicationSourcesRequest) (response ListReplicationSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2390,10 +3263,6 @@ func (client ObjectStorageClient) listReplicationSources(ctx context.Context, re
 
 // ListRetentionRules List the retention rules for a bucket. The retention rules are sorted based on creation time,
 // with the most recently created retention rule returned first.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListRetentionRules.go.html to see an example of how to use ListRetentionRules API.
 // A default retry strategy applies to this operation ListRetentionRules()
 func (client ObjectStorageClient) ListRetentionRules(ctx context.Context, request ListRetentionRulesRequest) (response ListRetentionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2455,10 +3324,6 @@ func (client ObjectStorageClient) listRetentionRules(ctx context.Context, reques
 }
 
 // ListWorkRequestErrors Lists the errors of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ObjectStorageClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2520,10 +3385,6 @@ func (client ObjectStorageClient) listWorkRequestErrors(ctx context.Context, req
 }
 
 // ListWorkRequestLogs Lists the logs of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ObjectStorageClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2585,10 +3446,6 @@ func (client ObjectStorageClient) listWorkRequestLogs(ctx context.Context, reque
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ObjectStorageClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2653,10 +3510,6 @@ func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request 
 // policy was created, this destination bucket became read-only except for new and changed objects replicated
 // automatically from the source bucket. MakeBucketWritable removes the replication policy. This bucket is no
 // longer the target for replication and is now writable, allowing users to make changes to bucket contents.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/MakeBucketWritable.go.html to see an example of how to use MakeBucketWritable API.
 // A default retry strategy applies to this operation MakeBucketWritable()
 func (client ObjectStorageClient) MakeBucketWritable(ctx context.Context, request MakeBucketWritableRequest) (response MakeBucketWritableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2717,16 +3570,73 @@ func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, reques
 	return response, err
 }
 
+// MergeObjectMetadata Merges an Object's user-defined metadata with existing metadata.
+// A default retry strategy applies to this operation MergeObjectMetadata()
+func (client ObjectStorageClient) MergeObjectMetadata(ctx context.Context, request MergeObjectMetadataRequest) (response MergeObjectMetadataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.mergeObjectMetadata, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MergeObjectMetadataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MergeObjectMetadataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MergeObjectMetadataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MergeObjectMetadataResponse")
+	}
+	return
+}
+
+// mergeObjectMetadata implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) mergeObjectMetadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/mergeObjectMetadata/{objectName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(MergeObjectMetadataRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response MergeObjectMetadataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/MergeObjectMetadata"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "MergeObjectMetadata", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // PutObject Creates a new object or overwrites an existing object with the same name. The maximum object size allowed by
 // PutObject is 50 GiB.
 // See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
 // See Special Instructions for Object Storage PUT (https://docs.cloud.oracle.com/Content/API/Concepts/signingrequests.htm#ObjectStoragePut)
 // for request signature requirements.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/PutObject.go.html to see an example of how to use PutObject API.
 // A default retry strategy applies to this operation PutObject()
 func (client ObjectStorageClient) PutObject(ctx context.Context, request PutObjectRequest) (response PutObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2800,10 +3710,6 @@ func (client ObjectStorageClient) putObject(ctx context.Context, request common.
 }
 
 // PutObjectLifecyclePolicy Creates or replaces the object lifecycle policy for the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/PutObjectLifecyclePolicy.go.html to see an example of how to use PutObjectLifecyclePolicy API.
 // A default retry strategy applies to this operation PutObjectLifecyclePolicy()
 func (client ObjectStorageClient) PutObjectLifecyclePolicy(ctx context.Context, request PutObjectLifecyclePolicyRequest) (response PutObjectLifecyclePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2864,6 +3770,127 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 	return response, err
 }
 
+// QueryObject Returns query result as a byte string in the response body.The default format of results is CSV.
+// A default retry strategy applies to this operation QueryObject()
+func (client ObjectStorageClient) QueryObject(ctx context.Context, request QueryObjectRequest) (response QueryObjectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.queryObject, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = QueryObjectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = QueryObjectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(QueryObjectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into QueryObjectResponse")
+	}
+	return
+}
+
+// queryObject implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) queryObject(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/query", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(QueryObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response QueryObjectResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/QueryObject"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "QueryObject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReadObjectSchema Returns object schema(metadata that describes columns if the object represents file in supported columnar file format) result as a json in the response body.
+// A default retry strategy applies to this operation ReadObjectSchema()
+func (client ObjectStorageClient) ReadObjectSchema(ctx context.Context, request ReadObjectSchemaRequest) (response ReadObjectSchemaResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.readObjectSchema, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReadObjectSchemaResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReadObjectSchemaResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReadObjectSchemaResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReadObjectSchemaResponse")
+	}
+	return
+}
+
+// readObjectSchema implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) readObjectSchema(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/readObjectSchema", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(ReadObjectSchemaRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ReadObjectSchemaResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/ReadObjectSchema"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "ReadObjectSchema", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ReencryptBucket Re-encrypts the unique data encryption key that encrypts each object written to the bucket by using the most recent
 // version of the master encryption key assigned to the bucket. (All data encryption keys are encrypted by a master
 // encryption key. Master encryption keys are assigned to buckets and managed by Oracle by default, but you can assign
@@ -2878,10 +3905,6 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 // objects are in the bucket and how big they are. This API returns a work request ID that you can use to retrieve the status
 // of the work request task.
 // All the versions of objects will be re-encrypted whether versioning is enabled or suspended at the bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ReencryptBucket.go.html to see an example of how to use ReencryptBucket API.
 // A default retry strategy applies to this operation ReencryptBucket()
 func (client ObjectStorageClient) ReencryptBucket(ctx context.Context, request ReencryptBucketRequest) (response ReencryptBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2948,10 +3971,6 @@ func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request c
 // You can alternatively employ one of these encryption strategies for an object:
 // - You can assign a key that you created and control through the Oracle Cloud Infrastructure Vault service.
 // - You can encrypt an object using your own encryption key. The key you supply is known as a customer-provided encryption key (SSE-C).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/ReencryptObject.go.html to see an example of how to use ReencryptObject API.
 // A default retry strategy applies to this operation ReencryptObject()
 func (client ObjectStorageClient) ReencryptObject(ctx context.Context, request ReencryptObjectRequest) (response ReencryptObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3015,10 +4034,6 @@ func (client ObjectStorageClient) reencryptObject(ctx context.Context, request c
 // RenameObject Rename an object in the given Object Storage namespace.
 // See Object Names (https://docs.cloud.oracle.com/Content/Object/Tasks/managingobjects.htm#namerequirements)
 // for object naming requirements.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/RenameObject.go.html to see an example of how to use RenameObject API.
 // A default retry strategy applies to this operation RenameObject()
 func (client ObjectStorageClient) RenameObject(ctx context.Context, request RenameObjectRequest) (response RenameObjectResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3079,12 +4094,69 @@ func (client ObjectStorageClient) renameObject(ctx context.Context, request comm
 	return response, err
 }
 
-// RestoreObjects Restores one or more objects specified by the objectName parameter.
-// By default objects will be restored for 24 hours. Duration can be configured using the hours parameter.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/RestoreObjects.go.html to see an example of how to use RestoreObjects API.
+// ReplaceObjectMetadata Overwrites an object's user-defined metadata.
+// A default retry strategy applies to this operation ReplaceObjectMetadata()
+func (client ObjectStorageClient) ReplaceObjectMetadata(ctx context.Context, request ReplaceObjectMetadataRequest) (response ReplaceObjectMetadataResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.replaceObjectMetadata, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReplaceObjectMetadataResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReplaceObjectMetadataResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReplaceObjectMetadataResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReplaceObjectMetadataResponse")
+	}
+	return
+}
+
+// replaceObjectMetadata implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) replaceObjectMetadata(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/replaceObjectMetadata/{objectName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(ReplaceObjectMetadataRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ReplaceObjectMetadataResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/ReplaceObjectMetadata"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "ReplaceObjectMetadata", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestoreObjects Restores the object specified by the objectName parameter.
+// By default object will be restored for 24 hours. Duration can be configured using the hours parameter.
 // A default retry strategy applies to this operation RestoreObjects()
 func (client ObjectStorageClient) RestoreObjects(ctx context.Context, request RestoreObjectsRequest) (response RestoreObjectsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3145,14 +4217,193 @@ func (client ObjectStorageClient) restoreObjects(ctx context.Context, request co
 	return response, err
 }
 
+// StartPrefixRename Rename prefix of all the objects in the given source prefix with destination prefix.
+// A default retry strategy applies to this operation StartPrefixRename()
+func (client ObjectStorageClient) StartPrefixRename(ctx context.Context, request StartPrefixRenameRequest) (response StartPrefixRenameResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.startPrefixRename, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartPrefixRenameResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartPrefixRenameResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartPrefixRenameResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartPrefixRenameResponse")
+	}
+	return
+}
+
+// startPrefixRename implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) startPrefixRename(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/prefixRename", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(StartPrefixRenameRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response StartPrefixRenameResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Object/StartPrefixRename"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "StartPrefixRename", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAcl Updates the specified ACL.
+// A default retry strategy applies to this operation UpdateAcl()
+func (client ObjectStorageClient) UpdateAcl(ctx context.Context, request UpdateAclRequest) (response UpdateAclResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAcl, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAclResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAclResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAclResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAclResponse")
+	}
+	return
+}
+
+// updateAcl implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) updateAcl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/security/acl/{aclId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(UpdateAclRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateAclResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Acl/UpdateAcl"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateAcl", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateAclGroup Updates the specified ACL Group.
+// A default retry strategy applies to this operation UpdateAclGroup()
+func (client ObjectStorageClient) UpdateAclGroup(ctx context.Context, request UpdateAclGroupRequest) (response UpdateAclGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateAclGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateAclGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateAclGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateAclGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateAclGroupResponse")
+	}
+	return
+}
+
+// updateAclGroup implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) updateAclGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/n/{namespaceName}/security/aclgroup/{aclGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(UpdateAclGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateAclGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/AclGroup/UpdateAclGroup"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateAclGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateBucket Performs a partial or full update of a bucket's user-defined metadata.
 // Use UpdateBucket to move a bucket from one compartment to another within the same tenancy. Supply the compartmentID
 // of the compartment that you want to move the bucket to. For more information about moving resources between compartments,
 // see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateBucket.go.html to see an example of how to use UpdateBucket API.
 // A default retry strategy applies to this operation UpdateBucket()
 func (client ObjectStorageClient) UpdateBucket(ctx context.Context, request UpdateBucketRequest) (response UpdateBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3213,16 +4464,78 @@ func (client ObjectStorageClient) updateBucket(ctx context.Context, request comm
 	return response, err
 }
 
+// UpdateBucketOptions Updates internal options associated with a bucket. The options to be updated/added/removed are specified in a
+// JSON object in the body of the request. This API only affects the bucket options that are specified in the JSON
+// body. Other options that have been set (by prior use of this API) are left unchanged.
+// Options that have a value set to null are removed.
+// All the existing options are removed, if the value associated with "freeformOptions" is null.
+// This API is for internal-use only.
+// A default retry strategy applies to this operation UpdateBucketOptions()
+func (client ObjectStorageClient) UpdateBucketOptions(ctx context.Context, request UpdateBucketOptionsRequest) (response UpdateBucketOptionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateBucketOptions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateBucketOptionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateBucketOptionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateBucketOptionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateBucketOptionsResponse")
+	}
+	return
+}
+
+// updateBucketOptions implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) updateBucketOptions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/b/{bucketName}/actions/options", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(UpdateBucketOptionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateBucketOptionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/Bucket/UpdateBucketOptions"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdateBucketOptions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateNamespaceMetadata By default, buckets created using the Amazon S3 Compatibility API or the Swift API are created in the root
 // compartment of the Oracle Cloud Infrastructure tenancy.
 // You can change the default Swift/Amazon S3 compartmentId designation to a different compartmentId. All
 // subsequent bucket creations will use the new default compartment, but no previously created
 // buckets will be modified. A user must have OBJECTSTORAGE_NAMESPACE_UPDATE permission to make changes to the default
 // compartments for Amazon S3 and Swift.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateNamespaceMetadata.go.html to see an example of how to use UpdateNamespaceMetadata API.
 // A default retry strategy applies to this operation UpdateNamespaceMetadata()
 func (client ObjectStorageClient) UpdateNamespaceMetadata(ctx context.Context, request UpdateNamespaceMetadataRequest) (response UpdateNamespaceMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3284,10 +4597,6 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 }
 
 // UpdateObjectStorageTier Changes the storage tier of the object specified by the objectName parameter.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateObjectStorageTier.go.html to see an example of how to use UpdateObjectStorageTier API.
 // A default retry strategy applies to this operation UpdateObjectStorageTier()
 func (client ObjectStorageClient) UpdateObjectStorageTier(ctx context.Context, request UpdateObjectStorageTierRequest) (response UpdateObjectStorageTierResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3348,11 +4657,73 @@ func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, r
 	return response, err
 }
 
+// UpdatePrivateEndpoint Performs a partial or full update of a user-defined data associated with the Private Endpoint.
+// Use UpdatePrivateEndpoint to move a Private Endpoint from one compartment to another within the same tenancy. Supply the compartmentID
+// of the compartment that you want to move the Private Endpoint to. Or use it to update the name, subnetId, endpointFqdn or privateEndpointIp of the Private Endpoint.
+// For more information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// This API follows replace semantics (rather than merge semantics). That means if the body provides values for
+// parameters and the resource has exisiting ones, this operation will replace those existing values.
+// A default retry strategy applies to this operation UpdatePrivateEndpoint()
+func (client ObjectStorageClient) UpdatePrivateEndpoint(ctx context.Context, request UpdatePrivateEndpointRequest) (response UpdatePrivateEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updatePrivateEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdatePrivateEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdatePrivateEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdatePrivateEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdatePrivateEndpointResponse")
+	}
+	return
+}
+
+// updatePrivateEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client ObjectStorageClient) updatePrivateEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/n/{namespaceName}/pe/{peName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(UpdatePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdatePrivateEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/objectstorage/20160918/PrivateEndpoint/UpdatePrivateEndpoint"
+		err = common.PostProcessServiceError(err, "ObjectStorage", "UpdatePrivateEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateRetentionRule Updates the specified retention rule. Rule changes take effect typically within 30 seconds.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UpdateRetentionRule.go.html to see an example of how to use UpdateRetentionRule API.
 // A default retry strategy applies to this operation UpdateRetentionRule()
 func (client ObjectStorageClient) UpdateRetentionRule(ctx context.Context, request UpdateRetentionRuleRequest) (response UpdateRetentionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3414,10 +4785,6 @@ func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, reque
 }
 
 // UploadPart Uploads a single part of a multipart upload.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/objectstorage/UploadPart.go.html to see an example of how to use UploadPart API.
 // A default retry strategy applies to this operation UploadPart()
 func (client ObjectStorageClient) UploadPart(ctx context.Context, request UploadPartRequest) (response UploadPartResponse, err error) {
 	var ociResponse common.OCIResponse

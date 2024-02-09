@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteUserRequest wrapper for the DeleteUser operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydomains/DeleteUser.go.html to see an example of how to use DeleteUserRequest.
 type DeleteUserRequest struct {
 
 	// ID of the resource

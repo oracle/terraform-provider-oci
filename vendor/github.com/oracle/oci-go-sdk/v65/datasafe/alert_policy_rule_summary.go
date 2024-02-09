@@ -26,6 +26,15 @@ type AlertPolicyRuleSummary struct {
 
 	// Describes the alert policy rule.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The current state of the alert policy rule.
+	LifecycleState AlertPolicyRuleLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The display name of the alert policy rule.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Creation date and time of the alert policy rule, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }
 
 func (m AlertPolicyRuleSummary) String() string {
@@ -38,6 +47,9 @@ func (m AlertPolicyRuleSummary) String() string {
 func (m AlertPolicyRuleSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingAlertPolicyRuleLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAlertPolicyRuleLifecycleStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -12,10 +12,6 @@ import (
 )
 
 // ListVolumeGroupsRequest wrapper for the ListVolumeGroups operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListVolumeGroups.go.html to see an example of how to use ListVolumeGroupsRequest.
 type ListVolumeGroupsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -51,6 +47,10 @@ type ListVolumeGroupsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`). The DISPLAYNAME sort order
 	// is case sensitive.
 	SortOrder ListVolumeGroupsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
+
+	// Specifies whether to list regional volumes or not. When set to `true`, only regional volumes are listed.
+	// Otherwise AD local volumes are returned. The default value is `false`.
+	IsRegional *bool `mandatory:"false" contributesTo:"query" name:"isRegional"`
 
 	// A filter to only return resources that match the given lifecycle
 	// state. The state value is case-insensitive.

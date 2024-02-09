@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeEndpointCompartmentRequest wrapper for the ChangeEndpointCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/generativeai/ChangeEndpointCompartment.go.html to see an example of how to use ChangeEndpointCompartmentRequest.
 type ChangeEndpointCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.

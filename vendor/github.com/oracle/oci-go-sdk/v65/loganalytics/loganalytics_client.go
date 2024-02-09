@@ -92,10 +92,6 @@ func (client *LogAnalyticsClient) ConfigurationProvider() *common.ConfigurationP
 }
 
 // AddEntityAssociation Adds association between input source log analytics entity and one or more existing destination entities.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/AddEntityAssociation.go.html to see an example of how to use AddEntityAssociation API.
 // A default retry strategy applies to this operation AddEntityAssociation()
 func (client LogAnalyticsClient) AddEntityAssociation(ctx context.Context, request AddEntityAssociationRequest) (response AddEntityAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -157,10 +153,6 @@ func (client LogAnalyticsClient) addEntityAssociation(ctx context.Context, reque
 }
 
 // AddSourceEventTypes Add one or more event types to a source. An event type and version can be enabled only on one source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/AddSourceEventTypes.go.html to see an example of how to use AddSourceEventTypes API.
 // A default retry strategy applies to this operation AddSourceEventTypes()
 func (client LogAnalyticsClient) AddSourceEventTypes(ctx context.Context, request AddSourceEventTypesRequest) (response AddSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -222,10 +214,6 @@ func (client LogAnalyticsClient) addSourceEventTypes(ctx context.Context, reques
 }
 
 // AppendLookupData Appends data to the lookup content. The csv file containing the content to be appended is passed in as binary data in the request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/AppendLookupData.go.html to see an example of how to use AppendLookupData API.
 // A default retry strategy applies to this operation AppendLookupData()
 func (client LogAnalyticsClient) AppendLookupData(ctx context.Context, request AppendLookupDataRequest) (response AppendLookupDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -287,10 +275,6 @@ func (client LogAnalyticsClient) appendLookupData(ctx context.Context, request c
 }
 
 // AssignEncryptionKey This API submits a work request to assign customer encryption key.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/AssignEncryptionKey.go.html to see an example of how to use AssignEncryptionKey API.
 func (client LogAnalyticsClient) AssignEncryptionKey(ctx context.Context, request AssignEncryptionKeyRequest) (response AssignEncryptionKeyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -351,10 +335,6 @@ func (client LogAnalyticsClient) assignEncryptionKey(ctx context.Context, reques
 }
 
 // BatchGetBasicInfo Lists basic information about a specified set of labels in batch.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/BatchGetBasicInfo.go.html to see an example of how to use BatchGetBasicInfo API.
 // A default retry strategy applies to this operation BatchGetBasicInfo()
 func (client LogAnalyticsClient) BatchGetBasicInfo(ctx context.Context, request BatchGetBasicInfoRequest) (response BatchGetBasicInfoResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -411,10 +391,6 @@ func (client LogAnalyticsClient) batchGetBasicInfo(ctx context.Context, request 
 }
 
 // CancelQueryWorkRequest Cancel/Remove query job work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CancelQueryWorkRequest.go.html to see an example of how to use CancelQueryWorkRequest API.
 // A default retry strategy applies to this operation CancelQueryWorkRequest()
 func (client LogAnalyticsClient) CancelQueryWorkRequest(ctx context.Context, request CancelQueryWorkRequestRequest) (response CancelQueryWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -469,10 +445,6 @@ func (client LogAnalyticsClient) cancelQueryWorkRequest(ctx context.Context, req
 }
 
 // ChangeIngestTimeRuleCompartment Moves the specified ingest time rule to a different compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeIngestTimeRuleCompartment.go.html to see an example of how to use ChangeIngestTimeRuleCompartment API.
 // A default retry strategy applies to this operation ChangeIngestTimeRuleCompartment()
 func (client LogAnalyticsClient) ChangeIngestTimeRuleCompartment(ctx context.Context, request ChangeIngestTimeRuleCompartmentRequest) (response ChangeIngestTimeRuleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -534,10 +506,6 @@ func (client LogAnalyticsClient) changeIngestTimeRuleCompartment(ctx context.Con
 }
 
 // ChangeLogAnalyticsEmBridgeCompartment Update the compartment of the log analytics enterprise manager bridge with the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeLogAnalyticsEmBridgeCompartment.go.html to see an example of how to use ChangeLogAnalyticsEmBridgeCompartment API.
 // A default retry strategy applies to this operation ChangeLogAnalyticsEmBridgeCompartment()
 func (client LogAnalyticsClient) ChangeLogAnalyticsEmBridgeCompartment(ctx context.Context, request ChangeLogAnalyticsEmBridgeCompartmentRequest) (response ChangeLogAnalyticsEmBridgeCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -599,10 +567,6 @@ func (client LogAnalyticsClient) changeLogAnalyticsEmBridgeCompartment(ctx conte
 }
 
 // ChangeLogAnalyticsEntityCompartment Update the compartment of the log analytics entity with the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeLogAnalyticsEntityCompartment.go.html to see an example of how to use ChangeLogAnalyticsEntityCompartment API.
 // A default retry strategy applies to this operation ChangeLogAnalyticsEntityCompartment()
 func (client LogAnalyticsClient) ChangeLogAnalyticsEntityCompartment(ctx context.Context, request ChangeLogAnalyticsEntityCompartmentRequest) (response ChangeLogAnalyticsEntityCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -664,10 +628,6 @@ func (client LogAnalyticsClient) changeLogAnalyticsEntityCompartment(ctx context
 }
 
 // ChangeLogAnalyticsLogGroupCompartment Moves the specified log group to a different compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeLogAnalyticsLogGroupCompartment.go.html to see an example of how to use ChangeLogAnalyticsLogGroupCompartment API.
 // A default retry strategy applies to this operation ChangeLogAnalyticsLogGroupCompartment()
 func (client LogAnalyticsClient) ChangeLogAnalyticsLogGroupCompartment(ctx context.Context, request ChangeLogAnalyticsLogGroupCompartmentRequest) (response ChangeLogAnalyticsLogGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -729,10 +689,6 @@ func (client LogAnalyticsClient) changeLogAnalyticsLogGroupCompartment(ctx conte
 }
 
 // ChangeLogAnalyticsObjectCollectionRuleCompartment Move the rule from it's current compartment to the given compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeLogAnalyticsObjectCollectionRuleCompartment.go.html to see an example of how to use ChangeLogAnalyticsObjectCollectionRuleCompartment API.
 func (client LogAnalyticsClient) ChangeLogAnalyticsObjectCollectionRuleCompartment(ctx context.Context, request ChangeLogAnalyticsObjectCollectionRuleCompartmentRequest) (response ChangeLogAnalyticsObjectCollectionRuleCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -788,10 +744,6 @@ func (client LogAnalyticsClient) changeLogAnalyticsObjectCollectionRuleCompartme
 }
 
 // ChangeScheduledTaskCompartment Move the scheduled task into a different compartment within the same tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ChangeScheduledTaskCompartment.go.html to see an example of how to use ChangeScheduledTaskCompartment API.
 func (client LogAnalyticsClient) ChangeScheduledTaskCompartment(ctx context.Context, request ChangeScheduledTaskCompartmentRequest) (response ChangeScheduledTaskCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -853,10 +805,6 @@ func (client LogAnalyticsClient) changeScheduledTaskCompartment(ctx context.Cont
 
 // Clean Clean accumulated acceleration data stored for the accelerated saved search.
 // The ScheduledTask taskType must be ACCELERATION.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Clean.go.html to see an example of how to use Clean API.
 // A default retry strategy applies to this operation Clean()
 func (client LogAnalyticsClient) Clean(ctx context.Context, request CleanRequest) (response CleanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -916,10 +864,6 @@ func (client LogAnalyticsClient) clean(ctx context.Context, request common.OCIRe
 }
 
 // CompareContent Returns the difference between the two input payloads, including intraline differences.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CompareContent.go.html to see an example of how to use CompareContent API.
 // A default retry strategy applies to this operation CompareContent()
 func (client LogAnalyticsClient) CompareContent(ctx context.Context, request CompareContentRequest) (response CompareContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -976,10 +920,6 @@ func (client LogAnalyticsClient) compareContent(ctx context.Context, request com
 }
 
 // CreateIngestTimeRule Creates a new ingest time rule in the specified compartment. You may also specify optional information such as description, defined tags, and free-form tags.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateIngestTimeRule.go.html to see an example of how to use CreateIngestTimeRule API.
 // A default retry strategy applies to this operation CreateIngestTimeRule()
 func (client LogAnalyticsClient) CreateIngestTimeRule(ctx context.Context, request CreateIngestTimeRuleRequest) (response CreateIngestTimeRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1041,10 +981,6 @@ func (client LogAnalyticsClient) createIngestTimeRule(ctx context.Context, reque
 }
 
 // CreateLogAnalyticsEmBridge Add configuration for enterprise manager bridge. Enterprise manager bridge is used to automatically add selected entities from enterprise manager cloud control. A corresponding OCI bridge configuration is required in enterprise manager.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateLogAnalyticsEmBridge.go.html to see an example of how to use CreateLogAnalyticsEmBridge API.
 // A default retry strategy applies to this operation CreateLogAnalyticsEmBridge()
 func (client LogAnalyticsClient) CreateLogAnalyticsEmBridge(ctx context.Context, request CreateLogAnalyticsEmBridgeRequest) (response CreateLogAnalyticsEmBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1106,10 +1042,6 @@ func (client LogAnalyticsClient) createLogAnalyticsEmBridge(ctx context.Context,
 }
 
 // CreateLogAnalyticsEntity Create a new log analytics entity.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateLogAnalyticsEntity.go.html to see an example of how to use CreateLogAnalyticsEntity API.
 // A default retry strategy applies to this operation CreateLogAnalyticsEntity()
 func (client LogAnalyticsClient) CreateLogAnalyticsEntity(ctx context.Context, request CreateLogAnalyticsEntityRequest) (response CreateLogAnalyticsEntityResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1171,10 +1103,6 @@ func (client LogAnalyticsClient) createLogAnalyticsEntity(ctx context.Context, r
 }
 
 // CreateLogAnalyticsEntityType Add custom log analytics entity type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateLogAnalyticsEntityType.go.html to see an example of how to use CreateLogAnalyticsEntityType API.
 // A default retry strategy applies to this operation CreateLogAnalyticsEntityType()
 func (client LogAnalyticsClient) CreateLogAnalyticsEntityType(ctx context.Context, request CreateLogAnalyticsEntityTypeRequest) (response CreateLogAnalyticsEntityTypeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1236,10 +1164,6 @@ func (client LogAnalyticsClient) createLogAnalyticsEntityType(ctx context.Contex
 }
 
 // CreateLogAnalyticsLogGroup Creates a new log group in the specified compartment with the input display name. You may also specify optional information such as description, defined tags, and free-form tags.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateLogAnalyticsLogGroup.go.html to see an example of how to use CreateLogAnalyticsLogGroup API.
 // A default retry strategy applies to this operation CreateLogAnalyticsLogGroup()
 func (client LogAnalyticsClient) CreateLogAnalyticsLogGroup(ctx context.Context, request CreateLogAnalyticsLogGroupRequest) (response CreateLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1301,10 +1225,6 @@ func (client LogAnalyticsClient) createLogAnalyticsLogGroup(ctx context.Context,
 }
 
 // CreateLogAnalyticsObjectCollectionRule Creates a rule to collect logs from an object storage bucket.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateLogAnalyticsObjectCollectionRule.go.html to see an example of how to use CreateLogAnalyticsObjectCollectionRule API.
 func (client LogAnalyticsClient) CreateLogAnalyticsObjectCollectionRule(ctx context.Context, request CreateLogAnalyticsObjectCollectionRuleRequest) (response CreateLogAnalyticsObjectCollectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1360,10 +1280,6 @@ func (client LogAnalyticsClient) createLogAnalyticsObjectCollectionRule(ctx cont
 }
 
 // CreateScheduledTask Schedule a task as specified and return task info.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/CreateScheduledTask.go.html to see an example of how to use CreateScheduledTask API.
 func (client LogAnalyticsClient) CreateScheduledTask(ctx context.Context, request CreateScheduledTaskRequest) (response CreateScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1424,10 +1340,6 @@ func (client LogAnalyticsClient) createScheduledTask(ctx context.Context, reques
 }
 
 // DeleteAssociations Deletes the associations between the sources and entities specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteAssociations.go.html to see an example of how to use DeleteAssociations API.
 // A default retry strategy applies to this operation DeleteAssociations()
 func (client LogAnalyticsClient) DeleteAssociations(ctx context.Context, request DeleteAssociationsRequest) (response DeleteAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1489,10 +1401,6 @@ func (client LogAnalyticsClient) deleteAssociations(ctx context.Context, request
 }
 
 // DeleteField Deletes field with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteField.go.html to see an example of how to use DeleteField API.
 // A default retry strategy applies to this operation DeleteField()
 func (client LogAnalyticsClient) DeleteField(ctx context.Context, request DeleteFieldRequest) (response DeleteFieldResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1552,10 +1460,6 @@ func (client LogAnalyticsClient) deleteField(ctx context.Context, request common
 }
 
 // DeleteIngestTimeRule Deletes the specified ingest time rule.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteIngestTimeRule.go.html to see an example of how to use DeleteIngestTimeRule API.
 // A default retry strategy applies to this operation DeleteIngestTimeRule()
 func (client LogAnalyticsClient) DeleteIngestTimeRule(ctx context.Context, request DeleteIngestTimeRuleRequest) (response DeleteIngestTimeRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1610,10 +1514,6 @@ func (client LogAnalyticsClient) deleteIngestTimeRule(ctx context.Context, reque
 }
 
 // DeleteLabel Deletes label with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLabel.go.html to see an example of how to use DeleteLabel API.
 // A default retry strategy applies to this operation DeleteLabel()
 func (client LogAnalyticsClient) DeleteLabel(ctx context.Context, request DeleteLabelRequest) (response DeleteLabelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1673,10 +1573,6 @@ func (client LogAnalyticsClient) deleteLabel(ctx context.Context, request common
 }
 
 // DeleteLogAnalyticsEmBridge Delete log analytics enterprise manager bridge with the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsEmBridge.go.html to see an example of how to use DeleteLogAnalyticsEmBridge API.
 func (client LogAnalyticsClient) DeleteLogAnalyticsEmBridge(ctx context.Context, request DeleteLogAnalyticsEmBridgeRequest) (response DeleteLogAnalyticsEmBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1730,10 +1626,6 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEmBridge(ctx context.Context,
 }
 
 // DeleteLogAnalyticsEntity Delete log analytics entity with the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsEntity.go.html to see an example of how to use DeleteLogAnalyticsEntity API.
 func (client LogAnalyticsClient) DeleteLogAnalyticsEntity(ctx context.Context, request DeleteLogAnalyticsEntityRequest) (response DeleteLogAnalyticsEntityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1787,10 +1679,6 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEntity(ctx context.Context, r
 }
 
 // DeleteLogAnalyticsEntityType Delete log analytics entity type with the given name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsEntityType.go.html to see an example of how to use DeleteLogAnalyticsEntityType API.
 func (client LogAnalyticsClient) DeleteLogAnalyticsEntityType(ctx context.Context, request DeleteLogAnalyticsEntityTypeRequest) (response DeleteLogAnalyticsEntityTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1844,10 +1732,6 @@ func (client LogAnalyticsClient) deleteLogAnalyticsEntityType(ctx context.Contex
 }
 
 // DeleteLogAnalyticsLogGroup Deletes the specified log group. The log group cannot be part of an active association or have an active upload.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsLogGroup.go.html to see an example of how to use DeleteLogAnalyticsLogGroup API.
 // A default retry strategy applies to this operation DeleteLogAnalyticsLogGroup()
 func (client LogAnalyticsClient) DeleteLogAnalyticsLogGroup(ctx context.Context, request DeleteLogAnalyticsLogGroupRequest) (response DeleteLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1903,10 +1787,6 @@ func (client LogAnalyticsClient) deleteLogAnalyticsLogGroup(ctx context.Context,
 
 // DeleteLogAnalyticsObjectCollectionRule Deletes the configured object storage bucket based collection rule and stop the log collection.
 // It will not delete the existing processed data associated with this bucket from logging analytics storage.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLogAnalyticsObjectCollectionRule.go.html to see an example of how to use DeleteLogAnalyticsObjectCollectionRule API.
 func (client LogAnalyticsClient) DeleteLogAnalyticsObjectCollectionRule(ctx context.Context, request DeleteLogAnalyticsObjectCollectionRuleRequest) (response DeleteLogAnalyticsObjectCollectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -1960,10 +1840,6 @@ func (client LogAnalyticsClient) deleteLogAnalyticsObjectCollectionRule(ctx cont
 }
 
 // DeleteLookup Deletes lookup with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteLookup.go.html to see an example of how to use DeleteLookup API.
 // A default retry strategy applies to this operation DeleteLookup()
 func (client LogAnalyticsClient) DeleteLookup(ctx context.Context, request DeleteLookupRequest) (response DeleteLookupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2023,10 +1899,6 @@ func (client LogAnalyticsClient) deleteLookup(ctx context.Context, request commo
 }
 
 // DeleteParser Deletes parser with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteParser.go.html to see an example of how to use DeleteParser API.
 // A default retry strategy applies to this operation DeleteParser()
 func (client LogAnalyticsClient) DeleteParser(ctx context.Context, request DeleteParserRequest) (response DeleteParserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2086,10 +1958,6 @@ func (client LogAnalyticsClient) deleteParser(ctx context.Context, request commo
 }
 
 // DeleteScheduledTask Delete the scheduled task.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteScheduledTask.go.html to see an example of how to use DeleteScheduledTask API.
 // A default retry strategy applies to this operation DeleteScheduledTask()
 func (client LogAnalyticsClient) DeleteScheduledTask(ctx context.Context, request DeleteScheduledTaskRequest) (response DeleteScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2144,10 +2012,6 @@ func (client LogAnalyticsClient) deleteScheduledTask(ctx context.Context, reques
 }
 
 // DeleteSource Deletes source with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteSource.go.html to see an example of how to use DeleteSource API.
 // A default retry strategy applies to this operation DeleteSource()
 func (client LogAnalyticsClient) DeleteSource(ctx context.Context, request DeleteSourceRequest) (response DeleteSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2208,10 +2072,6 @@ func (client LogAnalyticsClient) deleteSource(ctx context.Context, request commo
 
 // DeleteUpload Deletes an Upload by its reference.
 // It deletes all the logs in storage asscoiated with the upload and the corresponding upload metadata.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteUpload.go.html to see an example of how to use DeleteUpload API.
 func (client LogAnalyticsClient) DeleteUpload(ctx context.Context, request DeleteUploadRequest) (response DeleteUploadResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2266,10 +2126,6 @@ func (client LogAnalyticsClient) deleteUpload(ctx context.Context, request commo
 
 // DeleteUploadFile Deletes a specific log file inside an upload by upload file reference.
 // It deletes all the logs from storage associated with the file and the corresponding metadata.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteUploadFile.go.html to see an example of how to use DeleteUploadFile API.
 func (client LogAnalyticsClient) DeleteUploadFile(ctx context.Context, request DeleteUploadFileRequest) (response DeleteUploadFileResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2323,10 +2179,6 @@ func (client LogAnalyticsClient) deleteUploadFile(ctx context.Context, request c
 }
 
 // DeleteUploadWarning Suppresses a specific warning inside an upload.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DeleteUploadWarning.go.html to see an example of how to use DeleteUploadWarning API.
 func (client LogAnalyticsClient) DeleteUploadWarning(ctx context.Context, request DeleteUploadWarningRequest) (response DeleteUploadWarningResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2380,10 +2232,6 @@ func (client LogAnalyticsClient) deleteUploadWarning(ctx context.Context, reques
 }
 
 // DisableArchiving This API disables archiving.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DisableArchiving.go.html to see an example of how to use DisableArchiving API.
 // A default retry strategy applies to this operation DisableArchiving()
 func (client LogAnalyticsClient) DisableArchiving(ctx context.Context, request DisableArchivingRequest) (response DisableArchivingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2440,10 +2288,6 @@ func (client LogAnalyticsClient) disableArchiving(ctx context.Context, request c
 // DisableAutoAssociation Disables auto association for a log source. In the future, this log source would not be automatically
 // associated with any entity that becomes eligible for association. In addition, you may also optionally
 // remove all existing associations for this log source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DisableAutoAssociation.go.html to see an example of how to use DisableAutoAssociation API.
 // A default retry strategy applies to this operation DisableAutoAssociation()
 func (client LogAnalyticsClient) DisableAutoAssociation(ctx context.Context, request DisableAutoAssociationRequest) (response DisableAutoAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2505,10 +2349,6 @@ func (client LogAnalyticsClient) disableAutoAssociation(ctx context.Context, req
 }
 
 // DisableIngestTimeRule Disables the specified ingest time rule.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DisableIngestTimeRule.go.html to see an example of how to use DisableIngestTimeRule API.
 // A default retry strategy applies to this operation DisableIngestTimeRule()
 func (client LogAnalyticsClient) DisableIngestTimeRule(ctx context.Context, request DisableIngestTimeRuleRequest) (response DisableIngestTimeRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2563,10 +2403,6 @@ func (client LogAnalyticsClient) disableIngestTimeRule(ctx context.Context, requ
 }
 
 // DisableSourceEventTypes Disable one or more event types in a source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/DisableSourceEventTypes.go.html to see an example of how to use DisableSourceEventTypes API.
 // A default retry strategy applies to this operation DisableSourceEventTypes()
 func (client LogAnalyticsClient) DisableSourceEventTypes(ctx context.Context, request DisableSourceEventTypesRequest) (response DisableSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2628,10 +2464,6 @@ func (client LogAnalyticsClient) disableSourceEventTypes(ctx context.Context, re
 }
 
 // EnableArchiving THis API enables archiving.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EnableArchiving.go.html to see an example of how to use EnableArchiving API.
 // A default retry strategy applies to this operation EnableArchiving()
 func (client LogAnalyticsClient) EnableArchiving(ctx context.Context, request EnableArchivingRequest) (response EnableArchivingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2688,10 +2520,6 @@ func (client LogAnalyticsClient) enableArchiving(ctx context.Context, request co
 // EnableAutoAssociation Enables auto association for a log source. This would initiate immediate association of the source
 // to any eligible entities it is not already associated with, and would also ensure the log source gets
 // associated with entities that are added or become eligible in the future.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EnableAutoAssociation.go.html to see an example of how to use EnableAutoAssociation API.
 // A default retry strategy applies to this operation EnableAutoAssociation()
 func (client LogAnalyticsClient) EnableAutoAssociation(ctx context.Context, request EnableAutoAssociationRequest) (response EnableAutoAssociationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2753,10 +2581,6 @@ func (client LogAnalyticsClient) enableAutoAssociation(ctx context.Context, requ
 }
 
 // EnableIngestTimeRule Enables the specified ingest time rule.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EnableIngestTimeRule.go.html to see an example of how to use EnableIngestTimeRule API.
 // A default retry strategy applies to this operation EnableIngestTimeRule()
 func (client LogAnalyticsClient) EnableIngestTimeRule(ctx context.Context, request EnableIngestTimeRuleRequest) (response EnableIngestTimeRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2811,10 +2635,6 @@ func (client LogAnalyticsClient) enableIngestTimeRule(ctx context.Context, reque
 }
 
 // EnableSourceEventTypes Enable one or more event types in a source. An event type and version can be enabled only in one source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EnableSourceEventTypes.go.html to see an example of how to use EnableSourceEventTypes API.
 // A default retry strategy applies to this operation EnableSourceEventTypes()
 func (client LogAnalyticsClient) EnableSourceEventTypes(ctx context.Context, request EnableSourceEventTypesRequest) (response EnableSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2876,10 +2696,6 @@ func (client LogAnalyticsClient) enableSourceEventTypes(ctx context.Context, req
 }
 
 // EstimatePurgeDataSize This API estimates the size of data to be purged based based on time interval, purge query etc.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EstimatePurgeDataSize.go.html to see an example of how to use EstimatePurgeDataSize API.
 // A default retry strategy applies to this operation EstimatePurgeDataSize()
 func (client LogAnalyticsClient) EstimatePurgeDataSize(ctx context.Context, request EstimatePurgeDataSizeRequest) (response EstimatePurgeDataSizeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2941,10 +2757,6 @@ func (client LogAnalyticsClient) estimatePurgeDataSize(ctx context.Context, requ
 }
 
 // EstimateRecallDataSize This API gives an active storage usage estimate for archived data to be recalled and the time range of such data.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EstimateRecallDataSize.go.html to see an example of how to use EstimateRecallDataSize API.
 // A default retry strategy applies to this operation EstimateRecallDataSize()
 func (client LogAnalyticsClient) EstimateRecallDataSize(ctx context.Context, request EstimateRecallDataSizeRequest) (response EstimateRecallDataSizeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3001,10 +2813,6 @@ func (client LogAnalyticsClient) estimateRecallDataSize(ctx context.Context, req
 }
 
 // EstimateReleaseDataSize This API gives an active storage usage estimate for recalled data to be released and the time range of such data.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/EstimateReleaseDataSize.go.html to see an example of how to use EstimateReleaseDataSize API.
 // A default retry strategy applies to this operation EstimateReleaseDataSize()
 func (client LogAnalyticsClient) EstimateReleaseDataSize(ctx context.Context, request EstimateReleaseDataSizeRequest) (response EstimateReleaseDataSizeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3061,10 +2869,6 @@ func (client LogAnalyticsClient) estimateReleaseDataSize(ctx context.Context, re
 }
 
 // ExportCustomContent Exports all custom details of the specified sources, parsers, fields and labels, in zip format.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ExportCustomContent.go.html to see an example of how to use ExportCustomContent API.
 // A default retry strategy applies to this operation ExportCustomContent()
 func (client LogAnalyticsClient) ExportCustomContent(ctx context.Context, request ExportCustomContentRequest) (response ExportCustomContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3125,10 +2929,6 @@ func (client LogAnalyticsClient) exportCustomContent(ctx context.Context, reques
 }
 
 // ExportQueryResult Export data based on query. Endpoint returns a stream of data. Endpoint is synchronous. Queries must deliver first result within 60 seconds or calls are subject to timeout.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ExportQueryResult.go.html to see an example of how to use ExportQueryResult API.
 // A default retry strategy applies to this operation ExportQueryResult()
 func (client LogAnalyticsClient) ExportQueryResult(ctx context.Context, request ExportQueryResultRequest) (response ExportQueryResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3184,10 +2984,6 @@ func (client LogAnalyticsClient) exportQueryResult(ctx context.Context, request 
 }
 
 // ExtractStructuredLogFieldPaths Extracts the field paths from the example json or xml content.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ExtractStructuredLogFieldPaths.go.html to see an example of how to use ExtractStructuredLogFieldPaths API.
 // A default retry strategy applies to this operation ExtractStructuredLogFieldPaths()
 func (client LogAnalyticsClient) ExtractStructuredLogFieldPaths(ctx context.Context, request ExtractStructuredLogFieldPathsRequest) (response ExtractStructuredLogFieldPathsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3249,10 +3045,6 @@ func (client LogAnalyticsClient) extractStructuredLogFieldPaths(ctx context.Cont
 }
 
 // ExtractStructuredLogHeaderPaths Extracts the header paths from the example json or xml content.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ExtractStructuredLogHeaderPaths.go.html to see an example of how to use ExtractStructuredLogHeaderPaths API.
 // A default retry strategy applies to this operation ExtractStructuredLogHeaderPaths()
 func (client LogAnalyticsClient) ExtractStructuredLogHeaderPaths(ctx context.Context, request ExtractStructuredLogHeaderPathsRequest) (response ExtractStructuredLogHeaderPathsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3314,10 +3106,6 @@ func (client LogAnalyticsClient) extractStructuredLogHeaderPaths(ctx context.Con
 }
 
 // Filter Each filter specifies an operator, a field and one or more values to be inserted into the provided query as criteria.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Filter.go.html to see an example of how to use Filter API.
 // A default retry strategy applies to this operation Filter()
 func (client LogAnalyticsClient) Filter(ctx context.Context, request FilterRequest) (response FilterResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3374,10 +3162,6 @@ func (client LogAnalyticsClient) filter(ctx context.Context, request common.OCIR
 }
 
 // GetAssociationSummary Returns the count of source associations for entities in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetAssociationSummary.go.html to see an example of how to use GetAssociationSummary API.
 // A default retry strategy applies to this operation GetAssociationSummary()
 func (client LogAnalyticsClient) GetAssociationSummary(ctx context.Context, request GetAssociationSummaryRequest) (response GetAssociationSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3432,10 +3216,6 @@ func (client LogAnalyticsClient) getAssociationSummary(ctx context.Context, requ
 }
 
 // GetCategory Gets detailed information about the category with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetCategory.go.html to see an example of how to use GetCategory API.
 // A default retry strategy applies to this operation GetCategory()
 func (client LogAnalyticsClient) GetCategory(ctx context.Context, request GetCategoryRequest) (response GetCategoryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3490,10 +3270,6 @@ func (client LogAnalyticsClient) getCategory(ctx context.Context, request common
 }
 
 // GetColumnNames Extracts column names from the input SQL query.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetColumnNames.go.html to see an example of how to use GetColumnNames API.
 // A default retry strategy applies to this operation GetColumnNames()
 func (client LogAnalyticsClient) GetColumnNames(ctx context.Context, request GetColumnNamesRequest) (response GetColumnNamesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3553,10 +3329,6 @@ func (client LogAnalyticsClient) getColumnNames(ctx context.Context, request com
 }
 
 // GetConfigWorkRequest Returns detailed information about the configuration work request with the specified id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetConfigWorkRequest.go.html to see an example of how to use GetConfigWorkRequest API.
 // A default retry strategy applies to this operation GetConfigWorkRequest()
 func (client LogAnalyticsClient) GetConfigWorkRequest(ctx context.Context, request GetConfigWorkRequestRequest) (response GetConfigWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3611,10 +3383,6 @@ func (client LogAnalyticsClient) getConfigWorkRequest(ctx context.Context, reque
 }
 
 // GetField Gets detailed information about the field with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetField.go.html to see an example of how to use GetField API.
 // A default retry strategy applies to this operation GetField()
 func (client LogAnalyticsClient) GetField(ctx context.Context, request GetFieldRequest) (response GetFieldResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3669,10 +3437,6 @@ func (client LogAnalyticsClient) getField(ctx context.Context, request common.OC
 }
 
 // GetFieldsSummary Returns the count of fields. You may optionally specify isShowDetail=true to view a summary of each field data type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetFieldsSummary.go.html to see an example of how to use GetFieldsSummary API.
 // A default retry strategy applies to this operation GetFieldsSummary()
 func (client LogAnalyticsClient) GetFieldsSummary(ctx context.Context, request GetFieldsSummaryRequest) (response GetFieldsSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3727,10 +3491,6 @@ func (client LogAnalyticsClient) getFieldsSummary(ctx context.Context, request c
 }
 
 // GetIngestTimeRule Gets detailed information about the specified ingest time rule such as description, defined tags, and free-form tags.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetIngestTimeRule.go.html to see an example of how to use GetIngestTimeRule API.
 // A default retry strategy applies to this operation GetIngestTimeRule()
 func (client LogAnalyticsClient) GetIngestTimeRule(ctx context.Context, request GetIngestTimeRuleRequest) (response GetIngestTimeRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3785,10 +3545,6 @@ func (client LogAnalyticsClient) getIngestTimeRule(ctx context.Context, request 
 }
 
 // GetLabel Gets detailed information about the label with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLabel.go.html to see an example of how to use GetLabel API.
 // A default retry strategy applies to this operation GetLabel()
 func (client LogAnalyticsClient) GetLabel(ctx context.Context, request GetLabelRequest) (response GetLabelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3843,10 +3599,6 @@ func (client LogAnalyticsClient) getLabel(ctx context.Context, request common.OC
 }
 
 // GetLabelSummary Returns the count of labels.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLabelSummary.go.html to see an example of how to use GetLabelSummary API.
 // A default retry strategy applies to this operation GetLabelSummary()
 func (client LogAnalyticsClient) GetLabelSummary(ctx context.Context, request GetLabelSummaryRequest) (response GetLabelSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3901,10 +3653,6 @@ func (client LogAnalyticsClient) getLabelSummary(ctx context.Context, request co
 }
 
 // GetLogAnalyticsEmBridge Retrieve the log analytics enterprise manager bridge with the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEmBridge.go.html to see an example of how to use GetLogAnalyticsEmBridge API.
 func (client LogAnalyticsClient) GetLogAnalyticsEmBridge(ctx context.Context, request GetLogAnalyticsEmBridgeRequest) (response GetLogAnalyticsEmBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3958,10 +3706,6 @@ func (client LogAnalyticsClient) getLogAnalyticsEmBridge(ctx context.Context, re
 }
 
 // GetLogAnalyticsEmBridgeSummary Returns log analytics enterprise manager bridges summary report.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEmBridgeSummary.go.html to see an example of how to use GetLogAnalyticsEmBridgeSummary API.
 func (client LogAnalyticsClient) GetLogAnalyticsEmBridgeSummary(ctx context.Context, request GetLogAnalyticsEmBridgeSummaryRequest) (response GetLogAnalyticsEmBridgeSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4015,10 +3759,6 @@ func (client LogAnalyticsClient) getLogAnalyticsEmBridgeSummary(ctx context.Cont
 }
 
 // GetLogAnalyticsEntitiesSummary Returns log analytics entities count summary report.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEntitiesSummary.go.html to see an example of how to use GetLogAnalyticsEntitiesSummary API.
 func (client LogAnalyticsClient) GetLogAnalyticsEntitiesSummary(ctx context.Context, request GetLogAnalyticsEntitiesSummaryRequest) (response GetLogAnalyticsEntitiesSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4072,10 +3812,6 @@ func (client LogAnalyticsClient) getLogAnalyticsEntitiesSummary(ctx context.Cont
 }
 
 // GetLogAnalyticsEntity Retrieve the log analytics entity with the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEntity.go.html to see an example of how to use GetLogAnalyticsEntity API.
 func (client LogAnalyticsClient) GetLogAnalyticsEntity(ctx context.Context, request GetLogAnalyticsEntityRequest) (response GetLogAnalyticsEntityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4129,10 +3865,6 @@ func (client LogAnalyticsClient) getLogAnalyticsEntity(ctx context.Context, requ
 }
 
 // GetLogAnalyticsEntityType Retrieve the log analytics entity type with the given name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsEntityType.go.html to see an example of how to use GetLogAnalyticsEntityType API.
 func (client LogAnalyticsClient) GetLogAnalyticsEntityType(ctx context.Context, request GetLogAnalyticsEntityTypeRequest) (response GetLogAnalyticsEntityTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4186,10 +3918,6 @@ func (client LogAnalyticsClient) getLogAnalyticsEntityType(ctx context.Context, 
 }
 
 // GetLogAnalyticsLogGroup Gets detailed information about the specified log group such as display name, description, defined tags, and free-form tags.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsLogGroup.go.html to see an example of how to use GetLogAnalyticsLogGroup API.
 // A default retry strategy applies to this operation GetLogAnalyticsLogGroup()
 func (client LogAnalyticsClient) GetLogAnalyticsLogGroup(ctx context.Context, request GetLogAnalyticsLogGroupRequest) (response GetLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4244,10 +3972,6 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroup(ctx context.Context, re
 }
 
 // GetLogAnalyticsLogGroupsSummary Returns the count of log groups in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsLogGroupsSummary.go.html to see an example of how to use GetLogAnalyticsLogGroupsSummary API.
 // A default retry strategy applies to this operation GetLogAnalyticsLogGroupsSummary()
 func (client LogAnalyticsClient) GetLogAnalyticsLogGroupsSummary(ctx context.Context, request GetLogAnalyticsLogGroupsSummaryRequest) (response GetLogAnalyticsLogGroupsSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4302,10 +4026,6 @@ func (client LogAnalyticsClient) getLogAnalyticsLogGroupsSummary(ctx context.Con
 }
 
 // GetLogAnalyticsObjectCollectionRule Gets a configured object storage based collection rule by given id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogAnalyticsObjectCollectionRule.go.html to see an example of how to use GetLogAnalyticsObjectCollectionRule API.
 // A default retry strategy applies to this operation GetLogAnalyticsObjectCollectionRule()
 func (client LogAnalyticsClient) GetLogAnalyticsObjectCollectionRule(ctx context.Context, request GetLogAnalyticsObjectCollectionRuleRequest) (response GetLogAnalyticsObjectCollectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4360,10 +4080,6 @@ func (client LogAnalyticsClient) getLogAnalyticsObjectCollectionRule(ctx context
 }
 
 // GetLogSetsCount This API returns the count of distinct log sets.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLogSetsCount.go.html to see an example of how to use GetLogSetsCount API.
 // A default retry strategy applies to this operation GetLogSetsCount()
 func (client LogAnalyticsClient) GetLogSetsCount(ctx context.Context, request GetLogSetsCountRequest) (response GetLogSetsCountResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4418,10 +4134,6 @@ func (client LogAnalyticsClient) getLogSetsCount(ctx context.Context, request co
 }
 
 // GetLookup Gets detailed information about the lookup with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLookup.go.html to see an example of how to use GetLookup API.
 // A default retry strategy applies to this operation GetLookup()
 func (client LogAnalyticsClient) GetLookup(ctx context.Context, request GetLookupRequest) (response GetLookupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4476,10 +4188,6 @@ func (client LogAnalyticsClient) getLookup(ctx context.Context, request common.O
 }
 
 // GetLookupSummary Returns the count of user created and oracle defined lookups.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetLookupSummary.go.html to see an example of how to use GetLookupSummary API.
 // A default retry strategy applies to this operation GetLookupSummary()
 func (client LogAnalyticsClient) GetLookupSummary(ctx context.Context, request GetLookupSummaryRequest) (response GetLookupSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4534,10 +4242,6 @@ func (client LogAnalyticsClient) getLookupSummary(ctx context.Context, request c
 }
 
 // GetNamespace This API gets the namespace details of a tenancy already onboarded in Logging Analytics Application
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetNamespace.go.html to see an example of how to use GetNamespace API.
 // A default retry strategy applies to this operation GetNamespace()
 func (client LogAnalyticsClient) GetNamespace(ctx context.Context, request GetNamespaceRequest) (response GetNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4592,10 +4296,6 @@ func (client LogAnalyticsClient) getNamespace(ctx context.Context, request commo
 }
 
 // GetParser Gets detailed information about the parser with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetParser.go.html to see an example of how to use GetParser API.
 // A default retry strategy applies to this operation GetParser()
 func (client LogAnalyticsClient) GetParser(ctx context.Context, request GetParserRequest) (response GetParserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4650,10 +4350,6 @@ func (client LogAnalyticsClient) getParser(ctx context.Context, request common.O
 }
 
 // GetParserSummary Returns the count of parsers.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetParserSummary.go.html to see an example of how to use GetParserSummary API.
 // A default retry strategy applies to this operation GetParserSummary()
 func (client LogAnalyticsClient) GetParserSummary(ctx context.Context, request GetParserSummaryRequest) (response GetParserSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4708,10 +4404,6 @@ func (client LogAnalyticsClient) getParserSummary(ctx context.Context, request c
 }
 
 // GetPreferences Lists the tenant preferences such as DEFAULT_HOMEPAGE and collection properties.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetPreferences.go.html to see an example of how to use GetPreferences API.
 // A default retry strategy applies to this operation GetPreferences()
 func (client LogAnalyticsClient) GetPreferences(ctx context.Context, request GetPreferencesRequest) (response GetPreferencesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4767,10 +4459,6 @@ func (client LogAnalyticsClient) getPreferences(ctx context.Context, request com
 
 // GetQueryResult Returns the intermediate results for a query that was specified to run asynchronously if the query has not completed,
 // otherwise the final query results identified by a queryWorkRequestId returned when submitting the query execute asynchronously.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetQueryResult.go.html to see an example of how to use GetQueryResult API.
 // A default retry strategy applies to this operation GetQueryResult()
 func (client LogAnalyticsClient) GetQueryResult(ctx context.Context, request GetQueryResultRequest) (response GetQueryResultResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4825,10 +4513,6 @@ func (client LogAnalyticsClient) getQueryResult(ctx context.Context, request com
 }
 
 // GetQueryWorkRequest Retrieve work request details by workRequestId. This endpoint can be polled for status tracking of work request. Clients should poll using the interval returned in the retry-after header.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetQueryWorkRequest.go.html to see an example of how to use GetQueryWorkRequest API.
 // A default retry strategy applies to this operation GetQueryWorkRequest()
 func (client LogAnalyticsClient) GetQueryWorkRequest(ctx context.Context, request GetQueryWorkRequestRequest) (response GetQueryWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4883,10 +4567,6 @@ func (client LogAnalyticsClient) getQueryWorkRequest(ctx context.Context, reques
 }
 
 // GetRecallCount This API gets the number of recalls made and the maximum recalls that can be made
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetRecallCount.go.html to see an example of how to use GetRecallCount API.
 // A default retry strategy applies to this operation GetRecallCount()
 func (client LogAnalyticsClient) GetRecallCount(ctx context.Context, request GetRecallCountRequest) (response GetRecallCountResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4941,10 +4621,6 @@ func (client LogAnalyticsClient) getRecallCount(ctx context.Context, request com
 }
 
 // GetRecalledDataSize This API gets the datasize of recalls for a given timeframe
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetRecalledDataSize.go.html to see an example of how to use GetRecalledDataSize API.
 // A default retry strategy applies to this operation GetRecalledDataSize()
 func (client LogAnalyticsClient) GetRecalledDataSize(ctx context.Context, request GetRecalledDataSizeRequest) (response GetRecalledDataSizeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4999,10 +4675,6 @@ func (client LogAnalyticsClient) getRecalledDataSize(ctx context.Context, reques
 }
 
 // GetRulesSummary Returns the count of detection rules in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetRulesSummary.go.html to see an example of how to use GetRulesSummary API.
 // A default retry strategy applies to this operation GetRulesSummary()
 func (client LogAnalyticsClient) GetRulesSummary(ctx context.Context, request GetRulesSummaryRequest) (response GetRulesSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5057,10 +4729,6 @@ func (client LogAnalyticsClient) getRulesSummary(ctx context.Context, request co
 }
 
 // GetScheduledTask Get the scheduled task for the specified task identifier.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetScheduledTask.go.html to see an example of how to use GetScheduledTask API.
 // A default retry strategy applies to this operation GetScheduledTask()
 func (client LogAnalyticsClient) GetScheduledTask(ctx context.Context, request GetScheduledTaskRequest) (response GetScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5115,10 +4783,6 @@ func (client LogAnalyticsClient) getScheduledTask(ctx context.Context, request c
 }
 
 // GetSource Gets detailed information about the source with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetSource.go.html to see an example of how to use GetSource API.
 // A default retry strategy applies to this operation GetSource()
 func (client LogAnalyticsClient) GetSource(ctx context.Context, request GetSourceRequest) (response GetSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5173,10 +4837,6 @@ func (client LogAnalyticsClient) getSource(ctx context.Context, request common.O
 }
 
 // GetSourceSummary Returns the count of sources.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetSourceSummary.go.html to see an example of how to use GetSourceSummary API.
 // A default retry strategy applies to this operation GetSourceSummary()
 func (client LogAnalyticsClient) GetSourceSummary(ctx context.Context, request GetSourceSummaryRequest) (response GetSourceSummaryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5231,10 +4891,6 @@ func (client LogAnalyticsClient) getSourceSummary(ctx context.Context, request c
 }
 
 // GetStorage This API gets the storage configuration of a tenancy
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetStorage.go.html to see an example of how to use GetStorage API.
 // A default retry strategy applies to this operation GetStorage()
 func (client LogAnalyticsClient) GetStorage(ctx context.Context, request GetStorageRequest) (response GetStorageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5290,10 +4946,6 @@ func (client LogAnalyticsClient) getStorage(ctx context.Context, request common.
 
 // GetStorageUsage This API gets storage usage information of a tenancy.  Storage usage information includes active, archived or recalled
 // data.  The unit of return data is in bytes.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetStorageUsage.go.html to see an example of how to use GetStorageUsage API.
 // A default retry strategy applies to this operation GetStorageUsage()
 func (client LogAnalyticsClient) GetStorageUsage(ctx context.Context, request GetStorageUsageRequest) (response GetStorageUsageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5349,10 +5001,6 @@ func (client LogAnalyticsClient) getStorageUsage(ctx context.Context, request co
 
 // GetStorageWorkRequest This API returns work request details specified by {workRequestId}. This API can be polled for status tracking of
 // work request.  Clients should poll using the interval returned in retry-after header.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetStorageWorkRequest.go.html to see an example of how to use GetStorageWorkRequest API.
 // A default retry strategy applies to this operation GetStorageWorkRequest()
 func (client LogAnalyticsClient) GetStorageWorkRequest(ctx context.Context, request GetStorageWorkRequestRequest) (response GetStorageWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5407,10 +5055,6 @@ func (client LogAnalyticsClient) getStorageWorkRequest(ctx context.Context, requ
 }
 
 // GetUnprocessedDataBucket This API retrieves details of the configured bucket that stores unprocessed payloads.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetUnprocessedDataBucket.go.html to see an example of how to use GetUnprocessedDataBucket API.
 // A default retry strategy applies to this operation GetUnprocessedDataBucket()
 func (client LogAnalyticsClient) GetUnprocessedDataBucket(ctx context.Context, request GetUnprocessedDataBucketRequest) (response GetUnprocessedDataBucketResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5465,10 +5109,6 @@ func (client LogAnalyticsClient) getUnprocessedDataBucket(ctx context.Context, r
 }
 
 // GetUpload Gets an On-Demand Upload info by reference.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetUpload.go.html to see an example of how to use GetUpload API.
 // A default retry strategy applies to this operation GetUpload()
 func (client LogAnalyticsClient) GetUpload(ctx context.Context, request GetUploadRequest) (response GetUploadResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5523,10 +5163,6 @@ func (client LogAnalyticsClient) getUpload(ctx context.Context, request common.O
 }
 
 // GetWorkRequest Gets the status of the work request with the given ID.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 func (client LogAnalyticsClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5580,10 +5216,6 @@ func (client LogAnalyticsClient) getWorkRequest(ctx context.Context, request com
 }
 
 // ImportCustomContent Imports the specified custom content from the input in zip format.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ImportCustomContent.go.html to see an example of how to use ImportCustomContent API.
 // A default retry strategy applies to this operation ImportCustomContent()
 func (client LogAnalyticsClient) ImportCustomContent(ctx context.Context, request ImportCustomContentRequest) (response ImportCustomContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5645,10 +5277,6 @@ func (client LogAnalyticsClient) importCustomContent(ctx context.Context, reques
 }
 
 // ListAssociableEntities Lists the entities in the specified compartment which are (in)eligible for association with this source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListAssociableEntities.go.html to see an example of how to use ListAssociableEntities API.
 // A default retry strategy applies to this operation ListAssociableEntities()
 func (client LogAnalyticsClient) ListAssociableEntities(ctx context.Context, request ListAssociableEntitiesRequest) (response ListAssociableEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5703,10 +5331,6 @@ func (client LogAnalyticsClient) listAssociableEntities(ctx context.Context, req
 }
 
 // ListAssociatedEntities Lists the association details of entities in the specified compartment that are associated with at least one source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListAssociatedEntities.go.html to see an example of how to use ListAssociatedEntities API.
 // A default retry strategy applies to this operation ListAssociatedEntities()
 func (client LogAnalyticsClient) ListAssociatedEntities(ctx context.Context, request ListAssociatedEntitiesRequest) (response ListAssociatedEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5761,10 +5385,6 @@ func (client LogAnalyticsClient) listAssociatedEntities(ctx context.Context, req
 }
 
 // ListAutoAssociations Gets information related to auto association for the source with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListAutoAssociations.go.html to see an example of how to use ListAutoAssociations API.
 // A default retry strategy applies to this operation ListAutoAssociations()
 func (client LogAnalyticsClient) ListAutoAssociations(ctx context.Context, request ListAutoAssociationsRequest) (response ListAutoAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5819,10 +5439,6 @@ func (client LogAnalyticsClient) listAutoAssociations(ctx context.Context, reque
 }
 
 // ListCategories Returns a list of categories, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as category name or description.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListCategories.go.html to see an example of how to use ListCategories API.
 // A default retry strategy applies to this operation ListCategories()
 func (client LogAnalyticsClient) ListCategories(ctx context.Context, request ListCategoriesRequest) (response ListCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5877,10 +5493,6 @@ func (client LogAnalyticsClient) listCategories(ctx context.Context, request com
 }
 
 // ListConfigWorkRequests Returns the list of configuration work requests such as association or lookup operations, containing detailed information about them. You may paginate or limit the number of results.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListConfigWorkRequests.go.html to see an example of how to use ListConfigWorkRequests API.
 // A default retry strategy applies to this operation ListConfigWorkRequests()
 func (client LogAnalyticsClient) ListConfigWorkRequests(ctx context.Context, request ListConfigWorkRequestsRequest) (response ListConfigWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5935,10 +5547,6 @@ func (client LogAnalyticsClient) listConfigWorkRequests(ctx context.Context, req
 }
 
 // ListEffectiveProperties Returns a list of effective properties for the specified resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListEffectiveProperties.go.html to see an example of how to use ListEffectiveProperties API.
 // A default retry strategy applies to this operation ListEffectiveProperties()
 func (client LogAnalyticsClient) ListEffectiveProperties(ctx context.Context, request ListEffectivePropertiesRequest) (response ListEffectivePropertiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5993,10 +5601,6 @@ func (client LogAnalyticsClient) listEffectiveProperties(ctx context.Context, re
 }
 
 // ListEncryptionKeyInfo This API returns the list of customer owned encryption key info.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListEncryptionKeyInfo.go.html to see an example of how to use ListEncryptionKeyInfo API.
 // A default retry strategy applies to this operation ListEncryptionKeyInfo()
 func (client LogAnalyticsClient) ListEncryptionKeyInfo(ctx context.Context, request ListEncryptionKeyInfoRequest) (response ListEncryptionKeyInfoResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6051,10 +5655,6 @@ func (client LogAnalyticsClient) listEncryptionKeyInfo(ctx context.Context, requ
 }
 
 // ListEntityAssociations Return a list of log analytics entities associated with input source log analytics entity.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListEntityAssociations.go.html to see an example of how to use ListEntityAssociations API.
 func (client LogAnalyticsClient) ListEntityAssociations(ctx context.Context, request ListEntityAssociationsRequest) (response ListEntityAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6108,10 +5708,6 @@ func (client LogAnalyticsClient) listEntityAssociations(ctx context.Context, req
 }
 
 // ListEntitySourceAssociations Returns the list of source associations for the specified entity.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListEntitySourceAssociations.go.html to see an example of how to use ListEntitySourceAssociations API.
 // A default retry strategy applies to this operation ListEntitySourceAssociations()
 func (client LogAnalyticsClient) ListEntitySourceAssociations(ctx context.Context, request ListEntitySourceAssociationsRequest) (response ListEntitySourceAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6166,10 +5762,6 @@ func (client LogAnalyticsClient) listEntitySourceAssociations(ctx context.Contex
 }
 
 // ListFields Returns a list of log fields, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by specifying various options including parser and source names.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListFields.go.html to see an example of how to use ListFields API.
 // A default retry strategy applies to this operation ListFields()
 func (client LogAnalyticsClient) ListFields(ctx context.Context, request ListFieldsRequest) (response ListFieldsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6224,10 +5816,6 @@ func (client LogAnalyticsClient) listFields(ctx context.Context, request common.
 }
 
 // ListIngestTimeRules Returns a list of ingest time rules in a compartment. You may limit the number of rules, provide sorting options, and filter the results.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListIngestTimeRules.go.html to see an example of how to use ListIngestTimeRules API.
 // A default retry strategy applies to this operation ListIngestTimeRules()
 func (client LogAnalyticsClient) ListIngestTimeRules(ctx context.Context, request ListIngestTimeRulesRequest) (response ListIngestTimeRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6282,10 +5870,6 @@ func (client LogAnalyticsClient) listIngestTimeRules(ctx context.Context, reques
 }
 
 // ListLabelPriorities Lists the available problem priorities that could be associated with a label.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLabelPriorities.go.html to see an example of how to use ListLabelPriorities API.
 // A default retry strategy applies to this operation ListLabelPriorities()
 func (client LogAnalyticsClient) ListLabelPriorities(ctx context.Context, request ListLabelPrioritiesRequest) (response ListLabelPrioritiesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6340,10 +5924,6 @@ func (client LogAnalyticsClient) listLabelPriorities(ctx context.Context, reques
 }
 
 // ListLabelSourceDetails Lists sources using the label, along with configuration details like base field, operator and condition.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLabelSourceDetails.go.html to see an example of how to use ListLabelSourceDetails API.
 // A default retry strategy applies to this operation ListLabelSourceDetails()
 func (client LogAnalyticsClient) ListLabelSourceDetails(ctx context.Context, request ListLabelSourceDetailsRequest) (response ListLabelSourceDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6398,10 +5978,6 @@ func (client LogAnalyticsClient) listLabelSourceDetails(ctx context.Context, req
 }
 
 // ListLabels Returns a list of labels, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as label name, display name, description and priority.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLabels.go.html to see an example of how to use ListLabels API.
 // A default retry strategy applies to this operation ListLabels()
 func (client LogAnalyticsClient) ListLabels(ctx context.Context, request ListLabelsRequest) (response ListLabelsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6456,10 +6032,6 @@ func (client LogAnalyticsClient) listLabels(ctx context.Context, request common.
 }
 
 // ListLogAnalyticsEmBridges Return a list of log analytics enterprise manager bridges.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsEmBridges.go.html to see an example of how to use ListLogAnalyticsEmBridges API.
 func (client LogAnalyticsClient) ListLogAnalyticsEmBridges(ctx context.Context, request ListLogAnalyticsEmBridgesRequest) (response ListLogAnalyticsEmBridgesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6513,10 +6085,6 @@ func (client LogAnalyticsClient) listLogAnalyticsEmBridges(ctx context.Context, 
 }
 
 // ListLogAnalyticsEntities Return a list of log analytics entities.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsEntities.go.html to see an example of how to use ListLogAnalyticsEntities API.
 func (client LogAnalyticsClient) ListLogAnalyticsEntities(ctx context.Context, request ListLogAnalyticsEntitiesRequest) (response ListLogAnalyticsEntitiesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6570,10 +6138,6 @@ func (client LogAnalyticsClient) listLogAnalyticsEntities(ctx context.Context, r
 }
 
 // ListLogAnalyticsEntityTopology Return a log analytics entity topology collection that contains a set of log analytics entities and a set of relationships between those, for the input source entity.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsEntityTopology.go.html to see an example of how to use ListLogAnalyticsEntityTopology API.
 func (client LogAnalyticsClient) ListLogAnalyticsEntityTopology(ctx context.Context, request ListLogAnalyticsEntityTopologyRequest) (response ListLogAnalyticsEntityTopologyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6627,10 +6191,6 @@ func (client LogAnalyticsClient) listLogAnalyticsEntityTopology(ctx context.Cont
 }
 
 // ListLogAnalyticsEntityTypes Return a list of log analytics entity types.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsEntityTypes.go.html to see an example of how to use ListLogAnalyticsEntityTypes API.
 func (client LogAnalyticsClient) ListLogAnalyticsEntityTypes(ctx context.Context, request ListLogAnalyticsEntityTypesRequest) (response ListLogAnalyticsEntityTypesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6684,10 +6244,6 @@ func (client LogAnalyticsClient) listLogAnalyticsEntityTypes(ctx context.Context
 }
 
 // ListLogAnalyticsLogGroups Returns a list of log groups in a compartment. You may limit the number of log groups, provide sorting options, and filter the results by specifying a display name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsLogGroups.go.html to see an example of how to use ListLogAnalyticsLogGroups API.
 // A default retry strategy applies to this operation ListLogAnalyticsLogGroups()
 func (client LogAnalyticsClient) ListLogAnalyticsLogGroups(ctx context.Context, request ListLogAnalyticsLogGroupsRequest) (response ListLogAnalyticsLogGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6742,10 +6298,6 @@ func (client LogAnalyticsClient) listLogAnalyticsLogGroups(ctx context.Context, 
 }
 
 // ListLogAnalyticsObjectCollectionRules Gets list of collection rules.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogAnalyticsObjectCollectionRules.go.html to see an example of how to use ListLogAnalyticsObjectCollectionRules API.
 // A default retry strategy applies to this operation ListLogAnalyticsObjectCollectionRules()
 func (client LogAnalyticsClient) ListLogAnalyticsObjectCollectionRules(ctx context.Context, request ListLogAnalyticsObjectCollectionRulesRequest) (response ListLogAnalyticsObjectCollectionRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6800,10 +6352,6 @@ func (client LogAnalyticsClient) listLogAnalyticsObjectCollectionRules(ctx conte
 }
 
 // ListLogSets This API returns a list of log sets.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLogSets.go.html to see an example of how to use ListLogSets API.
 // A default retry strategy applies to this operation ListLogSets()
 func (client LogAnalyticsClient) ListLogSets(ctx context.Context, request ListLogSetsRequest) (response ListLogSetsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6858,10 +6406,6 @@ func (client LogAnalyticsClient) listLogSets(ctx context.Context, request common
 }
 
 // ListLookups Returns a list of lookups, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as lookup name, description and type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListLookups.go.html to see an example of how to use ListLookups API.
 // A default retry strategy applies to this operation ListLookups()
 func (client LogAnalyticsClient) ListLookups(ctx context.Context, request ListLookupsRequest) (response ListLookupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6916,10 +6460,6 @@ func (client LogAnalyticsClient) listLookups(ctx context.Context, request common
 }
 
 // ListMetaSourceTypes Lists the types of log sources supported.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListMetaSourceTypes.go.html to see an example of how to use ListMetaSourceTypes API.
 // A default retry strategy applies to this operation ListMetaSourceTypes()
 func (client LogAnalyticsClient) ListMetaSourceTypes(ctx context.Context, request ListMetaSourceTypesRequest) (response ListMetaSourceTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6975,10 +6515,6 @@ func (client LogAnalyticsClient) listMetaSourceTypes(ctx context.Context, reques
 
 // ListNamespaces Given a tenancy OCID, this API returns the namespace of the tenancy if it is valid and subscribed to the region.  The
 // result also indicates if the tenancy is onboarded with Logging Analytics.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListNamespaces.go.html to see an example of how to use ListNamespaces API.
 // A default retry strategy applies to this operation ListNamespaces()
 func (client LogAnalyticsClient) ListNamespaces(ctx context.Context, request ListNamespacesRequest) (response ListNamespacesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7033,10 +6569,6 @@ func (client LogAnalyticsClient) listNamespaces(ctx context.Context, request com
 }
 
 // ListOverlappingRecalls This API gets the list of overlapping recalls made in the given timeframe
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListOverlappingRecalls.go.html to see an example of how to use ListOverlappingRecalls API.
 // A default retry strategy applies to this operation ListOverlappingRecalls()
 func (client LogAnalyticsClient) ListOverlappingRecalls(ctx context.Context, request ListOverlappingRecallsRequest) (response ListOverlappingRecallsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7091,10 +6623,6 @@ func (client LogAnalyticsClient) listOverlappingRecalls(ctx context.Context, req
 }
 
 // ListParserFunctions Lists the parser functions defined for the specified parser.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListParserFunctions.go.html to see an example of how to use ListParserFunctions API.
 // A default retry strategy applies to this operation ListParserFunctions()
 func (client LogAnalyticsClient) ListParserFunctions(ctx context.Context, request ListParserFunctionsRequest) (response ListParserFunctionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7149,10 +6677,6 @@ func (client LogAnalyticsClient) listParserFunctions(ctx context.Context, reques
 }
 
 // ListParserMetaPlugins Lists the parser meta plugins available for defining parser functions.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListParserMetaPlugins.go.html to see an example of how to use ListParserMetaPlugins API.
 // A default retry strategy applies to this operation ListParserMetaPlugins()
 func (client LogAnalyticsClient) ListParserMetaPlugins(ctx context.Context, request ListParserMetaPluginsRequest) (response ListParserMetaPluginsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7207,10 +6731,6 @@ func (client LogAnalyticsClient) listParserMetaPlugins(ctx context.Context, requ
 }
 
 // ListParsers Returns a list of parsers, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as parser name, type, display name and description.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListParsers.go.html to see an example of how to use ListParsers API.
 // A default retry strategy applies to this operation ListParsers()
 func (client LogAnalyticsClient) ListParsers(ctx context.Context, request ListParsersRequest) (response ListParsersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7265,10 +6785,6 @@ func (client LogAnalyticsClient) listParsers(ctx context.Context, request common
 }
 
 // ListPropertiesMetadata Returns a list of properties along with their metadata.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListPropertiesMetadata.go.html to see an example of how to use ListPropertiesMetadata API.
 // A default retry strategy applies to this operation ListPropertiesMetadata()
 func (client LogAnalyticsClient) ListPropertiesMetadata(ctx context.Context, request ListPropertiesMetadataRequest) (response ListPropertiesMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7323,10 +6839,6 @@ func (client LogAnalyticsClient) listPropertiesMetadata(ctx context.Context, req
 }
 
 // ListQueryWorkRequests List active asynchronous queries.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListQueryWorkRequests.go.html to see an example of how to use ListQueryWorkRequests API.
 // A default retry strategy applies to this operation ListQueryWorkRequests()
 func (client LogAnalyticsClient) ListQueryWorkRequests(ctx context.Context, request ListQueryWorkRequestsRequest) (response ListQueryWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7381,10 +6893,6 @@ func (client LogAnalyticsClient) listQueryWorkRequests(ctx context.Context, requ
 }
 
 // ListRecalledData This API returns the list of recalled data of a tenancy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListRecalledData.go.html to see an example of how to use ListRecalledData API.
 // A default retry strategy applies to this operation ListRecalledData()
 func (client LogAnalyticsClient) ListRecalledData(ctx context.Context, request ListRecalledDataRequest) (response ListRecalledDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7440,10 +6948,6 @@ func (client LogAnalyticsClient) listRecalledData(ctx context.Context, request c
 
 // ListResourceCategories Returns a list of resources and their category assignments.
 // You may limit the number of results, provide sorting order, and filter by information such as resource type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListResourceCategories.go.html to see an example of how to use ListResourceCategories API.
 // A default retry strategy applies to this operation ListResourceCategories()
 func (client LogAnalyticsClient) ListResourceCategories(ctx context.Context, request ListResourceCategoriesRequest) (response ListResourceCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7498,10 +7002,6 @@ func (client LogAnalyticsClient) listResourceCategories(ctx context.Context, req
 }
 
 // ListRules Returns a list of ingest time rules and scheduled tasks in a compartment. You may limit the number of items returned, provide sorting options, and filter the results.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListRules.go.html to see an example of how to use ListRules API.
 // A default retry strategy applies to this operation ListRules()
 func (client LogAnalyticsClient) ListRules(ctx context.Context, request ListRulesRequest) (response ListRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7556,10 +7056,6 @@ func (client LogAnalyticsClient) listRules(ctx context.Context, request common.O
 }
 
 // ListScheduledTasks Lists scheduled tasks.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListScheduledTasks.go.html to see an example of how to use ListScheduledTasks API.
 // A default retry strategy applies to this operation ListScheduledTasks()
 func (client LogAnalyticsClient) ListScheduledTasks(ctx context.Context, request ListScheduledTasksRequest) (response ListScheduledTasksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7614,10 +7110,6 @@ func (client LogAnalyticsClient) listScheduledTasks(ctx context.Context, request
 }
 
 // ListSourceAssociations Returns the list of entity associations in the input compartment for the specified source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceAssociations.go.html to see an example of how to use ListSourceAssociations API.
 // A default retry strategy applies to this operation ListSourceAssociations()
 func (client LogAnalyticsClient) ListSourceAssociations(ctx context.Context, request ListSourceAssociationsRequest) (response ListSourceAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7672,10 +7164,6 @@ func (client LogAnalyticsClient) listSourceAssociations(ctx context.Context, req
 }
 
 // ListSourceEventTypes Lists the event types mapped to the source with the specified name. The event type string could be the fully qualified name or a prefix that matches the event type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceEventTypes.go.html to see an example of how to use ListSourceEventTypes API.
 // A default retry strategy applies to this operation ListSourceEventTypes()
 func (client LogAnalyticsClient) ListSourceEventTypes(ctx context.Context, request ListSourceEventTypesRequest) (response ListSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7730,10 +7218,6 @@ func (client LogAnalyticsClient) listSourceEventTypes(ctx context.Context, reque
 }
 
 // ListSourceExtendedFieldDefinitions Lists the extended field definitions for the source with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceExtendedFieldDefinitions.go.html to see an example of how to use ListSourceExtendedFieldDefinitions API.
 // A default retry strategy applies to this operation ListSourceExtendedFieldDefinitions()
 func (client LogAnalyticsClient) ListSourceExtendedFieldDefinitions(ctx context.Context, request ListSourceExtendedFieldDefinitionsRequest) (response ListSourceExtendedFieldDefinitionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7788,10 +7272,6 @@ func (client LogAnalyticsClient) listSourceExtendedFieldDefinitions(ctx context.
 }
 
 // ListSourceLabelOperators Lists the supported conditional operators that could be used for matching log field values to generate a label. You may use patterns to specify a condition. If a log entry matches that condition, it is tagged with the corresponding label.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceLabelOperators.go.html to see an example of how to use ListSourceLabelOperators API.
 // A default retry strategy applies to this operation ListSourceLabelOperators()
 func (client LogAnalyticsClient) ListSourceLabelOperators(ctx context.Context, request ListSourceLabelOperatorsRequest) (response ListSourceLabelOperatorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7846,10 +7326,6 @@ func (client LogAnalyticsClient) listSourceLabelOperators(ctx context.Context, r
 }
 
 // ListSourceMetaFunctions Lists the functions that could be used to enrich log entries based on meaningful information extracted from the log fields.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourceMetaFunctions.go.html to see an example of how to use ListSourceMetaFunctions API.
 // A default retry strategy applies to this operation ListSourceMetaFunctions()
 func (client LogAnalyticsClient) ListSourceMetaFunctions(ctx context.Context, request ListSourceMetaFunctionsRequest) (response ListSourceMetaFunctionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7904,10 +7380,6 @@ func (client LogAnalyticsClient) listSourceMetaFunctions(ctx context.Context, re
 }
 
 // ListSourcePatterns Lists the source patterns for the source with the specified name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSourcePatterns.go.html to see an example of how to use ListSourcePatterns API.
 // A default retry strategy applies to this operation ListSourcePatterns()
 func (client LogAnalyticsClient) ListSourcePatterns(ctx context.Context, request ListSourcePatternsRequest) (response ListSourcePatternsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7962,10 +7434,6 @@ func (client LogAnalyticsClient) listSourcePatterns(ctx context.Context, request
 }
 
 // ListSources Returns a list of sources, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as display name, description and entity type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSources.go.html to see an example of how to use ListSources API.
 // A default retry strategy applies to this operation ListSources()
 func (client LogAnalyticsClient) ListSources(ctx context.Context, request ListSourcesRequest) (response ListSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8020,10 +7488,6 @@ func (client LogAnalyticsClient) listSources(ctx context.Context, request common
 }
 
 // ListStorageWorkRequestErrors This API returns the list of work request errors if any.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListStorageWorkRequestErrors.go.html to see an example of how to use ListStorageWorkRequestErrors API.
 // A default retry strategy applies to this operation ListStorageWorkRequestErrors()
 func (client LogAnalyticsClient) ListStorageWorkRequestErrors(ctx context.Context, request ListStorageWorkRequestErrorsRequest) (response ListStorageWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8078,10 +7542,6 @@ func (client LogAnalyticsClient) listStorageWorkRequestErrors(ctx context.Contex
 }
 
 // ListStorageWorkRequests This API lists storage work requests.  Use query parameters to narrow down or sort the result list.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListStorageWorkRequests.go.html to see an example of how to use ListStorageWorkRequests API.
 // A default retry strategy applies to this operation ListStorageWorkRequests()
 func (client LogAnalyticsClient) ListStorageWorkRequests(ctx context.Context, request ListStorageWorkRequestsRequest) (response ListStorageWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8136,10 +7596,6 @@ func (client LogAnalyticsClient) listStorageWorkRequests(ctx context.Context, re
 }
 
 // ListSupportedCharEncodings Gets list of character encodings which are supported by on-demand upload.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSupportedCharEncodings.go.html to see an example of how to use ListSupportedCharEncodings API.
 // A default retry strategy applies to this operation ListSupportedCharEncodings()
 func (client LogAnalyticsClient) ListSupportedCharEncodings(ctx context.Context, request ListSupportedCharEncodingsRequest) (response ListSupportedCharEncodingsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8194,10 +7650,6 @@ func (client LogAnalyticsClient) listSupportedCharEncodings(ctx context.Context,
 }
 
 // ListSupportedTimezones Gets list of timezones which are supported by on-demand upload.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListSupportedTimezones.go.html to see an example of how to use ListSupportedTimezones API.
 // A default retry strategy applies to this operation ListSupportedTimezones()
 func (client LogAnalyticsClient) ListSupportedTimezones(ctx context.Context, request ListSupportedTimezonesRequest) (response ListSupportedTimezonesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8252,10 +7704,6 @@ func (client LogAnalyticsClient) listSupportedTimezones(ctx context.Context, req
 }
 
 // ListUploadFiles Gets list of files in an upload along with its processing state.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListUploadFiles.go.html to see an example of how to use ListUploadFiles API.
 // A default retry strategy applies to this operation ListUploadFiles()
 func (client LogAnalyticsClient) ListUploadFiles(ctx context.Context, request ListUploadFilesRequest) (response ListUploadFilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8310,10 +7758,6 @@ func (client LogAnalyticsClient) listUploadFiles(ctx context.Context, request co
 }
 
 // ListUploadWarnings Gets list of warnings in an upload caused by incorrect configuration.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListUploadWarnings.go.html to see an example of how to use ListUploadWarnings API.
 // A default retry strategy applies to this operation ListUploadWarnings()
 func (client LogAnalyticsClient) ListUploadWarnings(ctx context.Context, request ListUploadWarningsRequest) (response ListUploadWarningsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8369,10 +7813,6 @@ func (client LogAnalyticsClient) listUploadWarnings(ctx context.Context, request
 
 // ListUploads Gets a list of all On-demand uploads.
 // To use this and other API operations, you must be authorized in an IAM policy.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListUploads.go.html to see an example of how to use ListUploads API.
 // A default retry strategy applies to this operation ListUploads()
 func (client LogAnalyticsClient) ListUploads(ctx context.Context, request ListUploadsRequest) (response ListUploadsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8427,10 +7867,6 @@ func (client LogAnalyticsClient) listUploads(ctx context.Context, request common
 }
 
 // ListWarnings Returns a list of collection warnings, containing detailed information about them. You may limit the number of results, provide sorting order, and filter by information such as start time, end time, warning type, warning state, source name, source pattern and entity name.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListWarnings.go.html to see an example of how to use ListWarnings API.
 // A default retry strategy applies to this operation ListWarnings()
 func (client LogAnalyticsClient) ListWarnings(ctx context.Context, request ListWarningsRequest) (response ListWarningsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8485,10 +7921,6 @@ func (client LogAnalyticsClient) listWarnings(ctx context.Context, request commo
 }
 
 // ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 func (client LogAnalyticsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8542,10 +7974,6 @@ func (client LogAnalyticsClient) listWorkRequestErrors(ctx context.Context, requ
 }
 
 // ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 func (client LogAnalyticsClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8599,10 +8027,6 @@ func (client LogAnalyticsClient) listWorkRequestLogs(ctx context.Context, reques
 }
 
 // ListWorkRequests Lists the work requests in a compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 func (client LogAnalyticsClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8656,10 +8080,6 @@ func (client LogAnalyticsClient) listWorkRequests(ctx context.Context, request c
 }
 
 // OffboardNamespace Off-boards a tenant from Logging Analytics
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/OffboardNamespace.go.html to see an example of how to use OffboardNamespace API.
 func (client LogAnalyticsClient) OffboardNamespace(ctx context.Context, request OffboardNamespaceRequest) (response OffboardNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8718,10 +8138,6 @@ func (client LogAnalyticsClient) offboardNamespace(ctx context.Context, request 
 }
 
 // OnboardNamespace On-boards a tenant to Logging Analytics.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/OnboardNamespace.go.html to see an example of how to use OnboardNamespace API.
 func (client LogAnalyticsClient) OnboardNamespace(ctx context.Context, request OnboardNamespaceRequest) (response OnboardNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8780,10 +8196,6 @@ func (client LogAnalyticsClient) onboardNamespace(ctx context.Context, request c
 }
 
 // ParseQuery Describe query
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ParseQuery.go.html to see an example of how to use ParseQuery API.
 // A default retry strategy applies to this operation ParseQuery()
 func (client LogAnalyticsClient) ParseQuery(ctx context.Context, request ParseQueryRequest) (response ParseQueryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8840,10 +8252,6 @@ func (client LogAnalyticsClient) parseQuery(ctx context.Context, request common.
 }
 
 // PauseScheduledTask Pause the scheduled task specified by {scheduledTaskId}.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/PauseScheduledTask.go.html to see an example of how to use PauseScheduledTask API.
 // A default retry strategy applies to this operation PauseScheduledTask()
 func (client LogAnalyticsClient) PauseScheduledTask(ctx context.Context, request PauseScheduledTaskRequest) (response PauseScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8899,10 +8307,6 @@ func (client LogAnalyticsClient) pauseScheduledTask(ctx context.Context, request
 
 // PurgeStorageData This API submits a work request to purge data. Only data from log groups that the user has permission to delete
 // will be purged.  To purge all data, the user must have permission to all log groups.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/PurgeStorageData.go.html to see an example of how to use PurgeStorageData API.
 func (client LogAnalyticsClient) PurgeStorageData(ctx context.Context, request PurgeStorageDataRequest) (response PurgeStorageDataResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8963,10 +8367,6 @@ func (client LogAnalyticsClient) purgeStorageData(ctx context.Context, request c
 }
 
 // PutQueryWorkRequestBackground Put the work request specified by {workRequestId} into the background. Backgrounded queries will preserve query results on query completion for up to 7 days for recall. After 7 days the results and query expire.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/PutQueryWorkRequestBackground.go.html to see an example of how to use PutQueryWorkRequestBackground API.
 func (client LogAnalyticsClient) PutQueryWorkRequestBackground(ctx context.Context, request PutQueryWorkRequestBackgroundRequest) (response PutQueryWorkRequestBackgroundResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9020,10 +8420,6 @@ func (client LogAnalyticsClient) putQueryWorkRequestBackground(ctx context.Conte
 }
 
 // Query Performs a log analytics search, if shouldRunAsync is false returns the query results once they become available subject to 60 second timeout. If a query is subject to exceed that time then it should be run asynchronously. Asynchronous query submissions return the queryWorkRequestId to use for execution tracking, query submission lifecycle actions and to poll for query results.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Query.go.html to see an example of how to use Query API.
 // A default retry strategy applies to this operation Query()
 func (client LogAnalyticsClient) Query(ctx context.Context, request QueryRequest) (response QueryResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9080,10 +8476,6 @@ func (client LogAnalyticsClient) query(ctx context.Context, request common.OCIRe
 }
 
 // RecallArchivedData This API submits a work request to recall archived data based on time interval and data type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RecallArchivedData.go.html to see an example of how to use RecallArchivedData API.
 func (client LogAnalyticsClient) RecallArchivedData(ctx context.Context, request RecallArchivedDataRequest) (response RecallArchivedDataResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9144,10 +8536,6 @@ func (client LogAnalyticsClient) recallArchivedData(ctx context.Context, request
 }
 
 // RegisterLookup Creates a lookup with the specified name, type and description. The csv file containing the lookup content is passed in as binary data in the request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RegisterLookup.go.html to see an example of how to use RegisterLookup API.
 // A default retry strategy applies to this operation RegisterLookup()
 func (client LogAnalyticsClient) RegisterLookup(ctx context.Context, request RegisterLookupRequest) (response RegisterLookupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9209,10 +8597,6 @@ func (client LogAnalyticsClient) registerLookup(ctx context.Context, request com
 }
 
 // ReleaseRecalledData This API submits a work request to release recalled data based on time interval and data type.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ReleaseRecalledData.go.html to see an example of how to use ReleaseRecalledData API.
 func (client LogAnalyticsClient) ReleaseRecalledData(ctx context.Context, request ReleaseRecalledDataRequest) (response ReleaseRecalledDataResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9273,10 +8657,6 @@ func (client LogAnalyticsClient) releaseRecalledData(ctx context.Context, reques
 }
 
 // RemoveEntityAssociations Delete association between input source log analytics entity and destination entities.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RemoveEntityAssociations.go.html to see an example of how to use RemoveEntityAssociations API.
 // A default retry strategy applies to this operation RemoveEntityAssociations()
 func (client LogAnalyticsClient) RemoveEntityAssociations(ctx context.Context, request RemoveEntityAssociationsRequest) (response RemoveEntityAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9338,10 +8718,6 @@ func (client LogAnalyticsClient) removeEntityAssociations(ctx context.Context, r
 }
 
 // RemovePreferences Removes the tenant preferences such as DEFAULT_HOMEPAGE and collection properties.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RemovePreferences.go.html to see an example of how to use RemovePreferences API.
 // A default retry strategy applies to this operation RemovePreferences()
 func (client LogAnalyticsClient) RemovePreferences(ctx context.Context, request RemovePreferencesRequest) (response RemovePreferencesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9403,10 +8779,6 @@ func (client LogAnalyticsClient) removePreferences(ctx context.Context, request 
 }
 
 // RemoveResourceCategories Removes the category assignments of DASHBOARD and SAVEDSEARCH resources.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RemoveResourceCategories.go.html to see an example of how to use RemoveResourceCategories API.
 // A default retry strategy applies to this operation RemoveResourceCategories()
 func (client LogAnalyticsClient) RemoveResourceCategories(ctx context.Context, request RemoveResourceCategoriesRequest) (response RemoveResourceCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9463,10 +8835,6 @@ func (client LogAnalyticsClient) removeResourceCategories(ctx context.Context, r
 }
 
 // RemoveSourceEventTypes Remove one or more event types from a source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/RemoveSourceEventTypes.go.html to see an example of how to use RemoveSourceEventTypes API.
 // A default retry strategy applies to this operation RemoveSourceEventTypes()
 func (client LogAnalyticsClient) RemoveSourceEventTypes(ctx context.Context, request RemoveSourceEventTypesRequest) (response RemoveSourceEventTypesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9528,10 +8896,6 @@ func (client LogAnalyticsClient) removeSourceEventTypes(ctx context.Context, req
 }
 
 // ResumeScheduledTask Resume the scheduled task specified by {scheduledTaskId}.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ResumeScheduledTask.go.html to see an example of how to use ResumeScheduledTask API.
 // A default retry strategy applies to this operation ResumeScheduledTask()
 func (client LogAnalyticsClient) ResumeScheduledTask(ctx context.Context, request ResumeScheduledTaskRequest) (response ResumeScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9588,10 +8952,6 @@ func (client LogAnalyticsClient) resumeScheduledTask(ctx context.Context, reques
 // Run Execute the saved search acceleration task in the foreground.
 // The ScheduledTask taskType must be ACCELERATION.
 // Optionally specify time range (timeStart and timeEnd). The default is all time.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Run.go.html to see an example of how to use Run API.
 func (client LogAnalyticsClient) Run(ctx context.Context, request RunRequest) (response RunResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9652,10 +9012,6 @@ func (client LogAnalyticsClient) run(ctx context.Context, request common.OCIRequ
 // SetUnprocessedDataBucket This API configures a bucket to store unprocessed payloads.
 // While processing there could be reasons a payload cannot be processed (mismatched structure, corrupted archive format, etc),
 // if configured the payload would be uploaded to the bucket for verification.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/SetUnprocessedDataBucket.go.html to see an example of how to use SetUnprocessedDataBucket API.
 func (client LogAnalyticsClient) SetUnprocessedDataBucket(ctx context.Context, request SetUnprocessedDataBucketRequest) (response SetUnprocessedDataBucketResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9709,10 +9065,6 @@ func (client LogAnalyticsClient) setUnprocessedDataBucket(ctx context.Context, r
 }
 
 // Suggest Returns a context specific list of either commands, fields, or values to append to the end of the specified query string if applicable.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Suggest.go.html to see an example of how to use Suggest API.
 // A default retry strategy applies to this operation Suggest()
 func (client LogAnalyticsClient) Suggest(ctx context.Context, request SuggestRequest) (response SuggestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9769,10 +9121,6 @@ func (client LogAnalyticsClient) suggest(ctx context.Context, request common.OCI
 }
 
 // SuppressWarning Supresses a list of warnings. Any unsuppressed warnings in the input list would be suppressed. Warnings in the input list which are already suppressed will not be modified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/SuppressWarning.go.html to see an example of how to use SuppressWarning API.
 // A default retry strategy applies to this operation SuppressWarning()
 func (client LogAnalyticsClient) SuppressWarning(ctx context.Context, request SuppressWarningRequest) (response SuppressWarningResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9834,10 +9182,6 @@ func (client LogAnalyticsClient) suppressWarning(ctx context.Context, request co
 }
 
 // TestParser Tests the parser definition against the specified example content to ensure fields are successfully extracted.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/TestParser.go.html to see an example of how to use TestParser API.
 // A default retry strategy applies to this operation TestParser()
 func (client LogAnalyticsClient) TestParser(ctx context.Context, request TestParserRequest) (response TestParserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9899,10 +9243,6 @@ func (client LogAnalyticsClient) testParser(ctx context.Context, request common.
 }
 
 // UnsuppressWarning Unsupresses a list of warnings. Any suppressed warnings in the input list would be unsuppressed. Warnings in the input list which are already unsuppressed will not be modified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UnsuppressWarning.go.html to see an example of how to use UnsuppressWarning API.
 // A default retry strategy applies to this operation UnsuppressWarning()
 func (client LogAnalyticsClient) UnsuppressWarning(ctx context.Context, request UnsuppressWarningRequest) (response UnsuppressWarningResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9964,10 +9304,6 @@ func (client LogAnalyticsClient) unsuppressWarning(ctx context.Context, request 
 }
 
 // UpdateIngestTimeRule Updates the specified ingest time rule's description, defined tags, and free-form tags.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateIngestTimeRule.go.html to see an example of how to use UpdateIngestTimeRule API.
 // A default retry strategy applies to this operation UpdateIngestTimeRule()
 func (client LogAnalyticsClient) UpdateIngestTimeRule(ctx context.Context, request UpdateIngestTimeRuleRequest) (response UpdateIngestTimeRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10024,10 +9360,6 @@ func (client LogAnalyticsClient) updateIngestTimeRule(ctx context.Context, reque
 }
 
 // UpdateLogAnalyticsEmBridge Update log analytics enterprise manager bridge with the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsEmBridge.go.html to see an example of how to use UpdateLogAnalyticsEmBridge API.
 func (client LogAnalyticsClient) UpdateLogAnalyticsEmBridge(ctx context.Context, request UpdateLogAnalyticsEmBridgeRequest) (response UpdateLogAnalyticsEmBridgeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10083,10 +9415,6 @@ func (client LogAnalyticsClient) updateLogAnalyticsEmBridge(ctx context.Context,
 }
 
 // UpdateLogAnalyticsEntity Update the log analytics entity with the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsEntity.go.html to see an example of how to use UpdateLogAnalyticsEntity API.
 func (client LogAnalyticsClient) UpdateLogAnalyticsEntity(ctx context.Context, request UpdateLogAnalyticsEntityRequest) (response UpdateLogAnalyticsEntityResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10142,10 +9470,6 @@ func (client LogAnalyticsClient) updateLogAnalyticsEntity(ctx context.Context, r
 }
 
 // UpdateLogAnalyticsEntityType Update custom log analytics entity type. Out of box entity types cannot be udpated.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsEntityType.go.html to see an example of how to use UpdateLogAnalyticsEntityType API.
 func (client LogAnalyticsClient) UpdateLogAnalyticsEntityType(ctx context.Context, request UpdateLogAnalyticsEntityTypeRequest) (response UpdateLogAnalyticsEntityTypeResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10201,10 +9525,6 @@ func (client LogAnalyticsClient) updateLogAnalyticsEntityType(ctx context.Contex
 }
 
 // UpdateLogAnalyticsLogGroup Updates the specified log group's display name, description, defined tags, and free-form tags.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsLogGroup.go.html to see an example of how to use UpdateLogAnalyticsLogGroup API.
 // A default retry strategy applies to this operation UpdateLogAnalyticsLogGroup()
 func (client LogAnalyticsClient) UpdateLogAnalyticsLogGroup(ctx context.Context, request UpdateLogAnalyticsLogGroupRequest) (response UpdateLogAnalyticsLogGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10261,10 +9581,6 @@ func (client LogAnalyticsClient) updateLogAnalyticsLogGroup(ctx context.Context,
 }
 
 // UpdateLogAnalyticsObjectCollectionRule Updates configuration of the object collection rule for the given id.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLogAnalyticsObjectCollectionRule.go.html to see an example of how to use UpdateLogAnalyticsObjectCollectionRule API.
 func (client LogAnalyticsClient) UpdateLogAnalyticsObjectCollectionRule(ctx context.Context, request UpdateLogAnalyticsObjectCollectionRuleRequest) (response UpdateLogAnalyticsObjectCollectionRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10320,10 +9636,6 @@ func (client LogAnalyticsClient) updateLogAnalyticsObjectCollectionRule(ctx cont
 }
 
 // UpdateLookup Updates the metadata of the specified lookup, such as the lookup description.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLookup.go.html to see an example of how to use UpdateLookup API.
 // A default retry strategy applies to this operation UpdateLookup()
 func (client LogAnalyticsClient) UpdateLookup(ctx context.Context, request UpdateLookupRequest) (response UpdateLookupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10385,10 +9697,6 @@ func (client LogAnalyticsClient) updateLookup(ctx context.Context, request commo
 }
 
 // UpdateLookupData Updates the lookup content. The csv file containing the content to be updated is passed in as binary data in the request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateLookupData.go.html to see an example of how to use UpdateLookupData API.
 // A default retry strategy applies to this operation UpdateLookupData()
 func (client LogAnalyticsClient) UpdateLookupData(ctx context.Context, request UpdateLookupDataRequest) (response UpdateLookupDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10450,10 +9758,6 @@ func (client LogAnalyticsClient) updateLookupData(ctx context.Context, request c
 }
 
 // UpdatePreferences Updates the tenant preferences such as DEFAULT_HOMEPAGE and collection properties.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdatePreferences.go.html to see an example of how to use UpdatePreferences API.
 // A default retry strategy applies to this operation UpdatePreferences()
 func (client LogAnalyticsClient) UpdatePreferences(ctx context.Context, request UpdatePreferencesRequest) (response UpdatePreferencesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10515,10 +9819,6 @@ func (client LogAnalyticsClient) updatePreferences(ctx context.Context, request 
 }
 
 // UpdateResourceCategories Updates the category assignments of DASHBOARD and SAVEDSEARCH resources.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateResourceCategories.go.html to see an example of how to use UpdateResourceCategories API.
 // A default retry strategy applies to this operation UpdateResourceCategories()
 func (client LogAnalyticsClient) UpdateResourceCategories(ctx context.Context, request UpdateResourceCategoriesRequest) (response UpdateResourceCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10575,10 +9875,6 @@ func (client LogAnalyticsClient) updateResourceCategories(ctx context.Context, r
 }
 
 // UpdateScheduledTask Update the scheduled task. Schedules may be updated only for taskType SAVED_SEARCH and PURGE.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateScheduledTask.go.html to see an example of how to use UpdateScheduledTask API.
 // A default retry strategy applies to this operation UpdateScheduledTask()
 func (client LogAnalyticsClient) UpdateScheduledTask(ctx context.Context, request UpdateScheduledTaskRequest) (response UpdateScheduledTaskResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10635,10 +9931,6 @@ func (client LogAnalyticsClient) updateScheduledTask(ctx context.Context, reques
 }
 
 // UpdateStorage This API updates the archiving configuration
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpdateStorage.go.html to see an example of how to use UpdateStorage API.
 // A default retry strategy applies to this operation UpdateStorage()
 func (client LogAnalyticsClient) UpdateStorage(ctx context.Context, request UpdateStorageRequest) (response UpdateStorageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10695,10 +9987,6 @@ func (client LogAnalyticsClient) updateStorage(ctx context.Context, request comm
 }
 
 // UploadDiscoveryData Accepts discovery data for processing by Logging Analytics.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadDiscoveryData.go.html to see an example of how to use UploadDiscoveryData API.
 // A default retry strategy applies to this operation UploadDiscoveryData()
 func (client LogAnalyticsClient) UploadDiscoveryData(ctx context.Context, request UploadDiscoveryDataRequest) (response UploadDiscoveryDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10770,10 +10058,6 @@ func (client LogAnalyticsClient) uploadDiscoveryData(ctx context.Context, reques
 }
 
 // UploadLogEventsFile Accepts log events for processing by Logging Analytics.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadLogEventsFile.go.html to see an example of how to use UploadLogEventsFile API.
 // A default retry strategy applies to this operation UploadLogEventsFile()
 func (client LogAnalyticsClient) UploadLogEventsFile(ctx context.Context, request UploadLogEventsFileRequest) (response UploadLogEventsFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10845,10 +10129,6 @@ func (client LogAnalyticsClient) uploadLogEventsFile(ctx context.Context, reques
 }
 
 // UploadLogFile Accepts log data for processing by Logging Analytics.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UploadLogFile.go.html to see an example of how to use UploadLogFile API.
 // A default retry strategy applies to this operation UploadLogFile()
 func (client LogAnalyticsClient) UploadLogFile(ctx context.Context, request UploadLogFileRequest) (response UploadLogFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10920,10 +10200,6 @@ func (client LogAnalyticsClient) uploadLogFile(ctx context.Context, request comm
 }
 
 // UpsertAssociations Creates or updates associations between sources and entities. All entities should belong to the specified input compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpsertAssociations.go.html to see an example of how to use UpsertAssociations API.
 // A default retry strategy applies to this operation UpsertAssociations()
 func (client LogAnalyticsClient) UpsertAssociations(ctx context.Context, request UpsertAssociationsRequest) (response UpsertAssociationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10985,10 +10261,6 @@ func (client LogAnalyticsClient) upsertAssociations(ctx context.Context, request
 }
 
 // UpsertField Creates or updates a field that could be used in parser expressions to extract and assign value. To create a field, specify its display name. A name would be generated for the field. For subsequent calls to update the field, include the name attribute.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpsertField.go.html to see an example of how to use UpsertField API.
 // A default retry strategy applies to this operation UpsertField()
 func (client LogAnalyticsClient) UpsertField(ctx context.Context, request UpsertFieldRequest) (response UpsertFieldResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11050,10 +10322,6 @@ func (client LogAnalyticsClient) upsertField(ctx context.Context, request common
 }
 
 // UpsertLabel Creates or updates a label that could be used to tag a log entry. You may optionally designate the label as a problem, and assign it a priority. You may also provide its related terms (aliases). To create a label, specify its display name. A name would be generated for the label. For subsequent calls to update the label, include the name attribute.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpsertLabel.go.html to see an example of how to use UpsertLabel API.
 // A default retry strategy applies to this operation UpsertLabel()
 func (client LogAnalyticsClient) UpsertLabel(ctx context.Context, request UpsertLabelRequest) (response UpsertLabelResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11115,10 +10383,6 @@ func (client LogAnalyticsClient) upsertLabel(ctx context.Context, request common
 }
 
 // UpsertParser Creates or updates a parser, which defines how fields are extracted from a log entry.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpsertParser.go.html to see an example of how to use UpsertParser API.
 // A default retry strategy applies to this operation UpsertParser()
 func (client LogAnalyticsClient) UpsertParser(ctx context.Context, request UpsertParserRequest) (response UpsertParserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11180,10 +10444,6 @@ func (client LogAnalyticsClient) upsertParser(ctx context.Context, request commo
 }
 
 // UpsertSource Creates or updates a log source. You may also specify parsers, labels, extended fields etc., for the source.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/UpsertSource.go.html to see an example of how to use UpsertSource API.
 // A default retry strategy applies to this operation UpsertSource()
 func (client LogAnalyticsClient) UpsertSource(ctx context.Context, request UpsertSourceRequest) (response UpsertSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11245,10 +10505,6 @@ func (client LogAnalyticsClient) upsertSource(ctx context.Context, request commo
 }
 
 // ValidateAssociationParameters Checks if the passed in entities could be associated with the specified sources. The validation is performed to ensure that the entities have the relevant property values that are used in the corresponding source patterns.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateAssociationParameters.go.html to see an example of how to use ValidateAssociationParameters API.
 // A default retry strategy applies to this operation ValidateAssociationParameters()
 func (client LogAnalyticsClient) ValidateAssociationParameters(ctx context.Context, request ValidateAssociationParametersRequest) (response ValidateAssociationParametersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11310,10 +10566,6 @@ func (client LogAnalyticsClient) validateAssociationParameters(ctx context.Conte
 }
 
 // ValidateEndpoint Validates the REST endpoint configuration.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateEndpoint.go.html to see an example of how to use ValidateEndpoint API.
 // A default retry strategy applies to this operation ValidateEndpoint()
 func (client LogAnalyticsClient) ValidateEndpoint(ctx context.Context, request ValidateEndpointRequest) (response ValidateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11370,10 +10622,6 @@ func (client LogAnalyticsClient) validateEndpoint(ctx context.Context, request c
 }
 
 // ValidateFile Validates a log file to check whether it is eligible to be uploaded or not.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateFile.go.html to see an example of how to use ValidateFile API.
 // A default retry strategy applies to this operation ValidateFile()
 func (client LogAnalyticsClient) ValidateFile(ctx context.Context, request ValidateFileRequest) (response ValidateFileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11432,10 +10680,6 @@ func (client LogAnalyticsClient) validateFile(ctx context.Context, request commo
 // identical conditions. If one of them is input, the response would include the validated
 // representation of the other structure too. Additionally, if field values
 // are passed, the condition specification would be evaluated against them.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateLabelCondition.go.html to see an example of how to use ValidateLabelCondition API.
 // A default retry strategy applies to this operation ValidateLabelCondition()
 func (client LogAnalyticsClient) ValidateLabelCondition(ctx context.Context, request ValidateLabelConditionRequest) (response ValidateLabelConditionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11492,10 +10736,6 @@ func (client LogAnalyticsClient) validateLabelCondition(ctx context.Context, req
 }
 
 // ValidateSource Checks if the specified input is a valid log source definition.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateSource.go.html to see an example of how to use ValidateSource API.
 // A default retry strategy applies to this operation ValidateSource()
 func (client LogAnalyticsClient) ValidateSource(ctx context.Context, request ValidateSourceRequest) (response ValidateSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11557,10 +10797,6 @@ func (client LogAnalyticsClient) validateSource(ctx context.Context, request com
 }
 
 // ValidateSourceExtendedFieldDetails Checks if the specified input contains valid extended field definitions against the provided example content.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateSourceExtendedFieldDetails.go.html to see an example of how to use ValidateSourceExtendedFieldDetails API.
 // A default retry strategy applies to this operation ValidateSourceExtendedFieldDetails()
 func (client LogAnalyticsClient) ValidateSourceExtendedFieldDetails(ctx context.Context, request ValidateSourceExtendedFieldDetailsRequest) (response ValidateSourceExtendedFieldDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11622,10 +10858,6 @@ func (client LogAnalyticsClient) validateSourceExtendedFieldDetails(ctx context.
 }
 
 // ValidateSourceMapping Validates the source mapping for a given file and provides match status and the parsed representation of log data.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/ValidateSourceMapping.go.html to see an example of how to use ValidateSourceMapping API.
 // A default retry strategy applies to this operation ValidateSourceMapping()
 func (client LogAnalyticsClient) ValidateSourceMapping(ctx context.Context, request ValidateSourceMappingRequest) (response ValidateSourceMappingResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11683,10 +10915,6 @@ func (client LogAnalyticsClient) validateSourceMapping(ctx context.Context, requ
 // For internal use only.
 // Optionally specify whether to return accelerated search results; the default is false.
 // The ScheduledTask taskType must be ACCELERATION.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/loganalytics/Verify.go.html to see an example of how to use Verify API.
 // A default retry strategy applies to this operation Verify()
 func (client LogAnalyticsClient) Verify(ctx context.Context, request VerifyRequest) (response VerifyResponse, err error) {
 	var ociResponse common.OCIResponse

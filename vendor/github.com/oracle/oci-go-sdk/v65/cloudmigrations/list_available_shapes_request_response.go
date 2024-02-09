@@ -12,10 +12,6 @@ import (
 )
 
 // ListAvailableShapesRequest wrapper for the ListAvailableShapes operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudmigrations/ListAvailableShapes.go.html to see an example of how to use ListAvailableShapesRequest.
 type ListAvailableShapesRequest struct {
 
 	// Unique migration plan identifier

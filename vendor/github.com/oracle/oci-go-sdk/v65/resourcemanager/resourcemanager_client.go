@@ -94,16 +94,71 @@ func (client *ResourceManagerClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
+// AddStackLock Adds a lock to a stack.
+// A default retry strategy applies to this operation AddStackLock()
+func (client ResourceManagerClient) AddStackLock(ctx context.Context, request AddStackLockRequest) (response AddStackLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addStackLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddStackLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddStackLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddStackLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddStackLockResponse")
+	}
+	return
+}
+
+// addStackLock implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) addStackLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddStackLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/AddStackLock"
+		err = common.PostProcessServiceError(err, "ResourceManager", "AddStackLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelJob Indicates the intention to cancel the specified job.
 // Cancellation of the job is not immediate, and may be delayed,
 // or may not happen at all.
 // You can optionally choose forced cancellation by setting `isForced` to true.
 // A forced cancellation can result in an incorrect state file.
 // For example, the state file might not reflect the exact state of the provisioned resources.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/CancelJob.go.html to see an example of how to use CancelJob API.
 // A default retry strategy applies to this operation CancelJob()
 func (client ResourceManagerClient) CancelJob(ctx context.Context, request CancelJobRequest) (response CancelJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -160,10 +215,6 @@ func (client ResourceManagerClient) cancelJob(ctx context.Context, request commo
 // ChangeConfigurationSourceProviderCompartment Moves a configuration source provider into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangeConfigurationSourceProviderCompartment.go.html to see an example of how to use ChangeConfigurationSourceProviderCompartment API.
 // A default retry strategy applies to this operation ChangeConfigurationSourceProviderCompartment()
 func (client ResourceManagerClient) ChangeConfigurationSourceProviderCompartment(ctx context.Context, request ChangeConfigurationSourceProviderCompartmentRequest) (response ChangeConfigurationSourceProviderCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -225,10 +276,6 @@ func (client ResourceManagerClient) changeConfigurationSourceProviderCompartment
 // ChangePrivateEndpointCompartment Moves a private endpoint to a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangePrivateEndpointCompartment.go.html to see an example of how to use ChangePrivateEndpointCompartment API.
 // A default retry strategy applies to this operation ChangePrivateEndpointCompartment()
 func (client ResourceManagerClient) ChangePrivateEndpointCompartment(ctx context.Context, request ChangePrivateEndpointCompartmentRequest) (response ChangePrivateEndpointCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -290,10 +337,6 @@ func (client ResourceManagerClient) changePrivateEndpointCompartment(ctx context
 // ChangeStackCompartment Moves a stack (and its associated jobs) into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangeStackCompartment.go.html to see an example of how to use ChangeStackCompartment API.
 // A default retry strategy applies to this operation ChangeStackCompartment()
 func (client ResourceManagerClient) ChangeStackCompartment(ctx context.Context, request ChangeStackCompartmentRequest) (response ChangeStackCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -355,10 +398,6 @@ func (client ResourceManagerClient) changeStackCompartment(ctx context.Context, 
 // ChangeTemplateCompartment Moves a template into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ChangeTemplateCompartment.go.html to see an example of how to use ChangeTemplateCompartment API.
 // A default retry strategy applies to this operation ChangeTemplateCompartment()
 func (client ResourceManagerClient) ChangeTemplateCompartment(ctx context.Context, request ChangeTemplateCompartmentRequest) (response ChangeTemplateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -419,11 +458,7 @@ func (client ResourceManagerClient) changeTemplateCompartment(ctx context.Contex
 
 // CreateConfigurationSourceProvider Creates a configuration source provider in the specified compartment.
 // For more information, see
-// To create a configuration source provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingconfigurationsourceproviders.htm#CreateConfigurationSourceProvider).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/CreateConfigurationSourceProvider.go.html to see an example of how to use CreateConfigurationSourceProvider API.
+// Creating a Configuration Source Provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-csp.htm).
 // A default retry strategy applies to this operation CreateConfigurationSourceProvider()
 func (client ResourceManagerClient) CreateConfigurationSourceProvider(ctx context.Context, request CreateConfigurationSourceProviderRequest) (response CreateConfigurationSourceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -483,10 +518,6 @@ func (client ResourceManagerClient) createConfigurationSourceProvider(ctx contex
 }
 
 // CreateJob Creates a job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/CreateJob.go.html to see an example of how to use CreateJob API.
 // A default retry strategy applies to this operation CreateJob()
 func (client ResourceManagerClient) CreateJob(ctx context.Context, request CreateJobRequest) (response CreateJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -546,10 +577,6 @@ func (client ResourceManagerClient) createJob(ctx context.Context, request commo
 }
 
 // CreatePrivateEndpoint Creates a private endpoint in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/CreatePrivateEndpoint.go.html to see an example of how to use CreatePrivateEndpoint API.
 // A default retry strategy applies to this operation CreatePrivateEndpoint()
 func (client ResourceManagerClient) CreatePrivateEndpoint(ctx context.Context, request CreatePrivateEndpointRequest) (response CreatePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -614,11 +641,7 @@ func (client ResourceManagerClient) createPrivateEndpoint(ctx context.Context, r
 // You can also create a stack from an existing compartment, which generates a Terraform configuration.
 // You can also upload the Terraform configuration from an Object Storage bucket.
 // For more information, see
-// Creating Stacks (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/CreateStack.go.html to see an example of how to use CreateStack API.
+// Creating a Stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-stack.htm).
 // A default retry strategy applies to this operation CreateStack()
 func (client ResourceManagerClient) CreateStack(ctx context.Context, request CreateStackRequest) (response CreateStackResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -678,10 +701,6 @@ func (client ResourceManagerClient) createStack(ctx context.Context, request com
 }
 
 // CreateTemplate Creates a private template in the specified compartment.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/CreateTemplate.go.html to see an example of how to use CreateTemplate API.
 // A default retry strategy applies to this operation CreateTemplate()
 func (client ResourceManagerClient) CreateTemplate(ctx context.Context, request CreateTemplateRequest) (response CreateTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -741,10 +760,6 @@ func (client ResourceManagerClient) createTemplate(ctx context.Context, request 
 }
 
 // DeleteConfigurationSourceProvider Deletes the specified configuration source provider.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/DeleteConfigurationSourceProvider.go.html to see an example of how to use DeleteConfigurationSourceProvider API.
 // A default retry strategy applies to this operation DeleteConfigurationSourceProvider()
 func (client ResourceManagerClient) DeleteConfigurationSourceProvider(ctx context.Context, request DeleteConfigurationSourceProviderRequest) (response DeleteConfigurationSourceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -799,10 +814,6 @@ func (client ResourceManagerClient) deleteConfigurationSourceProvider(ctx contex
 }
 
 // DeletePrivateEndpoint Deletes the specified private endpoint.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/DeletePrivateEndpoint.go.html to see an example of how to use DeletePrivateEndpoint API.
 // A default retry strategy applies to this operation DeletePrivateEndpoint()
 func (client ResourceManagerClient) DeletePrivateEndpoint(ctx context.Context, request DeletePrivateEndpointRequest) (response DeletePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -857,10 +868,6 @@ func (client ResourceManagerClient) deletePrivateEndpoint(ctx context.Context, r
 }
 
 // DeleteStack Deletes the specified stack.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/DeleteStack.go.html to see an example of how to use DeleteStack API.
 // A default retry strategy applies to this operation DeleteStack()
 func (client ResourceManagerClient) DeleteStack(ctx context.Context, request DeleteStackRequest) (response DeleteStackResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -915,10 +922,6 @@ func (client ResourceManagerClient) deleteStack(ctx context.Context, request com
 }
 
 // DeleteTemplate Deletes the specified template.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/DeleteTemplate.go.html to see an example of how to use DeleteTemplate API.
 // A default retry strategy applies to this operation DeleteTemplate()
 func (client ResourceManagerClient) DeleteTemplate(ctx context.Context, request DeleteTemplateRequest) (response DeleteTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -973,10 +976,6 @@ func (client ResourceManagerClient) deleteTemplate(ctx context.Context, request 
 }
 
 // DetectStackDrift Checks drift status for the specified stack.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/DetectStackDrift.go.html to see an example of how to use DetectStackDrift API.
 // A default retry strategy applies to this operation DetectStackDrift()
 func (client ResourceManagerClient) DetectStackDrift(ctx context.Context, request DetectStackDriftRequest) (response DetectStackDriftResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1036,10 +1035,6 @@ func (client ResourceManagerClient) detectStackDrift(ctx context.Context, reques
 }
 
 // GetConfigurationSourceProvider Gets the properties of the specified configuration source provider.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetConfigurationSourceProvider.go.html to see an example of how to use GetConfigurationSourceProvider API.
 // A default retry strategy applies to this operation GetConfigurationSourceProvider()
 func (client ResourceManagerClient) GetConfigurationSourceProvider(ctx context.Context, request GetConfigurationSourceProviderRequest) (response GetConfigurationSourceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1094,10 +1089,6 @@ func (client ResourceManagerClient) getConfigurationSourceProvider(ctx context.C
 }
 
 // GetJob Gets the properties of the specified job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJob.go.html to see an example of how to use GetJob API.
 // A default retry strategy applies to this operation GetJob()
 func (client ResourceManagerClient) GetJob(ctx context.Context, request GetJobRequest) (response GetJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1152,10 +1143,6 @@ func (client ResourceManagerClient) getJob(ctx context.Context, request common.O
 }
 
 // GetJobDetailedLogContent Returns the Terraform detailed log content for the specified job in plain text. Learn about Terraform detailed log. (https://www.terraform.io/docs/internals/debugging.html)
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobDetailedLogContent.go.html to see an example of how to use GetJobDetailedLogContent API.
 // A default retry strategy applies to this operation GetJobDetailedLogContent()
 func (client ResourceManagerClient) GetJobDetailedLogContent(ctx context.Context, request GetJobDetailedLogContentRequest) (response GetJobDetailedLogContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1210,10 +1197,6 @@ func (client ResourceManagerClient) getJobDetailedLogContent(ctx context.Context
 }
 
 // GetJobLogs Returns console log entries for the specified job in JSON format.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobLogs.go.html to see an example of how to use GetJobLogs API.
 // A default retry strategy applies to this operation GetJobLogs()
 func (client ResourceManagerClient) GetJobLogs(ctx context.Context, request GetJobLogsRequest) (response GetJobLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1269,10 +1252,6 @@ func (client ResourceManagerClient) getJobLogs(ctx context.Context, request comm
 
 // GetJobLogsContent Returns the raw log file for the specified job in text format.
 // The file includes a maximum of 100,000 log entries.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobLogsContent.go.html to see an example of how to use GetJobLogsContent API.
 // A default retry strategy applies to this operation GetJobLogsContent()
 func (client ResourceManagerClient) GetJobLogsContent(ctx context.Context, request GetJobLogsContentRequest) (response GetJobLogsContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1328,10 +1307,6 @@ func (client ResourceManagerClient) getJobLogsContent(ctx context.Context, reque
 
 // GetJobTfConfig Returns the Terraform configuration for the specified job in zip format.
 // If no zip file is found, returns an error.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobTfConfig.go.html to see an example of how to use GetJobTfConfig API.
 // A default retry strategy applies to this operation GetJobTfConfig()
 func (client ResourceManagerClient) GetJobTfConfig(ctx context.Context, request GetJobTfConfigRequest) (response GetJobTfConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1386,11 +1361,7 @@ func (client ResourceManagerClient) getJobTfConfig(ctx context.Context, request 
 
 // GetJobTfPlan Returns the output of the specified Terraform plan job in binary or JSON format.
 // For information about running Terraform plan jobs, see
-// Creating Plan Jobs (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobTfPlan.go.html to see an example of how to use GetJobTfPlan API.
+// Creating a Plan Job (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/create-job-plan.htm).
 // A default retry strategy applies to this operation GetJobTfPlan()
 func (client ResourceManagerClient) GetJobTfPlan(ctx context.Context, request GetJobTfPlanRequest) (response GetJobTfPlanResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1444,10 +1415,6 @@ func (client ResourceManagerClient) getJobTfPlan(ctx context.Context, request co
 }
 
 // GetJobTfState Returns the Terraform state for the specified job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetJobTfState.go.html to see an example of how to use GetJobTfState API.
 // A default retry strategy applies to this operation GetJobTfState()
 func (client ResourceManagerClient) GetJobTfState(ctx context.Context, request GetJobTfStateRequest) (response GetJobTfStateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1501,10 +1468,6 @@ func (client ResourceManagerClient) getJobTfState(ctx context.Context, request c
 }
 
 // GetPrivateEndpoint Gets the specified private endpoint.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetPrivateEndpoint.go.html to see an example of how to use GetPrivateEndpoint API.
 // A default retry strategy applies to this operation GetPrivateEndpoint()
 func (client ResourceManagerClient) GetPrivateEndpoint(ctx context.Context, request GetPrivateEndpointRequest) (response GetPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1560,10 +1523,6 @@ func (client ResourceManagerClient) getPrivateEndpoint(ctx context.Context, requ
 
 // GetReachableIp Gets the reachable, or alternative, IP address for a nonpublic IP address that is associated with the private endpoint.
 // Resource Manager uses this IP address to connect to nonpublic resources through the associated private endpoint.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetReachableIp.go.html to see an example of how to use GetReachableIp API.
 // A default retry strategy applies to this operation GetReachableIp()
 func (client ResourceManagerClient) GetReachableIp(ctx context.Context, request GetReachableIpRequest) (response GetReachableIpResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1623,10 +1582,6 @@ func (client ResourceManagerClient) getReachableIp(ctx context.Context, request 
 }
 
 // GetStack Gets the specified stack.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetStack.go.html to see an example of how to use GetStack API.
 // A default retry strategy applies to this operation GetStack()
 func (client ResourceManagerClient) GetStack(ctx context.Context, request GetStackRequest) (response GetStackResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1682,10 +1637,6 @@ func (client ResourceManagerClient) getStack(ctx context.Context, request common
 
 // GetStackTfConfig Returns the Terraform configuration file for the specified stack in zip format.
 // Returns an error if no zip file is found.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetStackTfConfig.go.html to see an example of how to use GetStackTfConfig API.
 // A default retry strategy applies to this operation GetStackTfConfig()
 func (client ResourceManagerClient) GetStackTfConfig(ctx context.Context, request GetStackTfConfigRequest) (response GetStackTfConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1739,10 +1690,6 @@ func (client ResourceManagerClient) getStackTfConfig(ctx context.Context, reques
 }
 
 // GetStackTfState Returns the Terraform state for the specified stack.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetStackTfState.go.html to see an example of how to use GetStackTfState API.
 // A default retry strategy applies to this operation GetStackTfState()
 func (client ResourceManagerClient) GetStackTfState(ctx context.Context, request GetStackTfStateRequest) (response GetStackTfStateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1796,10 +1743,6 @@ func (client ResourceManagerClient) getStackTfState(ctx context.Context, request
 }
 
 // GetTemplate Gets the specified template.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetTemplate.go.html to see an example of how to use GetTemplate API.
 // A default retry strategy applies to this operation GetTemplate()
 func (client ResourceManagerClient) GetTemplate(ctx context.Context, request GetTemplateRequest) (response GetTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1855,10 +1798,6 @@ func (client ResourceManagerClient) getTemplate(ctx context.Context, request com
 
 // GetTemplateLogo Returns the Terraform logo file in .logo format for the specified template.
 // Returns an error if no logo file is found.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetTemplateLogo.go.html to see an example of how to use GetTemplateLogo API.
 // A default retry strategy applies to this operation GetTemplateLogo()
 func (client ResourceManagerClient) GetTemplateLogo(ctx context.Context, request GetTemplateLogoRequest) (response GetTemplateLogoResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1913,10 +1852,6 @@ func (client ResourceManagerClient) getTemplateLogo(ctx context.Context, request
 
 // GetTemplateTfConfig Returns the Terraform configuration file in zip format for the specified template.
 // Returns an error if no zip file is found.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetTemplateTfConfig.go.html to see an example of how to use GetTemplateTfConfig API.
 // A default retry strategy applies to this operation GetTemplateTfConfig()
 func (client ResourceManagerClient) GetTemplateTfConfig(ctx context.Context, request GetTemplateTfConfigRequest) (response GetTemplateTfConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1970,10 +1905,6 @@ func (client ResourceManagerClient) getTemplateTfConfig(ctx context.Context, req
 }
 
 // GetWorkRequest Returns the specified work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ResourceManagerClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2030,10 +1961,6 @@ func (client ResourceManagerClient) getWorkRequest(ctx context.Context, request 
 // ListConfigurationSourceProviders Lists configuration source providers according to the specified filter.
 // - For `compartmentId`, lists all configuration source providers in the matching compartment.
 // - For `configurationSourceProviderId`, lists the matching configuration source provider.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListConfigurationSourceProviders.go.html to see an example of how to use ListConfigurationSourceProviders API.
 // A default retry strategy applies to this operation ListConfigurationSourceProviders()
 func (client ResourceManagerClient) ListConfigurationSourceProviders(ctx context.Context, request ListConfigurationSourceProvidersRequest) (response ListConfigurationSourceProvidersResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2088,10 +2015,6 @@ func (client ResourceManagerClient) listConfigurationSourceProviders(ctx context
 }
 
 // ListJobAssociatedResources Gets the list of resources associated with the specified job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListJobAssociatedResources.go.html to see an example of how to use ListJobAssociatedResources API.
 // A default retry strategy applies to this operation ListJobAssociatedResources()
 func (client ResourceManagerClient) ListJobAssociatedResources(ctx context.Context, request ListJobAssociatedResourcesRequest) (response ListJobAssociatedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2146,10 +2069,6 @@ func (client ResourceManagerClient) listJobAssociatedResources(ctx context.Conte
 }
 
 // ListJobOutputs Gets the list of outputs associated with the specified job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListJobOutputs.go.html to see an example of how to use ListJobOutputs API.
 // A default retry strategy applies to this operation ListJobOutputs()
 func (client ResourceManagerClient) ListJobOutputs(ctx context.Context, request ListJobOutputsRequest) (response ListJobOutputsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2207,10 +2126,6 @@ func (client ResourceManagerClient) listJobOutputs(ctx context.Context, request 
 // - To list all jobs in a stack, provide the stack OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // - To list all jobs in a compartment, provide the compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // - To return a specific job, provide the job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). (Equivalent to GetStack.)
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListJobs.go.html to see an example of how to use ListJobs API.
 // A default retry strategy applies to this operation ListJobs()
 func (client ResourceManagerClient) ListJobs(ctx context.Context, request ListJobsRequest) (response ListJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2267,10 +2182,6 @@ func (client ResourceManagerClient) listJobs(ctx context.Context, request common
 // ListPrivateEndpoints Lists private endpoints according to the specified filter.
 // - For `compartmentId`, lists all private endpoints in the matching compartment.
 // - For `privateEndpointId`, lists the matching private endpoint.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListPrivateEndpoints.go.html to see an example of how to use ListPrivateEndpoints API.
 // A default retry strategy applies to this operation ListPrivateEndpoints()
 func (client ResourceManagerClient) ListPrivateEndpoints(ctx context.Context, request ListPrivateEndpointsRequest) (response ListPrivateEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2326,10 +2237,6 @@ func (client ResourceManagerClient) listPrivateEndpoints(ctx context.Context, re
 
 // ListResourceDiscoveryServices Returns a list of supported services for Resource Discovery (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resource-discovery.htm).
 // For reference on service names, see the Terraform provider documentation (https://www.terraform.io/docs/providers/oci/guides/resource_discovery.html#services).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListResourceDiscoveryServices.go.html to see an example of how to use ListResourceDiscoveryServices API.
 // A default retry strategy applies to this operation ListResourceDiscoveryServices()
 func (client ResourceManagerClient) ListResourceDiscoveryServices(ctx context.Context, request ListResourceDiscoveryServicesRequest) (response ListResourceDiscoveryServicesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2384,10 +2291,6 @@ func (client ResourceManagerClient) listResourceDiscoveryServices(ctx context.Co
 }
 
 // ListStackAssociatedResources Gets the list of resources associated with the specified stack.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListStackAssociatedResources.go.html to see an example of how to use ListStackAssociatedResources API.
 // A default retry strategy applies to this operation ListStackAssociatedResources()
 func (client ResourceManagerClient) ListStackAssociatedResources(ctx context.Context, request ListStackAssociatedResourcesRequest) (response ListStackAssociatedResourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2446,10 +2349,6 @@ func (client ResourceManagerClient) listStackAssociatedResources(ctx context.Con
 // and the expected (defined) state for that resource.
 // The drift status details correspond to the specified work request (`workRequestId`).
 // If no work request is specified, then the drift status details correspond to the latest completed work request for the stack.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListStackResourceDriftDetails.go.html to see an example of how to use ListStackResourceDriftDetails API.
 // A default retry strategy applies to this operation ListStackResourceDriftDetails()
 func (client ResourceManagerClient) ListStackResourceDriftDetails(ctx context.Context, request ListStackResourceDriftDetailsRequest) (response ListStackResourceDriftDetailsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2506,10 +2405,6 @@ func (client ResourceManagerClient) listStackResourceDriftDetails(ctx context.Co
 // ListStacks Lists stacks according to the specified filter.
 // - If called using the compartment ID, returns all stacks in the specified compartment.
 // - If called using the stack ID, returns the specified stack. (See also GetStack.)
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListStacks.go.html to see an example of how to use ListStacks API.
 // A default retry strategy applies to this operation ListStacks()
 func (client ResourceManagerClient) ListStacks(ctx context.Context, request ListStacksRequest) (response ListStacksResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2564,10 +2459,6 @@ func (client ResourceManagerClient) listStacks(ctx context.Context, request comm
 }
 
 // ListTemplateCategories Lists template categories.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListTemplateCategories.go.html to see an example of how to use ListTemplateCategories API.
 // A default retry strategy applies to this operation ListTemplateCategories()
 func (client ResourceManagerClient) ListTemplateCategories(ctx context.Context, request ListTemplateCategoriesRequest) (response ListTemplateCategoriesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2623,10 +2514,6 @@ func (client ResourceManagerClient) listTemplateCategories(ctx context.Context, 
 
 // ListTemplates Lists templates according to the specified filter.
 // The attributes `compartmentId` and `templateCategoryId` are required unless `templateId` is specified.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListTemplates.go.html to see an example of how to use ListTemplates API.
 // A default retry strategy applies to this operation ListTemplates()
 func (client ResourceManagerClient) ListTemplates(ctx context.Context, request ListTemplatesRequest) (response ListTemplatesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2681,10 +2568,6 @@ func (client ResourceManagerClient) listTemplates(ctx context.Context, request c
 }
 
 // ListTerraformVersions Returns a list of supported Terraform versions for use with stacks.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListTerraformVersions.go.html to see an example of how to use ListTerraformVersions API.
 // A default retry strategy applies to this operation ListTerraformVersions()
 func (client ResourceManagerClient) ListTerraformVersions(ctx context.Context, request ListTerraformVersionsRequest) (response ListTerraformVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2739,10 +2622,6 @@ func (client ResourceManagerClient) listTerraformVersions(ctx context.Context, r
 }
 
 // ListWorkRequestErrors Returns a paginated list of errors for the specified work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ResourceManagerClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2797,10 +2676,6 @@ func (client ResourceManagerClient) listWorkRequestErrors(ctx context.Context, r
 }
 
 // ListWorkRequestLogs Returns a paginated list of logs for the specified work request.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ResourceManagerClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2855,10 +2730,6 @@ func (client ResourceManagerClient) listWorkRequestLogs(ctx context.Context, req
 }
 
 // ListWorkRequests Lists the work requests in the specified compartment or for the specified resource.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ResourceManagerClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2912,13 +2783,68 @@ func (client ResourceManagerClient) listWorkRequests(ctx context.Context, reques
 	return response, err
 }
 
+// RemoveStackLock Removes a lock from a stack resource.
+// A default retry strategy applies to this operation RemoveStackLock()
+func (client ResourceManagerClient) RemoveStackLock(ctx context.Context, request RemoveStackLockRequest) (response RemoveStackLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeStackLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveStackLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveStackLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveStackLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveStackLockResponse")
+	}
+	return
+}
+
+// removeStackLock implements the OCIOperation interface (enables retrying operations)
+func (client ResourceManagerClient) removeStackLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/stacks/{stackId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveStackLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/resourcemanager/20180917/Stack/RemoveStackLock"
+		err = common.PostProcessServiceError(err, "ResourceManager", "RemoveStackLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateConfigurationSourceProvider Updates the properties of the specified configuration source provider.
 // For more information, see
-// To edit a configuration source provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/managingconfigurationsourceproviders.htm#EditConfigurationSourceProvider).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/UpdateConfigurationSourceProvider.go.html to see an example of how to use UpdateConfigurationSourceProvider API.
+// Updating a Configuration Source Provider (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-csp.htm).
 // A default retry strategy applies to this operation UpdateConfigurationSourceProvider()
 func (client ResourceManagerClient) UpdateConfigurationSourceProvider(ctx context.Context, request UpdateConfigurationSourceProviderRequest) (response UpdateConfigurationSourceProviderResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2973,10 +2899,6 @@ func (client ResourceManagerClient) updateConfigurationSourceProvider(ctx contex
 }
 
 // UpdateJob Updates the specified job.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/UpdateJob.go.html to see an example of how to use UpdateJob API.
 // A default retry strategy applies to this operation UpdateJob()
 func (client ResourceManagerClient) UpdateJob(ctx context.Context, request UpdateJobRequest) (response UpdateJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3031,10 +2953,6 @@ func (client ResourceManagerClient) updateJob(ctx context.Context, request commo
 }
 
 // UpdatePrivateEndpoint Updates the specified private endpoint.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/UpdatePrivateEndpoint.go.html to see an example of how to use UpdatePrivateEndpoint API.
 // A default retry strategy applies to this operation UpdatePrivateEndpoint()
 func (client ResourceManagerClient) UpdatePrivateEndpoint(ctx context.Context, request UpdatePrivateEndpointRequest) (response UpdatePrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3092,11 +3010,7 @@ func (client ResourceManagerClient) updatePrivateEndpoint(ctx context.Context, r
 // Use `UpdateStack` when you update your Terraform configuration
 // and want your changes to be reflected in the execution plan.
 // For more information, see
-// Updating Stacks (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm).
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/UpdateStack.go.html to see an example of how to use UpdateStack API.
+// Updating a Stack (https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Tasks/update-stack.htm).
 // A default retry strategy applies to this operation UpdateStack()
 func (client ResourceManagerClient) UpdateStack(ctx context.Context, request UpdateStackRequest) (response UpdateStackResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3151,10 +3065,6 @@ func (client ResourceManagerClient) updateStack(ctx context.Context, request com
 }
 
 // UpdateTemplate Updates the specified template.
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/resourcemanager/UpdateTemplate.go.html to see an example of how to use UpdateTemplate API.
 // A default retry strategy applies to this operation UpdateTemplate()
 func (client ResourceManagerClient) UpdateTemplate(ctx context.Context, request UpdateTemplateRequest) (response UpdateTemplateResponse, err error) {
 	var ociResponse common.OCIResponse

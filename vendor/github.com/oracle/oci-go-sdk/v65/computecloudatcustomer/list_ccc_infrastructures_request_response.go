@@ -12,10 +12,6 @@ import (
 )
 
 // ListCccInfrastructuresRequest wrapper for the ListCccInfrastructures operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/computecloudatcustomer/ListCccInfrastructures.go.html to see an example of how to use ListCccInfrastructuresRequest.
 type ListCccInfrastructuresRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to

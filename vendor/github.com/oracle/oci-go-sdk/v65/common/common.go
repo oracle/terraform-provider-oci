@@ -88,7 +88,6 @@ func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate
 		endpoint, error := region.EndpointForTemplateDottedRegion(service, serviceEndpointTemplate, "")
 		if error != nil {
 			Debugf("%v", error)
-
 			return ""
 		}
 		return endpoint
@@ -98,11 +97,8 @@ func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate
 		return region.Endpoint(service)
 	}
 
-	// replace service prefix
-	endpoint := strings.Replace(serviceEndpointTemplate, "{serviceEndpointPrefix}", service, 1)
-
 	// replace region
-	endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
+	endpoint := strings.Replace(serviceEndpointTemplate, "{region}", string(region), 1)
 
 	// replace second level domain
 	endpoint = strings.Replace(endpoint, "{secondLevelDomain}", region.secondLevelDomain(), 1)
@@ -110,7 +106,7 @@ func (region Region) EndpointForTemplate(service string, serviceEndpointTemplate
 	return endpoint
 }
 
-// EndpointForTemplateDottedRegion returns a endpoint for a service based on the service name and EndpointTemplateForRegionWithDot template. If a service name is missing it is obtained from serviceEndpointTemplate and endpoint is constructed usingEndpointTemplateForRegionWithDot template.
+// EndpointForTemplateDottedRegion returns an endpoint for a service based on the service name and EndpointTemplateForRegionWithDot template. If a service name is missing it is obtained from serviceEndpointTemplate and endpoint is constructed usingEndpointTemplateForRegionWithDot template.
 func (region Region) EndpointForTemplateDottedRegion(service string, serviceEndpointTemplate string, endpointServiceName string) (string, error) {
 	if !strings.Contains(string(region), ".") {
 		var endpoint = ""
@@ -121,7 +117,6 @@ func (region Region) EndpointForTemplateDottedRegion(service string, serviceEndp
 		endpoint = region.EndpointForTemplate(service, "")
 		return endpoint, nil
 	}
-
 	if endpointServiceName != "" {
 		endpoint := strings.Replace(EndpointTemplateForRegionWithDot, "{endpoint_service_name}", endpointServiceName, 1)
 		endpoint = strings.Replace(endpoint, "{region}", string(region), 1)
@@ -357,7 +352,7 @@ func readAndParseConfigFile(configFileName *string) (fileContent []map[string]st
 	if content, err := ioutil.ReadFile(*configFileName); err == nil {
 		Debugf("Raw content of region metadata config file content:", string(content[:]))
 		if err := json.Unmarshal(content, &fileContent); err != nil {
-			Debugf("Can't unmarshal config file, the error info is", err)
+			Debugf("Can't unmarshal env var, the error info is", err)
 			return
 		}
 		ok = true

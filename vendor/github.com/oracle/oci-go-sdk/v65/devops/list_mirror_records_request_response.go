@@ -12,10 +12,6 @@ import (
 )
 
 // ListMirrorRecordsRequest wrapper for the ListMirrorRecords operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/devops/ListMirrorRecords.go.html to see an example of how to use ListMirrorRecordsRequest.
 type ListMirrorRecordsRequest struct {
 
 	// Unique repository identifier.

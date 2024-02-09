@@ -12,10 +12,6 @@ import (
 )
 
 // DeleteScheduleRequest wrapper for the DeleteSchedule operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteSchedule.go.html to see an example of how to use DeleteScheduleRequest.
 type DeleteScheduleRequest struct {
 
 	// The schedule unique OCID.

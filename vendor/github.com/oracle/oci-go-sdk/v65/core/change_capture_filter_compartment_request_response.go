@@ -12,10 +12,6 @@ import (
 )
 
 // ChangeCaptureFilterCompartmentRequest wrapper for the ChangeCaptureFilterCompartment operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeCaptureFilterCompartment.go.html to see an example of how to use ChangeCaptureFilterCompartmentRequest.
 type ChangeCaptureFilterCompartmentRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the capture filter.

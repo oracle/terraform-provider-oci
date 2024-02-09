@@ -12,10 +12,6 @@ import (
 )
 
 // GenerateScopedAccessTokenRequest wrapper for the GenerateScopedAccessToken operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/identitydataplane/GenerateScopedAccessToken.go.html to see an example of how to use GenerateScopedAccessTokenRequest.
 type GenerateScopedAccessTokenRequest struct {
 
 	// Scoped access token request

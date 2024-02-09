@@ -12,10 +12,6 @@ import (
 )
 
 // ListUrlListsRequest wrapper for the ListUrlLists operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListUrlLists.go.html to see an example of how to use ListUrlListsRequest.
 type ListUrlListsRequest struct {
 
 	// Unique Network Firewall Policy identifier

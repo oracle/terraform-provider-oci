@@ -12,10 +12,6 @@ import (
 )
 
 // ListDefaultConfigurationsRequest wrapper for the ListDefaultConfigurations operation
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/psql/ListDefaultConfigurations.go.html to see an example of how to use ListDefaultConfigurationsRequest.
 type ListDefaultConfigurationsRequest struct {
 
 	// A filter to return only resources if their `lifecycleState` matches the given `lifecycleState`.

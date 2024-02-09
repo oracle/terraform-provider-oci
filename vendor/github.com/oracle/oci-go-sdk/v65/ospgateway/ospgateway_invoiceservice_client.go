@@ -67,7 +67,7 @@ func newInvoiceServiceClientFromBaseClient(baseClient common.BaseClient, configP
 
 // SetRegion overrides the region of this client.
 func (client *InvoiceServiceClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("ospgateway", "https://ospap.oracle.com")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("ospgateway", "https://osp-oci-integ.osp.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,10 +92,6 @@ func (client *InvoiceServiceClient) ConfigurationProvider() *common.Configuratio
 }
 
 // DownloadPdfContent Returns an invoice in pdf format
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/DownloadPdfContent.go.html to see an example of how to use DownloadPdfContent API.
 // A default retry strategy applies to this operation DownloadPdfContent()
 func (client InvoiceServiceClient) DownloadPdfContent(ctx context.Context, request DownloadPdfContentRequest) (response DownloadPdfContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -149,10 +145,6 @@ func (client InvoiceServiceClient) downloadPdfContent(ctx context.Context, reque
 }
 
 // GetInvoice Returns an invoice by invoice id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/GetInvoice.go.html to see an example of how to use GetInvoice API.
 // A default retry strategy applies to this operation GetInvoice()
 func (client InvoiceServiceClient) GetInvoice(ctx context.Context, request GetInvoiceRequest) (response GetInvoiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -207,10 +199,6 @@ func (client InvoiceServiceClient) getInvoice(ctx context.Context, request commo
 }
 
 // ListInvoiceLines Returns the invoice product list by invoice id
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListInvoiceLines.go.html to see an example of how to use ListInvoiceLines API.
 // A default retry strategy applies to this operation ListInvoiceLines()
 func (client InvoiceServiceClient) ListInvoiceLines(ctx context.Context, request ListInvoiceLinesRequest) (response ListInvoiceLinesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -265,10 +253,6 @@ func (client InvoiceServiceClient) listInvoiceLines(ctx context.Context, request
 }
 
 // ListInvoices Returns a list of invoices
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/ListInvoices.go.html to see an example of how to use ListInvoices API.
 // A default retry strategy applies to this operation ListInvoices()
 func (client InvoiceServiceClient) ListInvoices(ctx context.Context, request ListInvoicesRequest) (response ListInvoicesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -323,10 +307,6 @@ func (client InvoiceServiceClient) listInvoices(ctx context.Context, request com
 }
 
 // PayInvoice Pay an invoice
-//
-// # See also
-//
-// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/ospgateway/PayInvoice.go.html to see an example of how to use PayInvoice API.
 // A default retry strategy applies to this operation PayInvoice()
 func (client InvoiceServiceClient) PayInvoice(ctx context.Context, request PayInvoiceRequest) (response PayInvoiceResponse, err error) {
 	var ociResponse common.OCIResponse

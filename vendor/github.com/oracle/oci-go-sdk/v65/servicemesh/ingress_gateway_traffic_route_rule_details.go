@@ -59,6 +59,10 @@ func (m *ingressgatewaytrafficrouteruledetails) UnmarshalPolymorphicJSON(data []
 
 	var err error
 	switch m.Type {
+	case "GRPC":
+		mm := GrpcIngressGatewayTrafficRouteRuleDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "TLS_PASSTHROUGH":
 		mm := TlsPassthroughIngressGatewayTrafficRouteRuleDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -111,18 +115,21 @@ const (
 	IngressGatewayTrafficRouteRuleDetailsTypeHttp           IngressGatewayTrafficRouteRuleDetailsTypeEnum = "HTTP"
 	IngressGatewayTrafficRouteRuleDetailsTypeTlsPassthrough IngressGatewayTrafficRouteRuleDetailsTypeEnum = "TLS_PASSTHROUGH"
 	IngressGatewayTrafficRouteRuleDetailsTypeTcp            IngressGatewayTrafficRouteRuleDetailsTypeEnum = "TCP"
+	IngressGatewayTrafficRouteRuleDetailsTypeGrpc           IngressGatewayTrafficRouteRuleDetailsTypeEnum = "GRPC"
 )
 
 var mappingIngressGatewayTrafficRouteRuleDetailsTypeEnum = map[string]IngressGatewayTrafficRouteRuleDetailsTypeEnum{
 	"HTTP":            IngressGatewayTrafficRouteRuleDetailsTypeHttp,
 	"TLS_PASSTHROUGH": IngressGatewayTrafficRouteRuleDetailsTypeTlsPassthrough,
 	"TCP":             IngressGatewayTrafficRouteRuleDetailsTypeTcp,
+	"GRPC":            IngressGatewayTrafficRouteRuleDetailsTypeGrpc,
 }
 
 var mappingIngressGatewayTrafficRouteRuleDetailsTypeEnumLowerCase = map[string]IngressGatewayTrafficRouteRuleDetailsTypeEnum{
 	"http":            IngressGatewayTrafficRouteRuleDetailsTypeHttp,
 	"tls_passthrough": IngressGatewayTrafficRouteRuleDetailsTypeTlsPassthrough,
 	"tcp":             IngressGatewayTrafficRouteRuleDetailsTypeTcp,
+	"grpc":            IngressGatewayTrafficRouteRuleDetailsTypeGrpc,
 }
 
 // GetIngressGatewayTrafficRouteRuleDetailsTypeEnumValues Enumerates the set of values for IngressGatewayTrafficRouteRuleDetailsTypeEnum
@@ -140,6 +147,7 @@ func GetIngressGatewayTrafficRouteRuleDetailsTypeEnumStringValues() []string {
 		"HTTP",
 		"TLS_PASSTHROUGH",
 		"TCP",
+		"GRPC",
 	}
 }
 
