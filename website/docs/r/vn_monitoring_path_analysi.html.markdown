@@ -85,7 +85,7 @@ The following arguments are supported:
 * `cache_control` - (Optional) The Cache-Control HTTP header holds directives (instructions) for caching in both requests and responses. 
 * `compartment_id` - (Required when type=ADHOC_QUERY) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the compartment.
 * `destination_endpoint` - (Required when type=ADHOC_QUERY) Information describing a source or destination in a `PathAnalyzerTest` resource. 
-	* `address` - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | SUBNET | VLAN | VNIC) The IPv4 address of the COMPUTE_INSTANCE-type `Endpoint` object. 
+	* `address` - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | ON_PREM | SUBNET | VLAN | VNIC) The IPv4 address of the COMPUTE_INSTANCE-type `Endpoint` object. 
 	* `instance_id` - (Required when type=COMPUTE_INSTANCE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute instance. 
 	* `listener_id` - (Required when type=LOAD_BALANCER_LISTENER | NETWORK_LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer listener. 
 	* `load_balancer_id` - (Required when type=LOAD_BALANCER | LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listener's load balancer. 
@@ -105,7 +105,7 @@ The following arguments are supported:
 * `query_options` - (Applicable when type=ADHOC_QUERY) Defines the query options required for a `PathAnalyzerTest` resource.
 	* `is_bi_directional_analysis` - (Applicable when type=ADHOC_QUERY) If true, a path analysis is done for both the forward and reverse routes.
 * `source_endpoint` - (Required when type=ADHOC_QUERY) Information describing a source or destination in a `PathAnalyzerTest` resource. 
-	* `address` - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | SUBNET | VLAN | VNIC) The IPv4 address of the COMPUTE_INSTANCE-type `Endpoint` object. 
+	* `address` - (Required when type=COMPUTE_INSTANCE | IP_ADDRESS | ON_PREM | SUBNET | VLAN | VNIC) The IPv4 address of the COMPUTE_INSTANCE-type `Endpoint` object. 
 	* `instance_id` - (Required when type=COMPUTE_INSTANCE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute instance. 
 	* `listener_id` - (Required when type=LOAD_BALANCER_LISTENER | NETWORK_LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer listener. 
 	* `load_balancer_id` - (Required when type=LOAD_BALANCER | LOAD_BALANCER_LISTENER) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the listener's load balancer. 

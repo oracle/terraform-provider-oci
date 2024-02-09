@@ -77,6 +77,7 @@ func VnMonitoringPathAnalysiResource() *schema.Resource {
 								"LOAD_BALANCER_LISTENER",
 								"NETWORK_LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER_LISTENER",
+								"ON_PREM",
 								"SUBNET",
 								"VLAN",
 								"VNIC",
@@ -251,6 +252,7 @@ func VnMonitoringPathAnalysiResource() *schema.Resource {
 								"LOAD_BALANCER_LISTENER",
 								"NETWORK_LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER_LISTENER",
+								"ON_PREM",
 								"SUBNET",
 								"VLAN",
 								"VNIC",
@@ -567,6 +569,13 @@ func (s *VnMonitoringPathAnalysiResourceCrud) mapToEndpoint(fieldKeyFormat strin
 		if networkLoadBalancerId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_load_balancer_id")); ok {
 			tmp := networkLoadBalancerId.(string)
 			details.NetworkLoadBalancerId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ON_PREM"):
+		details := oci_vn_monitoring.OnPremEndpoint{}
+		if address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address")); ok {
+			tmp := address.(string)
+			details.Address = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("SUBNET"):
