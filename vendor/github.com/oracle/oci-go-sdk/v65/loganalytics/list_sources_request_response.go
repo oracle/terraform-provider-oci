@@ -57,6 +57,9 @@ type ListSourcesRequest struct {
 	// is case-insensitive.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
+	// The source type.
+	SourceType *string `mandatory:"false" contributesTo:"query" name:"sourceType"`
+
 	// A comma-separated list of categories used for filtering
 	Categories *string `mandatory:"false" contributesTo:"query" name:"categories"`
 
