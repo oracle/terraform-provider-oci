@@ -15,44 +15,43 @@ import (
 	"strings"
 )
 
-// LabelSourceSummary source summary
-type LabelSourceSummary struct {
+// DependentSource A source that uses the parser, either directly or indirectly.
+type DependentSource struct {
+
+	// The source name.
+	SourceName *string `mandatory:"false" json:"sourceName"`
 
 	// The source display name.
 	SourceDisplayName *string `mandatory:"false" json:"sourceDisplayName"`
 
-	// The source internal name.
-	SourceName *string `mandatory:"false" json:"sourceName"`
-
 	// The source unique identifier.
 	SourceId *int64 `mandatory:"false" json:"sourceId"`
 
-	// The label operator.
-	LabelOperatorName *string `mandatory:"false" json:"labelOperatorName"`
+	// The source type.
+	SourceType *string `mandatory:"false" json:"sourceType"`
 
-	// The label condition.
-	LabelCondition *string `mandatory:"false" json:"labelCondition"`
+	// The system flag.  A value of false denotes a custom, or user
+	// defined object.  A value of true denotes a built in object.
+	IsSystem *bool `mandatory:"false" json:"isSystem"`
 
-	// String representation of the label condition.
-	ConditionString *string `mandatory:"false" json:"conditionString"`
+	// A flag indicating whether or not the source is marked for auto association.
+	IsAutoAssociationEnabled *bool `mandatory:"false" json:"isAutoAssociationEnabled"`
 
-	ConditionBlock *ConditionBlock `mandatory:"false" json:"conditionBlock"`
+	// The entity types.
+	EntityTypes []LogAnalyticsSourceEntityType `mandatory:"false" json:"entityTypes"`
 
-	// The label field display name.
-	LabelFieldDisplayname *string `mandatory:"false" json:"labelFieldDisplayname"`
-
-	// The label field name.
-	LabelFieldName *string `mandatory:"false" json:"labelFieldName"`
+	// The list of dependencies defined by the source.
+	Dependencies []Dependency `mandatory:"false" json:"dependencies"`
 }
 
-func (m LabelSourceSummary) String() string {
+func (m DependentSource) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m LabelSourceSummary) ValidateEnumValue() (bool, error) {
+func (m DependentSource) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

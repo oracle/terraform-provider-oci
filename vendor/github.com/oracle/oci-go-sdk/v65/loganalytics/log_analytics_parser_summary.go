@@ -113,6 +113,9 @@ type LogAnalyticsParserSummary struct {
 
 	// A flag indicating whether the XML parser should consider the namespace(s) while processing the log data.
 	IsNamespaceAware *bool `mandatory:"false" json:"isNamespaceAware"`
+
+	// A flag indicating whether the parser is positionally aware.
+	IsPositionAware *bool `mandatory:"false" json:"isPositionAware"`
 }
 
 func (m LogAnalyticsParserSummary) String() string {

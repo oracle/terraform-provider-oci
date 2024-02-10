@@ -28,6 +28,9 @@ type ChangeDisasterRecoveryConfigurationDetails struct {
 
 	// Indicates if user wants to convert to a snapshot standby. For example, true would set a standby database to snapshot standby database. False would set a snapshot standby database back to regular standby database.
 	IsSnapshotStandby *bool `mandatory:"false" json:"isSnapshotStandby"`
+
+	// If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
+	IsReplicateAutomaticBackups *bool `mandatory:"false" json:"isReplicateAutomaticBackups"`
 }
 
 func (m ChangeDisasterRecoveryConfigurationDetails) String() string {

@@ -31,6 +31,8 @@ type ParseQueryOutput struct {
 	// Operation response time.
 	ResponseTimeInMs *int64 `mandatory:"false" json:"responseTimeInMs"`
 
+	TimeFilter *TimeRange `mandatory:"false" json:"timeFilter"`
+
 	// List of querylanguage command descriptors, describing the specfied query string.
 	Commands []AbstractCommandDescriptor `mandatory:"false" json:"commands"`
 }
@@ -56,6 +58,7 @@ func (m *ParseQueryOutput) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Columns             []abstractcolumn            `json:"columns"`
 		ResponseTimeInMs    *int64                      `json:"responseTimeInMs"`
+		TimeFilter          *TimeRange                  `json:"timeFilter"`
 		Commands            []abstractcommanddescriptor `json:"commands"`
 		DisplayQueryString  *string                     `json:"displayQueryString"`
 		InternalQueryString *string                     `json:"internalQueryString"`
@@ -79,6 +82,8 @@ func (m *ParseQueryOutput) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.ResponseTimeInMs = model.ResponseTimeInMs
+
+	m.TimeFilter = model.TimeFilter
 
 	m.Commands = make([]AbstractCommandDescriptor, len(model.Commands))
 	for i, n := range model.Commands {

@@ -117,6 +117,15 @@ type LogAnalyticsParser struct {
 	// An array of categories assigned to this parser.
 	// The isSystem flag denotes if each category assignment is user-created or Oracle-defined.
 	Categories []LogAnalyticsCategory `mandatory:"false" json:"categories"`
+
+	// A flag indicating whether the parser is positionally aware.
+	IsPositionAware *bool `mandatory:"false" json:"isPositionAware"`
+
+	// A list of sources that depend on the parser, either directly or indirectly.
+	DependentSources []DependentSource `mandatory:"false" json:"dependentSources"`
+
+	// A list of sub parsers used by this parser.
+	DependentParsers []DependentParser `mandatory:"false" json:"dependentParsers"`
 }
 
 func (m LogAnalyticsParser) String() string {

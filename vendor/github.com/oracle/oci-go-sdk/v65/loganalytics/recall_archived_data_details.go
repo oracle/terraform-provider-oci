@@ -41,6 +41,9 @@ type RecallArchivedDataDetails struct {
 
 	// This indicates if only new data has to be recalled in this recall request
 	IsRecallNewDataOnly *bool `mandatory:"false" json:"isRecallNewDataOnly"`
+
+	// This indicates if user checked system recommended time range
+	IsUseRecommendedDataSet *bool `mandatory:"false" json:"isUseRecommendedDataSet"`
 }
 
 func (m RecallArchivedDataDetails) String() string {

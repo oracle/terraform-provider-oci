@@ -39,7 +39,7 @@ type LogAnalyticsLookup struct {
 	// The lookup reference as a string.
 	LookupReferenceString *string `mandatory:"false" json:"lookupReferenceString"`
 
-	// The lookup type.  Valid values are LOOKUP or DICTIONARY.
+	// The lookup type. Valid values are Lookup, Dictionary or Module.
 	Type LogAnalyticsLookupTypeEnum `mandatory:"false" json:"type,omitempty"`
 
 	// The lookup name.
@@ -94,16 +94,19 @@ type LogAnalyticsLookupTypeEnum string
 const (
 	LogAnalyticsLookupTypeLookup     LogAnalyticsLookupTypeEnum = "Lookup"
 	LogAnalyticsLookupTypeDictionary LogAnalyticsLookupTypeEnum = "Dictionary"
+	LogAnalyticsLookupTypeModule     LogAnalyticsLookupTypeEnum = "Module"
 )
 
 var mappingLogAnalyticsLookupTypeEnum = map[string]LogAnalyticsLookupTypeEnum{
 	"Lookup":     LogAnalyticsLookupTypeLookup,
 	"Dictionary": LogAnalyticsLookupTypeDictionary,
+	"Module":     LogAnalyticsLookupTypeModule,
 }
 
 var mappingLogAnalyticsLookupTypeEnumLowerCase = map[string]LogAnalyticsLookupTypeEnum{
 	"lookup":     LogAnalyticsLookupTypeLookup,
 	"dictionary": LogAnalyticsLookupTypeDictionary,
+	"module":     LogAnalyticsLookupTypeModule,
 }
 
 // GetLogAnalyticsLookupTypeEnumValues Enumerates the set of values for LogAnalyticsLookupTypeEnum
@@ -120,6 +123,7 @@ func GetLogAnalyticsLookupTypeEnumStringValues() []string {
 	return []string{
 		"Lookup",
 		"Dictionary",
+		"Module",
 	}
 }
 
