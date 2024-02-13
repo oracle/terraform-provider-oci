@@ -6,6 +6,7 @@ package email
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_email_configuration", EmailConfigurationDataSource())
 	tfresource.RegisterDatasource("oci_email_dkim", EmailDkimDataSource())
 	tfresource.RegisterDatasource("oci_email_dkims", EmailDkimsDataSource())
 	tfresource.RegisterDatasource("oci_email_email_domain", EmailEmailDomainDataSource())
