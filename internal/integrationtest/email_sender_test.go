@@ -26,6 +26,9 @@ import (
 )
 
 var (
+	ignoreEmailSenderDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
 	EmailSenderRequiredOnlyResource = EmailSenderResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_email_sender", "test_sender", acctest.Required, acctest.Create, EmailSenderRepresentation)
 
@@ -52,6 +55,7 @@ var (
 		"email_address":  acctest.Representation{RepType: acctest.Required, Create: `johnsmithtester@example.com`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreEmailSenderDefinedTagsChangesRepresentation},
 	}
 
 	EmailSenderResourceDependencies = DefinedTagsDependencies
