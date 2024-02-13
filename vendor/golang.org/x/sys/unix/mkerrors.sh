@@ -248,6 +248,7 @@ struct ltchars {
 #include <linux/module.h>
 #include <linux/mount.h>
 #include <linux/netfilter/nfnetlink.h>
+#include <linux/netfilter/nf_tables.h>
 #include <linux/netlink.h>
 #include <linux/net_namespace.h>
 #include <linux/nfc.h>
@@ -319,10 +320,23 @@ struct ltchars {
 #undef TIPC_WAIT_FOREVER
 #define TIPC_WAIT_FOREVER 0xffffffff
 
-// Copied from linux/l2tp.h
-// Including linux/l2tp.h here causes conflicts between linux/in.h
-// and netinet/in.h included via net/route.h above.
-#define IPPROTO_L2TP		115
+// Copied from linux/netfilter/nf_nat.h
+// Including linux/netfilter/nf_nat.h here causes conflicts between linux/in.h
+// and netinet/in.h.
+#define NF_NAT_RANGE_MAP_IPS			(1 << 0)
+#define NF_NAT_RANGE_PROTO_SPECIFIED		(1 << 1)
+#define NF_NAT_RANGE_PROTO_RANDOM		(1 << 2)
+#define NF_NAT_RANGE_PERSISTENT			(1 << 3)
+#define NF_NAT_RANGE_PROTO_RANDOM_FULLY		(1 << 4)
+#define NF_NAT_RANGE_PROTO_OFFSET		(1 << 5)
+#define NF_NAT_RANGE_NETMAP			(1 << 6)
+#define NF_NAT_RANGE_PROTO_RANDOM_ALL		\
+	(NF_NAT_RANGE_PROTO_RANDOM | NF_NAT_RANGE_PROTO_RANDOM_FULLY)
+#define NF_NAT_RANGE_MASK					\
+	(NF_NAT_RANGE_MAP_IPS | NF_NAT_RANGE_PROTO_SPECIFIED |	\
+	 NF_NAT_RANGE_PROTO_RANDOM | NF_NAT_RANGE_PERSISTENT |	\
+	 NF_NAT_RANGE_PROTO_RANDOM_FULLY | NF_NAT_RANGE_PROTO_OFFSET | \
+	 NF_NAT_RANGE_NETMAP)
 
 // Copied from linux/hid.h.
 // Keep in sync with the size of the referenced fields.
@@ -560,7 +574,7 @@ ccflags="$@"
 		$2 ~ /^RLIMIT_(AS|CORE|CPU|DATA|FSIZE|LOCKS|MEMLOCK|MSGQUEUE|NICE|NOFILE|NPROC|RSS|RTPRIO|RTTIME|SIGPENDING|STACK)|RLIM_INFINITY/ ||
 		$2 ~ /^PRIO_(PROCESS|PGRP|USER)/ ||
 		$2 ~ /^CLONE_[A-Z_]+/ ||
-		$2 !~ /^(BPF_TIMEVAL|BPF_FIB_LOOKUP_[A-Z]+)$/ &&
+		$2 !~ /^(BPF_TIMEVAL|BPF_FIB_LOOKUP_[A-Z]+|BPF_F_LINK)$/ &&
 		$2 ~ /^(BPF|DLT)_/ ||
 		$2 ~ /^AUDIT_/ ||
 		$2 ~ /^(CLOCK|TIMER)_/ ||
@@ -581,7 +595,7 @@ ccflags="$@"
 		$2 ~ /^KEY_(SPEC|REQKEY_DEFL)_/ ||
 		$2 ~ /^KEYCTL_/ ||
 		$2 ~ /^PERF_/ ||
-		$2 ~ /^SECCOMP_MODE_/ ||
+		$2 ~ /^SECCOMP_/ ||
 		$2 ~ /^SEEK_/ ||
 		$2 ~ /^SPLICE_/ ||
 		$2 ~ /^SYNC_FILE_RANGE_/ ||
@@ -601,6 +615,9 @@ ccflags="$@"
 		$2 ~ /^FSOPT_/ ||
 		$2 ~ /^WDIO[CFS]_/ ||
 		$2 ~ /^NFN/ ||
+		$2 !~ /^NFT_META_IIFTYPE/ &&
+		$2 ~ /^NFT_/ ||
+		$2 ~ /^NF_NAT_/ ||
 		$2 ~ /^XDP_/ ||
 		$2 ~ /^RWF_/ ||
 		$2 ~ /^(HDIO|WIN|SMART)_/ ||
