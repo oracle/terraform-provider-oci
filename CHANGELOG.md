@@ -1,4 +1,4 @@
-## 5.29.0 (Unreleased)
+## 5.29.0 (February 14, 2024)
 
 ### Added
 - Support for ADB-S: Replicating backups across regions for Cross-Region DR
