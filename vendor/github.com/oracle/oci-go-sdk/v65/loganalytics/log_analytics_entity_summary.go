@@ -56,6 +56,11 @@ type LogAnalyticsEntitySummary struct {
 	// The timezone region of the log analytics entity.
 	TimezoneRegion *string `mandatory:"false" json:"timezoneRegion"`
 
+	// The date and time the resource was last discovered, in the format defined by RFC3339.
+	TimeLastDiscovered *common.SDKTime `mandatory:"false" json:"timeLastDiscovered"`
+
+	Metadata *LogAnalyticsMetadataCollection `mandatory:"false" json:"metadata"`
+
 	// The Boolean flag to indicate if logs are collected for an entity for log analytics usage.
 	AreLogsCollected *bool `mandatory:"false" json:"areLogsCollected"`
 

@@ -53,6 +53,7 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 								"LOAD_BALANCER_LISTENER",
 								"NETWORK_LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER_LISTENER",
+								"ON_PREM",
 								"SUBNET",
 								"VLAN",
 								"VNIC",
@@ -133,6 +134,7 @@ func VnMonitoringPathAnalyzerTestResource() *schema.Resource {
 								"LOAD_BALANCER_LISTENER",
 								"NETWORK_LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER_LISTENER",
+								"ON_PREM",
 								"SUBNET",
 								"VLAN",
 								"VNIC",
@@ -711,6 +713,13 @@ func (s *VnMonitoringPathAnalyzerTestResourceCrud) mapToEndpoint(fieldKeyFormat 
 			details.NetworkLoadBalancerId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("ON_PREM"):
+		details := oci_vn_monitoring.OnPremEndpoint{}
+		if address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address")); ok {
+			tmp := address.(string)
+			details.Address = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("SUBNET"):
 		details := oci_vn_monitoring.SubnetEndpoint{}
 		if address, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "address")); ok {
@@ -804,6 +813,12 @@ func EndpointToMap(obj *oci_vn_monitoring.Endpoint) map[string]interface{} {
 
 		if v.NetworkLoadBalancerId != nil {
 			result["network_load_balancer_id"] = string(*v.NetworkLoadBalancerId)
+		}
+	case oci_vn_monitoring.OnPremEndpoint:
+		result["type"] = "ON_PREM"
+
+		if v.Address != nil {
+			result["address"] = string(*v.Address)
 		}
 	case oci_vn_monitoring.SubnetEndpoint:
 		result["type"] = "SUBNET"

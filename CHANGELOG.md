@@ -1,3 +1,12 @@
+## 5.29.0 (February 14, 2024)
+
+### Added
+- Support for ADB-S: Replicating backups across regions for Cross-Region DR
+- Support for Logging Analytics Hemlock Release
+- Support for Network Path Analyzer: Support Overlapping Cidr
+### Bug Fix
+- Fix Addon Configuration Update
+
 ## 5.28.0 (February 07, 2024)
 
 ### Added

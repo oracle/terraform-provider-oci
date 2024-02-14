@@ -21,6 +21,9 @@ type AbstractParserTestResultLogEntry struct {
 	// Extra information attributes.
 	ExtraInfoAttributes map[string]string `mandatory:"false" json:"extraInfoAttributes"`
 
+	// The field map.
+	FieldMap map[string]string `mandatory:"false" json:"fieldMap"`
+
 	// The field name value map.
 	FieldNameValueMap map[string]string `mandatory:"false" json:"fieldNameValueMap"`
 

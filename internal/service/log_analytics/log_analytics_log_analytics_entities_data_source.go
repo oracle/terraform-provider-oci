@@ -49,6 +49,13 @@ func LogAnalyticsLogAnalyticsEntitiesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"metadata_equals": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -148,6 +155,19 @@ func (s *LogAnalyticsLogAnalyticsEntitiesDataSourceCrud) Get() error {
 	if lifecycleDetailsContains, ok := s.D.GetOkExists("lifecycle_details_contains"); ok {
 		tmp := lifecycleDetailsContains.(string)
 		request.LifecycleDetailsContains = &tmp
+	}
+
+	if metadataEquals, ok := s.D.GetOkExists("metadata_equals"); ok {
+		interfaces := metadataEquals.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("metadata_equals") {
+			request.MetadataEquals = tmp
+		}
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

@@ -107,6 +107,12 @@ type LogAnalyticsObjectCollectionRule struct {
 	// For more information on filters, see Event Filters (https://docs.oracle.com/en-us/iaas/Content/Events/Concepts/filterevents.htm).
 	ObjectNameFilters []string `mandatory:"false" json:"objectNameFilters"`
 
+	// Type of files/objects in this object collection rule.
+	LogType LogTypesEnum `mandatory:"false" json:"logType,omitempty"`
+
+	// Flag to allow historic collection if poll period overlaps with existing ACTIVE collection rule
+	IsForceHistoricCollection *bool `mandatory:"false" json:"isForceHistoricCollection"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -134,6 +140,9 @@ func (m LogAnalyticsObjectCollectionRule) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLogSetKeyTypesEnum(string(m.LogSetKey)); !ok && m.LogSetKey != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogSetKey: %s. Supported values are: %s.", m.LogSetKey, strings.Join(GetLogSetKeyTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingLogTypesEnum(string(m.LogType)); !ok && m.LogType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LogType: %s. Supported values are: %s.", m.LogType, strings.Join(GetLogTypesEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

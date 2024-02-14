@@ -21,6 +21,7 @@ data "oci_log_analytics_log_analytics_entity_topology" "test_log_analytics_entit
 	namespace = var.log_analytics_entity_topology_namespace
 
 	#Optional
+	metadata_equals = var.log_analytics_entity_topology_metadata_equals
 	state = var.log_analytics_entity_topology_state
 }
 ```
@@ -30,6 +31,7 @@ data "oci_log_analytics_log_analytics_entity_topology" "test_log_analytics_entit
 The following arguments are supported:
 
 * `log_analytics_entity_id` - (Required) The log analytics entity OCID. 
+* `metadata_equals` - (Optional) A filter to return only log analytics entities whose metadata name, value and type matches the specified string. Each item in the array has the format "{name}:{value}:{type}".  All inputs are case-insensitive. 
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 * `state` - (Optional) A filter to return only those log analytics entities with the specified lifecycle state. The state value is case-insensitive. 
 
@@ -55,10 +57,16 @@ The following attributes are exported:
 			* `id` - The log analytics entity OCID. This ID is a reference used by log analytics features and it represents a resource that is provisioned and managed by the customer on their premises or on the cloud. 
 			* `lifecycle_details` - lifecycleDetails has additional information regarding substeps such as management agent plugin deployment. 
 			* `management_agent_id` - The OCID of the Management Agent. 
+			* `metadata` - A collection of entity metadata information.
+				* `items` - An array of entity metadata.
+					* `name` - The metadata name.
+					* `type` - The metadata type.
+					* `value` - The metadata value.
 			* `name` - Log analytics entity name. 
 			* `source_id` - This indicates the type of source. It is primarily for Enterprise Manager Repository ID. 
 			* `state` - The current state of the log analytics entity. 
 			* `time_created` - The date and time the resource was created, in the format defined by RFC3339. 
+			* `time_last_discovered` - The date and time the resource was last discovered, in the format defined by RFC3339. 
 			* `time_updated` - The date and time the resource was last updated, in the format defined by RFC3339. 
 			* `timezone_region` - The timezone region of the log analytics entity. 
 

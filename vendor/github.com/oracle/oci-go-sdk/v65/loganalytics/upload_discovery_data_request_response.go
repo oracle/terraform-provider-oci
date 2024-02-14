@@ -34,6 +34,9 @@ type UploadDiscoveryDataRequest struct {
 	// Discovery data type
 	DiscoveryDataType UploadDiscoveryDataDiscoveryDataTypeEnum `mandatory:"false" contributesTo:"query" name:"discoveryDataType" omitEmpty:"true"`
 
+	// The log group OCID that gets mapped to the logs in the discovery data.
+	LogGroupId *string `mandatory:"false" contributesTo:"query" name:"logGroupId"`
+
 	// Identifies the type of request payload.
 	PayloadType UploadDiscoveryDataPayloadTypeEnum `mandatory:"false" contributesTo:"query" name:"payloadType" omitEmpty:"true"`
 

@@ -25,6 +25,7 @@ data "oci_log_analytics_namespace_rules" "test_namespace_rules" {
 	display_name = var.namespace_rule_display_name
 	kind = var.namespace_rule_kind
 	state = var.namespace_rule_state
+	target_service = var.namespace_rule_target_service
 }
 ```
 
@@ -37,6 +38,7 @@ The following arguments are supported:
 * `kind` - (Optional) The rule kind used for filtering. Only rules of the specified kind will be returned. 
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
 * `state` - (Optional) The rule lifecycle state used for filtering. Currently supported values are ACTIVE and DELETED. 
+* `target_service` - (Optional) The target service to use for filtering. 
 
 
 ## Attributes Reference
@@ -60,6 +62,7 @@ The following attributes are exported:
 	* `kind` - The kind of rule - either an ingest time rule or a scheduled task. 
 	* `last_execution_status` - The most recent task execution status.
 	* `state` - The current state of the logging analytics rule. 
+	* `target_service` - The target service.
 	* `time_created` - The date and time the resource was created, in the format defined by RFC3339. 
 	* `time_last_executed` - The date and time the scheduled task last executed, in the format defined by RFC3339.
 	* `time_updated` - The date and time the resource was last updated, in the format defined by RFC3339. 

@@ -22,6 +22,7 @@ data "oci_log_analytics_namespace_scheduled_tasks" "test_namespace_scheduled_tas
 
 	#Optional
 	display_name = var.namespace_scheduled_task_display_name
+	target_service = var.namespace_scheduled_task_target_service
 	task_type = var.namespace_scheduled_task_task_type
 }
 ```
@@ -33,6 +34,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the given display name exactly. 
 * `namespace` - (Required) The Logging Analytics namespace used for the request. 
+* `target_service` - (Optional) The target service to use for filtering. 
 * `task_type` - (Required when kind=STANDARD) Required parameter to specify schedule task type.
 
 
