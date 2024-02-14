@@ -63,6 +63,12 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
 		security_context {
 
 			#Optional
+			capabilities {
+
+				#Optional
+				add_capabilities = var.container_instance_containers_security_context_capabilities_add_capabilities
+				drop_capabilities = var.container_instance_containers_security_context_capabilities_drop_capabilities
+			}
 			is_non_root_user_check_enabled = var.container_instance_containers_security_context_is_non_root_user_check_enabled
 			is_root_file_system_readonly = var.container_instance_containers_security_context_is_root_file_system_readonly
 			run_as_group = var.container_instance_containers_security_context_run_as_group
@@ -201,6 +207,9 @@ The following arguments are supported:
 
 			A container with a 2.0 vcpusLimit could consume up to 100% of the CPU resources available on the container instance. Values can be fractional. A value of "1.5" means that the container can consume at most the equivalent of 1 and a half logical CPUs worth of CPU capacity. 
 	* `security_context` - (Optional) Security context for container.
+		* `capabilities` - (Optional) Linux Container capabilities to configure capabilities of container. 
+			* `add_capabilities` - (Optional) A list of additional configurable container capabilities. 
+			* `drop_capabilities` - (Optional) A list of container capabilities that can be dropped. 
 		* `is_non_root_user_check_enabled` - (Optional) Indicates if the container must run as a non-root user. If true, the service validates the container image at runtime to ensure that it is not going to run with UID 0 (root) and fails the container instance creation if the validation fails. 
 		* `is_root_file_system_readonly` - (Optional) Determines if the container will have a read-only root file system. Default value is false.
 		* `run_as_group` - (Optional) The group ID (GID) to run the entrypoint process of the container. Uses runtime default if not provided.

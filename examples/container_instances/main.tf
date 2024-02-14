@@ -26,7 +26,7 @@ resource "oci_core_network_security_group" "test_network_security_group" {
   vcn_id         = oci_core_vcn.test_vcn.id
   lifecycle {
     ignore_changes = [
-    "defined_tags"]
+      "defined_tags"]
   }
 }
 
@@ -36,7 +36,7 @@ resource "oci_core_vcn" "test_vcn" {
   dns_label      = "testvcn"
   lifecycle {
     ignore_changes = [
-    "defined_tags"]
+      "defined_tags"]
   }
 }
 
@@ -46,11 +46,11 @@ resource "oci_core_subnet" "test_subnet" {
   dns_label      = "testsubnet"
   route_table_id = oci_core_route_table.test_route_table.id
   security_list_ids = [
-  "${oci_core_security_list.test_sec_list.id}"]
+    "${oci_core_security_list.test_sec_list.id}"]
   vcn_id = oci_core_vcn.test_vcn.id
   lifecycle {
     ignore_changes = [
-    "defined_tags"]
+      "defined_tags"]
   }
 }
 
@@ -137,9 +137,9 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
     #Optional
     arguments = [
       "-c",
-    "cat /mnt/my_file"]
+      "cat /mnt/my_file"]
     command = [
-    "/bin/sh"]
+      "/bin/sh"]
     display_name = "displayName"
     environment_variables = {
       "environment" = "variable"
@@ -194,6 +194,10 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
       is_root_file_system_readonly   = true
       run_as_group                   = 10
       run_as_user                    = 10
+      capabilities {
+        add_capabilities = ["CAP_CHOWN", "CAP_KILL"]
+        drop_capabilities = ["ALL"]
+      }
     }
   }
   shape = "CI.Standard.E4.Flex"
@@ -226,11 +230,11 @@ resource "oci_container_instances_container_instance" "test_container_instance" 
 
     #Optional
     nameservers = [
-    "8.8.8.8"]
+      "8.8.8.8"]
     options = [
-    "options"]
+      "options"]
     searches = [
-    "search domain"]
+      "search domain"]
   }
   freeform_tags = {
     "bar-key" = "foo-value"
