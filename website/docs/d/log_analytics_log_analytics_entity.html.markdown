@@ -47,11 +47,17 @@ The following attributes are exported:
 * `management_agent_compartment_id` - Management agent (management-agents resource kind) compartment OCID 
 * `management_agent_display_name` - Management agent (management-agents resource kind) display name 
 * `management_agent_id` - The OCID of the Management Agent. 
+* `metadata` - Details of entity metadata information.
+	* `items` - An array of entity metadata.
+		* `name` - The metadata name.
+		* `type` - The metadata type.
+		* `value` - The metadata value.
 * `name` - Log analytics entity name. 
 * `properties` - The name/value pairs for parameter values to be used in file patterns specified in log sources. 
 * `source_id` - This indicates the type of source. It is primarily for Enterprise Manager Repository ID. 
 * `state` - The current state of the log analytics entity. 
 * `time_created` - The date and time the resource was created, in the format defined by RFC3339. 
+* `time_last_discovered` - The date and time the resource was last discovered, in the format defined by RFC3339. 
 * `time_updated` - The date and time the resource was last updated, in the format defined by RFC3339. 
 * `timezone_region` - The timezone region of the log analytics entity. 
 

@@ -1,39 +1,22 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
 variable "region" {
   default = "us-ashburn-1"
 }
 
-
 variable "tenancy_ocid" {
 }
 
-variable "cluster_id" {
-
-}
-
-variable "kubernetes_version" {
-
+variable "config_file_profile" {
 }
 
 variable "compartment_ocid" {
 }
 
 provider "oci" {
-  region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+  region              = var.region
+  auth                = "SecurityToken"
+  config_file_profile = var.config_file_profile
 }
 
 /*
@@ -142,6 +125,7 @@ data "oci_containerengine_cluster_option" "test_cluster_option" {
 
 data "oci_containerengine_node_pool_option" "test_node_pool_option" {
   node_pool_option_id = "all"
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_core_images" "shape_specific_images" {

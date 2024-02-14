@@ -92,6 +92,9 @@ type StorageWorkRequestSummary struct {
 
 	// This is the flag to indicate if only new data has to be recalled in this work request
 	IsRecallNewDataOnly *bool `mandatory:"false" json:"isRecallNewDataOnly"`
+
+	// This indicates if user checked system recommended time range
+	IsUseRecommendedDataSet *bool `mandatory:"false" json:"isUseRecommendedDataSet"`
 }
 
 func (m StorageWorkRequestSummary) String() string {

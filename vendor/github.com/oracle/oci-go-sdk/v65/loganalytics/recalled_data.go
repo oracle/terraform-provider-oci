@@ -51,6 +51,15 @@ type RecalledData struct {
 
 	// This is the user who initiated the recall request
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
+
+	// This is the id for the recalled data collection
+	CollectionId *int64 `mandatory:"true" json:"collectionId"`
+
+	// This is the recalled date start time
+	TimeRecalledDataStarted *common.SDKTime `mandatory:"true" json:"timeRecalledDataStarted"`
+
+	// This is the recalled data end time
+	TimeRecalledDataEnded *common.SDKTime `mandatory:"true" json:"timeRecalledDataEnded"`
 }
 
 func (m RecalledData) String() string {

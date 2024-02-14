@@ -29,6 +29,19 @@ resource "oci_log_analytics_log_analytics_entity" "entityOptional" {
   entity_type_name        = "Host (Linux)"
   management_agent_id     = var.managed_agent_id
   hostname                = "aa.domainname.com"
+  time_last_discovered    = "2023-09-12T20:30:00.006Z"
+  metadata {
+    items {
+      name      = "environment1"
+      type     = "infrastructure1"
+      value    = "test1"
+    } 
+    items {
+      name      = "environment2"
+      type     = "infrastructure2"
+      value    = "test2"
+    }
+  }
   timezone_region         = "PST8PDT"
   properties              = tomap({"JAVA_HOME" = "/usr/java/jdk1.8.0_202-amd64", "version" = "OEL-7uek"})
   freeform_tags           = tomap({"servicegroup" = "test", "Dept" = "Devops"})

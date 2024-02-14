@@ -84,6 +84,10 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 	isSnapshotStandbyF := new(bool)
 	*isSnapshotStandbyT = true
 	*isSnapshotStandbyF = false
+	isReplicateBackupsEnabledT := new(bool)
+	isReplicateBackupsEnabledF := new(bool)
+	*isReplicateBackupsEnabledT = true
+	*isReplicateBackupsEnabledF = false
 
 	err := createPrimaryAdbInProvidedRegion(sourceRegion)
 	if err != nil {
@@ -398,6 +402,98 @@ func TestDatabaseCrossRegionDisasterRecovery_basic(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies,
 			},
+			// replicate backups for cross region dr tests
+			//8. enable adg with replicate backups as true
+			{
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies,
+			},
+			{
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(drStandbyAutonomousDatabaseRepresentation, map[string]interface{}{
+							"is_replicate_automatic_backups": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+							"cpu_core_count":                 acctest.Representation{RepType: acctest.Optional, Create: `2`},
+							"data_storage_size_in_tbs":       acctest.Representation{RepType: acctest.Optional, Create: `2`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DISASTER_RECOVERY"),
+					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.disaster_recovery_type", drTypeADG),
+					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.is_replicate_automatic_backups", "true"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
+					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+			//9. disable replicate backups on standby
+			{
+				PreConfig: func() {
+					acctest.WaitTillCondition(acctest.TestAccProvider, &primaryId, adbWaitTillLifecycleStateAvailableCondition, 10*time.Minute,
+						getAdbFromSourceRegion, "database", true)()
+					err := triggerReplicateBackupsStandby(resId, currentRegion, isReplicateBackupsEnabledF)
+					if err != nil {
+						t.Fatalf("Unable to disable replicate standby backups. Error: %v", err)
+					}
+					acctest.WaitTillCondition(acctest.TestAccProvider, &resId, adbWaitTillLifecycleStateStandbyCondition, 10*time.Minute,
+						getAdbFromCurrentRegion, "database", true)()
+				},
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithNewProperties(drStandbyAutonomousDatabaseRepresentation, map[string]interface{}{
+							"cpu_core_count":           acctest.Representation{RepType: acctest.Optional, Create: `2`},
+							"data_storage_size_in_tbs": acctest.Representation{RepType: acctest.Optional, Create: `2`},
+						})),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "state", "AVAILABLE"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "2"),
+					resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "2"),
+					resource.TestCheckResourceAttr(resourceName, "db_name", primaryDbName),
+					resource.TestCheckResourceAttr(resourceName, "db_version", "19c"),
+					resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+					resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+					resource.TestCheckResourceAttr(resourceName, "remote_disaster_recovery_configuration.0.is_replicate_automatic_backups", "false"),
+					resource.TestCheckResourceAttr(resourceName, "source", "CROSS_REGION_DISASTER_RECOVERY"),
+					resource.TestCheckResourceAttr(resourceName, "source_id", primaryId),
+					resource.TestCheckResourceAttr(resourceName, "dataguard_region_type", "REMOTE_STANDBY_DG_REGION"),
+					resource.TestCheckResourceAttr(resourceName, "role", "STANDBY"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "peer_db_ids.0", primaryId),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			//10. Delete this standby
+			{
+				Config: config + compartmentIdVariableStr + StandbyDrAutonomousDatabaseResourceDependencies,
+			},
 		},
 	})
 
@@ -444,6 +540,17 @@ func triggerChangeSnapshotStandby(standbyId string, currentRegion string, isSnap
 	_, err := changeSnapshotStandby(acctest.GetTestClients(&schema.ResourceData{}), currentRegion, standbyId, isSnapshotStandby)
 	if err != nil {
 		log.Printf("[WARN] failed to connect/disconnect with snapshot standby with the error %v", err)
+		return err
+	}
+	acctest.WaitTillCondition(acctest.TestAccProvider, &primaryId, adbWaitTillLifecycleStateAvailableCondition, 10*time.Minute,
+		getAdbFromSourceRegion, "database", true)()
+	return nil
+}
+
+func triggerReplicateBackupsStandby(standbyId string, currentRegion string, isReplicateBackupsEnabled *bool) error {
+	_, err := replicateBackupsStandby(acctest.GetTestClients(&schema.ResourceData{}), currentRegion, standbyId, isReplicateBackupsEnabled)
+	if err != nil {
+		log.Printf("[WARN] failed to enable/disable replicate auto backups for standby with the error %v", err)
 		return err
 	}
 	acctest.WaitTillCondition(acctest.TestAccProvider, &primaryId, adbWaitTillLifecycleStateAvailableCondition, 10*time.Minute,

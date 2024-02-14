@@ -28,12 +28,19 @@ data "oci_objectstorage_namespace" "ns" {
 variable "log_analytics_log_group_id" {}
 variable "log_analytics_entity_id" {}
 variable "object_collection_rule_bucket_name" {}
+variable "object_collection_rule_bucket_name_log_events" {}
 
 variable "object_collection_rule_name" {
   default = "tf-obj-coll-example-opt"
 }
+variable "object_collection_rule_name_log_events" {
+  default = "tf-obj-coll-example-log-events"
+}
 variable "object_collection_rule_freeform_tags" {
   default = { "servicegroup" = "test", "Dept" = "Devops" }
+}
+variable "object_collection_rule_log_type" {
+  default = "LOG"
 }
 variable "object_collection_rule_log_source_name" {
   default = "LinuxSyslogSource"
@@ -43,6 +50,9 @@ variable "object_collection_rule_description" {
 }
 variable "object_collection_rule_collection_type" {
   default = "HISTORIC"
+}
+variable "object_collection_rule_is_force_historic_collection" {
+  default = "false"
 }
 variable "object_collection_rule_poll_since" {
   default = "2020-04-01T00:00:00.000Z"
@@ -107,11 +117,13 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollect
   namespace                  = data.oci_objectstorage_namespace.ns.namespace
   name                       = var.object_collection_rule_name
   log_group_id               = var.log_analytics_log_group_id
+  log_type                   = var.object_collection_rule_log_type
   log_source_name            = var.object_collection_rule_log_source_name
   os_bucket_name             = var.object_collection_rule_bucket_name
   os_namespace               = data.oci_objectstorage_namespace.ns.namespace
   description                = var.object_collection_rule_description
   collection_type            = var.object_collection_rule_collection_type
+  is_force_historic_collection = var.object_collection_rule_is_force_historic_collection
   log_set                    = var.object_collection_rule_log_set
   log_set_ext_regex          = var.object_collection_rule_log_set_ext_regex
   log_set_key                = var.object_collection_rule_log_set_key
@@ -133,6 +145,24 @@ resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollect
     property_value   = var.object_collection_rule_log_source_override_property_value
   }
   object_name_filters              = [var.object_collection_rule_object_name_filter]
+  is_enabled = var.object_collection_rule_is_enabled
+}
+
+# Create a object collection rule with optional parameters
+resource "oci_log_analytics_log_analytics_object_collection_rule" "objectCollectionRuleLogEventsType" {
+  compartment_id             = var.compartment_ocid
+  namespace                  = data.oci_objectstorage_namespace.ns.namespace
+  name                       = var.object_collection_rule_name_log_events
+  log_group_id               = var.log_analytics_log_group_id
+  log_source_name            = var.object_collection_rule_log_source_name
+  os_bucket_name             = var.object_collection_rule_bucket_name_log_events
+  os_namespace               = data.oci_objectstorage_namespace.ns.namespace
+  collection_type            = var.object_collection_rule_collection_type
+  log_set                    = var.object_collection_rule_log_set
+  poll_since                 = var.object_collection_rule_poll_since
+  poll_till                  = var.object_collection_rule_poll_till
+  freeform_tags              = var.object_collection_rule_freeform_tags
+  log_type                   = "LOG_EVENTS"
   is_enabled = var.object_collection_rule_is_enabled
 }
 

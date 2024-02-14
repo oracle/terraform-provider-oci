@@ -30,6 +30,10 @@ func LogAnalyticsNamespaceScheduledTasksDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"target_service": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"task_type": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -86,6 +90,11 @@ func (s *LogAnalyticsNamespaceScheduledTasksDataSourceCrud) Get() error {
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.NamespaceName = &tmp
+	}
+
+	if targetService, ok := s.D.GetOkExists("target_service"); ok {
+		tmp := targetService.(string)
+		request.TargetService = &tmp
 	}
 
 	if taskType, ok := s.D.GetOkExists("task_type"); ok {

@@ -81,6 +81,10 @@ type ListLogAnalyticsEntitiesRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only log analytics entities whose metadata name, value and type matches the specified string.
+	// Each item in the array has the format "{name}:{value}:{type}".  All inputs are case-insensitive.
+	MetadataEquals []string `contributesTo:"query" name:"metadataEquals" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

@@ -98,8 +98,6 @@ resource "oci_log_analytics_namespace_ingest_time_rules_management" "ingest_time
 data "oci_log_analytics_namespace_ingest_time_rule" "ingest_time_rule" {
   namespace        = data.oci_objectstorage_namespace.ns.namespace
   ingest_time_rule_id = oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_full.id
-
-  depends_on = [oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_full]
 }
 
 # Fetch all ingest time rules in a compartment (with options and filter)
@@ -116,8 +114,6 @@ data "oci_log_analytics_namespace_ingest_time_rules" "ingest_time_rules" {
     name = "id"
     values = [oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_full.id]
   }
-
-  depends_on = [oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_minimal, oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_full]
 }
 
 # Fetch all rules (INGEST_TIME and/or SAVED_SEARCH) in a compartment
@@ -127,14 +123,20 @@ data "oci_log_analytics_namespace_rules" "rules" {
   display_name     = "displayName"
   kind             = "INGEST_TIME"
   state            = "ACTIVE"
+}
 
-  depends_on = [oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_minimal, oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_full]
+# Fetch all rules (INGEST_TIME and/or SAVED_SEARCH) in a compartment with target_service=MONITORING
+data "oci_log_analytics_namespace_rules" "rules_target_monitoring" {
+  compartment_id   = var.compartment_ocid
+  namespace        = data.oci_objectstorage_namespace.ns.namespace
+  display_name     = "displayName"
+  kind             = "INGEST_TIME"
+  target_service   = "MONITORING"
+  state            = "ACTIVE"
 }
 
 # Fetch rules summary
 data "oci_log_analytics_namespace_rules_summary" "rules_summary" {
   compartment_id   = var.compartment_ocid
   namespace        = data.oci_objectstorage_namespace.ns.namespace
-
-  depends_on = [oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_minimal, oci_log_analytics_namespace_ingest_time_rule.ingest_time_rule_full]
 }

@@ -32,6 +32,9 @@ type ListRulesRequest struct {
 	// kind will be returned.
 	Kind ListRulesKindEnum `mandatory:"false" contributesTo:"query" name:"kind" omitEmpty:"true"`
 
+	// The target service to use for filtering.
+	TargetService *string `mandatory:"false" contributesTo:"query" name:"targetService"`
+
 	// The rule lifecycle state used for filtering. Currently supported
 	// values are ACTIVE and DELETED.
 	LifecycleState ListRulesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
