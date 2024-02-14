@@ -277,6 +277,41 @@ func ContainerInstancesContainerInstanceResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"capabilities": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"add_capabilities": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"drop_capabilities": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
 									"is_non_root_user_check_enabled": {
 										Type:     schema.TypeBool,
 										Optional: true,
@@ -1551,6 +1586,48 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) StopContainerInstance(
 	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
+func (s *ContainerInstancesContainerInstanceResourceCrud) mapToContainerCapabilities(fieldKeyFormat string) (oci_container_instances.ContainerCapabilities, error) {
+	result := oci_container_instances.ContainerCapabilities{}
+
+	if addCapabilities, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "add_capabilities")); ok {
+		interfaces := addCapabilities.([]interface{})
+		tmp := make([]oci_container_instances.ContainerCapabilityTypeEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i], _ = oci_container_instances.GetMappingContainerCapabilityTypeEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "add_capabilities")) {
+			result.AddCapabilities = tmp
+		}
+	}
+
+	if dropCapabilities, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "drop_capabilities")); ok {
+		interfaces := dropCapabilities.([]interface{})
+		tmp := make([]oci_container_instances.ContainerCapabilityTypeEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i], _ = oci_container_instances.GetMappingContainerCapabilityTypeEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "drop_capabilities")) {
+			result.DropCapabilities = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func ContainerCapabilitiesToMap(obj *oci_container_instances.ContainerCapabilities) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["add_capabilities"] = obj.AddCapabilities
+
+	result["drop_capabilities"] = obj.DropCapabilities
+
+	return result
+}
+
 func (s *ContainerInstancesContainerInstanceResourceCrud) mapToContainerConfigFile(fieldKeyFormat string) (oci_container_instances.ContainerConfigFile, error) {
 	result := oci_container_instances.ContainerConfigFile{}
 
@@ -2427,6 +2504,16 @@ func (s *ContainerInstancesContainerInstanceResourceCrud) mapToCreateSecurityCon
 	switch strings.ToLower(securityContextType) {
 	case strings.ToLower("LINUX"):
 		details := oci_container_instances.CreateLinuxSecurityContextDetails{}
+		if capabilities, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "capabilities")); ok {
+			if tmpList := capabilities.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "capabilities"), 0)
+				tmp, err := s.mapToContainerCapabilities(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert capabilities, encountered error: %v", err)
+				}
+				details.Capabilities = &tmp
+			}
+		}
 		if isNonRootUserCheckEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_non_root_user_check_enabled")); ok {
 			tmp := isNonRootUserCheckEnabled.(bool)
 			details.IsNonRootUserCheckEnabled = &tmp
@@ -2455,6 +2542,10 @@ func SecurityContextToMap(obj *oci_container_instances.SecurityContext) map[stri
 	switch v := (*obj).(type) {
 	case oci_container_instances.LinuxSecurityContext:
 		result["security_context_type"] = "LINUX"
+
+		if v.Capabilities != nil {
+			result["capabilities"] = []interface{}{ContainerCapabilitiesToMap(v.Capabilities)}
+		}
 
 		if v.IsNonRootUserCheckEnabled != nil {
 			result["is_non_root_user_check_enabled"] = bool(*v.IsNonRootUserCheckEnabled)
