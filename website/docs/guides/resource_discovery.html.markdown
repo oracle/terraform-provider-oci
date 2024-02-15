@@ -660,6 +660,7 @@ dataintegration
 * oci\_dataintegration\_workspace\_import\_request
 * oci\_dataintegration\_workspace\_export\_request
 * oci\_dataintegration\_workspace\_application\_patch
+* oci\_dataintegration\_workspace\_application\_schedule
 
 datascience
 
