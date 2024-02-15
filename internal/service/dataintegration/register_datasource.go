@@ -10,6 +10,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_application", DataintegrationWorkspaceApplicationDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_application_patch", DataintegrationWorkspaceApplicationPatchDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_application_patches", DataintegrationWorkspaceApplicationPatchesDataSource())
+	tfresource.RegisterDatasource("oci_dataintegration_workspace_application_schedule", DataintegrationWorkspaceApplicationScheduleDataSource())
+	tfresource.RegisterDatasource("oci_dataintegration_workspace_application_schedules", DataintegrationWorkspaceApplicationSchedulesDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_applications", DataintegrationWorkspaceApplicationsDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_export_request", DataintegrationWorkspaceExportRequestDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_export_requests", DataintegrationWorkspaceExportRequestsDataSource())
