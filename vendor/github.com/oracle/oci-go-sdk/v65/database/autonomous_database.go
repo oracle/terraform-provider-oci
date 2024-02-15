@@ -142,6 +142,9 @@ type AutonomousDatabase struct {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Used only by Autonomous Database on Dedicated Exadata Infrastructure.
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
 
+	// The date and time the Autonomous Database was most recently undeleted.
+	TimeUndeleted *common.SDKTime `mandatory:"false" json:"timeUndeleted"`
+
 	// The date and time the Autonomous Database was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -367,7 +370,7 @@ type AutonomousDatabase struct {
 	// The date and time that Autonomous Data Guard was enabled for an Autonomous Database where the standby was provisioned in the same region as the primary database.
 	TimeLocalDataGuardEnabled *common.SDKTime `mandatory:"false" json:"timeLocalDataGuardEnabled"`
 
-	// The Autonomous Data Guard region type of the Autonomous Database. For Autonomous Database Serverless, Autonomous Data Guard associations have designated primary and standby regions, and these region types do not change when the database changes roles. The standby regions in Autonomous Data Guard associations can be the same region designated as the primary region, or they can be remote regions. Certain database administrative operations may be available only in the primary region of the Autonomous Data Guard association, and cannot be performed when the database using the primary role is operating in a remote Autonomous Data Guard standby region.
+	// **Deprecated.** The Autonomous Data Guard region type of the Autonomous Database. For Autonomous Database Serverless, Autonomous Data Guard associations have designated primary and standby regions, and these region types do not change when the database changes roles. The standby regions in Autonomous Data Guard associations can be the same region designated as the primary region, or they can be remote regions. Certain database administrative operations may be available only in the primary region of the Autonomous Data Guard association, and cannot be performed when the database using the primary role is operating in a remote Autonomous Data Guard standby region.
 	DataguardRegionType AutonomousDatabaseDataguardRegionTypeEnum `mandatory:"false" json:"dataguardRegionType,omitempty"`
 
 	// The date and time the Autonomous Data Guard role was switched for the Autonomous Database. For databases that have standbys in both the primary Data Guard region and a remote Data Guard standby region, this is the latest timestamp of either the database using the "primary" role in the primary Data Guard region, or database located in the remote Data Guard standby region.
@@ -434,7 +437,7 @@ type AutonomousDatabase struct {
 	// Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover.
 	LocalDisasterRecoveryType DisasterRecoveryConfigurationDisasterRecoveryTypeEnum `mandatory:"false" json:"localDisasterRecoveryType,omitempty"`
 
-	// The disaster recovery (DR) region type of the Autonomous Database. For Autonomous Database Serverless instances, DR associations have designated primary and standby regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region.
+	// **Deprecated.** The disaster recovery (DR) region type of the Autonomous Database. For Autonomous Database Serverless instances, DR associations have designated primary and standby regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region.
 	DisasterRecoveryRegionType AutonomousDatabaseDisasterRecoveryRegionTypeEnum `mandatory:"false" json:"disasterRecoveryRegionType,omitempty"`
 
 	// The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
@@ -562,6 +565,7 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		InfrastructureType                      AutonomousDatabaseInfrastructureTypeEnum                `json:"infrastructureType"`
 		IsDedicated                             *bool                                                   `json:"isDedicated"`
 		AutonomousContainerDatabaseId           *string                                                 `json:"autonomousContainerDatabaseId"`
+		TimeUndeleted                           *common.SDKTime                                         `json:"timeUndeleted"`
 		TimeCreated                             *common.SDKTime                                         `json:"timeCreated"`
 		DisplayName                             *string                                                 `json:"displayName"`
 		ServiceConsoleUrl                       *string                                                 `json:"serviceConsoleUrl"`
@@ -729,6 +733,8 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.IsDedicated = model.IsDedicated
 
 	m.AutonomousContainerDatabaseId = model.AutonomousContainerDatabaseId
+
+	m.TimeUndeleted = model.TimeUndeleted
 
 	m.TimeCreated = model.TimeCreated
 

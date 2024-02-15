@@ -39,7 +39,7 @@ type ListingSummary struct {
 	PackageType PackageTypeEnumEnum `mandatory:"false" json:"packageType,omitempty"`
 
 	// Summary of the pricing types available across all packages in the listing.
-	PricingTypes []ListingSummaryPricingTypesEnum `mandatory:"false" json:"pricingTypes,omitempty"`
+	PricingTypes []PricingTypeEnumEnum `mandatory:"false" json:"pricingTypes"`
 
 	// The list of compatible architectures supported by the listing
 	CompatibleArchitectures []ListingSummaryCompatibleArchitecturesEnum `mandatory:"false" json:"compatibleArchitectures,omitempty"`
@@ -75,12 +75,6 @@ func (m ListingSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingPackageTypeEnumEnum(string(m.PackageType)); !ok && m.PackageType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PackageType: %s. Supported values are: %s.", m.PackageType, strings.Join(GetPackageTypeEnumEnumStringValues(), ",")))
 	}
-	for _, val := range m.PricingTypes {
-		if _, ok := GetMappingListingSummaryPricingTypesEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PricingTypes: %s. Supported values are: %s.", val, strings.Join(GetListingSummaryPricingTypesEnumStringValues(), ",")))
-		}
-	}
-
 	for _, val := range m.CompatibleArchitectures {
 		if _, ok := GetMappingListingSummaryCompatibleArchitecturesEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CompatibleArchitectures: %s. Supported values are: %s.", val, strings.Join(GetListingSummaryCompatibleArchitecturesEnumStringValues(), ",")))
@@ -94,52 +88,6 @@ func (m ListingSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// ListingSummaryPricingTypesEnum Enum with underlying type: string
-type ListingSummaryPricingTypesEnum string
-
-// Set of constants representing the allowable values for ListingSummaryPricingTypesEnum
-const (
-	ListingSummaryPricingTypesFree  ListingSummaryPricingTypesEnum = "FREE"
-	ListingSummaryPricingTypesByol  ListingSummaryPricingTypesEnum = "BYOL"
-	ListingSummaryPricingTypesPaygo ListingSummaryPricingTypesEnum = "PAYGO"
-)
-
-var mappingListingSummaryPricingTypesEnum = map[string]ListingSummaryPricingTypesEnum{
-	"FREE":  ListingSummaryPricingTypesFree,
-	"BYOL":  ListingSummaryPricingTypesByol,
-	"PAYGO": ListingSummaryPricingTypesPaygo,
-}
-
-var mappingListingSummaryPricingTypesEnumLowerCase = map[string]ListingSummaryPricingTypesEnum{
-	"free":  ListingSummaryPricingTypesFree,
-	"byol":  ListingSummaryPricingTypesByol,
-	"paygo": ListingSummaryPricingTypesPaygo,
-}
-
-// GetListingSummaryPricingTypesEnumValues Enumerates the set of values for ListingSummaryPricingTypesEnum
-func GetListingSummaryPricingTypesEnumValues() []ListingSummaryPricingTypesEnum {
-	values := make([]ListingSummaryPricingTypesEnum, 0)
-	for _, v := range mappingListingSummaryPricingTypesEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListingSummaryPricingTypesEnumStringValues Enumerates the set of values in String for ListingSummaryPricingTypesEnum
-func GetListingSummaryPricingTypesEnumStringValues() []string {
-	return []string{
-		"FREE",
-		"BYOL",
-		"PAYGO",
-	}
-}
-
-// GetMappingListingSummaryPricingTypesEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListingSummaryPricingTypesEnum(val string) (ListingSummaryPricingTypesEnum, bool) {
-	enum, ok := mappingListingSummaryPricingTypesEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ListingSummaryCompatibleArchitecturesEnum Enum with underlying type: string

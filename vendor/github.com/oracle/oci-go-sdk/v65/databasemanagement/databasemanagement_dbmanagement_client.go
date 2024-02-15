@@ -4137,6 +4137,59 @@ func (client DbManagementClient) getDatabaseHomeMetrics(ctx context.Context, req
 	return response, err
 }
 
+// GetDataguardPerformanceMetrics Gets a summary of the data guard performance metrics such as ApplyLag, TransportLag and RedoApplyRate.
+func (client DbManagementClient) GetDataguardPerformanceMetrics(ctx context.Context, request GetDataguardPerformanceMetricsRequest) (response GetDataguardPerformanceMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDataguardPerformanceMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDataguardPerformanceMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDataguardPerformanceMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDataguardPerformanceMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDataguardPerformanceMetricsResponse")
+	}
+	return
+}
+
+// getDataguardPerformanceMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getDataguardPerformanceMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/dataguardPerformanceMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDataguardPerformanceMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DataguardPerformanceMetrics/GetDataguardPerformanceMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDataguardPerformanceMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDbManagementPrivateEndpoint Gets the details of a specific Database Management private endpoint.
 func (client DbManagementClient) GetDbManagementPrivateEndpoint(ctx context.Context, request GetDbManagementPrivateEndpointRequest) (response GetDbManagementPrivateEndpointResponse, err error) {
 	var ociResponse common.OCIResponse

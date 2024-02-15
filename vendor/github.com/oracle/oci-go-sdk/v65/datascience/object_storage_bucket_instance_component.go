@@ -19,14 +19,27 @@ import (
 // ObjectStorageBucketInstanceComponent Reference to Object Storage Bucket
 type ObjectStorageBucketInstanceComponent struct {
 
+	// Name of instance component
+	ComponentName *string `mandatory:"true" json:"componentName"`
+
 	// Object Storage namespace
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// Name of object storage bucket
-	BucketName *string `mandatory:"true" json:"bucketName"`
-
 	// OCID of Object Storage Bucket
 	BucketId *string `mandatory:"true" json:"bucketId"`
+
+	// Name of referenced resource (generally resources do not have to have any name but most resources have name exposed as 'name' or 'displayName' field).
+	Name *string `mandatory:"false" json:"name"`
+}
+
+// GetName returns Name
+func (m ObjectStorageBucketInstanceComponent) GetName() *string {
+	return m.Name
+}
+
+// GetComponentName returns ComponentName
+func (m ObjectStorageBucketInstanceComponent) GetComponentName() *string {
+	return m.ComponentName
 }
 
 func (m ObjectStorageBucketInstanceComponent) String() string {

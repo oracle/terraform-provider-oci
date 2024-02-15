@@ -36,40 +36,12 @@ import (
 //   - cpuCoreCount
 //   - dataStorageSizeInTB
 //   - dbVersion
-//
-// Example I - Creating a cross-region standby with required parameters only, with OCPU:
-//
-//	`{
-//	  "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
-//	  "cpuCoreCount": 1,
-//	  "dbName": "adatabasedb1",
-//	  "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
-//	  "dataStorageSizeInTBs": 1,
-//	  "source": "CROSS_REGION_DATAGUARD",
-//	  "adminPassword" : "<var>&lt;password&gt;</var>",
-//	}`
-//
-// Example II - Creating a cross-region standby that specifies optional parameters in addition to the required parameters, with ECPU:
-//
-//	`{
-//	  "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
-//	  "computeModel": "ECPU",
-//	  "computeCount": 2,
-//	  "dbName": "adatabasedb1",
-//	  "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
-//	  "dataStorageSizeInTBs": 1,
-//	  "source": "CROSS_REGION_DATAGUARD",
-//	  "adminPassword" : "<var>&lt;password&gt;</var>",
-//	  "dbVersion": "19c",
-//	  "licenseModel": "LICENSE_INCLUDED",
-//	  "isAutoScalingForStorageEnabled": "true"
-//	}`
 type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new standby database for the Data Guard association.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new peer database for the Data Guard association.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
 	// The character set for the autonomous database. The default is AL32UTF8. Allowed values for an Autonomous Database Serverless instance as as returned by List Autonomous Database Character Sets (https://docs.oracle.com/iaas/autonomous-database-serverless/doc/autonomous-character-set-selection.html)

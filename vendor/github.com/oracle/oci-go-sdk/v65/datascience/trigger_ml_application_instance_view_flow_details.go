@@ -20,6 +20,9 @@ type TriggerMlApplicationInstanceViewFlowDetails struct {
 
 	// Name of trigger
 	TriggerName *string `mandatory:"true" json:"triggerName"`
+
+	// Parameters provided for given trigger invocation (they must match predefined schema)
+	Parameters []TriggerParameter `mandatory:"false" json:"parameters"`
 }
 
 func (m TriggerMlApplicationInstanceViewFlowDetails) String() string {

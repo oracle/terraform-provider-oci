@@ -20,15 +20,23 @@ import (
 type DataSciencePipelineApplicationComponent struct {
 
 	// Name of application component
-	Name *string `mandatory:"true" json:"name"`
+	ComponentName *string `mandatory:"true" json:"componentName"`
 
 	// OCID of Data Science Pipeline
 	PipelineId *string `mandatory:"true" json:"pipelineId"`
+
+	// Name of referenced resource (generally resources do not have to have any name but most resources have name exposed as 'name' or 'displayName' field).
+	Name *string `mandatory:"false" json:"name"`
 }
 
 // GetName returns Name
 func (m DataSciencePipelineApplicationComponent) GetName() *string {
 	return m.Name
+}
+
+// GetComponentName returns ComponentName
+func (m DataSciencePipelineApplicationComponent) GetComponentName() *string {
+	return m.ComponentName
 }
 
 func (m DataSciencePipelineApplicationComponent) String() string {

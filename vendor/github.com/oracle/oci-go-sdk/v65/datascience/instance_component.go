@@ -16,13 +16,21 @@ import (
 	"strings"
 )
 
-// InstanceComponent Rereference to instance component
+// InstanceComponent Reference to instance component
 type InstanceComponent interface {
+
+	// Name of instance component
+	GetComponentName() *string
+
+	// Name of referenced resource (generally resources do not have to have any name but most resources have name exposed as 'name' or 'displayName' field).
+	GetName() *string
 }
 
 type instancecomponent struct {
-	JsonData []byte
-	Type     string `json:"type"`
+	JsonData      []byte
+	Name          *string `mandatory:"false" json:"name"`
+	ComponentName *string `mandatory:"true" json:"componentName"`
+	Type          string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -36,6 +44,8 @@ func (m *instancecomponent) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.ComponentName = s.Model.ComponentName
+	m.Name = s.Model.Name
 	m.Type = s.Model.Type
 
 	return err
@@ -54,6 +64,10 @@ func (m *instancecomponent) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := DataScienceModelDeploymentInstanceComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "GENERIC_OCI_RESOURCE":
+		mm := GenericOciResourceInstanceComponent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER":
 		mm := MlApplicationInstanceInternalTrigger{}
 		err = json.Unmarshal(data, &mm)
@@ -70,6 +84,16 @@ func (m *instancecomponent) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		common.Logf("Recieved unsupported enum value for InstanceComponent: %s.", m.Type)
 		return *m, nil
 	}
+}
+
+// GetName returns Name
+func (m instancecomponent) GetName() *string {
+	return m.Name
+}
+
+// GetComponentName returns ComponentName
+func (m instancecomponent) GetComponentName() *string {
+	return m.ComponentName
 }
 
 func (m instancecomponent) String() string {
@@ -96,18 +120,21 @@ const (
 	InstanceComponentTypeDataScienceModelDeployment InstanceComponentTypeEnum = "DATA_SCIENCE_MODEL_DEPLOYMENT"
 	InstanceComponentTypeObjectStorageBucket        InstanceComponentTypeEnum = "OBJECT_STORAGE_BUCKET"
 	InstanceComponentTypeObjectStorageObject        InstanceComponentTypeEnum = "OBJECT_STORAGE_OBJECT"
+	InstanceComponentTypeGenericOciResource         InstanceComponentTypeEnum = "GENERIC_OCI_RESOURCE"
 )
 
 var mappingInstanceComponentTypeEnum = map[string]InstanceComponentTypeEnum{
 	"DATA_SCIENCE_MODEL_DEPLOYMENT": InstanceComponentTypeDataScienceModelDeployment,
 	"OBJECT_STORAGE_BUCKET":         InstanceComponentTypeObjectStorageBucket,
 	"OBJECT_STORAGE_OBJECT":         InstanceComponentTypeObjectStorageObject,
+	"GENERIC_OCI_RESOURCE":          InstanceComponentTypeGenericOciResource,
 }
 
 var mappingInstanceComponentTypeEnumLowerCase = map[string]InstanceComponentTypeEnum{
 	"data_science_model_deployment": InstanceComponentTypeDataScienceModelDeployment,
 	"object_storage_bucket":         InstanceComponentTypeObjectStorageBucket,
 	"object_storage_object":         InstanceComponentTypeObjectStorageObject,
+	"generic_oci_resource":          InstanceComponentTypeGenericOciResource,
 }
 
 // GetInstanceComponentTypeEnumValues Enumerates the set of values for InstanceComponentTypeEnum
@@ -125,6 +152,7 @@ func GetInstanceComponentTypeEnumStringValues() []string {
 		"DATA_SCIENCE_MODEL_DEPLOYMENT",
 		"OBJECT_STORAGE_BUCKET",
 		"OBJECT_STORAGE_OBJECT",
+		"GENERIC_OCI_RESOURCE",
 	}
 }
 

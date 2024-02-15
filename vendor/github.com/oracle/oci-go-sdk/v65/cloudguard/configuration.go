@@ -11,6 +11,7 @@
 package cloudguard
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -24,6 +25,9 @@ type Configuration struct {
 
 	// Status of the Cloud Guard tenant
 	Status CloudGuardStatusEnum `mandatory:"false" json:"status,omitempty"`
+
+	// List of service configurations for this tenant
+	ServiceConfigurations []ServiceConfiguration `mandatory:"false" json:"serviceConfigurations"`
 
 	// Were Oracle-managed resources created by customer?
 	SelfManageResources *bool `mandatory:"false" json:"selfManageResources"`
@@ -46,4 +50,39 @@ func (m Configuration) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Configuration) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Status                CloudGuardStatusEnum   `json:"status"`
+		ServiceConfigurations []serviceconfiguration `json:"serviceConfigurations"`
+		SelfManageResources   *bool                  `json:"selfManageResources"`
+		ReportingRegion       *string                `json:"reportingRegion"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Status = model.Status
+
+	m.ServiceConfigurations = make([]ServiceConfiguration, len(model.ServiceConfigurations))
+	for i, n := range model.ServiceConfigurations {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ServiceConfigurations[i] = nn.(ServiceConfiguration)
+		} else {
+			m.ServiceConfigurations[i] = nil
+		}
+	}
+	m.SelfManageResources = model.SelfManageResources
+
+	m.ReportingRegion = model.ReportingRegion
+
+	return
 }

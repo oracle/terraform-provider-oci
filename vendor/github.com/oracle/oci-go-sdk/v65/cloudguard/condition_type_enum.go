@@ -19,27 +19,30 @@ type ConditionTypeEnumEnum string
 
 // Set of constants representing the allowable values for ConditionTypeEnumEnum
 const (
-	ConditionTypeEnumActivityCondition   ConditionTypeEnumEnum = "ActivityCondition"
-	ConditionTypeEnumSecurityCondition   ConditionTypeEnumEnum = "SecurityCondition"
-	ConditionTypeEnumCloudGuardCondition ConditionTypeEnumEnum = "CloudGuardCondition"
-	ConditionTypeEnumThreatCondition     ConditionTypeEnumEnum = "ThreatCondition"
-	ConditionTypeEnumFaActivityCondition ConditionTypeEnumEnum = "FaActivityCondition"
+	ConditionTypeEnumActivityCondition           ConditionTypeEnumEnum = "ActivityCondition"
+	ConditionTypeEnumSecurityCondition           ConditionTypeEnumEnum = "SecurityCondition"
+	ConditionTypeEnumCloudGuardCondition         ConditionTypeEnumEnum = "CloudGuardCondition"
+	ConditionTypeEnumWorkloadProtectionCondition ConditionTypeEnumEnum = "WorkloadProtectionCondition"
+	ConditionTypeEnumThreatCondition             ConditionTypeEnumEnum = "ThreatCondition"
+	ConditionTypeEnumFaActivityCondition         ConditionTypeEnumEnum = "FaActivityCondition"
 )
 
 var mappingConditionTypeEnumEnum = map[string]ConditionTypeEnumEnum{
-	"ActivityCondition":   ConditionTypeEnumActivityCondition,
-	"SecurityCondition":   ConditionTypeEnumSecurityCondition,
-	"CloudGuardCondition": ConditionTypeEnumCloudGuardCondition,
-	"ThreatCondition":     ConditionTypeEnumThreatCondition,
-	"FaActivityCondition": ConditionTypeEnumFaActivityCondition,
+	"ActivityCondition":           ConditionTypeEnumActivityCondition,
+	"SecurityCondition":           ConditionTypeEnumSecurityCondition,
+	"CloudGuardCondition":         ConditionTypeEnumCloudGuardCondition,
+	"WorkloadProtectionCondition": ConditionTypeEnumWorkloadProtectionCondition,
+	"ThreatCondition":             ConditionTypeEnumThreatCondition,
+	"FaActivityCondition":         ConditionTypeEnumFaActivityCondition,
 }
 
 var mappingConditionTypeEnumEnumLowerCase = map[string]ConditionTypeEnumEnum{
-	"activitycondition":   ConditionTypeEnumActivityCondition,
-	"securitycondition":   ConditionTypeEnumSecurityCondition,
-	"cloudguardcondition": ConditionTypeEnumCloudGuardCondition,
-	"threatcondition":     ConditionTypeEnumThreatCondition,
-	"faactivitycondition": ConditionTypeEnumFaActivityCondition,
+	"activitycondition":           ConditionTypeEnumActivityCondition,
+	"securitycondition":           ConditionTypeEnumSecurityCondition,
+	"cloudguardcondition":         ConditionTypeEnumCloudGuardCondition,
+	"workloadprotectioncondition": ConditionTypeEnumWorkloadProtectionCondition,
+	"threatcondition":             ConditionTypeEnumThreatCondition,
+	"faactivitycondition":         ConditionTypeEnumFaActivityCondition,
 }
 
 // GetConditionTypeEnumEnumValues Enumerates the set of values for ConditionTypeEnumEnum
@@ -57,6 +60,7 @@ func GetConditionTypeEnumEnumStringValues() []string {
 		"ActivityCondition",
 		"SecurityCondition",
 		"CloudGuardCondition",
+		"WorkloadProtectionCondition",
 		"ThreatCondition",
 		"FaActivityCondition",
 	}

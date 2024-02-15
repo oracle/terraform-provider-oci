@@ -388,6 +388,10 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := CreateVirtualAutonomousDatabaseCloneDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "UNDELETE_ADB":
+		mm := UndeleteAutonomousDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE":
 		mm := CreateAutonomousDatabaseCloneDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -892,6 +896,7 @@ const (
 	CreateAutonomousDatabaseBaseSourceDatabase                    CreateAutonomousDatabaseBaseSourceEnum = "DATABASE"
 	CreateAutonomousDatabaseBaseSourceBackupFromId                CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_ID"
 	CreateAutonomousDatabaseBaseSourceBackupFromTimestamp         CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_TIMESTAMP"
+	CreateAutonomousDatabaseBaseSourceUndeleteAdb                 CreateAutonomousDatabaseBaseSourceEnum = "UNDELETE_ADB"
 	CreateAutonomousDatabaseBaseSourceCloneToRefreshable          CreateAutonomousDatabaseBaseSourceEnum = "CLONE_TO_REFRESHABLE"
 	CreateAutonomousDatabaseBaseSourceCloneToVirtual              CreateAutonomousDatabaseBaseSourceEnum = "CLONE_TO_VIRTUAL"
 	CreateAutonomousDatabaseBaseSourceCrossRegionDataguard        CreateAutonomousDatabaseBaseSourceEnum = "CROSS_REGION_DATAGUARD"
@@ -903,6 +908,7 @@ var mappingCreateAutonomousDatabaseBaseSourceEnum = map[string]CreateAutonomousD
 	"DATABASE":                       CreateAutonomousDatabaseBaseSourceDatabase,
 	"BACKUP_FROM_ID":                 CreateAutonomousDatabaseBaseSourceBackupFromId,
 	"BACKUP_FROM_TIMESTAMP":          CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
+	"UNDELETE_ADB":                   CreateAutonomousDatabaseBaseSourceUndeleteAdb,
 	"CLONE_TO_REFRESHABLE":           CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
 	"CLONE_TO_VIRTUAL":               CreateAutonomousDatabaseBaseSourceCloneToVirtual,
 	"CROSS_REGION_DATAGUARD":         CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
@@ -914,6 +920,7 @@ var mappingCreateAutonomousDatabaseBaseSourceEnumLowerCase = map[string]CreateAu
 	"database":                       CreateAutonomousDatabaseBaseSourceDatabase,
 	"backup_from_id":                 CreateAutonomousDatabaseBaseSourceBackupFromId,
 	"backup_from_timestamp":          CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
+	"undelete_adb":                   CreateAutonomousDatabaseBaseSourceUndeleteAdb,
 	"clone_to_refreshable":           CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
 	"clone_to_virtual":               CreateAutonomousDatabaseBaseSourceCloneToVirtual,
 	"cross_region_dataguard":         CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
@@ -936,6 +943,7 @@ func GetCreateAutonomousDatabaseBaseSourceEnumStringValues() []string {
 		"DATABASE",
 		"BACKUP_FROM_ID",
 		"BACKUP_FROM_TIMESTAMP",
+		"UNDELETE_ADB",
 		"CLONE_TO_REFRESHABLE",
 		"CLONE_TO_VIRTUAL",
 		"CROSS_REGION_DATAGUARD",

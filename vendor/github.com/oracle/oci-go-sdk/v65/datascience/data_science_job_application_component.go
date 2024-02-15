@@ -20,15 +20,23 @@ import (
 type DataScienceJobApplicationComponent struct {
 
 	// Name of application component
-	Name *string `mandatory:"true" json:"name"`
+	ComponentName *string `mandatory:"true" json:"componentName"`
 
 	// OCID of Data Science Job
 	JobId *string `mandatory:"true" json:"jobId"`
+
+	// Name of referenced resource (generally resources do not have to have any name but most resources have name exposed as 'name' or 'displayName' field).
+	Name *string `mandatory:"false" json:"name"`
 }
 
 // GetName returns Name
 func (m DataScienceJobApplicationComponent) GetName() *string {
 	return m.Name
+}
+
+// GetComponentName returns ComponentName
+func (m DataScienceJobApplicationComponent) GetComponentName() *string {
+	return m.ComponentName
 }
 
 func (m DataScienceJobApplicationComponent) String() string {

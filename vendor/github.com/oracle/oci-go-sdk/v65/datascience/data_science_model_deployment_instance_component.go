@@ -19,11 +19,27 @@ import (
 // DataScienceModelDeploymentInstanceComponent Reference to Data Science Model Deployment
 type DataScienceModelDeploymentInstanceComponent struct {
 
+	// Name of instance component
+	ComponentName *string `mandatory:"true" json:"componentName"`
+
 	// Name of online prediction use-case (defined in ML Application) for which this Model Deployment serves predictions
 	PredictionUseCaseName *string `mandatory:"true" json:"predictionUseCaseName"`
 
 	// OCID of Data Science Model Deployment
 	ModelDeploymentId *string `mandatory:"true" json:"modelDeploymentId"`
+
+	// Name of referenced resource (generally resources do not have to have any name but most resources have name exposed as 'name' or 'displayName' field).
+	Name *string `mandatory:"false" json:"name"`
+}
+
+// GetName returns Name
+func (m DataScienceModelDeploymentInstanceComponent) GetName() *string {
+	return m.Name
+}
+
+// GetComponentName returns ComponentName
+func (m DataScienceModelDeploymentInstanceComponent) GetComponentName() *string {
+	return m.ComponentName
 }
 
 func (m DataScienceModelDeploymentInstanceComponent) String() string {

@@ -22,6 +22,7 @@ const (
 	PackageTypeEnumImage         PackageTypeEnumEnum = "IMAGE"
 	PackageTypeEnumContainer     PackageTypeEnumEnum = "CONTAINER"
 	PackageTypeEnumKubernetes    PackageTypeEnumEnum = "KUBERNETES"
+	PackageTypeEnumSaas          PackageTypeEnumEnum = "SAAS"
 )
 
 var mappingPackageTypeEnumEnum = map[string]PackageTypeEnumEnum{
@@ -29,6 +30,7 @@ var mappingPackageTypeEnumEnum = map[string]PackageTypeEnumEnum{
 	"IMAGE":         PackageTypeEnumImage,
 	"CONTAINER":     PackageTypeEnumContainer,
 	"KUBERNETES":    PackageTypeEnumKubernetes,
+	"SAAS":          PackageTypeEnumSaas,
 }
 
 var mappingPackageTypeEnumEnumLowerCase = map[string]PackageTypeEnumEnum{
@@ -36,6 +38,7 @@ var mappingPackageTypeEnumEnumLowerCase = map[string]PackageTypeEnumEnum{
 	"image":         PackageTypeEnumImage,
 	"container":     PackageTypeEnumContainer,
 	"kubernetes":    PackageTypeEnumKubernetes,
+	"saas":          PackageTypeEnumSaas,
 }
 
 // GetPackageTypeEnumEnumValues Enumerates the set of values for PackageTypeEnumEnum
@@ -54,6 +57,7 @@ func GetPackageTypeEnumEnumStringValues() []string {
 		"IMAGE",
 		"CONTAINER",
 		"KUBERNETES",
+		"SAAS",
 	}
 }
 

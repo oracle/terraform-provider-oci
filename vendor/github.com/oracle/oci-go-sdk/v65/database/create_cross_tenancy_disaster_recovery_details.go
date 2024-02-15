@@ -44,7 +44,7 @@ type CreateCrossTenancyDisasterRecoveryDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new standby database for the DR association.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new peer database for the DR association.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
 	// The character set for the autonomous database. The default is AL32UTF8. Allowed values for an Autonomous Database Serverless instance as as returned by List Autonomous Database Character Sets (https://docs.oracle.com/iaas/autonomous-database-serverless/doc/autonomous-character-set-selection.html)

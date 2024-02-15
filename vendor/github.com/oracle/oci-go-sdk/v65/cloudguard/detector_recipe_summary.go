@@ -40,6 +40,9 @@ type DetectorRecipeSummary struct {
 	// Recipe OCID of the source recipe to be cloned
 	SourceDetectorRecipeId *string `mandatory:"false" json:"sourceDetectorRecipeId"`
 
+	// Recipe type ( STANDARD, ENTERPRISE )
+	DetectorRecipeType DetectorRecipeEnumEnum `mandatory:"false" json:"detectorRecipeType,omitempty"`
+
 	// List of detector rules for the detector type
 	DetectorRules []DetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
 
@@ -87,6 +90,9 @@ func (m DetectorRecipeSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Detector: %s. Supported values are: %s.", m.Detector, strings.Join(GetDetectorEnumEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDetectorRecipeEnumEnum(string(m.DetectorRecipeType)); !ok && m.DetectorRecipeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetectorRecipeType: %s. Supported values are: %s.", m.DetectorRecipeType, strings.Join(GetDetectorRecipeEnumEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}

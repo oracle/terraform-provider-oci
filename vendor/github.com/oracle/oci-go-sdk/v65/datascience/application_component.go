@@ -20,13 +20,17 @@ import (
 type ApplicationComponent interface {
 
 	// Name of application component
+	GetComponentName() *string
+
+	// Name of referenced resource (generally resources do not have to have any name but most resources have name exposed as 'name' or 'displayName' field).
 	GetName() *string
 }
 
 type applicationcomponent struct {
-	JsonData []byte
-	Name     *string `mandatory:"true" json:"name"`
-	Type     string  `json:"type"`
+	JsonData      []byte
+	Name          *string `mandatory:"false" json:"name"`
+	ComponentName *string `mandatory:"true" json:"componentName"`
+	Type          string  `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -40,6 +44,7 @@ func (m *applicationcomponent) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.ComponentName = s.Model.ComponentName
 	m.Name = s.Model.Name
 	m.Type = s.Model.Type
 
@@ -59,12 +64,24 @@ func (m *applicationcomponent) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := DataScienceJobApplicationComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATA_FLOW_APPLICATION":
+		mm := DataFlowApplicationApplicationComponent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_OCI_RESOURCE":
+		mm := GenericOciResourceApplicationComponent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATA_SCIENCE_PIPELINE":
 		mm := DataSciencePipelineApplicationComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DATA_SCIENCE_MODEL":
 		mm := DataScienceModelApplicationComponent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DATA_SCIENCE_SCHEDULE":
+		mm := DataScienceScheduleApplicationComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -76,6 +93,11 @@ func (m *applicationcomponent) UnmarshalPolymorphicJSON(data []byte) (interface{
 // GetName returns Name
 func (m applicationcomponent) GetName() *string {
 	return m.Name
+}
+
+// GetComponentName returns ComponentName
+func (m applicationcomponent) GetComponentName() *string {
+	return m.ComponentName
 }
 
 func (m applicationcomponent) String() string {
@@ -99,21 +121,30 @@ type ApplicationComponentTypeEnum string
 
 // Set of constants representing the allowable values for ApplicationComponentTypeEnum
 const (
-	ApplicationComponentTypePipeline ApplicationComponentTypeEnum = "DATA_SCIENCE_PIPELINE"
-	ApplicationComponentTypeJob      ApplicationComponentTypeEnum = "DATA_SCIENCE_JOB"
-	ApplicationComponentTypeModel    ApplicationComponentTypeEnum = "DATA_SCIENCE_MODEL"
+	ApplicationComponentTypeDataSciencePipeline ApplicationComponentTypeEnum = "DATA_SCIENCE_PIPELINE"
+	ApplicationComponentTypeDataScienceJob      ApplicationComponentTypeEnum = "DATA_SCIENCE_JOB"
+	ApplicationComponentTypeDataScienceModel    ApplicationComponentTypeEnum = "DATA_SCIENCE_MODEL"
+	ApplicationComponentTypeDataFlowApplication ApplicationComponentTypeEnum = "DATA_FLOW_APPLICATION"
+	ApplicationComponentTypeDataScienceSchedule ApplicationComponentTypeEnum = "DATA_SCIENCE_SCHEDULE"
+	ApplicationComponentTypeGenericOciResource  ApplicationComponentTypeEnum = "GENERIC_OCI_RESOURCE"
 )
 
 var mappingApplicationComponentTypeEnum = map[string]ApplicationComponentTypeEnum{
-	"DATA_SCIENCE_PIPELINE": ApplicationComponentTypePipeline,
-	"DATA_SCIENCE_JOB":      ApplicationComponentTypeJob,
-	"DATA_SCIENCE_MODEL":    ApplicationComponentTypeModel,
+	"DATA_SCIENCE_PIPELINE": ApplicationComponentTypeDataSciencePipeline,
+	"DATA_SCIENCE_JOB":      ApplicationComponentTypeDataScienceJob,
+	"DATA_SCIENCE_MODEL":    ApplicationComponentTypeDataScienceModel,
+	"DATA_FLOW_APPLICATION": ApplicationComponentTypeDataFlowApplication,
+	"DATA_SCIENCE_SCHEDULE": ApplicationComponentTypeDataScienceSchedule,
+	"GENERIC_OCI_RESOURCE":  ApplicationComponentTypeGenericOciResource,
 }
 
 var mappingApplicationComponentTypeEnumLowerCase = map[string]ApplicationComponentTypeEnum{
-	"data_science_pipeline": ApplicationComponentTypePipeline,
-	"data_science_job":      ApplicationComponentTypeJob,
-	"data_science_model":    ApplicationComponentTypeModel,
+	"data_science_pipeline": ApplicationComponentTypeDataSciencePipeline,
+	"data_science_job":      ApplicationComponentTypeDataScienceJob,
+	"data_science_model":    ApplicationComponentTypeDataScienceModel,
+	"data_flow_application": ApplicationComponentTypeDataFlowApplication,
+	"data_science_schedule": ApplicationComponentTypeDataScienceSchedule,
+	"generic_oci_resource":  ApplicationComponentTypeGenericOciResource,
 }
 
 // GetApplicationComponentTypeEnumValues Enumerates the set of values for ApplicationComponentTypeEnum
@@ -131,6 +162,9 @@ func GetApplicationComponentTypeEnumStringValues() []string {
 		"DATA_SCIENCE_PIPELINE",
 		"DATA_SCIENCE_JOB",
 		"DATA_SCIENCE_MODEL",
+		"DATA_FLOW_APPLICATION",
+		"DATA_SCIENCE_SCHEDULE",
+		"GENERIC_OCI_RESOURCE",
 	}
 }
 

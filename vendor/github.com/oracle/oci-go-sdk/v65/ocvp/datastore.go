@@ -22,8 +22,11 @@ type Datastore struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Datastore.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The list of Block Volumes that belong to the datastore.
-	BlockVolumes []BlockVolume `mandatory:"true" json:"blockVolumes"`
+	// The List of Block volume OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)s that belong to the Datastore.
+	BlockVolumeIds []string `mandatory:"true" json:"blockVolumeIds"`
+
+	// The list of Block Volume details that belong to the datastore.
+	BlockVolumeDetails []BlockVolumeDetails `mandatory:"true" json:"blockVolumeDetails"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that
 	// contains the Datastore.

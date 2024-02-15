@@ -17,6 +17,9 @@ type ListMlApplicationImplementationVersionsRequest struct {
 	// unique MlApplicationImplementation identifier
 	MlApplicationImplementationId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationImplementationId"`
 
+	// A filter to return only resources matching the given lifecycleState.
+	LifecycleState MlApplicationImplementationVersionLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.
 	// 1 is the minimum, 100 is the maximum.
@@ -74,6 +77,9 @@ func (request ListMlApplicationImplementationVersionsRequest) RetryPolicy() *com
 // Not recommended for calling this function directly
 func (request ListMlApplicationImplementationVersionsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingMlApplicationImplementationVersionLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetMlApplicationImplementationVersionLifecycleStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListMlApplicationImplementationVersionsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMlApplicationImplementationVersionsSortOrderEnumStringValues(), ",")))
 	}

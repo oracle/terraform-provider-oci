@@ -19,14 +19,27 @@ import (
 // MlApplicationInstanceInternalTrigger Trigger details
 type MlApplicationInstanceInternalTrigger struct {
 
+	// Name of instance component
+	ComponentName *string `mandatory:"true" json:"componentName"`
+
 	// Trigger definition for given ML Application Instance
 	TriggerDefinition *string `mandatory:"true" json:"triggerDefinition"`
 
 	// Indicates whether the trigger is enabled. If it is false trigger does not fire even when the trigger condition is met.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// Trigger name (specified in trigger definition)
+	// Name of referenced resource (generally resources do not have to have any name but most resources have name exposed as 'name' or 'displayName' field).
 	Name *string `mandatory:"false" json:"name"`
+}
+
+// GetName returns Name
+func (m MlApplicationInstanceInternalTrigger) GetName() *string {
+	return m.Name
+}
+
+// GetComponentName returns ComponentName
+func (m MlApplicationInstanceInternalTrigger) GetComponentName() *string {
+	return m.ComponentName
 }
 
 func (m MlApplicationInstanceInternalTrigger) String() string {

@@ -19,7 +19,7 @@ import (
 type JobStartupProbe struct {
 
 	// The commands to run in the target container to perform the startup probe
-	Command []string `mandatory:"false" json:"command"`
+	Command []string `mandatory:"true" json:"command"`
 
 	// Number of seconds how often the container should perform a startup probe
 	PeriodInSeconds *int `mandatory:"false" json:"periodInSeconds"`

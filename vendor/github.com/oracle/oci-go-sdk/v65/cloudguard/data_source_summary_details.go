@@ -51,6 +51,10 @@ func (m *datasourcesummarydetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.DataSourceFeedProvider {
+	case "WLPSCHEDULEDQUERY":
+		mm := ScheduledQueryDataSourceSummaryDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LOGGINGQUERY":
 		mm := LoggingQueryDataSourceSummaryDetails{}
 		err = json.Unmarshal(data, &mm)

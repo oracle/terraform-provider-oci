@@ -55,6 +55,9 @@ type TargetDetectorRecipeSummary struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	// Recipe type ( STANDARD, ENTERPRISE )
+	DetectorRecipeType DetectorRecipeEnumEnum `mandatory:"false" json:"detectorRecipeType,omitempty"`
+
 	// The number of days for which source data is retained
 	SourceDataRetention *int `mandatory:"false" json:"sourceDataRetention"`
 }
@@ -77,6 +80,9 @@ func (m TargetDetectorRecipeSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDetectorRecipeEnumEnum(string(m.DetectorRecipeType)); !ok && m.DetectorRecipeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetectorRecipeType: %s. Supported values are: %s.", m.DetectorRecipeType, strings.Join(GetDetectorRecipeEnumEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

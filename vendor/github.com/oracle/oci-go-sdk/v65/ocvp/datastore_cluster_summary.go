@@ -55,6 +55,9 @@ type DatastoreClusterSummary struct {
 	// The OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi hosts attached to Datastore Cluster.
 	EsxiHostIds []string `mandatory:"false" json:"esxiHostIds"`
 
+	// Type of the datastore cluster.
+	DatastoreClusterType DatastoreClusterTypesEnum `mandatory:"false" json:"datastoreClusterType,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -83,6 +86,9 @@ func (m DatastoreClusterSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStatesEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDatastoreClusterTypesEnum(string(m.DatastoreClusterType)); !ok && m.DatastoreClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatastoreClusterType: %s. Supported values are: %s.", m.DatastoreClusterType, strings.Join(GetDatastoreClusterTypesEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -18,7 +18,7 @@ import (
 // ChangeMigrationCompartmentDetails Change Migration compartment details.
 type ChangeMigrationCompartmentDetails struct {
 
-	// The OCID of the compartment to move the resource to.
+	// OCI resource ID.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

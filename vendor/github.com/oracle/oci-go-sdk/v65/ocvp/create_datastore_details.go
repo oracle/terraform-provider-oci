@@ -22,8 +22,8 @@ type CreateDatastoreDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the Datastore.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The Block volume objects that will belong to the Datastore.
-	BlockVolumes []BlockVolume `mandatory:"true" json:"blockVolumes"`
+	// The List of Block volume OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)s that belong to the Datastore.
+	BlockVolumeIds []string `mandatory:"true" json:"blockVolumeIds"`
 
 	// A descriptive name for the Datastore. It must be unique within a SDDC, start with a letter, and contain only letters, digits,
 	// whitespaces, dashes and underscores.

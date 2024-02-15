@@ -19,7 +19,7 @@ import (
 // AttachDatastoreClusterToEsxiHostDetails Details for the datastore cluster attachment to ESXi hosts.
 type AttachDatastoreClusterToEsxiHostDetails struct {
 
-	// The OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host to attach the
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the ESXi host to attach the
 	// datastore cluster to.
 	EsxiHostId *string `mandatory:"true" json:"esxiHostId"`
 }

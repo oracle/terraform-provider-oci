@@ -19,7 +19,7 @@ import (
 // AttachDatastoreClusterToClusterDetails Details for the datastore cluster attachment to Vmware Cluster.
 type AttachDatastoreClusterToClusterDetails struct {
 
-	// The OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VMware cluster to attach the
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VMware cluster to attach the
 	// datastore cluster to.
 	ClusterId *string `mandatory:"true" json:"clusterId"`
 }

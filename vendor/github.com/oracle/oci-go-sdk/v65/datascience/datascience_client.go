@@ -5284,7 +5284,7 @@ func (client DataScienceClient) listMlApplicationImplementationVersions(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersionSummary/ListMlApplicationImplementationVersions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationVersion/ListMlApplicationImplementationVersions"
 		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationImplementationVersions", apiReferenceLink)
 		return response, err
 	}
@@ -5338,7 +5338,7 @@ func (client DataScienceClient) listMlApplicationImplementations(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementationSummary/ListMlApplicationImplementations"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationImplementation/ListMlApplicationImplementations"
 		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationImplementations", apiReferenceLink)
 		return response, err
 	}
@@ -5392,7 +5392,7 @@ func (client DataScienceClient) listMlApplicationInstanceViews(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceViewSummary/ListMlApplicationInstanceViews"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceView/ListMlApplicationInstanceViews"
 		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationInstanceViews", apiReferenceLink)
 		return response, err
 	}
@@ -5446,7 +5446,7 @@ func (client DataScienceClient) listMlApplicationInstances(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstanceSummary/ListMlApplicationInstances"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationInstance/ListMlApplicationInstances"
 		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplicationInstances", apiReferenceLink)
 		return response, err
 	}
@@ -5500,7 +5500,7 @@ func (client DataScienceClient) listMlApplications(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplicationSummary/ListMlApplications"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/MlApplication/ListMlApplications"
 		err = common.PostProcessServiceError(err, "DataScience", "ListMlApplications", apiReferenceLink)
 		return response, err
 	}

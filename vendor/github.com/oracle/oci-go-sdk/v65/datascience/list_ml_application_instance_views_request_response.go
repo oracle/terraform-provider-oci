@@ -26,8 +26,8 @@ type ListMlApplicationInstanceViewsRequest struct {
 	// unique MlApplicationImplementation identifier
 	MlApplicationImplementationId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationImplementationId"`
 
-	// A filter to return only resources with lifecycleSubstate matching the given lifecycleSubstate.
-	LifecycleSubstate MlApplicationInstanceViewLifecycleSubstateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleSubstate" omitEmpty:"true"`
+	// A filter to return only resources matching the given lifecycleState.
+	LifecycleState MlApplicationInstanceViewLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.
@@ -86,8 +86,8 @@ func (request ListMlApplicationInstanceViewsRequest) RetryPolicy() *common.Retry
 // Not recommended for calling this function directly
 func (request ListMlApplicationInstanceViewsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingMlApplicationInstanceViewLifecycleSubstateEnum(string(request.LifecycleSubstate)); !ok && request.LifecycleSubstate != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubstate: %s. Supported values are: %s.", request.LifecycleSubstate, strings.Join(GetMlApplicationInstanceViewLifecycleSubstateEnumStringValues(), ",")))
+	if _, ok := GetMappingMlApplicationInstanceViewLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetMlApplicationInstanceViewLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListMlApplicationInstanceViewsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListMlApplicationInstanceViewsSortOrderEnumStringValues(), ",")))

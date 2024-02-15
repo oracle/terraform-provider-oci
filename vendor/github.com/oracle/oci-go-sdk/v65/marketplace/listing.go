@@ -84,6 +84,9 @@ type Listing struct {
 	// The list of compatible architectures supported by the listing
 	CompatibleArchitectures []ListingCompatibleArchitecturesEnum `mandatory:"false" json:"compatibleArchitectures,omitempty"`
 
+	// Summary of the pricing types available across all packages in the listing.
+	PricingTypes []PricingTypeEnumEnum `mandatory:"false" json:"pricingTypes"`
+
 	// The regions where you can deploy the listing. (Some listings have restrictions that limit their deployment to United States regions only.)
 	Regions []Region `mandatory:"false" json:"regions"`
 
@@ -188,6 +191,7 @@ const (
 	ListingPackageTypeImage         PackageTypeEnumEnum = "IMAGE"
 	ListingPackageTypeContainer     PackageTypeEnumEnum = "CONTAINER"
 	ListingPackageTypeKubernetes    PackageTypeEnumEnum = "KUBERNETES"
+	ListingPackageTypeSaas          PackageTypeEnumEnum = "SAAS"
 )
 
 // GetListingPackageTypeEnumValues Enumerates the set of values for PackageTypeEnumEnum

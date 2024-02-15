@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ChangeConnectionCompartmentDetails Change Database Connection compartment details.
+// ChangeConnectionCompartmentDetails The new compartment for a Connection.
 type ChangeConnectionCompartmentDetails struct {
 
-	// The OCID of the compartment to move the resource to.
+	// OCI resource ID.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 
