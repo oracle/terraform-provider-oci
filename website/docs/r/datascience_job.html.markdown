@@ -49,6 +49,17 @@ resource "oci_datascience_job" "test_job" {
 	description = var.job_description
 	display_name = var.job_display_name
 	freeform_tags = {"Department"= "Finance"}
+	job_environment_configuration_details {
+		#Required
+		image = var.job_job_environment_configuration_details_image
+		job_environment_type = var.job_job_environment_configuration_details_job_environment_type
+
+		#Optional
+		cmd = var.job_job_environment_configuration_details_cmd
+		entrypoint = var.job_job_environment_configuration_details_entrypoint
+		image_digest = var.job_job_environment_configuration_details_image_digest
+		image_signature_id = oci_datascience_image_signature.test_image_signature.id
+	}
 	job_log_configuration_details {
 
 		#Optional
@@ -88,6 +99,13 @@ The following arguments are supported:
 	* `environment_variables` - (Optional) Environment variables to set for the job. 
 	* `job_type` - (Required) The type of job.
 	* `maximum_runtime_in_minutes` - (Optional) A time bound for the execution of the job. Timer starts when the job becomes active. 
+* `job_environment_configuration_details` - (Optional) Environment configuration to capture job runtime dependencies.
+	* `cmd` - (Optional) The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+	* `entrypoint` - (Optional) The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+	* `image` - (Required) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
+	* `image_digest` - (Optional) The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+	* `image_signature_id` - (Optional) OCID of the container image signature
+	* `job_environment_type` - (Required) The environment configuration type used for job runtime.
 * `job_infrastructure_configuration_details` - (Required) (Updatable) The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - (Required) (Updatable) The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - (Required) (Updatable) The infrastructure type used for job run.
@@ -135,6 +153,13 @@ The following attributes are exported:
 	* `environment_variables` - Environment variables to set for the job. 
 	* `job_type` - The type of job.
 	* `maximum_runtime_in_minutes` - A time bound for the execution of the job. Timer starts when the job becomes active. 
+* `job_environment_configuration_details` - Environment configuration to capture job runtime dependencies.
+	* `cmd` - The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+	* `entrypoint` - The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+	* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. Acceptable format: `<region>.ocir.io/<registry>/<image>:<tag>` `<region>.ocir.io/<registry>/<image>:<tag>@digest` 
+	* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+	* `image_signature_id` - OCID of the container image signature
+	* `job_environment_type` - The environment configuration type used for job runtime.
 * `job_infrastructure_configuration_details` - The job infrastructure configuration details (shape, block storage, etc.) 
 	* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance running the job 
 	* `job_infrastructure_type` - The infrastructure type used for job run.
