@@ -60,7 +60,8 @@ var (
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"asynchronous":                       acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"job_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobRunJobConfigurationOverrideDetailsRepresentation},
-		"lifecycle":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreJobRunDefinedTagsChangesRepresentation},
+		"job_environment_configuration_override_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobRunJobEnvironmentConfigurationOverrideDetailsRepresentation},
+		"lifecycle": acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreJobRunDefinedTagsChangesRepresentation},
 	}
 	DatascienceJobRunJobConfigurationOverrideDetailsRepresentation = map[string]interface{}{
 		"job_type":                   acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
@@ -68,7 +69,14 @@ var (
 		"environment_variables":      acctest.Representation{RepType: acctest.Required, Create: map[string]string{"environmentVariables": "environmentVariables"}},
 		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
-
+	DatascienceJobRunJobEnvironmentConfigurationOverrideDetailsRepresentation = map[string]interface{}{
+		"image":                acctest.Representation{RepType: acctest.Required, Create: `iad.ocir.io/ociodscdev/byod_hello_wrld:1.0`},
+		"job_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`},
+		"cmd":                  acctest.Representation{RepType: acctest.Optional, Create: []string{``}},
+		"entrypoint":           acctest.Representation{RepType: acctest.Optional, Create: []string{``}},
+		"image_digest":         acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: ``},
+	}
 	ignoreJobRunDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
@@ -144,6 +152,13 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.environment_variables.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.maximum_runtime_in_minutes", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.cmd.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.entrypoint.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.image", "iad.ocir.io/ociodscdev/byod_hello_wrld:1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.image_digest", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.image_signature_id", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_override_details.#", "0"),
@@ -178,6 +193,13 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.environment_variables.%", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.job_type", "DEFAULT"),
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_override_details.0.maximum_runtime_in_minutes", "10"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.cmd.#", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.entrypoint.#", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.image", "iad.ocir.io/ociodscdev/byod_hello_wrld:1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.image_digest", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.image_signature_id", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_override_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_id"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_log_configuration_override_details.#", "0"),
@@ -243,6 +265,12 @@ func TestDatascienceJobRunResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_override_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_log_configuration_override_details.#", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.0.cmd.#", ""),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.0.entrypoint.#", ""),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.0.image", "iad.ocir.io/ociodscdev/byod_hello_wrld:1.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.0.image_digest", ""),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_override_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "log_details.#", "0"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_accepted"),

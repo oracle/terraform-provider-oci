@@ -163,6 +163,10 @@ func (s *DatascienceDataSciencePrivateEndpointsDataSourceCrud) SetData() error {
 			dataSciencePrivateEndpoint["subnet_id"] = *r.SubnetId
 		}
 
+		if r.SystemTags != nil {
+			dataSciencePrivateEndpoint["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			dataSciencePrivateEndpoint["time_created"] = r.TimeCreated.String()
 		}
