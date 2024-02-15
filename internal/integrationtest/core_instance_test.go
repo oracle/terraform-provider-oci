@@ -179,6 +179,22 @@ var (
 		"network_type":                        acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
 		"remote_data_volume_type":             acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
 	}
+	CoreInstanceWithIntelVmPlatformConfigRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(CoreFungibleInstanceRepresentation, map[string]interface{}{
+		"fault_domain":    acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
+		"image":           acctest.Representation{RepType: acctest.Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
+		"source_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceFlexSourceDetailsRepresentation},
+		"platform_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceIntelVmPlatformConfigRepresentationWithSMTDisabled},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
+	CoreInstanceIntelVmPlatformConfigRepresentationWithSMTDisabled = map[string]interface{}{
+		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `INTEL_VM`},
+		"is_symmetric_multi_threading_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
+	}
+	CoreInstanceIntelVmPlatformConfigRepresentationWithSMTEnabled = map[string]interface{}{
+		"type":                                 acctest.Representation{RepType: acctest.Required, Create: `INTEL_VM`},
+		"is_symmetric_multi_threading_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+	}
 	instanceSubCorePlatformConfigRepresentation = map[string]interface{}{
 		"type":                  acctest.Representation{RepType: acctest.Required, Create: `AMD_MILAN_BM`},
 		"numa_nodes_per_socket": acctest.Representation{RepType: acctest.Optional, Create: `NPS0`},
@@ -2212,6 +2228,135 @@ func TestAccResourceCoreFungibleInstance_UpdateShapeConfig(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "2"),
 					// currently E3 subcore is forced to use launch_mode = PARAVIRTUALIZED
 					resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
+// platform config update
+func TestAccResourceCoreInstance_UpdatePlatformConfig(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreFungibleInstance_UpdatePlatformConfig")
+	defer httpreplay.SaveScenario()
+	provider := acctest.TestAccProvider
+
+	config := `
+      provider oci {
+         test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+      }
+   ` + acctest.CommonTestVariables()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+
+			// Step 0 - verify create with platform_config = null
+			{
+				Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV + utils.FlexVmImageIdsVariable +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance",
+						acctest.Optional, acctest.Create, acctest.RepresentationCopyWithRemovedProperties(CoreInstanceWithIntelVmPlatformConfigRepresentation, []string{"platform_config"})),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "0"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// step 1 verify updates to a null platform_config object does not destroy the resource
+			// (Only platform_config_type and platform_config.is_symmetric_multi_threading_enabled property updates for VM's only - Rest will ForceNew)
+			{
+				Config: config + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV + utils.FlexVmImageIdsVariable +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance",
+						acctest.Optional, acctest.Create, CoreInstanceWithIntelVmPlatformConfigRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "INTEL_VM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "false"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// verify updates to existing platform_config.0.is_symmetric_multi_threading_enabled property does not destroy the resource
+			{
+				Config: config + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV + utils.FlexVmImageIdsVariable +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create,
+						acctest.GetUpdatedRepresentationCopy("platform_config",
+							acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceIntelVmPlatformConfigRepresentationWithSMTEnabled},
+							CoreInstanceWithIntelVmPlatformConfigRepresentation)),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "INTEL_VM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "true"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// verify re-size operation updates the platform_config.0.type and retains the old SMT value
+			{
+				Config: config + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV + utils.FlexVmImageIdsVariable +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create,
+						acctest.GetMultipleUpdatedRepresenationCopy(
+							[]string{"shape", "shape_config", "platform_config"},
+							[]interface{}{
+								acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+								acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentation_ForFungibleShapeConfig},
+								acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceIntelVmPlatformConfigRepresentationWithSMTEnabled},
+							}, CoreInstanceWithIntelVmPlatformConfigRepresentation),
+					),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E4.Flex"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "true"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
