@@ -48,8 +48,8 @@ type ModelSummary struct {
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// For pre trained models this will identify model type version used for model creation
-	// For custom identifying the model by model id is difficult. This param provides ease of use for end customer.
-	// <<service>>::<<service-name>>-<<model-type-version>>::<<custom model on which this training has to be done>>
+	// For custom this will identify model type version used for model creation and custom model on which training has to be done
+	// <<service>>::<<service-name>>_<<model-type-version>>::<<custom model on which this training has to be done>>
 	// ex: ai-lang::NER_V1::CUSTOM-V0
 	Version *string `mandatory:"false" json:"version"`
 
@@ -63,7 +63,7 @@ type ModelSummary struct {
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
-	SystemTags map[string]interface{} `mandatory:"false" json:"systemTags"`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ModelSummary) String() string {
@@ -93,7 +93,7 @@ func (m *ModelSummary) UnmarshalJSON(data []byte) (e error) {
 		Version          *string                           `json:"version"`
 		FreeformTags     map[string]string                 `json:"freeformTags"`
 		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]interface{}            `json:"systemTags"`
+		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
 		Id               *string                           `json:"id"`
 		DisplayName      *string                           `json:"displayName"`
 		CompartmentId    *string                           `json:"compartmentId"`

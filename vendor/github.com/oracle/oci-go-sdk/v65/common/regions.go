@@ -120,6 +120,8 @@ const (
 	RegionEUFrankfurt2 Region = "eu-frankfurt-2"
 	//RegionEUJovanovac1 region Jovanovac
 	RegionEUJovanovac1 Region = "eu-jovanovac-1"
+	//RegionMEDccDoha1 region Doha
+	RegionMEDccDoha1 Region = "me-dcc-doha-1"
 	//RegionEUDccZurich1 region Zurich
 	RegionEUDccZurich1 Region = "eu-dcc-zurich-1"
 )
@@ -183,6 +185,7 @@ var shortNameRegion = map[string]Region{
 	"vll": RegionEUMadrid2,
 	"str": RegionEUFrankfurt2,
 	"beg": RegionEUJovanovac1,
+	"doh": RegionMEDccDoha1,
 	"avz": RegionEUDccZurich1,
 }
 
@@ -197,6 +200,7 @@ var realm = map[string]string{
 	"oc14": "oraclecloud14.com",
 	"oc19": "oraclecloud.eu",
 	"oc20": "oraclecloud20.com",
+	"oc21": "oraclecloud21.com",
 	"oc24": "oraclecloud24.com",
 }
 
@@ -268,6 +272,8 @@ var regionRealm = map[Region]string{
 	RegionEUFrankfurt2: "oc19",
 
 	RegionEUJovanovac1: "oc20",
+
+	RegionMEDccDoha1: "oc21",
 
 	RegionEUDccZurich1: "oc24",
 }
