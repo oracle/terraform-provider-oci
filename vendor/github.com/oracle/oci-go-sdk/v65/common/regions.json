@@ -352,5 +352,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "sa-valparaiso-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "doh",
+        "realmKey": "oc21",
+        "regionIdentifier": "me-dcc-doha-1",
+        "realmDomainComponent": "oraclecloud21.com"
     }
 ]

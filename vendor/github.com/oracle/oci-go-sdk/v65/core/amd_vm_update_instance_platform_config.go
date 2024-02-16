@@ -22,20 +22,8 @@ import (
 	"strings"
 )
 
-// InstanceConfigurationIntelVmLaunchInstancePlatformConfig The platform configuration used when launching a virtual machine instance with the Intel platform.
-type InstanceConfigurationIntelVmLaunchInstancePlatformConfig struct {
-
-	// Whether Secure Boot is enabled on the instance.
-	IsSecureBootEnabled *bool `mandatory:"false" json:"isSecureBootEnabled"`
-
-	// Whether the Trusted Platform Module (TPM) is enabled on the instance.
-	IsTrustedPlatformModuleEnabled *bool `mandatory:"false" json:"isTrustedPlatformModuleEnabled"`
-
-	// Whether the Measured Boot feature is enabled on the instance.
-	IsMeasuredBootEnabled *bool `mandatory:"false" json:"isMeasuredBootEnabled"`
-
-	// Whether the instance is a confidential instance. If this value is `true`, the instance is a confidential instance. The default value is `false`.
-	IsMemoryEncryptionEnabled *bool `mandatory:"false" json:"isMemoryEncryptionEnabled"`
+// AmdVmUpdateInstancePlatformConfig The platform configuration used when updating a virtual machine instance with the AMD platform.
+type AmdVmUpdateInstancePlatformConfig struct {
 
 	// Whether symmetric multithreading is enabled on the instance. Symmetric multithreading is also
 	// called simultaneous multithreading (SMT) or Intel Hyper-Threading.
@@ -46,34 +34,14 @@ type InstanceConfigurationIntelVmLaunchInstancePlatformConfig struct {
 	IsSymmetricMultiThreadingEnabled *bool `mandatory:"false" json:"isSymmetricMultiThreadingEnabled"`
 }
 
-// GetIsSecureBootEnabled returns IsSecureBootEnabled
-func (m InstanceConfigurationIntelVmLaunchInstancePlatformConfig) GetIsSecureBootEnabled() *bool {
-	return m.IsSecureBootEnabled
-}
-
-// GetIsTrustedPlatformModuleEnabled returns IsTrustedPlatformModuleEnabled
-func (m InstanceConfigurationIntelVmLaunchInstancePlatformConfig) GetIsTrustedPlatformModuleEnabled() *bool {
-	return m.IsTrustedPlatformModuleEnabled
-}
-
-// GetIsMeasuredBootEnabled returns IsMeasuredBootEnabled
-func (m InstanceConfigurationIntelVmLaunchInstancePlatformConfig) GetIsMeasuredBootEnabled() *bool {
-	return m.IsMeasuredBootEnabled
-}
-
-// GetIsMemoryEncryptionEnabled returns IsMemoryEncryptionEnabled
-func (m InstanceConfigurationIntelVmLaunchInstancePlatformConfig) GetIsMemoryEncryptionEnabled() *bool {
-	return m.IsMemoryEncryptionEnabled
-}
-
-func (m InstanceConfigurationIntelVmLaunchInstancePlatformConfig) String() string {
+func (m AmdVmUpdateInstancePlatformConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m InstanceConfigurationIntelVmLaunchInstancePlatformConfig) ValidateEnumValue() (bool, error) {
+func (m AmdVmUpdateInstancePlatformConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -83,14 +51,14 @@ func (m InstanceConfigurationIntelVmLaunchInstancePlatformConfig) ValidateEnumVa
 }
 
 // MarshalJSON marshals to json representation
-func (m InstanceConfigurationIntelVmLaunchInstancePlatformConfig) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeInstanceConfigurationIntelVmLaunchInstancePlatformConfig InstanceConfigurationIntelVmLaunchInstancePlatformConfig
+func (m AmdVmUpdateInstancePlatformConfig) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeAmdVmUpdateInstancePlatformConfig AmdVmUpdateInstancePlatformConfig
 	s := struct {
 		DiscriminatorParam string `json:"type"`
-		MarshalTypeInstanceConfigurationIntelVmLaunchInstancePlatformConfig
+		MarshalTypeAmdVmUpdateInstancePlatformConfig
 	}{
-		"INTEL_VM",
-		(MarshalTypeInstanceConfigurationIntelVmLaunchInstancePlatformConfig)(m),
+		"AMD_VM",
+		(MarshalTypeAmdVmUpdateInstancePlatformConfig)(m),
 	}
 
 	return json.Marshal(&s)

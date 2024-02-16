@@ -16,6 +16,7 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -130,6 +131,8 @@ type UpdateInstanceDetails struct {
 	// - that is, you can't move an instance from on-demand capacity to dedicated capacity,
 	// nor can you move an instance from dedicated capacity to on-demand capacity.
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
+
+	PlatformConfig UpdateInstancePlatformConfig `mandatory:"false" json:"platformConfig"`
 }
 
 func (m UpdateInstanceDetails) String() string {
@@ -149,6 +152,78 @@ func (m UpdateInstanceDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CapacityReservationId     *string                                            `json:"capacityReservationId"`
+		DefinedTags               map[string]map[string]interface{}                  `json:"definedTags"`
+		DisplayName               *string                                            `json:"displayName"`
+		FreeformTags              map[string]string                                  `json:"freeformTags"`
+		AgentConfig               *UpdateInstanceAgentConfigDetails                  `json:"agentConfig"`
+		Metadata                  map[string]string                                  `json:"metadata"`
+		ExtendedMetadata          map[string]interface{}                             `json:"extendedMetadata"`
+		Shape                     *string                                            `json:"shape"`
+		ShapeConfig               *UpdateInstanceShapeConfigDetails                  `json:"shapeConfig"`
+		UpdateOperationConstraint UpdateInstanceDetailsUpdateOperationConstraintEnum `json:"updateOperationConstraint"`
+		InstanceOptions           *InstanceOptions                                   `json:"instanceOptions"`
+		FaultDomain               *string                                            `json:"faultDomain"`
+		LaunchOptions             *UpdateLaunchOptions                               `json:"launchOptions"`
+		AvailabilityConfig        *UpdateInstanceAvailabilityConfigDetails           `json:"availabilityConfig"`
+		TimeMaintenanceRebootDue  *common.SDKTime                                    `json:"timeMaintenanceRebootDue"`
+		DedicatedVmHostId         *string                                            `json:"dedicatedVmHostId"`
+		PlatformConfig            updateinstanceplatformconfig                       `json:"platformConfig"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CapacityReservationId = model.CapacityReservationId
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DisplayName = model.DisplayName
+
+	m.FreeformTags = model.FreeformTags
+
+	m.AgentConfig = model.AgentConfig
+
+	m.Metadata = model.Metadata
+
+	m.ExtendedMetadata = model.ExtendedMetadata
+
+	m.Shape = model.Shape
+
+	m.ShapeConfig = model.ShapeConfig
+
+	m.UpdateOperationConstraint = model.UpdateOperationConstraint
+
+	m.InstanceOptions = model.InstanceOptions
+
+	m.FaultDomain = model.FaultDomain
+
+	m.LaunchOptions = model.LaunchOptions
+
+	m.AvailabilityConfig = model.AvailabilityConfig
+
+	m.TimeMaintenanceRebootDue = model.TimeMaintenanceRebootDue
+
+	m.DedicatedVmHostId = model.DedicatedVmHostId
+
+	nn, e = model.PlatformConfig.UnmarshalPolymorphicJSON(model.PlatformConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PlatformConfig = nn.(UpdateInstancePlatformConfig)
+	} else {
+		m.PlatformConfig = nil
+	}
+
+	return
 }
 
 // UpdateInstanceDetailsUpdateOperationConstraintEnum Enum with underlying type: string
