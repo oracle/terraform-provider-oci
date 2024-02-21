@@ -74,6 +74,14 @@ func DatabaseManagementManagedMySqlDatabaseSqlDataDataSource() *schema.Resource 
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"heat_wave_offloaded": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"heat_wave_out_of_memory": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
 									"last_seen": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -305,6 +313,14 @@ func MySqlDataSummaryToMap(obj oci_database_management.MySqlDataSummary) map[str
 
 	if obj.FirstSeen != nil {
 		result["first_seen"] = obj.FirstSeen.String()
+	}
+
+	if obj.HeatWaveOffloaded != nil {
+		result["heat_wave_offloaded"] = float32(*obj.HeatWaveOffloaded)
+	}
+
+	if obj.HeatWaveOutOfMemory != nil {
+		result["heat_wave_out_of_memory"] = float32(*obj.HeatWaveOutOfMemory)
 	}
 
 	if obj.LastSeen != nil {

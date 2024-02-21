@@ -31,9 +31,23 @@ data "oci_database_management_managed_my_sql_database_sql_data" "test_managed_my
 
 The following arguments are supported:
 
-* `end_time` - (Required) The end time of the time range to retrieve the health metrics of a Managed Database in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'". 
-* `filter_column` - (Optional) The parameter to filter results by key criteria.
-* `managed_my_sql_database_id` - (Required) The OCID of ManagedMySqlDatabase.
+* `end_time` - (Required) The end time of the time range to retrieve the health metrics of a Managed Database in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
+* `filter_column` - (Optional) The parameter to filter results by key criteria which include :
+	* AVG_TIMER_WAIT
+	* SUM_TIMER_WAIT
+	* COUNT_STAR
+	* SUM_ERRORS
+	* SUM_ROWS_AFFECTED
+	* SUM_ROWS_SENT
+	* SUM_ROWS_EXAMINED
+	* SUM_CREATED_TMP_TABLES
+	* SUM_NO_INDEX_USED
+	* SUM_NO_GOOD_INDEX_USED
+	* FIRST_SEEN
+	* LAST_SEEN
+	* HEATWAVE_OFFLOADED
+	* HEATWAVE_OUT_OF_MEMORY 
+* `managed_my_sql_database_id` - (Required) The OCID of the Managed MySQL Database.
 * `start_time` - (Required) The start time of the time range to retrieve the health metrics of a Managed Database in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'". 
 
 
@@ -47,37 +61,39 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - List of SQLDataSummary.
-	* `avg_timer_wait` - The Average Execution Time.
-	* `count_star` - The Number Of Times The Query Has Been Executed.
-	* `digest` - The Digest Of The Normalized Query.
-	* `digest_text` - The Normalized Query.
-	* `first_seen` - When The Query Was First Seen. When The Table Is Truncated, The First Seen Value Is Also Reset.
-	* `last_seen` - When The Query Was Seen The Last Time.
-	* `max_timer_wait` - The Slowest The Query Has Been Executed.
-	* `min_timer_wait` - The Fastest The Query Has Been Executed.
-	* `quantile95` - The 95th Percentile Of The Query Latency. That Is, 95% Of The Queries Complete In The Time Given Or In Less Time.
-	* `quantile99` - The 99th Percentile Of The Query Latency.
-	* `quantile999` - The 99.9th Percentile Of The Query Latency.
-	* `schema_name` - The Schema That Was The Default Schema When Executing The Query. If No Schema Was The Default, The Value Is NULL.
-	* `sum_created_temp_disk_tables` - The Total Number Of On-Disk Internal Temporary Tables That Have Been Created By The Query.
-	* `sum_created_temp_tables` - The Total Number Of Internal Temporary Tables – Whether Created In Memory Or On Disk – That Have Been Created By The Query.
-	* `sum_errors` - The Total Number Of Errors That Have Been Encountered Executing The Query. 
-	* `sum_lock_time` - The Total Amount Of Time That Has Been Spent Waiting For Table Locks.
-	* `sum_no_good_index_used` - The Total Number Of Times No Good Index Was Used. This Means That The ExtraColumn In The EXPLAIN Output Includes “Range Checked For Each Record.”
-	* `sum_no_index_used` - The Total Number Of Times No Index Was Used To Execute The Query.
-	* `sum_rows_affected` - The Total Number Of Rows That Have Been Modified By The Query.
-	* `sum_rows_examined` - The Total Number Of Rows That Have Been Examined By The Query.
-	* `sum_rows_sent` - The Total Number Of Rows That Have Been Returned (Sent) To The Client.
-	* `sum_select_full_join` - The Total Number Of Joins That Have Performed Full Table Scans As There Is No Index For The Join Condition Or There Is No Join Condition. This Is The Same That Increments The Select_full_join Status Variable.
-	* `sum_select_full_range_join` - The Total Number Of Joins That Use A Full Range Search. This Is The Same That Increments The Select_full_range_join Status Variable.
-	* `sum_select_range` - The Total Number Of Times The Query Has Used A Range Search. This Is The Same That Increments The Select_range Status Variable.
-	* `sum_select_range_check` - The Total Number Of Joins By The Query Where The Join Does Not Have An Index That Checks For The Index Usage After Each Row. This Is The Same That Increments The Select_range_check Status Variable.
-	* `sum_select_scan` - The Total Number Of Times The Query Has Performed A Full Table Scan On The First Table In The Join. This Is The Same That Increments The Select_scan Status Variable.
-	* `sum_sort_merge_passes` - The Total Number Of Sort Merge Passes That Have Been Done To Sort The Result Of The Query. This Is The Same That Increments The Sort_merge_passes Status Variable.
-	* `sum_sort_range` - The Total Number Of Times A Sort Was Done Using Ranges. This Is The Same That Increments The Sort_range Status Variable.
-	* `sum_sort_rows` - The Total Number Of Rows Sorted. This Is The Same That Increments The Sort_rowsStatus Variable.
-	* `sum_sort_scan` - The Total Number Of Times A Sort Was Done By Scanning The Table. This Is The Same That Increments The Sort_scan Status Variable.
-	* `sum_timer_wait` - The Total Amount Of Time That Has Been Spent Executing The Query.
-	* `sum_warnings` - The Total Number Of Warnings That Have Been Encountered Executing The Query. 
+* `items` - The list of SQLDataSummary records.
+	* `avg_timer_wait` - The average execution time.
+	* `count_star` - The number Of times the query has been executed.
+	* `digest` - The digest information of the normalized query.
+	* `digest_text` - The normalized query.
+	* `first_seen` - The date and time the query was first seen. If the table is truncated, the first seen value is reset.
+	* `heat_wave_offloaded` - The number of query executions offloaded to HeatWave.
+	* `heat_wave_out_of_memory` - The number of query executions with HeatWave out-of-memory errors.
+	* `last_seen` - The date and time the query was last seen.
+	* `max_timer_wait` - The slowest the query has been executed.
+	* `min_timer_wait` - The fastest the query has been executed.
+	* `quantile95` - The 95th percentile of the query latency. That is, 95% of the queries complete in the time given or in less time.
+	* `quantile99` - The 99th percentile of the query latency.
+	* `quantile999` - The 99.9th percentile of the query latency.
+	* `schema_name` - The name of the default schema when executing the query. If a schema is not set as the default, then the value is NULL.
+	* `sum_created_temp_disk_tables` - The total number of On-Disk internal temporary tables that have been created by the query.
+	* `sum_created_temp_tables` - The total number of internal temporary tables (in memory or on disk), which have been created by the query.
+	* `sum_errors` - The total number of errors that have been encountered executing the query. 
+	* `sum_lock_time` - The total amount of time that has been spent waiting for table locks.
+	* `sum_no_good_index_used` - The total number of times no good index was used. This means that the extra column in The EXPLAIN output includes “Range Checked For Each Record.”
+	* `sum_no_index_used` - The total number of times no index was used to execute the query.
+	* `sum_rows_affected` - The total number of rows that have been modified by the query.
+	* `sum_rows_examined` - The total number of rows that have been examined by the query.
+	* `sum_rows_sent` - The total number of rows that have been returned (sent) to the client.
+	* `sum_select_full_join` - The total number of joins that have performed full table scans as there was no join condition or no index for the join condition. This is the same as the select_full_join status variable.
+	* `sum_select_full_range_join` - The total number of joins that use a full range search. This is the same as the select_full_range_join status variable.
+	* `sum_select_range` - The total number of times the query has used a range search. This is the same as the select_range status variable.
+	* `sum_select_range_check` - The total number of joins by the query where the join does not have an index that checks for the index usage after each row. This is the same as the select_range_check status variable.
+	* `sum_select_scan` - The total number of times the query has performed a full table scan on the first table in the join. This is the same as the select_scan status variable.
+	* `sum_sort_merge_passes` - The total number of sort merge passes that have been done to sort the result of the query. This is the same as the sort_merge_passes status variable.
+	* `sum_sort_range` - The total number of times a sort was done using ranges. This is the same as the sort_range status variable.
+	* `sum_sort_rows` - The total number of rows sorted. This is the same as the sort_rowsStatus variable.
+	* `sum_sort_scan` - The total number of times a sort was done by scanning the table. This is the same as the sort_scan status variable.
+	* `sum_timer_wait` - The total amount of time that has been spent executing the query.
+	* `sum_warnings` - The total number of warnings that have been encountered executing the query.
 

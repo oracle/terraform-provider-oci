@@ -34,11 +34,64 @@ func DatabaseManagementManagedMySqlDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"heat_wave_cluster_display_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"heat_wave_memory_size": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"heat_wave_node_shape": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"heat_wave_nodes": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_heat_wave_active": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_heat_wave_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_lakehouse_enabled": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_created_heat_wave": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -102,12 +155,46 @@ func (s *DatabaseManagementManagedMySqlDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
 
+	if s.Res.HeatWaveClusterDisplayName != nil {
+		s.D.Set("heat_wave_cluster_display_name", *s.Res.HeatWaveClusterDisplayName)
+	}
+
+	if s.Res.HeatWaveMemorySize != nil {
+		s.D.Set("heat_wave_memory_size", *s.Res.HeatWaveMemorySize)
+	}
+
+	if s.Res.HeatWaveNodeShape != nil {
+		s.D.Set("heat_wave_node_shape", *s.Res.HeatWaveNodeShape)
+	}
+
+	heatWaveNodes := []interface{}{}
+	for _, item := range s.Res.HeatWaveNodes {
+		heatWaveNodes = append(heatWaveNodes, HeatWaveNodeToMap(item))
+	}
+	s.D.Set("heat_wave_nodes", heatWaveNodes)
+
+	if s.Res.IsHeatWaveActive != nil {
+		s.D.Set("is_heat_wave_active", *s.Res.IsHeatWaveActive)
+	}
+
+	if s.Res.IsHeatWaveEnabled != nil {
+		s.D.Set("is_heat_wave_enabled", *s.Res.IsHeatWaveEnabled)
+	}
+
+	if s.Res.IsLakehouseEnabled != nil {
+		s.D.Set("is_lakehouse_enabled", *s.Res.IsLakehouseEnabled)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeCreatedHeatWave != nil {
+		s.D.Set("time_created_heat_wave", s.Res.TimeCreatedHeatWave.String())
 	}
 
 	return nil
