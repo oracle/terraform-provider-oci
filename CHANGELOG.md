@@ -1,4 +1,4 @@
-## 5.30.0 (Unreleased)
+## 5.30.0 (February 21, 2024)
 
 ### Added
 - Support for ODSC - Bring Your Own Container for ML Jobs
