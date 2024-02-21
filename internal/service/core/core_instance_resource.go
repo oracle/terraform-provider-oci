@@ -424,7 +424,6 @@ func CoreInstanceResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -433,7 +432,6 @@ func CoreInstanceResource() *schema.Resource {
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"AMD_MILAN_BM",
@@ -459,7 +457,6 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeMap,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Elem:     schema.TypeString,
 						},
 						"is_access_control_service_enabled": {
@@ -496,7 +493,6 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"is_trusted_platform_module_enabled": {
 							Type:     schema.TypeBool,
@@ -814,6 +810,17 @@ func CoreInstanceResource() *schema.Resource {
 				oldMetadataMap := tfresource.ObjectMapToStringMap(old.(map[string]interface{}))
 				newMetadataMap := tfresource.ObjectMapToStringMap(new.(map[string]interface{}))
 				return (oldMetadataMap["ssh_authorized_keys"] != newMetadataMap["ssh_authorized_keys"]) || (oldMetadataMap["user_data"] != newMetadataMap["user_data"])
+			}),
+			customdiff.ForceNewIfChange("platform_config.0.type", func(ctx context.Context, old, new, meta interface{}) bool {
+				return isPlatformConfigBm(old) || isPlatformConfigBm(new)
+			}),
+			customdiff.ForceNewIf("platform_config.0.config_map", func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) bool {
+				oldConfig, newConfig := d.GetChange("platform_config.0.type")
+				return isPlatformConfigBm(oldConfig) || isPlatformConfigBm(newConfig)
+			}),
+			customdiff.ForceNewIf("platform_config.0.is_symmetric_multi_threading_enabled", func(ctx context.Context, d *schema.ResourceDiff, meta interface{}) bool {
+				oldConfig, newConfig := d.GetChange("platform_config.0.type")
+				return isPlatformConfigBm(oldConfig) || isPlatformConfigBm(newConfig)
 			}),
 		),
 	}
@@ -1241,7 +1248,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
-	// Update shape, shape config, fault domain and launch options
+	// Update shape, shape config, platform config, fault domain and launch options
 	err := s.updateOptionsViaWorkRequest()
 
 	if err != nil {
@@ -2459,6 +2466,10 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 			tmp := isTrustedPlatformModuleEnabled.(bool)
 			details.IsTrustedPlatformModuleEnabled = &tmp
 		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("GENERIC_BM"):
 		details := oci_core.GenericBmLaunchInstancePlatformConfig{}
@@ -2597,9 +2608,44 @@ func (s *CoreInstanceResourceCrud) mapToLaunchInstancePlatformConfig(fieldKeyFor
 			tmp := isTrustedPlatformModuleEnabled.(bool)
 			details.IsTrustedPlatformModuleEnabled = &tmp
 		}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func (s *CoreInstanceResourceCrud) mapToUpdateInstancePlatformConfig(fieldKeyFormat string) (oci_core.UpdateInstancePlatformConfig, error) {
+	var baseObject oci_core.UpdateInstancePlatformConfig
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("AMD_VM"):
+		details := oci_core.AmdVmUpdateInstancePlatformConfig{}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("INTEL_VM"):
+		details := oci_core.IntelVmUpdateInstancePlatformConfig{}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified in update platform config", type_)
 	}
 	return baseObject, nil
 }
@@ -2789,6 +2835,10 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 		if v.IsTrustedPlatformModuleEnabled != nil {
 			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
 		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
 	case oci_core.GenericBmPlatformConfig:
 		result["type"] = "GENERIC_BM"
 
@@ -2919,6 +2969,10 @@ func PlatformConfigToMap(obj *oci_core.PlatformConfig) map[string]interface{} {
 
 		if v.IsTrustedPlatformModuleEnabled != nil {
 			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
@@ -3429,11 +3483,22 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 		}
 	}
 
+	if platformConfig, ok := s.D.GetOkExists("platform_config"); ok && s.D.HasChange("platform_config") {
+		if tmpList := platformConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "platform_config", 0)
+			tmp, err := s.mapToUpdateInstancePlatformConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PlatformConfig = tmp
+		}
+	}
+
 	if updateOperationConstraint, ok := s.D.GetOkExists("update_operation_constraint"); ok {
 		request.UpdateOperationConstraint = oci_core.UpdateInstanceDetailsUpdateOperationConstraintEnum(updateOperationConstraint.(string))
 	}
 
-	if request.Shape == nil && request.ShapeConfig == nil && request.LaunchOptions == nil && request.FaultDomain == nil {
+	if request.Shape == nil && request.ShapeConfig == nil && request.LaunchOptions == nil && request.FaultDomain == nil && request.PlatformConfig == nil {
 		// no-op
 		return nil
 	}
@@ -3469,4 +3534,9 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceAvailabilityConfigDetails(
 	}
 
 	return result, nil
+}
+
+func isPlatformConfigBm(platformConfig interface{}) bool {
+	platformConfigType := platformConfig.(string)
+	return platformConfigType != "" && platformConfigType != "INTEL_VM" && platformConfigType != "AMD_VM"
 }

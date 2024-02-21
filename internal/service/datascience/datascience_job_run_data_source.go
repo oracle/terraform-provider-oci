@@ -94,6 +94,16 @@ func (s *DatascienceJobRunDataSourceCrud) SetData() error {
 		s.D.Set("job_configuration_override_details", nil)
 	}
 
+	if s.Res.JobEnvironmentConfigurationOverrideDetails != nil {
+		jobEnvironmentConfigurationOverrideDetailsArray := []interface{}{}
+		if jobEnvironmentConfigurationOverrideDetailsMap := JobEnvironmentConfigurationDetailsToMap(&s.Res.JobEnvironmentConfigurationOverrideDetails); jobEnvironmentConfigurationOverrideDetailsMap != nil {
+			jobEnvironmentConfigurationOverrideDetailsArray = append(jobEnvironmentConfigurationOverrideDetailsArray, jobEnvironmentConfigurationOverrideDetailsMap)
+		}
+		s.D.Set("job_environment_configuration_override_details", jobEnvironmentConfigurationOverrideDetailsArray)
+	} else {
+		s.D.Set("job_environment_configuration_override_details", nil)
+	}
+
 	if s.Res.JobId != nil {
 		s.D.Set("job_id", *s.Res.JobId)
 	}

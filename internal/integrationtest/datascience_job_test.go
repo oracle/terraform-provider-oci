@@ -55,6 +55,7 @@ var (
 		"compartment_id":                           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"job_configuration_details":                acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobConfigurationDetailsRepresentation},
 		"job_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatascienceJobJobInfrastructureConfigurationDetailsRepresentation},
+		"job_environment_configuration_details":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceJobJobEnvironmentConfigurationDetailsRepresentation},
 		"project_id":                               acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
 		"job_artifact":                             acctest.Representation{RepType: acctest.Optional, Create: `../../examples/datascience/job-artifact.py`},
 		"artifact_content_length":                  acctest.Representation{RepType: acctest.Optional, Create: `1380`}, // wc -c job-artifact.py
@@ -69,7 +70,7 @@ var (
 	DatascienceJobJobConfigurationDetailsRepresentation = map[string]interface{}{
 		"job_type":                   acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
 		"command_line_arguments":     acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`},
-		"environment_variables":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": "environmentVariables"}},
+		"environment_variables":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": ""}},
 		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
 	DatascienceJobJobInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
@@ -78,7 +79,14 @@ var (
 		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
-
+	DatascienceJobJobEnvironmentConfigurationDetailsRepresentation = map[string]interface{}{
+		"image":                acctest.Representation{RepType: acctest.Required, Create: `iad.ocir.io/ociodscdev/byod_hello_wrld:1.0`},
+		"job_environment_type": acctest.Representation{RepType: acctest.Required, Create: `OCIR_CONTAINER`},
+		"cmd":                  acctest.Representation{RepType: acctest.Optional, Create: []string{``}},
+		"entrypoint":           acctest.Representation{RepType: acctest.Optional, Create: []string{``}},
+		"image_digest":         acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"image_signature_id":   acctest.Representation{RepType: acctest.Optional, Create: ``},
+	}
 	ignoreMlJobDefinedTagsChangesRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `job_infrastructure_configuration_details`}},
 	}
@@ -172,6 +180,13 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.cmd.#", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.entrypoint.#", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/byod_hello_wrld:1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.image_digest", ""),
+					resource.TestCheckResourceAttrSet(resourceName, "job_environment_configuration_details.0."),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -207,6 +222,13 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.cmd.#", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.entrypoint.#", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/byod_hello_wrld:1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.image_digest", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.image_signature_id", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -238,6 +260,13 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 					resource.TestCheckResourceAttrSet(resourceName, "job_infrastructure_configuration_details.0.shape_name"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.cmd.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.entrypoint.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/byod_hello_wrld:1.0"),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.image_digest", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.image_signature_id", ""),
+					resource.TestCheckResourceAttr(resourceName, "job_environment_configuration_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "state"),
 					resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -292,6 +321,12 @@ func TestDatascienceJobResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_configuration_details.0.maximum_runtime_in_minutes", "10"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.#", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "job_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_details.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_details.0.cmd.#", ""),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_details.0.entrypoint.#", ""),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_details.0.image", "iad.ocir.io/ociodscdev/byod_hello_wrld:1.0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_details.0.image_digest", ""),
+					resource.TestCheckResourceAttr(singularDatasourceName, "job_environment_configuration_details.0.job_environment_type", "OCIR_CONTAINER"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				),

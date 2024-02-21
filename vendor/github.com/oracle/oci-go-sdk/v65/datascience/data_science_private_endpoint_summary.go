@@ -61,6 +61,10 @@ type DataSciencePrivateEndpointSummary struct {
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// An array of network security group OCIDs.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }

@@ -98,6 +98,16 @@ func (s *DatascienceJobDataSourceCrud) SetData() error {
 		s.D.Set("job_configuration_details", nil)
 	}
 
+	if s.Res.JobEnvironmentConfigurationDetails != nil {
+		jobEnvironmentConfigurationDetailsArray := []interface{}{}
+		if jobEnvironmentConfigurationDetailsMap := JobEnvironmentConfigurationDetailsToMap(&s.Res.JobEnvironmentConfigurationDetails); jobEnvironmentConfigurationDetailsMap != nil {
+			jobEnvironmentConfigurationDetailsArray = append(jobEnvironmentConfigurationDetailsArray, jobEnvironmentConfigurationDetailsMap)
+		}
+		s.D.Set("job_environment_configuration_details", jobEnvironmentConfigurationDetailsArray)
+	} else {
+		s.D.Set("job_environment_configuration_details", nil)
+	}
+
 	if s.Res.JobInfrastructureConfigurationDetails != nil {
 		jobInfrastructureConfigurationDetailsArray := []interface{}{}
 		if jobInfrastructureConfigurationDetailsMap := JobInfrastructureConfigurationDetailsToMap(&s.Res.JobInfrastructureConfigurationDetails); jobInfrastructureConfigurationDetailsMap != nil {
