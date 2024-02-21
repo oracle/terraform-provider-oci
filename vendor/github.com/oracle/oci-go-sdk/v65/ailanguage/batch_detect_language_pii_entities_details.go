@@ -24,6 +24,9 @@ type BatchDetectLanguagePiiEntitiesDetails struct {
 	// List of documents to detect personal identification information.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
 
+	// The endpoint which have to be used for inferencing. If endpointId and compartmentId is provided, then inference will be served from custom model which is mapped to this Endpoint.
+	EndpointId *string `mandatory:"false" json:"endpointId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that calls the API, inference will be served from pre trained model
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
@@ -50,6 +53,7 @@ func (m BatchDetectLanguagePiiEntitiesDetails) ValidateEnumValue() (bool, error)
 // UnmarshalJSON unmarshals from json
 func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		EndpointId    *string                     `json:"endpointId"`
 		CompartmentId *string                     `json:"compartmentId"`
 		Masking       map[string]piientitymasking `json:"masking"`
 		Documents     []TextDocument              `json:"documents"`
@@ -60,6 +64,8 @@ func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e er
 		return
 	}
 	var nn interface{}
+	m.EndpointId = model.EndpointId
+
 	m.CompartmentId = model.CompartmentId
 
 	m.Masking = make(map[string]PiiEntityMasking)

@@ -36,10 +36,22 @@ var (
 		"is_input_output_memory_management_unit_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"is_measured_boot_enabled":                       acctest.Representation{RepType: acctest.Required, Create: `false`},
 		"is_secure_boot_enabled":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"is_symmetric_multi_threading_enabled":           acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_symmetric_multi_threading_enabled":           acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"is_trusted_platform_module_enabled":             acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"percentage_of_cores_enabled":                    acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"config_map":                                     acctest.Representation{RepType: acctest.Required, Create: map[string]string{"numaNodesPerSocket": "NPS4"}},
+	}
+	instanceBMMilanToRomeUpdatePlatformConfigRepresentation = map[string]interface{}{
+		"type":                                           acctest.Representation{RepType: acctest.Required, Update: `AMD_ROME_BM`},
+		"are_virtual_instructions_enabled":               acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_access_control_service_enabled":              acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_input_output_memory_management_unit_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_measured_boot_enabled":                       acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_secure_boot_enabled":                         acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"is_symmetric_multi_threading_enabled":           acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"is_trusted_platform_module_enabled":             acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"percentage_of_cores_enabled":                    acctest.Representation{RepType: acctest.Required, Update: `25`},
+		"config_map":                                     acctest.Representation{RepType: acctest.Required, Update: map[string]string{"numaNodesPerSocket": "NPS1"}},
 	}
 	instanceBMRomeShieldedPlatformConfigRepresentation = map[string]interface{}{
 		"type":                                           acctest.Representation{RepType: acctest.Required, Create: `AMD_ROME_BM`},
@@ -158,6 +170,14 @@ var (
 		"image":               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
 		"platform_config":     acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceBMMilanPlatformConfigRepresentation},
+	}), []string{
+		"dedicated_vm_host_id",
+	})
+	instanceWithBMMilanToRomePlatformConfigRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(CoreInstanceRepresentation, map[string]interface{}{
+		"shape":               acctest.Representation{RepType: acctest.Required, Update: `BM.Standard.E3.128`},
+		"image":               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
+		"platform_config":     acctest.RepresentationGroup{RepType: acctest.Required, Group: instanceBMMilanToRomeUpdatePlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
 	})
@@ -1667,6 +1687,7 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 	datasourceName := "data.oci_core_instances.test_instances"
 	singularDatasourceName := "data.oci_core_instance.test_instance"
 
+	var resId, resId2 string
 	resource.Test(t, resource.TestCase{
 		Providers: map[string]*schema.Provider{
 			"oci": provider,
@@ -1694,6 +1715,7 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.config_map.numaNodesPerSocket", "NPS4"),
 
 					func(ts *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(ts, resourceName, "id")
 						return err
 					},
 				),
@@ -1770,6 +1792,64 @@ func TestAccResourceCoreInstance_BM_Milan_instance_resource(t *testing.T) {
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.type", "AMD_MILAN_BM"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.config_map.%", "1"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.0.config_map.numaNodesPerSocket", "NPS4"),
+				),
+			},
+			// verify updates to platform_config.0.is_symmetric_multi_threading_enabled destroys and re-creates a resource
+			{
+				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Update,
+						instanceWithBMMilanPlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard.E4.128"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_MILAN_BM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.are_virtual_instructions_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_access_control_service_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.percentage_of_cores_enabled", "50"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.config_map.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.config_map.numaNodesPerSocket", "NPS4"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
+						}
+						return err
+					},
+				),
+			},
+			// verify updates to platform_config.0.type destroys and re-creates a resource
+			{
+				Config: config + compartmentIdVariableStr + ShieldedInstanceResourceDependenciesWithoutDVHWithoutVlan +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Update,
+						instanceWithBMMilanToRomePlatformConfigRepresentation),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttr(resourceName, "shape", "BM.Standard.E3.128"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.type", "AMD_ROME_BM"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.are_virtual_instructions_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_access_control_service_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_input_output_memory_management_unit_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_measured_boot_enabled", "false"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_secure_boot_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_trusted_platform_module_enabled", "true"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.percentage_of_cores_enabled", "25"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.config_map.%", "1"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.0.config_map.numaNodesPerSocket", "NPS1"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId == resId2 {
+							return fmt.Errorf("Resource updated when it was supposed to be recreated.")
+						}
+						return err
+					},
 				),
 			},
 		},

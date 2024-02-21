@@ -23,6 +23,9 @@ type BatchDetectLanguageSentimentsDetails struct {
 	// List of Documents for detect sentiments.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
 
+	// The endpoint which have to be used for inferencing. If endpointId and compartmentId is provided, then inference will be served from custom model which is mapped to this Endpoint.
+	EndpointId *string `mandatory:"false" json:"endpointId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that calls the API, inference will be served from pre trained model
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }

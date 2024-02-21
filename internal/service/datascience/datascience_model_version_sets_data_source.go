@@ -161,6 +161,10 @@ func (s *DatascienceModelVersionSetsDataSourceCrud) SetData() error {
 
 		modelVersionSet["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			modelVersionSet["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			modelVersionSet["time_created"] = r.TimeCreated.String()
 		}

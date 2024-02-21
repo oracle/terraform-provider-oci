@@ -1,3 +1,10 @@
+## 5.30.0 (February 21, 2024)
+
+### Added
+- Support for ODSC - Bring Your Own Container for ML Jobs
+- Support for Disabling Simultaneous Multithreading (SMT) on VMs
+- Support for Adding schedule API
+
 ## 5.29.0 (February 14, 2024)
 
 ### Added

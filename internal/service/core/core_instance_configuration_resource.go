@@ -4101,6 +4101,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		baseObject = details
 	case strings.ToLower("AMD_VM"):
 		details := oci_core.InstanceConfigurationAmdVmLaunchInstancePlatformConfig{}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
@@ -4239,6 +4243,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		baseObject = details
 	case strings.ToLower("INTEL_VM"):
 		details := oci_core.InstanceConfigurationIntelVmLaunchInstancePlatformConfig{}
+		if isSymmetricMultiThreadingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_symmetric_multi_threading_enabled")); ok {
+			tmp := isSymmetricMultiThreadingEnabled.(bool)
+			details.IsSymmetricMultiThreadingEnabled = &tmp
+		}
 		if isMeasuredBootEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_measured_boot_enabled")); ok {
 			tmp := isMeasuredBootEnabled.(bool)
 			details.IsMeasuredBootEnabled = &tmp
@@ -4367,6 +4375,10 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
 	case oci_core.InstanceConfigurationAmdVmLaunchInstancePlatformConfig:
 		result["type"] = "AMD_VM"
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
 	case oci_core.InstanceConfigurationGenericBmLaunchInstancePlatformConfig:
 		result["type"] = "GENERIC_BM"
 
@@ -4434,6 +4446,10 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		}
 	case oci_core.InstanceConfigurationIntelVmLaunchInstancePlatformConfig:
 		result["type"] = "INTEL_VM"
+
+		if v.IsSymmetricMultiThreadingEnabled != nil {
+			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil

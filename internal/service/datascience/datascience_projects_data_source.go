@@ -152,6 +152,10 @@ func (s *DatascienceProjectsDataSourceCrud) SetData() error {
 
 		project["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			project["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			project["time_created"] = r.TimeCreated.String()
 		}

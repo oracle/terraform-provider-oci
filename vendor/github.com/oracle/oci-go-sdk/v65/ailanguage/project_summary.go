@@ -54,7 +54,7 @@ type ProjectSummary struct {
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{ "orcl-cloud": { "free-tier-retained": "true" } }`
-	SystemTags map[string]interface{} `mandatory:"false" json:"systemTags"`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ProjectSummary) String() string {

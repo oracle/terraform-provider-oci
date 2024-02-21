@@ -10,6 +10,25 @@ variable "private_key_path" {}
 variable "compartment_ocid" {}
 variable "region" {}
 
+variable "job_environment_configuration_details_job_environment_type" {
+  default = "OCIR_CONTAINER"
+}
+
+variable "job_environment_configuration_details_cmd" {
+}
+
+variable "job_environment_configuration_details_entrypoint" {
+}
+
+variable "job_environment_configuration_details_image" {
+}
+
+variable "job_environment_configuration_details_image_digest" {
+}
+
+variable "job_environment_configuration_details_image_signature_id" {
+}
+
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
@@ -62,6 +81,15 @@ resource "oci_datascience_job" "job" {
       memory_in_gbs = 16
       ocpus         = 2
     }
+  }
+
+  job_environment_configuration_details {
+		cmd                  = var.job_environment_configuration_details_cmd
+		entrypoint           = var.job_environment_configuration_details_entrypoint
+		image                = var.job_environment_configuration_details_image
+		image_digest         = var.job_environment_configuration_details_image_digest
+    image_signature_id   = var.job_environment_configuration_details_image_signature_id
+		job_environment_type = var.job_environment_configuration_details_job_environment_type
   }
 
   job_log_configuration_details {

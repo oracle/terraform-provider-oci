@@ -117,6 +117,67 @@ func DatascienceJobRunResource() *schema.Resource {
 					},
 				},
 			},
+			"job_environment_configuration_override_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"image": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"job_environment_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"OCIR_CONTAINER",
+							}, true),
+						},
+
+						// Optional
+						"cmd": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"entrypoint": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"image_digest": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"image_signature_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"job_log_configuration_override_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -430,6 +491,17 @@ func (s *DatascienceJobRunResourceCrud) Create() error {
 		}
 	}
 
+	if jobEnvironmentConfigurationOverrideDetails, ok := s.D.GetOkExists("job_environment_configuration_override_details"); ok {
+		if tmpList := jobEnvironmentConfigurationOverrideDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "job_environment_configuration_override_details", 0)
+			tmp, err := s.mapToJobEnvironmentConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.JobEnvironmentConfigurationOverrideDetails = tmp
+		}
+	}
+
 	if jobId, ok := s.D.GetOkExists("job_id"); ok {
 		tmp := jobId.(string)
 		request.JobId = &tmp
@@ -563,6 +635,16 @@ func (s *DatascienceJobRunResourceCrud) SetData() error {
 		s.D.Set("job_configuration_override_details", nil)
 	}
 
+	if s.Res.JobEnvironmentConfigurationOverrideDetails != nil {
+		jobEnvironmentConfigurationOverrideDetailsArray := []interface{}{}
+		if jobEnvironmentConfigurationOverrideDetailsMap := JobEnvironmentConfigurationDetailsToMap(&s.Res.JobEnvironmentConfigurationOverrideDetails); jobEnvironmentConfigurationOverrideDetailsMap != nil {
+			jobEnvironmentConfigurationOverrideDetailsArray = append(jobEnvironmentConfigurationOverrideDetailsArray, jobEnvironmentConfigurationOverrideDetailsMap)
+		}
+		s.D.Set("job_environment_configuration_override_details", jobEnvironmentConfigurationOverrideDetailsArray)
+	} else {
+		s.D.Set("job_environment_configuration_override_details", nil)
+	}
+
 	if s.Res.JobId != nil {
 		s.D.Set("job_id", *s.Res.JobId)
 	}
@@ -651,6 +733,62 @@ func (s *DatascienceJobRunResourceCrud) mapToJobConfigurationDetails(fieldKeyFor
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown job_type '%v' was specified", jobType)
+	}
+	return baseObject, nil
+}
+
+func (s *DatascienceJobRunResourceCrud) mapToJobEnvironmentConfigurationDetails(fieldKeyFormat string) (oci_datascience.JobEnvironmentConfigurationDetails, error) {
+	var baseObject oci_datascience.JobEnvironmentConfigurationDetails
+	//discriminator
+	jobEnvironmentTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_environment_type"))
+	var jobEnvironmentType string
+	if ok {
+		jobEnvironmentType = jobEnvironmentTypeRaw.(string)
+	} else {
+		jobEnvironmentType = "" // default value
+	}
+	switch strings.ToLower(jobEnvironmentType) {
+	case strings.ToLower("OCIR_CONTAINER"):
+		details := oci_datascience.OcirContainerJobEnvironmentConfigurationDetails{}
+		if cmd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cmd")); ok {
+			interfaces := cmd.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cmd")) {
+				details.Cmd = tmp
+			}
+		}
+		if entrypoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entrypoint")); ok {
+			interfaces := entrypoint.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "entrypoint")) {
+				details.Entrypoint = tmp
+			}
+		}
+		if image, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image")); ok {
+			tmp := image.(string)
+			details.Image = &tmp
+		}
+		if imageDigest, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_digest")); ok {
+			tmp := imageDigest.(string)
+			details.ImageDigest = &tmp
+		}
+		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
+			tmp := imageSignatureId.(string)
+			details.ImageSignatureId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown job_environment_type '%v' was specified", jobEnvironmentType)
 	}
 	return baseObject, nil
 }
