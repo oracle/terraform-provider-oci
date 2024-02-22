@@ -45,13 +45,14 @@ var (
 	}
 
 	NetworkLoadBalancerBackendSetRepresentation = map[string]interface{}{
-		"health_checker":           acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerBackendSetHealthCheckerRepresentation},
-		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
-		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
-		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
-		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
-		"is_fail_open":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_preserve_source":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"health_checker":              acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerBackendSetHealthCheckerRepresentation},
+		"name":                        acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
+		"network_load_balancer_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"policy":                      acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
+		"ip_version":                  acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
+		"is_fail_open":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_preserve_source":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_instant_failover_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	NetworkLoadBalancerBackendSetHealthCheckerRepresentation = map[string]interface{}{
 		"protocol":           acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `TCP`},
@@ -187,6 +188,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
@@ -282,6 +284,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
@@ -538,6 +541,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.response_data", ""),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_instant_failover_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.return_code", "204"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.url_path", "/urlPath2"),

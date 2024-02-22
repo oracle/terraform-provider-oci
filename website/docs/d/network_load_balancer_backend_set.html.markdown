@@ -64,6 +64,7 @@ The following attributes are exported:
     * `url_path` - The path against which to run the health check.  Example: `/healthcheck`
 * `ip_version` - IP version associated with the backend set.
 * `is_fail_open` - If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
+* `is_instant_failover_enabled` - If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy. 
 * `is_preserve_source` - If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 * `name` - A user-friendly name for the backend set that must be unique and cannot be changed.
 
