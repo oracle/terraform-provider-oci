@@ -199,6 +199,27 @@ resource "oci_core_security_list" "securitylist1" {
       max = 443
     }
   }
+
+  ingress_security_rules {
+    protocol = "6"
+    source   = "10.1.0.0/16"
+
+    tcp_options {
+      min = 53
+      max = 53
+    }
+  }
+
+  ingress_security_rules {
+    protocol = "17"
+    source   = "10.1.0.0/16"
+
+    udp_options {
+      min = 53
+      max = 53
+    }
+  }
+
 }
 
 /* Instances */
@@ -242,7 +263,16 @@ hostname >> /var/www/html/index.html
 echo '' >> /var/www/html/index.html
 cat /etc/os-release >> /var/www/html/index.html
 echo '</code></pre></body></html>' >> /var/www/html/index.html
+
+yum -y install bind bind-utils
+sed -i 's/127.0.0.1/any/' /etc/named.conf
+sed -i 's/::1/any/' /etc/named.conf
+sed -i 's/localhost;/any;/' /etc/named.conf
+systemctl enable named
+systemctl start named
+
 firewall-offline-cmd --add-service=http
+firewall-offline-cmd --add-service=dns
 systemctl enable  firewalld
 systemctl restart  firewalld
 
@@ -316,9 +346,10 @@ resource "oci_network_load_balancer_network_load_balancer" "nlb1" {
 }
 
 resource "oci_network_load_balancer_backend_set" "nlb-bes1" {
-  name                     = "nlb-bes1"
-  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
-  policy                   = "TWO_TUPLE"
+  name                        = "nlb-bes1"
+  network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
+  policy                      = "TWO_TUPLE"
+  is_instant_failover_enabled = true
 
   health_checker {
     port                = "80"
@@ -333,9 +364,11 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes1" {
 }
 
 resource "oci_network_load_balancer_backend_set" "nlb-bes2" {
-  name                     = "nlb-bes2"
-  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
-  policy                   = "THREE_TUPLE"
+  name                        = "nlb-bes2"
+  network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
+  policy                      = "THREE_TUPLE"
+  is_instant_failover_enabled = true
+  is_fail_open                = true
 
   health_checker {
     port                = "443"
@@ -347,23 +380,30 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes2" {
     interval_in_millis  = 10000
     retries             = 3
   }
-  depends_on = [oci_network_load_balancer_backend_set.nlb-bes1]
+  depends_on   = [oci_network_load_balancer_backend_set.nlb-bes1]
 }
 
 resource "oci_network_load_balancer_backend_set" "nlb-bes3" {
   name                     = "nlb-bes3"
   network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
   policy                   = "THREE_TUPLE"
+  is_fail_open = false
+  is_instant_failover_enabled = false
+
 
   health_checker {
-    port                = "443"
-    protocol            = "HTTPS"
-    url_path            = "/testPath"
-    return_code         = 200
-    response_body_regex = "^(?i)(true)$"
+    port                = "53"
+    protocol            = "DNS"
     timeout_in_millis   = 10000
     interval_in_millis  = 10000
     retries             = 3
+    dns {
+      domain_name = "oracle.com"
+      query_class = "IN"
+      query_type = "A"
+      rcodes = ["NOERROR", "SERVFAIL"]
+      transport_protocol = "UDP"
+    }
   }
   depends_on = [oci_network_load_balancer_backend_set.nlb-bes2]
 }
@@ -390,7 +430,7 @@ resource "oci_network_load_balancer_listener" "nlb-listener3" {
   network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
   name                        = "tcp_and_udp_listener"
   default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes3.name
-  port                        = 100
+  port                        = 8080
   protocol                    = "TCP_AND_UDP"
   depends_on = [oci_network_load_balancer_listener.nlb-listener2]
 }
@@ -492,4 +532,4 @@ resource "oci_network_load_balancer_backend" "nlb-be-ipv6" {
   is_offline               = false
   weight                   = 1
   depends_on = [oci_network_load_balancer_listener.nlb-listener-ipv6]
-} 
+}
