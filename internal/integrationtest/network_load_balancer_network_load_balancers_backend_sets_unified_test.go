@@ -36,14 +36,15 @@ var (
 	}
 
 	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedRepresentation = map[string]interface{}{
-		"health_checker":           acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation},
-		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
-		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
-		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
-		"backends":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentation},
-		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
-		"is_fail_open":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_preserve_source":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"health_checker":              acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation},
+		"name":                        acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
+		"network_load_balancer_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"policy":                      acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
+		"backends":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedBackendsRepresentation},
+		"ip_version":                  acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
+		"is_instant_failover_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_fail_open":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_preserve_source":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedHealthCheckerRepresentation = map[string]interface{}{
 		"protocol":           acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `UDP`},
@@ -138,6 +139,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
@@ -172,6 +174,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource_basic
 				},
 					[]string{}),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_instant_failover_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8080"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "UDP"),
