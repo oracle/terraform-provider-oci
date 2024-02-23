@@ -99,6 +99,10 @@ func (s *KmsKeyVersionDataSourceCrud) SetData() error {
 		s.D.Set("external_key_reference_details", nil)
 	}
 
+	if s.Res.IsAutoRotated != nil {
+		s.D.Set("is_auto_rotated", *s.Res.IsAutoRotated)
+	}
+
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
 	}
