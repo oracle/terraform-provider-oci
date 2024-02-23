@@ -160,6 +160,10 @@ func (s *KmsKeysDataSourceCrud) SetData() error {
 			key["id"] = *r.Id
 		}
 
+		if r.IsAutoRotationEnabled != nil {
+			key["is_auto_rotation_enabled"] = *r.IsAutoRotationEnabled
+		}
+
 		key["protection_mode"] = r.ProtectionMode
 
 		key["state"] = r.LifecycleState

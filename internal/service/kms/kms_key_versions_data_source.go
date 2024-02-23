@@ -137,6 +137,10 @@ func (s *KmsKeyVersionsDataSourceCrud) SetData() error {
 			keyVersion["key_version_id"] = *r.Id
 		}
 
+		if r.IsAutoRotated != nil {
+			keyVersion["is_auto_rotated"] = *r.IsAutoRotated
+		}
+
 		keyVersion["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
