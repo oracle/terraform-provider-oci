@@ -82,6 +82,10 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("available_storage_size_in_gbs", *s.Res.AvailableStorageSizeInGBs)
 	}
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -180,6 +184,10 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 
 	if s.Res.StorageServerVersion != nil {
 		s.D.Set("storage_server_version", *s.Res.StorageServerVersion)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {
