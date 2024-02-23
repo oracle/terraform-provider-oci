@@ -6,7 +6,6 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 	"time"
 
@@ -19,14 +18,18 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
+	ignoreDbManagementExternalExadataStorageConnectorDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	DatabaseManagementExternalExadataStorageConnectorRequiredOnlyResource = DatabaseManagementExternalExadataStorageConnectorResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_exadata_storage_connector", "test_external_exadata_storage_connector", acctest.Required, acctest.Create, DatabaseManagementExternalExadataStorageConnectorRepresentation)
+
 	DatabaseManagementExternalExadataStorageConnectorResourceConfig = DatabaseManagementExternalExadataStorageConnectorResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_exadata_storage_connector", "test_external_exadata_storage_connector", acctest.Optional, acctest.Update, DatabaseManagementExternalExadataStorageConnectorRepresentation)
 
@@ -45,6 +48,9 @@ var (
 		"connector_name":    acctest.Representation{RepType: acctest.Required, Create: `slcm21celadm01-conn`, Update: `slcm21celadm01-connUpdate`},
 		"credential_info":   acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalExadataStorageConnectorCredentialInfoRepresentation},
 		"storage_server_id": acctest.Representation{RepType: acctest.Required, Create: `${var.connector_storage_server_id}`},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementExternalExadataStorageConnectorDefinedTagsChangesRepresentation},
 	}
 	DatabaseManagementExternalExadataStorageConnectorCredentialInfoRepresentation = map[string]interface{}{
 		"password":                 acctest.Representation{RepType: acctest.Required, Create: `${var.connector_password}`},
@@ -53,7 +59,7 @@ var (
 		"ssl_trust_store_password": acctest.Representation{RepType: acctest.Optional, Create: `${var.connector_ssl_trust_store_password}`},
 		"ssl_trust_store_type":     acctest.Representation{RepType: acctest.Optional, Create: `${var.connector_ssl_trust_store_type}`},
 	}
-	DatabaseManagementExternalExadataStorageConnectorResourceDependencies = ""
+	DatabaseManagementExternalExadataStorageConnectorResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -63,7 +69,7 @@ func TestDatabaseManagementExternalExadataStorageConnectorResource_basic(t *test
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	connectorPassword := utils.GetEnvSettingWithBlankDefault("connector_password")
@@ -98,7 +104,7 @@ func TestDatabaseManagementExternalExadataStorageConnectorResource_basic(t *test
 	singularDatasourceName := "data.oci_database_management_external_exadata_storage_connector.test_external_exadata_storage_connector"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseManagementExternalExadataStorageConnectorResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_exadata_storage_connector", "test_external_exadata_storage_connector", acctest.Optional, acctest.Create, DatabaseManagementExternalExadataStorageConnectorRepresentation), "databasemanagement", "externalExadataStorageConnector", t)
 
@@ -127,11 +133,6 @@ func TestDatabaseManagementExternalExadataStorageConnectorResource_basic(t *test
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -157,6 +158,7 @@ func TestDatabaseManagementExternalExadataStorageConnectorResource_basic(t *test
 				resource.TestCheckResourceAttr(resourceName, "connector_name", "slcm21celadm01-connUpdate"),
 				resource.TestCheckResourceAttr(resourceName, "credential_info.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "storage_server_id"),
 
@@ -183,7 +185,7 @@ func TestDatabaseManagementExternalExadataStorageConnectorResource_basic(t *test
 				connectorConnectionUriVariableStr +
 				DatabaseManagementExternalExadataStorageConnectorResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_exadata_storage_connectors", "test_external_exadata_storage_connectors", acctest.Optional, acctest.Update, DatabaseManagementDatabaseManagementExternalExadataStorageConnectorDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseManagementExternalExadataStorageConnectorResourceDependencies +
+				compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_exadata_storage_connector", "test_external_exadata_storage_connector", acctest.Optional, acctest.Update, DatabaseManagementExternalExadataStorageConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -206,7 +208,6 @@ func TestDatabaseManagementExternalExadataStorageConnectorResource_basic(t *test
 				connectorSslTrustStorePasswordVariableStr +
 				connectorSslTrustStoreTypeVariableStr +
 				connectorConnectionUriVariableStr +
-				DatabaseManagementExternalExadataStorageConnectorResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_exadata_storage_connector", "test_external_exadata_storage_connector", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalExadataStorageConnectorSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseManagementExternalExadataStorageConnectorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -215,6 +216,7 @@ func TestDatabaseManagementExternalExadataStorageConnectorResource_basic(t *test
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_uri"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

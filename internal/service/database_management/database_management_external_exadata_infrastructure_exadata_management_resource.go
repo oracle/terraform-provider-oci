@@ -160,7 +160,7 @@ func (s *DatabaseManagementExternalExadataInfrastructureExadataManagementResourc
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	_, err := externalExadataInfrastructureExadataManagementWaitForWorkRequest(workId, "oci_oracle_exadata_infra",
+	_, err := externalExadataInfrastructureExadataManagementWaitForWorkRequest(workId, "exadata",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {

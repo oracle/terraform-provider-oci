@@ -26,6 +26,10 @@ import (
 )
 
 var (
+	ignoreDbManagementPrivateEndpointDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	DatabaseManagementDbManagementPrivateEndpointRequiredOnlyResource = DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, DatabaseManagementDbManagementPrivateEndpointRepresentation)
 
@@ -52,14 +56,18 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_cluster":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementPrivateEndpointDefinedTagsChangesRepresentation},
 	}
 
 	DatabaseManagementDbManagementPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -70,7 +78,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 	provider := acctest.TestAccProvider
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
@@ -90,6 +98,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
+
 		CheckDestroy: testAccCheckDatabaseManagementDbManagementPrivateEndpointDestroy,
 		Steps: []resource.TestStep{
 			// verify Create
@@ -120,6 +129,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
@@ -150,6 +160,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
@@ -174,6 +185,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
@@ -216,6 +228,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_management_private_endpoint_id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),

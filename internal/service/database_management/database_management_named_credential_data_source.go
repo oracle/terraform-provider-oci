@@ -84,9 +84,15 @@ func (s *DatabaseManagementNamedCredentialDataSourceCrud) SetData() error {
 		s.D.Set("content", nil)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)

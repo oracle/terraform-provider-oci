@@ -38,10 +38,23 @@ func DatabaseManagementExternalClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"external_connector_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 
 			// Computed
@@ -248,6 +261,14 @@ func (s *DatabaseManagementExternalClusterResourceCrud) DeletedTarget() []string
 func (s *DatabaseManagementExternalClusterResourceCrud) Create() error {
 	request := oci_database_management.UpdateExternalClusterRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if externalClusterId, ok := s.D.GetOkExists("external_cluster_id"); ok {
 		tmp := externalClusterId.(string)
 		request.ExternalClusterId = &tmp
@@ -256,6 +277,10 @@ func (s *DatabaseManagementExternalClusterResourceCrud) Create() error {
 	if externalConnectorId, ok := s.D.GetOkExists("external_connector_id"); ok {
 		tmp := externalConnectorId.(string)
 		request.ExternalConnectorId = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
@@ -363,10 +388,8 @@ func externalClusterWaitForWorkRequest(wId *string, entityType string, action oc
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			if res.ActionType == action {
-				identifier = res.Identifier
-				break
-			}
+			identifier = res.Identifier
+			break
 		}
 	}
 
@@ -421,12 +444,24 @@ func (s *DatabaseManagementExternalClusterResourceCrud) Get() error {
 func (s *DatabaseManagementExternalClusterResourceCrud) Update() error {
 	request := oci_database_management.UpdateExternalClusterRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	tmp := s.D.Id()
 	request.ExternalClusterId = &tmp
 
 	if externalConnectorId, ok := s.D.GetOkExists("external_connector_id"); ok {
 		tmp := externalConnectorId.(string)
 		request.ExternalConnectorId = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
@@ -451,6 +486,10 @@ func (s *DatabaseManagementExternalClusterResourceCrud) SetData() error {
 		s.D.Set("component_name", *s.Res.ComponentName)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -462,6 +501,8 @@ func (s *DatabaseManagementExternalClusterResourceCrud) SetData() error {
 	if s.Res.ExternalDbSystemId != nil {
 		s.D.Set("external_db_system_id", *s.Res.ExternalDbSystemId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.GridHome != nil {
 		s.D.Set("grid_home", *s.Res.GridHome)
@@ -561,6 +602,10 @@ func ExternalClusterSummaryToMap(obj oci_database_management.ExternalClusterSumm
 		result["component_name"] = string(*obj.ComponentName)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -572,6 +617,8 @@ func ExternalClusterSummaryToMap(obj oci_database_management.ExternalClusterSumm
 	if obj.ExternalDbSystemId != nil {
 		result["external_db_system_id"] = string(*obj.ExternalDbSystemId)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

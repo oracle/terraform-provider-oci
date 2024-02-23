@@ -14,64 +14,12 @@ import (
 )
 
 func DatabaseManagementExternalAsmInstanceDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseManagementExternalAsmInstance,
-		Schema: map[string]*schema.Schema{
-			"external_asm_instance_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"adr_home_directory": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"component_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"external_asm_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"external_db_node_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"external_db_system_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"host_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["external_asm_instance_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalAsmInstanceResource(), fieldMap, readSingularDatabaseManagementExternalAsmInstance)
 }
 
 func readSingularDatabaseManagementExternalAsmInstance(d *schema.ResourceData, m interface{}) error {
@@ -130,6 +78,10 @@ func (s *DatabaseManagementExternalAsmInstanceDataSourceCrud) SetData() error {
 		s.D.Set("component_name", *s.Res.ComponentName)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -145,6 +97,8 @@ func (s *DatabaseManagementExternalAsmInstanceDataSourceCrud) SetData() error {
 	if s.Res.ExternalDbSystemId != nil {
 		s.D.Set("external_db_system_id", *s.Res.ExternalDbSystemId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HostName != nil {
 		s.D.Set("host_name", *s.Res.HostName)

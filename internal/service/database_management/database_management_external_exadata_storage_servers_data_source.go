@@ -35,6 +35,7 @@ func DatabaseManagementExternalExadataStorageServersDataSource() *schema.Resourc
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -43,6 +44,19 @@ func DatabaseManagementExternalExadataStorageServersDataSource() *schema.Resourc
 									// Required
 
 									// Optional
+									"defined_tags": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 
 									// Computed
 									"additional_details": {
@@ -244,9 +258,15 @@ func ExternalExadataStorageConnectorSummaryToMap1(obj *oci_database_management.E
 		result["connection_uri"] = string(*obj.ConnectionUri)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

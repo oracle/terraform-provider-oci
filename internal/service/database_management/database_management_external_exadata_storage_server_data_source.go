@@ -14,167 +14,12 @@ import (
 )
 
 func DatabaseManagementExternalExadataStorageServerDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseManagementExternalExadataStorageServer,
-		Schema: map[string]*schema.Schema{
-			"external_exadata_storage_server_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"additional_details": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"connector": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"additional_details": {
-							Type:     schema.TypeMap,
-							Computed: true,
-							Elem:     schema.TypeString,
-						},
-						"agent_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"connection_uri": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"internal_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"lifecycle_details": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"resource_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"state": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"status": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"storage_server_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_created": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"time_updated": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"version": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"cpu_count": {
-				Type:     schema.TypeFloat,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"exadata_infrastructure_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"internal_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"ip_address": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"make_model": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"max_flash_disk_iops": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"max_flash_disk_throughput": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"max_hard_disk_iops": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"max_hard_disk_throughput": {
-				Type:     schema.TypeInt,
-				Computed: true,
-			},
-			"memory_gb": {
-				Type:     schema.TypeFloat,
-				Computed: true,
-			},
-			"resource_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"status": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"storage_grid_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"version": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["external_exadata_storage_server_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalExadataStorageServerResource(), fieldMap, readSingularDatabaseManagementExternalExadataStorageServer)
 }
 
 func readSingularDatabaseManagementExternalExadataStorageServer(d *schema.ResourceData, m interface{}) error {
@@ -233,6 +78,10 @@ func (s *DatabaseManagementExternalExadataStorageServerDataSourceCrud) SetData()
 		s.D.Set("cpu_count", *s.Res.CpuCount)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -240,6 +89,8 @@ func (s *DatabaseManagementExternalExadataStorageServerDataSourceCrud) SetData()
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InternalId != nil {
 		s.D.Set("internal_id", *s.Res.InternalId)

@@ -32,10 +32,10 @@ func TestDatabaseManagementExternalExadataInfrastructureExadataManagementResourc
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	dbSystemId := utils.GetEnvSettingWithBlankDefault("db_system_id")
+	dbSystemId := utils.GetEnvSettingWithBlankDefault("exa_db_system_id")
 	dbSystemIdStr := fmt.Sprintf("variable \"db_system_id\" { default = \"%s\" }\n", dbSystemId)
 
 	resourceName := "oci_database_management_external_exadata_infrastructure_exadata_management.test_external_exadata_infrastructure_exadata_management"

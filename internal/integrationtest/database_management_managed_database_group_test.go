@@ -26,6 +26,10 @@ import (
 )
 
 var (
+	ignoreManagedDatabaseGroupDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	DatabaseManagementManagedDatabaseGroupRequiredOnlyResource = DatabaseManagementManagedDatabaseGroupResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_managed_database_group", "test_managed_database_group", acctest.Required, acctest.Create, DatabaseManagementManagedDatabaseGroupRepresentation)
 
@@ -50,7 +54,10 @@ var (
 	DatabaseManagementManagedDatabaseGroupRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Required, Create: `TestGroup`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":    acctest.Representation{RepType: acctest.Optional, Create: `Sales test database Group`, Update: `description2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreManagedDatabaseGroupDefinedTagsChangesRepresentation},
 	}
 
 	managedDatabaseId0Representation = map[string]interface{}{
@@ -76,11 +83,14 @@ var (
 	managedDatabaseGroupRepresentationWithManagedDatabases = map[string]interface{}{
 		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":              acctest.Representation{RepType: acctest.Required, Create: `TestGroup`},
+		"defined_tags":      acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":       acctest.Representation{RepType: acctest.Optional, Create: `Sales test database Group`, Update: `description2`},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"managed_databases": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: managedDatabaseId0Representation}, {RepType: acctest.Optional, Group: managedDatabaseId1Representation}},
+		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreManagedDatabaseGroupDefinedTagsChangesRepresentation},
 	}
 
-	DatabaseManagementManagedDatabaseGroupResourceDependencies = ""
+	DatabaseManagementManagedDatabaseGroupResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -90,7 +100,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
@@ -132,6 +142,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "Sales test database Group"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
@@ -240,6 +251,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "Sales test database Group"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
@@ -262,6 +274,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "managed_databases.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TestGroup"),
@@ -302,6 +315,7 @@ func TestDatabaseManagementManagedDatabaseGroupResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "managed_databases.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "TestGroup"),
