@@ -54,16 +54,34 @@ The following attributes are exported:
 * `access_reason_summary` - Summary comment by the operator creating the access request.
 * `action_requests_list` - List of operator actions for which approval is sought by the operator user.
 * `approver_comment` - The last recent Comment entered by the approver of the request.
+* `approver_details` - Contains the user ids who have approved the accessRequest for extension.
+	* `approval_action` - The action done by the approver.
+	* `approval_additional_message` - Additional message specified by the approver of the request.
+	* `approval_comment` - Comment specified by the approver of the request.
+	* `approver_id` - The userId of the approver.
+	* `time_approved_for_access` - Time for when the access request should start that is authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 
+	* `time_of_authorization` - Time when the access request was authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 
 * `audit_type` - Specifies the type of auditing to be enabled. There are two levels of auditing: command-level and keystroke-level.  By default, auditing is enabled at the command level i.e., each command issued by the operator is audited. When keystroke-level is chosen,  in addition to command level logging, key strokes are also logged. 
 * `closure_comment` - The comment entered by the operator while closing the request.
 * `compartment_id` - The OCID of the compartment that contains the access request.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. 
 * `duration` - Duration in hours for which access is sought on the target resource.
 * `extend_duration` - Duration in hours for which extension access is sought on the target resource.
+* `extension_approver_details` - Contains the user ids who have approved the accessRequest for extension.
+	* `approval_action` - The action done by the approver.
+	* `approval_additional_message` - Additional message specified by the approver of the request.
+	* `approval_comment` - Comment specified by the approver of the request.
+	* `approver_id` - The userId of the approver.
+	* `time_approved_for_access` - Time for when the access request should start that is authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 
+	* `time_of_authorization` - Time when the access request was authorized by the customer in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. 
 * `id` - The OCID of the access request.
 * `is_auto_approved` - Whether the access request was automatically approved.
+* `is_validate_assignment` - Whether the access request was requested for Validate Assignment.
 * `lifecycle_details` - more in detail about the lifeCycleState.
+* `number_of_approvers` - Number of approvers who have authorized an access request.
+* `number_of_approvers_required` - Number of approvers required to approve an access request.
+* `number_of_extension_approvers` - Number of approvers who have authorized an access request for extension.
 * `opctl_additional_message` - Additional message specific to the access request that can be specified by the approver at the time of approval.
 * `opctl_id` - The OCID of the operator control governing the target resource.
 * `opctl_name` - Name of the Operator control governing the target resource.
@@ -80,6 +98,7 @@ The following attributes are exported:
 * `time_of_creation` - Time when the access request was created in [RFC 3339](https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z' 
 * `time_of_modification` - Time when the access request was last modified in [RFC 3339](https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z' 
 * `time_of_user_creation` - The time when access request is scheduled to be approved in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format.Example: '2020-05-22T21:10:29.600Z' 
+* `time_requested_for_future_access` - Time in future when the user for the access request needs to be created in [RFC 3339](https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z' 
 * `user_id` - The OCID of the user that last modified the access request.
 * `workflow_id` - The OCID of the workflow associated with the access request. This is needed if you want to contact Oracle Support for a stuck access request or for an access request that encounters an internal error. 
 

@@ -109,12 +109,20 @@ func (s *OperatorAccessControlOperatorControlAssignmentDataSourceCrud) SetData()
 		s.D.Set("is_enforced_always", *s.Res.IsEnforcedAlways)
 	}
 
+	if s.Res.IsHypervisorLogForwarded != nil {
+		s.D.Set("is_hypervisor_log_forwarded", *s.Res.IsHypervisorLogForwarded)
+	}
+
 	if s.Res.IsLogForwarded != nil {
 		s.D.Set("is_log_forwarded", *s.Res.IsLogForwarded)
 	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.OpControlName != nil {
+		s.D.Set("op_control_name", *s.Res.OpControlName)
 	}
 
 	if s.Res.OperatorControlId != nil {

@@ -37,6 +37,43 @@ func OperatorAccessControlAccessRequestDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"approver_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"approval_action": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approval_additional_message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approval_comment": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approver_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_approved_for_access": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_of_authorization": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"audit_type": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -65,6 +102,43 @@ func OperatorAccessControlAccessRequestDataSource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"extension_approver_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"approval_action": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approval_additional_message": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approval_comment": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"approver_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_approved_for_access": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_of_authorization": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -74,8 +148,24 @@ func OperatorAccessControlAccessRequestDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"is_validate_assignment": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"number_of_approvers": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"number_of_approvers_required": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"number_of_extension_approvers": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 			"opctl_additional_message": {
@@ -142,6 +232,10 @@ func OperatorAccessControlAccessRequestDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"time_of_user_creation": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_requested_for_future_access": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -214,6 +308,12 @@ func (s *OperatorAccessControlAccessRequestDataSourceCrud) SetData() error {
 		s.D.Set("approver_comment", *s.Res.ApproverComment)
 	}
 
+	approverDetails := []interface{}{}
+	for _, item := range s.Res.ApproverDetails {
+		approverDetails = append(approverDetails, ApproverDetailToMap(item))
+	}
+	s.D.Set("approver_details", approverDetails)
+
 	s.D.Set("audit_type", s.Res.AuditType)
 
 	if s.Res.ClosureComment != nil {
@@ -236,14 +336,36 @@ func (s *OperatorAccessControlAccessRequestDataSourceCrud) SetData() error {
 		s.D.Set("extend_duration", *s.Res.ExtendDuration)
 	}
 
+	extensionApproverDetails := []interface{}{}
+	for _, item := range s.Res.ExtensionApproverDetails {
+		extensionApproverDetails = append(extensionApproverDetails, ApproverDetailToMap(item))
+	}
+	s.D.Set("extension_approver_details", extensionApproverDetails)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsAutoApproved != nil {
 		s.D.Set("is_auto_approved", *s.Res.IsAutoApproved)
 	}
 
+	if s.Res.IsValidateAssignment != nil {
+		s.D.Set("is_validate_assignment", *s.Res.IsValidateAssignment)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.NumberOfApprovers != nil {
+		s.D.Set("number_of_approvers", *s.Res.NumberOfApprovers)
+	}
+
+	if s.Res.NumberOfApproversRequired != nil {
+		s.D.Set("number_of_approvers_required", *s.Res.NumberOfApproversRequired)
+	}
+
+	if s.Res.NumberOfExtensionApprovers != nil {
+		s.D.Set("number_of_extension_approvers", *s.Res.NumberOfExtensionApprovers)
 	}
 
 	if s.Res.OpctlAdditionalMessage != nil {
@@ -300,6 +422,10 @@ func (s *OperatorAccessControlAccessRequestDataSourceCrud) SetData() error {
 
 	if s.Res.TimeOfUserCreation != nil {
 		s.D.Set("time_of_user_creation", s.Res.TimeOfUserCreation.String())
+	}
+
+	if s.Res.TimeRequestedForFutureAccess != nil {
+		s.D.Set("time_requested_for_future_access", s.Res.TimeRequestedForFutureAccess.String())
 	}
 
 	if s.Res.UserId != nil {
