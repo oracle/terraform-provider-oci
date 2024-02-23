@@ -39,11 +39,6 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 				Required: true,
 				ForceNew: true,
 			},
-			"peer_cloud_autonomous_vm_cluster_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"protection_mode": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -51,7 +46,7 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 
 			// Optional
 			"autonomous_container_database_dataguard_association_id": {
-				Type:     schema.TypeInt,
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -141,6 +136,24 @@ func DatabaseAutonomousContainerDatabaseDataguardAssociationResource() *schema.R
 				},
 			},
 			"peer_autonomous_container_database_compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"peer_autonomous_vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"peer_cloud_autonomous_vm_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"peer_db_unique_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -317,9 +330,19 @@ func (s *DatabaseAutonomousContainerDatabaseDataguardAssociationResourceCrud) Cr
 		request.PeerAutonomousContainerDatabaseDisplayName = &tmp
 	}
 
+	if peerAutonomousVmClusterId, ok := s.D.GetOkExists("peer_autonomous_vm_cluster_id"); ok {
+		tmp := peerAutonomousVmClusterId.(string)
+		request.PeerAutonomousVmClusterId = &tmp
+	}
+
 	if peerCloudAutonomousVmClusterId, ok := s.D.GetOkExists("peer_cloud_autonomous_vm_cluster_id"); ok {
 		tmp := peerCloudAutonomousVmClusterId.(string)
 		request.PeerCloudAutonomousVmClusterId = &tmp
+	}
+
+	if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
+		tmp := peerDbUniqueName.(string)
+		request.PeerDbUniqueName = &tmp
 	}
 
 	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
