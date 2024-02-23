@@ -21,6 +21,7 @@ data "oci_database_cloud_exadata_infrastructures" "test_cloud_exadata_infrastruc
 	compartment_id = var.compartment_id
 
 	#Optional
+    cluster_placement_group_id = var.cloud_exadata_infrastructure_cluster_placement_group_id
 	display_name = var.cloud_exadata_infrastructure_display_name
 	state = var.cloud_exadata_infrastructure_state
 }
@@ -30,6 +31,7 @@ data "oci_database_cloud_exadata_infrastructures" "test_cloud_exadata_infrastruc
 
 The following arguments are supported:
 
+* `cluster_placement_group_id` - (Optional) A filter to return only resources that match the given cluster placement group ID exactly.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
@@ -49,6 +51,7 @@ The following attributes are exported:
 * `additional_storage_count` - The requested number of additional storage servers for the Exadata infrastructure.
 * `availability_domain` - The name of the availability domain that the cloud Exadata infrastructure resource is located in.
 * `available_storage_size_in_gbs` - The available storage can be allocated to the cloud Exadata infrastructure resource, in gigabytes (GB).
+* `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the cloud Exadata infrastructure.
 * `cpu_count` - The total number of CPU cores allocated.
@@ -91,6 +94,7 @@ The following attributes are exported:
 * `state` - The current lifecycle state of the cloud Exadata infrastructure resource.
 * `storage_count` - The number of storage servers for the cloud Exadata infrastructure.
 * `storage_server_version` - The software version of the storage servers (cells) in the cloud Exadata infrastructure. Example: 20.1.15 
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time the cloud Exadata infrastructure resource was created.
 * `total_storage_size_in_gbs` - The total storage allocated to the cloud Exadata infrastructure resource, in gigabytes (GB).
 
