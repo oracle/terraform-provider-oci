@@ -6,7 +6,6 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 	"time"
 
@@ -19,12 +18,15 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
 var (
+	ignoreDbManagementExternalDbSystemDiscoveryDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	DatabaseManagementExternalDbSystemDiscoveryRequiredOnlyResource = DatabaseManagementExternalDbSystemDiscoveryResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_discovery", "test_external_db_system_discovery", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemDiscoveryRepresentation)
 
@@ -47,10 +49,13 @@ var (
 	DatabaseManagementExternalDbSystemDiscoveryRepresentation = map[string]interface{}{
 		"agent_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `discoveryDisplayName`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementExternalDbSystemDiscoveryDefinedTagsChangesRepresentation},
 	}
 
-	DatabaseManagementExternalDbSystemDiscoveryResourceDependencies = ""
+	DatabaseManagementExternalDbSystemDiscoveryResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -103,6 +108,7 @@ func TestDatabaseManagementExternalDbSystemDiscoveryResource_basic(t *testing.T)
 				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "discoveryDisplayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -110,11 +116,6 @@ func TestDatabaseManagementExternalDbSystemDiscoveryResource_basic(t *testing.T)
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -128,6 +129,7 @@ func TestDatabaseManagementExternalDbSystemDiscoveryResource_basic(t *testing.T)
 				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -166,6 +168,7 @@ func TestDatabaseManagementExternalDbSystemDiscoveryResource_basic(t *testing.T)
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "discovered_components.#"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "grid_home"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

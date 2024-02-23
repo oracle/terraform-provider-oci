@@ -38,11 +38,15 @@ var (
 
 	DatabaseManagementExternalClusterInstanceRepresentation = map[string]interface{}{
 		"external_cluster_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_cluster_instances.test_external_cluster_instances.external_cluster_instance_collection.0.items.0.id}`},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"external_connector_id":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_cluster_instances.test_external_cluster_instances.external_cluster_instance_collection.0.items.0.external_connector_id}`},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementDefinedTagsChangesRepresentation},
 	}
 
 	DatabaseManagementExternalClusterInstanceResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_clusters", "test_external_clusters", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalClusterDataSourceRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_cluster_instances", "test_external_cluster_instances", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalClusterInstanceDataSourceRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_cluster_instances", "test_external_cluster_instances", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalClusterInstanceDataSourceRepresentation) +
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -52,10 +56,10 @@ func TestDatabaseManagementExternalClusterInstanceResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	dbSystemId := utils.GetEnvSettingWithBlankDefault("external_dbsystem_id")
+	dbSystemId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_dbsystem_id")
 	dbSystemIdVariableStr := fmt.Sprintf("variable \"external_dbsystem_id\" { default = \"%s\" }\n", dbSystemId)
 
 	resourceName := "oci_database_management_external_cluster_instance.test_external_cluster_instance"
@@ -81,6 +85,28 @@ func TestDatabaseManagementExternalClusterInstanceResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalClusterInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_cluster_instance", "test_external_cluster_instance", acctest.Optional, acctest.Create, DatabaseManagementExternalClusterInstanceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "component_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_cluster_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_cluster_instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_connector_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 		// verify datasource
 		{
 			Config: config +
@@ -107,6 +133,7 @@ func TestDatabaseManagementExternalClusterInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_db_node_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_db_system_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_role"),

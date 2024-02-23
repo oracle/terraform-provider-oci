@@ -76,6 +76,10 @@ func (s *DatabaseManagementExternalExadataStorageConnectorDataSourceCrud) SetDat
 		s.D.Set("connection_uri", *s.Res.ConnectionUri)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -83,6 +87,8 @@ func (s *DatabaseManagementExternalExadataStorageConnectorDataSourceCrud) SetDat
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InternalId != nil {
 		s.D.Set("internal_id", *s.Res.InternalId)

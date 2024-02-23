@@ -43,13 +43,27 @@ func DatabaseManagementManagedDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"database_version": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"defined_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"deployment_type": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"is_cluster": {
 				Type:     schema.TypeBool,
@@ -164,11 +178,21 @@ func (s *DatabaseManagementManagedDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("database_type", s.Res.DatabaseType)
 
+	if s.Res.DatabaseVersion != nil {
+		s.D.Set("database_version", *s.Res.DatabaseVersion)
+	}
+
 	if s.Res.DbSystemId != nil {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	s.D.Set("deployment_type", s.Res.DeploymentType)
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsCluster != nil {
 		s.D.Set("is_cluster", *s.Res.IsCluster)

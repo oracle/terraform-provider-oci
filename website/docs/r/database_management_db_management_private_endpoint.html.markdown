@@ -23,7 +23,9 @@ resource "oci_database_management_db_management_private_endpoint" "test_db_manag
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.db_management_private_endpoint_description
+	freeform_tags = {"Department"= "Finance"}
 	is_cluster = var.db_management_private_endpoint_is_cluster
 	nsg_ids = var.db_management_private_endpoint_nsg_ids
 }
@@ -34,7 +36,9 @@ resource "oci_database_management_db_management_private_endpoint" "test_db_manag
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the private endpoint.
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_cluster` - (Optional) Specifies whether the Database Management private endpoint will be used for Oracle Databases in a cluster.
 * `name` - (Required) (Updatable) The display name of the Database Management private endpoint.
 * `nsg_ids` - (Optional) (Updatable) The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs. 
@@ -49,7 +53,9 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the Database Management private endpoint.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
 * `is_cluster` - Specifies whether the Database Management private endpoint can be used for Oracle Databases in a cluster.
 * `name` - The display name of the Database Management private endpoint.

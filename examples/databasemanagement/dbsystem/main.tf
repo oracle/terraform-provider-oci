@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -17,12 +17,16 @@ provider "oci" {
 
 ####################### External DB System #########################
 
-variable "compartment_id" {  
-  default = "<compartment.ocid>"
+variable "compartment_id" {
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-compartmentId-Value"
 }
 
 variable "external_db_system_discovery_display_name" {
-  default = "tersiDBDiscovery_DBSystem"
+  default = "EXAMPLE-displayName-Value"
+}
+
+variable "agent_id" {
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-agentId-Value"
 }
 
 variable "external_db_system_database_management_config_license_model" {
@@ -30,11 +34,11 @@ variable "external_db_system_database_management_config_license_model" {
 }
 
 variable "external_db_system_display_name" {
-  default = "tersiDBDiscovery_DBSystem"
+  default = "EXAMPLE-displayName-Value"
 }
 
 variable "db_host_name" {
-  default = "1.2.3.4"
+  default = "EXAMPLE-hostName-Value"
 }
 
 variable "db_port" {
@@ -42,23 +46,23 @@ variable "db_port" {
 }
 
 variable "db_service_name" {
-  default = "DBService"
+  default = "EXAMPLE-service-Value"
 }
 
 variable "db_user_name" {
-  default = "sys"
+  default = "EXAMPLE-userName-Value"
 }
 
 variable "db_password_secret_id" {
-  default = "<secret.ocid>"
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-passwordSecretId-Value"
 }
 
 variable "db_credential_name" {
-  default = "DbCredential"
+  default = "EXAMPLE-dbCredName-Value"
 }
 
 variable "asm_host_name" {
- default = "1.2.3.4"
+  default = "EXAMPLE-hostName-Value"
 }
 
 variable "asm_port" {
@@ -66,24 +70,23 @@ variable "asm_port" {
 }
 
 variable "asm_service_name" {
-  default = "+ASM"
+  default = "EXAMPLE-service-Value"
 }
 
 variable "asm_user_name" {
-  default = "asmsnmp"
+  default = "EXAMPLE-userName-Value"
 }
 
 variable "asm_password_secret_id" {
-  default = "<secret.ocid>"
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-passwordSecretId-Value"
 }
 
 variable "asm_credential_name" {
-  default = "asmCredential"
+  default = "EXAMPLE-asmCredName-Value"
 }
 
 variable "external_asm_connector_display_name" {
-  #default = "asmConnectorName"
-  default = "asmConnectorName_zabit"
+  default = "asmConnectorName"
 }
 
 variable "external_listener_connector_display_name" {
@@ -91,26 +94,86 @@ variable "external_listener_connector_display_name" {
 }
 
 variable "connector_agent_id" {
-  default = "<agent.ocid>"
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-agentId-Value"
 }
 
 variable "local_listener_name" {
-  #default = "LISTENER_NAME"
+  default = "LISTENER_NAME"
 }
 
 variable "managed_databases_asm_property_name" {
   default = "DATA"
 }
 
+variable "db_system_discovery_defined_tags_value" {
+  default = "db_system_discovery_tag_value"
+}
+
+variable "db_system_discovery_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+variable "db_system_defined_tags_value" {
+  default = "db_system_tag_value"
+}
+
+variable "db_system_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+variable "asm_defined_tags_value" {
+  default = "asm_tag_value"
+}
+
+variable "asm_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+variable "listener_defined_tags_value" {
+  default = "listener_tag_value"
+}
+
+variable "listener_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+variable "db_system_connector_defined_tags_value" {
+  default = "db_system_connector_tag_value"
+}
+
+variable "db_system_connector_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+# Create a new Tag Namespace.
+resource "oci_identity_tag_namespace" "tag_namespace1" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  description    = "example tag namespace"
+  name           = "example-tag-namespace-all"
+}
+
+# Create a new Tag definition in the above Tag Namespace.
+resource "oci_identity_tag" "tag1" {
+  #Required
+  description      = "example tag"
+  name             = "example-tag"
+  tag_namespace_id = oci_identity_tag_namespace.tag_namespace1.id
+}
+
 # Create a new ExternalDbSystemDiscovery resource and discover an external DB System and its components.
 # Also add a connector to the discovered Oracle Container Database (CDB).
 resource "oci_database_management_external_db_system_discovery" "test_external_db_system_discovery" {
   #Required
-  agent_id                        = var.connector_agent_id
+  agent_id                        = var.agent_id
   compartment_id                  = var.compartment_id
 
   #Optional
   display_name = var.external_db_system_discovery_display_name
+  defined_tags  = {
+    "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.db_system_discovery_defined_tags_value
+  }
+  freeform_tags = var.db_system_discovery_freeform_tags
 
   # Patch the Discovery resource and add connector to the database component
   patch_operations {
@@ -118,14 +181,14 @@ resource "oci_database_management_external_db_system_discovery" "test_external_d
     selection = "discoveredComponents[?componentType == 'DATABASE'] | [0]"
     value {
       connector {
-        agent_id = var.connector_agent_id
+        agent_id = var.agent_id
         connection_info {
           component_type = "DATABASE"
           connection_credentials {
             credential_name = var.db_credential_name
             credential_type = "DETAILS"
             password_secret_id = var.db_password_secret_id
-            role = "SYSDBA"
+            role = "NORMAL"
             user_name = var.db_user_name
           }
           connection_string {
@@ -142,16 +205,14 @@ resource "oci_database_management_external_db_system_discovery" "test_external_d
     }
   }
 
-  # Deselect the PatchExternalDbSystemDiscovery
-  /*
-  patch_operations {
-    operation = "MERGE"
-    selection = "discoveredComponents[?componentType == 'DATABASE'].pluggableDatabases[]"
-    value {
-      is_selected_for_monitoring = "false"
-    }
-  }
-  */
+#  # Deselect the Pluggable Databases (PDBs).
+#  patch_operations {
+#    operation = "MERGE"
+#    selection = "discoveredComponents[?componentType == 'DATABASE'].pluggableDatabases[]"
+#    value {
+#      is_selected_for_monitoring = "false"
+#    }
+#  }
 }
 
 # List ExternalDbSystemDiscovery resources
@@ -175,6 +236,10 @@ resource "oci_database_management_external_db_system" "test_external_db_system" 
     license_model = var.external_db_system_database_management_config_license_model
   }
   display_name = var.external_db_system_display_name
+  defined_tags  = {
+    "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.db_system_defined_tags_value
+  }
+  freeform_tags = var.db_system_freeform_tags
 }
 
 # List ExternalDbSystem resources
@@ -211,8 +276,12 @@ resource "oci_database_management_external_db_system_connector" "test_external_a
       service = var.asm_service_name
     }
   }
+  defined_tags  = {
+    "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.db_system_connector_defined_tags_value
+  }
+  freeform_tags = var.db_system_connector_freeform_tags
   lifecycle {
-      ignore_changes = [connection_info]
+    ignore_changes = [connection_info]
   }
 }
 
@@ -220,6 +289,10 @@ resource "oci_database_management_external_db_system_connector" "test_external_a
 resource "oci_database_management_external_asm" "test_external_asm" {
   external_asm_id = data.oci_database_management_external_asms.test_external_asms.external_asm_collection.0.items.0.id
   external_connector_id = oci_database_management_external_db_system_connector.test_external_asm_connector.id
+  defined_tags  = {
+    "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.asm_defined_tags_value
+  }
+  freeform_tags = var.asm_freeform_tags
 }
 
 # List ExternalAsms in ExternalDbSystem
@@ -303,7 +376,6 @@ data "oci_database_management_external_db_nodes" "test_external_db_nodes" {
   compartment_id        = var.compartment_id
 }
 
-
 # Creating listener connector
 resource "oci_database_management_external_db_system_connector" "test_external_listener_connector" {
   #Required
@@ -313,6 +385,10 @@ resource "oci_database_management_external_db_system_connector" "test_external_l
 
   #Optional
   display_name = var.external_listener_connector_display_name
+  defined_tags  = {
+    "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.db_system_connector_defined_tags_value
+  }
+  freeform_tags = var.db_system_connector_freeform_tags
 }
 
 # List ExternalListeners in ExternalDbSystem
@@ -325,12 +401,16 @@ data "oci_database_management_external_listeners" "test_external_listeners" {
   # display_name =  var.local_listener_name
 }
 
+# Add connector to an ExternalListener resource
 resource "oci_database_management_external_listener" "test_external_listener" {
   #Required
   external_listener_id = data.oci_database_management_external_listeners.test_external_listeners.external_listener_collection.0.items.0.id
   external_connector_id = oci_database_management_external_db_system_connector.test_external_listener_connector.id
+  defined_tags  = {
+    "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.listener_defined_tags_value
+  }
+  freeform_tags = var.listener_freeform_tags
 }
-
 
 # List ExternalListenerServices for ExternalListener
 data "oci_database_management_external_listener_services" "test_external_listener_services" {
@@ -340,7 +420,6 @@ data "oci_database_management_external_listener_services" "test_external_listene
   managed_database_id  = data.oci_database_management_external_databases.test_external_databases.external_database_collection.0.items.0.id
 }
 
-/*
 # List ExternalDbSystemConnector resources in ExternalDbSystem
 data "oci_database_management_external_db_system_connectors" "test_external_db_system_connectors" {
   #Required
@@ -368,15 +447,12 @@ data "oci_database_management_managed_databases_asm_property" "test_managed_data
   name = var.managed_databases_asm_property_name
 }
 
-
 ## Disable database management for ExternalDbSystem
-resource "oci_database_management_external_db_system_database_managements_management" "test_external_db_system_database_managements_management" {
-  #Required
-  external_db_system_id      = oci_database_management_external_db_system.test_external_db_system.id
-  enable_database_management = false
-}
-
-
+#resource "oci_database_management_external_db_system_database_managements_management" "test_external_db_system_database_managements_management" {
+#  #Required
+#  external_db_system_id      = oci_database_management_external_db_system.test_external_db_system.id
+#  enable_database_management = false
+#}
 
 # Enable Stack Monitoring for ExternalDbSystem
 resource "oci_database_management_external_db_system_stack_monitorings_management" "test_external_db_system_stack_monitoring_management" {
@@ -386,11 +462,9 @@ resource "oci_database_management_external_db_system_stack_monitorings_managemen
   is_enabled                 = true
 }
 
-
-# Disable Stack Monitoring for ExternalDbSystem
-resource "oci_database_management_external_db_system_stack_monitorings_management" "test_external_db_system_disable_stack_monitoring_management" {
-  #Required
-  external_db_system_id      = oci_database_management_external_db_system.test_external_db_system.id
-  enable_stack_monitoring    = false
-}
-*/
+## Disable Stack Monitoring for ExternalDbSystem
+#resource "oci_database_management_external_db_system_stack_monitorings_management" "test_external_db_system_disable_stack_monitoring_management" {
+#  #Required
+#  external_db_system_id      = oci_database_management_external_db_system.test_external_db_system.id
+#  enable_stack_monitoring    = false
+#}

@@ -38,10 +38,13 @@ var (
 
 	DatabaseManagementExternalClusterRepresentation = map[string]interface{}{
 		"external_cluster_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_clusters.test_external_clusters.external_cluster_collection.0.items.0.id}`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"external_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_clusters.test_external_clusters.external_cluster_collection.0.items.0.external_connector_id}`},
+		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
-	DatabaseManagementExternalClusterResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_clusters", "test_external_clusters", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalClusterDataSourceRepresentation)
+	DatabaseManagementExternalClusterResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_clusters", "test_external_clusters", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalClusterDataSourceRepresentation) +
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -51,10 +54,10 @@ func TestDatabaseManagementExternalClusterResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	dbSystemId := utils.GetEnvSettingWithBlankDefault("external_dbsystem_id")
+	dbSystemId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_dbsystem_id")
 	dbSystemIdVariableStr := fmt.Sprintf("variable \"external_dbsystem_id\" { default = \"%s\" }\n", dbSystemId)
 
 	resourceName := "oci_database_management_external_cluster.test_external_cluster"
@@ -80,6 +83,26 @@ func TestDatabaseManagementExternalClusterResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalClusterResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_cluster", "test_external_cluster", acctest.Optional, acctest.Create, DatabaseManagementExternalClusterRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "component_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_cluster_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_connector_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 		// verify datasource
 		{
 			Config: config +
@@ -103,6 +126,7 @@ func TestDatabaseManagementExternalClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "component_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "grid_home"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_flex_cluster"),

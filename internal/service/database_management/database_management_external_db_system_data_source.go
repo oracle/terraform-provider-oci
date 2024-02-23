@@ -80,6 +80,10 @@ func (s *DatabaseManagementExternalDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("db_system_discovery_id", *s.Res.DbSystemDiscoveryId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DiscoveryAgentId != nil {
 		s.D.Set("discovery_agent_id", *s.Res.DiscoveryAgentId)
 	}
@@ -87,6 +91,8 @@ func (s *DatabaseManagementExternalDbSystemDataSourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HomeDirectory != nil {
 		s.D.Set("home_directory", *s.Res.HomeDirectory)

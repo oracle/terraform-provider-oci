@@ -14,57 +14,12 @@ import (
 )
 
 func DatabaseManagementExternalDbHomeDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDatabaseManagementExternalDbHome,
-		Schema: map[string]*schema.Schema{
-			"external_db_home_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"additional_details": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"component_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"external_db_system_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"home_directory": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["external_db_home_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(DatabaseManagementExternalDbHomeResource(), fieldMap, readSingularDatabaseManagementExternalDbHome)
 }
 
 func readSingularDatabaseManagementExternalDbHome(d *schema.ResourceData, m interface{}) error {
@@ -122,6 +77,10 @@ func (s *DatabaseManagementExternalDbHomeDataSourceCrud) SetData() error {
 		s.D.Set("component_name", *s.Res.ComponentName)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -129,6 +88,8 @@ func (s *DatabaseManagementExternalDbHomeDataSourceCrud) SetData() error {
 	if s.Res.ExternalDbSystemId != nil {
 		s.D.Set("external_db_system_id", *s.Res.ExternalDbSystemId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HomeDirectory != nil {
 		s.D.Set("home_directory", *s.Res.HomeDirectory)

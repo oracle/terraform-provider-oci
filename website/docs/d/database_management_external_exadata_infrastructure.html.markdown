@@ -51,7 +51,9 @@ The following attributes are exported:
 	* `time_created` - The timestamp of the creation of the Exadata resource.
 	* `time_updated` - The timestamp of the last update of the Exadata resource.
 	* `version` - The version of the Exadata resource.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The name of the Exadata resource. English letters, numbers, "-", "_" and "." only.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 * `internal_id` - The internal ID of the Exadata resource.
 * `license_model` - The Oracle license model that applies to the database management resources. 

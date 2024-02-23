@@ -35,63 +35,11 @@ func DatabaseManagementExternalDbHomesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
-									"additional_details": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"compartment_id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"component_name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"display_name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"external_db_system_id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"home_directory": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"lifecycle_details": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"state": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"time_created": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"time_updated": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
+							Elem:     tfresource.GetDataSourceItemSchema(DatabaseManagementExternalDbHomeResource()),
 						},
 					},
 				},
@@ -185,48 +133,4 @@ func (s *DatabaseManagementExternalDbHomesDataSourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func ExternalDbHomeSummaryToMap(obj oci_database_management.ExternalDbHomeSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.ComponentName != nil {
-		result["component_name"] = string(*obj.ComponentName)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.ExternalDbSystemId != nil {
-		result["external_db_system_id"] = string(*obj.ExternalDbSystemId)
-	}
-
-	if obj.HomeDirectory != nil {
-		result["home_directory"] = string(*obj.HomeDirectory)
-	}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	if obj.LifecycleDetails != nil {
-		result["lifecycle_details"] = string(*obj.LifecycleDetails)
-	}
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeUpdated != nil {
-		result["time_updated"] = obj.TimeUpdated.String()
-	}
-
-	return result
 }

@@ -214,6 +214,19 @@ func DatabaseManagementExternalDbSystemConnectorResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -330,7 +343,7 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) getExternalDbS
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	externalDbSystemConnectorId, err := externalDbSystemConnectorWaitForWorkRequest(workId, "database_management",
+	externalDbSystemConnectorId, err := externalDbSystemConnectorWaitForWorkRequest(workId, "connector",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -509,6 +522,12 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) SetData() erro
 		} else {
 			s.D.Set("connection_info", nil)
 		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
@@ -1073,6 +1092,19 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) populateTopLev
 				details.ConnectionInfo = tmp
 			}
 		}
+
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+
 		request.CreateExternalDbSystemConnectorDetails = details
 	default:
 		return fmt.Errorf("unknown connectorType '%v' was specified", connectorType)
@@ -1103,6 +1135,19 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) populateTopLev
 				details.ConnectionInfo = tmp
 			}
 		}
+
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+
 		request.UpdateExternalDbSystemConnectorDetails = details
 	default:
 		return fmt.Errorf("unknown connectorType '%v' was specified", connectorType)
@@ -1123,6 +1168,10 @@ func ExternalDbSystemConnectorSummaryToMap(obj oci_database_management.ExternalD
 
 	result["connector_type"] = string(obj.ConnectorType)
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -1130,6 +1179,8 @@ func ExternalDbSystemConnectorSummaryToMap(obj oci_database_management.ExternalD
 	if obj.ExternalDbSystemId != nil {
 		result["external_db_system_id"] = string(*obj.ExternalDbSystemId)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

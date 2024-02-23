@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -17,7 +17,7 @@ provider "oci" {
 
 ####################### Exadata Infrastructure Monitoring #########################
 
-variable "compartment_id" {  
+variable "compartment_id" {
   default = "<compartment.ocid>"
 }
 
@@ -30,11 +30,11 @@ variable "enable_exadata" {
 }
 
 variable "external_exadata_infrastructure_db_system_ids" {
-  default = []
+  default = ["ocid1.test.oc1..<unique_ID>EXAMPLE-externalDbSystemId-Value"]
 }
 
 variable "external_exadata_infrastructure_display_name" {
-  default = "exadata-Terraform-Testing"
+  default = "EXAMPLE-displayName-Value"
 }
 
 variable "external_exadata_infrastructure_license_model" {
@@ -42,27 +42,27 @@ variable "external_exadata_infrastructure_license_model" {
 }
 
 variable "external_exadata_infrastructure_storage_server_names" {
-  default = []
+  default = ["EXAMPLE-storageServerName-Value"]
 }
 
 variable "external_exadata_storage_connector_connection_uri" {
-  default = "https://exaInfra01celadm01.us.oracle.com/MS/RESTService/"
+  default = "EXAMPLE-connectionUri-Value"
 }
 
 variable "external_exadata_storage_connector_connector_name" {
-  default = "connectorName"
+  default = "EXAMPLE-connectorName-Value"
 }
 
 variable "external_exadata_storage_connector_credential_info_password" {
-  default = "BEstrO0ng_#11"
+  default = "EXAMPLE-password-Value"
 }
 
 variable "external_exadata_storage_connector_credential_info_ssl_trust_store_location" {
-  default = "sslTrustStoreLocation"
+  default = "EXAMPLE-sslTrustStoreLocation-Value"
 }
 
 variable "external_exadata_storage_connector_credential_info_ssl_trust_store_password" {
-  default = "sslTrustStorePassword"
+  default = "EXAMPLE-sslTrustStorePassword-Value"
 }
 
 variable "external_exadata_storage_connector_credential_info_ssl_trust_store_type" {
@@ -70,19 +70,59 @@ variable "external_exadata_storage_connector_credential_info_ssl_trust_store_typ
 }
 
 variable "external_exadata_storage_connector_credential_info_username" {
-  default = "username"
+  default = "EXAMPLE-username-Value"
 }
 
 variable "external_exadata_storage_connector_display_name" {
-  default = "exaInfra01celadm01-conn"
+  default = "EXAMPLE-connectorName-Value"
 }
 
 variable "external_exadata_storage_grid_id" {
-  default = "id"
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-externalExadataStorageGridId-Value"
 }
 
 variable "external_exadata_storage_server_id" {
-  default = "id"
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-externalExadataStorageServerId-Value"
+}
+
+variable "external_exadata_connector_agent_id" {
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-agentId-Value"
+}
+
+variable "connector_storage_server_id" {
+  default = "ocid1.test.oc1..<unique_ID>EXAMPLE-storageServerId-Value"
+}
+
+variable "exadata_infra_defined_tags_value" {
+  default = "exadata_infra_tag_value"
+}
+
+variable "exadata_infra_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+variable "exadata_connector_defined_tags_value" {
+  default = "exadata_connector_tag_value"
+}
+
+variable "exadata_connector_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+# Create a new Tag Namespace.
+resource "oci_identity_tag_namespace" "tag_namespace1" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  description    = "example tag namespace"
+  name           = "example-tag-namespace-all"
+}
+
+# Create a new Tag definition in the above Tag Namespace.
+resource "oci_identity_tag" "tag1" {
+  #Required
+  description      = "example tag"
+  name             = "example-tag"
+  tag_namespace_id = oci_identity_tag_namespace.tag_namespace1.id
 }
 
 resource "oci_database_management_external_exadata_infrastructure" "test_external_exadata_infrastructure" {
@@ -95,6 +135,10 @@ resource "oci_database_management_external_exadata_infrastructure" "test_externa
   #discovery_key        = var.external_exadata_infrastructure_discovery_key
   #license_model        = var.external_exadata_infrastructure_license_model
   #storage_server_names = var.external_exadata_infrastructure_storage_server_names
+  defined_tags  = {
+    "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.exadata_infra_defined_tags_value
+  }
+  freeform_tags = var.exadata_infra_freeform_tags
 }
 
 data "oci_database_management_external_exadata_infrastructures" "test_external_exadata_infrastructures" {
@@ -112,7 +156,7 @@ data "oci_database_management_external_exadata_infrastructure" "test_external_ex
 
 resource "oci_database_management_external_exadata_storage_connector" "test_external_exadata_storage_connector" {
 	#Required
-	agent_id = var.management_agent_id
+	agent_id = var.external_exadata_connector_agent_id
 	connection_uri = var.external_exadata_storage_connector_connection_uri
 	connector_name = var.external_exadata_storage_connector_connector_name
 	credential_info {
@@ -121,11 +165,15 @@ resource "oci_database_management_external_exadata_storage_connector" "test_exte
 		username = var.external_exadata_storage_connector_credential_info_username
 
 		#Optional
-		#ssl_trust_store_location = var.external_exadata_storage_connector_credential_info_ssl_trust_store_location
-		#ssl_trust_store_password = var.external_exadata_storage_connector_credential_info_ssl_trust_store_password
-		#ssl_trust_store_type = var.external_exadata_storage_connector_credential_info_ssl_trust_store_type
+		ssl_trust_store_location = var.external_exadata_storage_connector_credential_info_ssl_trust_store_location
+		ssl_trust_store_password = var.external_exadata_storage_connector_credential_info_ssl_trust_store_password
+		ssl_trust_store_type = var.external_exadata_storage_connector_credential_info_ssl_trust_store_type
 	}
-	storage_server_id = oci_database_management_storage_server.test_storage_server.id
+	storage_server_id = var.connector_storage_server_id
+    defined_tags  = {
+      "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.exadata_connector_defined_tags_value
+    }
+    freeform_tags = var.exadata_connector_freeform_tags
 }
 
 data "oci_database_management_external_exadata_storage_connectors" "test_external_exadata_storage_connectors" {

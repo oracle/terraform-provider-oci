@@ -25,7 +25,9 @@ resource "oci_database_management_external_db_system_discovery" "test_external_d
 	external_db_system_discovery_id = var.external_db_system_discovery_external_db_system_discovery_id
 
 	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.external_db_system_discovery_display_name
+	freeform_tags = {"Department"= "Finance"}
 	patch_operations {
 		#Required
 		operation = var.external_db_system_discovery_patch_operations_operation
@@ -43,8 +45,10 @@ The following arguments are supported:
 
 * `agent_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management agent used for the external DB system discovery. 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which the external DB system resides.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) The user-friendly name for the DB system. The name does not have to be unique.
 * `external_db_system_discovery_id` - (Required) 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `patch_operations` - (Optional) (Updatable) 
 	* `operation` - (Required) (Updatable) The operation can be one of these values: `MERGE`
 	* `selection` - (Required) (Updatable) 
@@ -60,6 +64,7 @@ The following attributes are exported:
 
 * `agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management agent used for the external DB system discovery. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `discovered_components` - The list of DB system components that were found in the DB system discovery.
 	* `adr_home_directory` - The directory that stores tracing and logging incidents when Automatic Diagnostic Repository (ADR) is enabled.
 	* `asm_instances` - 
@@ -230,6 +235,7 @@ The following attributes are exported:
 		* `network_number` - The network number from which VIPs are obtained.
 		* `node_name` - The name of the node with the VIP.
 * `display_name` - The user-friendly name for the DB system. The name does not have to be unique.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `grid_home` - The directory in which Oracle Grid Infrastructure is installed.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system discovery.
 * `lifecycle_details` - Additional information about the current lifecycle state.
