@@ -39,6 +39,18 @@ type GroupProfile struct {
 	// The time the the registration profile was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// Indicates if profile is set as the default. The default value is false.
+	// There is exactly one default profile for a specified architecture, OS family,
+	// registration type and vendor.
+	// If set to true, the profile will be designated as default profile.
+	// If set to false, the profile will not be designated as the default profile.
+	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
+
+	// Indicates if profile is created by the service. The default value is false.
+	// If set to true, the profile has been created by the service.
+	// If set to false, the profile has not been created by the service.
+	IsServiceProvidedProfile *bool `mandatory:"false" json:"isServiceProvidedProfile"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -64,6 +76,9 @@ type GroupProfile struct {
 
 	// The current state of the registration profile.
 	LifecycleState ProfileLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The registration type.
+	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
 }
 
 // GetId returns Id
@@ -116,6 +131,21 @@ func (m GroupProfile) GetLifecycleState() ProfileLifecycleStateEnum {
 	return m.LifecycleState
 }
 
+// GetRegistrationType returns RegistrationType
+func (m GroupProfile) GetRegistrationType() ProfileRegistrationTypeEnum {
+	return m.RegistrationType
+}
+
+// GetIsDefaultProfile returns IsDefaultProfile
+func (m GroupProfile) GetIsDefaultProfile() *bool {
+	return m.IsDefaultProfile
+}
+
+// GetIsServiceProvidedProfile returns IsServiceProvidedProfile
+func (m GroupProfile) GetIsServiceProvidedProfile() *bool {
+	return m.IsServiceProvidedProfile
+}
+
 // GetFreeformTags returns FreeformTags
 func (m GroupProfile) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -152,6 +182,9 @@ func (m GroupProfile) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingProfileLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetProfileLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

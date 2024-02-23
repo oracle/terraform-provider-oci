@@ -21,7 +21,7 @@ type ManagedInstanceErratumSummary struct {
 	// The identifier of the erratum.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The type of the erratum.
+	// The advisory type of the erratum.
 	AdvisoryType ClassificationTypesEnum `mandatory:"true" json:"advisoryType"`
 
 	// The list of Packages affected by this erratum.

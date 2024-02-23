@@ -19,7 +19,7 @@ import (
 // UpdateCustomSoftwareSourceDetails Information for updating a custom or software source.
 type UpdateCustomSoftwareSourceDetails struct {
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID of the compartment containing the software source.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// User friendly name for the software source.
@@ -45,6 +45,9 @@ type UpdateCustomSoftwareSourceDetails struct {
 
 	// Indicates whether service should automatically update the custom software source for the user.
 	IsAutomaticallyUpdated *bool `mandatory:"false" json:"isAutomaticallyUpdated"`
+
+	// Indicates whether the software source should automatically resolve package dependencies for the user.
+	IsAutoResolveDependencies *bool `mandatory:"false" json:"isAutoResolveDependencies"`
 }
 
 // GetCompartmentId returns CompartmentId

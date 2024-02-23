@@ -22,7 +22,7 @@ type VendorSoftwareSourceSummary struct {
 	// The OCID for the software source.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID of the compartment containing the software source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// User friendly name for the software source.
@@ -48,6 +48,9 @@ type VendorSoftwareSourceSummary struct {
 	// Number of packages.
 	PackageCount *int64 `mandatory:"false" json:"packageCount"`
 
+	// The size of the software source in gigabytes (GB).
+	Size *float64 `mandatory:"false" json:"size"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -62,11 +65,20 @@ type VendorSoftwareSourceSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Indicates whether the software source is mandatory in an autonomous linux environment.
+	IsMandatoryForAutonomousLinux *bool `mandatory:"false" json:"isMandatoryForAutonomousLinux"`
+
 	// The current state of the software source.
 	LifecycleState SoftwareSourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Possible availabilities of a software source.
+	// Possible availabilities of a software source for non-OCI environments.
 	Availability AvailabilityEnum `mandatory:"true" json:"availability"`
+
+	// Possible availabilities of a software source for OCI environments.
+	AvailabilityAtOci AvailabilityEnum `mandatory:"true" json:"availabilityAtOci"`
+
+	// The availabilities of a software source.
+	Availabilities []AvailabilityEnum `mandatory:"false" json:"availabilities,omitempty"`
 
 	// The OS family the software source belongs to.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
@@ -123,6 +135,16 @@ func (m VendorSoftwareSourceSummary) GetAvailability() AvailabilityEnum {
 	return m.Availability
 }
 
+// GetAvailabilityAtOci returns AvailabilityAtOci
+func (m VendorSoftwareSourceSummary) GetAvailabilityAtOci() AvailabilityEnum {
+	return m.AvailabilityAtOci
+}
+
+// GetAvailabilities returns Availabilities
+func (m VendorSoftwareSourceSummary) GetAvailabilities() []AvailabilityEnum {
+	return m.Availabilities
+}
+
 // GetOsFamily returns OsFamily
 func (m VendorSoftwareSourceSummary) GetOsFamily() OsFamilyEnum {
 	return m.OsFamily
@@ -141,6 +163,11 @@ func (m VendorSoftwareSourceSummary) GetPackageCount() *int64 {
 // GetLifecycleState returns LifecycleState
 func (m VendorSoftwareSourceSummary) GetLifecycleState() SoftwareSourceLifecycleStateEnum {
 	return m.LifecycleState
+}
+
+// GetSize returns Size
+func (m VendorSoftwareSourceSummary) GetSize() *float64 {
+	return m.Size
 }
 
 // GetFreeformTags returns FreeformTags
@@ -174,6 +201,15 @@ func (m VendorSoftwareSourceSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingAvailabilityEnum(string(m.Availability)); !ok && m.Availability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availability: %s. Supported values are: %s.", m.Availability, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+	}
+	for _, val := range m.Availabilities {
+		if _, ok := GetMappingAvailabilityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availabilities: %s. Supported values are: %s.", val, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))
 	}

@@ -23,7 +23,7 @@ type ListWorkRequestsRequest struct {
 	// A filter to return work requests that match the given status.
 	Status []OperationStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The OCID of the resource affected by the work request.
+	// The OCID of target resource.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -60,6 +60,20 @@ type ListWorkRequestsRequest struct {
 
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
+
+	// A filter to return the work requests that are a retry of the given work request OCID(s)
+	RetryOfId *string `mandatory:"false" contributesTo:"query" name:"retryOfId"`
+
+	// Work request before date provided.
+	// Example: `2023-08-25T21:10:29.600Z`
+	TimeCreatedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedLessThan"`
+
+	// Work requests after or equal date provided.
+	// Example: `2023-08-25T21:10:29.600Z`
+	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
+
+	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

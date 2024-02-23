@@ -21,7 +21,7 @@ type ManagementStation struct {
 	// OCID for the ManagementStation config
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the Management Station.
+	// The OCID of the compartment containing the Management Station.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// ManagementStation name
@@ -59,6 +59,8 @@ type ManagementStation struct {
 	TotalMirrors *int `mandatory:"false" json:"totalMirrors"`
 
 	MirrorSyncStatus *MirrorSyncStatus `mandatory:"false" json:"mirrorSyncStatus"`
+
+	Health *StationHealth `mandatory:"false" json:"health"`
 
 	// The current state of the Management Station config.
 	LifecycleState ManagementStationLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

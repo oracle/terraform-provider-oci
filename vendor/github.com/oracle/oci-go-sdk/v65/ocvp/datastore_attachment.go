@@ -32,7 +32,7 @@ type DatastoreAttachment struct {
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
 	// The port of datastore attachment.
-	Port *string `mandatory:"true" json:"port"`
+	Port *int `mandatory:"true" json:"port"`
 }
 
 func (m DatastoreAttachment) String() string {

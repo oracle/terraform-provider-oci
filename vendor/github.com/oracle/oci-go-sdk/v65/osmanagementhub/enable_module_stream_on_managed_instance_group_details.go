@@ -24,6 +24,9 @@ type EnableModuleStreamOnManagedInstanceGroupDetails struct {
 	// The name of a stream of the specified module.
 	StreamName *string `mandatory:"false" json:"streamName"`
 
+	// The OCID of the software source that provides this module stream.
+	SoftwareSourceId *string `mandatory:"false" json:"softwareSourceId"`
+
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }
 

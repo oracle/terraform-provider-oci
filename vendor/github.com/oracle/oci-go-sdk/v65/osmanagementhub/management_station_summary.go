@@ -21,7 +21,7 @@ type ManagementStationSummary struct {
 	// OCID for the Management Station
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the Management Station.
+	// The OCID of the compartment containing the Management Station.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// ManagementStation name
@@ -47,6 +47,9 @@ type ManagementStationSummary struct {
 
 	// Current state of the mirroring
 	OverallState OverallStateEnum `mandatory:"false" json:"overallState,omitempty"`
+
+	// Overal health status of the Management Station
+	HealthState HealthStateEnum `mandatory:"false" json:"healthState,omitempty"`
 
 	// A decimal number representing the completeness percentage
 	OverallPercentage *int `mandatory:"false" json:"overallPercentage"`
@@ -84,6 +87,9 @@ func (m ManagementStationSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingOverallStateEnum(string(m.OverallState)); !ok && m.OverallState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OverallState: %s. Supported values are: %s.", m.OverallState, strings.Join(GetOverallStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingHealthStateEnum(string(m.HealthState)); !ok && m.HealthState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for HealthState: %s. Supported values are: %s.", m.HealthState, strings.Join(GetHealthStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingManagementStationLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetManagementStationLifecycleStateEnumStringValues(), ",")))

@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// CreateManagementStationDetails Information for creating an ManagementStation
+// CreateManagementStationDetails Information for creating a ManagementStation
 type CreateManagementStationDetails struct {
 
-	// The OCID of the tenancy containing the Management Station.
+	// The OCID of the compartment containing the Management Station.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Management Station name

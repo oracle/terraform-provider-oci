@@ -59,6 +59,14 @@ type ManagedInstanceSummary struct {
 
 	// Whether this managed instance is acting as an on-premise management station.
 	IsManagementStation *bool `mandatory:"false" json:"isManagementStation"`
+
+	// OCID for the ONS topic, which is channel we send notification to customers
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
+
+	// Indicates whether this instance is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 }
 
 func (m ManagedInstanceSummary) String() string {

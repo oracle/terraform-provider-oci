@@ -81,6 +81,15 @@ type ListScheduledJobsRequest struct {
 	// Default is false. When set to true ,returns results from {compartmentId} or any of its subcompartment.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
+	// A filter to return only resources whose location matches the given value.
+	Location []ManagedInstanceLocationEnum `contributesTo:"query" name:"location" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources whose location does not match the given value.
+	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -132,6 +141,18 @@ func (request ListScheduledJobsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListScheduledJobsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListScheduledJobsSortByEnumStringValues(), ",")))
 	}
+	for _, val := range request.Location {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LocationNotEqualTo {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocationNotEqualTo: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -169,60 +190,78 @@ type ListScheduledJobsOperationTypeEnum string
 
 // Set of constants representing the allowable values for ListScheduledJobsOperationTypeEnum
 const (
-	ListScheduledJobsOperationTypeInstallPackages             ListScheduledJobsOperationTypeEnum = "INSTALL_PACKAGES"
-	ListScheduledJobsOperationTypeUpdatePackages              ListScheduledJobsOperationTypeEnum = "UPDATE_PACKAGES"
-	ListScheduledJobsOperationTypeRemovePackages              ListScheduledJobsOperationTypeEnum = "REMOVE_PACKAGES"
-	ListScheduledJobsOperationTypeUpdateAll                   ListScheduledJobsOperationTypeEnum = "UPDATE_ALL"
-	ListScheduledJobsOperationTypeUpdateSecurity              ListScheduledJobsOperationTypeEnum = "UPDATE_SECURITY"
-	ListScheduledJobsOperationTypeUpdateBugfix                ListScheduledJobsOperationTypeEnum = "UPDATE_BUGFIX"
-	ListScheduledJobsOperationTypeUpdateEnhancement           ListScheduledJobsOperationTypeEnum = "UPDATE_ENHANCEMENT"
-	ListScheduledJobsOperationTypeUpdateOther                 ListScheduledJobsOperationTypeEnum = "UPDATE_OTHER"
-	ListScheduledJobsOperationTypeUpdateKspliceUserspace      ListScheduledJobsOperationTypeEnum = "UPDATE_KSPLICE_USERSPACE"
-	ListScheduledJobsOperationTypeUpdateKspliceKernel         ListScheduledJobsOperationTypeEnum = "UPDATE_KSPLICE_KERNEL"
-	ListScheduledJobsOperationTypeManageModuleStreams         ListScheduledJobsOperationTypeEnum = "MANAGE_MODULE_STREAMS"
-	ListScheduledJobsOperationTypeSwitchModuleStream          ListScheduledJobsOperationTypeEnum = "SWITCH_MODULE_STREAM"
-	ListScheduledJobsOperationTypeAttachSoftwareSources       ListScheduledJobsOperationTypeEnum = "ATTACH_SOFTWARE_SOURCES"
-	ListScheduledJobsOperationTypeDetachSoftwareSources       ListScheduledJobsOperationTypeEnum = "DETACH_SOFTWARE_SOURCES"
-	ListScheduledJobsOperationTypeSyncManagementStationMirror ListScheduledJobsOperationTypeEnum = "SYNC_MANAGEMENT_STATION_MIRROR"
-	ListScheduledJobsOperationTypePromoteLifecycle            ListScheduledJobsOperationTypeEnum = "PROMOTE_LIFECYCLE"
+	ListScheduledJobsOperationTypeInstallPackages                  ListScheduledJobsOperationTypeEnum = "INSTALL_PACKAGES"
+	ListScheduledJobsOperationTypeUpdatePackages                   ListScheduledJobsOperationTypeEnum = "UPDATE_PACKAGES"
+	ListScheduledJobsOperationTypeRemovePackages                   ListScheduledJobsOperationTypeEnum = "REMOVE_PACKAGES"
+	ListScheduledJobsOperationTypeUpdateAll                        ListScheduledJobsOperationTypeEnum = "UPDATE_ALL"
+	ListScheduledJobsOperationTypeUpdateSecurity                   ListScheduledJobsOperationTypeEnum = "UPDATE_SECURITY"
+	ListScheduledJobsOperationTypeUpdateBugfix                     ListScheduledJobsOperationTypeEnum = "UPDATE_BUGFIX"
+	ListScheduledJobsOperationTypeUpdateEnhancement                ListScheduledJobsOperationTypeEnum = "UPDATE_ENHANCEMENT"
+	ListScheduledJobsOperationTypeUpdateOther                      ListScheduledJobsOperationTypeEnum = "UPDATE_OTHER"
+	ListScheduledJobsOperationTypeUpdateKspliceUserspace           ListScheduledJobsOperationTypeEnum = "UPDATE_KSPLICE_USERSPACE"
+	ListScheduledJobsOperationTypeUpdateKspliceKernel              ListScheduledJobsOperationTypeEnum = "UPDATE_KSPLICE_KERNEL"
+	ListScheduledJobsOperationTypeManageModuleStreams              ListScheduledJobsOperationTypeEnum = "MANAGE_MODULE_STREAMS"
+	ListScheduledJobsOperationTypeSwitchModuleStream               ListScheduledJobsOperationTypeEnum = "SWITCH_MODULE_STREAM"
+	ListScheduledJobsOperationTypeAttachSoftwareSources            ListScheduledJobsOperationTypeEnum = "ATTACH_SOFTWARE_SOURCES"
+	ListScheduledJobsOperationTypeDetachSoftwareSources            ListScheduledJobsOperationTypeEnum = "DETACH_SOFTWARE_SOURCES"
+	ListScheduledJobsOperationTypeSyncManagementStationMirror      ListScheduledJobsOperationTypeEnum = "SYNC_MANAGEMENT_STATION_MIRROR"
+	ListScheduledJobsOperationTypePromoteLifecycle                 ListScheduledJobsOperationTypeEnum = "PROMOTE_LIFECYCLE"
+	ListScheduledJobsOperationTypeInstallWindowsUpdates            ListScheduledJobsOperationTypeEnum = "INSTALL_WINDOWS_UPDATES"
+	ListScheduledJobsOperationTypeInstallAllWindowsUpdates         ListScheduledJobsOperationTypeEnum = "INSTALL_ALL_WINDOWS_UPDATES"
+	ListScheduledJobsOperationTypeInstallSecurityWindowsUpdates    ListScheduledJobsOperationTypeEnum = "INSTALL_SECURITY_WINDOWS_UPDATES"
+	ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates      ListScheduledJobsOperationTypeEnum = "INSTALL_BUGFIX_WINDOWS_UPDATES"
+	ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates ListScheduledJobsOperationTypeEnum = "INSTALL_ENHANCEMENT_WINDOWS_UPDATES"
+	ListScheduledJobsOperationTypeInstallOtherWindowsUpdates       ListScheduledJobsOperationTypeEnum = "INSTALL_OTHER_WINDOWS_UPDATES"
 )
 
 var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOperationTypeEnum{
-	"INSTALL_PACKAGES":               ListScheduledJobsOperationTypeInstallPackages,
-	"UPDATE_PACKAGES":                ListScheduledJobsOperationTypeUpdatePackages,
-	"REMOVE_PACKAGES":                ListScheduledJobsOperationTypeRemovePackages,
-	"UPDATE_ALL":                     ListScheduledJobsOperationTypeUpdateAll,
-	"UPDATE_SECURITY":                ListScheduledJobsOperationTypeUpdateSecurity,
-	"UPDATE_BUGFIX":                  ListScheduledJobsOperationTypeUpdateBugfix,
-	"UPDATE_ENHANCEMENT":             ListScheduledJobsOperationTypeUpdateEnhancement,
-	"UPDATE_OTHER":                   ListScheduledJobsOperationTypeUpdateOther,
-	"UPDATE_KSPLICE_USERSPACE":       ListScheduledJobsOperationTypeUpdateKspliceUserspace,
-	"UPDATE_KSPLICE_KERNEL":          ListScheduledJobsOperationTypeUpdateKspliceKernel,
-	"MANAGE_MODULE_STREAMS":          ListScheduledJobsOperationTypeManageModuleStreams,
-	"SWITCH_MODULE_STREAM":           ListScheduledJobsOperationTypeSwitchModuleStream,
-	"ATTACH_SOFTWARE_SOURCES":        ListScheduledJobsOperationTypeAttachSoftwareSources,
-	"DETACH_SOFTWARE_SOURCES":        ListScheduledJobsOperationTypeDetachSoftwareSources,
-	"SYNC_MANAGEMENT_STATION_MIRROR": ListScheduledJobsOperationTypeSyncManagementStationMirror,
-	"PROMOTE_LIFECYCLE":              ListScheduledJobsOperationTypePromoteLifecycle,
+	"INSTALL_PACKAGES":                    ListScheduledJobsOperationTypeInstallPackages,
+	"UPDATE_PACKAGES":                     ListScheduledJobsOperationTypeUpdatePackages,
+	"REMOVE_PACKAGES":                     ListScheduledJobsOperationTypeRemovePackages,
+	"UPDATE_ALL":                          ListScheduledJobsOperationTypeUpdateAll,
+	"UPDATE_SECURITY":                     ListScheduledJobsOperationTypeUpdateSecurity,
+	"UPDATE_BUGFIX":                       ListScheduledJobsOperationTypeUpdateBugfix,
+	"UPDATE_ENHANCEMENT":                  ListScheduledJobsOperationTypeUpdateEnhancement,
+	"UPDATE_OTHER":                        ListScheduledJobsOperationTypeUpdateOther,
+	"UPDATE_KSPLICE_USERSPACE":            ListScheduledJobsOperationTypeUpdateKspliceUserspace,
+	"UPDATE_KSPLICE_KERNEL":               ListScheduledJobsOperationTypeUpdateKspliceKernel,
+	"MANAGE_MODULE_STREAMS":               ListScheduledJobsOperationTypeManageModuleStreams,
+	"SWITCH_MODULE_STREAM":                ListScheduledJobsOperationTypeSwitchModuleStream,
+	"ATTACH_SOFTWARE_SOURCES":             ListScheduledJobsOperationTypeAttachSoftwareSources,
+	"DETACH_SOFTWARE_SOURCES":             ListScheduledJobsOperationTypeDetachSoftwareSources,
+	"SYNC_MANAGEMENT_STATION_MIRROR":      ListScheduledJobsOperationTypeSyncManagementStationMirror,
+	"PROMOTE_LIFECYCLE":                   ListScheduledJobsOperationTypePromoteLifecycle,
+	"INSTALL_WINDOWS_UPDATES":             ListScheduledJobsOperationTypeInstallWindowsUpdates,
+	"INSTALL_ALL_WINDOWS_UPDATES":         ListScheduledJobsOperationTypeInstallAllWindowsUpdates,
+	"INSTALL_SECURITY_WINDOWS_UPDATES":    ListScheduledJobsOperationTypeInstallSecurityWindowsUpdates,
+	"INSTALL_BUGFIX_WINDOWS_UPDATES":      ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates,
+	"INSTALL_ENHANCEMENT_WINDOWS_UPDATES": ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates,
+	"INSTALL_OTHER_WINDOWS_UPDATES":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
 }
 
 var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListScheduledJobsOperationTypeEnum{
-	"install_packages":               ListScheduledJobsOperationTypeInstallPackages,
-	"update_packages":                ListScheduledJobsOperationTypeUpdatePackages,
-	"remove_packages":                ListScheduledJobsOperationTypeRemovePackages,
-	"update_all":                     ListScheduledJobsOperationTypeUpdateAll,
-	"update_security":                ListScheduledJobsOperationTypeUpdateSecurity,
-	"update_bugfix":                  ListScheduledJobsOperationTypeUpdateBugfix,
-	"update_enhancement":             ListScheduledJobsOperationTypeUpdateEnhancement,
-	"update_other":                   ListScheduledJobsOperationTypeUpdateOther,
-	"update_ksplice_userspace":       ListScheduledJobsOperationTypeUpdateKspliceUserspace,
-	"update_ksplice_kernel":          ListScheduledJobsOperationTypeUpdateKspliceKernel,
-	"manage_module_streams":          ListScheduledJobsOperationTypeManageModuleStreams,
-	"switch_module_stream":           ListScheduledJobsOperationTypeSwitchModuleStream,
-	"attach_software_sources":        ListScheduledJobsOperationTypeAttachSoftwareSources,
-	"detach_software_sources":        ListScheduledJobsOperationTypeDetachSoftwareSources,
-	"sync_management_station_mirror": ListScheduledJobsOperationTypeSyncManagementStationMirror,
-	"promote_lifecycle":              ListScheduledJobsOperationTypePromoteLifecycle,
+	"install_packages":                    ListScheduledJobsOperationTypeInstallPackages,
+	"update_packages":                     ListScheduledJobsOperationTypeUpdatePackages,
+	"remove_packages":                     ListScheduledJobsOperationTypeRemovePackages,
+	"update_all":                          ListScheduledJobsOperationTypeUpdateAll,
+	"update_security":                     ListScheduledJobsOperationTypeUpdateSecurity,
+	"update_bugfix":                       ListScheduledJobsOperationTypeUpdateBugfix,
+	"update_enhancement":                  ListScheduledJobsOperationTypeUpdateEnhancement,
+	"update_other":                        ListScheduledJobsOperationTypeUpdateOther,
+	"update_ksplice_userspace":            ListScheduledJobsOperationTypeUpdateKspliceUserspace,
+	"update_ksplice_kernel":               ListScheduledJobsOperationTypeUpdateKspliceKernel,
+	"manage_module_streams":               ListScheduledJobsOperationTypeManageModuleStreams,
+	"switch_module_stream":                ListScheduledJobsOperationTypeSwitchModuleStream,
+	"attach_software_sources":             ListScheduledJobsOperationTypeAttachSoftwareSources,
+	"detach_software_sources":             ListScheduledJobsOperationTypeDetachSoftwareSources,
+	"sync_management_station_mirror":      ListScheduledJobsOperationTypeSyncManagementStationMirror,
+	"promote_lifecycle":                   ListScheduledJobsOperationTypePromoteLifecycle,
+	"install_windows_updates":             ListScheduledJobsOperationTypeInstallWindowsUpdates,
+	"install_all_windows_updates":         ListScheduledJobsOperationTypeInstallAllWindowsUpdates,
+	"install_security_windows_updates":    ListScheduledJobsOperationTypeInstallSecurityWindowsUpdates,
+	"install_bugfix_windows_updates":      ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates,
+	"install_enhancement_windows_updates": ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates,
+	"install_other_windows_updates":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
 }
 
 // GetListScheduledJobsOperationTypeEnumValues Enumerates the set of values for ListScheduledJobsOperationTypeEnum
@@ -253,6 +292,12 @@ func GetListScheduledJobsOperationTypeEnumStringValues() []string {
 		"DETACH_SOFTWARE_SOURCES",
 		"SYNC_MANAGEMENT_STATION_MIRROR",
 		"PROMOTE_LIFECYCLE",
+		"INSTALL_WINDOWS_UPDATES",
+		"INSTALL_ALL_WINDOWS_UPDATES",
+		"INSTALL_SECURITY_WINDOWS_UPDATES",
+		"INSTALL_BUGFIX_WINDOWS_UPDATES",
+		"INSTALL_ENHANCEMENT_WINDOWS_UPDATES",
+		"INSTALL_OTHER_WINDOWS_UPDATES",
 	}
 }
 

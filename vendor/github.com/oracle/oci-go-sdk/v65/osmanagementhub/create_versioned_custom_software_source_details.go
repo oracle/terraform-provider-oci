@@ -19,17 +19,17 @@ import (
 // CreateVersionedCustomSoftwareSourceDetails Description of a versioned custom software source to be created.
 type CreateVersionedCustomSoftwareSourceDetails struct {
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID of the compartment containing the software source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// User friendly name for the software source.
-	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// List of vendor software sources.
 	VendorSoftwareSources []Id `mandatory:"true" json:"vendorSoftwareSources"`
 
 	// The version to assign to this custom software source.
 	SoftwareSourceVersion *string `mandatory:"true" json:"softwareSourceVersion"`
+
+	// User friendly name for the software source.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Information specified by the user about the software source.
 	Description *string `mandatory:"false" json:"description"`
@@ -45,6 +45,15 @@ type CreateVersionedCustomSoftwareSourceDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	CustomSoftwareSourceFilter *CustomSoftwareSourceFilter `mandatory:"false" json:"customSoftwareSourceFilter"`
+
+	// Indicates whether the software source should automatically resolve package dependencies for the user.
+	IsAutoResolveDependencies *bool `mandatory:"false" json:"isAutoResolveDependencies"`
+
+	// Indicates whether the software source should be created from a list of packages provided by the user.
+	IsCreatedFromPackageList *bool `mandatory:"false" json:"isCreatedFromPackageList"`
+
+	// The packages for the software source.
+	Packages []string `mandatory:"false" json:"packages"`
 }
 
 // GetCompartmentId returns CompartmentId

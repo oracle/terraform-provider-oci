@@ -92,6 +92,9 @@ type ManagedInstance struct {
 	// Number of packages installed on the system.
 	InstalledPackages *int `mandatory:"false" json:"installedPackages"`
 
+	// Number of Windows Updates installed on the system.
+	InstalledWindowsUpdates *int `mandatory:"false" json:"installedWindowsUpdates"`
+
 	// Number of updates available to be installed.
 	UpdatesAvailable *int `mandatory:"false" json:"updatesAvailable"`
 
@@ -120,6 +123,14 @@ type ManagedInstance struct {
 	// The date and time the work request was updated, as described in
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// OCID for the ONS topic, which is channel we send notification to customers
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
+
+	// Indicates whether this instance is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 }
 
 func (m ManagedInstance) String() string {

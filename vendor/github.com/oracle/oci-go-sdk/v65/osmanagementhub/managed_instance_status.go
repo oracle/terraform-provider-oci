@@ -23,6 +23,7 @@ const (
 	ManagedInstanceStatusError             ManagedInstanceStatusEnum = "ERROR"
 	ManagedInstanceStatusWarning           ManagedInstanceStatusEnum = "WARNING"
 	ManagedInstanceStatusRegistrationError ManagedInstanceStatusEnum = "REGISTRATION_ERROR"
+	ManagedInstanceStatusDeleting          ManagedInstanceStatusEnum = "DELETING"
 )
 
 var mappingManagedInstanceStatusEnum = map[string]ManagedInstanceStatusEnum{
@@ -31,6 +32,7 @@ var mappingManagedInstanceStatusEnum = map[string]ManagedInstanceStatusEnum{
 	"ERROR":              ManagedInstanceStatusError,
 	"WARNING":            ManagedInstanceStatusWarning,
 	"REGISTRATION_ERROR": ManagedInstanceStatusRegistrationError,
+	"DELETING":           ManagedInstanceStatusDeleting,
 }
 
 var mappingManagedInstanceStatusEnumLowerCase = map[string]ManagedInstanceStatusEnum{
@@ -39,6 +41,7 @@ var mappingManagedInstanceStatusEnumLowerCase = map[string]ManagedInstanceStatus
 	"error":              ManagedInstanceStatusError,
 	"warning":            ManagedInstanceStatusWarning,
 	"registration_error": ManagedInstanceStatusRegistrationError,
+	"deleting":           ManagedInstanceStatusDeleting,
 }
 
 // GetManagedInstanceStatusEnumValues Enumerates the set of values for ManagedInstanceStatusEnum
@@ -58,6 +61,7 @@ func GetManagedInstanceStatusEnumStringValues() []string {
 		"ERROR",
 		"WARNING",
 		"REGISTRATION_ERROR",
+		"DELETING",
 	}
 }
 

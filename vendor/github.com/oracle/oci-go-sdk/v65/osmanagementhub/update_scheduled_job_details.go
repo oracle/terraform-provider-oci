@@ -45,6 +45,9 @@ type UpdateScheduledJobDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The scheduled job retry intervals in minutes. If set, scheduled job will automatically retry after the set interval for supported operations.s
+	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
 }
 
 func (m UpdateScheduledJobDetails) String() string {

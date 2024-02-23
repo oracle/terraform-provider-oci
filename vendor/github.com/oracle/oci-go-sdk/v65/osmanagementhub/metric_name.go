@@ -26,8 +26,11 @@ const (
 	MetricNameWarningInstanceCount                      MetricNameEnum = "WARNING_INSTANCE_COUNT"
 	MetricNameUnreachableInstanceCount                  MetricNameEnum = "UNREACHABLE_INSTANCE_COUNT"
 	MetricNameRegistrationFailedInstanceCount           MetricNameEnum = "REGISTRATION_FAILED_INSTANCE_COUNT"
+	MetricNameDeletingInstanceCount                     MetricNameEnum = "DELETING_INSTANCE_COUNT"
 	MetricNameInstanceSecurityUpdatesCount              MetricNameEnum = "INSTANCE_SECURITY_UPDATES_COUNT"
 	MetricNameInstanceBugfixUpdatesCount                MetricNameEnum = "INSTANCE_BUGFIX_UPDATES_COUNT"
+	MetricNameInstanceSecurityAdvisoryCount             MetricNameEnum = "INSTANCE_SECURITY_ADVISORY_COUNT"
+	MetricNameInstanceBugfixAdvisoryCount               MetricNameEnum = "INSTANCE_BUGFIX_ADVISORY_COUNT"
 )
 
 var mappingMetricNameEnum = map[string]MetricNameEnum{
@@ -39,8 +42,11 @@ var mappingMetricNameEnum = map[string]MetricNameEnum{
 	"WARNING_INSTANCE_COUNT":                         MetricNameWarningInstanceCount,
 	"UNREACHABLE_INSTANCE_COUNT":                     MetricNameUnreachableInstanceCount,
 	"REGISTRATION_FAILED_INSTANCE_COUNT":             MetricNameRegistrationFailedInstanceCount,
+	"DELETING_INSTANCE_COUNT":                        MetricNameDeletingInstanceCount,
 	"INSTANCE_SECURITY_UPDATES_COUNT":                MetricNameInstanceSecurityUpdatesCount,
 	"INSTANCE_BUGFIX_UPDATES_COUNT":                  MetricNameInstanceBugfixUpdatesCount,
+	"INSTANCE_SECURITY_ADVISORY_COUNT":               MetricNameInstanceSecurityAdvisoryCount,
+	"INSTANCE_BUGFIX_ADVISORY_COUNT":                 MetricNameInstanceBugfixAdvisoryCount,
 }
 
 var mappingMetricNameEnumLowerCase = map[string]MetricNameEnum{
@@ -52,8 +58,11 @@ var mappingMetricNameEnumLowerCase = map[string]MetricNameEnum{
 	"warning_instance_count":                         MetricNameWarningInstanceCount,
 	"unreachable_instance_count":                     MetricNameUnreachableInstanceCount,
 	"registration_failed_instance_count":             MetricNameRegistrationFailedInstanceCount,
+	"deleting_instance_count":                        MetricNameDeletingInstanceCount,
 	"instance_security_updates_count":                MetricNameInstanceSecurityUpdatesCount,
 	"instance_bugfix_updates_count":                  MetricNameInstanceBugfixUpdatesCount,
+	"instance_security_advisory_count":               MetricNameInstanceSecurityAdvisoryCount,
+	"instance_bugfix_advisory_count":                 MetricNameInstanceBugfixAdvisoryCount,
 }
 
 // GetMetricNameEnumValues Enumerates the set of values for MetricNameEnum
@@ -76,8 +85,11 @@ func GetMetricNameEnumStringValues() []string {
 		"WARNING_INSTANCE_COUNT",
 		"UNREACHABLE_INSTANCE_COUNT",
 		"REGISTRATION_FAILED_INSTANCE_COUNT",
+		"DELETING_INSTANCE_COUNT",
 		"INSTANCE_SECURITY_UPDATES_COUNT",
 		"INSTANCE_BUGFIX_UPDATES_COUNT",
+		"INSTANCE_SECURITY_ADVISORY_COUNT",
+		"INSTANCE_BUGFIX_ADVISORY_COUNT",
 	}
 }
 

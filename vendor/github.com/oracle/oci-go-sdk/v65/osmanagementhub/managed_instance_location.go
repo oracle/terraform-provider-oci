@@ -22,6 +22,7 @@ const (
 	ManagedInstanceLocationOciCompute ManagedInstanceLocationEnum = "OCI_COMPUTE"
 	ManagedInstanceLocationAzure      ManagedInstanceLocationEnum = "AZURE"
 	ManagedInstanceLocationEc2        ManagedInstanceLocationEnum = "EC2"
+	ManagedInstanceLocationGcp        ManagedInstanceLocationEnum = "GCP"
 )
 
 var mappingManagedInstanceLocationEnum = map[string]ManagedInstanceLocationEnum{
@@ -29,6 +30,7 @@ var mappingManagedInstanceLocationEnum = map[string]ManagedInstanceLocationEnum{
 	"OCI_COMPUTE": ManagedInstanceLocationOciCompute,
 	"AZURE":       ManagedInstanceLocationAzure,
 	"EC2":         ManagedInstanceLocationEc2,
+	"GCP":         ManagedInstanceLocationGcp,
 }
 
 var mappingManagedInstanceLocationEnumLowerCase = map[string]ManagedInstanceLocationEnum{
@@ -36,6 +38,7 @@ var mappingManagedInstanceLocationEnumLowerCase = map[string]ManagedInstanceLoca
 	"oci_compute": ManagedInstanceLocationOciCompute,
 	"azure":       ManagedInstanceLocationAzure,
 	"ec2":         ManagedInstanceLocationEc2,
+	"gcp":         ManagedInstanceLocationGcp,
 }
 
 // GetManagedInstanceLocationEnumValues Enumerates the set of values for ManagedInstanceLocationEnum
@@ -54,6 +57,7 @@ func GetManagedInstanceLocationEnumStringValues() []string {
 		"OCI_COMPUTE",
 		"AZURE",
 		"EC2",
+		"GCP",
 	}
 }
 

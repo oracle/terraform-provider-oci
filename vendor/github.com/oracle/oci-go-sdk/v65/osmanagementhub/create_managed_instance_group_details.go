@@ -33,14 +33,23 @@ type CreateManagedInstanceGroupDetails struct {
 	// The software source vendor name.
 	VendorName VendorNameEnum `mandatory:"true" json:"vendorName"`
 
-	// The list of software source OCIDs available to the managed instances in the managed instance group.
-	SoftwareSourceIds []string `mandatory:"true" json:"softwareSourceIds"`
-
 	// Details about the managed instance group.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The location of Managed Instances attached to the group.
+	// When no location is provided location defaults to ON_PREMISE.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
+	// The list of software source OCIDs available to the managed instances in the managed instance group.
+	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
+
 	// The list of managed instance OCIDs to be added to the managed instance group.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
+
+	// OCID for the ONS topic, which is channel we send notification to customers
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *UpdatableAutonomousSettings `mandatory:"false" json:"autonomousSettings"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -72,6 +81,9 @@ func (m CreateManagedInstanceGroupDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

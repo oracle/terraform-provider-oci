@@ -34,6 +34,13 @@ type CreateGroupProfileDetails struct {
 	// The OCID of the management station.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
+	// Indicates if profile is set as the default. The default value is false.
+	// There is exactly one default profile for a specified architecture, OS family,
+	// registration type and vendor.
+	// If set to true, the profile will be designated as default profile.
+	// If set to false, the profile will not be designated as the default profile.
+	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -43,6 +50,9 @@ type CreateGroupProfileDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The registration type.
+	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -65,6 +75,16 @@ func (m CreateGroupProfileDetails) GetManagementStationId() *string {
 	return m.ManagementStationId
 }
 
+// GetRegistrationType returns RegistrationType
+func (m CreateGroupProfileDetails) GetRegistrationType() ProfileRegistrationTypeEnum {
+	return m.RegistrationType
+}
+
+// GetIsDefaultProfile returns IsDefaultProfile
+func (m CreateGroupProfileDetails) GetIsDefaultProfile() *bool {
+	return m.IsDefaultProfile
+}
+
 // GetFreeformTags returns FreeformTags
 func (m CreateGroupProfileDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -85,6 +105,9 @@ func (m CreateGroupProfileDetails) String() string {
 func (m CreateGroupProfileDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

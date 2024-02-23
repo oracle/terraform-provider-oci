@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// PullRequestCollection Results of a Pull Request search. Contains boh PullRequestSummary items and other information, such as metadata.
+// PullRequestCollection Results of a Pull Request search. Contains both PullRequestSummary items and other information, such as metadata.
 type PullRequestCollection struct {
 
 	// List of Pull Requests.

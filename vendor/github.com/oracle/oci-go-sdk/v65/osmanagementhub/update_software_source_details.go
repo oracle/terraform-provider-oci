@@ -19,7 +19,7 @@ import (
 // UpdateSoftwareSourceDetails Information for updating a software source.
 type UpdateSoftwareSourceDetails interface {
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID of the compartment containing the software source.
 	GetCompartmentId() *string
 
 	// User friendly name for the software source.
@@ -81,6 +81,10 @@ func (m *updatesoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 	switch m.SoftwareSourceType {
 	case "CUSTOM":
 		mm := UpdateCustomSoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VERSIONED":
+		mm := UpdateVersionedCustomSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VENDOR":

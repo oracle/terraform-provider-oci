@@ -43,6 +43,10 @@ const (
 	WorkRequestOperationTypeEnableDbmgmt                      WorkRequestOperationTypeEnum = "ENABLE_DBMGMT"
 	WorkRequestOperationTypeDisableDbmgmt                     WorkRequestOperationTypeEnum = "DISABLE_DBMGMT"
 	WorkRequestOperationTypeModifyDbmgmt                      WorkRequestOperationTypeEnum = "MODIFY_DBMGMT"
+	WorkRequestOperationTypeCheckExternalMysqlConnection      WorkRequestOperationTypeEnum = "CHECK_EXTERNAL_MYSQL_CONNECTION"
+	WorkRequestOperationTypeUpdateExternalMysqlCredential     WorkRequestOperationTypeEnum = "UPDATE_EXTERNAL_MYSQL_CREDENTIAL"
+	WorkRequestOperationTypeCreateExternalMysqlConnector      WorkRequestOperationTypeEnum = "CREATE_EXTERNAL_MYSQL_CONNECTOR"
+	WorkRequestOperationTypeDeleteExternalMysqlConnector      WorkRequestOperationTypeEnum = "DELETE_EXTERNAL_MYSQL_CONNECTOR"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -69,6 +73,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"ENABLE_DBMGMT":                         WorkRequestOperationTypeEnableDbmgmt,
 	"DISABLE_DBMGMT":                        WorkRequestOperationTypeDisableDbmgmt,
 	"MODIFY_DBMGMT":                         WorkRequestOperationTypeModifyDbmgmt,
+	"CHECK_EXTERNAL_MYSQL_CONNECTION":       WorkRequestOperationTypeCheckExternalMysqlConnection,
+	"UPDATE_EXTERNAL_MYSQL_CREDENTIAL":      WorkRequestOperationTypeUpdateExternalMysqlCredential,
+	"CREATE_EXTERNAL_MYSQL_CONNECTOR":       WorkRequestOperationTypeCreateExternalMysqlConnector,
+	"DELETE_EXTERNAL_MYSQL_CONNECTOR":       WorkRequestOperationTypeDeleteExternalMysqlConnector,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -95,6 +103,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"enable_dbmgmt":                         WorkRequestOperationTypeEnableDbmgmt,
 	"disable_dbmgmt":                        WorkRequestOperationTypeDisableDbmgmt,
 	"modify_dbmgmt":                         WorkRequestOperationTypeModifyDbmgmt,
+	"check_external_mysql_connection":       WorkRequestOperationTypeCheckExternalMysqlConnection,
+	"update_external_mysql_credential":      WorkRequestOperationTypeUpdateExternalMysqlCredential,
+	"create_external_mysql_connector":       WorkRequestOperationTypeCreateExternalMysqlConnector,
+	"delete_external_mysql_connector":       WorkRequestOperationTypeDeleteExternalMysqlConnector,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -132,6 +144,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"ENABLE_DBMGMT",
 		"DISABLE_DBMGMT",
 		"MODIFY_DBMGMT",
+		"CHECK_EXTERNAL_MYSQL_CONNECTION",
+		"UPDATE_EXTERNAL_MYSQL_CREDENTIAL",
+		"CREATE_EXTERNAL_MYSQL_CONNECTOR",
+		"DELETE_EXTERNAL_MYSQL_CONNECTOR",
 	}
 }
 

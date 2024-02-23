@@ -21,8 +21,11 @@ type SoftwareSourceAvailability struct {
 	// The OCID for a vendor software source.
 	SoftwareSourceId *string `mandatory:"true" json:"softwareSourceId"`
 
-	// Possible availabilities of a software source.
-	Availability AvailabilityEnum `mandatory:"true" json:"availability"`
+	// Possible availabilities of a software source for non-OCI environments.
+	Availability AvailabilityEnum `mandatory:"false" json:"availability,omitempty"`
+
+	// Possible availabilities of a software source for OCI environments.
+	AvailabilityAtOci AvailabilityEnum `mandatory:"false" json:"availabilityAtOci,omitempty"`
 }
 
 func (m SoftwareSourceAvailability) String() string {
@@ -34,10 +37,13 @@ func (m SoftwareSourceAvailability) String() string {
 // Not recommended for calling this function directly
 func (m SoftwareSourceAvailability) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+
 	if _, ok := GetMappingAvailabilityEnum(string(m.Availability)); !ok && m.Availability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availability: %s. Supported values are: %s.", m.Availability, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
-
+	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

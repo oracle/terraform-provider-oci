@@ -91,6 +91,66 @@ func (client *ManagedInstanceClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
+// AttachProfileToManagedInstance Adds profile to a managed instance. After the profile has been added,
+// the instance can be registered as a managed instance.
+// A default retry strategy applies to this operation AttachProfileToManagedInstance()
+func (client ManagedInstanceClient) AttachProfileToManagedInstance(ctx context.Context, request AttachProfileToManagedInstanceRequest) (response AttachProfileToManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachProfileToManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachProfileToManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachProfileToManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachProfileToManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachProfileToManagedInstanceResponse")
+	}
+	return
+}
+
+// attachProfileToManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) attachProfileToManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/attachProfile", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachProfileToManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/AttachProfileToManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "AttachProfileToManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachSoftwareSourcesToManagedInstance Adds software sources to a managed instance. After the software source has been added,
 // then packages from that software source can be installed on the managed instance.
 // A default retry strategy applies to this operation AttachSoftwareSourcesToManagedInstance()
@@ -144,6 +204,120 @@ func (client ManagedInstanceClient) attachSoftwareSourcesToManagedInstance(ctx c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/AttachSoftwareSourcesToManagedInstance"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "AttachSoftwareSourcesToManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteManagedInstance Deletes (unregisters) a ManagedInstance resource by identifier
+// A default retry strategy applies to this operation DeleteManagedInstance()
+func (client ManagedInstanceClient) DeleteManagedInstance(ctx context.Context, request DeleteManagedInstanceRequest) (response DeleteManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteManagedInstanceResponse")
+	}
+	return
+}
+
+// deleteManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) deleteManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedInstances/{managedInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/DeleteManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "DeleteManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachProfileFromManagedInstance Detaches profile from a managed instance. After the profile has been removed,
+// the instance cannot be registered as a managed instance.
+// A default retry strategy applies to this operation DetachProfileFromManagedInstance()
+func (client ManagedInstanceClient) DetachProfileFromManagedInstance(ctx context.Context, request DetachProfileFromManagedInstanceRequest) (response DetachProfileFromManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachProfileFromManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachProfileFromManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachProfileFromManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachProfileFromManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachProfileFromManagedInstanceResponse")
+	}
+	return
+}
+
+// detachProfileFromManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) detachProfileFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/detachProfile", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachProfileFromManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/DetachProfileFromManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "DetachProfileFromManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -390,6 +564,119 @@ func (client ManagedInstanceClient) getManagedInstance(ctx context.Context, requ
 	return response, err
 }
 
+// GetWindowsUpdate Returns a Windows Update object.
+// A default retry strategy applies to this operation GetWindowsUpdate()
+func (client ManagedInstanceClient) GetWindowsUpdate(ctx context.Context, request GetWindowsUpdateRequest) (response GetWindowsUpdateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWindowsUpdate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWindowsUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWindowsUpdateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetWindowsUpdateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWindowsUpdateResponse")
+	}
+	return
+}
+
+// getWindowsUpdate implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) getWindowsUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/windowsUpdates/{windowsUpdateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWindowsUpdateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WindowsUpdate/GetWindowsUpdate"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "GetWindowsUpdate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InstallAllWindowsUpdatesOnManagedInstancesInCompartment Install all of the available Windows Updates for all of the managed instances in a compartment.
+// A default retry strategy applies to this operation InstallAllWindowsUpdatesOnManagedInstancesInCompartment()
+func (client ManagedInstanceClient) InstallAllWindowsUpdatesOnManagedInstancesInCompartment(ctx context.Context, request InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest) (response InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installAllWindowsUpdatesOnManagedInstancesInCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse")
+	}
+	return
+}
+
+// installAllWindowsUpdatesOnManagedInstancesInCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) installAllWindowsUpdatesOnManagedInstancesInCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/actions/installWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/InstallAllWindowsUpdatesOnManagedInstancesInCompartment"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "InstallAllWindowsUpdatesOnManagedInstancesInCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // InstallModuleStreamProfileOnManagedInstance Installs a profile for an module stream.  The stream must be
 // enabled before a profile can be installed.  If a module stream
 // defines multiple profiles, each one can be installed independently.
@@ -510,6 +797,65 @@ func (client ManagedInstanceClient) installPackagesOnManagedInstance(ctx context
 	return response, err
 }
 
+// InstallWindowsUpdatesOnManagedInstance Installs Windows update(s) on a managed instance.
+// A default retry strategy applies to this operation InstallWindowsUpdatesOnManagedInstance()
+func (client ManagedInstanceClient) InstallWindowsUpdatesOnManagedInstance(ctx context.Context, request InstallWindowsUpdatesOnManagedInstanceRequest) (response InstallWindowsUpdatesOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installWindowsUpdatesOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallWindowsUpdatesOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallWindowsUpdatesOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallWindowsUpdatesOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallWindowsUpdatesOnManagedInstanceResponse")
+	}
+	return
+}
+
+// installWindowsUpdatesOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) installWindowsUpdatesOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/installWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallWindowsUpdatesOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/InstallWindowsUpdatesOnManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "InstallWindowsUpdatesOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListManagedInstanceAvailablePackages Returns a list of available packages for a managed instance.
 // A default retry strategy applies to this operation ListManagedInstanceAvailablePackages()
 func (client ManagedInstanceClient) ListManagedInstanceAvailablePackages(ctx context.Context, request ListManagedInstanceAvailablePackagesRequest) (response ListManagedInstanceAvailablePackagesResponse, err error) {
@@ -618,6 +964,60 @@ func (client ManagedInstanceClient) listManagedInstanceAvailableSoftwareSources(
 	return response, err
 }
 
+// ListManagedInstanceAvailableWindowsUpdates Returns a list of available Windows updates for a Managed Instance. This is only applicable to Windows instances.
+// A default retry strategy applies to this operation ListManagedInstanceAvailableWindowsUpdates()
+func (client ManagedInstanceClient) ListManagedInstanceAvailableWindowsUpdates(ctx context.Context, request ListManagedInstanceAvailableWindowsUpdatesRequest) (response ListManagedInstanceAvailableWindowsUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listManagedInstanceAvailableWindowsUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstanceAvailableWindowsUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstanceAvailableWindowsUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListManagedInstanceAvailableWindowsUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListManagedInstanceAvailableWindowsUpdatesResponse")
+	}
+	return
+}
+
+// listManagedInstanceAvailableWindowsUpdates implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) listManagedInstanceAvailableWindowsUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/availableWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListManagedInstanceAvailableWindowsUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceAvailableWindowsUpdates"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceAvailableWindowsUpdates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListManagedInstanceErrata Returns a list of applicable errata on the managed instance.
 // A default retry strategy applies to this operation ListManagedInstanceErrata()
 func (client ManagedInstanceClient) ListManagedInstanceErrata(ctx context.Context, request ListManagedInstanceErrataRequest) (response ListManagedInstanceErrataResponse, err error) {
@@ -719,6 +1119,60 @@ func (client ManagedInstanceClient) listManagedInstanceInstalledPackages(ctx con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceInstalledPackages"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceInstalledPackages", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListManagedInstanceInstalledWindowsUpdates Returns a list of installed Windows updates for a Managed Instance. This is only applicable to Windows instances.
+// A default retry strategy applies to this operation ListManagedInstanceInstalledWindowsUpdates()
+func (client ManagedInstanceClient) ListManagedInstanceInstalledWindowsUpdates(ctx context.Context, request ListManagedInstanceInstalledWindowsUpdatesRequest) (response ListManagedInstanceInstalledWindowsUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listManagedInstanceInstalledWindowsUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstanceInstalledWindowsUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstanceInstalledWindowsUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListManagedInstanceInstalledWindowsUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListManagedInstanceInstalledWindowsUpdatesResponse")
+	}
+	return
+}
+
+// listManagedInstanceInstalledWindowsUpdates implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) listManagedInstanceInstalledWindowsUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/installedWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListManagedInstanceInstalledWindowsUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceInstalledWindowsUpdates"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceInstalledWindowsUpdates", apiReferenceLink)
 		return response, err
 	}
 
@@ -890,6 +1344,60 @@ func (client ManagedInstanceClient) listManagedInstances(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstances"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstances", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWindowsUpdates Returns a list of Windows Updates.
+// A default retry strategy applies to this operation ListWindowsUpdates()
+func (client ManagedInstanceClient) ListWindowsUpdates(ctx context.Context, request ListWindowsUpdatesRequest) (response ListWindowsUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWindowsUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWindowsUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWindowsUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWindowsUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWindowsUpdatesResponse")
+	}
+	return
+}
+
+// listWindowsUpdates implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) listWindowsUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/windowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWindowsUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WindowsUpdateCollection/ListWindowsUpdates"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "ListWindowsUpdates", apiReferenceLink)
 		return response, err
 	}
 

@@ -18,11 +18,19 @@ import (
 // UpdateManagedInstanceDetails The information to be updated.
 type UpdateManagedInstanceDetails struct {
 
+	// Information specified by the user about the managed instance.
+	Description *string `mandatory:"false" json:"description"`
+
 	// The OCID of a management station to be used as the preferred primary.
 	PrimaryManagementStationId *string `mandatory:"false" json:"primaryManagementStationId"`
 
 	// The OCID of a management station to be used as the preferred secondary.
 	SecondaryManagementStationId *string `mandatory:"false" json:"secondaryManagementStationId"`
+
+	// OCID for the ONS topic, which is channel we send notification to customers
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *UpdatableAutonomousSettings `mandatory:"false" json:"autonomousSettings"`
 }
 
 func (m UpdateManagedInstanceDetails) String() string {

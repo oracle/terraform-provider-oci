@@ -31,7 +31,7 @@ type SoftwarePackageSummary struct {
 	Version *string `mandatory:"true" json:"version"`
 
 	// The architecture for which this software was built.
-	Architecture *string `mandatory:"false" json:"architecture"`
+	Architecture SoftwarePackageArchitectureEnum `mandatory:"false" json:"architecture,omitempty"`
 
 	// Checksum of the package.
 	Checksum *string `mandatory:"false" json:"checksum"`
@@ -42,8 +42,11 @@ type SoftwarePackageSummary struct {
 	// Indicates whether this package is the latest version.
 	IsLatest *bool `mandatory:"false" json:"isLatest"`
 
-	// List of software sources that provide the software package.
+	// List of software sources that provide the software package. This property is deprecated and it will be removed in a future API release.
 	SoftwareSources []SoftwareSourceDetails `mandatory:"false" json:"softwareSources"`
+
+	// The OS families the package belongs to.
+	OsFamilies []OsFamilyEnum `mandatory:"false" json:"osFamilies"`
 }
 
 func (m SoftwarePackageSummary) String() string {
@@ -56,6 +59,9 @@ func (m SoftwarePackageSummary) String() string {
 func (m SoftwarePackageSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSoftwarePackageArchitectureEnum(string(m.Architecture)); !ok && m.Architecture != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Architecture: %s. Supported values are: %s.", m.Architecture, strings.Join(GetSoftwarePackageArchitectureEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -61,6 +61,9 @@ type WorkRequest struct {
 	// A list of package names to be installed/updated/removed.
 	PackageNames []string `mandatory:"false" json:"packageNames"`
 
+	// The UUIDs of the target Windows Update (only if operation type is INSTALL_WINDOWS_UPDATES).
+	WindowsUpdateNames []string `mandatory:"false" json:"windowsUpdateNames"`
+
 	// The list of appstream modules being operated on.
 	ModuleSpecs []ModuleSpecDetails `mandatory:"false" json:"moduleSpecs"`
 
@@ -81,6 +84,27 @@ type WorkRequest struct {
 	InitiatorId *string `mandatory:"false" json:"initiatorId"`
 
 	ManagementStation *WorkRequestManagementStationDetails `mandatory:"false" json:"managementStation"`
+
+	// The scheduled time for retry work request. An RFC3339 formatted datetime string.
+	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
+
+	// The location of the bundle in the filesystem of the resource associated to this work request.
+	ContentLocation *string `mandatory:"false" json:"contentLocation"`
+
+	// It is required when WR type is IMPORT_CONTENT or REMOVE_CONTENT. Event id related to the content.
+	EventId *string `mandatory:"false" json:"eventId"`
+
+	// It is required when WR type is IMPORT_CONTENT or REMOVE_CONTENT. EventFingerprint associated with the content of the entire occurrence of that event.
+	ContentChecksum *string `mandatory:"false" json:"contentChecksum"`
+
+	// The OCID of the original work request.
+	RetryOfId *string `mandatory:"false" json:"retryOfId"`
+
+	// The retry intervals in minutes
+	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
+
+	// Indicates whether this work request is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 }
 
 func (m WorkRequest) String() string {

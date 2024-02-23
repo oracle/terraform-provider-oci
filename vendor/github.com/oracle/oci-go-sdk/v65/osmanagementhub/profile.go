@@ -49,6 +49,21 @@ type Profile interface {
 	// The current state of the registration profile.
 	GetLifecycleState() ProfileLifecycleStateEnum
 
+	// The registration type.
+	GetRegistrationType() ProfileRegistrationTypeEnum
+
+	// Indicates if profile is set as the default. The default value is false.
+	// There is exactly one default profile for a specified architecture, OS family,
+	// registration type and vendor.
+	// If set to true, the profile will be designated as default profile.
+	// If set to false, the profile will not be designated as the default profile.
+	GetIsDefaultProfile() *bool
+
+	// Indicates if profile is created by the service. The default value is false.
+	// If set to true, the profile has been created by the service.
+	// If set to false, the profile has not been created by the service.
+	GetIsServiceProvidedProfile() *bool
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -65,21 +80,24 @@ type Profile interface {
 }
 
 type profile struct {
-	JsonData            []byte
-	Description         *string                           `mandatory:"false" json:"description"`
-	ManagementStationId *string                           `mandatory:"false" json:"managementStationId"`
-	TimeCreated         *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
-	LifecycleState      ProfileLifecycleStateEnum         `mandatory:"false" json:"lifecycleState,omitempty"`
-	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags          map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	Id                  *string                           `mandatory:"true" json:"id"`
-	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
-	DisplayName         *string                           `mandatory:"true" json:"displayName"`
-	VendorName          VendorNameEnum                    `mandatory:"true" json:"vendorName"`
-	OsFamily            OsFamilyEnum                      `mandatory:"true" json:"osFamily"`
-	ArchType            ArchTypeEnum                      `mandatory:"true" json:"archType"`
-	ProfileType         string                            `json:"profileType"`
+	JsonData                 []byte
+	Description              *string                           `mandatory:"false" json:"description"`
+	ManagementStationId      *string                           `mandatory:"false" json:"managementStationId"`
+	TimeCreated              *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	LifecycleState           ProfileLifecycleStateEnum         `mandatory:"false" json:"lifecycleState,omitempty"`
+	RegistrationType         ProfileRegistrationTypeEnum       `mandatory:"false" json:"registrationType,omitempty"`
+	IsDefaultProfile         *bool                             `mandatory:"false" json:"isDefaultProfile"`
+	IsServiceProvidedProfile *bool                             `mandatory:"false" json:"isServiceProvidedProfile"`
+	FreeformTags             map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags              map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags               map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id                       *string                           `mandatory:"true" json:"id"`
+	CompartmentId            *string                           `mandatory:"true" json:"compartmentId"`
+	DisplayName              *string                           `mandatory:"true" json:"displayName"`
+	VendorName               VendorNameEnum                    `mandatory:"true" json:"vendorName"`
+	OsFamily                 OsFamilyEnum                      `mandatory:"true" json:"osFamily"`
+	ArchType                 ArchTypeEnum                      `mandatory:"true" json:"archType"`
+	ProfileType              string                            `json:"profileType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -103,6 +121,9 @@ func (m *profile) UnmarshalJSON(data []byte) error {
 	m.ManagementStationId = s.Model.ManagementStationId
 	m.TimeCreated = s.Model.TimeCreated
 	m.LifecycleState = s.Model.LifecycleState
+	m.RegistrationType = s.Model.RegistrationType
+	m.IsDefaultProfile = s.Model.IsDefaultProfile
+	m.IsServiceProvidedProfile = s.Model.IsServiceProvidedProfile
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -120,6 +141,10 @@ func (m *profile) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ProfileType {
+	case "WINDOWS_STANDALONE":
+		mm := WindowsStandaloneProfile{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LIFECYCLE":
 		mm := LifecycleProfile{}
 		err = json.Unmarshal(data, &mm)
@@ -160,6 +185,21 @@ func (m profile) GetTimeCreated() *common.SDKTime {
 // GetLifecycleState returns LifecycleState
 func (m profile) GetLifecycleState() ProfileLifecycleStateEnum {
 	return m.LifecycleState
+}
+
+// GetRegistrationType returns RegistrationType
+func (m profile) GetRegistrationType() ProfileRegistrationTypeEnum {
+	return m.RegistrationType
+}
+
+// GetIsDefaultProfile returns IsDefaultProfile
+func (m profile) GetIsDefaultProfile() *bool {
+	return m.IsDefaultProfile
+}
+
+// GetIsServiceProvidedProfile returns IsServiceProvidedProfile
+func (m profile) GetIsServiceProvidedProfile() *bool {
+	return m.IsServiceProvidedProfile
 }
 
 // GetFreeformTags returns FreeformTags
@@ -229,6 +269,9 @@ func (m profile) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingProfileLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetProfileLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -290,5 +333,55 @@ func GetProfileLifecycleStateEnumStringValues() []string {
 // GetMappingProfileLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingProfileLifecycleStateEnum(val string) (ProfileLifecycleStateEnum, bool) {
 	enum, ok := mappingProfileLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ProfileRegistrationTypeEnum Enum with underlying type: string
+type ProfileRegistrationTypeEnum string
+
+// Set of constants representing the allowable values for ProfileRegistrationTypeEnum
+const (
+	ProfileRegistrationTypeOciLinux        ProfileRegistrationTypeEnum = "OCI_LINUX"
+	ProfileRegistrationTypeNonOciLinux     ProfileRegistrationTypeEnum = "NON_OCI_LINUX"
+	ProfileRegistrationTypeOciWindows      ProfileRegistrationTypeEnum = "OCI_WINDOWS"
+	ProfileRegistrationTypeAutonomousLinux ProfileRegistrationTypeEnum = "AUTONOMOUS_LINUX"
+)
+
+var mappingProfileRegistrationTypeEnum = map[string]ProfileRegistrationTypeEnum{
+	"OCI_LINUX":        ProfileRegistrationTypeOciLinux,
+	"NON_OCI_LINUX":    ProfileRegistrationTypeNonOciLinux,
+	"OCI_WINDOWS":      ProfileRegistrationTypeOciWindows,
+	"AUTONOMOUS_LINUX": ProfileRegistrationTypeAutonomousLinux,
+}
+
+var mappingProfileRegistrationTypeEnumLowerCase = map[string]ProfileRegistrationTypeEnum{
+	"oci_linux":        ProfileRegistrationTypeOciLinux,
+	"non_oci_linux":    ProfileRegistrationTypeNonOciLinux,
+	"oci_windows":      ProfileRegistrationTypeOciWindows,
+	"autonomous_linux": ProfileRegistrationTypeAutonomousLinux,
+}
+
+// GetProfileRegistrationTypeEnumValues Enumerates the set of values for ProfileRegistrationTypeEnum
+func GetProfileRegistrationTypeEnumValues() []ProfileRegistrationTypeEnum {
+	values := make([]ProfileRegistrationTypeEnum, 0)
+	for _, v := range mappingProfileRegistrationTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetProfileRegistrationTypeEnumStringValues Enumerates the set of values in String for ProfileRegistrationTypeEnum
+func GetProfileRegistrationTypeEnumStringValues() []string {
+	return []string{
+		"OCI_LINUX",
+		"NON_OCI_LINUX",
+		"OCI_WINDOWS",
+		"AUTONOMOUS_LINUX",
+	}
+}
+
+// GetMappingProfileRegistrationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingProfileRegistrationTypeEnum(val string) (ProfileRegistrationTypeEnum, bool) {
+	enum, ok := mappingProfileRegistrationTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

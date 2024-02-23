@@ -24,6 +24,9 @@ type SwitchModuleStreamOnManagedInstanceDetails struct {
 	// The name of a stream of the specified module.
 	StreamName *string `mandatory:"true" json:"streamName"`
 
+	// The software source id for the the module stream.
+	SoftwareSourceId *string `mandatory:"false" json:"softwareSourceId"`
+
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }
 

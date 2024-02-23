@@ -36,6 +36,9 @@ type CreateScheduledJobDetails struct {
 	// Details describing the scheduled job.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The list of locations this scheduled job should operate on. (Empty list means apply to all locations)
+	Locations []ManagedInstanceLocationEnum `mandatory:"false" json:"locations"`
+
 	// The recurring rule for a recurring scheduled job.
 	RecurringRule *string `mandatory:"false" json:"recurringRule"`
 
@@ -67,6 +70,12 @@ type CreateScheduledJobDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The scheduled job retry intervals in minutes. If set, scheduled job will automatically retry after the set interval for supported operations.
+	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
+
+	// Indicates whether this scheduled job is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 }
 
 func (m CreateScheduledJobDetails) String() string {

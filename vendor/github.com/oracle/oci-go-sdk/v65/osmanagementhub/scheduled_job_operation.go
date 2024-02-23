@@ -24,6 +24,10 @@ type ScheduledJobOperation struct {
 	// The names of the target packages (only if operation type is INSTALL_PACKAGES/UPDATE_PACKAGES/REMOVE_PACKAGES).
 	PackageNames []string `mandatory:"false" json:"packageNames"`
 
+	// The unique identifiers for the Windows update. (only if operation type is INSTALL_WINDOWS_UPDATES).
+	// NOTE - This is not an array of OCIDs, but is an array of unique identifiers assigned by Microsoft.
+	WindowsUpdateNames []string `mandatory:"false" json:"windowsUpdateNames"`
+
 	ManageModuleStreamsDetails *ManageModuleStreamsInScheduledJobDetails `mandatory:"false" json:"manageModuleStreamsDetails"`
 
 	SwitchModuleStreamsDetails *ModuleStreamDetails `mandatory:"false" json:"switchModuleStreamsDetails"`

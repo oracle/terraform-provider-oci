@@ -46,6 +46,9 @@ type LifecycleStage struct {
 	// The list of managed instances specified lifecycle stage.
 	ManagedInstanceIds []ManagedInstanceDetails `mandatory:"false" json:"managedInstanceIds"`
 
+	// The location of Managed Instances attached to the lifecycle stage.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
 	SoftwareSourceId *SoftwareSourceDetails `mandatory:"false" json:"softwareSourceId"`
 
 	// The time the lifecycle stage was created. An RFC3339 formatted datetime string.
@@ -90,6 +93,9 @@ func (m LifecycleStage) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVendorNameEnum(string(m.VendorName)); !ok && m.VendorName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingLifecycleStageLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStageLifecycleStateEnumStringValues(), ",")))

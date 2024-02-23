@@ -41,6 +41,10 @@ type CreateLifecycleEnvironmentDetails struct {
 	// User specified information about the lifecycle environment.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The location of Managed Instances attached to the lifecycle.
+	// When no location is provided location defaults to ON_PREMISE.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -71,6 +75,9 @@ func (m CreateLifecycleEnvironmentDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

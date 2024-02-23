@@ -24,6 +24,11 @@ type UpdateManagedInstanceGroupDetails struct {
 	// User specified information about the managed instance group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// OCID for the ONS topic, which is channel we send notification to customers
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *UpdatableAutonomousSettings `mandatory:"false" json:"autonomousSettings"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

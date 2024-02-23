@@ -27,6 +27,9 @@ type InstallModuleStreamProfileOnManagedInstanceGroupDetails struct {
 	// The name of a profile of the specified module stream.
 	ProfileName *string `mandatory:"false" json:"profileName"`
 
+	// The OCID of the software source that provides this module stream.
+	SoftwareSourceId *string `mandatory:"false" json:"softwareSourceId"`
+
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }
 

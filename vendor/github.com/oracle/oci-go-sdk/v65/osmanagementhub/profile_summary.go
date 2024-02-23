@@ -33,8 +33,11 @@ type ProfileSummary struct {
 	// The OCID of the management station.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
-	// The type of registration profile. Either SOFTWARESOURCE, GROUP or LIFECYCLE.
+	// The profile type. Either SOFTWARESOURCE, GROUP or LIFECYCLE.
 	ProfileType ProfileTypeEnum `mandatory:"false" json:"profileType,omitempty"`
+
+	// The registration type.
+	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
 
 	// The software source vendor name.
 	VendorName VendorNameEnum `mandatory:"false" json:"vendorName,omitempty"`
@@ -50,6 +53,18 @@ type ProfileSummary struct {
 
 	// The current state of the registration profile.
 	LifecycleState ProfileLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Indicates if profile is set as the default. The default value is false.
+	// There is exactly one default profile for a specified architecture, OS family,
+	// registration type and vendor.
+	// If set to true, the profile will be designated as default profile.
+	// If set to false, the profile will not be designated as the default profile.
+	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
+
+	// Indicates if profile is created by the service. The default value is false.
+	// If set to true, the profile has been created by the service.
+	// If set to false, the profile has not been created by the service.
+	IsServiceProvidedProfile *bool `mandatory:"false" json:"isServiceProvidedProfile"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -78,6 +93,9 @@ func (m ProfileSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingProfileTypeEnum(string(m.ProfileType)); !ok && m.ProfileType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ProfileType: %s. Supported values are: %s.", m.ProfileType, strings.Join(GetProfileTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingVendorNameEnum(string(m.VendorName)); !ok && m.VendorName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))

@@ -124,15 +124,18 @@ type ListEntitlementsVendorNameEnum string
 
 // Set of constants representing the allowable values for ListEntitlementsVendorNameEnum
 const (
-	ListEntitlementsVendorNameOracle ListEntitlementsVendorNameEnum = "ORACLE"
+	ListEntitlementsVendorNameOracle    ListEntitlementsVendorNameEnum = "ORACLE"
+	ListEntitlementsVendorNameMicrosoft ListEntitlementsVendorNameEnum = "MICROSOFT"
 )
 
 var mappingListEntitlementsVendorNameEnum = map[string]ListEntitlementsVendorNameEnum{
-	"ORACLE": ListEntitlementsVendorNameOracle,
+	"ORACLE":    ListEntitlementsVendorNameOracle,
+	"MICROSOFT": ListEntitlementsVendorNameMicrosoft,
 }
 
 var mappingListEntitlementsVendorNameEnumLowerCase = map[string]ListEntitlementsVendorNameEnum{
-	"oracle": ListEntitlementsVendorNameOracle,
+	"oracle":    ListEntitlementsVendorNameOracle,
+	"microsoft": ListEntitlementsVendorNameMicrosoft,
 }
 
 // GetListEntitlementsVendorNameEnumValues Enumerates the set of values for ListEntitlementsVendorNameEnum
@@ -148,6 +151,7 @@ func GetListEntitlementsVendorNameEnumValues() []ListEntitlementsVendorNameEnum 
 func GetListEntitlementsVendorNameEnumStringValues() []string {
 	return []string{
 		"ORACLE",
+		"MICROSOFT",
 	}
 }
 

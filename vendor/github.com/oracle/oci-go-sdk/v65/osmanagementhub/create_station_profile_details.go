@@ -31,6 +31,13 @@ type CreateStationProfileDetails struct {
 	// The OCID of the management station.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
+	// Indicates if profile is set as the default. The default value is false.
+	// There is exactly one default profile for a specified architecture, OS family,
+	// registration type and vendor.
+	// If set to true, the profile will be designated as default profile.
+	// If set to false, the profile will not be designated as the default profile.
+	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -40,6 +47,9 @@ type CreateStationProfileDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The registration type.
+	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
 
 	// The software source vendor name.
 	VendorName VendorNameEnum `mandatory:"false" json:"vendorName,omitempty"`
@@ -71,6 +81,16 @@ func (m CreateStationProfileDetails) GetManagementStationId() *string {
 	return m.ManagementStationId
 }
 
+// GetRegistrationType returns RegistrationType
+func (m CreateStationProfileDetails) GetRegistrationType() ProfileRegistrationTypeEnum {
+	return m.RegistrationType
+}
+
+// GetIsDefaultProfile returns IsDefaultProfile
+func (m CreateStationProfileDetails) GetIsDefaultProfile() *bool {
+	return m.IsDefaultProfile
+}
+
 // GetFreeformTags returns FreeformTags
 func (m CreateStationProfileDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -91,6 +111,9 @@ func (m CreateStationProfileDetails) String() string {
 func (m CreateStationProfileDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingVendorNameEnum(string(m.VendorName)); !ok && m.VendorName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
 	}

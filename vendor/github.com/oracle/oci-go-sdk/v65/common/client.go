@@ -717,13 +717,18 @@ func CloseBodyIfValid(httpResponse *http.Response) {
 	}
 }
 
-// IsOciRealmSpecificServiceEndpointTemplateEnabled returns true if the client is configured to use realm specific service endpoint template
-// it will first check the client configuration, if not set, it will check the environment variable
+// IsOciRealmSpecificServiceEndpointTemplateEnabled returns true if the client is configured to use realm specific service endpoint template.
+// It will first check the client configuration, if not set, it will check the environment variable.
+// If both are not set, returns true by default.
 func (client BaseClient) IsOciRealmSpecificServiceEndpointTemplateEnabled() bool {
 	if client.Configuration.RealmSpecificServiceEndpointTemplateEnabled != nil {
 		return *client.Configuration.RealmSpecificServiceEndpointTemplateEnabled
 	}
-	return IsEnvVarTrue(OciRealmSpecificServiceEndpointTemplateEnabledEnvVar)
+	// returns false only if the environment variable is explicitly set to false
+	if IsEnvVarFalse(OciRealmSpecificServiceEndpointTemplateEnabledEnvVar) {
+		return false
+	}
+	return true
 }
 
 // GetCustomCertRefreshInterval returns the refresh interval in minutes to use for custom certs

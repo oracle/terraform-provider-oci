@@ -48,7 +48,7 @@ type UpdateVbInstanceDetails struct {
 	// (contact Oracle for alternateCustomEndpoints availability for a specific instance).
 	AlternateCustomEndpoints []UpdateCustomEndpointDetails `mandatory:"false" json:"alternateCustomEndpoints"`
 
-	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
+	NetworkEndpointDetails UpdateNetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
 }
 
 func (m UpdateVbInstanceDetails) String() string {
@@ -78,7 +78,7 @@ func (m *UpdateVbInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		IsVisualBuilderEnabled   *bool                             `json:"isVisualBuilderEnabled"`
 		CustomEndpoint           *UpdateCustomEndpointDetails      `json:"customEndpoint"`
 		AlternateCustomEndpoints []UpdateCustomEndpointDetails     `json:"alternateCustomEndpoints"`
-		NetworkEndpointDetails   networkendpointdetails            `json:"networkEndpointDetails"`
+		NetworkEndpointDetails   updatenetworkendpointdetails      `json:"networkEndpointDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -107,7 +107,7 @@ func (m *UpdateVbInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	if nn != nil {
-		m.NetworkEndpointDetails = nn.(NetworkEndpointDetails)
+		m.NetworkEndpointDetails = nn.(UpdateNetworkEndpointDetails)
 	} else {
 		m.NetworkEndpointDetails = nil
 	}

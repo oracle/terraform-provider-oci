@@ -18,21 +18,36 @@ type OsFamilyEnum string
 
 // Set of constants representing the allowable values for OsFamilyEnum
 const (
-	OsFamilyOracleLinux9 OsFamilyEnum = "ORACLE_LINUX_9"
-	OsFamilyOracleLinux8 OsFamilyEnum = "ORACLE_LINUX_8"
-	OsFamilyOracleLinux7 OsFamilyEnum = "ORACLE_LINUX_7"
+	OsFamilyOracleLinux9      OsFamilyEnum = "ORACLE_LINUX_9"
+	OsFamilyOracleLinux8      OsFamilyEnum = "ORACLE_LINUX_8"
+	OsFamilyOracleLinux7      OsFamilyEnum = "ORACLE_LINUX_7"
+	OsFamilyOracleLinux6      OsFamilyEnum = "ORACLE_LINUX_6"
+	OsFamilyWindowsServer2016 OsFamilyEnum = "WINDOWS_SERVER_2016"
+	OsFamilyWindowsServer2019 OsFamilyEnum = "WINDOWS_SERVER_2019"
+	OsFamilyWindowsServer2022 OsFamilyEnum = "WINDOWS_SERVER_2022"
+	OsFamilyAll               OsFamilyEnum = "ALL"
 )
 
 var mappingOsFamilyEnum = map[string]OsFamilyEnum{
-	"ORACLE_LINUX_9": OsFamilyOracleLinux9,
-	"ORACLE_LINUX_8": OsFamilyOracleLinux8,
-	"ORACLE_LINUX_7": OsFamilyOracleLinux7,
+	"ORACLE_LINUX_9":      OsFamilyOracleLinux9,
+	"ORACLE_LINUX_8":      OsFamilyOracleLinux8,
+	"ORACLE_LINUX_7":      OsFamilyOracleLinux7,
+	"ORACLE_LINUX_6":      OsFamilyOracleLinux6,
+	"WINDOWS_SERVER_2016": OsFamilyWindowsServer2016,
+	"WINDOWS_SERVER_2019": OsFamilyWindowsServer2019,
+	"WINDOWS_SERVER_2022": OsFamilyWindowsServer2022,
+	"ALL":                 OsFamilyAll,
 }
 
 var mappingOsFamilyEnumLowerCase = map[string]OsFamilyEnum{
-	"oracle_linux_9": OsFamilyOracleLinux9,
-	"oracle_linux_8": OsFamilyOracleLinux8,
-	"oracle_linux_7": OsFamilyOracleLinux7,
+	"oracle_linux_9":      OsFamilyOracleLinux9,
+	"oracle_linux_8":      OsFamilyOracleLinux8,
+	"oracle_linux_7":      OsFamilyOracleLinux7,
+	"oracle_linux_6":      OsFamilyOracleLinux6,
+	"windows_server_2016": OsFamilyWindowsServer2016,
+	"windows_server_2019": OsFamilyWindowsServer2019,
+	"windows_server_2022": OsFamilyWindowsServer2022,
+	"all":                 OsFamilyAll,
 }
 
 // GetOsFamilyEnumValues Enumerates the set of values for OsFamilyEnum
@@ -50,6 +65,11 @@ func GetOsFamilyEnumStringValues() []string {
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
+		"ORACLE_LINUX_6",
+		"WINDOWS_SERVER_2016",
+		"WINDOWS_SERVER_2019",
+		"WINDOWS_SERVER_2022",
+		"ALL",
 	}
 }
 

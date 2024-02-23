@@ -101,20 +101,23 @@ const (
 	DeployArtifactSourceDeployArtifactSourceTypeOcir            DeployArtifactSourceDeployArtifactSourceTypeEnum = "OCIR"
 	DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact DeployArtifactSourceDeployArtifactSourceTypeEnum = "GENERIC_ARTIFACT"
 	DeployArtifactSourceDeployArtifactSourceTypeHelmChart       DeployArtifactSourceDeployArtifactSourceTypeEnum = "HELM_CHART"
+	DeployArtifactSourceDeployArtifactSourceTypeHelmCommandSpec DeployArtifactSourceDeployArtifactSourceTypeEnum = "HELM_COMMAND_SPEC"
 )
 
 var mappingDeployArtifactSourceDeployArtifactSourceTypeEnum = map[string]DeployArtifactSourceDeployArtifactSourceTypeEnum{
-	"INLINE":           DeployArtifactSourceDeployArtifactSourceTypeInline,
-	"OCIR":             DeployArtifactSourceDeployArtifactSourceTypeOcir,
-	"GENERIC_ARTIFACT": DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact,
-	"HELM_CHART":       DeployArtifactSourceDeployArtifactSourceTypeHelmChart,
+	"INLINE":            DeployArtifactSourceDeployArtifactSourceTypeInline,
+	"OCIR":              DeployArtifactSourceDeployArtifactSourceTypeOcir,
+	"GENERIC_ARTIFACT":  DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact,
+	"HELM_CHART":        DeployArtifactSourceDeployArtifactSourceTypeHelmChart,
+	"HELM_COMMAND_SPEC": DeployArtifactSourceDeployArtifactSourceTypeHelmCommandSpec,
 }
 
 var mappingDeployArtifactSourceDeployArtifactSourceTypeEnumLowerCase = map[string]DeployArtifactSourceDeployArtifactSourceTypeEnum{
-	"inline":           DeployArtifactSourceDeployArtifactSourceTypeInline,
-	"ocir":             DeployArtifactSourceDeployArtifactSourceTypeOcir,
-	"generic_artifact": DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact,
-	"helm_chart":       DeployArtifactSourceDeployArtifactSourceTypeHelmChart,
+	"inline":            DeployArtifactSourceDeployArtifactSourceTypeInline,
+	"ocir":              DeployArtifactSourceDeployArtifactSourceTypeOcir,
+	"generic_artifact":  DeployArtifactSourceDeployArtifactSourceTypeGenericArtifact,
+	"helm_chart":        DeployArtifactSourceDeployArtifactSourceTypeHelmChart,
+	"helm_command_spec": DeployArtifactSourceDeployArtifactSourceTypeHelmCommandSpec,
 }
 
 // GetDeployArtifactSourceDeployArtifactSourceTypeEnumValues Enumerates the set of values for DeployArtifactSourceDeployArtifactSourceTypeEnum
@@ -133,6 +136,7 @@ func GetDeployArtifactSourceDeployArtifactSourceTypeEnumStringValues() []string 
 		"OCIR",
 		"GENERIC_ARTIFACT",
 		"HELM_CHART",
+		"HELM_COMMAND_SPEC",
 	}
 }
 

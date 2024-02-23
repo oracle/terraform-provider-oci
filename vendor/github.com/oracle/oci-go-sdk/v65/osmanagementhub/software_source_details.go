@@ -29,6 +29,9 @@ type SoftwareSourceDetails struct {
 
 	// Type of the software source.
 	SoftwareSourceType SoftwareSourceTypeEnum `mandatory:"false" json:"softwareSourceType,omitempty"`
+
+	// whether this is a mandatory software source for AutonomousLinux instance. If so, user cannot unselect it
+	IsMandatoryForAutonomousLinux *bool `mandatory:"false" json:"isMandatoryForAutonomousLinux"`
 }
 
 func (m SoftwareSourceDetails) String() string {

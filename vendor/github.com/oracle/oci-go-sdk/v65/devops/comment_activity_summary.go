@@ -30,7 +30,7 @@ type CommentActivitySummary struct {
 	// The time the action was performed. An RFC3339 formatted datetime string
 	TimeOccurred *common.SDKTime `mandatory:"true" json:"timeOccurred"`
 
-	// Identifer of comment added to a PR
+	// Identifier of comment added to a PR
 	CommentId *string `mandatory:"true" json:"commentId"`
 }
 

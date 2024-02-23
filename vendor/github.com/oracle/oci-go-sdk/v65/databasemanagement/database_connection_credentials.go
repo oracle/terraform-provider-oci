@@ -53,10 +53,6 @@ func (m *databaseconnectioncredentials) UnmarshalPolymorphicJSON(data []byte) (i
 
 	var err error
 	switch m.CredentialType {
-	case "NAMED_CREDENTIAL":
-		mm := DatabaseNamedCredentialConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "NAME_REFERENCE":
 		mm := DatabaseConnectionCredentailsByName{}
 		err = json.Unmarshal(data, &mm)
@@ -96,24 +92,21 @@ type DatabaseConnectionCredentialsCredentialTypeEnum string
 
 // Set of constants representing the allowable values for DatabaseConnectionCredentialsCredentialTypeEnum
 const (
-	DatabaseConnectionCredentialsCredentialTypeNameReference    DatabaseConnectionCredentialsCredentialTypeEnum = "NAME_REFERENCE"
-	DatabaseConnectionCredentialsCredentialTypeDetails          DatabaseConnectionCredentialsCredentialTypeEnum = "DETAILS"
-	DatabaseConnectionCredentialsCredentialTypeSslDetails       DatabaseConnectionCredentialsCredentialTypeEnum = "SSL_DETAILS"
-	DatabaseConnectionCredentialsCredentialTypeNamedCredentials DatabaseConnectionCredentialsCredentialTypeEnum = "NAMED_CREDENTIALS"
+	DatabaseConnectionCredentialsCredentialTypeNameReference DatabaseConnectionCredentialsCredentialTypeEnum = "NAME_REFERENCE"
+	DatabaseConnectionCredentialsCredentialTypeDetails       DatabaseConnectionCredentialsCredentialTypeEnum = "DETAILS"
+	DatabaseConnectionCredentialsCredentialTypeSslDetails    DatabaseConnectionCredentialsCredentialTypeEnum = "SSL_DETAILS"
 )
 
 var mappingDatabaseConnectionCredentialsCredentialTypeEnum = map[string]DatabaseConnectionCredentialsCredentialTypeEnum{
-	"NAME_REFERENCE":    DatabaseConnectionCredentialsCredentialTypeNameReference,
-	"DETAILS":           DatabaseConnectionCredentialsCredentialTypeDetails,
-	"SSL_DETAILS":       DatabaseConnectionCredentialsCredentialTypeSslDetails,
-	"NAMED_CREDENTIALS": DatabaseConnectionCredentialsCredentialTypeNamedCredentials,
+	"NAME_REFERENCE": DatabaseConnectionCredentialsCredentialTypeNameReference,
+	"DETAILS":        DatabaseConnectionCredentialsCredentialTypeDetails,
+	"SSL_DETAILS":    DatabaseConnectionCredentialsCredentialTypeSslDetails,
 }
 
 var mappingDatabaseConnectionCredentialsCredentialTypeEnumLowerCase = map[string]DatabaseConnectionCredentialsCredentialTypeEnum{
-	"name_reference":    DatabaseConnectionCredentialsCredentialTypeNameReference,
-	"details":           DatabaseConnectionCredentialsCredentialTypeDetails,
-	"ssl_details":       DatabaseConnectionCredentialsCredentialTypeSslDetails,
-	"named_credentials": DatabaseConnectionCredentialsCredentialTypeNamedCredentials,
+	"name_reference": DatabaseConnectionCredentialsCredentialTypeNameReference,
+	"details":        DatabaseConnectionCredentialsCredentialTypeDetails,
+	"ssl_details":    DatabaseConnectionCredentialsCredentialTypeSslDetails,
 }
 
 // GetDatabaseConnectionCredentialsCredentialTypeEnumValues Enumerates the set of values for DatabaseConnectionCredentialsCredentialTypeEnum
@@ -131,7 +124,6 @@ func GetDatabaseConnectionCredentialsCredentialTypeEnumStringValues() []string {
 		"NAME_REFERENCE",
 		"DETAILS",
 		"SSL_DETAILS",
-		"NAMED_CREDENTIALS",
 	}
 }
 

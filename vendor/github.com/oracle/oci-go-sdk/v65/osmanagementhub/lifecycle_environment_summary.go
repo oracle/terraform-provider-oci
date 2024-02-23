@@ -45,6 +45,9 @@ type LifecycleEnvironmentSummary struct {
 	// The current state of the lifecycle environment.
 	LifecycleState LifecycleEnvironmentLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// The location of Managed Instances attached to the lifecycle.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
 	// The time the lifecycle environment was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
@@ -87,6 +90,9 @@ func (m LifecycleEnvironmentSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLifecycleEnvironmentLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleEnvironmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

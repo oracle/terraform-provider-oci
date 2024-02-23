@@ -35,8 +35,11 @@ type Erratum struct {
 	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Type of the erratum.
+	// Type of the erratum. This property is deprecated and it will be removed in a future API release. Please refer to the advisoryType property instead.
 	ClassificationType ClassificationTypesEnum `mandatory:"false" json:"classificationType,omitempty"`
+
+	// The advisory type of the erratum.
+	AdvisoryType AdvisoryTypesEnum `mandatory:"false" json:"advisoryType,omitempty"`
 
 	// Information specifying from where the erratum was release.
 	From *string `mandatory:"false" json:"from"`
@@ -75,6 +78,9 @@ func (m Erratum) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingClassificationTypesEnum(string(m.ClassificationType)); !ok && m.ClassificationType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClassificationType: %s. Supported values are: %s.", m.ClassificationType, strings.Join(GetClassificationTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAdvisoryTypesEnum(string(m.AdvisoryType)); !ok && m.AdvisoryType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisoryType: %s. Supported values are: %s.", m.AdvisoryType, strings.Join(GetAdvisoryTypesEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingAdvisorySeverityEnum(string(m.AdvisorySeverity)); !ok && m.AdvisorySeverity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisorySeverity: %s. Supported values are: %s.", m.AdvisorySeverity, strings.Join(GetAdvisorySeverityEnumStringValues(), ",")))

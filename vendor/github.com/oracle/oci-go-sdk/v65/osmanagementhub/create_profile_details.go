@@ -31,6 +31,16 @@ type CreateProfileDetails interface {
 	// The OCID of the management station.
 	GetManagementStationId() *string
 
+	// The registration type.
+	GetRegistrationType() ProfileRegistrationTypeEnum
+
+	// Indicates if profile is set as the default. The default value is false.
+	// There is exactly one default profile for a specified architecture, OS family,
+	// registration type and vendor.
+	// If set to true, the profile will be designated as default profile.
+	// If set to false, the profile will not be designated as the default profile.
+	GetIsDefaultProfile() *bool
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -46,6 +56,8 @@ type createprofiledetails struct {
 	JsonData            []byte
 	Description         *string                           `mandatory:"false" json:"description"`
 	ManagementStationId *string                           `mandatory:"false" json:"managementStationId"`
+	RegistrationType    ProfileRegistrationTypeEnum       `mandatory:"false" json:"registrationType,omitempty"`
+	IsDefaultProfile    *bool                             `mandatory:"false" json:"isDefaultProfile"`
 	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	DisplayName         *string                           `mandatory:"true" json:"displayName"`
@@ -68,6 +80,8 @@ func (m *createprofiledetails) UnmarshalJSON(data []byte) error {
 	m.CompartmentId = s.Model.CompartmentId
 	m.Description = s.Model.Description
 	m.ManagementStationId = s.Model.ManagementStationId
+	m.RegistrationType = s.Model.RegistrationType
+	m.IsDefaultProfile = s.Model.IsDefaultProfile
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.ProfileType = s.Model.ProfileType
@@ -116,6 +130,16 @@ func (m createprofiledetails) GetManagementStationId() *string {
 	return m.ManagementStationId
 }
 
+// GetRegistrationType returns RegistrationType
+func (m createprofiledetails) GetRegistrationType() ProfileRegistrationTypeEnum {
+	return m.RegistrationType
+}
+
+// GetIsDefaultProfile returns IsDefaultProfile
+func (m createprofiledetails) GetIsDefaultProfile() *bool {
+	return m.IsDefaultProfile
+}
+
 // GetFreeformTags returns FreeformTags
 func (m createprofiledetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -146,6 +170,9 @@ func (m createprofiledetails) String() string {
 func (m createprofiledetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

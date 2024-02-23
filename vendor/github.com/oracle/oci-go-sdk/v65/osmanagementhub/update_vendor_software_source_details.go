@@ -19,7 +19,7 @@ import (
 // UpdateVendorSoftwareSourceDetails Information for updating a vendor source. Tags only.
 type UpdateVendorSoftwareSourceDetails struct {
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID of the compartment containing the software source.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// User friendly name for the software source.

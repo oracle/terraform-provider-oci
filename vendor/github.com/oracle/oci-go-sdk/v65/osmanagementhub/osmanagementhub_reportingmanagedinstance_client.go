@@ -91,7 +91,7 @@ func (client *ReportingManagedInstanceClient) ConfigurationProvider() *common.Co
 	return client.config
 }
 
-// GetManagedInstanceAnalyticContent Returns a CSV format report of managed instances matching the given filters.
+// GetManagedInstanceAnalyticContent Returns a user selected format (CSV/XML/JSON) report of managed instances matching the given filters.
 // A default retry strategy applies to this operation GetManagedInstanceAnalyticContent()
 func (client ReportingManagedInstanceClient) GetManagedInstanceAnalyticContent(ctx context.Context, request GetManagedInstanceAnalyticContentRequest) (response GetManagedInstanceAnalyticContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -144,7 +144,7 @@ func (client ReportingManagedInstanceClient) getManagedInstanceAnalyticContent(c
 	return response, err
 }
 
-// GetManagedInstanceContent Returns a CSV format report of a single managed instance whose associated Erratas match the given filters.
+// GetManagedInstanceContent Returns a user selected format (CSV/XML/JSON) format report of a single managed instance whose associated Erratas match the given filters.
 // A default retry strategy applies to this operation GetManagedInstanceContent()
 func (client ReportingManagedInstanceClient) GetManagedInstanceContent(ctx context.Context, request GetManagedInstanceContentRequest) (response GetManagedInstanceContentResponse, err error) {
 	var ociResponse common.OCIResponse

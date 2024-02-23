@@ -58,6 +58,9 @@ type ScheduledJob struct {
 	// Details describing the scheduled job.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The list of locations this scheduled job should operate on. (Empty list means apply to all locations)
+	Locations []ManagedInstanceLocationEnum `mandatory:"false" json:"locations"`
+
 	// The time of the last execution of this scheduled job.
 	TimeLastExecution *common.SDKTime `mandatory:"false" json:"timeLastExecution"`
 
@@ -82,12 +85,19 @@ type ScheduledJob struct {
 	// The list of work request OCIDs associated with this scheduled job.
 	WorkRequestIds []string `mandatory:"false" json:"workRequestIds"`
 
+	// Indicates whether this scheduled job is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// true, if the schedule job has its update/deletion capabilities restricted. (Used to track scheduled job for management station syncing).
+	// true, if the schedule job has its update/deletion capabilities restricted.
+	// Restricted scheduled job can only update timeNextExecution, recurringRule, and tags.
 	IsRestricted *bool `mandatory:"false" json:"isRestricted"`
+
+	// The scheduled job retry intervals in minutes. If set, scheduled job will automatically retry after the set interval for supported operations.
+	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
 }
 
 func (m ScheduledJob) String() string {

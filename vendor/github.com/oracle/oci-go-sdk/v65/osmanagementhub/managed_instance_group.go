@@ -21,7 +21,7 @@ type ManagedInstanceGroup struct {
 	// The managed instance group OCID that is immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the managed instance group.
+	// The OCID of the compartment containing the managed instance group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the managed instance group.
@@ -60,8 +60,19 @@ type ManagedInstanceGroup struct {
 	// The number of Managed Instances in the managed instance group.
 	ManagedInstanceCount *int `mandatory:"false" json:"managedInstanceCount"`
 
+	// The location of Managed Instances attached to the managed instance group.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
 	// The number of scheduled jobs pending against the managed instance group.
 	PendingJobCount *int `mandatory:"false" json:"pendingJobCount"`
+
+	// OCID for the ONS topic, which is channel we send notification to customers
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
+
+	// Indicates whether this group is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -99,6 +110,9 @@ func (m ManagedInstanceGroup) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVendorNameEnum(string(m.VendorName)); !ok && m.VendorName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

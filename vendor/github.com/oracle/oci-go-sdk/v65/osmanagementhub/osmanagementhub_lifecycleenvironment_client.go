@@ -151,6 +151,66 @@ func (client LifecycleEnvironmentClient) attachManagedInstancesToLifecycleStage(
 	return response, err
 }
 
+// ChangeLifecycleEnvironmentCompartment Moves a LifecycleEnvironment into a different compartment within the same tenancy.
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeLifecycleEnvironmentCompartment()
+func (client LifecycleEnvironmentClient) ChangeLifecycleEnvironmentCompartment(ctx context.Context, request ChangeLifecycleEnvironmentCompartmentRequest) (response ChangeLifecycleEnvironmentCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeLifecycleEnvironmentCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeLifecycleEnvironmentCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeLifecycleEnvironmentCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeLifecycleEnvironmentCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeLifecycleEnvironmentCompartmentResponse")
+	}
+	return
+}
+
+// changeLifecycleEnvironmentCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LifecycleEnvironmentClient) changeLifecycleEnvironmentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/lifecycleEnvironments/{lifecycleEnvironmentId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeLifecycleEnvironmentCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleEnvironment/ChangeLifecycleEnvironmentCompartment"
+		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "ChangeLifecycleEnvironmentCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateLifecycleEnvironment Creates a new lifecycle environment.
 // A default retry strategy applies to this operation CreateLifecycleEnvironment()
 func (client LifecycleEnvironmentClient) CreateLifecycleEnvironment(ctx context.Context, request CreateLifecycleEnvironmentRequest) (response CreateLifecycleEnvironmentResponse, err error) {

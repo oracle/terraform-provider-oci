@@ -54,6 +54,12 @@ type WorkRequestSummary struct {
 
 	// The percentage complete of the operation tracked by this work request.
 	PercentComplete *float32 `mandatory:"false" json:"percentComplete"`
+
+	// The scheduled time for retry work request. An RFC3339 formatted datetime string.
+	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
+
+	// Indicates whether this work request is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 }
 
 func (m WorkRequestSummary) String() string {

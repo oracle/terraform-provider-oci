@@ -32,7 +32,7 @@ type ListManagedInstancesRequest struct {
 	// A filter to return only instances whose architecture type matches the given architecture.
 	ArchType []ArchTypeEnum `contributesTo:"query" name:"archType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only instances whose OS family type matches the given OS family.
+	// A filter to return only resources whose OS family type matches the given OS family.
 	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
 	// A filter to return only managed instances acting as management stations.
@@ -59,6 +59,30 @@ type ListManagedInstancesRequest struct {
 	// The assigned erratum name. It's unique and not changeable.
 	// Example: `ELSA-2020-5804`
 	AdvisoryName []string `contributesTo:"query" name:"advisoryName" collectionFormat:"multi"`
+
+	// A filter to return only managed instances in a specific lifecycle environment.
+	LifecycleEnvironment *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironment"`
+
+	// A filter to return only managed instances that are NOT in a specific lifecycle environment.
+	LifecycleEnvironmentNotEqualTo *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironmentNotEqualTo"`
+
+	// A filter to return only resources whose location matches the given value.
+	Location []ManagedInstanceLocationEnum `contributesTo:"query" name:"location" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources whose location does not match the given value.
+	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A multi filter to return only managed instances that match the given profile ids.
+	Profile []string `contributesTo:"query" name:"profile" collectionFormat:"multi"`
+
+	// A multi filter to return only managed instances that do not contains the given profile ids.
+	ProfileNotEqualTo []string `contributesTo:"query" name:"profileNotEqualTo" collectionFormat:"multi"`
+
+	// A filter to return only managed instances with registration profile attached.
+	IsProfileAttached *bool `mandatory:"false" contributesTo:"query" name:"isProfileAttached"`
+
+	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
@@ -130,6 +154,18 @@ func (request ListManagedInstancesRequest) ValidateEnumValue() (bool, error) {
 	for _, val := range request.OsFamily {
 		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.Location {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LocationNotEqualTo {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocationNotEqualTo: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
 		}
 	}
 

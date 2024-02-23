@@ -18,7 +18,7 @@ import (
 // MirrorRepositoryConfig Configuration information for mirroring the repository.
 type MirrorRepositoryConfig struct {
 
-	// Upstream git repository connection identifer.
+	// Upstream git repository connection identifier.
 	ConnectorId *string `mandatory:"false" json:"connectorId"`
 
 	// URL of external repository you want to mirror.

@@ -55,6 +55,9 @@ type ScheduledJobSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
+	// The list of locations this scheduled job should operate on. (Empty list means apply to all locations)
+	Locations []ManagedInstanceLocationEnum `mandatory:"false" json:"locations"`
+
 	// The time/date of the last execution of this scheduled job.
 	TimeLastExecution *common.SDKTime `mandatory:"false" json:"timeLastExecution"`
 
@@ -70,12 +73,19 @@ type ScheduledJobSummary struct {
 	// The list of target lifecycle stage OCIDs if this scheduled job operates on lifecycle stages (mutually exclusive with managedInstances, managedInstanceGroupIds and managedCompartmentIds).
 	LifecycleStageIds []string `mandatory:"false" json:"lifecycleStageIds"`
 
-	// true, if the schedule job has its update/deletion capabilities restricted. (Used to track scheduled job for management station syncing).
-	IsRestricted *bool `mandatory:"false" json:"isRestricted"`
+	// Indicates whether this scheduled job is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// true, if the schedule job has its update/deletion capabilities restricted.
+	// Restricted scheduled job can only update timeNextExecution, recurringRule, and tags.
+	IsRestricted *bool `mandatory:"false" json:"isRestricted"`
+
+	// The scheduled job retry intervals in minutes. If set, scheduled job will automatically retry after the set interval for supported operations.
+	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
 }
 
 func (m ScheduledJobSummary) String() string {

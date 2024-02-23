@@ -18,15 +18,18 @@ type VendorNameEnum string
 
 // Set of constants representing the allowable values for VendorNameEnum
 const (
-	VendorNameOracle VendorNameEnum = "ORACLE"
+	VendorNameOracle    VendorNameEnum = "ORACLE"
+	VendorNameMicrosoft VendorNameEnum = "MICROSOFT"
 )
 
 var mappingVendorNameEnum = map[string]VendorNameEnum{
-	"ORACLE": VendorNameOracle,
+	"ORACLE":    VendorNameOracle,
+	"MICROSOFT": VendorNameMicrosoft,
 }
 
 var mappingVendorNameEnumLowerCase = map[string]VendorNameEnum{
-	"oracle": VendorNameOracle,
+	"oracle":    VendorNameOracle,
+	"microsoft": VendorNameMicrosoft,
 }
 
 // GetVendorNameEnumValues Enumerates the set of values for VendorNameEnum
@@ -42,6 +45,7 @@ func GetVendorNameEnumValues() []VendorNameEnum {
 func GetVendorNameEnumStringValues() []string {
 	return []string{
 		"ORACLE",
+		"MICROSOFT",
 	}
 }
 

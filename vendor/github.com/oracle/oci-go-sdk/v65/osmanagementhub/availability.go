@@ -18,21 +18,36 @@ type AvailabilityEnum string
 
 // Set of constants representing the allowable values for AvailabilityEnum
 const (
-	AvailabilityAvailable  AvailabilityEnum = "AVAILABLE"
-	AvailabilitySelected   AvailabilityEnum = "SELECTED"
-	AvailabilityRestricted AvailabilityEnum = "RESTRICTED"
+	AvailabilityAvailable        AvailabilityEnum = "AVAILABLE"
+	AvailabilitySelected         AvailabilityEnum = "SELECTED"
+	AvailabilityRestricted       AvailabilityEnum = "RESTRICTED"
+	AvailabilityUnavailable      AvailabilityEnum = "UNAVAILABLE"
+	AvailabilityAvailableAtOci   AvailabilityEnum = "AVAILABLE_AT_OCI"
+	AvailabilitySelectedAtOci    AvailabilityEnum = "SELECTED_AT_OCI"
+	AvailabilityRestrictedAtOci  AvailabilityEnum = "RESTRICTED_AT_OCI"
+	AvailabilityUnavailableAtOci AvailabilityEnum = "UNAVAILABLE_AT_OCI"
 )
 
 var mappingAvailabilityEnum = map[string]AvailabilityEnum{
-	"AVAILABLE":  AvailabilityAvailable,
-	"SELECTED":   AvailabilitySelected,
-	"RESTRICTED": AvailabilityRestricted,
+	"AVAILABLE":          AvailabilityAvailable,
+	"SELECTED":           AvailabilitySelected,
+	"RESTRICTED":         AvailabilityRestricted,
+	"UNAVAILABLE":        AvailabilityUnavailable,
+	"AVAILABLE_AT_OCI":   AvailabilityAvailableAtOci,
+	"SELECTED_AT_OCI":    AvailabilitySelectedAtOci,
+	"RESTRICTED_AT_OCI":  AvailabilityRestrictedAtOci,
+	"UNAVAILABLE_AT_OCI": AvailabilityUnavailableAtOci,
 }
 
 var mappingAvailabilityEnumLowerCase = map[string]AvailabilityEnum{
-	"available":  AvailabilityAvailable,
-	"selected":   AvailabilitySelected,
-	"restricted": AvailabilityRestricted,
+	"available":          AvailabilityAvailable,
+	"selected":           AvailabilitySelected,
+	"restricted":         AvailabilityRestricted,
+	"unavailable":        AvailabilityUnavailable,
+	"available_at_oci":   AvailabilityAvailableAtOci,
+	"selected_at_oci":    AvailabilitySelectedAtOci,
+	"restricted_at_oci":  AvailabilityRestrictedAtOci,
+	"unavailable_at_oci": AvailabilityUnavailableAtOci,
 }
 
 // GetAvailabilityEnumValues Enumerates the set of values for AvailabilityEnum
@@ -50,6 +65,11 @@ func GetAvailabilityEnumStringValues() []string {
 		"AVAILABLE",
 		"SELECTED",
 		"RESTRICTED",
+		"UNAVAILABLE",
+		"AVAILABLE_AT_OCI",
+		"SELECTED_AT_OCI",
+		"RESTRICTED_AT_OCI",
+		"UNAVAILABLE_AT_OCI",
 	}
 }
 

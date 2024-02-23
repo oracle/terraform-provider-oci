@@ -24,6 +24,13 @@ type UpdateProfileDetails struct {
 	// Details describing the scheduled job.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Indicates if profile is set as the default. The default value is false.
+	// There is exactly one default profile for a specified architecture, OS family,
+	// registration type and vendor.
+	// If set to true, the profile will be designated as default profile.
+	// If set to false, the profile will not be designated as the default profile.
+	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

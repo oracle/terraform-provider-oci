@@ -51,6 +51,9 @@ type LifecycleEnvironment struct {
 	// The list of managed instance OCIDs specified in the lifecycle stage.
 	ManagedInstanceIds []ManagedInstanceDetails `mandatory:"false" json:"managedInstanceIds"`
 
+	// The location of Managed Instances attached to the lifecycle stage.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
 	// The time the lifecycle environment was last modified. An RFC3339 formatted datetime string.
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 
@@ -91,6 +94,9 @@ func (m LifecycleEnvironment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

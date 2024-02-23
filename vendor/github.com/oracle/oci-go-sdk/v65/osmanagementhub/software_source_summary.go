@@ -22,7 +22,7 @@ type SoftwareSourceSummary interface {
 	// The OCID for the software source.
 	GetId() *string
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID of the compartment containing the software source.
 	GetCompartmentId() *string
 
 	// User friendly name for the software source.
@@ -42,8 +42,11 @@ type SoftwareSourceSummary interface {
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
 	GetTimeUpdated() *common.SDKTime
 
-	// Possible availabilities of a software source.
+	// Possible availabilities of a software source for non-OCI environments.
 	GetAvailability() AvailabilityEnum
+
+	// Possible availabilities of a software source for OCI environments.
+	GetAvailabilityAtOci() AvailabilityEnum
 
 	// The OS family the software source belongs to.
 	GetOsFamily() OsFamilyEnum
@@ -54,11 +57,17 @@ type SoftwareSourceSummary interface {
 	// Information specified by the user about the software source.
 	GetDescription() *string
 
+	// The availabilities of a software source.
+	GetAvailabilities() []AvailabilityEnum
+
 	// Number of packages.
 	GetPackageCount() *int64
 
 	// The current state of the software source.
 	GetLifecycleState() SoftwareSourceLifecycleStateEnum
+
+	// The size of the software source in gigabytes (GB).
+	GetSize() *float64
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -78,8 +87,10 @@ type SoftwareSourceSummary interface {
 type softwaresourcesummary struct {
 	JsonData           []byte
 	Description        *string                           `mandatory:"false" json:"description"`
+	Availabilities     []AvailabilityEnum                `mandatory:"false" json:"availabilities,omitempty"`
 	PackageCount       *int64                            `mandatory:"false" json:"packageCount"`
 	LifecycleState     SoftwareSourceLifecycleStateEnum  `mandatory:"false" json:"lifecycleState,omitempty"`
+	Size               *float64                          `mandatory:"false" json:"size"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -91,6 +102,7 @@ type softwaresourcesummary struct {
 	TimeCreated        *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated        *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
 	Availability       AvailabilityEnum                  `mandatory:"true" json:"availability"`
+	AvailabilityAtOci  AvailabilityEnum                  `mandatory:"true" json:"availabilityAtOci"`
 	OsFamily           OsFamilyEnum                      `mandatory:"true" json:"osFamily"`
 	ArchType           ArchTypeEnum                      `mandatory:"true" json:"archType"`
 	SoftwareSourceType string                            `json:"softwareSourceType"`
@@ -115,11 +127,14 @@ func (m *softwaresourcesummary) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.Availability = s.Model.Availability
+	m.AvailabilityAtOci = s.Model.AvailabilityAtOci
 	m.OsFamily = s.Model.OsFamily
 	m.ArchType = s.Model.ArchType
 	m.Description = s.Model.Description
+	m.Availabilities = s.Model.Availabilities
 	m.PackageCount = s.Model.PackageCount
 	m.LifecycleState = s.Model.LifecycleState
+	m.Size = s.Model.Size
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -160,6 +175,11 @@ func (m softwaresourcesummary) GetDescription() *string {
 	return m.Description
 }
 
+// GetAvailabilities returns Availabilities
+func (m softwaresourcesummary) GetAvailabilities() []AvailabilityEnum {
+	return m.Availabilities
+}
+
 // GetPackageCount returns PackageCount
 func (m softwaresourcesummary) GetPackageCount() *int64 {
 	return m.PackageCount
@@ -168,6 +188,11 @@ func (m softwaresourcesummary) GetPackageCount() *int64 {
 // GetLifecycleState returns LifecycleState
 func (m softwaresourcesummary) GetLifecycleState() SoftwareSourceLifecycleStateEnum {
 	return m.LifecycleState
+}
+
+// GetSize returns Size
+func (m softwaresourcesummary) GetSize() *float64 {
+	return m.Size
 }
 
 // GetFreeformTags returns FreeformTags
@@ -225,6 +250,11 @@ func (m softwaresourcesummary) GetAvailability() AvailabilityEnum {
 	return m.Availability
 }
 
+// GetAvailabilityAtOci returns AvailabilityAtOci
+func (m softwaresourcesummary) GetAvailabilityAtOci() AvailabilityEnum {
+	return m.AvailabilityAtOci
+}
+
 // GetOsFamily returns OsFamily
 func (m softwaresourcesummary) GetOsFamily() OsFamilyEnum {
 	return m.OsFamily
@@ -247,11 +277,20 @@ func (m softwaresourcesummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingAvailabilityEnum(string(m.Availability)); !ok && m.Availability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availability: %s. Supported values are: %s.", m.Availability, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingArchTypeEnum(string(m.ArchType)); !ok && m.ArchType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchType: %s. Supported values are: %s.", m.ArchType, strings.Join(GetArchTypeEnumStringValues(), ",")))
+	}
+
+	for _, val := range m.Availabilities {
+		if _, ok := GetMappingAvailabilityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availabilities: %s. Supported values are: %s.", val, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+		}
 	}
 
 	if _, ok := GetMappingSoftwareSourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {

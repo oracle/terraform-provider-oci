@@ -26,14 +26,23 @@ type ListSoftwareSourcesRequest struct {
 	// A filter to return only profiles that match the given vendorName.
 	VendorName ListSoftwareSourcesVendorNameEnum `mandatory:"false" contributesTo:"query" name:"vendorName" omitEmpty:"true"`
 
-	// A filter to return only instances whose OS family type matches the given OS family.
+	// A filter to return only resources whose OS family type matches the given OS family.
 	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
 	// A filter to return only instances whose architecture type matches the given architecture.
 	ArchType []ArchTypeEnum `contributesTo:"query" name:"archType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The availabilities of the software source for a tenant.
+	// The availabilities of the software source in a non-OCI environment for a tenant.
 	Availability []AvailabilityEnum `contributesTo:"query" name:"availability" omitEmpty:"true" collectionFormat:"multi"`
+
+	// The availabilities of the software source in an OCI environment for a tenant.
+	AvailabilityAtOci []AvailabilityEnum `contributesTo:"query" name:"availabilityAtOci" omitEmpty:"true" collectionFormat:"multi"`
+
+	// The availabilities of the software source. Use this query parameter to filter across availabilities in different environments.
+	Availabilities []AvailabilityEnum `contributesTo:"query" name:"availabilities" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Indicates whether the software source is mandatory in an autonomous linux environment.
+	IsMandatoryForAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isMandatoryForAutonomousLinux"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Example: `My new resource`
@@ -130,6 +139,18 @@ func (request ListSoftwareSourcesRequest) ValidateEnumValue() (bool, error) {
 		}
 	}
 
+	for _, val := range request.AvailabilityAtOci {
+		if _, ok := GetMappingAvailabilityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", val, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.Availabilities {
+		if _, ok := GetMappingAvailabilityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availabilities: %s. Supported values are: %s.", val, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingListSoftwareSourcesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListSoftwareSourcesSortOrderEnumStringValues(), ",")))
 	}
@@ -179,15 +200,18 @@ type ListSoftwareSourcesVendorNameEnum string
 
 // Set of constants representing the allowable values for ListSoftwareSourcesVendorNameEnum
 const (
-	ListSoftwareSourcesVendorNameOracle ListSoftwareSourcesVendorNameEnum = "ORACLE"
+	ListSoftwareSourcesVendorNameOracle    ListSoftwareSourcesVendorNameEnum = "ORACLE"
+	ListSoftwareSourcesVendorNameMicrosoft ListSoftwareSourcesVendorNameEnum = "MICROSOFT"
 )
 
 var mappingListSoftwareSourcesVendorNameEnum = map[string]ListSoftwareSourcesVendorNameEnum{
-	"ORACLE": ListSoftwareSourcesVendorNameOracle,
+	"ORACLE":    ListSoftwareSourcesVendorNameOracle,
+	"MICROSOFT": ListSoftwareSourcesVendorNameMicrosoft,
 }
 
 var mappingListSoftwareSourcesVendorNameEnumLowerCase = map[string]ListSoftwareSourcesVendorNameEnum{
-	"oracle": ListSoftwareSourcesVendorNameOracle,
+	"oracle":    ListSoftwareSourcesVendorNameOracle,
+	"microsoft": ListSoftwareSourcesVendorNameMicrosoft,
 }
 
 // GetListSoftwareSourcesVendorNameEnumValues Enumerates the set of values for ListSoftwareSourcesVendorNameEnum
@@ -203,6 +227,7 @@ func GetListSoftwareSourcesVendorNameEnumValues() []ListSoftwareSourcesVendorNam
 func GetListSoftwareSourcesVendorNameEnumStringValues() []string {
 	return []string{
 		"ORACLE",
+		"MICROSOFT",
 	}
 }
 

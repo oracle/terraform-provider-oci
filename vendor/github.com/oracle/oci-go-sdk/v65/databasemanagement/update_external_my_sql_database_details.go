@@ -12,46 +12,30 @@
 package databasemanagement
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// DatabaseNamedCredentialConnectionDetails User provides a named credential OCID, which will be used to retrieve the password to connect to the database.
-type DatabaseNamedCredentialConnectionDetails struct {
+// UpdateExternalMySqlDatabaseDetails Details for updating an external MySQL database.
+type UpdateExternalMySqlDatabaseDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credential
-	// where the database password metadata is stored.
-	NamedCredentialId *string `mandatory:"true" json:"namedCredentialId"`
+	// Display Name of the External MySQL Database.
+	DbName *string `mandatory:"true" json:"dbName"`
 }
 
-func (m DatabaseNamedCredentialConnectionDetails) String() string {
+func (m UpdateExternalMySqlDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DatabaseNamedCredentialConnectionDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateExternalMySqlDatabaseDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// MarshalJSON marshals to json representation
-func (m DatabaseNamedCredentialConnectionDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeDatabaseNamedCredentialConnectionDetails DatabaseNamedCredentialConnectionDetails
-	s := struct {
-		DiscriminatorParam string `json:"credentialType"`
-		MarshalTypeDatabaseNamedCredentialConnectionDetails
-	}{
-		"NAMED_CREDENTIAL",
-		(MarshalTypeDatabaseNamedCredentialConnectionDetails)(m),
-	}
-
-	return json.Marshal(&s)
 }

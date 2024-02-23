@@ -32,7 +32,7 @@ type ListManagedInstanceGroupsRequest struct {
 	// A filter to return only profiles that match the given archType.
 	ArchType ListManagedInstanceGroupsArchTypeEnum `mandatory:"false" contributesTo:"query" name:"archType" omitEmpty:"true"`
 
-	// A filter to return only profiles that match the given osFamily.
+	// A filter to return only resources that match the given osFamily.
 	OsFamily ListManagedInstanceGroupsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
@@ -47,6 +47,15 @@ type ListManagedInstanceGroupsRequest struct {
 
 	// A filter to return only resources their lifecycle state matches the given lifecycle state.
 	LifecycleState ManagedInstanceGroupLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// A filter to return only resources whose location matches the given value.
+	Location []ManagedInstanceLocationEnum `contributesTo:"query" name:"location" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources whose location does not match the given value.
+	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.
 	SortOrder ListManagedInstanceGroupsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
@@ -102,6 +111,18 @@ func (request ListManagedInstanceGroupsRequest) ValidateEnumValue() (bool, error
 	if _, ok := GetMappingManagedInstanceGroupLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetManagedInstanceGroupLifecycleStateEnumStringValues(), ",")))
 	}
+	for _, val := range request.Location {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LocationNotEqualTo {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocationNotEqualTo: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingListManagedInstanceGroupsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagedInstanceGroupsSortOrderEnumStringValues(), ",")))
 	}
@@ -199,21 +220,36 @@ type ListManagedInstanceGroupsOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListManagedInstanceGroupsOsFamilyEnum
 const (
-	ListManagedInstanceGroupsOsFamily9 ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_9"
-	ListManagedInstanceGroupsOsFamily8 ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_8"
-	ListManagedInstanceGroupsOsFamily7 ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_7"
+	ListManagedInstanceGroupsOsFamilyOracleLinux9      ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_9"
+	ListManagedInstanceGroupsOsFamilyOracleLinux8      ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_8"
+	ListManagedInstanceGroupsOsFamilyOracleLinux7      ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_7"
+	ListManagedInstanceGroupsOsFamilyOracleLinux6      ListManagedInstanceGroupsOsFamilyEnum = "ORACLE_LINUX_6"
+	ListManagedInstanceGroupsOsFamilyWindowsServer2016 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2016"
+	ListManagedInstanceGroupsOsFamilyWindowsServer2019 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2019"
+	ListManagedInstanceGroupsOsFamilyWindowsServer2022 ListManagedInstanceGroupsOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListManagedInstanceGroupsOsFamilyAll               ListManagedInstanceGroupsOsFamilyEnum = "ALL"
 )
 
 var mappingListManagedInstanceGroupsOsFamilyEnum = map[string]ListManagedInstanceGroupsOsFamilyEnum{
-	"ORACLE_LINUX_9": ListManagedInstanceGroupsOsFamily9,
-	"ORACLE_LINUX_8": ListManagedInstanceGroupsOsFamily8,
-	"ORACLE_LINUX_7": ListManagedInstanceGroupsOsFamily7,
+	"ORACLE_LINUX_9":      ListManagedInstanceGroupsOsFamilyOracleLinux9,
+	"ORACLE_LINUX_8":      ListManagedInstanceGroupsOsFamilyOracleLinux8,
+	"ORACLE_LINUX_7":      ListManagedInstanceGroupsOsFamilyOracleLinux7,
+	"ORACLE_LINUX_6":      ListManagedInstanceGroupsOsFamilyOracleLinux6,
+	"WINDOWS_SERVER_2016": ListManagedInstanceGroupsOsFamilyWindowsServer2016,
+	"WINDOWS_SERVER_2019": ListManagedInstanceGroupsOsFamilyWindowsServer2019,
+	"WINDOWS_SERVER_2022": ListManagedInstanceGroupsOsFamilyWindowsServer2022,
+	"ALL":                 ListManagedInstanceGroupsOsFamilyAll,
 }
 
 var mappingListManagedInstanceGroupsOsFamilyEnumLowerCase = map[string]ListManagedInstanceGroupsOsFamilyEnum{
-	"oracle_linux_9": ListManagedInstanceGroupsOsFamily9,
-	"oracle_linux_8": ListManagedInstanceGroupsOsFamily8,
-	"oracle_linux_7": ListManagedInstanceGroupsOsFamily7,
+	"oracle_linux_9":      ListManagedInstanceGroupsOsFamilyOracleLinux9,
+	"oracle_linux_8":      ListManagedInstanceGroupsOsFamilyOracleLinux8,
+	"oracle_linux_7":      ListManagedInstanceGroupsOsFamilyOracleLinux7,
+	"oracle_linux_6":      ListManagedInstanceGroupsOsFamilyOracleLinux6,
+	"windows_server_2016": ListManagedInstanceGroupsOsFamilyWindowsServer2016,
+	"windows_server_2019": ListManagedInstanceGroupsOsFamilyWindowsServer2019,
+	"windows_server_2022": ListManagedInstanceGroupsOsFamilyWindowsServer2022,
+	"all":                 ListManagedInstanceGroupsOsFamilyAll,
 }
 
 // GetListManagedInstanceGroupsOsFamilyEnumValues Enumerates the set of values for ListManagedInstanceGroupsOsFamilyEnum
@@ -231,6 +267,11 @@ func GetListManagedInstanceGroupsOsFamilyEnumStringValues() []string {
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
+		"ORACLE_LINUX_6",
+		"WINDOWS_SERVER_2016",
+		"WINDOWS_SERVER_2019",
+		"WINDOWS_SERVER_2022",
+		"ALL",
 	}
 }
 

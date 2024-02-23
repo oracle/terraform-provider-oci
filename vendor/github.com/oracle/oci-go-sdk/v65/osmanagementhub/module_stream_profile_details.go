@@ -26,6 +26,9 @@ type ModuleStreamProfileDetails struct {
 
 	// The name of a profile of the specified module stream.
 	ProfileName *string `mandatory:"true" json:"profileName"`
+
+	// The software source id for the the module stream.
+	SoftwareSourceId *string `mandatory:"false" json:"softwareSourceId"`
 }
 
 func (m ModuleStreamProfileDetails) String() string {
