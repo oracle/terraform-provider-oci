@@ -46,7 +46,26 @@ var (
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
-		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.20.0.1.0`},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.21.0.1.0`},
+		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+
+	AddStandbyACDatabaseRepresentation = map[string]interface{}{
+		"version_preference":            acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
+		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `containerDatabase2`, Update: `displayName2`},
+		"patch_model":                   acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
+		"autonomous_vm_cluster_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster.id}`},
+		"backup_config":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAddStandbyAutonomousContainerDatabaseBackupConfigRepresentation},
+		"is_automatic_failover_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		//"key_store_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
+		"compartment_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"db_unique_name":               acctest.Representation{RepType: acctest.Optional, Create: acbDBName},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
+		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
+		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.21.0.1.0`},
 		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 

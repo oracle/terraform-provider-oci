@@ -233,7 +233,7 @@ resource "oci_database_autonomous_vm_cluster" "primary_autonomous_vm_cluster" {
   display_name                          = "PrimaryVmCluster"
   exadata_infrastructure_id             = oci_database_exadata_infrastructure.primary_exadata_infrastructure.id
   vm_cluster_network_id                 = oci_database_vm_cluster_network.primary_vm_cluster_network.id
-  cpu_core_count_per_node   = "10"
+  cpu_core_count_per_node   = "20"
   autonomous_data_storage_size_in_tbs = "2.0"
   memory_per_oracle_compute_unit_in_gbs = "12"
   total_container_databases             = "2"
@@ -256,7 +256,7 @@ resource "oci_database_autonomous_vm_cluster" "standby_autonomous_vm_cluster" {
   display_name                          = "StandbyVmCluster"
   exadata_infrastructure_id             = oci_database_exadata_infrastructure.standby_exadata_infrastructure.id
   vm_cluster_network_id                 = oci_database_vm_cluster_network.standby_vm_cluster_network.id
-  cpu_core_count_per_node   = "10"
+  cpu_core_count_per_node   = "20"
   autonomous_data_storage_size_in_tbs = "2.0"
   memory_per_oracle_compute_unit_in_gbs = "12"
   total_container_databases             = "2"
@@ -270,6 +270,68 @@ resource "oci_database_autonomous_vm_cluster" "standby_autonomous_vm_cluster" {
 
   freeform_tags = {
     "Department" = "Finance"
+  }
+}
+
+resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster_primary" {
+  #Required
+  compartment_id                        = var.compartment_ocid
+  display_name                          = "TestAutonomousVmClusterPrimary"
+  exadata_infrastructure_id             = oci_database_exadata_infrastructure.primary_exadata_infrastructure.id
+  vm_cluster_network_id                 = oci_database_vm_cluster_network.primary_vm_cluster_network.id
+  cpu_core_count_per_node               = "20"
+  autonomous_data_storage_size_in_tbs   = "2.0"
+  memory_per_oracle_compute_unit_in_gbs = "12"
+  total_container_databases             = "2"
+  #Optional
+  is_local_backup_enabled               = "false"
+  license_model                         = "LICENSE_INCLUDED"
+  time_zone                             = "US/Pacific"
+  defined_tags = {
+    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "SampleTagValue"
+  }
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+
+  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
+  lifecycle {
+    ignore_changes = [
+      autonomous_data_storage_size_in_tbs,
+      db_servers,
+    ]
+  }
+}
+
+resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster_standby" {
+  #Required
+  compartment_id                        = var.compartment_ocid
+  display_name                          = "TestAutonomousVmClusterStandby"
+  exadata_infrastructure_id             = oci_database_exadata_infrastructure.standby_exadata_infrastructure.id
+  vm_cluster_network_id                 = oci_database_vm_cluster_network.standby_vm_cluster_network.id
+  cpu_core_count_per_node               = "20"
+  autonomous_data_storage_size_in_tbs   = "2.0"
+  memory_per_oracle_compute_unit_in_gbs = "12"
+  total_container_databases             = "2"
+  #Optional
+  is_local_backup_enabled               = "false"
+  license_model                         = "LICENSE_INCLUDED"
+  time_zone                             = "US/Pacific"
+  defined_tags = {
+    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "SampleTagValue"
+  }
+
+  freeform_tags = {
+    "Department" = "Finance"
+  }
+
+  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
+  lifecycle {
+    ignore_changes = [
+      autonomous_data_storage_size_in_tbs,
+      db_servers,
+    ]
   }
 }
 
@@ -320,8 +382,8 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   #Required
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
-  cpu_core_count           = "1"
   data_storage_size_in_tbs = "1"
+  compute_count            = 16
   db_name                  = "atpdb1"
 
   #Optional
@@ -357,13 +419,6 @@ resource "oci_database_autonomous_container_database_dataguard_association_opera
   oci_database_autonomous_container_database_dataguard_association_operation.failover]
 }
 
-resource "oci_database_autonomous_container_database_dataguard_association" dgresource{
-  autonomous_container_database_id                       = oci_database_autonomous_container_database.dg_autonomous_container_database.id
-  autonomous_container_database_dataguard_association_id = data.oci_database_autonomous_container_database_dataguard_associations.primary_autonomous_dg_associations.autonomous_container_database_dataguard_associations[0].id
-  is_automatic_failover_enabled =   false
-  protection_mode               = "MAXIMUM_AVAILABILITY"
-  fast_start_fail_over_lag_limit_in_seconds = null
-}
 
 data "oci_database_db_servers" "primary_db_servers" {
   #Required
@@ -376,6 +431,88 @@ data "oci_database_db_servers" "standby_db_servers" {
   compartment_id            = var.compartment_ocid
   exadata_infrastructure_id = oci_database_exadata_infrastructure.standby_exadata_infrastructure.id
 }
+
+resource "oci_database_autonomous_container_database" "test_autonomous_container_database_primary" {
+  #Required
+  autonomous_vm_cluster_id             = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster_primary.id
+  display_name                         = "PrimaryACD"
+  patch_model                          = "RELEASE_UPDATES"
+  db_version                           = "19.21.0.1.0"
+  db_name                              = "PRIMARY"
+
+  #Optional
+  backup_config {
+      backup_destination_details {
+        type = "LOCAL"
+      }
+      recovery_window_in_days = "7"
+    }
+
+  compartment_id               = var.compartment_ocid
+  freeform_tags                = var.autonomous_database_freeform_tags
+  service_level_agreement_type = "STANDARD"
+
+  maintenance_window_details {
+    preference = "CUSTOM_PREFERENCE"
+
+    days_of_week {
+      name = "MONDAY"
+    }
+
+    hours_of_day = ["4"]
+
+    months {
+      name = "JANUARY"
+    }
+
+    months {
+      name = "APRIL"
+    }
+
+    months {
+      name = "JULY"
+    }
+
+    months {
+      name = "OCTOBER"
+    }
+
+    weeks_of_month = ["2"]
+  }
+  version_preference = "LATEST_RELEASE_UPDATE"
+
+    lifecycle {
+      ignore_changes = [
+          peer_autonomous_container_database_display_name,
+          peer_autonomous_exadata_infrastructure_id,
+          peer_autonomous_vm_cluster_id,
+          peer_cloud_autonomous_vm_cluster_id,
+          peer_db_unique_name,
+          service_level_agreement_type,
+          protection_mode,
+          peer_autonomous_container_database_backup_config,
+      ]
+    }
+
+}
+
+resource "oci_database_autonomous_container_database_dataguard_association" "test_autonomous_container_database_dataguard_association" {
+  #Required
+  autonomous_container_database_id                    = oci_database_autonomous_container_database.test_autonomous_container_database_primary.id
+  is_automatic_failover_enabled                       = false
+  protection_mode                                     = "MAXIMUM_AVAILABILITY"
+  peer_autonomous_vm_cluster_id                       = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster_standby.id
+  peer_autonomous_container_database_display_name     = "StandbyACD"
+  peer_autonomous_container_database_compartment_id   = var.compartment_ocid
+  peer_autonomous_container_database_backup_config {
+      backup_destination_details {
+        type = "LOCAL"
+      }
+      recovery_window_in_days = "7"
+    }
+  peer_db_unique_name                                 = "Y3Z69J5C_sea1835"
+}
+
 #### End Resources ####
 #######################
 

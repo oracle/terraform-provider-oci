@@ -55,7 +55,7 @@ var (
 		"version_preference":             acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `containerDatabase2`, Update: `displayName2`},
 		"patch_model":                    acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
-		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: `19.20.0.1.0`},
+		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: `19.21.0.1.0`},
 		"cloud_autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id}`},
 		"backup_config":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDatabaseBackupConfigRepresentation},
 		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -73,6 +73,11 @@ var (
 	DatabaseAutonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation},
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+	}
+
+	DatabaseAddStandbyAutonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation},
+		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `7`, Update: `7`},
 	}
 
 	DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation = map[string]interface{}{
