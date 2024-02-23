@@ -64,10 +64,23 @@ func DatabaseManagementExternalDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"stack_monitoring_config": {
 				Type:     schema.TypeList,
@@ -223,9 +236,21 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) Create() error {
 		request.DbSystemDiscoveryId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if stackMonitoringConfig, ok := s.D.GetOkExists("stack_monitoring_config"); ok {
@@ -399,6 +424,14 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) Update() error {
 	}
 	request := oci_database_management.UpdateExternalDbSystemRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
@@ -406,6 +439,10 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.ExternalDbSystemId = &tmp
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
@@ -453,6 +490,10 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) SetData() error {
 		s.D.Set("db_system_discovery_id", *s.Res.DbSystemDiscoveryId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DiscoveryAgentId != nil {
 		s.D.Set("discovery_agent_id", *s.Res.DiscoveryAgentId)
 	}
@@ -460,6 +501,8 @@ func (s *DatabaseManagementExternalDbSystemResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HomeDirectory != nil {
 		s.D.Set("home_directory", *s.Res.HomeDirectory)
@@ -551,9 +594,15 @@ func ExternalDbSystemSummaryToMap(obj oci_database_management.ExternalDbSystemSu
 		result["database_management_config"] = []interface{}{ExternalDbSystemDatabaseManagementConfigDetailsToMap(obj.DatabaseManagementConfig)}
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.HomeDirectory != nil {
 		result["home_directory"] = string(*obj.HomeDirectory)

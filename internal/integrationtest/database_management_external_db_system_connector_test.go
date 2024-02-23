@@ -25,6 +25,10 @@ import (
 )
 
 var (
+	ignoreDbManagementDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	DatabaseManagementExternalDbSystemConnectorRequiredOnlyResource = DatabaseManagementExternalDbSystemConnectorResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_connector", "test_external_db_system_connector", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemConnectorRepresentation)
 
@@ -49,13 +53,17 @@ var (
 		"connector_type":        acctest.Representation{RepType: acctest.Required, Create: `MACS`},
 		"external_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${var.external_dbsystem_id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `EXAMPLE-displayName-Value`},
-		"agent_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.agent_id}`},
+		"agent_id":              acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_system.test_external_db_system.discovery_agent_id}`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementDefinedTagsChangesRepresentation},
 	}
 	DatabaseManagementExternalDbSystemSingularDataSourceRepresentation = map[string]interface{}{
 		"external_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${var.external_dbsystem_id}`},
 	}
 
-	DatabaseManagementExternalDbSystemConnectorResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_db_system", "test_external_db_system", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemSingularDataSourceRepresentation)
+	DatabaseManagementExternalDbSystemConnectorResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_db_system", "test_external_db_system", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemSingularDataSourceRepresentation) +
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -68,9 +76,6 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	agentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_agent_id")
-	agentIdVariableStr := fmt.Sprintf("variable \"agent_id\" { default = \"%s\" }\n", agentId)
-
 	dbSystemId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_dbsystem_id")
 	dbSystemIdVariableStr := fmt.Sprintf("variable \"external_dbsystem_id\" { default = \"%s\" }\n", dbSystemId)
 
@@ -80,13 +85,13 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+agentIdVariableStr+dbSystemIdVariableStr+DatabaseManagementExternalDbSystemConnectorResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+dbSystemIdVariableStr+DatabaseManagementExternalDbSystemConnectorResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_connector", "test_external_db_system_connector", acctest.Optional, acctest.Create, DatabaseManagementExternalDbSystemConnectorRepresentation), "databasemanagement", "externalDbSystemConnector", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseManagementExternalDbSystemConnectorDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_connector", "test_external_db_system_connector", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
@@ -101,11 +106,11 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies,
+			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_connector", "test_external_db_system_connector", acctest.Optional, acctest.Create, DatabaseManagementExternalDbSystemConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
@@ -113,6 +118,7 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 				resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "EXAMPLE-displayName-Value"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -132,7 +138,7 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + agentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies +
+			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_connector", "test_external_db_system_connector", acctest.Optional, acctest.Update, DatabaseManagementExternalDbSystemConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "agent_id"),
@@ -140,6 +146,7 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 				resource.TestCheckResourceAttr(resourceName, "connector_type", "MACS"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "EXAMPLE-displayName-Value"),
 				resource.TestCheckResourceAttrSet(resourceName, "external_db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -158,21 +165,21 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_db_system_connectors", "test_external_db_system_connectors", acctest.Optional, acctest.Update, DatabaseManagementDatabaseManagementExternalDbSystemConnectorDataSourceRepresentation) +
-				compartmentIdVariableStr + agentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies +
+				compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system_connector", "test_external_db_system_connector", acctest.Optional, acctest.Update, DatabaseManagementExternalDbSystemConnectorRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "EXAMPLE-displayName-Value"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_db_system_id"),
 				resource.TestCheckResourceAttr(datasourceName, "external_db_system_connector_collection.#", "1"),
-				//resource.TestCheckResourceAttr(datasourceName, "external_db_system_connector_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "external_db_system_connector_collection.0.items.#", "1"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_db_system_connector", "test_external_db_system_connector", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalDbSystemConnectorSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + agentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceConfig,
+				compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbSystemConnectorResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "external_db_system_connector_id"),
 
@@ -181,6 +188,7 @@ func TestDatabaseManagementExternalDbSystemConnectorResource_basic(t *testing.T)
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "connection_status"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "connector_type", "MACS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "EXAMPLE-displayName-Value"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

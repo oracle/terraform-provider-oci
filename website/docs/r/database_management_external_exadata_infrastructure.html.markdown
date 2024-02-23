@@ -28,7 +28,9 @@ resource "oci_database_management_external_exadata_infrastructure" "test_externa
 	display_name = var.external_exadata_infrastructure_display_name
 
 	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
 	discovery_key = var.external_exadata_infrastructure_discovery_key
+	freeform_tags = {"Department"= "Finance"}
 	license_model = var.external_exadata_infrastructure_license_model
 	storage_server_names = var.external_exadata_infrastructure_storage_server_names
 }
@@ -40,8 +42,10 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `db_system_ids` - (Required) (Updatable) The list of DB systems in the Exadata infrastructure.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `discovery_key` - (Optional) (Updatable) The unique key of the discovery request.
 * `display_name` - (Required) (Updatable) The name of the Exadata infrastructure.
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `license_model` - (Optional) (Updatable) The Oracle license model that applies to the database management resources. 
 * `storage_server_names` - (Optional) (Updatable) The list of all the Exadata storage server names to be included for monitoring purposes. If not specified, all the Exadata storage servers associated with the DB systems are included.
 
@@ -70,7 +74,9 @@ The following attributes are exported:
 	* `time_created` - The timestamp of the creation of the Exadata resource.
 	* `time_updated` - The timestamp of the last update of the Exadata resource.
 	* `version` - The version of the Exadata resource.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The name of the Exadata resource. English letters, numbers, "-", "_" and "." only.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 * `internal_id` - The internal ID of the Exadata resource.
 * `license_model` - The Oracle license model that applies to the database management resources. 

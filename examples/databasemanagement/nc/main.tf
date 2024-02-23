@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -39,6 +39,29 @@ variable "named_credential_name" {
   default = "namedCredentialName"
 }
 
+variable "nc_defined_tags_value" {
+  default = "nc_tag_value"
+}
+
+variable "nc_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+# Create a new Tag Namespace.
+resource "oci_identity_tag_namespace" "tag_namespace1" {
+  #Required
+  compartment_id = var.tenancy_ocid
+  description    = "example tag namespace"
+  name           = "example-tag-namespace-all"
+}
+
+# Create a new Tag definition in the above Tag Namespace.
+resource "oci_identity_tag" "tag1" {
+  #Required
+  description      = "example tag"
+  name             = "example-tag"
+  tag_namespace_id = oci_identity_tag_namespace.tag_namespace1.id
+}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -65,6 +88,10 @@ resource "oci_database_management_named_credential" "oracle_named_credential" {
 
   #Optional
   #display_name = var.external_exadata_storage_server_display_name
+  defined_tags  = {
+    "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.nc_defined_tags_value
+  }
+  freeform_tags = var.nc_freeform_tags
 }
 
 # Get named credential resource

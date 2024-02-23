@@ -82,6 +82,10 @@ func (s *DatabaseManagementExternalClusterInstanceDataSourceCrud) SetData() erro
 		s.D.Set("crs_base_directory", *s.Res.CrsBaseDirectory)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -101,6 +105,8 @@ func (s *DatabaseManagementExternalClusterInstanceDataSourceCrud) SetData() erro
 	if s.Res.ExternalDbSystemId != nil {
 		s.D.Set("external_db_system_id", *s.Res.ExternalDbSystemId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HostName != nil {
 		s.D.Set("host_name", *s.Res.HostName)
