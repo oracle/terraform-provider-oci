@@ -8,6 +8,7 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
   shape               = var.cloud_exadata_infrastructure_shape
 
   #Optional
+  cluster_placement_group_id = var.cloud_exadata_infrastructure_cluster_placement_group_id
   compute_count = var.cloud_exadata_infrastructure_compute_count
   storage_count = var.cloud_exadata_infrastructure_storage_count
 }
