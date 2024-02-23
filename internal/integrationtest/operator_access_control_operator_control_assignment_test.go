@@ -62,12 +62,20 @@ var (
 		"defined_tags":                       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 		"is_auto_approve_during_maintenance": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_log_forwarded":                   acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
-		"remote_syslog_server_address":       acctest.Representation{RepType: acctest.Optional, Create: `remoteSyslogServerAddress`, Update: `remoteSyslogServerAddress2`},
-		"remote_syslog_server_ca_cert":       acctest.Representation{RepType: acctest.Optional, Create: `cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0`, Update: `cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0Mg==`},
-		"remote_syslog_server_port":          acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"time_assignment_from":               acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
-		"time_assignment_to":                 acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
+
+		"is_hypervisor_log_forwarded": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_log_forwarded":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+
+		"remote_syslog_server_address": acctest.Representation{RepType: acctest.Optional, Create: `remoteSyslogServerAddress`, Update: `remoteSyslogServerAddress2`},
+		"remote_syslog_server_ca_cert": acctest.Representation{RepType: acctest.Optional, Create: `cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0`, Update: `cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0Mg==`},
+		"remote_syslog_server_port":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+
+		/*"time_assignment_from":               acctest.Representation{RepType: acctest.Optional, Create: `timeAssignmentFrom`, Update: `timeAssignmentFrom2`},
+		"time_assignment_to":                 acctest.Representation{RepType: acctest.Optional, Create: `timeAssignmentTo`, Update: `timeAssignmentTo2`},*/
+		"validate_assignment_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+
+		"time_assignment_from": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
+		"time_assignment_to":   acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
 	}
 
 	OperatorAccessControlOperatorControlAssignmentResourceDependencies = DefinedTagsDependencies +
@@ -90,6 +98,9 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
@@ -141,8 +152,11 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_enforced_always", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_hypervisor_log_forwarded", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_log_forwarded", "false"),
+
 				resource.TestCheckResourceAttr(resourceName, "is_default_assignment", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_log_forwarded", "true"),
+
 				resource.TestCheckResourceAttrSet(resourceName, "operator_control_id"),
 				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_address", "remoteSyslogServerAddress"),
 				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_ca_cert", "cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0"),
@@ -166,6 +180,42 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 			),
 		},
 
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			ExpectNonEmptyPlan: true,
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OperatorAccessControlOperatorControlAssignmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control_assignment", "test_operator_control_assignment", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OperatorAccessControlOperatorControlAssignmentRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "comment", "comment"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_enforced_always", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_hypervisor_log_forwarded", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_log_forwarded", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "operator_control_id"),
+				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_address", "remoteSyslogServerAddress"),
+				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_ca_cert", "cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0"),
+				resource.TestCheckResourceAttr(resourceName, "remote_syslog_server_port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "resource_name"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "EXADATAINFRASTRUCTURE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify updates to updatable parameters
 		{
 			ExpectNonEmptyPlan: true,
@@ -178,6 +228,7 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_auto_approve_during_maintenance", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_enforced_always", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_hypervisor_log_forwarded", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_default_assignment", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_log_forwarded", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "operator_control_id"),
@@ -233,7 +284,9 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_auto_approve_during_maintenance", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_default_assignment", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_enforced_always", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_hypervisor_log_forwarded", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_log_forwarded", "true"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "op_control_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "remote_syslog_server_address", "remoteSyslogServerAddress2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "remote_syslog_server_ca_cert", "cmVtb3RlU3lzbG9nU2VydmVyQ0FDZXJ0Mg=="),
 				resource.TestCheckResourceAttr(singularDatasourceName, "remote_syslog_server_port", "11"),
@@ -252,7 +305,7 @@ func TestOperatorAccessControlOperatorControlAssignmentResource_basic(t *testing
 			Config:                  config + OperatorAccessControlOperatorControlAssignmentRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"defined_tags"},
+			ImportStateVerifyIgnore: []string{"defined_tags", "validate_assignment_trigger"},
 			ResourceName:            resourceName,
 		},
 	})

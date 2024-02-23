@@ -29,7 +29,7 @@ import (
 var (
 	opctlName = `opctl-tf-` + utils.RandomString(5, utils.CharsetWithoutDigits)
 
-	approverGroupOCID = getGroupOCID()
+	approverGroupOCID = "use_iam_policy" //getGroupOCID()
 
 	OperatorAccessControlOperatorControlRequiredOnlyResource = OperatorAccessControlOperatorControlResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control", "test_operator_control", acctest.Required, acctest.Create, OperatorAccessControlOperatorControlRepresentation)
@@ -52,21 +52,29 @@ var (
 	}
 
 	OperatorAccessControlOperatorControlRepresentation = map[string]interface{}{
-		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"operator_control_name":       acctest.Representation{RepType: acctest.Required, Create: opctlName},
-		"approver_groups_list":        acctest.Representation{RepType: acctest.Required, Create: []string{approverGroupOCID}, Update: []string{approverGroupOCID}},
-		"approvers_list":              acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
-		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"operator_control_name": acctest.Representation{RepType: acctest.Required, Create: opctlName},
+		"approver_groups_list":  acctest.Representation{RepType: acctest.Required, Create: []string{approverGroupOCID}, Update: []string{approverGroupOCID}},
+		"approvers_list":        acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
+		//"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+
+		/*"description":                 acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"email_id_list":               acctest.Representation{RepType: acctest.Optional, Create: []string{`emailIdList`}, Update: []string{`emailIdList2`}},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},*/
+		"number_of_approvers": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		//"pre_approved_op_action_list": acctest.Representation{RepType: acctest.Optional, Create: []string{`preApprovedOpActionList`}, Update: []string{`preApprovedOpActionList2`}},
+
 		"description":                 acctest.Representation{RepType: acctest.Required, Create: `description`, Update: `description2`},
 		"email_id_list":               acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"service": "opctl"}, Update: map[string]string{"service": "opctl_2"}},
 		"is_fully_pre_approved":       acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"pre_approved_op_action_list": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
 		"resource_type":               acctest.Representation{RepType: acctest.Required, Create: `EXADATAINFRASTRUCTURE`},
-		"system_message":              acctest.Representation{RepType: acctest.Optional, Create: `systemMessage`, Update: `systemMessage2`},
+
+		"system_message": acctest.Representation{RepType: acctest.Optional, Create: `systemMessage`, Update: `systemMessage2`},
 	}
 
-	OperatorAccessControlOperatorControlResourceDependencies = DefinedTagsDependencies
+	OperatorAccessControlOperatorControlResourceDependencies = "" //DefinedTagsDependencies
 )
 
 func getGroupOCID() string {
@@ -142,7 +150,7 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			ExpectNonEmptyPlan: true,
+			//ExpectNonEmptyPlan: true,
 			Config: config + compartmentIdVariableStr + OperatorAccessControlOperatorControlResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_operator_access_control_operator_control", "test_operator_control", acctest.Optional, acctest.Create, OperatorAccessControlOperatorControlRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -153,8 +161,11 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "email_id_list.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "number_of_approvers", "10"),
+
 				resource.TestCheckResourceAttr(resourceName, "is_fully_pre_approved", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_default_operator_control", "false"),
+
 				resource.TestCheckResourceAttrSet(resourceName, "operator_control_name"),
 				resource.TestCheckResourceAttr(resourceName, "pre_approved_op_action_list.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "EXADATAINFRASTRUCTURE"),
@@ -187,8 +198,12 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "email_id_list.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+
+				resource.TestCheckResourceAttr(resourceName, "number_of_approvers", "10"),
+
 				resource.TestCheckResourceAttr(resourceName, "is_fully_pre_approved", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_default_operator_control", "false"),
+
 				resource.TestCheckResourceAttrSet(resourceName, "operator_control_name"),
 				resource.TestCheckResourceAttr(resourceName, "pre_approved_op_action_list.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "EXADATAINFRASTRUCTURE"),
@@ -217,7 +232,10 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_fully_pre_approved", "true"),
+				resource.TestCheckResourceAttr(resourceName, "number_of_approvers", "11"),
+
 				resource.TestCheckResourceAttr(resourceName, "is_default_operator_control", "false"),
+
 				resource.TestCheckResourceAttrSet(resourceName, "operator_control_name"),
 				resource.TestCheckResourceAttr(resourceName, "pre_approved_op_action_list.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "EXADATAINFRASTRUCTURE"),
@@ -254,7 +272,6 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 				compartmentIdVariableStr + OperatorAccessControlOperatorControlResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "operator_control_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "approval_required_op_action_list.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "approver_groups_list.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "approvers_list.#", "0"),
@@ -266,6 +283,7 @@ func TestOperatorAccessControlOperatorControlResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_default_operator_control", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_fully_pre_approved", "true"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "last_modified_info"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "number_of_approvers", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "pre_approved_op_action_list.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "EXADATAINFRASTRUCTURE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

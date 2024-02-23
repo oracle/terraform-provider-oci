@@ -30,6 +30,7 @@ resource "oci_operator_access_control_operator_control" "test_operator_control" 
 	description = var.operator_control_description
 	email_id_list = var.operator_control_email_id_list
 	freeform_tags = var.operator_control_freeform_tags
+	number_of_approvers = var.operator_control_number_of_approvers
 	pre_approved_op_action_list = var.operator_control_pre_approved_op_action_list
 	system_message = var.operator_control_system_message
 }
@@ -47,6 +48,7 @@ The following arguments are supported:
 * `email_id_list` - (Optional) (Updatable) List of emailId. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. 
 * `is_fully_pre_approved` - (Required) (Updatable) Whether all the operator actions have been pre-approved. If yes, all access requests associated with a resource governed by this operator control  will be auto-approved.         
+* `number_of_approvers` - (Optional) (Updatable) Number of approvers required to approve an access request.
 * `operator_control_name` - (Required) (Updatable) Name of the operator control.
 * `pre_approved_op_action_list` - (Optional) (Updatable) List of pre-approved operator actions. Access requests associated with a resource governed by this operator control will be auto-approved if the access request only contain operator actions in the pre-approved list. 
 * `resource_type` - (Required) resourceType for which the OperatorControl is applicable
@@ -72,6 +74,7 @@ The following attributes are exported:
 * `is_default_operator_control` - Whether the operator control is a default Operator Control. 
 * `is_fully_pre_approved` - Whether all the operator actions have been pre-approved. If yes, all access requests associated with a resource governed by this operator control  will be auto-approved. 
 * `last_modified_info` - Description associated with the latest modification of the operator control.
+* `number_of_approvers` - Number of approvers required to approve an access request.
 * `operator_control_name` - Name of the operator control. The name must be unique.
 * `pre_approved_op_action_list` - List of pre-approved operator actions. Access requests associated with a resource governed by this operator control will be automatically approved if the access request only contain operator actions in the pre-approved list.        
 * `resource_type` - resourceType for which the OperatorControl is applicable

@@ -44,6 +44,7 @@ The following attributes are exported:
 * `is_default_operator_control` - Whether the operator control is a default Operator Control. 
 * `is_fully_pre_approved` - Whether all the operator actions have been pre-approved. If yes, all access requests associated with a resource governed by this operator control  will be auto-approved. 
 * `last_modified_info` - Description associated with the latest modification of the operator control.
+* `number_of_approvers` - Number of approvers required to approve an access request.
 * `operator_control_name` - Name of the operator control. The name must be unique.
 * `pre_approved_op_action_list` - List of pre-approved operator actions. Access requests associated with a resource governed by this operator control will be automatically approved if the access request only contain operator actions in the pre-approved list.        
 * `resource_type` - resourceType for which the OperatorControl is applicable

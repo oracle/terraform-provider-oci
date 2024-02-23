@@ -56,6 +56,10 @@ variable "operator_control_system_message" {
   default = "systemMessage"
 }
 
+variable "operator_control_number_of_approvers" {
+  default = 1
+}
+
 
 
 provider "oci" {
@@ -97,6 +101,7 @@ resource "oci_operator_access_control_operator_control" "test_operator_control" 
   pre_approved_op_action_list = var.operator_control_pre_approved_op_action_list
   resource_type               = var.operator_control_resource_type
   system_message              = var.operator_control_system_message
+  number_of_approvers         = var.operator_control_number_of_approvers
 }
 
 data "oci_operator_access_control_operator_controls" "test_operator_controls" {

@@ -6,7 +6,7 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "access_request_id" {}
+variable "test_access_req_id" {}
 
 
 provider "oci" {
@@ -19,6 +19,6 @@ provider "oci" {
 
 data "oci_operator_access_control_access_request_history" "test_access_request_history" {
   #Required
-  access_request_id = var.access_request_id
+  access_request_id = var.test_access_req_id
 }
 

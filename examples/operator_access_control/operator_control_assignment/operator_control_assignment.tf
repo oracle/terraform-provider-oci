@@ -36,6 +36,10 @@ variable "operator_control_assignment_is_log_forwarded" {
   default = false
 }
 
+variable "operator_control_assignment_is_hypervisor_log_forwarded" {
+  default = false
+}
+
 variable "operator_control_assignment_remote_syslog_server_address" {
   default = "remoteSyslogServerAddress"
 }
@@ -132,7 +136,8 @@ resource "oci_operator_access_control_operator_control" "test_operator_control" 
   operator_control_name = "tfexample-${random_string.random_suffix.result}"
 
   #Optional
-  approver_groups_list        = [data.oci_identity_groups.get_admin_approver_group.groups[0].id]
+  #approver_groups_list        = [data.oci_identity_groups.get_admin_approver_group.groups[0].id]
+  approver_groups_list        = ["use_iam_policy"]
   approvers_list              = var.operator_control_approvers_list
   #defined_tags                = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.operator_control_defined_tags_value)
   description                 = var.operator_control_description
@@ -160,6 +165,7 @@ resource "oci_operator_access_control_operator_control_assignment" "test_operato
   #freeform_tags                      = var.operator_control_assignment_freeform_tags
   is_auto_approve_during_maintenance = var.operator_control_assignment_is_auto_approve_during_maintenance
   is_log_forwarded                   = var.operator_control_assignment_is_log_forwarded
+  is_hypervisor_log_forwarded        = var.operator_control_assignment_is_hypervisor_log_forwarded
   remote_syslog_server_address       = var.operator_control_assignment_remote_syslog_server_address
   remote_syslog_server_ca_cert       = var.operator_control_assignment_remote_syslog_server_ca_cert
   remote_syslog_server_port          = var.operator_control_assignment_remote_syslog_server_port

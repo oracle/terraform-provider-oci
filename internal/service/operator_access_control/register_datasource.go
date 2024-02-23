@@ -7,6 +7,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_operator_access_control_access_request", OperatorAccessControlAccessRequestDataSource())
+	tfresource.RegisterDatasource("oci_operator_access_control_access_request_audit_log_report", OperatorAccessControlAccessRequestAuditLogReportDataSource())
 	tfresource.RegisterDatasource("oci_operator_access_control_access_request_history", OperatorAccessControlAccessRequestHistoryDataSource())
 	tfresource.RegisterDatasource("oci_operator_access_control_access_requests", OperatorAccessControlAccessRequestsDataSource())
 	tfresource.RegisterDatasource("oci_operator_access_control_operator_action", OperatorAccessControlOperatorActionDataSource())
