@@ -46,7 +46,7 @@ The following attributes are exported:
 * `is_automatic_failover_enabled` - Indicates whether Automatic Failover is enabled for Autonomous Container Database Dataguard Association. Output DataType: boolean. Example : `is_automatic_failover_enabled = true`. 
 * `lifecycle_details` - Additional information about the current lifecycleState, if available. 
 * `peer_autonomous_database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the peer Autonomous Database. 
-* `peer_autonomous_database_life_cycle_state` - The current state of Autonomous Data Guard.
+* `peer_autonomous_database_life_cycle_state` - The current state of the Autonomous Database.
 * `peer_role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
 * `protection_mode` - The protection mode of this Autonomous Data Guard association. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 * `role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
