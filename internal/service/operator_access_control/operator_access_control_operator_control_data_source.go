@@ -100,6 +100,10 @@ func (s *OperatorAccessControlOperatorControlDataSourceCrud) SetData() error {
 		s.D.Set("last_modified_info", *s.Res.LastModifiedInfo)
 	}
 
+	if s.Res.NumberOfApprovers != nil {
+		s.D.Set("number_of_approvers", *s.Res.NumberOfApprovers)
+	}
+
 	if s.Res.OperatorControlName != nil {
 		s.D.Set("operator_control_name", *s.Res.OperatorControlName)
 	}
