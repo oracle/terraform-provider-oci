@@ -68,6 +68,9 @@ The following attributes are exported:
 * `disk_redundancy` - The type of redundancy configured for the cloud Vm cluster. NORMAL is 2-way redundancy. HIGH is 3-way redundancy. 
 * `display_name` - The user-friendly name for the cloud VM cluster. The name does not need to be unique.
 * `domain` - The domain name for the cloud VM cluster.
+* `file_system_configuration_details` - Details of the file system configuration of the VM cluster.
+	* `file_system_size_gb` - The file system size to be allocated in GBs.
+	* `mount_point` - The mount point of file system.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gi_version` - A valid Oracle Grid Infrastructure (GI) software version.
 * `hostname` - The hostname for the cloud VM cluster.

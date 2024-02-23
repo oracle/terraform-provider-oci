@@ -176,6 +176,12 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 			cloudVmCluster["domain"] = *r.Domain
 		}
 
+		fileSystemConfigurationDetails := []interface{}{}
+		for _, item := range r.FileSystemConfigurationDetails {
+			fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
+		}
+		cloudVmCluster["file_system_configuration_details"] = fileSystemConfigurationDetails
+
 		cloudVmCluster["freeform_tags"] = r.FreeformTags
 
 		if r.GiVersion != nil {

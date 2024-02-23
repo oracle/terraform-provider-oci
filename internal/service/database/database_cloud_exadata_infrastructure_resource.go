@@ -242,6 +242,35 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"defined_file_system_configurations": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"is_backup_partition": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_resizable": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"min_size_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"mount_point": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"last_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -669,6 +698,12 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 		s.D.Set("db_server_version", *s.Res.DbServerVersion)
 	}
 
+	definedFileSystemConfigurations := []interface{}{}
+	for _, item := range s.Res.DefinedFileSystemConfigurations {
+		definedFileSystemConfigurations = append(definedFileSystemConfigurations, DefinedFileSystemConfigurationToMap(item))
+	}
+	s.D.Set("defined_file_system_configurations", definedFileSystemConfigurations)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -773,6 +808,28 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToDayOfWeek(fieldKey
 	}
 
 	return result, nil
+}
+
+func DefinedFileSystemConfigurationToMap(obj oci_database.DefinedFileSystemConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsBackupPartition != nil {
+		result["is_backup_partition"] = bool(*obj.IsBackupPartition)
+	}
+
+	if obj.IsResizable != nil {
+		result["is_resizable"] = bool(*obj.IsResizable)
+	}
+
+	if obj.MinSizeGb != nil {
+		result["min_size_gb"] = int(*obj.MinSizeGb)
+	}
+
+	if obj.MountPoint != nil {
+		result["mount_point"] = string(*obj.MountPoint)
+	}
+
+	return result
 }
 
 func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {

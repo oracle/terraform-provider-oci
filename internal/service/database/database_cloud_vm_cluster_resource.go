@@ -172,6 +172,30 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"file_system_configuration_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"file_system_size_gb": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"mount_point": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -571,6 +595,23 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.Domain = &tmp
 	}
 
+	if fileSystemConfigurationDetails, ok := s.D.GetOkExists("file_system_configuration_details"); ok {
+		interfaces := fileSystemConfigurationDetails.([]interface{})
+		tmp := make([]oci_database.FileSystemConfigurationDetail, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "file_system_configuration_details", stateDataIndex)
+			converted, err := s.mapToFileSystemConfigurationDetail(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("file_system_configuration_details") {
+			request.FileSystemConfigurationDetails = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -805,6 +846,23 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if fileSystemConfigurationDetails, ok := s.D.GetOkExists("file_system_configuration_details"); ok {
+		interfaces := fileSystemConfigurationDetails.([]interface{})
+		tmp := make([]oci_database.FileSystemConfigurationDetail, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "file_system_configuration_details", stateDataIndex)
+			converted, err := s.mapToFileSystemConfigurationDetail(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("file_system_configuration_details") {
+			request.FileSystemConfigurationDetails = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -948,6 +1006,12 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	if s.Res.Domain != nil {
 		s.D.Set("domain", *s.Res.Domain)
 	}
+
+	fileSystemConfigurationDetails := []interface{}{}
+	for _, item := range s.Res.FileSystemConfigurationDetails {
+		fileSystemConfigurationDetails = append(fileSystemConfigurationDetails, FileSystemConfigurationDetailToMap(item))
+	}
+	s.D.Set("file_system_configuration_details", fileSystemConfigurationDetails)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
@@ -1102,6 +1166,36 @@ func (s *DatabaseCloudVmClusterResourceCrud) updateCompartment(compartment inter
 	}
 
 	return nil
+}
+
+func (s *DatabaseCloudVmClusterResourceCrud) mapToFileSystemConfigurationDetail(fieldKeyFormat string) (oci_database.FileSystemConfigurationDetail, error) {
+	result := oci_database.FileSystemConfigurationDetail{}
+
+	if fileSystemSizeGb, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_system_size_gb")); ok {
+		tmp := fileSystemSizeGb.(int)
+		result.FileSystemSizeGb = &tmp
+	}
+
+	if mountPoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mount_point")); ok {
+		tmp := mountPoint.(string)
+		result.MountPoint = &tmp
+	}
+
+	return result, nil
+}
+
+func FileSystemConfigurationDetailToMap(obj oci_database.FileSystemConfigurationDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FileSystemSizeGb != nil {
+		result["file_system_size_gb"] = int(*obj.FileSystemSizeGb)
+	}
+
+	if obj.MountPoint != nil {
+		result["mount_point"] = string(*obj.MountPoint)
+	}
+
+	return result
 }
 
 func (s *DatabaseCloudVmClusterResourceCrud) flexAvailableDbStorageInGBs(compartmentId string, shapeName string) (int, error) {
