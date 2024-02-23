@@ -86,6 +86,10 @@ func KmsKeyVersionResource() *schema.Resource {
 					},
 				},
 			},
+			"is_auto_rotated": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"is_primary": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -345,6 +349,10 @@ func (s *KmsKeyVersionResourceCrud) SetData() error {
 		s.D.Set("external_key_reference_details", []interface{}{ExternalKeyReferenceDetailsToMap(s.Res.ExternalKeyReferenceDetails)})
 	} else {
 		s.D.Set("external_key_reference_details", nil)
+	}
+
+	if s.Res.IsAutoRotated != nil {
+		s.D.Set("is_auto_rotated", *s.Res.IsAutoRotated)
 	}
 
 	if s.Res.IsPrimary != nil {

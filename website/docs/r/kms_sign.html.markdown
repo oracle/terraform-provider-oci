@@ -28,6 +28,7 @@ resource "oci_kms_sign" "test_sign" {
 
 	#Optional
 	key_version_id = oci_kms_key_version.test_key_version.id
+	logging_context = var.sign_logging_context
 	message_type = var.sign_message_type
 }
 ```
@@ -39,6 +40,7 @@ The following arguments are supported:
 * `crypto_endpoint` - (Required) The service endpoint to perform cryptographic operations against. Cryptographic operations include 'Encrypt,' 'Decrypt,', 'GenerateDataEncryptionKey', 'Sign' and 'Verify' operations. see Vault Crypto endpoint.
 * `key_id` - (Required) The OCID of the key used to sign the message.
 * `key_version_id` - (Optional) The OCID of the key version used to sign the message.
+* `logging_context` - (Optional) Information that can be used to provide context for audit logging. It is a map that contains any additional data that you provide to include with audit logs, if audit logging is enabled. 
 * `message` - (Required) The base64-encoded binary data object denoting the message or message digest to sign. You can have a message up to 4096 bytes in size. To sign a larger message, provide the message digest.
 * `message_type` - (Optional) Denotes whether the value of the message parameter is a raw message or a message digest. The default value, `RAW`, indicates a message. To indicate a message digest, use `DIGEST`. 
 * `signing_algorithm` - (Required) The algorithm to use to sign the message or message digest. For RSA keys, supported signature schemes include PKCS #1 and RSASSA-PSS, along with different hashing algorithms. For ECDSA keys, ECDSA is the supported signature scheme with different hashing algorithms. When you pass a message digest for signing, ensure that you specify the same hashing algorithm as used when creating the message digest. 

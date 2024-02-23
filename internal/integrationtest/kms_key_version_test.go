@@ -254,6 +254,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "key_versions.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.is_auto_rotated"),
 				//resource.TestCheckResourceAttr(datasourceName, "key_versions.0.external_key_reference_details.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.key_version_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "key_versions.0.key_id"),
@@ -272,6 +273,7 @@ func TestKmsKeyVersionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "key_version_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_auto_rotated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "replica_details.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

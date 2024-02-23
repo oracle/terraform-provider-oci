@@ -81,6 +81,12 @@ func (s *KmsKeyDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AutoKeyRotationDetails != nil {
+		s.D.Set("auto_key_rotation_details", []interface{}{AutoKeyRotationDetailsToMap(s.Res.AutoKeyRotationDetails)})
+	} else {
+		s.D.Set("auto_key_rotation_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -104,6 +110,10 @@ func (s *KmsKeyDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsAutoRotationEnabled != nil {
+		s.D.Set("is_auto_rotation_enabled", *s.Res.IsAutoRotationEnabled)
+	}
 
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
