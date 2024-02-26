@@ -5,6 +5,7 @@ package database
 
 import (
 	"context"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -206,6 +207,15 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		if r.ArePrimaryWhitelistedIpsUsed != nil {
 			autonomousDatabase["are_primary_whitelisted_ips_used"] = *r.ArePrimaryWhitelistedIpsUsed
 		}
+
+		if r.AutoRefreshFrequencyInSeconds != nil {
+			autonomousDatabase["auto_refresh_frequency_in_seconds"] = *r.AutoRefreshFrequencyInSeconds
+		}
+
+		if r.AutoRefreshPointLagInSeconds != nil {
+			autonomousDatabase["auto_refresh_point_lag_in_seconds"] = *r.AutoRefreshPointLagInSeconds
+		}
+
 		if r.AutonomousContainerDatabaseId != nil {
 			autonomousDatabase["autonomous_container_database_id"] = *r.AutonomousContainerDatabaseId
 		}
@@ -544,6 +554,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeMaintenanceEnd != nil {
 			autonomousDatabase["time_maintenance_end"] = r.TimeMaintenanceEnd.String()
+		}
+
+		if r.TimeOfAutoRefreshStart != nil {
+			autonomousDatabase["time_of_auto_refresh_start"] = r.TimeOfAutoRefreshStart.Format(time.RFC3339Nano)
 		}
 
 		if r.TimeOfJoiningResourcePool != nil {

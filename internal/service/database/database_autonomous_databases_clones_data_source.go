@@ -82,6 +82,14 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"auto_refresh_frequency_in_seconds": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"auto_refresh_point_lag_in_seconds": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
 						"autonomous_container_database_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -830,6 +838,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_of_auto_refresh_start": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_of_joining_resource_pool": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -988,6 +1000,14 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.ArePrimaryWhitelistedIpsUsed != nil {
 			autonomousDatabasesClone["are_primary_whitelisted_ips_used"] = *r.ArePrimaryWhitelistedIpsUsed
+		}
+
+		if r.AutoRefreshFrequencyInSeconds != nil {
+			autonomousDatabasesClone["auto_refresh_frequency_in_seconds"] = *r.AutoRefreshFrequencyInSeconds
+		}
+
+		if r.AutoRefreshPointLagInSeconds != nil {
+			autonomousDatabasesClone["auto_refresh_point_lag_in_seconds"] = *r.AutoRefreshPointLagInSeconds
 		}
 
 		if r.AutonomousContainerDatabaseId != nil {
@@ -1324,6 +1344,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeMaintenanceEnd != nil {
 			autonomousDatabasesClone["time_maintenance_end"] = r.TimeMaintenanceEnd.String()
+		}
+
+		if r.TimeOfAutoRefreshStart != nil {
+			autonomousDatabasesClone["time_of_auto_refresh_start"] = r.TimeOfAutoRefreshStart.String()
 		}
 
 		if r.TimeOfJoiningResourcePool != nil {
