@@ -65,7 +65,6 @@ variable "availability_domain" {
 }
 
 provider "oci" {
-  // version          = "6.9.0" // published on August 27, 2024.
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -74,12 +73,12 @@ provider "oci" {
 }
 
 data "oci_identity_availability_domain" "ad1" {
-  compartment_id = var.compartment_ocid // needs to be compartment_ocid if not using root compartment
+  compartment_id = var.tenancy_ocid // needs to be compartment_ocid if not using root compartment
   ad_number      = 1
 }
 
 data "oci_identity_availability_domain" "ad2" {
-  compartment_id = var.compartment_ocid // needs to be compartment_ocid if not using root compartment
+  compartment_id = var.tenancy_ocid // needs to be compartment_ocid if not using root compartment
   ad_number      = 2
 }
 
@@ -476,7 +475,8 @@ resource "oci_load_balancer_listener" "lb-listener3" {
 
   connection_configuration {
     idle_timeout_in_seconds            = "2"
-    backend_tcp_proxy_protocol_version = "1"
+    backend_tcp_proxy_protocol_version = "2"
+    backend_tcp_proxy_protocol_options = ["PP2_TYPE_AUTHORITY"]
   }
 }
 
