@@ -73,6 +73,16 @@ func LoadBalancerListenerResource() *schema.Resource {
 						},
 
 						// Optional
+						"backend_tcp_proxy_protocol_options": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Optional
 						"backend_tcp_proxy_protocol_version": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -643,8 +653,37 @@ func parseListenerCompositeId(compositeId string) (listenerName string, loadBala
 	return
 }
 
+func toString(s []oci_load_balancer.ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum) []string {
+	c := make([]string, len(s))
+	for i, v := range s {
+		c[i] = string(v)
+	}
+	return c
+}
+
+func toBackendTcpProxyProtocolOptionsEnum(s []string) []oci_load_balancer.ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum {
+	c := make([]oci_load_balancer.ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum, len(s))
+	for i, v := range s {
+		c[i] = oci_load_balancer.ConnectionConfigurationBackendTcpProxyProtocolOptionsEnum(v)
+	}
+	return c
+}
+
 func (s *LoadBalancerListenerResourceCrud) mapToConnectionConfiguration(fieldKeyFormat string) (oci_load_balancer.ConnectionConfiguration, error) {
 	result := oci_load_balancer.ConnectionConfiguration{}
+
+	if backendTcpProxyProtocolOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_tcp_proxy_protocol_options")); ok {
+		interfaces := backendTcpProxyProtocolOptions.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "backend_tcp_proxy_protocol_options")) {
+			result.BackendTcpProxyProtocolOptions = toBackendTcpProxyProtocolOptionsEnum(tmp)
+		}
+	}
 
 	if backendTcpProxyProtocolVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backend_tcp_proxy_protocol_version")); ok {
 		tmp := backendTcpProxyProtocolVersion.(int)
@@ -669,6 +708,10 @@ func (s *LoadBalancerListenerResourceCrud) mapToConnectionConfiguration(fieldKey
 
 func ConnectionConfigurationToMap(obj *oci_load_balancer.ConnectionConfiguration) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.BackendTcpProxyProtocolOptions != nil {
+		result["backend_tcp_proxy_protocol_options"] = toString(obj.BackendTcpProxyProtocolOptions)
+	}
 
 	if obj.BackendTcpProxyProtocolVersion != nil {
 		result["backend_tcp_proxy_protocol_version"] = int(*obj.BackendTcpProxyProtocolVersion)

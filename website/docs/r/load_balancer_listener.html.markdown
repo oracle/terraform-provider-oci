@@ -29,6 +29,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 		idle_timeout_in_seconds = var.listener_connection_configuration_idle_timeout_in_seconds
 
 		#Optional
+		backend_tcp_proxy_protocol_options = var.listener_connection_configuration_backend_tcp_proxy_protocol_options
 		backend_tcp_proxy_protocol_version = var.listener_connection_configuration_backend_tcp_proxy_protocol_version
 	}
 	hostname_names = [oci_load_balancer_hostname.test_hostname.name]
@@ -55,6 +56,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 The following arguments are supported:
 
 * `connection_configuration` - (Optional) (Updatable) Configuration details for the connection between the client and backend servers. 
+	* `backend_tcp_proxy_protocol_options` - (Optional) (Updatable) An array that represents the PPV2 Options that can be enabled on TCP Listeners. Example: ["PP2_TYPE_AUTHORITY"] 
 	* `backend_tcp_proxy_protocol_version` - (Required when `protocol` = `TCP`) (Updatable) The backend TCP Proxy Protocol version.  Example: `1` 
 	* `idle_timeout_in_seconds` - (Required) (Updatable) The maximum idle time, in seconds, allowed between two successive receive or two successive send operations between the client and backend servers. A send operation does not reset the timer for receive operations. A receive operation does not reset the timer for send operations.
 
