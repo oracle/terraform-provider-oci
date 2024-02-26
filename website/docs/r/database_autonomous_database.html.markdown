@@ -25,6 +25,8 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 
 	#Optional
 	are_primary_whitelisted_ips_used = var.autonomous_database_are_primary_whitelisted_ips_used
+	auto_refresh_frequency_in_seconds = var.autonomous_database_auto_refresh_frequency_in_seconds
+	auto_refresh_point_lag_in_seconds = var.autonomous_database_auto_refresh_point_lag_in_seconds
 	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
 	autonomous_database_backup_id = oci_database_autonomous_database_backup.test_autonomous_database_backup.id
 	autonomous_database_id = oci_database_autonomous_database.test_autonomous_database.id
@@ -101,6 +103,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	source_id = oci_database_source.test_source.id
 	standby_whitelisted_ips = var.autonomous_database_standby_whitelisted_ips
 	subnet_id = oci_core_subnet.test_subnet.id
+	time_of_auto_refresh_start = var.autonomous_database_time_of_auto_refresh_start
 	timestamp = var.autonomous_database_timestamp
 	use_latest_available_backup_time_stamp = var.autonomous_database_use_latest_available_backup_time_stamp
 	vault_id = oci_kms_vault.test_vault.id
@@ -112,9 +115,11 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 
 The following arguments are supported:
 
-* `admin_password` - (Required) (Updatable) The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing. The password is mandatory if source value is "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "DATABASE" or "NONE" and for new, full and metadata clone databases. This parameter is optional only if you are cloning or using a secret for the password. Not allowed for ADG and refreshable clones.
-* `are_primary_whitelisted_ips_used` - (Optional) (Updatable) This field will be null if the Autonomous Database is not Data Guard enabled or Access Control is disabled. It's value would be `TRUE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses primary IP access control list (ACL) for standby. It's value would be `FALSE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses different IP access control list (ACL) for standby compared to primary. 
-* `autonomous_container_database_id` - (Optional) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Used only by Autonomous Database on Dedicated Exadata Infrastructure.
+* `admin_password` - (Optional) (Updatable) The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing. The password is mandatory if source value is "BACKUP_FROM_ID", "BACKUP_FROM_TIMESTAMP", "DATABASE" or "NONE".
+* `are_primary_whitelisted_ips_used` - (Optional) (Updatable) This field will be null if the Autonomous Database is not Data Guard enabled or Access Control is disabled. It's value would be `TRUE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses primary IP access control list (ACL) for standby. It's value would be `FALSE` if Autonomous Database is Data Guard enabled and Access Control is enabled and if the Autonomous Database uses different IP access control list (ACL) for standby compared to primary.
+* `auto_refresh_frequency_in_seconds` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) The frequency a refreshable clone is refreshed after auto-refresh is enabled. The minimum is 1 hour. The maximum is 7 days. The date and time that auto-refresh is enabled is controlled by the `timeOfAutoRefreshStart` parameter.
+* `auto_refresh_point_lag_in_seconds` - (Applicable when source=CLONE_TO_REFRESHABLE) (Updatable) The time, in seconds, the data of the refreshable clone lags the primary database at the point of refresh. The minimum is 0 minutes (0 mins means refresh to the latest available timestamp). The maximum is 7 days. The lag time increases after refreshing until the next data refresh happens.
+* `autonomous_container_database_id` - (Optional) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `autonomous_database_backup_id` - (Required when source=BACKUP_FROM_ID) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database Backup that you will clone to create a new Autonomous Database.
 * `autonomous_database_id` - (Required when source=BACKUP_FROM_TIMESTAMP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that you will clone to create a new Autonomous Database.
 * `autonomous_maintenance_schedule_type` - (Optional) The maintenance schedule type of the Autonomous Database Serverless instances. The EARLY maintenance schedule of this Autonomous Database follows a schedule that applies patches prior to the REGULAR schedule.The REGULAR maintenance schedule of this Autonomous Database follows the normal cycle.
@@ -506,6 +511,7 @@ The following attributes are exported:
 * `time_local_data_guard_enabled` - The date and time that Autonomous Data Guard was enabled for an Autonomous Database where the standby was provisioned in the same region as the primary database.
 * `time_maintenance_begin` - The date and time when maintenance will begin.
 * `time_maintenance_end` - The date and time when maintenance will end.
+* `time_of_auto_refresh_start` - The the date and time that auto-refreshing will begin for an Autonomous Database refreshable clone. This value controls only the start time for the first refresh operation. Subsequent (ongoing) refresh operations have start times controlled by the value of the `autoRefreshFrequencyInSeconds` parameter.
 * `time_of_last_failover` - The timestamp of the last failover operation.
 * `time_of_last_refresh` - The date and time when last refresh happened.
 * `time_of_last_refresh_point` - The refresh point timestamp (UTC). The refresh point is the time to which the database was most recently refreshed. Data created after the refresh point is not included in the refresh.
