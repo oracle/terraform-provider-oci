@@ -30,6 +30,7 @@ var (
 	listenerTcpConnectionConfigurationRepresentation = map[string]interface{}{
 		"idle_timeout_in_seconds":            acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"backend_tcp_proxy_protocol_version": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
+		"backend_tcp_proxy_protocol_options": acctest.Representation{RepType: acctest.Optional, Update: []string{`PP2_TYPE_AUTHORITY`}},
 	}
 )
 
@@ -60,6 +61,7 @@ func TestLoadBalancerListenerTcpResource_basic(t *testing.T) {
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_version", "1"),
+					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_options.#", "0"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "10"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
@@ -76,6 +78,8 @@ func TestLoadBalancerListenerTcpResource_basic(t *testing.T) {
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_version", "2"),
+					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_options.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.backend_tcp_proxy_protocol_options.0", "PP2_TYPE_AUTHORITY"),
 					resource.TestCheckResourceAttr(resourceName, "connection_configuration.0.idle_timeout_in_seconds", "11"),
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "mylistener"),
