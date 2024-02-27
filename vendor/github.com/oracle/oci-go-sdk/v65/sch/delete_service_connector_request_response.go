@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/DeleteServiceConnector.go.html to see an example of how to use DeleteServiceConnectorRequest.
 type DeleteServiceConnectorRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service connector.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
 	ServiceConnectorId *string `mandatory:"true" contributesTo:"path" name:"serviceConnectorId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

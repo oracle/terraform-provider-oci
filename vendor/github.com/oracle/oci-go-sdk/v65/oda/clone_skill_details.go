@@ -37,6 +37,9 @@ type CloneSkillDetails struct {
 	// The ODA Platform Version for this resource.
 	PlatformVersion *string `mandatory:"false" json:"platformVersion"`
 
+	// The resource's dialog version.
+	DialogVersion *string `mandatory:"false" json:"dialogVersion"`
+
 	// The primary language for the resource.
 	PrimaryLanguageTag *string `mandatory:"false" json:"primaryLanguageTag"`
 
@@ -68,6 +71,11 @@ func (m CloneSkillDetails) GetDescription() *string {
 // GetPlatformVersion returns PlatformVersion
 func (m CloneSkillDetails) GetPlatformVersion() *string {
 	return m.PlatformVersion
+}
+
+// GetDialogVersion returns DialogVersion
+func (m CloneSkillDetails) GetDialogVersion() *string {
+	return m.DialogVersion
 }
 
 // GetMultilingualMode returns MultilingualMode

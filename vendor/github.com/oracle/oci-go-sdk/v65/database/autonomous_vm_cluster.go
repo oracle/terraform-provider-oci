@@ -51,7 +51,7 @@ type AutonomousVmCluster struct {
 	// The number of enabled CPU cores.
 	CpusEnabled *int `mandatory:"false" json:"cpusEnabled"`
 
-	// The compute model of the Autonomous VM Cluster.
+	// The compute model of the Autonomous VM Cluster. ECPU compute model is the recommended model and OCPU compute model is legacy. See Compute Models in Autonomous Database on Dedicated Exadata #Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	ComputeModel AutonomousVmClusterComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The number of enabled OCPU cores.
@@ -95,7 +95,7 @@ type AutonomousVmCluster struct {
 	// The number of CPUs reserved in an Autonomous VM Cluster.
 	ReservedCpus *float32 `mandatory:"false" json:"reservedCpus"`
 
-	// The number of provisionable Autonomous Container Databases in an Autonomous VM Cluster.
+	// **Deprecated.** Use field totalContainerDatabases.
 	ProvisionableAutonomousContainerDatabases *int `mandatory:"false" json:"provisionableAutonomousContainerDatabases"`
 
 	// The number of provisioned Autonomous Container Databases in an Autonomous VM Cluster.
@@ -137,9 +137,7 @@ type AutonomousVmCluster struct {
 	// The list of OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db servers.
 	DbServers []string `mandatory:"false" json:"dbServers"`
 
-	// For Autonomous Databases on Dedicated Exadata Infrastructure:
-	// - These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
-	// - The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
+	// CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
 	ReclaimableCpus *int `mandatory:"false" json:"reclaimableCpus"`
 
 	// The number of Autonomous Container Databases that can be created with the currently available local storage.
@@ -163,13 +161,13 @@ type AutonomousVmCluster struct {
 	// The date and time of the ORDS certificate expiration.
 	TimeOrdsCertificateExpires *common.SDKTime `mandatory:"false" json:"timeOrdsCertificateExpires"`
 
-	// The lowest value to which exadataStorage in TBs can be scaled down.
+	// The lowest value to which exadataStorage(in TBs) can be scaled down.
 	ExadataStorageInTBsLowestScaledValue *float64 `mandatory:"false" json:"exadataStorageInTBsLowestScaledValue"`
 
 	// The lowest value to which cpus can be scaled down.
 	CpusLowestScaledValue *int `mandatory:"false" json:"cpusLowestScaledValue"`
 
-	// The lowest value to which ACDs can be scaled down.
+	// The lowest value to which maximum number of ACDs can be scaled down.
 	MaxAcdsLowestScaledValue *int `mandatory:"false" json:"maxAcdsLowestScaledValue"`
 }
 

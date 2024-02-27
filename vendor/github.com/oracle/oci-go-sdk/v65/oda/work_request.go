@@ -126,6 +126,9 @@ const (
 	WorkRequestRequestActionDeleteOdaPrivateEndpointScanProxy   WorkRequestRequestActionEnum = "DELETE_ODA_PRIVATE_ENDPOINT_SCAN_PROXY"
 	WorkRequestRequestActionCreateOdaPrivateEndpointAttachment  WorkRequestRequestActionEnum = "CREATE_ODA_PRIVATE_ENDPOINT_ATTACHMENT"
 	WorkRequestRequestActionDeleteOdaPrivateEndpointAttachment  WorkRequestRequestActionEnum = "DELETE_ODA_PRIVATE_ENDPOINT_ATTACHMENT"
+	WorkRequestRequestActionTrainSkill                          WorkRequestRequestActionEnum = "TRAIN_SKILL"
+	WorkRequestRequestActionDeleteSkillEntities                 WorkRequestRequestActionEnum = "DELETE_SKILL_ENTITIES"
+	WorkRequestRequestActionImportSkillEntities                 WorkRequestRequestActionEnum = "IMPORT_SKILL_ENTITIES"
 )
 
 var mappingWorkRequestRequestActionEnum = map[string]WorkRequestRequestActionEnum{
@@ -169,6 +172,9 @@ var mappingWorkRequestRequestActionEnum = map[string]WorkRequestRequestActionEnu
 	"DELETE_ODA_PRIVATE_ENDPOINT_SCAN_PROXY":  WorkRequestRequestActionDeleteOdaPrivateEndpointScanProxy,
 	"CREATE_ODA_PRIVATE_ENDPOINT_ATTACHMENT":  WorkRequestRequestActionCreateOdaPrivateEndpointAttachment,
 	"DELETE_ODA_PRIVATE_ENDPOINT_ATTACHMENT":  WorkRequestRequestActionDeleteOdaPrivateEndpointAttachment,
+	"TRAIN_SKILL":                             WorkRequestRequestActionTrainSkill,
+	"DELETE_SKILL_ENTITIES":                   WorkRequestRequestActionDeleteSkillEntities,
+	"IMPORT_SKILL_ENTITIES":                   WorkRequestRequestActionImportSkillEntities,
 }
 
 var mappingWorkRequestRequestActionEnumLowerCase = map[string]WorkRequestRequestActionEnum{
@@ -212,6 +218,9 @@ var mappingWorkRequestRequestActionEnumLowerCase = map[string]WorkRequestRequest
 	"delete_oda_private_endpoint_scan_proxy":  WorkRequestRequestActionDeleteOdaPrivateEndpointScanProxy,
 	"create_oda_private_endpoint_attachment":  WorkRequestRequestActionCreateOdaPrivateEndpointAttachment,
 	"delete_oda_private_endpoint_attachment":  WorkRequestRequestActionDeleteOdaPrivateEndpointAttachment,
+	"train_skill":                             WorkRequestRequestActionTrainSkill,
+	"delete_skill_entities":                   WorkRequestRequestActionDeleteSkillEntities,
+	"import_skill_entities":                   WorkRequestRequestActionImportSkillEntities,
 }
 
 // GetWorkRequestRequestActionEnumValues Enumerates the set of values for WorkRequestRequestActionEnum
@@ -266,6 +275,9 @@ func GetWorkRequestRequestActionEnumStringValues() []string {
 		"DELETE_ODA_PRIVATE_ENDPOINT_SCAN_PROXY",
 		"CREATE_ODA_PRIVATE_ENDPOINT_ATTACHMENT",
 		"DELETE_ODA_PRIVATE_ENDPOINT_ATTACHMENT",
+		"TRAIN_SKILL",
+		"DELETE_SKILL_ENTITIES",
+		"IMPORT_SKILL_ENTITIES",
 	}
 }
 

@@ -119,6 +119,27 @@ type AccessRequest struct {
 	// in addition to command level logging, key strokes are also logged.
 	AuditType []string `mandatory:"false" json:"auditType"`
 
+	// Number of approvers required to approve an access request.
+	NumberOfApproversRequired *int `mandatory:"false" json:"numberOfApproversRequired"`
+
+	// Number of approvers who have authorized an access request.
+	NumberOfApprovers *int `mandatory:"false" json:"numberOfApprovers"`
+
+	// Number of approvers who have authorized an access request for extension.
+	NumberOfExtensionApprovers *int `mandatory:"false" json:"numberOfExtensionApprovers"`
+
+	// Contains the user ids who have approved the accessRequest for extension.
+	ApproverDetails []ApproverDetail `mandatory:"false" json:"approverDetails"`
+
+	// Contains the user ids who have approved the accessRequest for extension.
+	ExtensionApproverDetails []ApproverDetail `mandatory:"false" json:"extensionApproverDetails"`
+
+	// Whether the access request was requested for Validate Assignment.
+	IsValidateAssignment *bool `mandatory:"false" json:"isValidateAssignment"`
+
+	// Time in future when the user for the access request needs to be created in RFC 3339 (https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z'
+	TimeRequestedForFutureAccess *common.SDKTime `mandatory:"false" json:"timeRequestedForFutureAccess"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
