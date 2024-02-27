@@ -18,6 +18,11 @@ import (
 // UpdateKeyDetails The details of the Key that you wish to update.
 type UpdateKeyDetails struct {
 
+	// A parameter specifying whether the auto key rotation is enabled or not.
+	IsAutoRotationEnabled *bool `mandatory:"false" json:"isAutoRotationEnabled"`
+
+	AutoKeyRotationDetails *AutoKeyRotationDetails `mandatory:"false" json:"autoKeyRotationDetails"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`

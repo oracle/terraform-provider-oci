@@ -35,6 +35,9 @@ type OperatorControlSummary struct {
 	// resourceType for which the OperatorControl is applicable
 	ResourceType ResourceTypesEnum `mandatory:"false" json:"resourceType,omitempty"`
 
+	// Number of approvers required to approve an access request.
+	NumberOfApprovers *int `mandatory:"false" json:"numberOfApprovers"`
+
 	// Time when the operator control was created, expressed in RFC 3339  (https://tools.ietf.org/html/rfc3339) timestamp format. Example: '2020-05-22T21:10:29.600Z'
 	TimeOfCreation *common.SDKTime `mandatory:"false" json:"timeOfCreation"`
 

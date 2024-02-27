@@ -84,14 +84,17 @@ type OdaInstanceAttachmentSummaryAttachmentTypeEnum string
 // Set of constants representing the allowable values for OdaInstanceAttachmentSummaryAttachmentTypeEnum
 const (
 	OdaInstanceAttachmentSummaryAttachmentTypeFusion OdaInstanceAttachmentSummaryAttachmentTypeEnum = "FUSION"
+	OdaInstanceAttachmentSummaryAttachmentTypeMax    OdaInstanceAttachmentSummaryAttachmentTypeEnum = "MAX"
 )
 
 var mappingOdaInstanceAttachmentSummaryAttachmentTypeEnum = map[string]OdaInstanceAttachmentSummaryAttachmentTypeEnum{
 	"FUSION": OdaInstanceAttachmentSummaryAttachmentTypeFusion,
+	"MAX":    OdaInstanceAttachmentSummaryAttachmentTypeMax,
 }
 
 var mappingOdaInstanceAttachmentSummaryAttachmentTypeEnumLowerCase = map[string]OdaInstanceAttachmentSummaryAttachmentTypeEnum{
 	"fusion": OdaInstanceAttachmentSummaryAttachmentTypeFusion,
+	"max":    OdaInstanceAttachmentSummaryAttachmentTypeMax,
 }
 
 // GetOdaInstanceAttachmentSummaryAttachmentTypeEnumValues Enumerates the set of values for OdaInstanceAttachmentSummaryAttachmentTypeEnum
@@ -107,6 +110,7 @@ func GetOdaInstanceAttachmentSummaryAttachmentTypeEnumValues() []OdaInstanceAtta
 func GetOdaInstanceAttachmentSummaryAttachmentTypeEnumStringValues() []string {
 	return []string{
 		"FUSION",
+		"MAX",
 	}
 }
 

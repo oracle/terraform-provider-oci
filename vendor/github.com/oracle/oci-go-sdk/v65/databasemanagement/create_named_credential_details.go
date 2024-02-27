@@ -45,6 +45,16 @@ type CreateNamedCredentialDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that
 	// is associated to the named credential.
 	AssociatedResource *string `mandatory:"false" json:"associatedResource"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m CreateNamedCredentialDetails) String() string {
@@ -72,13 +82,15 @@ func (m CreateNamedCredentialDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateNamedCredentialDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description        *string                  `json:"description"`
-		AssociatedResource *string                  `json:"associatedResource"`
-		Name               *string                  `json:"name"`
-		Scope              NamedCredentialScopeEnum `json:"scope"`
-		Type               ResourceTypeEnum         `json:"type"`
-		Content            namedcredentialcontent   `json:"content"`
-		CompartmentId      *string                  `json:"compartmentId"`
+		Description        *string                           `json:"description"`
+		AssociatedResource *string                           `json:"associatedResource"`
+		FreeformTags       map[string]string                 `json:"freeformTags"`
+		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		Name               *string                           `json:"name"`
+		Scope              NamedCredentialScopeEnum          `json:"scope"`
+		Type               ResourceTypeEnum                  `json:"type"`
+		Content            namedcredentialcontent            `json:"content"`
+		CompartmentId      *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -89,6 +101,10 @@ func (m *CreateNamedCredentialDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.AssociatedResource = model.AssociatedResource
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	m.Name = model.Name
 

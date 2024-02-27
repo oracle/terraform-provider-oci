@@ -88,10 +88,10 @@ type Database struct {
 	// The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
-	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation.
+	// The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances.
 	KmsKeyVersionId *string `mandatory:"false" json:"kmsKeyVersionId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
 
 	// Point in time recovery timeStamp of the source database at which cloned database system is cloned from the source database system, as described in RFC 3339 (https://tools.ietf.org/rfc/rfc3339)
@@ -108,7 +108,7 @@ type Database struct {
 	// Specifies a prefix for the `Oracle SID` of the database to be created.
 	SidPrefix *string `mandatory:"false" json:"sidPrefix"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
 	// The wallet name for Oracle Key Vault.

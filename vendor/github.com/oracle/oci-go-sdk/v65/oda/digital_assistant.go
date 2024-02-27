@@ -54,6 +54,9 @@ type DigitalAssistant struct {
 	// The resource's namespace.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
+	// The resource's dialog version.
+	DialogVersion *string `mandatory:"false" json:"dialogVersion"`
+
 	// The unique identifier for the base reource (when this resource extends another).
 	BaseId *string `mandatory:"false" json:"baseId"`
 

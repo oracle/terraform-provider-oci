@@ -214,6 +214,64 @@ func (client AccessRequestsClient) getAccessRequest(ctx context.Context, request
 	return response, err
 }
 
+// GetAuditLogReport Gets the Audit Log Report for the given access requestId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/operatoraccesscontrol/GetAuditLogReport.go.html to see an example of how to use GetAuditLogReport API.
+// A default retry strategy applies to this operation GetAuditLogReport()
+func (client AccessRequestsClient) GetAuditLogReport(ctx context.Context, request GetAuditLogReportRequest) (response GetAuditLogReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAuditLogReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAuditLogReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAuditLogReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAuditLogReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAuditLogReportResponse")
+	}
+	return
+}
+
+// getAuditLogReport implements the OCIOperation interface (enables retrying operations)
+func (client AccessRequestsClient) getAuditLogReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/accessRequests/{accessRequestId}/auditLogReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAuditLogReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operatoraccesscontrol/20200630/AuditLogReport/GetAuditLogReport"
+		err = common.PostProcessServiceError(err, "AccessRequests", "GetAuditLogReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // InteractionRequest Posts query for additional information for the given access request.
 //
 // # See also

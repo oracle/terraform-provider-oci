@@ -72,6 +72,16 @@ type SqlJob struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credentials containing password secret.
 	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
 
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	// The type of SQL. This is a mandatory field for the EXECUTE_SQL operationType.
 	SqlType SqlJobSqlTypeEnum `mandatory:"false" json:"sqlType,omitempty"`
 
@@ -222,30 +232,32 @@ func (m SqlJob) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description             *string                    `json:"description"`
-		ManagedDatabaseGroupId  *string                    `json:"managedDatabaseGroupId"`
-		ManagedDatabaseId       *string                    `json:"managedDatabaseId"`
-		ManagedDatabasesDetails []JobDatabase              `json:"managedDatabasesDetails"`
-		DatabaseSubType         DatabaseSubTypeEnum        `json:"databaseSubType"`
-		Timeout                 *string                    `json:"timeout"`
-		ResultLocation          jobexecutionresultlocation `json:"resultLocation"`
-		ScheduleDetails         *JobScheduleDetails        `json:"scheduleDetails"`
-		SubmissionErrorMessage  *string                    `json:"submissionErrorMessage"`
-		SqlType                 SqlJobSqlTypeEnum          `json:"sqlType"`
-		SqlText                 *string                    `json:"sqlText"`
-		InBinds                 *JobInBindsDetails         `json:"inBinds"`
-		OutBinds                *JobOutBindsDetails        `json:"outBinds"`
-		UserName                *string                    `json:"userName"`
-		Role                    SqlJobRoleEnum             `json:"role"`
-		NamedCredentialId       *string                    `json:"namedCredentialId"`
-		Id                      *string                    `json:"id"`
-		CompartmentId           *string                    `json:"compartmentId"`
-		Name                    *string                    `json:"name"`
-		ScheduleType            JobScheduleTypeEnum        `json:"scheduleType"`
-		LifecycleState          JobLifecycleStateEnum      `json:"lifecycleState"`
-		TimeCreated             *common.SDKTime            `json:"timeCreated"`
-		TimeUpdated             *common.SDKTime            `json:"timeUpdated"`
-		OperationType           SqlJobOperationTypeEnum    `json:"operationType"`
+		Description             *string                           `json:"description"`
+		ManagedDatabaseGroupId  *string                           `json:"managedDatabaseGroupId"`
+		ManagedDatabaseId       *string                           `json:"managedDatabaseId"`
+		ManagedDatabasesDetails []JobDatabase                     `json:"managedDatabasesDetails"`
+		DatabaseSubType         DatabaseSubTypeEnum               `json:"databaseSubType"`
+		Timeout                 *string                           `json:"timeout"`
+		ResultLocation          jobexecutionresultlocation        `json:"resultLocation"`
+		ScheduleDetails         *JobScheduleDetails               `json:"scheduleDetails"`
+		SubmissionErrorMessage  *string                           `json:"submissionErrorMessage"`
+		SqlType                 SqlJobSqlTypeEnum                 `json:"sqlType"`
+		SqlText                 *string                           `json:"sqlText"`
+		InBinds                 *JobInBindsDetails                `json:"inBinds"`
+		OutBinds                *JobOutBindsDetails               `json:"outBinds"`
+		UserName                *string                           `json:"userName"`
+		Role                    SqlJobRoleEnum                    `json:"role"`
+		NamedCredentialId       *string                           `json:"namedCredentialId"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		Id                      *string                           `json:"id"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		Name                    *string                           `json:"name"`
+		ScheduleType            JobScheduleTypeEnum               `json:"scheduleType"`
+		LifecycleState          JobLifecycleStateEnum             `json:"lifecycleState"`
+		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
+		OperationType           SqlJobOperationTypeEnum           `json:"operationType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -292,6 +304,10 @@ func (m *SqlJob) UnmarshalJSON(data []byte) (e error) {
 	m.Role = model.Role
 
 	m.NamedCredentialId = model.NamedCredentialId
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	m.Id = model.Id
 

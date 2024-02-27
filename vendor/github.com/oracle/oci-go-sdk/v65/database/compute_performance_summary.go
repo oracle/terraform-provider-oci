@@ -18,7 +18,7 @@ import (
 // ComputePerformanceSummary Parameters detailing the compute performance for a specified DB system shape.
 type ComputePerformanceSummary struct {
 
-	// The number of OCPU cores available.
+	// The number of CPU cores available.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
 	// The amount of memory allocated for the VMDB System.

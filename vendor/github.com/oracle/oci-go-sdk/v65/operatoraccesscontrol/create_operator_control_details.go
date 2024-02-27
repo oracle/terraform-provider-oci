@@ -48,6 +48,9 @@ type CreateOperatorControlDetails struct {
 	// auto-approved if the access request only contain operator actions in the pre-approved list.
 	PreApprovedOpActionList []string `mandatory:"false" json:"preApprovedOpActionList"`
 
+	// Number of approvers required to approve an access request.
+	NumberOfApprovers *int `mandatory:"false" json:"numberOfApprovers"`
+
 	// List of emailId.
 	EmailIdList []string `mandatory:"false" json:"emailIdList"`
 

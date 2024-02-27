@@ -45,7 +45,7 @@ type CreateAutonomousVmClusterDetails struct {
 	// The number of CPU cores to enable per VM cluster node.
 	CpuCoreCountPerNode *int `mandatory:"false" json:"cpuCoreCountPerNode"`
 
-	// The compute model of the Autonomous VM Cluster.
+	// The compute model of the Autonomous VM Cluster. ECPU compute model is the recommended model and OCPU compute model is legacy.
 	ComputeModel CreateAutonomousVmClusterDetailsComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
 	// The amount of memory (in GBs) to be enabled per OCPU or ECPU.

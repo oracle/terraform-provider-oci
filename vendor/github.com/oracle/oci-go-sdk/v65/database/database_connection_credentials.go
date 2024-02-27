@@ -50,12 +50,12 @@ func (m *databaseconnectioncredentials) UnmarshalPolymorphicJSON(data []byte) (i
 
 	var err error
 	switch m.CredentialType {
-	case "NAME_REFERENCE":
-		mm := DatabaseConnectionCredentailsByName{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "SSL_DETAILS":
 		mm := DatabaseSslConnectionCredentials{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "NAME_REFERENCE":
+		mm := DatabaseConnectionCredentialsByName{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "DETAILS":

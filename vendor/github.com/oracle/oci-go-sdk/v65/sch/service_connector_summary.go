@@ -2,11 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Connector Hub API
+// Connector Hub API
 //
-// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Connector Hub, see
+// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// Connector Hub is formerly known as Service Connector Hub.
 //
 
 package sch
@@ -17,30 +18,30 @@ import (
 	"strings"
 )
 
-// ServiceConnectorSummary A summary of properties for the specified service connector.
+// ServiceConnectorSummary A summary of properties for the specified connector.
 type ServiceConnectorSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the service connector.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connector.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the service connector.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the connector.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The date and time when the service connector was created.
+	// The date and time when the connector was created.
 	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2020-01-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time when the service connector was updated.
+	// The date and time when the connector was updated.
 	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2020-01-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The current state of the service connector.
+	// The current state of the connector.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The description of the resource. Avoid entering confidential information.
