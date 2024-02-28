@@ -21,9 +21,6 @@ type CreateAutonomousContainerDatabaseDataguardAssociationDetails struct {
 	// The display name for the peer Autonomous Container Database.
 	PeerAutonomousContainerDatabaseDisplayName *string `mandatory:"true" json:"peerAutonomousContainerDatabaseDisplayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the peer cloud Autonomous Exadata VM Cluster.
-	PeerCloudAutonomousVmClusterId *string `mandatory:"true" json:"peerCloudAutonomousVmClusterId"`
-
 	// The protection mode of this Autonomous Data Guard association. For more information, see
 	// Oracle Data Guard Protection Modes (http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000)
 	// in the Oracle Data Guard documentation.
@@ -32,6 +29,15 @@ type CreateAutonomousContainerDatabaseDataguardAssociationDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where the standby Autonomous Container Database
 	// will be created.
 	PeerAutonomousContainerDatabaseCompartmentId *string `mandatory:"false" json:"peerAutonomousContainerDatabaseCompartmentId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the peer cloud Autonomous Exadata VM Cluster.
+	PeerCloudAutonomousVmClusterId *string `mandatory:"false" json:"peerCloudAutonomousVmClusterId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the peer Autonomous Exadata VM Cluster.
+	PeerAutonomousVmClusterId *string `mandatory:"false" json:"peerAutonomousVmClusterId"`
+
+	// Specifies the `DB_UNIQUE_NAME` of the peer database to be created.
+	PeerDbUniqueName *string `mandatory:"false" json:"peerDbUniqueName"`
 
 	PeerAutonomousContainerDatabaseBackupConfig *PeerAutonomousContainerDatabaseBackupConfig `mandatory:"false" json:"peerAutonomousContainerDatabaseBackupConfig"`
 

@@ -62,8 +62,10 @@ The following attributes are exported:
 		* `username` - The user to connect to the database.
 * `connection_status` - The status of connectivity to the external DB system component.
 * `connector_type` - The type of connector.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The user-friendly name for the external connector. The name does not have to be unique.
 * `external_db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system that the connector is a part of.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system connector.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current lifecycle state of the external DB system connector.

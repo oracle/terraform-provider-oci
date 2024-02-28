@@ -38,10 +38,23 @@ func DatabaseManagementExternalDbNodeResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"external_connector_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 
 			// Computed
@@ -169,6 +182,14 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) DeletedTarget() []string 
 func (s *DatabaseManagementExternalDbNodeResourceCrud) Create() error {
 	request := oci_database_management.UpdateExternalDbNodeRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if externalConnectorId, ok := s.D.GetOkExists("external_connector_id"); ok {
 		tmp := externalConnectorId.(string)
 		request.ExternalConnectorId = &tmp
@@ -177,6 +198,10 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) Create() error {
 	if externalDbNodeId, ok := s.D.GetOkExists("external_db_node_id"); ok {
 		tmp := externalDbNodeId.(string)
 		request.ExternalDbNodeId = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
@@ -284,10 +309,8 @@ func externalDbNodeWaitForWorkRequest(wId *string, entityType string, action oci
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			if res.ActionType == action {
-				identifier = res.Identifier
-				break
-			}
+			identifier = res.Identifier
+			break
 		}
 	}
 
@@ -342,6 +365,14 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) Get() error {
 func (s *DatabaseManagementExternalDbNodeResourceCrud) Update() error {
 	request := oci_database_management.UpdateExternalDbNodeRequest{}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if externalConnectorId, ok := s.D.GetOkExists("external_connector_id"); ok {
 		tmp := externalConnectorId.(string)
 		request.ExternalConnectorId = &tmp
@@ -349,6 +380,10 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.ExternalDbNodeId = &tmp
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
@@ -376,6 +411,10 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) SetData() error {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -391,6 +430,8 @@ func (s *DatabaseManagementExternalDbNodeResourceCrud) SetData() error {
 	if s.Res.ExternalDbSystemId != nil {
 		s.D.Set("external_db_system_id", *s.Res.ExternalDbSystemId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HostName != nil {
 		s.D.Set("host_name", *s.Res.HostName)
@@ -428,6 +469,10 @@ func ExternalDbNodeSummaryToMap(obj oci_database_management.ExternalDbNodeSummar
 		result["component_name"] = string(*obj.ComponentName)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -439,6 +484,8 @@ func ExternalDbNodeSummaryToMap(obj oci_database_management.ExternalDbNodeSummar
 	if obj.ExternalDbSystemId != nil {
 		result["external_db_system_id"] = string(*obj.ExternalDbSystemId)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.HostName != nil {
 		result["host_name"] = string(*obj.HostName)

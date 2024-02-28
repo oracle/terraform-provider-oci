@@ -18,6 +18,10 @@ func DatabaseCloudExadataInfrastructuresDataSource() *schema.Resource {
 		Read: readDatabaseCloudExadataInfrastructures,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -59,6 +63,11 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) VoidState() {
 
 func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) Get() error {
 	request := oci_database.ListCloudExadataInfrastructuresRequest{}
+
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -124,6 +133,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.AvailableStorageSizeInGBs != nil {
 			cloudExadataInfrastructure["available_storage_size_in_gbs"] = *r.AvailableStorageSizeInGBs
+		}
+
+		if r.ClusterPlacementGroupId != nil {
+			cloudExadataInfrastructure["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
 		}
 
 		if r.ComputeCount != nil {
@@ -224,6 +237,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 
 		if r.StorageServerVersion != nil {
 			cloudExadataInfrastructure["storage_server_version"] = *r.StorageServerVersion
+		}
+
+		if r.SystemTags != nil {
+			cloudExadataInfrastructure["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
 		}
 
 		if r.TimeCreated != nil {

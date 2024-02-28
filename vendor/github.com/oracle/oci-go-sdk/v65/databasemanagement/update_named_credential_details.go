@@ -32,6 +32,16 @@ type UpdateNamedCredentialDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource that
 	// is associated to the named credential.
 	AssociatedResource *string `mandatory:"false" json:"associatedResource"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdateNamedCredentialDetails) String() string {
@@ -56,10 +66,12 @@ func (m UpdateNamedCredentialDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateNamedCredentialDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description        *string                  `json:"description"`
-		Scope              NamedCredentialScopeEnum `json:"scope"`
-		Content            namedcredentialcontent   `json:"content"`
-		AssociatedResource *string                  `json:"associatedResource"`
+		Description        *string                           `json:"description"`
+		Scope              NamedCredentialScopeEnum          `json:"scope"`
+		Content            namedcredentialcontent            `json:"content"`
+		AssociatedResource *string                           `json:"associatedResource"`
+		FreeformTags       map[string]string                 `json:"freeformTags"`
+		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -82,6 +94,10 @@ func (m *UpdateNamedCredentialDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.AssociatedResource = model.AssociatedResource
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	return
 }

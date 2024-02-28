@@ -37,11 +37,15 @@ var (
 	}
 
 	DatabaseManagementExternalDbNodeRepresentation = map[string]interface{}{
-		"external_db_node_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_nodes.test_external_db_nodes.external_db_node_collection.0.items.1.id}`},
-		"external_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_nodes.test_external_db_nodes.external_db_node_collection.0.items.1.external_connector_id}`},
+		"external_db_node_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_nodes.test_external_db_nodes.external_db_node_collection.0.items.0.id}`},
+		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"external_connector_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_management_external_db_nodes.test_external_db_nodes.external_db_node_collection.0.items.0.external_connector_id}`},
+		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementDefinedTagsChangesRepresentation},
 	}
 
-	DatabaseManagementExternalDbNodeResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_db_nodes", "test_external_db_nodes", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalDbNodeDataSourceRepresentation)
+	DatabaseManagementExternalDbNodeResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_db_nodes", "test_external_db_nodes", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalDbNodeDataSourceRepresentation) +
+		DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -51,10 +55,10 @@ func TestDatabaseManagementExternalDbNodeResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	dbSystemId := utils.GetEnvSettingWithBlankDefault("external_dbsystem_id")
+	dbSystemId := utils.GetEnvSettingWithBlankDefault("dbmgmt_external_dbsystem_id")
 	dbSystemIdVariableStr := fmt.Sprintf("variable \"external_dbsystem_id\" { default = \"%s\" }\n", dbSystemId)
 
 	resourceName := "oci_database_management_external_db_node.test_external_db_node"
@@ -71,6 +75,27 @@ func TestDatabaseManagementExternalDbNodeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbNodeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_node", "test_external_db_node", acctest.Required, acctest.Create, DatabaseManagementExternalDbNodeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_db_node_id"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDbNodeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_node", "test_external_db_node", acctest.Optional, acctest.Create, DatabaseManagementExternalDbNodeRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "component_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_connector_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_db_node_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "external_db_system_id"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 
 				func(s *terraform.State) (err error) {
@@ -104,6 +129,7 @@ func TestDatabaseManagementExternalDbNodeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "component_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "domain_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

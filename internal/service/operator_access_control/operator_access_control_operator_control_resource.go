@@ -86,6 +86,11 @@ func OperatorAccessControlOperatorControlResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"number_of_approvers": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"pre_approved_op_action_list": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -271,6 +276,11 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) Create() error {
 		request.IsFullyPreApproved = &tmp
 	}
 
+	if numberOfApprovers, ok := s.D.GetOkExists("number_of_approvers"); ok {
+		tmp := numberOfApprovers.(int)
+		request.NumberOfApprovers = &tmp
+	}
+
 	if operatorControlName, ok := s.D.GetOkExists("operator_control_name"); ok {
 		tmp := operatorControlName.(string)
 		request.OperatorControlName = &tmp
@@ -399,6 +409,11 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) Update() error {
 		request.IsFullyPreApproved = &tmp
 	}
 
+	if numberOfApprovers, ok := s.D.GetOkExists("number_of_approvers"); ok {
+		tmp := numberOfApprovers.(int)
+		request.NumberOfApprovers = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.OperatorControlId = &tmp
 
@@ -488,6 +503,10 @@ func (s *OperatorAccessControlOperatorControlResourceCrud) SetData() error {
 		s.D.Set("last_modified_info", *s.Res.LastModifiedInfo)
 	}
 
+	if s.Res.NumberOfApprovers != nil {
+		s.D.Set("number_of_approvers", *s.Res.NumberOfApprovers)
+	}
+
 	if s.Res.OperatorControlName != nil {
 		s.D.Set("operator_control_name", *s.Res.OperatorControlName)
 	}
@@ -536,6 +555,10 @@ func OperatorControlSummaryToMap(obj oci_operator_access_control.OperatorControl
 
 	if obj.IsFullyPreApproved != nil {
 		result["is_fully_pre_approved"] = bool(*obj.IsFullyPreApproved)
+	}
+
+	if obj.NumberOfApprovers != nil {
+		result["number_of_approvers"] = int(*obj.NumberOfApprovers)
 	}
 
 	if obj.OperatorControlName != nil {

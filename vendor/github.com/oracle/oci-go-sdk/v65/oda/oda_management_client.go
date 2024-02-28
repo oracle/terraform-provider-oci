@@ -91,6 +91,132 @@ func (client *ManagementClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
+// BulkCreateSkillEntities Bulk create composite and value list entities into a skill.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/BulkCreateSkillEntities.go.html to see an example of how to use BulkCreateSkillEntities API.
+// A default retry strategy applies to this operation BulkCreateSkillEntities()
+func (client ManagementClient) BulkCreateSkillEntities(ctx context.Context, request BulkCreateSkillEntitiesRequest) (response BulkCreateSkillEntitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.bulkCreateSkillEntities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkCreateSkillEntitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkCreateSkillEntitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkCreateSkillEntitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkCreateSkillEntitiesResponse")
+	}
+	return
+}
+
+// bulkCreateSkillEntities implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) bulkCreateSkillEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/skills/{skillId}/actions/bulkCreateEntities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BulkCreateSkillEntitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/Skill/BulkCreateSkillEntities"
+		err = common.PostProcessServiceError(err, "Management", "BulkCreateSkillEntities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CascadingDeleteSkillCustomEntities Cascading delete of the custom entities in a skill.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/CascadingDeleteSkillCustomEntities.go.html to see an example of how to use CascadingDeleteSkillCustomEntities API.
+// A default retry strategy applies to this operation CascadingDeleteSkillCustomEntities()
+func (client ManagementClient) CascadingDeleteSkillCustomEntities(ctx context.Context, request CascadingDeleteSkillCustomEntitiesRequest) (response CascadingDeleteSkillCustomEntitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cascadingDeleteSkillCustomEntities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CascadingDeleteSkillCustomEntitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CascadingDeleteSkillCustomEntitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CascadingDeleteSkillCustomEntitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CascadingDeleteSkillCustomEntitiesResponse")
+	}
+	return
+}
+
+// cascadingDeleteSkillCustomEntities implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) cascadingDeleteSkillCustomEntities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/skills/{skillId}/actions/cascadingDeleteCustomEntities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CascadingDeleteSkillCustomEntitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/Skill/CascadingDeleteSkillCustomEntities"
+		err = common.PostProcessServiceError(err, "Management", "CascadingDeleteSkillCustomEntities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeOdaPrivateEndpointCompartment Starts an asynchronous job to move the specified ODA Private Endpoint into a different compartment.
 // To monitor the status of the job, take the `opc-work-request-id` response header
 // value and use it to call `GET /workRequests/{workRequestID}`.
@@ -2975,6 +3101,69 @@ func (client ManagementClient) stopChannel(ctx context.Context, request common.O
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &channel{})
+	return response, err
+}
+
+// TrainSkill Train a skill.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/oda/TrainSkill.go.html to see an example of how to use TrainSkill API.
+// A default retry strategy applies to this operation TrainSkill()
+func (client ManagementClient) TrainSkill(ctx context.Context, request TrainSkillRequest) (response TrainSkillResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.trainSkill, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TrainSkillResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TrainSkillResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TrainSkillResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TrainSkillResponse")
+	}
+	return
+}
+
+// trainSkill implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) trainSkill(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/skills/{skillId}/actions/train", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TrainSkillResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/Skill/TrainSkill"
+		err = common.PostProcessServiceError(err, "Management", "TrainSkill", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

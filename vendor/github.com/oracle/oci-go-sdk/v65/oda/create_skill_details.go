@@ -28,6 +28,9 @@ type CreateSkillDetails interface {
 	// The ODA Platform Version for this resource.
 	GetPlatformVersion() *string
 
+	// The resource's dialog version.
+	GetDialogVersion() *string
+
 	// The multilingual mode for the resource.
 	GetMultilingualMode() BotMultilingualModeEnum
 
@@ -48,6 +51,7 @@ type createskilldetails struct {
 	Category           *string                           `mandatory:"false" json:"category"`
 	Description        *string                           `mandatory:"false" json:"description"`
 	PlatformVersion    *string                           `mandatory:"false" json:"platformVersion"`
+	DialogVersion      *string                           `mandatory:"false" json:"dialogVersion"`
 	MultilingualMode   BotMultilingualModeEnum           `mandatory:"false" json:"multilingualMode,omitempty"`
 	PrimaryLanguageTag *string                           `mandatory:"false" json:"primaryLanguageTag"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
@@ -69,6 +73,7 @@ func (m *createskilldetails) UnmarshalJSON(data []byte) error {
 	m.Category = s.Model.Category
 	m.Description = s.Model.Description
 	m.PlatformVersion = s.Model.PlatformVersion
+	m.DialogVersion = s.Model.DialogVersion
 	m.MultilingualMode = s.Model.MultilingualMode
 	m.PrimaryLanguageTag = s.Model.PrimaryLanguageTag
 	m.FreeformTags = s.Model.FreeformTags
@@ -122,6 +127,11 @@ func (m createskilldetails) GetDescription() *string {
 // GetPlatformVersion returns PlatformVersion
 func (m createskilldetails) GetPlatformVersion() *string {
 	return m.PlatformVersion
+}
+
+// GetDialogVersion returns DialogVersion
+func (m createskilldetails) GetDialogVersion() *string {
+	return m.DialogVersion
 }
 
 // GetMultilingualMode returns MultilingualMode

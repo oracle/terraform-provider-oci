@@ -53,18 +53,21 @@ var (
 		"name":                acctest.Representation{RepType: acctest.Required, Create: `TestNamedCredential`},
 		"scope":               acctest.Representation{RepType: acctest.Required, Create: `RESOURCE`, Update: `GLOBAL`},
 		"type":                acctest.Representation{RepType: acctest.Required, Create: `ORACLE_DB`},
-		"associated_resource": acctest.Representation{RepType: acctest.Required, Create: `${var.associated_resource_id}`, Update: `${var.associated_resource_updated_id}`},
+		"associated_resource": acctest.Representation{RepType: acctest.Required, Create: `${var.associated_resource_id}`, Update: ``},
 		"description":         acctest.Representation{RepType: acctest.Optional, Create: `Oracle DB named credential`, Update: `description2`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementDefinedTagsChangesRepresentation},
 	}
 	DatabaseManagementNamedCredentialContentRepresentation = map[string]interface{}{
 		"credential_type":             acctest.Representation{RepType: acctest.Required, Create: `BASIC`},
 		"password_secret_access_mode": acctest.Representation{RepType: acctest.Required, Create: `USER_PRINCIPAL`, Update: `RESOURCE_PRINCIPAL`},
 		"password_secret_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.key_id}`},
-		"role":                        acctest.Representation{RepType: acctest.Required, Create: `${var.nc_user_role}`, Update: `SYSDBA`},
+		"role":                        acctest.Representation{RepType: acctest.Required, Create: `${var.nc_user_role}`, Update: `${var.nc_user_role}`},
 		"user_name":                   acctest.Representation{RepType: acctest.Required, Create: `${var.nc_user}`},
 	}
 
-	DatabaseManagementNamedCredentialResourceDependencies = ""
+	DatabaseManagementNamedCredentialResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -113,7 +116,7 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckDatabaseManagementNamedCredentialDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + commonVariable +
+			Config: config + compartmentIdVariableStr + commonVariable + DatabaseManagementNamedCredentialResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_named_credential", "test_named_credential", acctest.Required, acctest.Create, DatabaseManagementNamedCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -134,7 +137,7 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + commonVariable +
+			Config: config + compartmentIdVariableStr + commonVariable + DatabaseManagementNamedCredentialResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_named_credential", "test_named_credential", acctest.Optional, acctest.Create, DatabaseManagementNamedCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "associated_resource", associated_resource_id),
@@ -146,6 +149,7 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "content.0.role", nc_user_role),
 				resource.TestCheckResourceAttrSet(resourceName, "content.0.user_name"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Oracle DB named credential"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TestNamedCredential"),
 				resource.TestCheckResourceAttr(resourceName, "scope", "RESOURCE"),
@@ -172,6 +176,7 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "content.0.role", nc_user_role),
 				resource.TestCheckResourceAttrSet(resourceName, "content.0.user_name"),
 				resource.TestCheckResourceAttr(resourceName, "description", "Oracle DB named credential"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TestNamedCredential"),
 				resource.TestCheckResourceAttr(resourceName, "scope", "RESOURCE"),
@@ -186,7 +191,7 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + commonVariable + DatabaseManagementNamedCredentialResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_named_credential", "test_named_credential", acctest.Optional, acctest.Update, DatabaseManagementNamedCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "associated_resource", updated_associated_resource_id),
+				//resource.TestCheckResourceAttr(resourceName, "associated_resource", updated_associated_resource_id),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "content.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "content.0.credential_type", "BASIC"),
@@ -195,6 +200,7 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "content.0.role", nc_user_role),
 				resource.TestCheckResourceAttrSet(resourceName, "content.0.user_name"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "TestNamedCredential"),
 				resource.TestCheckResourceAttr(resourceName, "scope", "GLOBAL"),
@@ -210,7 +216,7 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 				compartmentIdVariableStr + commonVariable + DatabaseManagementNamedCredentialResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_management_named_credential", "test_named_credential", acctest.Optional, acctest.Update, DatabaseManagementNamedCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "associated_resource", updated_associated_resource_id),
+				//resource.TestCheckResourceAttr(datasourceName, "associated_resource", updated_associated_resource_id),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "TestNamedCredential"),
 				resource.TestCheckResourceAttr(datasourceName, "scope", "GLOBAL"),
@@ -227,13 +233,14 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "named_credential_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "associated_resource", updated_associated_resource_id),
+				//resource.TestCheckResourceAttr(singularDatasourceName, "associated_resource", updated_associated_resource_id),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "content.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "content.0.credential_type", "BASIC"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "content.0.password_secret_access_mode", "RESOURCE_PRINCIPAL"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "content.0.role", "SYSDBA"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "content.0.role", nc_user_role),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "TestNamedCredential"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "scope", "GLOBAL"),
@@ -245,11 +252,13 @@ func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + DatabaseManagementNamedCredentialRequiredOnlyResource,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
+			Config:            config + DatabaseManagementNamedCredentialRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"associated_resource",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }

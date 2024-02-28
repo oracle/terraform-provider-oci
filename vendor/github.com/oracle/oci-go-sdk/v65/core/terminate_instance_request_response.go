@@ -30,6 +30,11 @@ type TerminateInstanceRequest struct {
 	// When set to `true`, the boot volume is preserved. The default value is `false`.
 	PreserveBootVolume *bool `mandatory:"false" contributesTo:"query" name:"preserveBootVolume"`
 
+	// Specifies whether to delete or preserve the data volumes created during launch when
+	// terminating an instance. When set to `true`, the data volumes are preserved. The
+	// default value is `true`.
+	PreserveDataVolumesCreatedAtLaunch *bool `mandatory:"false" contributesTo:"query" name:"preserveDataVolumesCreatedAtLaunch"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

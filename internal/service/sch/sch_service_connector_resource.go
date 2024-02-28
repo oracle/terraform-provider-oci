@@ -5,6 +5,7 @@ package sch
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"strings"
@@ -56,11 +57,18 @@ func SchServiceConnectorResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"logging",
 								"monitoring",
+								"plugin",
 								"streaming",
 							}, true),
 						},
 
 						// Optional
+						"config_map": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.JsonStringDiffSuppressFunction,
+						},
 						"cursor": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -190,6 +198,11 @@ func SchServiceConnectorResource() *schema.Resource {
 								},
 							},
 						},
+						"plugin_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"stream_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -229,6 +242,21 @@ func SchServiceConnectorResource() *schema.Resource {
 							Computed: true,
 						},
 						"batch_rollover_time_in_ms": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"batch_size_in_kbs": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"batch_size_in_num": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"batch_time_in_sec": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -1315,6 +1343,28 @@ func ServiceConnectorSummaryToMap(obj oci_sch.ServiceConnectorSummary) map[strin
 	return result
 }
 
+func stringToConfigMapJsonObject(options string) (*interface{}, error) {
+	var result interface{}
+	var err error
+
+	var obj interface{}
+	err = json.Unmarshal([]byte(options), &obj)
+	result = &obj
+
+	return &result, err
+}
+
+func ConfigMapJsonObjectToString(obj *interface{}) string {
+	var result string
+
+	if obj != nil {
+		var bytes, _ = json.Marshal(obj)
+		result = string(bytes)
+	}
+
+	return result
+}
+
 func (s *SchServiceConnectorResourceCrud) mapToSourceDetails(fieldKeyFormat string) (oci_sch.SourceDetails, error) {
 	var baseObject oci_sch.SourceDetails
 	//discriminator
@@ -1364,6 +1414,20 @@ func (s *SchServiceConnectorResourceCrud) mapToSourceDetails(fieldKeyFormat stri
 			}
 		}
 		baseObject = details
+	case strings.ToLower("plugin"):
+		details := oci_sch.PluginSourceDetails{}
+		if configMap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "config_map")); ok {
+			tmp, err := stringToConfigMapJsonObject(configMap.(string))
+			if err != nil {
+				return details, err
+			}
+			details.ConfigMap = tmp
+		}
+		if pluginName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "plugin_name")); ok {
+			tmp := pluginName.(string)
+			details.PluginName = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("streaming"):
 		details := oci_sch.StreamingSourceDetails{}
 		if cursor, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cursor")); ok {
@@ -1406,6 +1470,14 @@ func SourceDetailsToMap(obj *oci_sch.SourceDetails) map[string]interface{} {
 			monitoringSources = append(monitoringSources, MonitoringSourceToMap(item))
 		}
 		result["monitoring_sources"] = monitoringSources
+	case oci_sch.PluginSourceDetails:
+		result["kind"] = "plugin"
+
+		result["config_map"] = ConfigMapJsonObjectToString(v.ConfigMap)
+
+		if v.PluginName != nil {
+			result["plugin_name"] = string(*v.PluginName)
+		}
 	case oci_sch.StreamingSourceDetails:
 		result["kind"] = "streaming"
 
@@ -1479,6 +1551,18 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 	switch strings.ToLower(kind) {
 	case strings.ToLower("functions"):
 		details := oci_sch.FunctionsTargetDetails{}
+		if batchSizeInKbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_size_in_kbs")); ok {
+			tmp := batchSizeInKbs.(int)
+			details.BatchSizeInKbs = &tmp
+		}
+		if batchSizeInNum, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_size_in_num")); ok {
+			tmp := batchSizeInNum.(int)
+			details.BatchSizeInNum = &tmp
+		}
+		if batchTimeInSec, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_time_in_sec")); ok {
+			tmp := batchTimeInSec.(int)
+			details.BatchTimeInSec = &tmp
+		}
 		if functionId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "function_id")); ok {
 			tmp := functionId.(string)
 			details.FunctionId = &tmp
@@ -1579,6 +1663,18 @@ func TargetDetailsToMap(obj *oci_sch.TargetDetails) map[string]interface{} {
 	switch v := (*obj).(type) {
 	case oci_sch.FunctionsTargetDetails:
 		result["kind"] = "functions"
+
+		if v.BatchSizeInKbs != nil {
+			result["batch_size_in_kbs"] = int(*v.BatchSizeInKbs)
+		}
+
+		if v.BatchSizeInNum != nil {
+			result["batch_size_in_num"] = int(*v.BatchSizeInNum)
+		}
+
+		if v.BatchTimeInSec != nil {
+			result["batch_time_in_sec"] = int(*v.BatchTimeInSec)
+		}
 
 		if v.FunctionId != nil {
 			result["function_id"] = string(*v.FunctionId)

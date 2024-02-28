@@ -46,6 +46,9 @@ type KeyVersionSummary struct {
 	TimeOfDeletion *common.SDKTime `mandatory:"false" json:"timeOfDeletion"`
 
 	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
+
+	// An optional property indicating whether this keyversion is generated from auto rotatation.
+	IsAutoRotated *bool `mandatory:"false" json:"isAutoRotated"`
 }
 
 func (m KeyVersionSummary) String() string {

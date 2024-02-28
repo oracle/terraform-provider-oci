@@ -19,7 +19,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"regexp"
-
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
@@ -86,6 +85,55 @@ func KmsKeyResource() *schema.Resource {
 			},
 
 			// Optional
+			"auto_key_rotation_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"last_rotation_message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"last_rotation_status": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"rotation_interval_in_days": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"time_of_last_rotation": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"time_of_next_rotation": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+						"time_of_schedule_start": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -120,6 +168,11 @@ func KmsKeyResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_auto_rotation_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"protection_mode": {
 				Type:     schema.TypeString,
@@ -449,6 +502,17 @@ func (s *KmsKeyResourceCrud) Create() error {
 
 	request := oci_kms.CreateKeyRequest{}
 
+	if autoKeyRotationDetails, ok := s.D.GetOkExists("auto_key_rotation_details"); ok {
+		if tmpList := autoKeyRotationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "auto_key_rotation_details", 0)
+			tmp, err := s.mapToAutoKeyRotationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AutoKeyRotationDetails = &tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -480,6 +544,11 @@ func (s *KmsKeyResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isAutoRotationEnabled, ok := s.D.GetOkExists("is_auto_rotation_enabled"); ok {
+		tmp := isAutoRotationEnabled.(bool)
+		request.IsAutoRotationEnabled = &tmp
 	}
 
 	if keyShape, ok := s.D.GetOkExists("key_shape"); ok {
@@ -520,7 +589,6 @@ func (s *KmsKeyResourceCrud) Get() error {
 	if err != nil {
 		return err
 	}
-
 	s.Res = &response.Key
 	return nil
 }
@@ -555,6 +623,17 @@ func (s *KmsKeyResourceCrud) UpdateKeyDetails() error {
 	}
 	request := oci_kms.UpdateKeyRequest{}
 
+	if autoKeyRotationDetails, ok := s.D.GetOkExists("auto_key_rotation_details"); ok {
+		if tmpList := autoKeyRotationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "auto_key_rotation_details", 0)
+			tmp, err := s.mapToAutoKeyRotationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AutoKeyRotationDetails = &tmp
+		}
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -569,6 +648,12 @@ func (s *KmsKeyResourceCrud) UpdateKeyDetails() error {
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
+
+	if isAutoRotationEnabled, ok := s.D.GetOkExists("is_auto_rotation_enabled"); ok {
+		tmp := isAutoRotationEnabled.(bool)
+		request.IsAutoRotationEnabled = &tmp
+	}
+
 	tmp := s.D.Id()
 
 	request.KeyId = &tmp
@@ -624,6 +709,11 @@ func (s *KmsKeyResourceCrud) Delete() error {
 		request.TimeOfDeletion = &oci_common.SDKTime{Time: tmpTime}
 	}
 
+	if s.Res != nil && s.Res.AutoKeyRotationDetails != nil {
+		s.D.Set("auto_key_rotation_details", []interface{}{AutoKeyRotationDetailsToMap(s.Res.AutoKeyRotationDetails)})
+	} else {
+		s.D.Set("auto_key_rotation_details", nil)
+	}
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "kms")
 	tmp := s.D.Id()
 	request.KeyId = &tmp
@@ -656,6 +746,10 @@ func (s *KmsKeyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsAutoRotationEnabled != nil {
+		s.D.Set("is_auto_rotation_enabled", *s.Res.IsAutoRotationEnabled)
+	}
 
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
@@ -696,6 +790,52 @@ func (s *KmsKeyResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *KmsKeyResourceCrud) mapToAutoKeyRotationDetails(fieldKeyFormat string) (oci_kms.AutoKeyRotationDetails, error) {
+	result := oci_kms.AutoKeyRotationDetails{}
+	if rotationIntervalInDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rotation_interval_in_days")); ok {
+		tmp := rotationIntervalInDays.(int)
+		result.RotationIntervalInDays = &tmp
+	}
+
+	if timeOfScheduleStart, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_of_schedule_start")); ok {
+		tmp, err := time.Parse(time.RFC3339Nano, timeOfScheduleStart.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeOfScheduleStart = &oci_common.SDKTime{Time: tmp}
+	}
+
+	return result, nil
+}
+
+func AutoKeyRotationDetailsToMap(obj *oci_kms.AutoKeyRotationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.LastRotationMessage != nil {
+		result["last_rotation_message"] = string(*obj.LastRotationMessage)
+	}
+
+	result["last_rotation_status"] = string(obj.LastRotationStatus)
+
+	if obj.RotationIntervalInDays != nil {
+		result["rotation_interval_in_days"] = int(*obj.RotationIntervalInDays)
+	}
+
+	if obj.TimeOfLastRotation != nil {
+		result["time_of_last_rotation"] = obj.TimeOfLastRotation.Format(time.RFC3339Nano)
+	}
+
+	if obj.TimeOfNextRotation != nil {
+		result["time_of_next_rotation"] = obj.TimeOfNextRotation.Format(time.RFC3339Nano)
+	}
+
+	if obj.TimeOfScheduleStart != nil {
+		result["time_of_schedule_start"] = obj.TimeOfScheduleStart.Format(time.RFC3339Nano)
+	}
+
+	return result
 }
 
 func (s *KmsKeyResourceCrud) mapToExternalKeyReference(fieldKeyFormat string) (oci_kms.ExternalKeyReference, error) {

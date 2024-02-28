@@ -72,6 +72,9 @@ type AccessRequestSummary struct {
 	// Whether the access request was automatically approved.
 	IsAutoApproved *bool `mandatory:"false" json:"isAutoApproved"`
 
+	// Time in future when the user for the access request needs to be created in RFC 3339 (https://tools.ietf.org/html/rfc3339)timestamp format. Example: '2020-05-22T21:10:29.600Z'
+	TimeRequestedForFutureAccess *common.SDKTime `mandatory:"false" json:"timeRequestedForFutureAccess"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

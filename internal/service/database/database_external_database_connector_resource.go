@@ -451,7 +451,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) mapToDatabaseConnectionC
 		}
 		baseObject = details
 	case strings.ToLower("NAME_REFERENCE"):
-		details := oci_database.DatabaseConnectionCredentailsByName{}
+		details := oci_database.DatabaseConnectionCredentialsByName{}
 		if credentialName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_name")); ok {
 			tmp := credentialName.(string)
 			details.CredentialName = &tmp
@@ -504,7 +504,7 @@ func (s *DatabaseExternalDatabaseConnectorResourceCrud) DatabaseConnectionCreden
 		if username, ok := s.D.GetOkExists("connection_credentials.0.username"); ok && username != nil {
 			result["username"] = username.(string)
 		}
-	case oci_database.DatabaseConnectionCredentailsByName:
+	case oci_database.DatabaseConnectionCredentialsByName:
 		result["credential_type"] = "NAME_REFERENCE"
 
 		if v.CredentialName != nil {

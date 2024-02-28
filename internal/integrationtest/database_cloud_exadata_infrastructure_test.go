@@ -38,26 +38,33 @@ var (
 	}
 
 	DatabaseDatabaseCloudExadataInfrastructureDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tstExaInfra`, Update: `displayName2`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseCloudExadataInfrastructureDataSourceFilterRepresentation}}
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: `FakeClusterPlacementGroupId`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `tstExaInfra`, Update: `displayName2`},
+		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseCloudExadataInfrastructureDataSourceFilterRepresentation}}
 	DatabaseCloudExadataInfrastructureDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`}},
 	}
 
+	CloudExadataInfrastructureIgnoreDefinedTagsRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	DatabaseCloudExadataInfrastructureRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `tstExaInfra`, Update: `displayName2`},
-		"shape":               acctest.Representation{RepType: acctest.Required, Create: `Exadata.X8M`},
-		"compute_count":       acctest.Representation{RepType: acctest.Required, Create: `2`}, // required for shape Exadata.X8M
-		"customer_contacts":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureCustomerContactsRepresentation},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"maintenance_window":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowRepresentation},
-		"storage_count":       acctest.Representation{RepType: acctest.Required, Create: `3`}, // required for shape Exadata.X8M
+		"availability_domain":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `tstExaInfra`, Update: `displayName2`},
+		"shape":                      acctest.Representation{RepType: acctest.Required, Create: `Exadata.X8M`},
+		"compute_count":              acctest.Representation{RepType: acctest.Required, Create: `2`}, // required for shape Exadata.X8M
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: `FakeClusterPlacementGroupId`},
+		"customer_contacts":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureCustomerContactsRepresentation},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"maintenance_window":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseCloudExadataInfrastructureMaintenanceWindowRepresentation},
+		"storage_count":              acctest.Representation{RepType: acctest.Required, Create: `3`}, // required for shape Exadata.X8M
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudExadataInfrastructureIgnoreDefinedTagsRepresentation},
 	}
 
 	DatabaseCloudExadataInfrastructureMVMRepresentation = map[string]interface{}{
@@ -157,12 +164,14 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Create, DatabaseCloudExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", "FakeClusterPlacementGroupId"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "10"),
@@ -201,12 +210,14 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", "FakeClusterPlacementGroupId"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "10"),
@@ -240,12 +251,14 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, DatabaseCloudExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", "FakeClusterPlacementGroupId"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compute_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "11"),
@@ -279,6 +292,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseCloudExadataInfrastructureResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_cloud_exadata_infrastructure", "test_cloud_exadata_infrastructure", acctest.Optional, acctest.Update, DatabaseCloudExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "cluster_placement_group_id", "FakeClusterPlacementGroupId"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -286,6 +300,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.availability_domain"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.available_storage_size_in_gbs"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.cluster_placement_group_id", "FakeClusterPlacementGroupId"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.compute_count", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.#", "1"),
@@ -293,6 +308,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.id"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.last_maintenance_run_id"), // null for fake resource
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.maintenance_window.#", "1"),
@@ -335,6 +351,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "customer_contacts.0.email", "test2@oracle.com"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "last_maintenance_run_id"), // null for fake resource
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
@@ -442,6 +459,7 @@ func TestDatabaseCloudExadataInfrastructureResourceMVM(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "customer_contacts.0.email", "test@oracle.com"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "10"),
@@ -486,6 +504,7 @@ func TestDatabaseCloudExadataInfrastructureResourceMVM(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "db_node_storage_size_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.#", "1"),
 				//resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.custom_action_timeout_in_mins", "11"),

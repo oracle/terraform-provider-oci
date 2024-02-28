@@ -387,6 +387,68 @@ func (client DataCatalogClient) associateCustomProperty(ctx context.Context, req
 	return response, err
 }
 
+// AsynchronousExportDataAsset Export technical objects from a Data Asset in Excel format. Returns details about the job which actually performs the export.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datacatalog/AsynchronousExportDataAsset.go.html to see an example of how to use AsynchronousExportDataAsset API.
+func (client DataCatalogClient) AsynchronousExportDataAsset(ctx context.Context, request AsynchronousExportDataAssetRequest) (response AsynchronousExportDataAssetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.asynchronousExportDataAsset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AsynchronousExportDataAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AsynchronousExportDataAssetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AsynchronousExportDataAssetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AsynchronousExportDataAssetResponse")
+	}
+	return
+}
+
+// asynchronousExportDataAsset implements the OCIOperation interface (enables retrying operations)
+func (client DataCatalogClient) asynchronousExportDataAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/catalogs/{catalogId}/dataAssets/{dataAssetKey}/actions/asynchronousExport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AsynchronousExportDataAssetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-catalog/20190325/DataAsset/AsynchronousExportDataAsset"
+		err = common.PostProcessServiceError(err, "DataCatalog", "AsynchronousExportDataAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AsynchronousExportGlossary Exports the contents of a glossary in Excel format. Returns details about the job which actually performs the export.
 //
 // # See also

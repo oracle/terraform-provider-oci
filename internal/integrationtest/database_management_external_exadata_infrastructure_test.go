@@ -49,12 +49,14 @@ var (
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"db_system_ids":        acctest.Representation{RepType: acctest.Required, Create: []string{`${var.db_system_id}`}},
 		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `exadataInfra_Terraform_testing`, Update: `exadataInfra_Terraform_testingUpdate`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"discovery_key":        acctest.Representation{RepType: acctest.Optional, Create: `${var.discovery_key}`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"license_model":        acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
-		"storage_server_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`scaqan10celadm07`}, Update: []string{`scaqan10celadm07`, `scaqan10celadm08`}},
+		"storage_server_names": acctest.Representation{RepType: acctest.Optional, Create: []string{`slcm08celadm04`}, Update: []string{`slcm08celadm04`, `slcm08celadm05`}},
 	}
 
-	DatabaseManagementExternalExadataInfrastructureResourceDependencies = ""
+	DatabaseManagementExternalExadataInfrastructureResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: database_management/default
@@ -64,7 +66,7 @@ func TestDatabaseManagementExternalExadataInfrastructureResource_basic(t *testin
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
@@ -73,7 +75,7 @@ func TestDatabaseManagementExternalExadataInfrastructureResource_basic(t *testin
 	discoveryKey := utils.GetEnvSettingWithBlankDefault("discovery_key")
 	discoveryKeyStr := fmt.Sprintf("variable \"discovery_key\" { default = \"%s\" }\n", discoveryKey)
 
-	dbSystemId := utils.GetEnvSettingWithBlankDefault("db_system_id")
+	dbSystemId := utils.GetEnvSettingWithBlankDefault("exa_db_system_id")
 	dbSystemIdStr := fmt.Sprintf("variable \"db_system_id\" { default = \"%s\" }\n", dbSystemId)
 
 	resourceName := "oci_database_management_external_exadata_infrastructure.test_external_exadata_infrastructure"
@@ -123,6 +125,7 @@ func TestDatabaseManagementExternalExadataInfrastructureResource_basic(t *testin
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "db_system_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "exadataInfra_Terraform_testing"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -142,6 +145,7 @@ func TestDatabaseManagementExternalExadataInfrastructureResource_basic(t *testin
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "db_system_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "exadataInfra_Terraform_testing"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 
@@ -163,6 +167,7 @@ func TestDatabaseManagementExternalExadataInfrastructureResource_basic(t *testin
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "db_system_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "exadataInfra_Terraform_testingUpdate"),
+				resource.TestCheckResourceAttrSet(resourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
 
@@ -180,7 +185,7 @@ func TestDatabaseManagementExternalExadataInfrastructureResource_basic(t *testin
 			Config: config + dbSystemIdStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_external_exadata_infrastructures", "test_external_exadata_infrastructures", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementExternalExadataInfrastructureDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseManagementExternalExadataInfrastructureResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_exadata_infrastructure", "test_external_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseManagementExternalExadataInfrastructureRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_exadata_infrastructure", "test_external_exadata_infrastructure", acctest.Required, acctest.Update, DatabaseManagementExternalExadataInfrastructureRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 
@@ -200,6 +205,7 @@ func TestDatabaseManagementExternalExadataInfrastructureResource_basic(t *testin
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_compartments.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "database_systems.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "exadataInfra_Terraform_testingUpdate"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "freeform_tags.%"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_grid.#", "1"),

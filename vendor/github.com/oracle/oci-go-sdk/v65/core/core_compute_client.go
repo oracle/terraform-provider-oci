@@ -5478,6 +5478,8 @@ func (client ComputeClient) removeImageShapeCompatibilityEntry(ctx context.Conte
 // when the instance terminates.
 // To preserve the boot volume associated with the instance, specify `true` for `PreserveBootVolumeQueryParam`.
 // To delete the boot volume when the instance is deleted, specify `false` or do not specify a value for `PreserveBootVolumeQueryParam`.
+// To preserve data volumes created with the instance, specify `true` or do not specify a value for `PreserveDataVolumesQueryParam`.
+// To delete the data volumes when the instance itself is deleted, specify `false` for `PreserveDataVolumesQueryParam`.
 // This is an asynchronous operation. The instance's `lifecycleState` changes to TERMINATING temporarily
 // until the instance is completely deleted. After the instance is deleted, the record remains visible in the list of instances
 // with the state TERMINATED for at least 12 hours, but no further action is needed.

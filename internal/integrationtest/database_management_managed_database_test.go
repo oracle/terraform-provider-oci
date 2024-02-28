@@ -40,10 +40,10 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	testManagedDatabaseId := utils.GetEnvSettingWithBlankDefault("test_managed_database_id")
+	testManagedDatabaseId := utils.GetEnvSettingWithBlankDefault("dbmgmt_managed_database_id")
 	testManagedDatabaseIdVariableStr := fmt.Sprintf("variable \"test_managed_database_id\" { default = \"%s\" }\n", testManagedDatabaseId)
 
 	datasourceName := "data.oci_database_management_managed_databases.test_managed_databases"
@@ -79,6 +79,7 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_sub_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

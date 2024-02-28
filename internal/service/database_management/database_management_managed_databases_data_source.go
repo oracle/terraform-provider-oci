@@ -47,6 +47,7 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -78,13 +79,27 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"database_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"db_system_id": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"deployment_type": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
 									},
 									"id": {
 										Type:     schema.TypeString,
@@ -251,70 +266,4 @@ func (s *DatabaseManagementManagedDatabasesDataSourceCrud) SetData() error {
 	}
 
 	return nil
-}
-
-func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	result["database_sub_type"] = string(obj.DatabaseSubType)
-
-	result["database_type"] = string(obj.DatabaseType)
-
-	if obj.DbSystemId != nil {
-		result["db_system_id"] = string(*obj.DbSystemId)
-	}
-
-	result["deployment_type"] = string(obj.DeploymentType)
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	if obj.IsCluster != nil {
-		result["is_cluster"] = bool(*obj.IsCluster)
-	}
-
-	result["management_option"] = string(obj.ManagementOption)
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	if obj.ParentContainerId != nil {
-		result["parent_container_id"] = string(*obj.ParentContainerId)
-	}
-
-	if obj.StorageSystemId != nil {
-		result["storage_system_id"] = string(*obj.StorageSystemId)
-	}
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	result["workload_type"] = string(obj.WorkloadType)
-
-	return result
-}
-
-func ParentGroupToMap(obj oci_database_management.ParentGroup) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	return result
 }

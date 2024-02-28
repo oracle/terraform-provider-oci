@@ -260,6 +260,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 			cloudVmCluster["subnet_id"] = *r.SubnetId
 		}
 
+		if r.SystemTags != nil {
+			cloudVmCluster["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.SystemVersion != nil {
 			cloudVmCluster["system_version"] = *r.SystemVersion
 		}
