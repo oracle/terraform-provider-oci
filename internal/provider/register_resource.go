@@ -25,6 +25,7 @@ import (
 	tf_bds "github.com/oracle/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/oracle/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/oracle/terraform-provider-oci/internal/service/budget"
+	tf_capacity_management "github.com/oracle/terraform-provider-oci/internal/service/capacity_management"
 	tf_certificates_management "github.com/oracle/terraform-provider-oci/internal/service/certificates_management"
 	tf_cloud_bridge "github.com/oracle/terraform-provider-oci/internal/service/cloud_bridge"
 	tf_cloud_guard "github.com/oracle/terraform-provider-oci/internal/service/cloud_guard"
@@ -181,6 +182,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("budget") {
 		tf_budget.RegisterResource()
+	}
+	if common.CheckForEnabledServices("capacitymanagement") {
+		tf_capacity_management.RegisterResource()
 	}
 	if common.CheckForEnabledServices("certificatesmanagement") {
 		tf_certificates_management.RegisterResource()
