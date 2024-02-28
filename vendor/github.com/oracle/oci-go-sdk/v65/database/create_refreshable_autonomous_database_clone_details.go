@@ -245,7 +245,7 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	OpenMode CreateRefreshableAutonomousDatabaseCloneDetailsOpenModeEnum `mandatory:"false" json:"openMode,omitempty"`
 
-	// The Oracle Database Edition that applies to the Autonomous databases.
+	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.

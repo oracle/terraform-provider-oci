@@ -26,6 +26,7 @@ const (
 	DetectorEnumIaasLogInsightDetector         DetectorEnumEnum = "IAAS_LOG_INSIGHT_DETECTOR"
 	DetectorEnumSaasFaActivityDetector         DetectorEnumEnum = "SAAS_FA_ACTIVITY_DETECTOR"
 	DetectorEnumIaasWorkloadProtectionDetector DetectorEnumEnum = "IAAS_WORKLOAD_PROTECTION_DETECTOR"
+	DetectorEnumIaasContainerSecurityDetector  DetectorEnumEnum = "IAAS_CONTAINER_SECURITY_DETECTOR"
 )
 
 var mappingDetectorEnumEnum = map[string]DetectorEnumEnum{
@@ -36,6 +37,7 @@ var mappingDetectorEnumEnum = map[string]DetectorEnumEnum{
 	"IAAS_LOG_INSIGHT_DETECTOR":         DetectorEnumIaasLogInsightDetector,
 	"SAAS_FA_ACTIVITY_DETECTOR":         DetectorEnumSaasFaActivityDetector,
 	"IAAS_WORKLOAD_PROTECTION_DETECTOR": DetectorEnumIaasWorkloadProtectionDetector,
+	"IAAS_CONTAINER_SECURITY_DETECTOR":  DetectorEnumIaasContainerSecurityDetector,
 }
 
 var mappingDetectorEnumEnumLowerCase = map[string]DetectorEnumEnum{
@@ -46,6 +48,7 @@ var mappingDetectorEnumEnumLowerCase = map[string]DetectorEnumEnum{
 	"iaas_log_insight_detector":         DetectorEnumIaasLogInsightDetector,
 	"saas_fa_activity_detector":         DetectorEnumSaasFaActivityDetector,
 	"iaas_workload_protection_detector": DetectorEnumIaasWorkloadProtectionDetector,
+	"iaas_container_security_detector":  DetectorEnumIaasContainerSecurityDetector,
 }
 
 // GetDetectorEnumEnumValues Enumerates the set of values for DetectorEnumEnum
@@ -67,6 +70,7 @@ func GetDetectorEnumEnumStringValues() []string {
 		"IAAS_LOG_INSIGHT_DETECTOR",
 		"SAAS_FA_ACTIVITY_DETECTOR",
 		"IAAS_WORKLOAD_PROTECTION_DETECTOR",
+		"IAAS_CONTAINER_SECURITY_DETECTOR",
 	}
 }
 

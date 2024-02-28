@@ -104,6 +104,9 @@ type FusionEnvironment struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Environment suspended status
+	IsSuspended *bool `mandatory:"false" json:"isSuspended"`
 }
 
 func (m FusionEnvironment) String() string {
@@ -155,6 +158,7 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 		EnvironmentRole           *EnvironmentRole                           `json:"environmentRole"`
 		FreeformTags              map[string]string                          `json:"freeformTags"`
 		DefinedTags               map[string]map[string]interface{}          `json:"definedTags"`
+		IsSuspended               *bool                                      `json:"isSuspended"`
 		Id                        *string                                    `json:"id"`
 		DisplayName               *string                                    `json:"displayName"`
 		CompartmentId             *string                                    `json:"compartmentId"`
@@ -224,6 +228,8 @@ func (m *FusionEnvironment) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.IsSuspended = model.IsSuspended
 
 	m.Id = model.Id
 

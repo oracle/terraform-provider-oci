@@ -4537,64 +4537,6 @@ func (client DatabaseClient) createVmClusterNetwork(ctx context.Context, request
 	return response, err
 }
 
-// DatabaseKeyManagement Updates key.
-func (client DatabaseClient) DatabaseKeyManagement(ctx context.Context, request DatabaseKeyManagementRequest) (response DatabaseKeyManagementResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.databaseKeyManagement, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DatabaseKeyManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DatabaseKeyManagementResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DatabaseKeyManagementResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DatabaseKeyManagementResponse")
-	}
-	return
-}
-
-// databaseKeyManagement implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) databaseKeyManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/manageKey", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DatabaseKeyManagementResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/DatabaseKeyManagement"
-		err = common.PostProcessServiceError(err, "Database", "DatabaseKeyManagement", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DbNodeAction Performs one of the following power actions on the specified DB node:
 // - start - power on
 // - stop - power off
@@ -16840,64 +16782,6 @@ func (client DatabaseClient) moveDatabase(ctx context.Context, request common.OC
 	return response, err
 }
 
-// PluggableDatabaseKeyManagement Updates the pluggable database key.
-func (client DatabaseClient) PluggableDatabaseKeyManagement(ctx context.Context, request PluggableDatabaseKeyManagementRequest) (response PluggableDatabaseKeyManagementResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.pluggableDatabaseKeyManagement, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = PluggableDatabaseKeyManagementResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = PluggableDatabaseKeyManagementResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(PluggableDatabaseKeyManagementResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into PluggableDatabaseKeyManagementResponse")
-	}
-	return
-}
-
-// pluggableDatabaseKeyManagement implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) pluggableDatabaseKeyManagement(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/manageKey", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response PluggableDatabaseKeyManagementResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/PluggableDatabaseKeyManagement"
-		err = common.PostProcessServiceError(err, "Database", "PluggableDatabaseKeyManagement", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // RefreshPluggableDatabase Refreshes a pluggable database (PDB) Refreshable clone.
 func (client DatabaseClient) RefreshPluggableDatabase(ctx context.Context, request RefreshPluggableDatabaseRequest) (response RefreshPluggableDatabaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -18363,6 +18247,122 @@ func (client DatabaseClient) scanExternalContainerDatabasePluggableDatabases(ctx
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExternalContainerDatabase/ScanExternalContainerDatabasePluggableDatabases"
 		err = common.PostProcessServiceError(err, "Database", "ScanExternalContainerDatabasePluggableDatabases", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SetDbKeyVersion Sets a new version of an existing Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
+func (client DatabaseClient) SetDbKeyVersion(ctx context.Context, request SetDbKeyVersionRequest) (response SetDbKeyVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.setDbKeyVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetDbKeyVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetDbKeyVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetDbKeyVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetDbKeyVersionResponse")
+	}
+	return
+}
+
+// setDbKeyVersion implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) setDbKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/keyManagement/actions/setKeyVersion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetDbKeyVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/SetDbKeyVersion"
+		err = common.PostProcessServiceError(err, "Database", "SetDbKeyVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SetPdbKeyVersion Sets a new version of an existing Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) key.
+func (client DatabaseClient) SetPdbKeyVersion(ctx context.Context, request SetPdbKeyVersionRequest) (response SetPdbKeyVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.setPdbKeyVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetPdbKeyVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetPdbKeyVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetPdbKeyVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetPdbKeyVersionResponse")
+	}
+	return
+}
+
+// setPdbKeyVersion implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) setPdbKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/keyManagement/actions/setKeyVersion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetPdbKeyVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/SetPdbKeyVersion"
+		err = common.PostProcessServiceError(err, "Database", "SetPdbKeyVersion", apiReferenceLink)
 		return response, err
 	}
 

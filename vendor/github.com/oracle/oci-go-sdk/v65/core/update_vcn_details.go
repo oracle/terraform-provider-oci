@@ -53,6 +53,7 @@ type UpdateVcnDetails struct {
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
 	// Indicates whether traffic within the VCN is encrypted.
+	// For more information, see VN Encryption (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm#encryption).
 	IsEncrypted *bool `mandatory:"false" json:"isEncrypted"`
 }
 

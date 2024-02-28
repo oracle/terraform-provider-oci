@@ -43,6 +43,12 @@ type DetectorRuleSummary struct {
 	// Resource type of the configuration to which the rule is applied
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
+	// Detector rule type
+	RuleType []RuleType `mandatory:"false" json:"ruleType"`
+
+	// Is the rule cloneable?
+	IsCloneable *bool `mandatory:"false" json:"isCloneable"`
+
 	// List of managed list types related to this rule
 	ManagedListTypes []DetectorRuleSummaryManagedListTypesEnum `mandatory:"false" json:"managedListTypes,omitempty"`
 
@@ -111,6 +117,8 @@ const (
 	DetectorRuleSummaryManagedListTypesGeneric              DetectorRuleSummaryManagedListTypesEnum = "GENERIC"
 	DetectorRuleSummaryManagedListTypesFusionAppsRole       DetectorRuleSummaryManagedListTypesEnum = "FUSION_APPS_ROLE"
 	DetectorRuleSummaryManagedListTypesFusionAppsPermission DetectorRuleSummaryManagedListTypesEnum = "FUSION_APPS_PERMISSION"
+	DetectorRuleSummaryManagedListTypesNamespaceSelector    DetectorRuleSummaryManagedListTypesEnum = "NAMESPACE_SELECTOR"
+	DetectorRuleSummaryManagedListTypesPodResourceSelector  DetectorRuleSummaryManagedListTypesEnum = "POD_RESOURCE_SELECTOR"
 )
 
 var mappingDetectorRuleSummaryManagedListTypesEnum = map[string]DetectorRuleSummaryManagedListTypesEnum{
@@ -128,6 +136,8 @@ var mappingDetectorRuleSummaryManagedListTypesEnum = map[string]DetectorRuleSumm
 	"GENERIC":                DetectorRuleSummaryManagedListTypesGeneric,
 	"FUSION_APPS_ROLE":       DetectorRuleSummaryManagedListTypesFusionAppsRole,
 	"FUSION_APPS_PERMISSION": DetectorRuleSummaryManagedListTypesFusionAppsPermission,
+	"NAMESPACE_SELECTOR":     DetectorRuleSummaryManagedListTypesNamespaceSelector,
+	"POD_RESOURCE_SELECTOR":  DetectorRuleSummaryManagedListTypesPodResourceSelector,
 }
 
 var mappingDetectorRuleSummaryManagedListTypesEnumLowerCase = map[string]DetectorRuleSummaryManagedListTypesEnum{
@@ -145,6 +155,8 @@ var mappingDetectorRuleSummaryManagedListTypesEnumLowerCase = map[string]Detecto
 	"generic":                DetectorRuleSummaryManagedListTypesGeneric,
 	"fusion_apps_role":       DetectorRuleSummaryManagedListTypesFusionAppsRole,
 	"fusion_apps_permission": DetectorRuleSummaryManagedListTypesFusionAppsPermission,
+	"namespace_selector":     DetectorRuleSummaryManagedListTypesNamespaceSelector,
+	"pod_resource_selector":  DetectorRuleSummaryManagedListTypesPodResourceSelector,
 }
 
 // GetDetectorRuleSummaryManagedListTypesEnumValues Enumerates the set of values for DetectorRuleSummaryManagedListTypesEnum
@@ -173,6 +185,8 @@ func GetDetectorRuleSummaryManagedListTypesEnumStringValues() []string {
 		"GENERIC",
 		"FUSION_APPS_ROLE",
 		"FUSION_APPS_PERMISSION",
+		"NAMESPACE_SELECTOR",
+		"POD_RESOURCE_SELECTOR",
 	}
 }
 

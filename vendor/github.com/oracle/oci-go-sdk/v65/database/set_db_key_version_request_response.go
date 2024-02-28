@@ -11,14 +11,14 @@ import (
 	"strings"
 )
 
-// DatabaseKeyManagementRequest wrapper for the DatabaseKeyManagement operation
-type DatabaseKeyManagementRequest struct {
+// SetDbKeyVersionRequest wrapper for the SetDbKeyVersion operation
+type SetDbKeyVersionRequest struct {
 
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// Requests key Update.
-	DatabaseKmsKeyManagementDetails `contributesTo:"body"`
+	// Requests Key Version Update.
+	SetKeyVersionDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous GET or POST response for that resource.  The resource
@@ -40,12 +40,12 @@ type DatabaseKeyManagementRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request DatabaseKeyManagementRequest) String() string {
+func (request SetDbKeyVersionRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request DatabaseKeyManagementRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request SetDbKeyVersionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -55,21 +55,21 @@ func (request DatabaseKeyManagementRequest) HTTPRequest(method, path string, bin
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request DatabaseKeyManagementRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request SetDbKeyVersionRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request DatabaseKeyManagementRequest) RetryPolicy() *common.RetryPolicy {
+func (request SetDbKeyVersionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request DatabaseKeyManagementRequest) ValidateEnumValue() (bool, error) {
+func (request SetDbKeyVersionRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -77,8 +77,8 @@ func (request DatabaseKeyManagementRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// DatabaseKeyManagementResponse wrapper for the DatabaseKeyManagement operation
-type DatabaseKeyManagementResponse struct {
+// SetDbKeyVersionResponse wrapper for the SetDbKeyVersion operation
+type SetDbKeyVersionResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -97,11 +97,11 @@ type DatabaseKeyManagementResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response DatabaseKeyManagementResponse) String() string {
+func (response SetDbKeyVersionResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response DatabaseKeyManagementResponse) HTTPResponse() *http.Response {
+func (response SetDbKeyVersionResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

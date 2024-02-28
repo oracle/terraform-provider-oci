@@ -294,6 +294,7 @@ const (
 	ListProblemsDetectorTypeIaasLogInsightDetector         ListProblemsDetectorTypeEnum = "IAAS_LOG_INSIGHT_DETECTOR"
 	ListProblemsDetectorTypeSaasFaActivityDetector         ListProblemsDetectorTypeEnum = "SAAS_FA_ACTIVITY_DETECTOR"
 	ListProblemsDetectorTypeIaasWorkloadProtectionDetector ListProblemsDetectorTypeEnum = "IAAS_WORKLOAD_PROTECTION_DETECTOR"
+	ListProblemsDetectorTypeIaasContainerSecurityDetector  ListProblemsDetectorTypeEnum = "IAAS_CONTAINER_SECURITY_DETECTOR"
 )
 
 var mappingListProblemsDetectorTypeEnum = map[string]ListProblemsDetectorTypeEnum{
@@ -304,6 +305,7 @@ var mappingListProblemsDetectorTypeEnum = map[string]ListProblemsDetectorTypeEnu
 	"IAAS_LOG_INSIGHT_DETECTOR":         ListProblemsDetectorTypeIaasLogInsightDetector,
 	"SAAS_FA_ACTIVITY_DETECTOR":         ListProblemsDetectorTypeSaasFaActivityDetector,
 	"IAAS_WORKLOAD_PROTECTION_DETECTOR": ListProblemsDetectorTypeIaasWorkloadProtectionDetector,
+	"IAAS_CONTAINER_SECURITY_DETECTOR":  ListProblemsDetectorTypeIaasContainerSecurityDetector,
 }
 
 var mappingListProblemsDetectorTypeEnumLowerCase = map[string]ListProblemsDetectorTypeEnum{
@@ -314,6 +316,7 @@ var mappingListProblemsDetectorTypeEnumLowerCase = map[string]ListProblemsDetect
 	"iaas_log_insight_detector":         ListProblemsDetectorTypeIaasLogInsightDetector,
 	"saas_fa_activity_detector":         ListProblemsDetectorTypeSaasFaActivityDetector,
 	"iaas_workload_protection_detector": ListProblemsDetectorTypeIaasWorkloadProtectionDetector,
+	"iaas_container_security_detector":  ListProblemsDetectorTypeIaasContainerSecurityDetector,
 }
 
 // GetListProblemsDetectorTypeEnumValues Enumerates the set of values for ListProblemsDetectorTypeEnum
@@ -335,6 +338,7 @@ func GetListProblemsDetectorTypeEnumStringValues() []string {
 		"IAAS_LOG_INSIGHT_DETECTOR",
 		"SAAS_FA_ACTIVITY_DETECTOR",
 		"IAAS_WORKLOAD_PROTECTION_DETECTOR",
+		"IAAS_CONTAINER_SECURITY_DETECTOR",
 	}
 }
 

@@ -147,8 +147,8 @@ type UpdateAlarmDetails struct {
 	Overrides []AlarmOverride `mandatory:"false" json:"overrides"`
 
 	// Identifier of the alarm's base values for alarm evaluation, for use when the alarm contains overrides.
-	// A valid ruleName value starts with an alphabetical character and includes only alphanumeric characters and underscores.
-	// Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
+	// A valid ruleName value starts with an alphabetic character and includes only alphanumeric characters, underscores and square brackets.
+	// Minimum number of characters: 3. Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
 	RuleName *string `mandatory:"false" json:"ruleName"`
 
 	// The version of the alarm notification to be delivered. Allowed value: `1.X`

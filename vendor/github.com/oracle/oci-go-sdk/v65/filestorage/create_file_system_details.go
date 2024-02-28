@@ -54,7 +54,7 @@ type CreateFileSystemDetails struct {
 
 	// Specifies whether the clone file system is attached to its parent file system.
 	// If the value is set to 'DETACH', then the file system will be created, which is deep copied from the snapshot
-	// specified by sourceSnapshotId
+	// specified by sourceSnapshotId, else will remain attached to its parent.
 	CloneAttachStatus CreateFileSystemDetailsCloneAttachStatusEnum `mandatory:"false" json:"cloneAttachStatus,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated file system snapshot policy, which
@@ -88,14 +88,17 @@ type CreateFileSystemDetailsCloneAttachStatusEnum string
 // Set of constants representing the allowable values for CreateFileSystemDetailsCloneAttachStatusEnum
 const (
 	CreateFileSystemDetailsCloneAttachStatusDetach CreateFileSystemDetailsCloneAttachStatusEnum = "DETACH"
+	CreateFileSystemDetailsCloneAttachStatusAttach CreateFileSystemDetailsCloneAttachStatusEnum = "ATTACH"
 )
 
 var mappingCreateFileSystemDetailsCloneAttachStatusEnum = map[string]CreateFileSystemDetailsCloneAttachStatusEnum{
 	"DETACH": CreateFileSystemDetailsCloneAttachStatusDetach,
+	"ATTACH": CreateFileSystemDetailsCloneAttachStatusAttach,
 }
 
 var mappingCreateFileSystemDetailsCloneAttachStatusEnumLowerCase = map[string]CreateFileSystemDetailsCloneAttachStatusEnum{
 	"detach": CreateFileSystemDetailsCloneAttachStatusDetach,
+	"attach": CreateFileSystemDetailsCloneAttachStatusAttach,
 }
 
 // GetCreateFileSystemDetailsCloneAttachStatusEnumValues Enumerates the set of values for CreateFileSystemDetailsCloneAttachStatusEnum
@@ -111,6 +114,7 @@ func GetCreateFileSystemDetailsCloneAttachStatusEnumValues() []CreateFileSystemD
 func GetCreateFileSystemDetailsCloneAttachStatusEnumStringValues() []string {
 	return []string{
 		"DETACH",
+		"ATTACH",
 	}
 }
 

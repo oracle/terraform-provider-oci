@@ -30,7 +30,7 @@ type DeleteVirtualNodePoolRequest struct {
 	// PT0M will indicate you want to delete the virtual node without cordon and drain. Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
 	OverrideEvictionGraceDurationVnp *string `mandatory:"false" contributesTo:"query" name:"overrideEvictionGraceDurationVnp"`
 
-	// If the underlying compute instance should be deleted if you cannot evict all the pods in grace period
+	// Deprecated, this field does not apply to virtual node pools.  If the underlying virtual node should be deleted if you cannot evict all the pods in grace period.
 	IsForceDeletionAfterOverrideGraceDurationVnp *bool `mandatory:"false" contributesTo:"query" name:"isForceDeletionAfterOverrideGraceDurationVnp"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

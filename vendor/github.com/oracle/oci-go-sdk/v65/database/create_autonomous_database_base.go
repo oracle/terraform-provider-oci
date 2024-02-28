@@ -239,7 +239,7 @@ type CreateAutonomousDatabaseBase interface {
 	// Indicates if auto scaling is enabled for the Autonomous Database storage. The default value is `FALSE`.
 	GetIsAutoScalingForStorageEnabled() *bool
 
-	// The Oracle Database Edition that applies to the Autonomous databases.
+	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	GetDatabaseEdition() AutonomousDatabaseSummaryDatabaseEditionEnum
 
 	// The list of database tools details.

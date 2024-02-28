@@ -25,6 +25,7 @@ const (
 	ConditionTypeEnumWorkloadProtectionCondition ConditionTypeEnumEnum = "WorkloadProtectionCondition"
 	ConditionTypeEnumThreatCondition             ConditionTypeEnumEnum = "ThreatCondition"
 	ConditionTypeEnumFaActivityCondition         ConditionTypeEnumEnum = "FaActivityCondition"
+	ConditionTypeEnumContainerCondition          ConditionTypeEnumEnum = "ContainerCondition"
 )
 
 var mappingConditionTypeEnumEnum = map[string]ConditionTypeEnumEnum{
@@ -34,6 +35,7 @@ var mappingConditionTypeEnumEnum = map[string]ConditionTypeEnumEnum{
 	"WorkloadProtectionCondition": ConditionTypeEnumWorkloadProtectionCondition,
 	"ThreatCondition":             ConditionTypeEnumThreatCondition,
 	"FaActivityCondition":         ConditionTypeEnumFaActivityCondition,
+	"ContainerCondition":          ConditionTypeEnumContainerCondition,
 }
 
 var mappingConditionTypeEnumEnumLowerCase = map[string]ConditionTypeEnumEnum{
@@ -43,6 +45,7 @@ var mappingConditionTypeEnumEnumLowerCase = map[string]ConditionTypeEnumEnum{
 	"workloadprotectioncondition": ConditionTypeEnumWorkloadProtectionCondition,
 	"threatcondition":             ConditionTypeEnumThreatCondition,
 	"faactivitycondition":         ConditionTypeEnumFaActivityCondition,
+	"containercondition":          ConditionTypeEnumContainerCondition,
 }
 
 // GetConditionTypeEnumEnumValues Enumerates the set of values for ConditionTypeEnumEnum
@@ -63,6 +66,7 @@ func GetConditionTypeEnumEnumStringValues() []string {
 		"WorkloadProtectionCondition",
 		"ThreatCondition",
 		"FaActivityCondition",
+		"ContainerCondition",
 	}
 }
 

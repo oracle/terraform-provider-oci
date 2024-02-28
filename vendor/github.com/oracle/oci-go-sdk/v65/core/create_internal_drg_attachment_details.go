@@ -48,6 +48,20 @@ type CreateInternalDrgAttachmentDetails struct {
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
 	// with the DRG attachment.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags extended for this resource. This is unique to ZPR, and extends the defined tags to include a mode keyword as well
+	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
+	DefinedTagsExtended *string `mandatory:"false" json:"definedTagsExtended"`
 }
 
 func (m CreateInternalDrgAttachmentDetails) String() string {

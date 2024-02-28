@@ -108,6 +108,7 @@ const (
 	GetConditionMetadataTypeConditionMetadataTypeIdWorkloadprotectioncondition GetConditionMetadataTypeConditionMetadataTypeIdEnum = "WorkloadProtectionCondition"
 	GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition             GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ThreatCondition"
 	GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition         GetConditionMetadataTypeConditionMetadataTypeIdEnum = "FaActivityCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdContainercondition          GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ContainerCondition"
 )
 
 var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnum = map[string]GetConditionMetadataTypeConditionMetadataTypeIdEnum{
@@ -117,6 +118,7 @@ var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnum = map[string]GetC
 	"WorkloadProtectionCondition": GetConditionMetadataTypeConditionMetadataTypeIdWorkloadprotectioncondition,
 	"ThreatCondition":             GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
 	"FaActivityCondition":         GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition,
+	"ContainerCondition":          GetConditionMetadataTypeConditionMetadataTypeIdContainercondition,
 }
 
 var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnumLowerCase = map[string]GetConditionMetadataTypeConditionMetadataTypeIdEnum{
@@ -126,6 +128,7 @@ var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnumLowerCase = map[st
 	"workloadprotectioncondition": GetConditionMetadataTypeConditionMetadataTypeIdWorkloadprotectioncondition,
 	"threatcondition":             GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
 	"faactivitycondition":         GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition,
+	"containercondition":          GetConditionMetadataTypeConditionMetadataTypeIdContainercondition,
 }
 
 // GetGetConditionMetadataTypeConditionMetadataTypeIdEnumValues Enumerates the set of values for GetConditionMetadataTypeConditionMetadataTypeIdEnum
@@ -146,6 +149,7 @@ func GetGetConditionMetadataTypeConditionMetadataTypeIdEnumStringValues() []stri
 		"WorkloadProtectionCondition",
 		"ThreatCondition",
 		"FaActivityCondition",
+		"ContainerCondition",
 	}
 }
 

@@ -40,6 +40,9 @@ type ManagedList struct {
 	// List of items in the managed list
 	ListItems []string `mandatory:"false" json:"listItems"`
 
+	// Managed list type group
+	Group *string `mandatory:"false" json:"group"`
+
 	// Provider of the managed list feed
 	FeedProvider FeedProviderTypeEnum `mandatory:"false" json:"feedProvider,omitempty"`
 

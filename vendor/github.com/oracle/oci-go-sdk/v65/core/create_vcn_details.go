@@ -88,6 +88,7 @@ type CreateVcnDetails struct {
 	IsIpv6Enabled *bool `mandatory:"false" json:"isIpv6Enabled"`
 
 	// Indicates whether traffic within the VCN is encrypted.
+	// For more information, see VN Encryption (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/Overview_of_VCNs_and_Subnets.htm#encryption).
 	IsEncrypted *bool `mandatory:"false" json:"isEncrypted"`
 }
 

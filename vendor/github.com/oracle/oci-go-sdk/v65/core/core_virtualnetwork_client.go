@@ -5621,6 +5621,64 @@ func (client VirtualNetworkClient) createInternalVnicAttachment(ctx context.Cont
 	return response, err
 }
 
+// CreateInternalZprAttachment Creates an Internal ZPR attachment that can be attached to a compartment.
+func (client VirtualNetworkClient) CreateInternalZprAttachment(ctx context.Context, request CreateInternalZprAttachmentRequest) (response CreateInternalZprAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalZprAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalZprAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalZprAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalZprAttachmentResponse")
+	}
+	return
+}
+
+// createInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/zprAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateInternalZprAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/CreateInternalZprAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalZprAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateInternetGateway Creates a new internet gateway for the specified VCN. For more information, see
 // Access to the Internet (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingIGs.htm).
 // For the purposes of access control, you must provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want the Internet
@@ -9040,6 +9098,59 @@ func (client VirtualNetworkClient) deleteInternalVnicAttachment(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DeleteInternalVnicAttachment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalVnicAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteInternalZprAttachment Detaches a ZPR Attachment from a resource.
+func (client VirtualNetworkClient) DeleteInternalZprAttachment(ctx context.Context, request DeleteInternalZprAttachmentRequest) (response DeleteInternalZprAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalZprAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalZprAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalZprAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalZprAttachmentResponse")
+	}
+	return
+}
+
+// deleteInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteInternalZprAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/DeleteInternalZprAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalZprAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -14967,6 +15078,59 @@ func (client VirtualNetworkClient) getInternalVnicAttachment(ctx context.Context
 	return response, err
 }
 
+// GetInternalZprAttachment Gets the `ZprAttachment` resource.
+func (client VirtualNetworkClient) GetInternalZprAttachment(ctx context.Context, request GetInternalZprAttachmentRequest) (response GetInternalZprAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInternalZprAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalZprAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalZprAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalZprAttachmentResponse")
+	}
+	return
+}
+
+// getInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInternalZprAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/GetInternalZprAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalZprAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetInternetGateway Gets the specified internet gateway's information.
 func (client VirtualNetworkClient) GetInternetGateway(ctx context.Context, request GetInternetGatewayRequest) (response GetInternetGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -20357,6 +20521,59 @@ func (client VirtualNetworkClient) listInternalVnics(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnic/ListInternalVnics"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalVnics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInternalZprAttachments List the ZprAttachments in the specified compartement.
+func (client VirtualNetworkClient) ListInternalZprAttachments(ctx context.Context, request ListInternalZprAttachmentsRequest) (response ListInternalZprAttachmentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInternalZprAttachments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalZprAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalZprAttachmentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalZprAttachmentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalZprAttachmentsResponse")
+	}
+	return
+}
+
+// listInternalZprAttachments implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalZprAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/zprAttachments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInternalZprAttachmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/ListInternalZprAttachments"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalZprAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -26579,6 +26796,59 @@ func (client VirtualNetworkClient) updateInternalVnicMetadata(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/UpdateInternalVnicMetadata"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalVnicMetadata", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateInternalZprAttachment Updates the details for the specified `ZprAttachment`.
+func (client VirtualNetworkClient) UpdateInternalZprAttachment(ctx context.Context, request UpdateInternalZprAttachmentRequest) (response UpdateInternalZprAttachmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateInternalZprAttachment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInternalZprAttachmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInternalZprAttachmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalZprAttachmentResponse")
+	}
+	return
+}
+
+// updateInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateInternalZprAttachmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/UpdateInternalZprAttachment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalZprAttachment", apiReferenceLink)
 		return response, err
 	}
 

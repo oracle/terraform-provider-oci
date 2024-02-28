@@ -223,7 +223,7 @@ type CreateAutonomousDatabaseDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
-	// The Oracle Database Edition that applies to the Autonomous databases.
+	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.

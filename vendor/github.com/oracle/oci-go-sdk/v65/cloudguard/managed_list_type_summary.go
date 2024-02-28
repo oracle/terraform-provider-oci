@@ -25,6 +25,9 @@ type ManagedListTypeSummary struct {
 	// Managed list type description
 	Description *string `mandatory:"false" json:"description"`
 
+	// Managed list type group
+	Group *string `mandatory:"false" json:"group"`
+
 	// The current lifecycle state of the resource
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

@@ -132,6 +132,7 @@ const (
 	ListResourceTypesDetectorIdIaasLogInsightDetector         ListResourceTypesDetectorIdEnum = "IAAS_LOG_INSIGHT_DETECTOR"
 	ListResourceTypesDetectorIdSaasFaActivityDetector         ListResourceTypesDetectorIdEnum = "SAAS_FA_ACTIVITY_DETECTOR"
 	ListResourceTypesDetectorIdIaasWorkloadProtectionDetector ListResourceTypesDetectorIdEnum = "IAAS_WORKLOAD_PROTECTION_DETECTOR"
+	ListResourceTypesDetectorIdIaasContainerSecurityDetector  ListResourceTypesDetectorIdEnum = "IAAS_CONTAINER_SECURITY_DETECTOR"
 )
 
 var mappingListResourceTypesDetectorIdEnum = map[string]ListResourceTypesDetectorIdEnum{
@@ -142,6 +143,7 @@ var mappingListResourceTypesDetectorIdEnum = map[string]ListResourceTypesDetecto
 	"IAAS_LOG_INSIGHT_DETECTOR":         ListResourceTypesDetectorIdIaasLogInsightDetector,
 	"SAAS_FA_ACTIVITY_DETECTOR":         ListResourceTypesDetectorIdSaasFaActivityDetector,
 	"IAAS_WORKLOAD_PROTECTION_DETECTOR": ListResourceTypesDetectorIdIaasWorkloadProtectionDetector,
+	"IAAS_CONTAINER_SECURITY_DETECTOR":  ListResourceTypesDetectorIdIaasContainerSecurityDetector,
 }
 
 var mappingListResourceTypesDetectorIdEnumLowerCase = map[string]ListResourceTypesDetectorIdEnum{
@@ -152,6 +154,7 @@ var mappingListResourceTypesDetectorIdEnumLowerCase = map[string]ListResourceTyp
 	"iaas_log_insight_detector":         ListResourceTypesDetectorIdIaasLogInsightDetector,
 	"saas_fa_activity_detector":         ListResourceTypesDetectorIdSaasFaActivityDetector,
 	"iaas_workload_protection_detector": ListResourceTypesDetectorIdIaasWorkloadProtectionDetector,
+	"iaas_container_security_detector":  ListResourceTypesDetectorIdIaasContainerSecurityDetector,
 }
 
 // GetListResourceTypesDetectorIdEnumValues Enumerates the set of values for ListResourceTypesDetectorIdEnum
@@ -173,6 +176,7 @@ func GetListResourceTypesDetectorIdEnumStringValues() []string {
 		"IAAS_LOG_INSIGHT_DETECTOR",
 		"SAAS_FA_ACTIVITY_DETECTOR",
 		"IAAS_WORKLOAD_PROTECTION_DETECTOR",
+		"IAAS_CONTAINER_SECURITY_DETECTOR",
 	}
 }
 

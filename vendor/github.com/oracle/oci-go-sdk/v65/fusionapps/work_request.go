@@ -99,6 +99,12 @@ const (
 	WorkRequestOperationTypeRefreshFusionEnvironment                 WorkRequestOperationTypeEnum = "REFRESH_FUSION_ENVIRONMENT"
 	WorkRequestOperationTypeExecuteColdPatch                         WorkRequestOperationTypeEnum = "EXECUTE_COLD_PATCH"
 	WorkRequestOperationTypeDataMaskFusionEnvironment                WorkRequestOperationTypeEnum = "DATA_MASK_FUSION_ENVIRONMENT"
+	WorkRequestOperationTypeInitiateExtract                          WorkRequestOperationTypeEnum = "INITIATE_EXTRACT"
+	WorkRequestOperationTypeSubscriptionSuspend                      WorkRequestOperationTypeEnum = "SUBSCRIPTION_SUSPEND"
+	WorkRequestOperationTypeSubscriptionExpire                       WorkRequestOperationTypeEnum = "SUBSCRIPTION_EXPIRE"
+	WorkRequestOperationTypeSubscriptionUpdate                       WorkRequestOperationTypeEnum = "SUBSCRIPTION_UPDATE"
+	WorkRequestOperationTypeSubscriptionResume                       WorkRequestOperationTypeEnum = "SUBSCRIPTION_RESUME"
+	WorkRequestOperationTypeSubscriptionTerminate                    WorkRequestOperationTypeEnum = "SUBSCRIPTION_TERMINATE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -123,6 +129,12 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"REFRESH_FUSION_ENVIRONMENT":                   WorkRequestOperationTypeRefreshFusionEnvironment,
 	"EXECUTE_COLD_PATCH":                           WorkRequestOperationTypeExecuteColdPatch,
 	"DATA_MASK_FUSION_ENVIRONMENT":                 WorkRequestOperationTypeDataMaskFusionEnvironment,
+	"INITIATE_EXTRACT":                             WorkRequestOperationTypeInitiateExtract,
+	"SUBSCRIPTION_SUSPEND":                         WorkRequestOperationTypeSubscriptionSuspend,
+	"SUBSCRIPTION_EXPIRE":                          WorkRequestOperationTypeSubscriptionExpire,
+	"SUBSCRIPTION_UPDATE":                          WorkRequestOperationTypeSubscriptionUpdate,
+	"SUBSCRIPTION_RESUME":                          WorkRequestOperationTypeSubscriptionResume,
+	"SUBSCRIPTION_TERMINATE":                       WorkRequestOperationTypeSubscriptionTerminate,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -147,6 +159,12 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"refresh_fusion_environment":                   WorkRequestOperationTypeRefreshFusionEnvironment,
 	"execute_cold_patch":                           WorkRequestOperationTypeExecuteColdPatch,
 	"data_mask_fusion_environment":                 WorkRequestOperationTypeDataMaskFusionEnvironment,
+	"initiate_extract":                             WorkRequestOperationTypeInitiateExtract,
+	"subscription_suspend":                         WorkRequestOperationTypeSubscriptionSuspend,
+	"subscription_expire":                          WorkRequestOperationTypeSubscriptionExpire,
+	"subscription_update":                          WorkRequestOperationTypeSubscriptionUpdate,
+	"subscription_resume":                          WorkRequestOperationTypeSubscriptionResume,
+	"subscription_terminate":                       WorkRequestOperationTypeSubscriptionTerminate,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -182,6 +200,12 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"REFRESH_FUSION_ENVIRONMENT",
 		"EXECUTE_COLD_PATCH",
 		"DATA_MASK_FUSION_ENVIRONMENT",
+		"INITIATE_EXTRACT",
+		"SUBSCRIPTION_SUSPEND",
+		"SUBSCRIPTION_EXPIRE",
+		"SUBSCRIPTION_UPDATE",
+		"SUBSCRIPTION_RESUME",
+		"SUBSCRIPTION_TERMINATE",
 	}
 }
 

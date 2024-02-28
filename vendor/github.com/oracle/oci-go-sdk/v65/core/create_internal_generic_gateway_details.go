@@ -59,6 +59,10 @@ type CreateInternalGenericGatewayDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Defined tags extended for this resource. This is unique to ZPR, and extends the defined tags to include a mode keyword as well
+	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
+	DefinedTagsExtended *string `mandatory:"false" json:"definedTagsExtended"`
+
 	// Optional and valid only for ServiceGateway (SGW) or Private Access Gateway (PAGW) to support ADB-S colocation.
 	// In order to support ADB-S colocation, ADB-S traffic via SGW/PAGW needs to be routed to
 	// dedicated fleets. Thus the existing default routes will be overridden with the targets

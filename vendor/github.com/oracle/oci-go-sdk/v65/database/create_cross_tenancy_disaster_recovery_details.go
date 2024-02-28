@@ -251,7 +251,7 @@ type CreateCrossTenancyDisasterRecoveryDetails struct {
 	// If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	IsReplicateAutomaticBackups *bool `mandatory:"false" json:"isReplicateAutomaticBackups"`
 
-	// The Oracle Database Edition that applies to the Autonomous databases.
+	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
