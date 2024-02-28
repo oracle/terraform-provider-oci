@@ -214,7 +214,7 @@ func (s *DatabaseExternalDatabaseConnectorsDataSourceCrud) DatabaseConnectionCre
 		if username, ok := s.D.GetOkExists("connection_credentials.0.username"); ok && username != nil {
 			result["username"] = username.(string)
 		}
-	case oci_database.DatabaseConnectionCredentailsByName:
+	case oci_database.DatabaseConnectionCredentialsByName:
 		result["credential_type"] = "NAME_REFERENCE"
 
 		if v.CredentialName != nil {

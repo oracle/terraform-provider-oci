@@ -69,6 +69,43 @@ func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"approver_details": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"approval_action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"approval_additional_message": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"approval_comment": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"approver_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_approved_for_access": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_of_authorization": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"audit_type": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -97,6 +134,43 @@ func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"extension_approver_details": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"approval_action": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"approval_additional_message": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"approval_comment": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"approver_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_approved_for_access": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_of_authorization": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"freeform_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
@@ -110,8 +184,24 @@ func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"is_validate_assignment": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"number_of_approvers": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"number_of_approvers_required": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"number_of_extension_approvers": {
+										Type:     schema.TypeInt,
 										Computed: true,
 									},
 									"opctl_additional_message": {
@@ -178,6 +268,10 @@ func OperatorAccessControlAccessRequestsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_of_user_creation": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_requested_for_future_access": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -364,6 +458,40 @@ func AccessRequestsSummaryToMap(obj oci_operator_access_control.AccessRequestSum
 
 	if obj.TimeOfUserCreation != nil {
 		result["time_of_user_creation"] = obj.TimeOfUserCreation.String()
+	}
+
+	if obj.TimeRequestedForFutureAccess != nil {
+		result["time_requested_for_future_access"] = obj.TimeRequestedForFutureAccess.String()
+	}
+
+	return result
+}
+
+func ApproverDetailToMap(obj oci_operator_access_control.ApproverDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApprovalAction != nil {
+		result["approval_action"] = string(*obj.ApprovalAction)
+	}
+
+	if obj.ApprovalAdditionalMessage != nil {
+		result["approval_additional_message"] = string(*obj.ApprovalAdditionalMessage)
+	}
+
+	if obj.ApprovalComment != nil {
+		result["approval_comment"] = string(*obj.ApprovalComment)
+	}
+
+	if obj.ApproverId != nil {
+		result["approver_id"] = string(*obj.ApproverId)
+	}
+
+	if obj.TimeApprovedForAccess != nil {
+		result["time_approved_for_access"] = obj.TimeApprovedForAccess.String()
+	}
+
+	if obj.TimeOfAuthorization != nil {
+		result["time_of_authorization"] = obj.TimeOfAuthorization.String()
 	}
 
 	return result

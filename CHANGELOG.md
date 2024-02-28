@@ -1,3 +1,13 @@
+## 5.31.0 (February 28, 2024)
+
+### Added
+- Support for Database Management: Platform Bar - Tagging
+- Support for Queue Source for OCH
+- Support for KMS Automatic Key Rotation
+- Support for Operator Access Control Enhancements
+- Support for Add Standby ACDs / Enable AuDG | ADB-C@C
+- Support for Support for Project Indigo and Cluster Placement Groups- phase II
+
 ## 5.30.0 (February 21, 2024)
 
 ### Added

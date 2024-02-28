@@ -19,7 +19,7 @@ variable "log_analytics_log_group_id" {}
 // streaming cursor kind
 
 variable "streaming_cursor_kind" {
-    default = "LATEST"
+  default = "LATEST"
 }
 
 
@@ -32,6 +32,14 @@ provider "oci" {
 }
 
 variable "image" {
+  default = ""
+}
+
+variable "queue_id" {
+  default = ""
+}
+
+variable "function_id" {
   default = ""
 }
 
@@ -117,11 +125,13 @@ resource "oci_objectstorage_bucket" "test_bucket" {
   namespace      = data.oci_objectstorage_namespace.test_namespace.namespace
 }
 
-data "oci_objectstorage_namespace" "test_namespace" {}
+data "oci_objectstorage_namespace" "test_namespace" {
+  compartment_id = var.compartment_ocid
+}
 
 resource "oci_sch_service_connector" "test_service_connector" {
   compartment_id = var.compartment_ocid
-  defined_tags  = {"${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue"}
+  defined_tags   = { "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedValue" }
   description    = "description2"
   display_name   = "displayName2"
 
@@ -215,4 +225,26 @@ data "oci_sch_service_connector" "test_service_connector" {
 
 output "oci_sch_service_connector_id" {
   value = [data.oci_sch_service_connector.test_service_connector.id]
+}
+
+resource "oci_sch_connector_plugins" "test_connector_plugins" {
+  compartment_id = var.compartment_ocid
+  display_name   = "My_Service_Connector"
+  source {
+    kind        = "plugin"
+    plugin_name = "QueueSource"
+    config_map = "{\"queueId\": \"${var.queue_id}\"}"
+  }
+  // If using the functions target
+  target {
+    kind        = "functions"
+    function_id = var.function_id
+
+    // Optional
+    batch_size_in_kbs = "5000"
+    // Optional
+    batch_size_in_num = "10"
+    // Optional
+    batch_time_in_sec = "5"
+  }
 }

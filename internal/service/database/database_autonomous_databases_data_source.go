@@ -416,16 +416,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["long_term_backup_schedule"] = nil
 		}
 
-		if r.MaxCpuCoreCount != nil {
-			autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
-		}
-
 		if r.MemoryPerOracleComputeUnitInGBs != nil {
 			autonomousDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
-		}
-
-		if r.MaxCpuCoreCount != nil {
-			autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
 		}
 
 		if r.NcharacterSet != nil {

@@ -32,6 +32,10 @@ resource "oci_database_management_external_exadata_storage_connector" "test_exte
 		ssl_trust_store_type = var.external_exadata_storage_connector_credential_info_ssl_trust_store_type
 	}
 	storage_server_id = oci_database_management_storage_server.test_storage_server.id
+
+	#Optional
+	defined_tags = {"Operations.CostCenter"= "42"}
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -48,6 +52,8 @@ The following arguments are supported:
 	* `ssl_trust_store_password` - (Optional) (Updatable) The password of the SSL truststore location in the agent.
 	* `ssl_trust_store_type` - (Optional) (Updatable) The SSL truststore type.
 	* `username` - (Required) (Updatable) The name of the user.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `storage_server_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata storage server.
 
 
@@ -61,8 +67,10 @@ The following attributes are exported:
 * `additional_details` - The additional details of the resource defined in `{"key": "value"}` format. Example: `{"bar-key": "value"}` 
 * `agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the agent for the Exadata storage server.
 * `connection_uri` - The unique string of the connection. For example, "https://<storage-server-name>/MS/RESTService/".
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - The name of the Exadata resource. English letters, numbers, "-", "_" and "." only.
 * `exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata resource.
 * `internal_id` - The internal ID of the Exadata resource.
 * `lifecycle_details` - The details of the lifecycle state of the Exadata resource.

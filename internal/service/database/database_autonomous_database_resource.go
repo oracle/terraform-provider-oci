@@ -1654,11 +1654,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok && s.D.HasChange("max_cpu_core_count") {
-		tmp := maxCpuCoreCount.(int)
-		request.MaxCpuCoreCount = &tmp
-	}
-
 	var updateNewtworkAccessFlag = false
 	if _, ok := s.D.GetOkExists("nsg_ids"); ok && s.D.HasChange("nsg_ids") {
 		updateNewtworkAccessFlag = true
@@ -2092,16 +2087,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("long_term_backup_schedule", nil)
 	}
 
-	if s.Res.MaxCpuCoreCount != nil {
-		s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
-	}
-
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
-	}
-
-	if s.Res.MaxCpuCoreCount != nil {
-		s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
 	}
 
 	if s.Res.NcharacterSet != nil {
@@ -2836,10 +2823,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
-			tmp := maxCpuCoreCount.(int)
-			details.MaxCpuCoreCount = &tmp
-		}
+
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -3113,10 +3097,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
-			tmp := maxCpuCoreCount.(int)
-			details.MaxCpuCoreCount = &tmp
-		}
+
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -3377,10 +3358,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
-			tmp := maxCpuCoreCount.(int)
-			details.MaxCpuCoreCount = &tmp
-		}
+
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -3887,10 +3865,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
-			tmp := maxCpuCoreCount.(int)
-			details.MaxCpuCoreCount = &tmp
-		}
+
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -4143,10 +4118,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
-			tmp := maxCpuCoreCount.(int)
-			details.MaxCpuCoreCount = &tmp
-		}
+
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -4402,10 +4374,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-		if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
-			tmp := maxCpuCoreCount.(int)
-			details.MaxCpuCoreCount = &tmp
-		}
+
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp

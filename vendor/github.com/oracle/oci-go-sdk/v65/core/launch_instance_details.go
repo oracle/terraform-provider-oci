@@ -178,6 +178,9 @@ type LaunchInstanceDetails struct {
 	// At least one of them is required; if you provide both, the values must match.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Volume attachments to create as part of the launch instance operation.
+	LaunchVolumeAttachments []LaunchAttachVolumeDetails `mandatory:"false" json:"launchVolumeAttachments"`
+
 	// Whether to enable in-transit encryption for the data volume's paravirtualized attachment. This field applies to both block volumes and boot volumes. The default value is false.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
@@ -228,6 +231,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		ShapeConfig                    *LaunchInstanceShapeConfigDetails        `json:"shapeConfig"`
 		SourceDetails                  instancesourcedetails                    `json:"sourceDetails"`
 		SubnetId                       *string                                  `json:"subnetId"`
+		LaunchVolumeAttachments        []launchattachvolumedetails              `json:"launchVolumeAttachments"`
 		IsPvEncryptionInTransitEnabled *bool                                    `json:"isPvEncryptionInTransitEnabled"`
 		PlatformConfig                 launchinstanceplatformconfig             `json:"platformConfig"`
 		InstanceConfigurationId        *string                                  `json:"instanceConfigurationId"`
@@ -292,6 +296,18 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.SubnetId = model.SubnetId
 
+	m.LaunchVolumeAttachments = make([]LaunchAttachVolumeDetails, len(model.LaunchVolumeAttachments))
+	for i, n := range model.LaunchVolumeAttachments {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.LaunchVolumeAttachments[i] = nn.(LaunchAttachVolumeDetails)
+		} else {
+			m.LaunchVolumeAttachments[i] = nil
+		}
+	}
 	m.IsPvEncryptionInTransitEnabled = model.IsPvEncryptionInTransitEnabled
 
 	nn, e = model.PlatformConfig.UnmarshalPolymorphicJSON(model.PlatformConfig.JsonData)

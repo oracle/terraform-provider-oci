@@ -33,7 +33,9 @@ resource "oci_database_management_named_credential" "test_named_credential" {
 
 	#Optional
 	associated_resource = var.named_credential_associated_resource
+	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.named_credential_description
+	freeform_tags = {"Department"= "Finance"}
 }
 ```
 
@@ -49,7 +51,9 @@ The following arguments are supported:
 	* `password_secret_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Vault service secret that contains the database user password.
 	* `role` - (Required) (Updatable) The role of the database user.
 	* `user_name` - (Required) (Updatable) The user name used to connect to the database.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The information specified by the user about the named credential.
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `name` - (Required) The name of the named credential. Valid characters are uppercase or lowercase letters, numbers, and "_". The name of the named credential cannot be modified. It must be unique in the compartment and must begin with an alphabetic character. 
 * `scope` - (Required) (Updatable) The scope of the named credential.
 * `type` - (Required) The type of resource associated with the named credential.
@@ -70,7 +74,9 @@ The following attributes are exported:
 	* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Vault service secret that contains the database user password.
 	* `role` - The role of the database user.
 	* `user_name` - The user name used to connect to the database.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The information specified by the user about the named credential.
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the named credential.
 * `lifecycle_details` - The details of the lifecycle state.
 * `name` - The name of the named credential.

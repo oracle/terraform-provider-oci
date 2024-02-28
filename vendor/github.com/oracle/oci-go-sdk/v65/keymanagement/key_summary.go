@@ -63,6 +63,9 @@ type KeySummary struct {
 	Algorithm KeySummaryAlgorithmEnum `mandatory:"false" json:"algorithm,omitempty"`
 
 	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
+
+	// A parameter specifying whether the auto key rotation is enabled or not.
+	IsAutoRotationEnabled *bool `mandatory:"false" json:"isAutoRotationEnabled"`
 }
 
 func (m KeySummary) String() string {

@@ -78,6 +78,11 @@ type Key struct {
 	// A Boolean value that indicates whether the Key belongs to primary Vault or replica vault.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 
+	// A parameter specifying whether the auto key rotation is enabled or not.
+	IsAutoRotationEnabled *bool `mandatory:"false" json:"isAutoRotationEnabled"`
+
+	AutoKeyRotationDetails *AutoKeyRotationDetails `mandatory:"false" json:"autoKeyRotationDetails"`
+
 	ExternalKeyReferenceDetails *ExternalKeyReferenceDetails `mandatory:"false" json:"externalKeyReferenceDetails"`
 }
 

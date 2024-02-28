@@ -48,10 +48,23 @@ func DatabaseManagementExternalExadataInfrastructureResource() *schema.Resource 
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 			"discovery_key": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"license_model": {
 				Type:     schema.TypeString,
@@ -325,6 +338,14 @@ func (s *DatabaseManagementExternalExadataInfrastructureResourceCrud) Create() e
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if discoveryKey, ok := s.D.GetOkExists("discovery_key"); ok {
 		tmp := discoveryKey.(string)
 		request.DiscoveryKey = &tmp
@@ -333,6 +354,10 @@ func (s *DatabaseManagementExternalExadataInfrastructureResourceCrud) Create() e
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
@@ -367,7 +392,7 @@ func (s *DatabaseManagementExternalExadataInfrastructureResourceCrud) getExterna
 	actionTypeEnum oci_database_management.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	externalExadataInfrastructureId, err := externalExadataInfrastructureWaitForWorkRequest(workId, "oci_oracle_exadata_infra",
+	externalExadataInfrastructureId, err := externalExadataInfrastructureWaitForWorkRequest(workId, "exadata",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -525,6 +550,14 @@ func (s *DatabaseManagementExternalExadataInfrastructureResourceCrud) Update() e
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if discoveryKey, ok := s.D.GetOkExists("discovery_key"); ok {
 		tmp := discoveryKey.(string)
 		request.DiscoveryKey = &tmp
@@ -537,6 +570,10 @@ func (s *DatabaseManagementExternalExadataInfrastructureResourceCrud) Update() e
 
 	tmp := s.D.Id()
 	request.ExternalExadataInfrastructureId = &tmp
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_database_management.UpdateExternalExadataInfrastructureDetailsLicenseModelEnum(licenseModel.(string))
@@ -581,7 +618,7 @@ func (s *DatabaseManagementExternalExadataInfrastructureResourceCrud) Delete() e
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := externalExadataInfrastructureWaitForWorkRequest(workId, "oci_oracle_exadata_infra",
+	_, delWorkRequestErr := externalExadataInfrastructureWaitForWorkRequest(workId, "exadata",
 		oci_database_management.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
@@ -603,9 +640,15 @@ func (s *DatabaseManagementExternalExadataInfrastructureResourceCrud) SetData() 
 	}
 	s.D.Set("database_systems", databaseSystems)
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InternalId != nil {
 		s.D.Set("internal_id", *s.Res.InternalId)
@@ -703,9 +746,15 @@ func ExternalExadataInfrastructureSummaryToMap(obj oci_database_management.Exter
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.GridHomePath != nil {
 		result["grid_home_path"] = string(*obj.GridHomePath)

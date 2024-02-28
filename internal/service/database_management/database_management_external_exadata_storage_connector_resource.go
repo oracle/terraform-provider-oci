@@ -87,6 +87,19 @@ func DatabaseManagementExternalExadataStorageConnectorResource() *schema.Resourc
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"additional_details": {
@@ -231,6 +244,18 @@ func (s *DatabaseManagementExternalExadataStorageConnectorResourceCrud) Create()
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
 	if storageServerId, ok := s.D.GetOkExists("storage_server_id"); ok {
 		tmp := storageServerId.(string)
 		request.StorageServerId = &tmp
@@ -288,8 +313,20 @@ func (s *DatabaseManagementExternalExadataStorageConnectorResourceCrud) Update()
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	tmp := s.D.Id()
 	request.ExternalExadataStorageConnectorId = &tmp
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
 
@@ -325,6 +362,10 @@ func (s *DatabaseManagementExternalExadataStorageConnectorResourceCrud) SetData(
 		s.D.Set("connection_uri", *s.Res.ConnectionUri)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -332,6 +373,8 @@ func (s *DatabaseManagementExternalExadataStorageConnectorResourceCrud) SetData(
 	if s.Res.ExadataInfrastructureId != nil {
 		s.D.Set("exadata_infrastructure_id", *s.Res.ExadataInfrastructureId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.InternalId != nil {
 		s.D.Set("internal_id", *s.Res.InternalId)
@@ -379,9 +422,15 @@ func ExternalExadataStorageConnectorSummaryToMap(obj oci_database_management.Ext
 		result["connection_uri"] = string(*obj.ConnectionUri)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

@@ -22,6 +22,9 @@ type CreateSecretDetails struct {
 	// The OCID of the compartment where you want to create the secret.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
+	KeyId *string `mandatory:"true" json:"keyId"`
+
 	// A user-friendly name for the secret. Secret names should be unique within a vault. Avoid entering confidential information. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
 	SecretName *string `mandatory:"true" json:"secretName"`
 
@@ -41,9 +44,6 @@ type CreateSecretDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify.
-	KeyId *string `mandatory:"false" json:"keyId"`
-
 	// Additional metadata that you can use to provide context about how to use the secret during rotation or
 	// other administrative tasks. For example, for a secret that you use to connect to a database, the additional
 	// metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs.
@@ -55,6 +55,11 @@ type CreateSecretDetails struct {
 
 	// A list of rules to control how the secret is used and managed.
 	SecretRules []SecretRule `mandatory:"false" json:"secretRules"`
+
+	SecretGenerationContext SecretGenerationContext `mandatory:"false" json:"secretGenerationContext"`
+
+	// The value of this flag determines whether or not secret content will be generated automatically. If not set, it defaults to false.
+	EnableAutoGeneration *bool `mandatory:"false" json:"enableAutoGeneration"`
 }
 
 func (m CreateSecretDetails) String() string {
@@ -76,17 +81,19 @@ func (m CreateSecretDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
-		Description    *string                           `json:"description"`
-		FreeformTags   map[string]string                 `json:"freeformTags"`
-		KeyId          *string                           `json:"keyId"`
-		Metadata       map[string]interface{}            `json:"metadata"`
-		SecretContent  secretcontentdetails              `json:"secretContent"`
-		RotationConfig *RotationConfig                   `json:"rotationConfig"`
-		SecretRules    []secretrule                      `json:"secretRules"`
-		CompartmentId  *string                           `json:"compartmentId"`
-		SecretName     *string                           `json:"secretName"`
-		VaultId        *string                           `json:"vaultId"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		Description             *string                           `json:"description"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		Metadata                map[string]interface{}            `json:"metadata"`
+		SecretContent           secretcontentdetails              `json:"secretContent"`
+		RotationConfig          *RotationConfig                   `json:"rotationConfig"`
+		SecretRules             []secretrule                      `json:"secretRules"`
+		SecretGenerationContext secretgenerationcontext           `json:"secretGenerationContext"`
+		EnableAutoGeneration    *bool                             `json:"enableAutoGeneration"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		KeyId                   *string                           `json:"keyId"`
+		SecretName              *string                           `json:"secretName"`
+		VaultId                 *string                           `json:"vaultId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -99,8 +106,6 @@ func (m *CreateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Description = model.Description
 
 	m.FreeformTags = model.FreeformTags
-
-	m.KeyId = model.KeyId
 
 	m.Metadata = model.Metadata
 
@@ -128,7 +133,21 @@ func (m *CreateSecretDetails) UnmarshalJSON(data []byte) (e error) {
 			m.SecretRules[i] = nil
 		}
 	}
+	nn, e = model.SecretGenerationContext.UnmarshalPolymorphicJSON(model.SecretGenerationContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecretGenerationContext = nn.(SecretGenerationContext)
+	} else {
+		m.SecretGenerationContext = nil
+	}
+
+	m.EnableAutoGeneration = model.EnableAutoGeneration
+
 	m.CompartmentId = model.CompartmentId
+
+	m.KeyId = model.KeyId
 
 	m.SecretName = model.SecretName
 

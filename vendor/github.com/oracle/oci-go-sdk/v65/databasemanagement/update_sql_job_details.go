@@ -52,6 +52,16 @@ type UpdateSqlJobDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Named Credentials containing password secret.
 	NamedCredentialId *string `mandatory:"false" json:"namedCredentialId"`
 
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
 	SqlType SqlJobSqlTypeEnum `mandatory:"false" json:"sqlType,omitempty"`
 
 	// The role of the database user. Indicates whether the database user is a normal user or sysdba.
@@ -117,19 +127,21 @@ func (m UpdateSqlJobDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description       *string                    `json:"description"`
-		Timeout           *string                    `json:"timeout"`
-		ResultLocation    jobexecutionresultlocation `json:"resultLocation"`
-		ScheduleDetails   *JobScheduleDetails        `json:"scheduleDetails"`
-		SqlText           *string                    `json:"sqlText"`
-		InBinds           *JobInBindsDetails         `json:"inBinds"`
-		OutBinds          *JobOutBindsDetails        `json:"outBinds"`
-		SqlType           SqlJobSqlTypeEnum          `json:"sqlType"`
-		UserName          *string                    `json:"userName"`
-		Password          *string                    `json:"password"`
-		SecretId          *string                    `json:"secretId"`
-		NamedCredentialId *string                    `json:"namedCredentialId"`
-		Role              SqlJobRoleEnum             `json:"role"`
+		Description       *string                           `json:"description"`
+		Timeout           *string                           `json:"timeout"`
+		ResultLocation    jobexecutionresultlocation        `json:"resultLocation"`
+		ScheduleDetails   *JobScheduleDetails               `json:"scheduleDetails"`
+		SqlText           *string                           `json:"sqlText"`
+		InBinds           *JobInBindsDetails                `json:"inBinds"`
+		OutBinds          *JobOutBindsDetails               `json:"outBinds"`
+		SqlType           SqlJobSqlTypeEnum                 `json:"sqlType"`
+		UserName          *string                           `json:"userName"`
+		Password          *string                           `json:"password"`
+		SecretId          *string                           `json:"secretId"`
+		NamedCredentialId *string                           `json:"namedCredentialId"`
+		Role              SqlJobRoleEnum                    `json:"role"`
+		FreeformTags      map[string]string                 `json:"freeformTags"`
+		DefinedTags       map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -170,6 +182,10 @@ func (m *UpdateSqlJobDetails) UnmarshalJSON(data []byte) (e error) {
 	m.NamedCredentialId = model.NamedCredentialId
 
 	m.Role = model.Role
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	return
 }

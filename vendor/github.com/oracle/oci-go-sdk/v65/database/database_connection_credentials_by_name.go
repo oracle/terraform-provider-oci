@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// DatabaseConnectionCredentailsByName Existing named credential used to connect to the database.
-type DatabaseConnectionCredentailsByName struct {
+// DatabaseConnectionCredentialsByName Existing named credential used to connect to the database.
+type DatabaseConnectionCredentialsByName struct {
 
 	// The name of the credential information that used to connect to the database. The name should be in "x.y" format, where
 	// the length of "x" has a maximum of 64 characters, and length of "y" has a maximum of 199 characters.
@@ -30,14 +30,14 @@ type DatabaseConnectionCredentailsByName struct {
 	CredentialName *string `mandatory:"true" json:"credentialName"`
 }
 
-func (m DatabaseConnectionCredentailsByName) String() string {
+func (m DatabaseConnectionCredentialsByName) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DatabaseConnectionCredentailsByName) ValidateEnumValue() (bool, error) {
+func (m DatabaseConnectionCredentialsByName) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -47,14 +47,14 @@ func (m DatabaseConnectionCredentailsByName) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m DatabaseConnectionCredentailsByName) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeDatabaseConnectionCredentailsByName DatabaseConnectionCredentailsByName
+func (m DatabaseConnectionCredentialsByName) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeDatabaseConnectionCredentialsByName DatabaseConnectionCredentialsByName
 	s := struct {
 		DiscriminatorParam string `json:"credentialType"`
-		MarshalTypeDatabaseConnectionCredentailsByName
+		MarshalTypeDatabaseConnectionCredentialsByName
 	}{
 		"NAME_REFERENCE",
-		(MarshalTypeDatabaseConnectionCredentailsByName)(m),
+		(MarshalTypeDatabaseConnectionCredentialsByName)(m),
 	}
 
 	return json.Marshal(&s)

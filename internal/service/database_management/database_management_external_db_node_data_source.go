@@ -80,6 +80,10 @@ func (s *DatabaseManagementExternalDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("cpu_core_count", *s.Res.CpuCoreCount)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -95,6 +99,8 @@ func (s *DatabaseManagementExternalDbNodeDataSourceCrud) SetData() error {
 	if s.Res.ExternalDbSystemId != nil {
 		s.D.Set("external_db_system_id", *s.Res.ExternalDbSystemId)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.HostName != nil {
 		s.D.Set("host_name", *s.Res.HostName)

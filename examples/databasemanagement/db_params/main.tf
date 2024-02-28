@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2020, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -13,6 +13,10 @@ provider "oci" {
   fingerprint = var.fingerprint
   private_key_path = var.private_key_path
   region = var.region
+}
+
+variable "managed_database_id" {
+   default = "<database.ocid>"
 }
 
 variable "managed_databases_database_parameter_credentials_password" {
@@ -51,7 +55,7 @@ variable "managed_databases_database_parameter_source" {
   default = "CURRENT"
 }
 
-
+# Change a database parameter value.
 resource "oci_database_management_managed_databases_change_database_parameter" "test_managed_databases_change_database_parameter" {
   #Required
   credentials {
@@ -73,7 +77,7 @@ resource "oci_database_management_managed_databases_change_database_parameter" "
   scope = var.managed_databases_database_parameter_scope
 }
 
-
+# Reset a database parameter value.
 resource "oci_database_management_managed_databases_reset_database_parameter" "test_managed_databases_reset_database_parameter" {
   #Required
   credentials {
@@ -88,8 +92,8 @@ resource "oci_database_management_managed_databases_reset_database_parameter" "t
   scope = var.managed_databases_database_parameter_scope
 }
 
-
-data "oci_database_management_managed_databases_database_parameter" "test_managed_databases_database_parameter" {
+# List database parameters filtered by their name and source.
+data "oci_database_management_managed_databases_database_parameters" "test_managed_databases_database_parameter" {
   #Required
   managed_database_id = var.managed_database_id
 

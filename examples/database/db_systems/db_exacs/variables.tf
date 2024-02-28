@@ -18,6 +18,9 @@ variable "cloud_exadata_infrastructure_shape" {
   default = "Exadata.X8M"
 }
 
+variable "cloud_exadata_infrastructure_cluster_placement_group_id" {
+}
+
 variable "cloud_exadata_infrastructure_compute_count" {
   default = "2"
 }

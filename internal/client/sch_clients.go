@@ -10,7 +10,28 @@ import (
 )
 
 func init() {
+	RegisterOracleClient("oci_sch.ConnectorPluginsClient", &OracleClient{InitClientFn: initSchConnectorPluginsClient})
 	RegisterOracleClient("oci_sch.ServiceConnectorClient", &OracleClient{InitClientFn: initSchServiceConnectorClient})
+}
+
+func initSchConnectorPluginsClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	client, err := oci_sch.NewConnectorPluginsClientWithConfigurationProvider(configProvider)
+	if err != nil {
+		return nil, err
+	}
+	err = configureClient(&client.BaseClient)
+	if err != nil {
+		return nil, err
+	}
+
+	if serviceClientOverrides.HostUrlOverride != "" {
+		client.Host = serviceClientOverrides.HostUrlOverride
+	}
+	return &client, nil
+}
+
+func (m *OracleClients) ConnectorPluginsClient() *oci_sch.ConnectorPluginsClient {
+	return m.GetClient("oci_sch.ConnectorPluginsClient").(*oci_sch.ConnectorPluginsClient)
 }
 
 func initSchServiceConnectorClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {

@@ -6,6 +6,8 @@ package sch
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_sch_connector_plugin", SchConnectorPluginDataSource())
+	tfresource.RegisterDatasource("oci_sch_connector_plugins", SchConnectorPluginsDataSource())
 	tfresource.RegisterDatasource("oci_sch_service_connector", SchServiceConnectorDataSource())
 	tfresource.RegisterDatasource("oci_sch_service_connectors", SchServiceConnectorsDataSource())
 }

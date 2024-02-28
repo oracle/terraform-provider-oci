@@ -33,6 +33,16 @@ type CreateExternalDbSystemMacsConnectorDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	ConnectionInfo ExternalDbSystemConnectionInfo `mandatory:"false" json:"connectionInfo"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 // GetDisplayName returns DisplayName
@@ -78,10 +88,12 @@ func (m CreateExternalDbSystemMacsConnectorDetails) MarshalJSON() (buff []byte, 
 // UnmarshalJSON unmarshals from json
 func (m *CreateExternalDbSystemMacsConnectorDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName        *string                        `json:"displayName"`
-		ConnectionInfo     externaldbsystemconnectioninfo `json:"connectionInfo"`
-		ExternalDbSystemId *string                        `json:"externalDbSystemId"`
-		AgentId            *string                        `json:"agentId"`
+		DisplayName        *string                           `json:"displayName"`
+		ConnectionInfo     externaldbsystemconnectioninfo    `json:"connectionInfo"`
+		FreeformTags       map[string]string                 `json:"freeformTags"`
+		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		ExternalDbSystemId *string                           `json:"externalDbSystemId"`
+		AgentId            *string                           `json:"agentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -100,6 +112,10 @@ func (m *CreateExternalDbSystemMacsConnectorDetails) UnmarshalJSON(data []byte) 
 	} else {
 		m.ConnectionInfo = nil
 	}
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
 
 	m.ExternalDbSystemId = model.ExternalDbSystemId
 

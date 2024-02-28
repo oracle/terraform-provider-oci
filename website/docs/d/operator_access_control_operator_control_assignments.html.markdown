@@ -60,8 +60,10 @@ The following attributes are exported:
 * `is_auto_approve_during_maintenance` - The boolean if true would autoApprove during maintenance.
 * `is_default_assignment` - Whether the assignment is a default assignment.    
 * `is_enforced_always` - If set, then the target resource is always governed by the operator control.
+* `is_hypervisor_log_forwarded` - If set, then the hypervisor audit logs will be forwarded to the relevant remote syslog server
 * `is_log_forwarded` - If set indicates that the audit logs are being forwarded to the relevant remote logging server
 * `lifecycle_details` - More in detail about the lifeCycleState.
+* `op_control_name` - Name of the operator control name associated.
 * `operator_control_id` - The OCID of the operator control.
 * `remote_syslog_server_address` - The address of the remote syslog server where the audit logs are being forwarded to. Address in host or IP format.
 * `remote_syslog_server_ca_cert` - The CA certificate of the remote syslog server.

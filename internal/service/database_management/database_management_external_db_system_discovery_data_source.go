@@ -74,6 +74,10 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryDataSourceCrud) SetData() er
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	discoveredComponents := []interface{}{}
 	for _, item := range s.Res.DiscoveredComponents {
 		discoveredComponents = append(discoveredComponents, DiscoveredExternalDbSystemComponentToMap(item))
@@ -83,6 +87,8 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryDataSourceCrud) SetData() er
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.GridHome != nil {
 		s.D.Set("grid_home", *s.Res.GridHome)

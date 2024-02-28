@@ -29,6 +29,11 @@ type ImportKeyDetails struct {
 
 	WrappedImportKey *WrappedImportKey `mandatory:"true" json:"wrappedImportKey"`
 
+	// A parameter specifying whether the auto key rotation is enabled or not.
+	IsAutoRotationEnabled *bool `mandatory:"false" json:"isAutoRotationEnabled"`
+
+	AutoKeyRotationDetails *AutoKeyRotationDetails `mandatory:"false" json:"autoKeyRotationDetails"`
+
 	// Usage of predefined tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"foo-namespace": {"bar-key": "foo-value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`

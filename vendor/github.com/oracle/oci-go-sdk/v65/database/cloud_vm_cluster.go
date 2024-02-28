@@ -158,6 +158,10 @@ type CloudVmCluster struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The FQDN of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster.
 	ScanDnsName *string `mandatory:"false" json:"scanDnsName"`
 

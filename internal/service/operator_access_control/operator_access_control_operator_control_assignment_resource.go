@@ -5,6 +5,7 @@ package operator_access_control
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -86,6 +87,11 @@ func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_hypervisor_log_forwarded": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_log_forwarded": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -118,6 +124,10 @@ func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
+			"validate_assignment_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"assigner_id": {
@@ -141,6 +151,10 @@ func OperatorAccessControlOperatorControlAssignmentResource() *schema.Resource {
 				Computed: true,
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"op_control_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -169,7 +183,18 @@ func createOperatorAccessControlOperatorControlAssignment(d *schema.ResourceData
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperatorControlAssignmentClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("validate_assignment_trigger"); ok {
+		err := sync.ValidateOperatorAssignment()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
 }
 
 func readOperatorAccessControlOperatorControlAssignment(d *schema.ResourceData, m interface{}) error {
@@ -185,7 +210,27 @@ func updateOperatorAccessControlOperatorControlAssignment(d *schema.ResourceData
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OperatorControlAssignmentClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("validate_assignment_trigger"); ok && sync.D.HasChange("validate_assignment_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("validate_assignment_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ValidateOperatorAssignment()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("validate_assignment_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteOperatorAccessControlOperatorControlAssignment(d *schema.ResourceData, m interface{}) error {
@@ -278,6 +323,11 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) Create() er
 	if isEnforcedAlways, ok := s.D.GetOkExists("is_enforced_always"); ok {
 		tmp := isEnforcedAlways.(bool)
 		request.IsEnforcedAlways = &tmp
+	}
+
+	if isHypervisorLogForwarded, ok := s.D.GetOkExists("is_hypervisor_log_forwarded"); ok {
+		tmp := isHypervisorLogForwarded.(bool)
+		request.IsHypervisorLogForwarded = &tmp
 	}
 
 	if isLogForwarded, ok := s.D.GetOkExists("is_log_forwarded"); ok {
@@ -407,6 +457,11 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) Update() er
 		request.IsEnforcedAlways = &tmp
 	}
 
+	if isHypervisorLogForwarded, ok := s.D.GetOkExists("is_hypervisor_log_forwarded"); ok {
+		tmp := isHypervisorLogForwarded.(bool)
+		request.IsHypervisorLogForwarded = &tmp
+	}
+
 	if isLogForwarded, ok := s.D.GetOkExists("is_log_forwarded"); ok {
 		tmp := isLogForwarded.(bool)
 		request.IsLogForwarded = &tmp
@@ -517,12 +572,20 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) SetData() e
 		s.D.Set("is_enforced_always", *s.Res.IsEnforcedAlways)
 	}
 
+	if s.Res.IsHypervisorLogForwarded != nil {
+		s.D.Set("is_hypervisor_log_forwarded", *s.Res.IsHypervisorLogForwarded)
+	}
+
 	if s.Res.IsLogForwarded != nil {
 		s.D.Set("is_log_forwarded", *s.Res.IsLogForwarded)
 	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.OpControlName != nil {
+		s.D.Set("op_control_name", *s.Res.OpControlName)
 	}
 
 	if s.Res.OperatorControlId != nil {
@@ -580,6 +643,36 @@ func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) SetData() e
 	return nil
 }
 
+func (s *OperatorAccessControlOperatorControlAssignmentResourceCrud) ValidateOperatorAssignment() error {
+	request := oci_operator_access_control.ValidateOperatorAssignmentRequest{}
+
+	if actionName, ok := s.D.GetOkExists("action_name"); ok {
+		tmp := actionName.(string)
+		request.ActionName = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.OperatorControlAssignmentId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "operator_access_control")
+
+	//response, err := s.Client.ValidateOperatorAssignment(context.Background(), request)
+	_, err := s.Client.ValidateOperatorAssignment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("validate_assignment_trigger")
+	s.D.Set("validate_assignment_trigger", val)
+
+	//s.Res = &response.OperatorControlAssignment
+	return nil
+}
+
 func OperatorControlAssignmentSummaryToMap(obj oci_operator_access_control.OperatorControlAssignmentSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -609,12 +702,20 @@ func OperatorControlAssignmentSummaryToMap(obj oci_operator_access_control.Opera
 		result["is_enforced_always"] = bool(*obj.IsEnforcedAlways)
 	}
 
+	if obj.IsHypervisorLogForwarded != nil {
+		result["is_hypervisor_log_forwarded"] = bool(*obj.IsHypervisorLogForwarded)
+	}
+
 	if obj.IsLogForwarded != nil {
 		result["is_log_forwarded"] = bool(*obj.IsLogForwarded)
 	}
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.OpControlName != nil {
+		result["op_control_name"] = string(*obj.OpControlName)
 	}
 
 	if obj.OperatorControlId != nil {
@@ -631,6 +732,10 @@ func OperatorControlAssignmentSummaryToMap(obj oci_operator_access_control.Opera
 
 	if obj.ResourceId != nil {
 		result["resource_id"] = string(*obj.ResourceId)
+	}
+
+	if obj.ResourceName != nil {
+		result["resource_name"] = string(*obj.ResourceName)
 	}
 
 	result["resource_type"] = string(obj.ResourceType)

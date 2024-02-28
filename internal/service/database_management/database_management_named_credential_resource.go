@@ -94,12 +94,24 @@ func DatabaseManagementNamedCredentialResource() *schema.Resource {
 			"associated_resource": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
+			},
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
 			},
 			"description": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 
 			// Computed
@@ -215,9 +227,21 @@ func (s *DatabaseManagementNamedCredentialResourceCrud) Create() error {
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -289,9 +313,21 @@ func (s *DatabaseManagementNamedCredentialResourceCrud) Update() error {
 		}
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -343,9 +379,15 @@ func (s *DatabaseManagementNamedCredentialResourceCrud) SetData() error {
 		s.D.Set("content", nil)
 	}
 
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -438,9 +480,15 @@ func NamedCredentialSummaryToMap(obj oci_database_management.NamedCredentialSumm
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
 	}
+
+	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)

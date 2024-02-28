@@ -96,6 +96,16 @@ type ExternalListener struct {
 
 	// The list of ASMs that are serviced by the listener.
 	ServicedAsms []ExternalServicedAsm `mandatory:"false" json:"servicedAsms"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m ExternalListener) String() string {
@@ -140,6 +150,8 @@ func (m *ExternalListener) UnmarshalJSON(data []byte) (e error) {
 		Endpoints           []externallistenerendpoint         `json:"endpoints"`
 		ServicedDatabases   []ExternalListenerServicedDatabase `json:"servicedDatabases"`
 		ServicedAsms        []ExternalServicedAsm              `json:"servicedAsms"`
+		FreeformTags        map[string]string                  `json:"freeformTags"`
+		DefinedTags         map[string]map[string]interface{}  `json:"definedTags"`
 		Id                  *string                            `json:"id"`
 		DisplayName         *string                            `json:"displayName"`
 		ComponentName       *string                            `json:"componentName"`
@@ -199,6 +211,10 @@ func (m *ExternalListener) UnmarshalJSON(data []byte) (e error) {
 	copy(m.ServicedDatabases, model.ServicedDatabases)
 	m.ServicedAsms = make([]ExternalServicedAsm, len(model.ServicedAsms))
 	copy(m.ServicedAsms, model.ServicedAsms)
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName

@@ -36,6 +36,9 @@ type CloudExadataInfrastructureSummary struct {
 	// The name of the availability domain that the cloud Exadata infrastructure resource is located in.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The number of compute servers for the cloud Exadata infrastructure.
 	ComputeCount *int `mandatory:"false" json:"computeCount"`
 
@@ -100,6 +103,10 @@ type CloudExadataInfrastructureSummary struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
 	// The list of customer email addresses that receive information from Oracle about the specified OCI Database service resource.
 	// Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.

@@ -2,11 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Service Connector Hub API
+// Connector Hub API
 //
-// Use the Service Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
-// For more information about Service Connector Hub, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// Use the Connector Hub API to transfer data between services in Oracle Cloud Infrastructure.
+// For more information about Connector Hub, see
+// the Connector Hub documentation (https://docs.cloud.oracle.com/iaas/Content/connector-hub/home.htm).
+// Connector Hub is formerly known as Service Connector Hub.
 //
 
 package sch
@@ -93,19 +94,20 @@ func (client *ServiceConnectorClient) ConfigurationProvider() *common.Configurat
 	return client.config
 }
 
-// ActivateServiceConnector Activates the specified service connector.
-// After you send your request, the service connector's state is temporarily
+// ActivateServiceConnector Activates the specified connector.
+// After you send your request, the connector's state is temporarily
 // UPDATING. When the state changes to ACTIVE, data begins transferring from the
-// source service to the target service. For instructions on activating service
-// connectors, see
-// To activate a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#activate).
+// source service to the target service.
+// For more information, see
+// Activating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/ActivateServiceConnector.go.html to see an example of how to use ActivateServiceConnector API.
+// A default retry strategy applies to this operation ActivateServiceConnector()
 func (client ServiceConnectorClient) ActivateServiceConnector(ctx context.Context, request ActivateServiceConnectorRequest) (response ActivateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -151,7 +153,7 @@ func (client ServiceConnectorClient) activateServiceConnector(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/ActivateServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ActivateServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -160,17 +162,18 @@ func (client ServiceConnectorClient) activateServiceConnector(ctx context.Contex
 	return response, err
 }
 
-// ChangeServiceConnectorCompartment Moves a service connector into a different compartment within the same tenancy.
-// For information about moving resources between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// ChangeServiceConnectorCompartment Moves a connector into a different compartment within the same tenancy.
+// For more information, see
+// Moving a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/change-compartment-service-connector.htm).
 // When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/ChangeServiceConnectorCompartment.go.html to see an example of how to use ChangeServiceConnectorCompartment API.
+// A default retry strategy applies to this operation ChangeServiceConnectorCompartment()
 func (client ServiceConnectorClient) ChangeServiceConnectorCompartment(ctx context.Context, request ChangeServiceConnectorCompartmentRequest) (response ChangeServiceConnectorCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -211,7 +214,7 @@ func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/ChangeServiceConnectorCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ChangeServiceConnectorCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -220,31 +223,32 @@ func (client ServiceConnectorClient) changeServiceConnectorCompartment(ctx conte
 	return response, err
 }
 
-// CreateServiceConnector Creates a new service connector in the specified compartment.
-// A service connector is a logically defined flow for moving data from
+// CreateServiceConnector Creates a new connector in the specified compartment.
+// A connector is a logically defined flow for moving data from
 // a source service to a destination service in Oracle Cloud Infrastructure.
-// For instructions, see
-// To create a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#create).
-// For general information about service connectors, see
-// Service Connector Hub Overview (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// For more information, see
+// Creating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/create-service-connector.htm).
+// For general information about connectors, see
+// Overview of Connector Hub (https://docs.cloud.oracle.com/iaas/Content/connector-hub/overview.htm).
 // For purposes of access control, you must provide the
 // OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where
-// you want the service connector to reside. Notice that the service connector
+// you want the connector to reside. Notice that the connector
 // doesn't have to be in the same compartment as the source or target services.
 // For information about access control and compartments, see
 // Overview of the IAM Service (https://docs.cloud.oracle.com/iaas/Content/Identity/Concepts/overview.htm).
-// After you send your request, the new service connector's state is temporarily
+// After you send your request, the new connector's state is temporarily
 // CREATING. When the state changes to ACTIVE, data begins transferring from the
 // source service to the target service. For instructions on deactivating and
-// activating service connectors, see
-// To activate or deactivate a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/overview.htm).
+// activating connectors, see
+// Activating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/activate-service-connector.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/CreateServiceConnector.go.html to see an example of how to use CreateServiceConnector API.
+// A default retry strategy applies to this operation CreateServiceConnector()
 func (client ServiceConnectorClient) CreateServiceConnector(ctx context.Context, request CreateServiceConnectorRequest) (response CreateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -290,7 +294,7 @@ func (client ServiceConnectorClient) createServiceConnector(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/CreateServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "CreateServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -299,18 +303,19 @@ func (client ServiceConnectorClient) createServiceConnector(ctx context.Context,
 	return response, err
 }
 
-// DeactivateServiceConnector Deactivates the specified service connector.
-// After you send your request, the service connector's state is temporarily
+// DeactivateServiceConnector Deactivates the specified connector.
+// After you send your request, the connector's state is temporarily
 // UPDATING and any data transfer stops. The state then changes to INACTIVE.
-// For instructions on deactivating service connectors, see
-// To deactivate a service connector (https://docs.cloud.oracle.com/iaas/Content/service-connector-hub/managingconnectors.htm#deactivate).
+// For more information, see
+// Deactivating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/deactivate-service-connector.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/DeactivateServiceConnector.go.html to see an example of how to use DeactivateServiceConnector API.
+// A default retry strategy applies to this operation DeactivateServiceConnector()
 func (client ServiceConnectorClient) DeactivateServiceConnector(ctx context.Context, request DeactivateServiceConnectorRequest) (response DeactivateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -356,7 +361,7 @@ func (client ServiceConnectorClient) deactivateServiceConnector(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/DeactivateServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "DeactivateServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -365,16 +370,19 @@ func (client ServiceConnectorClient) deactivateServiceConnector(ctx context.Cont
 	return response, err
 }
 
-// DeleteServiceConnector Deletes the specified service connector.
-// After you send your request, the service connector's state is temporarily
+// DeleteServiceConnector Deletes the specified connector.
+// For more information, see
+// Deleting a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/delete-service-connector.htm).
+// After you send your request, the connector's state is temporarily
 // DELETING and any data transfer stops. The state then changes to DELETED.
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/DeleteServiceConnector.go.html to see an example of how to use DeleteServiceConnector API.
+// A default retry strategy applies to this operation DeleteServiceConnector()
 func (client ServiceConnectorClient) DeleteServiceConnector(ctx context.Context, request DeleteServiceConnectorRequest) (response DeleteServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -415,7 +423,7 @@ func (client ServiceConnectorClient) deleteServiceConnector(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/DeleteServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "DeleteServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -424,14 +432,17 @@ func (client ServiceConnectorClient) deleteServiceConnector(ctx context.Context,
 	return response, err
 }
 
-// GetServiceConnector Gets the specified service connector's configuration information.
+// GetServiceConnector Gets the specified connector's configuration information.
+// For more information, see
+// Getting a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/get-service-connector.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/GetServiceConnector.go.html to see an example of how to use GetServiceConnector API.
+// A default retry strategy applies to this operation GetServiceConnector()
 func (client ServiceConnectorClient) GetServiceConnector(ctx context.Context, request GetServiceConnectorRequest) (response GetServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -472,7 +483,7 @@ func (client ServiceConnectorClient) getServiceConnector(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/GetServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "GetServiceConnector", apiReferenceLink)
 		return response, err
 	}
@@ -482,13 +493,16 @@ func (client ServiceConnectorClient) getServiceConnector(ctx context.Context, re
 }
 
 // GetWorkRequest Gets the details of the specified work request.
+// For more information, see
+// Getting a Work Request's Details (https://docs.cloud.oracle.com/iaas/Content/connector-hub/get-work-request.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
+// A default retry strategy applies to this operation GetWorkRequest()
 func (client ServiceConnectorClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -529,7 +543,7 @@ func (client ServiceConnectorClient) getWorkRequest(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -538,14 +552,17 @@ func (client ServiceConnectorClient) getWorkRequest(ctx context.Context, request
 	return response, err
 }
 
-// ListServiceConnectors Lists service connectors in the specified compartment.
+// ListServiceConnectors Lists connectors in the specified compartment.
+// For more information, see
+// Listing Connectors (https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-service-connector.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/ListServiceConnectors.go.html to see an example of how to use ListServiceConnectors API.
+// A default retry strategy applies to this operation ListServiceConnectors()
 func (client ServiceConnectorClient) ListServiceConnectors(ctx context.Context, request ListServiceConnectorsRequest) (response ListServiceConnectorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -586,7 +603,7 @@ func (client ServiceConnectorClient) listServiceConnectors(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/ListServiceConnectors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ListServiceConnectors", apiReferenceLink)
 		return response, err
 	}
@@ -596,13 +613,16 @@ func (client ServiceConnectorClient) listServiceConnectors(ctx context.Context, 
 }
 
 // ListWorkRequestErrors Lists work request errors for the specified work request. Results are paginated.
+// For more information, see
+// Listing Work Request Errors (https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request-error.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
+// A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ServiceConnectorClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -643,7 +663,7 @@ func (client ServiceConnectorClient) listWorkRequestErrors(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -653,13 +673,16 @@ func (client ServiceConnectorClient) listWorkRequestErrors(ctx context.Context, 
 }
 
 // ListWorkRequestLogs Lists logs for the specified work request. Results are paginated.
+// For more information, see
+// Listing Work Request Log Entries (https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request-log-entry.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
+// A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ServiceConnectorClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -700,7 +723,7 @@ func (client ServiceConnectorClient) listWorkRequestLogs(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -710,13 +733,16 @@ func (client ServiceConnectorClient) listWorkRequestLogs(ctx context.Context, re
 }
 
 // ListWorkRequests Lists the work requests in the specified compartment.
+// For more information, see
+// Listing Work Requests (https://docs.cloud.oracle.com/iaas/Content/connector-hub/list-work-request.htm).
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
+// A default retry strategy applies to this operation ListWorkRequests()
 func (client ServiceConnectorClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -757,7 +783,7 @@ func (client ServiceConnectorClient) listWorkRequests(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -766,17 +792,20 @@ func (client ServiceConnectorClient) listWorkRequests(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateServiceConnector Updates the configuration information for the specified service connector.
-// After you send your request, the service connector's state is temporarily
+// UpdateServiceConnector Updates the configuration information for the specified connector.
+// For more information, see
+// Updating a Connector (https://docs.cloud.oracle.com/iaas/Content/connector-hub/update-service-connector.htm).
+// After you send your request, the connector's state is temporarily
 // UPDATING and any data transfer pauses. The state then changes back to its
 // original value: if ACTIVE, then data transfer resumes.
 //
 // # See also
 //
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/sch/UpdateServiceConnector.go.html to see an example of how to use UpdateServiceConnector API.
+// A default retry strategy applies to this operation UpdateServiceConnector()
 func (client ServiceConnectorClient) UpdateServiceConnector(ctx context.Context, request UpdateServiceConnectorRequest) (response UpdateServiceConnectorResponse, err error) {
 	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
+	policy := common.DefaultRetryPolicy()
 	if client.RetryPolicy() != nil {
 		policy = *client.RetryPolicy()
 	}
@@ -817,7 +846,7 @@ func (client ServiceConnectorClient) updateServiceConnector(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/serviceconnectors/20200909/ServiceConnector/UpdateServiceConnector"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "ServiceConnector", "UpdateServiceConnector", apiReferenceLink)
 		return response, err
 	}
