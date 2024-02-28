@@ -1,4 +1,4 @@
-## 5.31.0 (Unreleased)
+## 5.31.0 (February 28, 2024)
 
 ### Added
 - Support for Database Management: Platform Bar - Tagging
