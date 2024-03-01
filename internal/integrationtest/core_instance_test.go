@@ -58,6 +58,12 @@ var (
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `1.0`},
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `1`},
 	}
+	/*
+		A launch instance request can either have an existing volume ID or createVolume details - Providing both will throw an exception
+		It can either attach an existing volume or create and attach a new volume
+		Updates to an instance launched with volume attachments will be rejected/not supported
+	*/
+	// Instance representation for a normal instance launch (A primary vnic and boot volume)
 	CoreInstanceRepresentation = map[string]interface{}{
 		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -90,6 +96,78 @@ var (
 		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentation},
 		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+	}
+	// Instance representation for attaching existing volumes on instance launch
+	CoreInstanceAttachExistingVolumesOnLaunchRepresentation = map[string]interface{}{
+		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"update_operation_constraint": acctest.Representation{RepType: acctest.Optional, Create: `ALLOW_DOWNTIME`, Update: `ALLOW_DOWNTIME`},
+		"agent_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
+		"availability_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAvailabilityConfigRepresentation},
+		"create_vnic_details":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"dedicated_vm_host_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"extended_metadata": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{
+			"some_string":   "stringA",
+			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
+		}, Update: map[string]string{
+			"some_string":   "stringA",
+			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
+			"other_string":  "stringD",
+		}},
+		"fault_domain":                        acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
+		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":                      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"instance_options":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceInstanceOptionsRepresentation},
+		"image":                               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
+		"ipxe_script":                         acctest.Representation{RepType: acctest.Optional, Create: `ipxeScript`},
+		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLaunchOptionsRepresentation},
+		"launch_volume_attachments":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLaunchWithExistingVolumeAttachmentsRepresentation},
+		"metadata":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"user_data": "abcd"}, Update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
+		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
+		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentation},
+		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+	}
+	// Instance representation for creating and attaching volumes on instance launch
+	CoreInstanceCreateAndAttachVolumesOnLaunchRepresentation = map[string]interface{}{
+		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"update_operation_constraint": acctest.Representation{RepType: acctest.Optional, Create: `ALLOW_DOWNTIME`, Update: `ALLOW_DOWNTIME`},
+		"agent_config":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAgentConfigRepresentation},
+		"availability_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceAvailabilityConfigRepresentation},
+		"create_vnic_details":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceCreateVnicDetailsRepresentation},
+		"dedicated_vm_host_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"extended_metadata": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{
+			"some_string":   "stringA",
+			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
+		}, Update: map[string]string{
+			"some_string":   "stringA",
+			"nested_object": "{\\\"some_string\\\": \\\"stringB\\\", \\\"object\\\": {\\\"some_string\\\": \\\"stringC\\\"}}",
+			"other_string":  "stringD",
+		}},
+		"fault_domain":                        acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
+		"freeform_tags":                       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":                      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"instance_options":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceInstanceOptionsRepresentation},
+		"image":                               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
+		"ipxe_script":                         acctest.Representation{RepType: acctest.Optional, Create: `ipxeScript`},
+		"is_pv_encryption_in_transit_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"launch_options":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLaunchOptionsRepresentation},
+		"launch_volume_attachments":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLaunchWithCreateVolumeAttachmentsRepresentation},
+		"metadata":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"user_data": "abcd"}, Update: map[string]string{"user_data": "abcd", "volatile_data": "stringE"}},
+		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
+		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentation},
+		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+		// Since preserve_data_volumes_created_at_launch is a required parameter for instances launched with volumes, defaulting it to false.
+		"preserve_data_volumes_created_at_launch": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 	CoreFungibleInstanceRepresentation = map[string]interface{}{
 		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -179,6 +257,38 @@ var (
 		"network_type":                        acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
 		"remote_data_volume_type":             acctest.Representation{RepType: acctest.Optional, Create: `PARAVIRTUALIZED`},
 	}
+	CoreInstanceLaunchWithExistingVolumeAttachmentsRepresentation = map[string]interface{}{
+		"type":                              acctest.Representation{RepType: acctest.Required, Create: `iscsi`},
+		"device":                            acctest.Representation{RepType: acctest.Optional, Create: `device`},
+		"display_name":                      acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"encryption_in_transit_type":        acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+		"is_agent_auto_iscsi_login_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_read_only":                      acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_shareable":                      acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"use_chap":                          acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"volume_id":                         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_volume.test_volume.id}`},
+	}
+	CoreInstanceLaunchWithCreateVolumeAttachmentsRepresentation = map[string]interface{}{
+		"type":                              acctest.Representation{RepType: acctest.Required, Create: `iscsi`},
+		"device":                            acctest.Representation{RepType: acctest.Optional, Create: `device`},
+		"display_name":                      acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"encryption_in_transit_type":        acctest.Representation{RepType: acctest.Optional, Create: `NONE`},
+		"is_agent_auto_iscsi_login_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_read_only":                      acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_shareable":                      acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"launch_create_volume_details": acctest.RepresentationGroup{RepType: acctest.Optional,
+			Group: CoreInstanceLaunchVolumeAttachmentsLaunchCreateVolumeDetailsRepresentation},
+		"use_chap": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+	CoreInstanceLaunchVolumeAttachmentsLaunchCreateVolumeDetailsRepresentation = map[string]interface{}{
+		"size_in_gbs":          acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"volume_creation_type": acctest.Representation{RepType: acctest.Required, Create: `ATTRIBUTES`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"kms_key_id": acctest.Representation{RepType: acctest.Optional,
+			Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"vpus_per_gb": acctest.Representation{RepType: acctest.Optional, Create: `50`},
+	}
 	CoreInstanceWithIntelVmPlatformConfigRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(CoreFungibleInstanceRepresentation, map[string]interface{}{
 		"fault_domain":    acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-3`},
 		"image":           acctest.Representation{RepType: acctest.Required, Create: `${var.FlexInstanceImageOCID[var.region]}`},
@@ -261,6 +371,7 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Required, acctest.Create, CoreVolumeRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vlan", "test_vlan", acctest.Required, acctest.Create,
 			acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/30`}, CoreVlanRepresentation)) +
 		AvailabilityDomainConfig +
@@ -755,6 +866,240 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies,
 		},
+
+		// verify Create with optionals - Attach existing volumes on instance launch
+		{
+			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance",
+					acctest.Optional, acctest.Create, CoreInstanceAttachExistingVolumesOnLaunchRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
+				resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "availability_config.0.is_live_migration_preferred", "false"),
+				resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_ipv6ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "dedicated_vm_host_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "image"),
+				resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.boot_volume_type", "ISCSI"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.firmware", "UEFI_64"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_consistent_volume_naming_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.device", "device"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.encryption_in_transit_type", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.is_agent_auto_iscsi_login_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.is_read_only", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.is_shareable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.type", "iscsi"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.use_chap", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "launch_volume_attachments.0.volume_id"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "region"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_vpus_per_gb", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
+				resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// Verify updates to any fields associated with the launch_volume_attachments property is not force new.
+		// The update does not go through and retains the same value as before
+		{
+			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance",
+					acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(CoreInstanceAttachExistingVolumesOnLaunchRepresentation,
+						map[string]interface{}{
+							"launch_volume_attachments": acctest.RepresentationGroup{RepType: acctest.Optional,
+								Group: CoreInstanceLaunchWithExistingVolumeAttachmentsRepresentation},
+						})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.display_name", "displayName"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies,
+		},
+
+		// verify Create with optionals - Create and attach volumes on instance launch
+		{
+			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance",
+					acctest.Optional, acctest.Create, CoreInstanceCreateAndAttachVolumesOnLaunchRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "agent_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.are_all_plugins_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_management_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.is_monitoring_disabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.desired_state", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "agent_config.0.plugins_config.0.name", "Compute Instance Monitoring"),
+				resource.TestCheckResourceAttr(resourceName, "availability_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "availability_config.0.is_live_migration_preferred", "false"),
+				resource.TestCheckResourceAttr(resourceName, "availability_config.0.recovery_action", "RESTORE_INSTANCE"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_ipv6ip", "false"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.assign_public_ip", "true"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "dedicated_vm_host_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "extended_metadata.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "fault_domain", "FAULT-DOMAIN-3"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnamelabel"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_options.0.are_legacy_imds_endpoints_disabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "image"),
+				resource.TestCheckResourceAttr(resourceName, "ipxe_script", "ipxeScript"),
+				resource.TestCheckResourceAttr(resourceName, "is_pv_encryption_in_transit_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.boot_volume_type", "ISCSI"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.firmware", "UEFI_64"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_consistent_volume_naming_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.is_pv_encryption_in_transit_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.network_type", "PARAVIRTUALIZED"),
+				resource.TestCheckResourceAttr(resourceName, "launch_options.0.remote_data_volume_type", "PARAVIRTUALIZED"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.type", "iscsi"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.device", "device"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.encryption_in_transit_type", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.is_agent_auto_iscsi_login_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.is_read_only", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.is_shareable", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.use_chap", "false"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.launch_create_volume_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.launch_create_volume_details.0.volume_creation_type", "ATTRIBUTES"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.launch_create_volume_details.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.launch_create_volume_details.0.display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "launch_volume_attachments.0.launch_create_volume_details.0.kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.launch_create_volume_details.0.size_in_gbs", "50"),
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.launch_create_volume_details.0.vpus_per_gb", "50"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "region"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.ocpus", "1"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.0.vcpus", "2"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_vpus_per_gb", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
+				resource.TestCheckResourceAttr(resourceName, "state", "STOPPED"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "preserve_data_volumes_created_at_launch", "false"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// Verify updates to any fields associated with the launch_volume_attachments property is not force new.
+		// The update does not go through and retains the same value as before
+		{
+			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance",
+					acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(CoreInstanceCreateAndAttachVolumesOnLaunchRepresentation,
+						map[string]interface{}{
+							"launch_volume_attachments": acctest.RepresentationGroup{RepType: acctest.Optional,
+								Group: CoreInstanceLaunchWithCreateVolumeAttachmentsRepresentation},
+						})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "launch_volume_attachments.0.display_name", "displayName"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies,
+		},
+
 		// verify Create with is_pv_encryption_in_transit_enabled = true
 		{
 			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies + InstanceWithPVEncryptionInTransitEnabled,
@@ -777,7 +1122,8 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify Create with optionals
+
+		// verify Create with optionals - Normal Launch (A primary Vnic and boot volume)
 		{
 			Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, CoreInstanceRepresentation),
@@ -1186,6 +1532,7 @@ func TestCoreInstanceResource_basic(t *testing.T) {
 				"hostname_label",
 				"update_operation_constraint",
 				"is_pv_encryption_in_transit_enabled",
+				"launch_volume_attachments",
 				"create_vnic_details.0.assign_private_dns_record",
 				"subnet_id",
 				"source_details.0.kms_key_id", //TODO: Service is not returning this value, remove when the service returns it. COM-26394
