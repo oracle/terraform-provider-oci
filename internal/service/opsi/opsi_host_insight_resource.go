@@ -1150,6 +1150,21 @@ func (s *OpsiHostInsightResourceCrud) populateTopLevelPolymorphicUpdateHostInsig
 		tmp := s.D.Id()
 		request.HostInsightId = &tmp
 		request.UpdateHostInsightDetails = details
+	case strings.ToLower("PE_COMANAGED_HOST"):
+		details := oci_opsi.UpdatePeComanagedHostInsightDetails{}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		tmp := s.D.Id()
+		request.HostInsightId = &tmp
+		request.UpdateHostInsightDetails = details
 	default:
 		return fmt.Errorf("unknown entity_source '%v' was specified", entitySource)
 	}
