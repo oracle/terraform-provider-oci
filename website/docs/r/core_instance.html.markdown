@@ -129,6 +129,31 @@ resource "oci_core_instance" "test_instance" {
 		network_type = var.instance_launch_options_network_type
 		remote_data_volume_type = var.instance_launch_options_remote_data_volume_type
 	}
+	launch_volume_attachments {
+		#Required
+		type = var.instance_launch_volume_attachments_type
+
+		#Optional
+		device = var.instance_launch_volume_attachments_device
+		display_name = var.instance_launch_volume_attachments_display_name
+		encryption_in_transit_type = var.instance_launch_volume_attachments_encryption_in_transit_type
+		is_agent_auto_iscsi_login_enabled = var.instance_launch_volume_attachments_is_agent_auto_iscsi_login_enabled
+		is_read_only = var.instance_launch_volume_attachments_is_read_only
+		is_shareable = var.instance_launch_volume_attachments_is_shareable
+		launch_create_volume_details {
+			#Required
+			size_in_gbs = var.instance_launch_volume_attachments_launch_create_volume_details_size_in_gbs
+			volume_creation_type = var.instance_launch_volume_attachments_launch_create_volume_details_volume_creation_type
+
+			#Optional
+			compartment_id = var.compartment_id
+			display_name = var.instance_launch_volume_attachments_launch_create_volume_details_display_name
+			kms_key_id = oci_kms_key.test_key.id
+			vpus_per_gb = var.instance_launch_volume_attachments_launch_create_volume_details_vpus_per_gb
+		}
+		use_chap = var.instance_launch_volume_attachments_use_chap
+		volume_id = oci_core_volume.test_volume.id
+	}
 	metadata = var.instance_metadata
 	platform_config {
 		#Required
@@ -336,6 +361,32 @@ The following arguments are supported:
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+* `launch_volume_attachments` - (Optional) Volume attachments to create as part of the launch instance operation.
+
+     **Note:** This property is used for initial instance provisioning only. Updates to this property will not be supported. To update volume attachments, user should use `oci_core_volume_attachment`. To update volume details, user should use `oci_core_volume`
+	
+    * `device` - (Optional) The device name. To retrieve a list of devices for a given instance, see [ListInstanceDevices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Device/ListInstanceDevices).
+	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `encryption_in_transit_type` - (Optional) Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
+	* `is_agent_auto_iscsi_login_enabled` - (Optional) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
+	* `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
+	* `is_shareable` - (Optional) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
+	* `launch_create_volume_details` - (Optional) Define a volume that will be created and attached or attached to an instance on creation.
+		* `compartment_id` - (Optional) (Updatable) The OCID of the compartment that contains the volume. If not provided,  it will be inherited from the instance. 
+		* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+		* `kms_key_id` - (Optional) The OCID of the Vault service key to assign as the master encryption key for the volume. 
+		* `size_in_gbs` - (Required) The size of the volume in GBs.
+		* `volume_creation_type` - (Required) Specifies the method for volume creation.
+		* `vpus_per_gb` - (Optional) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+
+			Allowed values:
+			* `0`: Represents Lower Cost option.
+			* `10`: Represents Balanced option.
+			* `20`: Represents Higher Performance option.
+			* `30`-`120`: Represents the Ultra High Performance option. 
+	* `type` - (Required) The type of volume. Currently, the only supported value is "iscsi".
+	* `use_chap` - (Optional) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
+	* `volume_id` - (Optional) The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request. 
 * `metadata` - (Optional) (Updatable) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 	A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
