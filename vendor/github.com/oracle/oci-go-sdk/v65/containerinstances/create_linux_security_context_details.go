@@ -30,6 +30,8 @@ type CreateLinuxSecurityContextDetails struct {
 
 	// Determines if the container will have a read-only root file system. Default value is false.
 	IsRootFileSystemReadonly *bool `mandatory:"false" json:"isRootFileSystemReadonly"`
+
+	Capabilities *ContainerCapabilities `mandatory:"false" json:"capabilities"`
 }
 
 func (m CreateLinuxSecurityContextDetails) String() string {
