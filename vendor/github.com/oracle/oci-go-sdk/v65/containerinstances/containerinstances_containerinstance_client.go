@@ -850,7 +850,7 @@ func (client ContainerInstanceClient) restartContainerInstance(ctx context.Conte
 	return response, err
 }
 
-// RetrieveLogs Retrieves recent logs from the specified container. The most recent 256 KB of logs are returned.
+// RetrieveLogs Returns the most recent 256 KB of logs from the specified container.
 //
 // # See also
 //
