@@ -42,10 +42,59 @@ func OpsiNewsReportResource() *schema.Resource {
 				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
+						// Optional
 						"capacity_planning_resources": {
 							Type:     schema.TypeList,
-							Required: true,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"sql_insights_fleet_analysis_resources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"sql_insights_performance_degradation_resources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"sql_insights_plan_changes_resources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"sql_insights_top_databases_resources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"sql_insights_top_sql_by_insights_resources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"sql_insights_top_sql_resources": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
@@ -58,7 +107,6 @@ func OpsiNewsReportResource() *schema.Resource {
 			"description": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"locale": {
 				Type:     schema.TypeString,
@@ -67,7 +115,6 @@ func OpsiNewsReportResource() *schema.Resource {
 			"name": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"news_frequency": {
 				Type:     schema.TypeString,
@@ -79,6 +126,16 @@ func OpsiNewsReportResource() *schema.Resource {
 			},
 
 			// Optional
+			"are_child_compartments_included": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"day_of_week": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -196,6 +253,11 @@ func (s *OpsiNewsReportResourceCrud) DeletedTarget() []string {
 func (s *OpsiNewsReportResourceCrud) Create() error {
 	request := oci_opsi.CreateNewsReportRequest{}
 
+	if areChildCompartmentsIncluded, ok := s.D.GetOkExists("are_child_compartments_included"); ok {
+		tmp := areChildCompartmentsIncluded.(bool)
+		request.AreChildCompartmentsIncluded = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -210,6 +272,10 @@ func (s *OpsiNewsReportResourceCrud) Create() error {
 			}
 			request.ContentTypes = &tmp
 		}
+	}
+
+	if dayOfWeek, ok := s.D.GetOkExists("day_of_week"); ok {
+		request.DayOfWeek = oci_opsi.DayOfWeekEnum(dayOfWeek.(string))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -406,6 +472,11 @@ func (s *OpsiNewsReportResourceCrud) Update() error {
 	}
 	request := oci_opsi.UpdateNewsReportRequest{}
 
+	if areChildCompartmentsIncluded, ok := s.D.GetOkExists("are_child_compartments_included"); ok {
+		tmp := areChildCompartmentsIncluded.(bool)
+		request.AreChildCompartmentsIncluded = &tmp
+	}
+
 	if contentTypes, ok := s.D.GetOkExists("content_types"); ok {
 		if tmpList := contentTypes.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "content_types", 0)
@@ -417,6 +488,10 @@ func (s *OpsiNewsReportResourceCrud) Update() error {
 		}
 	}
 
+	if dayOfWeek, ok := s.D.GetOkExists("day_of_week"); ok {
+		request.DayOfWeek = oci_opsi.DayOfWeekEnum(dayOfWeek.(string))
+	}
+
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
@@ -425,12 +500,22 @@ func (s *OpsiNewsReportResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if locale, ok := s.D.GetOkExists("locale"); ok {
 		request.Locale = oci_opsi.NewsLocaleEnum(locale.(string))
+	}
+
+	if name, ok := s.D.GetOkExists("name"); ok {
+		tmp := name.(string)
+		request.Name = &tmp
 	}
 
 	if newsFrequency, ok := s.D.GetOkExists("news_frequency"); ok {
@@ -481,6 +566,10 @@ func (s *OpsiNewsReportResourceCrud) Delete() error {
 }
 
 func (s *OpsiNewsReportResourceCrud) SetData() error {
+	if s.Res.AreChildCompartmentsIncluded != nil {
+		s.D.Set("are_child_compartments_included", *s.Res.AreChildCompartmentsIncluded)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -490,6 +579,8 @@ func (s *OpsiNewsReportResourceCrud) SetData() error {
 	} else {
 		s.D.Set("content_types", nil)
 	}
+
+	s.D.Set("day_of_week", s.Res.DayOfWeek)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -556,18 +647,147 @@ func (s *OpsiNewsReportResourceCrud) mapToNewsContentTypes(fieldKeyFormat string
 		}
 		result.CapacityPlanningResources = tmp
 	}
+
+	if sqlInsightsFleetAnalysisResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sql_insights_fleet_analysis_resources")); ok {
+		interfaces := sqlInsightsFleetAnalysisResources.([]interface{})
+		tmp := make([]oci_opsi.NewsSqlInsightsContentTypesResourceEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_opsi.NewsSqlInsightsContentTypesResourceEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "sql_insights_fleet_analysis_resources")) {
+			result.SqlInsightsFleetAnalysisResources = tmp
+		}
+	}
+
+	if sqlInsightsPerformanceDegradationResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sql_insights_performance_degradation_resources")); ok {
+		interfaces := sqlInsightsPerformanceDegradationResources.([]interface{})
+		tmp := make([]oci_opsi.NewsSqlInsightsContentTypesResourceEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_opsi.NewsSqlInsightsContentTypesResourceEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "sql_insights_performance_degradation_resources")) {
+			result.SqlInsightsPerformanceDegradationResources = tmp
+		}
+	}
+
+	if sqlInsightsPlanChangesResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sql_insights_plan_changes_resources")); ok {
+		interfaces := sqlInsightsPlanChangesResources.([]interface{})
+		tmp := make([]oci_opsi.NewsSqlInsightsContentTypesResourceEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_opsi.NewsSqlInsightsContentTypesResourceEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "sql_insights_plan_changes_resources")) {
+			result.SqlInsightsPlanChangesResources = tmp
+		}
+	}
+
+	if sqlInsightsTopDatabasesResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sql_insights_top_databases_resources")); ok {
+		interfaces := sqlInsightsTopDatabasesResources.([]interface{})
+		tmp := make([]oci_opsi.NewsSqlInsightsContentTypesResourceEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_opsi.NewsSqlInsightsContentTypesResourceEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "sql_insights_top_databases_resources")) {
+			result.SqlInsightsTopDatabasesResources = tmp
+		}
+	}
+
+	if sqlInsightsTopSqlByInsightsResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sql_insights_top_sql_by_insights_resources")); ok {
+		interfaces := sqlInsightsTopSqlByInsightsResources.([]interface{})
+		tmp := make([]oci_opsi.NewsSqlInsightsContentTypesResourceEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_opsi.NewsSqlInsightsContentTypesResourceEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "sql_insights_top_sql_by_insights_resources")) {
+			result.SqlInsightsTopSqlByInsightsResources = tmp
+		}
+	}
+
+	if sqlInsightsTopSqlResources, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sql_insights_top_sql_resources")); ok {
+		interfaces := sqlInsightsTopSqlResources.([]interface{})
+		tmp := make([]oci_opsi.NewsSqlInsightsContentTypesResourceEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_opsi.NewsSqlInsightsContentTypesResourceEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "sql_insights_top_sql_resources")) {
+			result.SqlInsightsTopSqlResources = tmp
+		}
+	}
+
 	return result, nil
 }
 
 func NewsContentTypesToMap(obj *oci_opsi.NewsContentTypes) map[string]interface{} {
 	result := map[string]interface{}{}
-	capacityPlanningResources := []interface{}{}
+	if obj.CapacityPlanningResources != nil && len(obj.CapacityPlanningResources) != 0 {
+		capacityPlanningResources := []interface{}{}
 
-	for _, item := range obj.CapacityPlanningResources {
-		capacityPlanningResources = append(capacityPlanningResources, NewsContentTypesResourceToMap(item))
+		for _, item := range obj.CapacityPlanningResources {
+			capacityPlanningResources = append(capacityPlanningResources, NewsContentTypesResourceToMap(item))
+		}
+		result["capacity_planning_resources"] = capacityPlanningResources
+		return result
+	} else if obj.SqlInsightsFleetAnalysisResources != nil && len(obj.SqlInsightsFleetAnalysisResources) != 0 {
+		sqlInsightsFleetAnalysisResources := []interface{}{}
+
+		for _, item := range obj.SqlInsightsFleetAnalysisResources {
+			sqlInsightsFleetAnalysisResources = append(sqlInsightsFleetAnalysisResources, NewsSqlInsightsContentTypesResourceToMap(item))
+		}
+		result["sql_insights_fleet_analysis_resources"] = sqlInsightsFleetAnalysisResources
+		return result
+	} else if obj.SqlInsightsPerformanceDegradationResources != nil && len(obj.SqlInsightsPerformanceDegradationResources) != 0 {
+		sqlInsightsPerformanceDegradationResources := []interface{}{}
+
+		for _, item := range obj.SqlInsightsPerformanceDegradationResources {
+			sqlInsightsPerformanceDegradationResources = append(sqlInsightsPerformanceDegradationResources, NewsSqlInsightsContentTypesResourceToMap(item))
+		}
+		result["sql_insights_performance_degradation_resources"] = sqlInsightsPerformanceDegradationResources
+		return result
+	} else if obj.SqlInsightsPlanChangesResources != nil && len(obj.SqlInsightsPlanChangesResources) != 0 {
+		sqlInsightsPlanChangesResources := []interface{}{}
+
+		for _, item := range obj.SqlInsightsPlanChangesResources {
+			sqlInsightsPlanChangesResources = append(sqlInsightsPlanChangesResources, NewsSqlInsightsContentTypesResourceToMap(item))
+		}
+		result["sql_insights_plan_changes_resources"] = sqlInsightsPlanChangesResources
+		return result
+	} else if obj.SqlInsightsTopDatabasesResources != nil && len(obj.SqlInsightsTopDatabasesResources) != 0 {
+		sqlInsightsTopDatabasesResources := []interface{}{}
+
+		for _, item := range obj.SqlInsightsTopDatabasesResources {
+			sqlInsightsTopDatabasesResources = append(sqlInsightsTopDatabasesResources, NewsSqlInsightsContentTypesResourceToMap(item))
+		}
+		result["sql_insights_top_databases_resources"] = sqlInsightsTopDatabasesResources
+		return result
+	} else if obj.SqlInsightsTopSqlByInsightsResources != nil && len(obj.SqlInsightsTopSqlByInsightsResources) != 0 {
+		sqlInsightsTopSqlByInsightsResources := []interface{}{}
+
+		for _, item := range obj.SqlInsightsTopSqlByInsightsResources {
+			sqlInsightsTopSqlByInsightsResources = append(sqlInsightsTopSqlByInsightsResources, NewsSqlInsightsContentTypesResourceToMap(item))
+		}
+		result["sql_insights_top_sql_by_insights_resources"] = sqlInsightsTopSqlByInsightsResources
+		return result
+	} else {
+		sqlInsightsTopSqlResources := []interface{}{}
+
+		for _, item := range obj.SqlInsightsTopSqlResources {
+			sqlInsightsTopSqlResources = append(sqlInsightsTopSqlResources, NewsSqlInsightsContentTypesResourceToMap(item))
+		}
+		result["sql_insights_top_sql_resources"] = sqlInsightsTopSqlResources
+		return result
 	}
-	result["capacity_planning_resources"] = capacityPlanningResources
-	return result
 }
 
 func NewsContentTypesResourceToMap(obj oci_opsi.NewsContentTypesResourceEnum) string {
@@ -586,8 +806,26 @@ func NewsContentTypesResourceToMap(obj oci_opsi.NewsContentTypesResourceEnum) st
 	return result
 }
 
+func NewsSqlInsightsContentTypesResourceToMap(obj oci_opsi.NewsSqlInsightsContentTypesResourceEnum) string {
+	var result string
+
+	switch obj {
+	case oci_opsi.NewsSqlInsightsContentTypesResourceDatabase:
+		result = "DATABASE"
+	case oci_opsi.NewsSqlInsightsContentTypesResourceExadata:
+		result = "EXADATA"
+	default:
+		fmt.Println("ERROR, Nota a valid resource")
+	}
+	return result
+}
+
 func NewsReportSummaryToMap(obj oci_opsi.NewsReportSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AreChildCompartmentsIncluded != nil {
+		result["are_child_compartments_included"] = bool(*obj.AreChildCompartmentsIncluded)
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -596,6 +834,8 @@ func NewsReportSummaryToMap(obj oci_opsi.NewsReportSummary) map[string]interface
 	if obj.ContentTypes != nil {
 		result["content_types"] = []interface{}{NewsContentTypesToMap(obj.ContentTypes)}
 	}
+
+	result["day_of_week"] = string(obj.DayOfWeek)
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)

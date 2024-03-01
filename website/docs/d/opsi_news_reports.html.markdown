@@ -48,9 +48,17 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `are_child_compartments_included` - A flag to consider the resources within a given compartment and all sub-compartments.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `content_types` - Content types that the news report can handle.
 	* `capacity_planning_resources` - Supported resources for capacity planning content type.
+	* `sql_insights_fleet_analysis_resources` - Supported resources for SQL insights - fleet analysis content type.
+	* `sql_insights_performance_degradation_resources` - Supported resources for SQL insights - performance degradation content type.
+	* `sql_insights_plan_changes_resources` - Supported resources for SQL insights - plan changes content type.
+	* `sql_insights_top_databases_resources` - Supported resources for SQL insights - top databases content type.
+	* `sql_insights_top_sql_by_insights_resources` - Supported resources for SQL insights - top SQL by insights content type.
+	* `sql_insights_top_sql_resources` - Supported resources for SQL insights - top SQL content type.
+* `day_of_week` - Day of the week in which the news report will be sent if the frequency is set to WEEKLY.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - The description of the news report. 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
