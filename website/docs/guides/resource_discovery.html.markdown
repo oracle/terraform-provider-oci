@@ -144,6 +144,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
     * `cloud_migrations` - Discovers cloud_migrations resources within the specified compartment
+    * `cluster_placement_groups` - Discovers cluster_placement_groups resources within the specified compartment
     * `compute_cloud_at_customer` - Discovers compute_cloud_at_customer resources within the specified compartment
     * `container_instances` - Discovers container_instances resources within the specified compartment
     * `containerengine` - Discovers containerengine resources within the specified compartment
@@ -494,6 +495,10 @@ cloud_migrations
 * oci\_cloud\_migrations\_target\_asset
 * oci\_cloud\_migrations\_migration
 * oci\_cloud\_migrations\_replication\_schedule
+
+cluster_placement_groups
+    
+* oci\_cluster\_placement\_groups\_cluster\_placement\_group
 
 compute_cloud_at_customer
     
