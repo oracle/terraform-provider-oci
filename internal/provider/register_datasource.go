@@ -30,6 +30,7 @@ import (
 	tf_cloud_bridge "github.com/oracle/terraform-provider-oci/internal/service/cloud_bridge"
 	tf_cloud_guard "github.com/oracle/terraform-provider-oci/internal/service/cloud_guard"
 	tf_cloud_migrations "github.com/oracle/terraform-provider-oci/internal/service/cloud_migrations"
+	tf_cluster_placement_groups "github.com/oracle/terraform-provider-oci/internal/service/cluster_placement_groups"
 	tf_compute_cloud_at_customer "github.com/oracle/terraform-provider-oci/internal/service/compute_cloud_at_customer"
 	tf_computeinstanceagent "github.com/oracle/terraform-provider-oci/internal/service/computeinstanceagent"
 	tf_container_instances "github.com/oracle/terraform-provider-oci/internal/service/container_instances"
@@ -197,6 +198,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("cloudmigrations") {
 		tf_cloud_migrations.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("clusterplacementgroups") {
+		tf_cluster_placement_groups.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("computecloudatcustomer") {
 		tf_compute_cloud_at_customer.RegisterDatasource()

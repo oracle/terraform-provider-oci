@@ -314,6 +314,7 @@ github.com/oracle/oci-go-sdk/v65/certificatesmanagement
 github.com/oracle/oci-go-sdk/v65/cloudbridge
 github.com/oracle/oci-go-sdk/v65/cloudguard
 github.com/oracle/oci-go-sdk/v65/cloudmigrations
+github.com/oracle/oci-go-sdk/v65/clusterplacementgroups
 github.com/oracle/oci-go-sdk/v65/common
 github.com/oracle/oci-go-sdk/v65/common/auth
 github.com/oracle/oci-go-sdk/v65/common/utils
