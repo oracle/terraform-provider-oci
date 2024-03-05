@@ -1223,12 +1223,20 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 			s.D.Set("helm_chart_deploy_artifact_id", *v.HelmChartDeployArtifactId)
 		}
 
+		if v.HelmCommandArtifactIds != nil {
+			s.D.Set("helm_command_artifact_ids", v.HelmCommandArtifactIds)
+		}
+
 		if v.IsDebugEnabled != nil {
 			s.D.Set("is_debug_enabled", *v.IsDebugEnabled)
 		}
 
 		if v.IsForceEnabled != nil {
 			s.D.Set("is_force_enabled", *v.IsForceEnabled)
+		}
+
+		if v.IsUninstallOnStageDelete != nil {
+			s.D.Set("is_uninstall_on_stage_delete", *v.IsUninstallOnStageDelete)
 		}
 
 		if v.MaxHistory != nil {
@@ -1242,6 +1250,8 @@ func (s *DevopsDeployStageDataSourceCrud) SetData() error {
 		if v.OkeClusterDeployEnvironmentId != nil {
 			s.D.Set("oke_cluster_deploy_environment_id", *v.OkeClusterDeployEnvironmentId)
 		}
+
+		s.D.Set("purpose", v.Purpose)
 
 		if v.ReleaseName != nil {
 			s.D.Set("release_name", *v.ReleaseName)
