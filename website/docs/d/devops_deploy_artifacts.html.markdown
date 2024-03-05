@@ -51,11 +51,12 @@ The following attributes are exported:
 * `compartment_id` - The OCID of a compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `deploy_artifact_source` - Specifies source of an artifact.
-	* `base64encoded_content` - Specifies content for the inline artifact.
+	* `base64encoded_content` - The Helm commands to be executed, base 64 encoded
 	* `chart_url` - The URL of an OCIR repository.
 	* `deploy_artifact_path` - Specifies the artifact path in the repository.
 	* `deploy_artifact_source_type` - Specifies types of artifact sources.
 	* `deploy_artifact_version` - Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
+	* `helm_artifact_source_type` - Specifies types of artifact sources.
 	* `helm_verification_key_source` - The source of the verification material.
 		* `current_public_key` - Current version of Base64 encoding of the public key which is in binary GPG exported format.
 		* `previous_public_key` - Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.

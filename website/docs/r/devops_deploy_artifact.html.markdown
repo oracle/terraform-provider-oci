@@ -27,6 +27,7 @@ resource "oci_devops_deploy_artifact" "test_deploy_artifact" {
 		chart_url = var.deploy_artifact_deploy_artifact_source_chart_url
 		deploy_artifact_path = var.deploy_artifact_deploy_artifact_source_deploy_artifact_path
 		deploy_artifact_version = var.deploy_artifact_deploy_artifact_source_deploy_artifact_version
+		helm_artifact_source_type = var.deploy_artifact_deploy_artifact_source_helm_artifact_source_type
 		helm_verification_key_source {
 			#Required
 			verification_key_source_type = var.deploy_artifact_deploy_artifact_source_helm_verification_key_source_verification_key_source_type
@@ -58,11 +59,12 @@ The following arguments are supported:
 * `argument_substitution_mode` - (Required) (Updatable) Mode for artifact parameter substitution. Options: `"NONE", "SUBSTITUTE_PLACEHOLDERS"` For Helm Deployments only "NONE" is supported.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `deploy_artifact_source` - (Required) (Updatable) Specifies source of an artifact.
-	* `base64encoded_content` - (Required when deploy_artifact_source_type=INLINE) (Updatable) Specifies content for the inline artifact.
+	* `base64encoded_content` - (Required when deploy_artifact_source_type=HELM_COMMAND_SPEC | INLINE) (Updatable) The Helm commands to be executed, base 64 encoded
 	* `chart_url` - (Required when deploy_artifact_source_type=HELM_CHART) (Updatable) The URL of an OCIR repository.
 	* `deploy_artifact_path` - (Required when deploy_artifact_source_type=GENERIC_ARTIFACT) (Updatable) Specifies the artifact path in the repository.
 	* `deploy_artifact_source_type` - (Required) (Updatable) Specifies types of artifact sources.
 	* `deploy_artifact_version` - (Required when deploy_artifact_source_type=GENERIC_ARTIFACT | HELM_CHART) (Updatable) Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
+	* `helm_artifact_source_type` - (Required when deploy_artifact_source_type=HELM_COMMAND_SPEC) (Updatable) Specifies types of artifact sources.
 	* `helm_verification_key_source` - (Applicable when deploy_artifact_source_type=HELM_CHART) (Updatable) The source of the verification material.
 		* `current_public_key` - (Required when verification_key_source_type=INLINE_PUBLIC_KEY) (Updatable) Current version of Base64 encoding of the public key which is in binary GPG exported format.
 		* `previous_public_key` - (Applicable when verification_key_source_type=INLINE_PUBLIC_KEY) (Updatable) Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.
@@ -89,11 +91,12 @@ The following attributes are exported:
 * `compartment_id` - The OCID of a compartment.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace.bar-key": "value"}`
 * `deploy_artifact_source` - Specifies source of an artifact.
-	* `base64encoded_content` - Specifies content for the inline artifact.
+	* `base64encoded_content` - The Helm commands to be executed, base 64 encoded
 	* `chart_url` - The URL of an OCIR repository.
 	* `deploy_artifact_path` - Specifies the artifact path in the repository.
 	* `deploy_artifact_source_type` - Specifies types of artifact sources.
 	* `deploy_artifact_version` - Users can set this as a placeholder value that refers to a pipeline parameter, for example, ${appVersion}.
+	* `helm_artifact_source_type` - Specifies types of artifact sources.
 	* `helm_verification_key_source` - The source of the verification material.
 		* `current_public_key` - Current version of Base64 encoding of the public key which is in binary GPG exported format.
 		* `previous_public_key` - Previous version of Base64 encoding of the public key which is in binary GPG exported format. This would be used for key rotation scenarios.

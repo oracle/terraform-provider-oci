@@ -5,6 +5,7 @@ package devops
 
 import (
 	"context"
+	b64 "encoding/base64"
 	"fmt"
 	"log"
 	"strings"
@@ -52,6 +53,7 @@ func DevopsDeployArtifactResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"GENERIC_ARTIFACT",
 								"HELM_CHART",
+								"HELM_COMMAND_SPEC",
 								"INLINE",
 								"OCIR",
 							}, true),
@@ -74,6 +76,11 @@ func DevopsDeployArtifactResource() *schema.Resource {
 							Computed: true,
 						},
 						"deploy_artifact_version": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"helm_artifact_source_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -660,6 +667,16 @@ func (s *DevopsDeployArtifactResourceCrud) mapToDeployArtifactSource(fieldKeyFor
 				result.ImageDigest = &tmp
 			}
 			return result, nil
+		case "HELM_COMMAND_SPEC":
+			result := oci_devops.HelmCommandSpecArtifactSource{}
+			if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base64encoded_content")); ok {
+				tmp := content.(string)
+				result.Base64EncodedContent = &tmp
+			}
+			if helmArtifactSourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "helm_artifact_source_type")); ok {
+				result.HelmArtifactSourceType = oci_devops.HelmCommandSpecArtifactSourceHelmArtifactSourceTypeEnum(helmArtifactSourceType.(string))
+			}
+			return result, nil
 		default:
 			return nil, fmt.Errorf("[ERROR] Received 'deploy_artifact_source_type' of unknown type %v", tmp)
 		}
@@ -703,12 +720,20 @@ func DeployArtifactSourceToMap(obj *oci_devops.DeployArtifactSource) map[string]
 			}
 			result["helm_verification_key_source"] = helmVerificationKeySourceArray
 		}
+	case oci_devops.HelmCommandSpecArtifactSource:
+		result["deploy_artifact_source_type"] = "HELM_COMMAND_SPEC"
+
+		if v.Base64EncodedContent != nil {
+			result["base64encoded_content"] = string(*v.Base64EncodedContent)
+		}
+
+		result["helm_artifact_source_type"] = string(v.HelmArtifactSourceType)
 	case oci_devops.InlineDeployArtifactSource:
 		result["deploy_artifact_source_type"] = "INLINE"
 
 		if v.Base64EncodedContent != nil {
 			contentReader := v.Base64EncodedContent
-			result["base64encoded_content"] = string(contentReader)
+			result["base64encoded_content"] = DevopsDeployArtifactBase64Decode(contentReader)
 		}
 	case oci_devops.OcirDeployArtifactSource:
 		result["deploy_artifact_source_type"] = "OCIR"
@@ -855,4 +880,9 @@ func VerificationKeySourceToMap(obj *oci_devops.VerificationKeySource) map[strin
 	}
 
 	return result
+}
+
+func DevopsDeployArtifactBase64Decode(content []byte) string {
+	text := b64.StdEncoding.EncodeToString(content)
+	return text
 }
