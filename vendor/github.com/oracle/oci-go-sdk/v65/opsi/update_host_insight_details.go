@@ -76,6 +76,10 @@ func (m *updatehostinsightdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := UpdateMacsManagedCloudHostInsightDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PE_COMANAGED_HOST":
+		mm := UpdatePeComanagedHostInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for UpdateHostInsightDetails: %s.", m.EntitySource)
 		return *m, nil

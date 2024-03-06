@@ -414,6 +414,118 @@ func CoreInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"launch_volume_attachments": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"iscsi",
+							}, true),
+						},
+
+						// Optional
+						"device": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"encryption_in_transit_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_agent_auto_iscsi_login_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_read_only": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_shareable": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"launch_create_volume_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"size_in_gbs": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+									},
+									"volume_creation_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"ATTRIBUTES",
+										}, true),
+									},
+
+									// Optional
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"kms_key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"vpus_per_gb": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+									},
+									// Computed
+								},
+							},
+						},
+						"use_chap": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"volume_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						// Computed
+					},
+				},
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -644,6 +756,10 @@ func CoreInstanceResource() *schema.Resource {
 				},
 			},
 			"preserve_boot_volume": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"preserve_data_volumes_created_at_launch": {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
@@ -1120,6 +1236,23 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		}
 	}
 
+	if launchVolumeAttachments, ok := s.D.GetOkExists("launch_volume_attachments"); ok {
+		interfaces := launchVolumeAttachments.([]interface{})
+		tmp := make([]oci_core.LaunchAttachVolumeDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "launch_volume_attachments", stateDataIndex)
+			converted, err := s.mapToLaunchAttachVolumeDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("launch_volume_attachments") {
+			request.LaunchVolumeAttachments = tmp
+		}
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
@@ -1381,6 +1514,13 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		return err
 	}
 
+	// Check for changes in the launch_volume_attachments property and reject the request if there are any changes
+	_, ok = s.D.GetOkExists("launch_volume_attachments")
+	if ok && s.D.HasChange("launch_volume_attachments") {
+		err = fmt.Errorf("[ERROR] launch_volume_attachments cannot be updated during instance update. Instance ID: \"%v\"", s.Res.Id)
+		return err
+	}
+
 	return nil
 }
 
@@ -1414,9 +1554,9 @@ func (s *CoreInstanceResourceCrud) Delete() error {
 		request.PreserveBootVolume = &tmp
 	}
 
-	if preserveDataVolumes, ok := s.D.GetOkExists("preserve_data_volumes"); ok {
-		tmp := preserveDataVolumes.(bool)
-		request.PreserveBootVolume = &tmp
+	if preserveDataVolumesCreatedAtLaunch, ok := s.D.GetOkExists("preserve_data_volumes_created_at_launch"); ok {
+		tmp := preserveDataVolumesCreatedAtLaunch.(bool)
+		request.PreserveDataVolumesCreatedAtLaunch = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -2133,6 +2273,171 @@ func InstanceIpv6AddressIpv6SubnetCidrPairDetailsToMap(obj oci_core.Ipv6AddressI
 
 	if obj.Ipv6SubnetCidr != nil {
 		result["ipv6_address"] = string(*obj.Ipv6Address)
+	}
+
+	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToLaunchAttachVolumeDetails(fieldKeyFormat string) (oci_core.LaunchAttachVolumeDetails, error) {
+	var baseObject oci_core.LaunchAttachVolumeDetails
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("iscsi"):
+		details := oci_core.LaunchAttachIScsiVolumeDetails{}
+		if encryptionInTransitType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_in_transit_type")); ok {
+			details.EncryptionInTransitType = oci_core.EncryptionInTransitTypeEnum(encryptionInTransitType.(string))
+		}
+		if isAgentAutoIscsiLoginEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_agent_auto_iscsi_login_enabled")); ok {
+			tmp := isAgentAutoIscsiLoginEnabled.(bool)
+			details.IsAgentAutoIscsiLoginEnabled = &tmp
+		}
+		if useChap, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "use_chap")); ok {
+			tmp := useChap.(bool)
+			details.UseChap = &tmp
+		}
+		if device, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device")); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if isReadOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_read_only")); ok {
+			tmp := isReadOnly.(bool)
+			details.IsReadOnly = &tmp
+		}
+		if isShareable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_shareable")); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
+		}
+		if launchCreateVolumeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_create_volume_details")); ok {
+			if tmpList := launchCreateVolumeDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "launch_create_volume_details"), 0)
+				tmp, err := s.mapToLaunchCreateVolumeDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert launch_create_volume_details, encountered error: %v", err)
+				}
+				details.LaunchCreateVolumeDetails = tmp
+			}
+		}
+		if volumeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_id")); ok {
+			tmp := volumeId.(string)
+			details.VolumeId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func LaunchAttachVolumeDetailsToMap(obj oci_core.LaunchAttachVolumeDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_core.LaunchAttachIScsiVolumeDetails:
+		result["type"] = "iscsi"
+
+		result["encryption_in_transit_type"] = string(v.EncryptionInTransitType)
+
+		if v.IsAgentAutoIscsiLoginEnabled != nil {
+			result["is_agent_auto_iscsi_login_enabled"] = bool(*v.IsAgentAutoIscsiLoginEnabled)
+		}
+
+		if v.UseChap != nil {
+			result["use_chap"] = bool(*v.UseChap)
+		}
+	default:
+		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToLaunchCreateVolumeDetails(fieldKeyFormat string) (oci_core.LaunchCreateVolumeDetails, error) {
+	var baseObject oci_core.LaunchCreateVolumeDetails
+	//discriminator
+	volumeCreationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_creation_type"))
+	var volumeCreationType string
+	if ok {
+		volumeCreationType = volumeCreationTypeRaw.(string)
+	} else {
+		volumeCreationType = "" // default value
+	}
+	switch strings.ToLower(volumeCreationType) {
+	case strings.ToLower("ATTRIBUTES"):
+		details := oci_core.LaunchCreateVolumeFromAttributes{}
+		if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if sizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size_in_gbs")); ok {
+			tmp := sizeInGBs.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert sizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.SizeInGBs = &tmpInt64
+		}
+		if vpusPerGB, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vpus_per_gb")); ok {
+			tmp := vpusPerGB.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert vpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.VpusPerGB = &tmpInt64
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown volume_creation_type '%v' was specified", volumeCreationType)
+	}
+	return baseObject, nil
+}
+
+func LaunchCreateVolumeDetailsToMap(obj *oci_core.LaunchCreateVolumeDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_core.LaunchCreateVolumeFromAttributes:
+		result["volume_creation_type"] = "ATTRIBUTES"
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.DisplayName != nil {
+			result["display_name"] = string(*v.DisplayName)
+		}
+
+		if v.KmsKeyId != nil {
+			result["kms_key_id"] = string(*v.KmsKeyId)
+		}
+
+		if v.SizeInGBs != nil {
+			result["size_in_gbs"] = strconv.FormatInt(*v.SizeInGBs, 10)
+		}
+
+		if v.VpusPerGB != nil {
+			result["vpus_per_gb"] = strconv.FormatInt(*v.VpusPerGB, 10)
+		}
+	default:
+		log.Printf("[WARN] Received 'volume_creation_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result

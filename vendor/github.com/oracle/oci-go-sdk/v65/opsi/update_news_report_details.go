@@ -41,6 +41,18 @@ type UpdateNewsReportDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The news report name.
+	Name *string `mandatory:"false" json:"name"`
+
+	// The description of the news report.
+	Description *string `mandatory:"false" json:"description"`
+
+	// Day of the week in which the news report will be sent if the frequency is set to WEEKLY.
+	DayOfWeek DayOfWeekEnum `mandatory:"false" json:"dayOfWeek,omitempty"`
+
+	// A flag to consider the resources within a given compartment and all sub-compartments.
+	AreChildCompartmentsIncluded *bool `mandatory:"false" json:"areChildCompartmentsIncluded"`
 }
 
 func (m UpdateNewsReportDetails) String() string {
@@ -61,6 +73,9 @@ func (m UpdateNewsReportDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingNewsLocaleEnum(string(m.Locale)); !ok && m.Locale != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Locale: %s. Supported values are: %s.", m.Locale, strings.Join(GetNewsLocaleEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDayOfWeekEnum(string(m.DayOfWeek)); !ok && m.DayOfWeek != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DayOfWeek: %s. Supported values are: %s.", m.DayOfWeek, strings.Join(GetDayOfWeekEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

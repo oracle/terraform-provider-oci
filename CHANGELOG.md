@@ -1,3 +1,12 @@
+## 5.32.0 (March 06, 2024)
+
+### Added
+- Support for Container Instance Service: Configure Linux Capabilities
+- Support for OPSI News Report - SQL Insights
+- Support for Launch w/Multiple Attachments Support for VMs - Phase 1 for Goldman Sachs
+### Bug Fix
+- Terraform Improvements
+
 ## 5.31.0 (February 28, 2024)
 
 ### Added
