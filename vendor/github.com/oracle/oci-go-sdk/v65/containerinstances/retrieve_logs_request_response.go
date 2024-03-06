@@ -25,8 +25,8 @@ type RetrieveLogsRequest struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// Returns the logs for the previous run of the container in a pod if the pod exists.
-	// If the container fails for some reason, this parameter is useful to determine the root cause of the failure.
+	// Returns the logs for the previous run of the container in a pod.
+	// If the container fails, this parameter can help you to determine the root cause of the failure.
 	IsPrevious *bool `mandatory:"false" contributesTo:"query" name:"isPrevious"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

@@ -50,6 +50,12 @@ type CreateNewsReportDetails struct {
 
 	// Defines if the news report will be enabled or disabled.
 	Status ResourceStatusEnum `mandatory:"false" json:"status,omitempty"`
+
+	// Day of the week in which the news report will be sent if the frequency is set to WEEKLY.
+	DayOfWeek DayOfWeekEnum `mandatory:"false" json:"dayOfWeek,omitempty"`
+
+	// A flag to consider the resources within a given compartment and all sub-compartments.
+	AreChildCompartmentsIncluded *bool `mandatory:"false" json:"areChildCompartmentsIncluded"`
 }
 
 func (m CreateNewsReportDetails) String() string {
@@ -70,6 +76,9 @@ func (m CreateNewsReportDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingResourceStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetResourceStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDayOfWeekEnum(string(m.DayOfWeek)); !ok && m.DayOfWeek != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DayOfWeek: %s. Supported values are: %s.", m.DayOfWeek, strings.Join(GetDayOfWeekEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

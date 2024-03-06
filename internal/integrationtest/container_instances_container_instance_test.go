@@ -155,6 +155,7 @@ var (
 		"vcpus_limit":         acctest.Representation{RepType: acctest.Optional, Create: `1`},
 	}
 	ContainerInstancesContainerInstanceContainersSecurityContextRepresentation = map[string]interface{}{
+		"capabilities":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerInstancesContainerInstanceContainersSecurityContextCapabilitiesRepresentation},
 		"is_non_root_user_check_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_root_file_system_readonly":   acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"run_as_group":                   acctest.Representation{RepType: acctest.Optional, Create: `10`},
@@ -204,6 +205,10 @@ var (
 	ContainerInstancesContainerInstanceContainersHealthChecksHeadersRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`},
+	}
+	ContainerInstancesContainerInstanceContainersSecurityContextCapabilitiesRepresentation = map[string]interface{}{
+		"add_capabilities":  acctest.Representation{RepType: acctest.Optional, Create: []oci_container_instances.ContainerCapabilityTypeEnum{`addCapabilities`}},
+		"drop_capabilities": acctest.Representation{RepType: acctest.Optional, Create: []oci_container_instances.ContainerCapabilityTypeEnum{`dropCapabilities`}},
 	}
 
 	CISecurityListTCPEgressSecurityRulesRepresentation = map[string]interface{}{
@@ -437,6 +442,9 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.0.memory_limit_in_gbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.0.vcpus_limit", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.0.add_capabilities.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.0.drop_capabilities.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.is_non_root_user_check_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.is_root_file_system_readonly", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.run_as_group", "10"),
@@ -514,6 +522,9 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.0.memory_limit_in_gbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.0.vcpus_limit", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.0.add_capabilities.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.0.drop_capabilities.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.is_non_root_user_check_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.is_root_file_system_readonly", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.run_as_group", "10"),
@@ -586,6 +597,9 @@ func TestContainerInstancesContainerInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.0.memory_limit_in_gbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.resource_config.0.vcpus_limit", "1"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.0.add_capabilities.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.capabilities.0.drop_capabilities.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.is_non_root_user_check_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.is_root_file_system_readonly", "false"),
 				resource.TestCheckResourceAttr(resourceName, "containers.0.security_context.0.run_as_group", "10"),

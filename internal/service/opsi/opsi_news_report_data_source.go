@@ -66,6 +66,10 @@ func (s *OpsiNewsReportDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AreChildCompartmentsIncluded != nil {
+		s.D.Set("are_child_compartments_included", *s.Res.AreChildCompartmentsIncluded)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -75,6 +79,8 @@ func (s *OpsiNewsReportDataSourceCrud) SetData() error {
 	} else {
 		s.D.Set("content_types", nil)
 	}
+
+	s.D.Set("day_of_week", s.Res.DayOfWeek)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
