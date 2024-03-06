@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -48,6 +48,21 @@ type DatabaseUsageMetrics struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the parent Container Database, in the case of a Pluggable Database.
 	DatabaseContainerId *string `mandatory:"false" json:"databaseContainerId"`
 
+	// The Database id of the Managed Database. Every database had its own id and that value is captured here.
+	DatabaseId *string `mandatory:"false" json:"databaseId"`
+
+	// The Primary Database id of the Managed Database.
+	PrimaryDbId *string `mandatory:"false" json:"primaryDbId"`
+
+	// The Primary Database unique name of the Managed Database.
+	PrimaryDbUniqueName *string `mandatory:"false" json:"primaryDbUniqueName"`
+
+	// The Database unique name of the Managed Database.
+	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
+
+	// The Database role of the Managed Database.
+	DbRole DbRoleEnum `mandatory:"false" json:"dbRole,omitempty"`
+
 	// A list of the database health metrics like CPU, Storage, and Memory.
 	Metrics []FleetMetricDefinition `mandatory:"false" json:"metrics"`
 }
@@ -73,6 +88,9 @@ func (m DatabaseUsageMetrics) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingWorkloadTypeEnum(string(m.WorkloadType)); !ok && m.WorkloadType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WorkloadType: %s. Supported values are: %s.", m.WorkloadType, strings.Join(GetWorkloadTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbRoleEnum(string(m.DbRole)); !ok && m.DbRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbRole: %s. Supported values are: %s.", m.DbRole, strings.Join(GetDbRoleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

@@ -10,7 +10,6 @@
 package databasemigration
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -37,30 +36,4 @@ func (m MigrationCollection) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *MigrationCollection) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Items []migrationsummary `json:"items"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Items = make([]MigrationSummary, len(model.Items))
-	for i, n := range model.Items {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Items[i] = nn.(MigrationSummary)
-		} else {
-			m.Items[i] = nil
-		}
-	}
-	return
 }

@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -72,16 +72,19 @@ type DatabaseSecretCredentialDetailsRoleEnum string
 const (
 	DatabaseSecretCredentialDetailsRoleNormal DatabaseSecretCredentialDetailsRoleEnum = "NORMAL"
 	DatabaseSecretCredentialDetailsRoleSysdba DatabaseSecretCredentialDetailsRoleEnum = "SYSDBA"
+	DatabaseSecretCredentialDetailsRoleSysdg  DatabaseSecretCredentialDetailsRoleEnum = "SYSDG"
 )
 
 var mappingDatabaseSecretCredentialDetailsRoleEnum = map[string]DatabaseSecretCredentialDetailsRoleEnum{
 	"NORMAL": DatabaseSecretCredentialDetailsRoleNormal,
 	"SYSDBA": DatabaseSecretCredentialDetailsRoleSysdba,
+	"SYSDG":  DatabaseSecretCredentialDetailsRoleSysdg,
 }
 
 var mappingDatabaseSecretCredentialDetailsRoleEnumLowerCase = map[string]DatabaseSecretCredentialDetailsRoleEnum{
 	"normal": DatabaseSecretCredentialDetailsRoleNormal,
 	"sysdba": DatabaseSecretCredentialDetailsRoleSysdba,
+	"sysdg":  DatabaseSecretCredentialDetailsRoleSysdg,
 }
 
 // GetDatabaseSecretCredentialDetailsRoleEnumValues Enumerates the set of values for DatabaseSecretCredentialDetailsRoleEnum
@@ -98,6 +101,7 @@ func GetDatabaseSecretCredentialDetailsRoleEnumStringValues() []string {
 	return []string{
 		"NORMAL",
 		"SYSDBA",
+		"SYSDG",
 	}
 }
 

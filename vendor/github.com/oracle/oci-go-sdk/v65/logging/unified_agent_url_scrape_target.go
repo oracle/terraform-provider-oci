@@ -20,11 +20,11 @@ import (
 // UnifiedAgentUrlScrapeTarget Monitoring scrape object.
 type UnifiedAgentUrlScrapeTarget struct {
 
-	// Custom name.
-	Name *string `mandatory:"true" json:"name"`
-
 	// URL from which the metrics are fetched.
 	Url *string `mandatory:"true" json:"url"`
+
+	// Custom name.
+	Name *string `mandatory:"false" json:"name"`
 }
 
 func (m UnifiedAgentUrlScrapeTarget) String() string {

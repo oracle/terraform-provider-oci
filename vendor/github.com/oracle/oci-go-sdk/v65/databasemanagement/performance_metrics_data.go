@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -32,8 +32,8 @@ type PerformanceMetricsData struct {
 	// The Primary Database unique name of the Managed Database.
 	PrimaryDbUniqueName *string `mandatory:"false" json:"primaryDbUniqueName"`
 
-	// The Database id of the Managed Database.
-	DbId *string `mandatory:"false" json:"dbId"`
+	// The Database id of the Managed Database. Every database had its own id and that value is captured here.
+	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
 	// The Database unique name of the Managed Database.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
@@ -45,7 +45,7 @@ type PerformanceMetricsData struct {
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
 	// The Database role of the Managed Database.
-	DbRole *string `mandatory:"false" json:"dbRole"`
+	DbRole DbRoleEnum `mandatory:"false" json:"dbRole,omitempty"`
 
 	// List of metrics such as ApplyLag, TransportLag and RedoApplyRate for the Managed Databases.
 	Metrics []PerformanceMetrics `mandatory:"false" json:"metrics"`
@@ -61,6 +61,9 @@ func (m PerformanceMetricsData) String() string {
 func (m PerformanceMetricsData) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDbRoleEnum(string(m.DbRole)); !ok && m.DbRole != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbRole: %s. Supported values are: %s.", m.DbRole, strings.Join(GetDbRoleEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

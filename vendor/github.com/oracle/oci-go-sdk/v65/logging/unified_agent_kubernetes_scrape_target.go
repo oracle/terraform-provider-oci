@@ -60,18 +60,21 @@ const (
 	UnifiedAgentKubernetesScrapeTargetResourceTypePods      UnifiedAgentKubernetesScrapeTargetResourceTypeEnum = "PODS"
 	UnifiedAgentKubernetesScrapeTargetResourceTypeEndpoints UnifiedAgentKubernetesScrapeTargetResourceTypeEnum = "ENDPOINTS"
 	UnifiedAgentKubernetesScrapeTargetResourceTypeNodes     UnifiedAgentKubernetesScrapeTargetResourceTypeEnum = "NODES"
+	UnifiedAgentKubernetesScrapeTargetResourceTypeServices  UnifiedAgentKubernetesScrapeTargetResourceTypeEnum = "SERVICES"
 )
 
 var mappingUnifiedAgentKubernetesScrapeTargetResourceTypeEnum = map[string]UnifiedAgentKubernetesScrapeTargetResourceTypeEnum{
 	"PODS":      UnifiedAgentKubernetesScrapeTargetResourceTypePods,
 	"ENDPOINTS": UnifiedAgentKubernetesScrapeTargetResourceTypeEndpoints,
 	"NODES":     UnifiedAgentKubernetesScrapeTargetResourceTypeNodes,
+	"SERVICES":  UnifiedAgentKubernetesScrapeTargetResourceTypeServices,
 }
 
 var mappingUnifiedAgentKubernetesScrapeTargetResourceTypeEnumLowerCase = map[string]UnifiedAgentKubernetesScrapeTargetResourceTypeEnum{
 	"pods":      UnifiedAgentKubernetesScrapeTargetResourceTypePods,
 	"endpoints": UnifiedAgentKubernetesScrapeTargetResourceTypeEndpoints,
 	"nodes":     UnifiedAgentKubernetesScrapeTargetResourceTypeNodes,
+	"services":  UnifiedAgentKubernetesScrapeTargetResourceTypeServices,
 }
 
 // GetUnifiedAgentKubernetesScrapeTargetResourceTypeEnumValues Enumerates the set of values for UnifiedAgentKubernetesScrapeTargetResourceTypeEnum
@@ -89,6 +92,7 @@ func GetUnifiedAgentKubernetesScrapeTargetResourceTypeEnumStringValues() []strin
 		"PODS",
 		"ENDPOINTS",
 		"NODES",
+		"SERVICES",
 	}
 }
 

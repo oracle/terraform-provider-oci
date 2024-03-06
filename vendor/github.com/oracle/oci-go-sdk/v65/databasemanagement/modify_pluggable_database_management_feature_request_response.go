@@ -17,7 +17,7 @@ type ModifyPluggableDatabaseManagementFeatureRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pluggable Database.
 	PluggableDatabaseId *string `mandatory:"true" contributesTo:"path" name:"pluggableDatabaseId"`
 
-	// The details required to modify Pluggable Database Management Feature for a Database.
+	// The details required to modify Pluggable Database Management Feature for a database.
 	ModifyPluggableDatabaseManagementFeatureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

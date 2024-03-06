@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -82,16 +82,19 @@ type DatabaseConnectionCredentialsByDetailsRoleEnum string
 const (
 	DatabaseConnectionCredentialsByDetailsRoleSysdba DatabaseConnectionCredentialsByDetailsRoleEnum = "SYSDBA"
 	DatabaseConnectionCredentialsByDetailsRoleNormal DatabaseConnectionCredentialsByDetailsRoleEnum = "NORMAL"
+	DatabaseConnectionCredentialsByDetailsRoleSysdg  DatabaseConnectionCredentialsByDetailsRoleEnum = "SYSDG"
 )
 
 var mappingDatabaseConnectionCredentialsByDetailsRoleEnum = map[string]DatabaseConnectionCredentialsByDetailsRoleEnum{
 	"SYSDBA": DatabaseConnectionCredentialsByDetailsRoleSysdba,
 	"NORMAL": DatabaseConnectionCredentialsByDetailsRoleNormal,
+	"SYSDG":  DatabaseConnectionCredentialsByDetailsRoleSysdg,
 }
 
 var mappingDatabaseConnectionCredentialsByDetailsRoleEnumLowerCase = map[string]DatabaseConnectionCredentialsByDetailsRoleEnum{
 	"sysdba": DatabaseConnectionCredentialsByDetailsRoleSysdba,
 	"normal": DatabaseConnectionCredentialsByDetailsRoleNormal,
+	"sysdg":  DatabaseConnectionCredentialsByDetailsRoleSysdg,
 }
 
 // GetDatabaseConnectionCredentialsByDetailsRoleEnumValues Enumerates the set of values for DatabaseConnectionCredentialsByDetailsRoleEnum
@@ -108,6 +111,7 @@ func GetDatabaseConnectionCredentialsByDetailsRoleEnumStringValues() []string {
 	return []string{
 		"SYSDBA",
 		"NORMAL",
+		"SYSDG",
 	}
 }
 

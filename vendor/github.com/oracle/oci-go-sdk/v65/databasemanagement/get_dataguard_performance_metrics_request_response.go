@@ -28,9 +28,9 @@ type GetDataguardPerformanceMetricsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for which Standby Database metrics are required. Not mandatory.
-	// In absence of this param, all the Standby Databases metric will be returned.
-	StandbyDatabaseCompartmentId *string `mandatory:"false" contributesTo:"query" name:"standbyDatabaseCompartmentId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for which peer Database metrics are required. Not mandatory.
+	// In absence of this param, all the peer Databases metric will be returned.
+	PeerDatabaseCompartmentId *string `mandatory:"false" contributesTo:"query" name:"peerDatabaseCompartmentId"`
 
 	// The filter used to retrieve a specific set of metrics by passing the desired metric names with a comma separator. Note that, by default, the service returns all supported metrics.
 	FilterByMetricNames *string `mandatory:"false" contributesTo:"query" name:"filterByMetricNames"`

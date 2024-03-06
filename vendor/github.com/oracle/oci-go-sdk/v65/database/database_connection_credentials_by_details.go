@@ -80,16 +80,19 @@ type DatabaseConnectionCredentialsByDetailsRoleEnum string
 const (
 	DatabaseConnectionCredentialsByDetailsRoleSysdba DatabaseConnectionCredentialsByDetailsRoleEnum = "SYSDBA"
 	DatabaseConnectionCredentialsByDetailsRoleNormal DatabaseConnectionCredentialsByDetailsRoleEnum = "NORMAL"
+	DatabaseConnectionCredentialsByDetailsRoleSysdg  DatabaseConnectionCredentialsByDetailsRoleEnum = "SYSDG"
 )
 
 var mappingDatabaseConnectionCredentialsByDetailsRoleEnum = map[string]DatabaseConnectionCredentialsByDetailsRoleEnum{
 	"SYSDBA": DatabaseConnectionCredentialsByDetailsRoleSysdba,
 	"NORMAL": DatabaseConnectionCredentialsByDetailsRoleNormal,
+	"SYSDG":  DatabaseConnectionCredentialsByDetailsRoleSysdg,
 }
 
 var mappingDatabaseConnectionCredentialsByDetailsRoleEnumLowerCase = map[string]DatabaseConnectionCredentialsByDetailsRoleEnum{
 	"sysdba": DatabaseConnectionCredentialsByDetailsRoleSysdba,
 	"normal": DatabaseConnectionCredentialsByDetailsRoleNormal,
+	"sysdg":  DatabaseConnectionCredentialsByDetailsRoleSysdg,
 }
 
 // GetDatabaseConnectionCredentialsByDetailsRoleEnumValues Enumerates the set of values for DatabaseConnectionCredentialsByDetailsRoleEnum
@@ -106,6 +109,7 @@ func GetDatabaseConnectionCredentialsByDetailsRoleEnumStringValues() []string {
 	return []string{
 		"SYSDBA",
 		"NORMAL",
+		"SYSDG",
 	}
 }
 

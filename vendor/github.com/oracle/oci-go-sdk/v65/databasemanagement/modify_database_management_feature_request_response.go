@@ -17,7 +17,7 @@ type ModifyDatabaseManagementFeatureRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database.
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// The details required to modify Database Management Feature for a Database.
+	// The details required to modify Database Management Feature for a database.
 	ModifyDatabaseManagementFeatureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

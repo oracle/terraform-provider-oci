@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -41,22 +41,22 @@ type ManagedMySqlDatabase struct {
 	// The name of the HeatWave cluster.
 	HeatWaveClusterDisplayName *string `mandatory:"false" json:"heatWaveClusterDisplayName"`
 
-	// If HeatWave is enabled for this db system or not.
+	// Indicates whether HeatWave is enabled for the MySQL Database System or not.
 	IsHeatWaveEnabled *bool `mandatory:"false" json:"isHeatWaveEnabled"`
 
-	// If HeatWave Lakehouse is enabled for the db system or not.
+	// Indicates whether HeatWave Lakehouse is enabled for the MySQL Database System or not.
 	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
 
-	// Shape of the nodes in the HeatWave cluster.
+	// The shape of the nodes in the HeatWave cluster.
 	HeatWaveNodeShape *string `mandatory:"false" json:"heatWaveNodeShape"`
 
 	// The total memory belonging to the HeatWave cluster in GBs.
 	HeatWaveMemorySize *int `mandatory:"false" json:"heatWaveMemorySize"`
 
-	// The information about an individual HeatWave nodes in the cluster.
+	// The information about individual HeatWave nodes in the cluster.
 	HeatWaveNodes []HeatWaveNode `mandatory:"false" json:"heatWaveNodes"`
 
-	// If the HeatWave cluster is active or not.
+	// Indicates whether the HeatWave cluster is active or not.
 	IsHeatWaveActive *bool `mandatory:"false" json:"isHeatWaveActive"`
 
 	// The date and time the Managed MySQL Database was created.

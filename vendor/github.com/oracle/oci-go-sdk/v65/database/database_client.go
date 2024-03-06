@@ -15419,7 +15419,7 @@ func (client DatabaseClient) listGiVersionMinorVersions(ctx context.Context, req
 	return response, err
 }
 
-// ListGiVersions Gets a list of supported GI versions for the Exadata Cloud@Customer VM cluster.
+// ListGiVersions Gets a list of supported GI versions.
 func (client DatabaseClient) ListGiVersions(ctx context.Context, request ListGiVersionsRequest) (response ListGiVersionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -18292,7 +18292,7 @@ func (client DatabaseClient) SetDbKeyVersion(ctx context.Context, request SetDbK
 // setDbKeyVersion implements the OCIOperation interface (enables retrying operations)
 func (client DatabaseClient) setDbKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/keyManagement/actions/setKeyVersion", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/setKeyVersion", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -18350,7 +18350,7 @@ func (client DatabaseClient) SetPdbKeyVersion(ctx context.Context, request SetPd
 // setPdbKeyVersion implements the OCIOperation interface (enables retrying operations)
 func (client DatabaseClient) setPdbKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/keyManagement/actions/setKeyVersion", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabases/{pluggableDatabaseId}/actions/setKeyVersion", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

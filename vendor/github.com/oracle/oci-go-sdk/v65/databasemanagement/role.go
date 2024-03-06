@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -22,16 +22,19 @@ type RoleEnum string
 const (
 	RoleNormal RoleEnum = "NORMAL"
 	RoleSysdba RoleEnum = "SYSDBA"
+	RoleSysdg  RoleEnum = "SYSDG"
 )
 
 var mappingRoleEnum = map[string]RoleEnum{
 	"NORMAL": RoleNormal,
 	"SYSDBA": RoleSysdba,
+	"SYSDG":  RoleSysdg,
 }
 
 var mappingRoleEnumLowerCase = map[string]RoleEnum{
 	"normal": RoleNormal,
 	"sysdba": RoleSysdba,
+	"sysdg":  RoleSysdg,
 }
 
 // GetRoleEnumValues Enumerates the set of values for RoleEnum
@@ -48,6 +51,7 @@ func GetRoleEnumStringValues() []string {
 	return []string{
 		"NORMAL",
 		"SYSDBA",
+		"SYSDG",
 	}
 }
 
