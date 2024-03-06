@@ -1,4 +1,4 @@
-## 5.32.0 (Unreleased)
+## 5.32.0 (March 06, 2024)
 
 ### Added
 - Support for Container Instance Service: Configure Linux Capabilities
