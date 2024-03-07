@@ -36,7 +36,6 @@ variable "shape" {
 }
 
 variable "model_id" {
-
 }
 
 variable "model_deployment_display_name" {
@@ -70,12 +69,20 @@ variable "model_deployment_model_deployment_configuration_details_model_configur
   default = 10
 }
 
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_maximum_bandwidth_mbps" {
+  default = 10
+}
+
 variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_instance_count" {
   default = 1
 }
 
 variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_policy_type" {
   default = "FIXED_SIZE"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_cpu_baseline" {
+  default = "BASELINE_1_8"
 }
 
 variable "model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus" {
@@ -88,6 +95,79 @@ variable "model_deployment_model_configuration_details_instance_configuration_mo
 
 variable "model_deployment_state" {
   default = "ACTIVE"
+}
+
+# these variables are for scaling policy type = AUTOSCALING
+variable "model_deployment_display_name_for_autoscaling_deployment" {
+  default = "terraform-testing-autoscaling-model-deployment"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_type_autoscaling" {
+  default = "AUTOSCALING"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_auto_scaling_policy_type" {
+  default = "THRESHOLD"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_initial_instance_count" {
+  default = 1
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_maximum_instance_count" {
+  default = 2
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_minimum_instance_count" {
+  default = 1
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_metric_expression_rule_type" {
+  default = "PREDEFINED_EXPRESSION"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_metric_type" {
+  default = "CPU_UTILIZATION"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_in_configuration_instance_count_adjustment" {
+  default = 1
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_in_configuration_pending_duration" {
+  default = "PT5M"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_in_configuration_scaling_configuration_type" {
+  default = "THRESHOLD"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_in_configuration_threshold" {
+  default = 10
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_out_configuration_instance_count_adjustment" {
+  default = 1
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_out_configuration_pending_duration" {
+  default = "PT3M"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_out_configuration_scaling_configuration_type" {
+  default = "THRESHOLD"
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_out_configuration_threshold" {
+  default = 70
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_cool_down_in_seconds" {
+  default = 600
+}
+
+variable "model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_is_enabled" {
+  default = true
 }
 
 # these variables for BYOC option
@@ -123,7 +203,7 @@ variable "model_deployment_model_deployment_configuration_details_environment_co
 variable "model_deployment_model_deployment_configuration_details_environment_configuration_details_server_port" {
 }
 
-# A model deployment resource configurations for creating a new model deployment
+# A model deployment resource configurations for creating a new model deployment with scaling policy type = FIXED SIZE
 resource "oci_datascience_model_deployment" "tf_model_deployment" {
   # Required
   compartment_id = var.compartment_ocid
@@ -140,6 +220,7 @@ resource "oci_datascience_model_deployment" "tf_model_deployment" {
         model_deployment_instance_shape_config_details {
 
           #Optional
+          cpu_baseline  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_cpu_baseline
           memory_in_gbs = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs
           ocpus         = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus
         }
@@ -147,7 +228,9 @@ resource "oci_datascience_model_deployment" "tf_model_deployment" {
       model_id = var.model_id
 
       # Optional
-      bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_model_configuration_details_bandwidth_mbps
+      bandwidth_mbps         = var.model_deployment_model_deployment_configuration_details_model_configuration_details_bandwidth_mbps
+      maximum_bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_model_configuration_details_maximum_bandwidth_mbps
+
       scaling_policy {
         # Required
         instance_count = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_instance_count
@@ -179,6 +262,95 @@ resource "oci_datascience_model_deployment" "tf_model_deployment" {
 //  freeform_tags = var.model_deployment_freeform_tag
 }
 
+# A model deployment resource configurations for creating a new model deployment with scaling policy type = AUTOSCALING
+resource "oci_datascience_model_deployment" "tf_model_deployment_autoscaling" {
+  # Required
+  compartment_id = var.compartment_ocid
+  model_deployment_configuration_details {
+    # Required
+    deployment_type = var.model_deployment_model_deployment_configuration_details_deployment_type
+    model_configuration_details {
+      # Required
+      instance_configuration {
+        # Required
+        instance_shape_name = var.shape
+
+        #Optional
+        model_deployment_instance_shape_config_details {
+
+          #Optional
+          cpu_baseline  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_cpu_baseline
+          memory_in_gbs = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs
+          ocpus         = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus
+        }
+      }
+      model_id = var.model_id
+
+      # Optional
+      bandwidth_mbps         = var.model_deployment_model_deployment_configuration_details_model_configuration_details_bandwidth_mbps
+      maximum_bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_model_configuration_details_maximum_bandwidth_mbps
+
+      scaling_policy {
+        # Required
+        policy_type    = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_type_autoscaling
+
+        #Optional
+        auto_scaling_policies {
+          #Required
+          auto_scaling_policy_type = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_auto_scaling_policy_type
+          initial_instance_count   = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_initial_instance_count
+          maximum_instance_count   = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_maximum_instance_count
+          minimum_instance_count   = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_minimum_instance_count
+          rules {
+            #Required
+            metric_expression_rule_type = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_metric_expression_rule_type
+            scale_in_configuration {
+
+              #Optional
+              instance_count_adjustment  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_in_configuration_instance_count_adjustment
+              pending_duration           = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_in_configuration_pending_duration
+              scaling_configuration_type = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_in_configuration_scaling_configuration_type
+              threshold                  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_in_configuration_threshold
+            }
+            scale_out_configuration {
+
+              #Optional
+              instance_count_adjustment  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_out_configuration_instance_count_adjustment
+              pending_duration           = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_out_configuration_pending_duration
+              scaling_configuration_type = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_out_configuration_scaling_configuration_type
+              threshold                  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_scale_out_configuration_threshold
+            }
+
+            #Optional
+            metric_type = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_auto_scaling_policies_rules_metric_type
+          }
+        }
+        cool_down_in_seconds = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_cool_down_in_seconds
+        is_enabled           = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_is_enabled
+      }
+    }
+  }
+  project_id = var.project_ocid
+
+  # Optional
+  category_log_details {
+
+    # Optional
+    access {
+      # Required
+      log_group_id = var.log_group_id
+      log_id       = var.access_log_id
+    }
+    predict {
+      # Required
+      log_group_id = var.log_group_id
+      log_id       = var.predict_log_id
+    }
+  }
+  # Optional
+  description   = var.model_deployment_description
+  display_name  = var.model_deployment_display_name_for_autoscaling_deployment
+}
 
 resource "oci_datascience_model_deployment" "tf_model_deployment_byoc" {
   # Required
@@ -196,6 +368,7 @@ resource "oci_datascience_model_deployment" "tf_model_deployment_byoc" {
         model_deployment_instance_shape_config_details {
 
           #Optional
+          cpu_baseline  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_cpu_baseline
           memory_in_gbs = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs
           ocpus         = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus
         }
@@ -204,6 +377,8 @@ resource "oci_datascience_model_deployment" "tf_model_deployment_byoc" {
 
       # Optional
       bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_model_configuration_details_bandwidth_mbps
+      maximum_bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_model_configuration_details_maximum_bandwidth_mbps
+
       scaling_policy {
         # Required
         instance_count = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_instance_count

@@ -90,6 +90,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 															// Required
 
 															// Optional
+															"cpu_baseline": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+															},
 															"memory_in_gbs": {
 																Type:     schema.TypeFloat,
 																Optional: true,
@@ -121,6 +126,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"maximum_bandwidth_mbps": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
 									"scaling_policy": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -130,20 +140,173 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 										Elem: &schema.Resource{
 											Schema: map[string]*schema.Schema{
 												// Required
-												"instance_count": {
-													Type:     schema.TypeInt,
-													Required: true,
-												},
 												"policy_type": {
 													Type:             schema.TypeString,
 													Required:         true,
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
+														"AUTOSCALING",
 														"FIXED_SIZE",
 													}, true),
 												},
 
 												// Optional
+												"auto_scaling_policies": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+															"auto_scaling_policy_type": {
+																Type:             schema.TypeString,
+																Required:         true,
+																DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																ValidateFunc: validation.StringInSlice([]string{
+																	"THRESHOLD",
+																}, true),
+															},
+															"initial_instance_count": {
+																Type:     schema.TypeInt,
+																Required: true,
+															},
+															"maximum_instance_count": {
+																Type:     schema.TypeInt,
+																Required: true,
+															},
+															"minimum_instance_count": {
+																Type:     schema.TypeInt,
+																Required: true,
+															},
+															"rules": {
+																Type:     schema.TypeList,
+																Required: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+																		"metric_expression_rule_type": {
+																			Type:             schema.TypeString,
+																			Required:         true,
+																			DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+																			ValidateFunc: validation.StringInSlice([]string{
+																				"CUSTOM_EXPRESSION",
+																				"PREDEFINED_EXPRESSION",
+																			}, true),
+																		},
+																		"scale_in_configuration": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+																					"instance_count_adjustment": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"pending_duration": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"query": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"scaling_configuration_type": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"threshold": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+																		"scale_out_configuration": {
+																			Type:     schema.TypeList,
+																			Required: true,
+																			MaxItems: 1,
+																			MinItems: 1,
+																			Elem: &schema.Resource{
+																				Schema: map[string]*schema.Schema{
+																					// Required
+
+																					// Optional
+																					"instance_count_adjustment": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"pending_duration": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"query": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"scaling_configuration_type": {
+																						Type:     schema.TypeString,
+																						Optional: true,
+																						Computed: true,
+																					},
+																					"threshold": {
+																						Type:     schema.TypeInt,
+																						Optional: true,
+																						Computed: true,
+																					},
+
+																					// Computed
+																				},
+																			},
+																		},
+
+																		// Optional
+																		"metric_type": {
+																			Type:     schema.TypeString,
+																			Optional: true,
+																			Computed: true,
+																		},
+
+																		// Computed
+																	},
+																},
+															},
+
+															// Optional
+
+															// Computed
+														},
+													},
+												},
+												"cool_down_in_seconds": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"instance_count": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+												},
+												"is_enabled": {
+													Type:     schema.TypeBool,
+													Optional: true,
+													Computed: true,
+												},
 
 												// Computed
 											},
@@ -341,6 +504,27 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"model_deployment_system_data": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"current_instance_count": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"system_infra_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"model_deployment_url": {
 				Type:     schema.TypeString,
@@ -836,6 +1020,16 @@ func (s *DatascienceModelDeploymentResourceCrud) SetData() error {
 		s.D.Set("model_deployment_configuration_details", nil)
 	}
 
+	if s.Res.ModelDeploymentSystemData != nil {
+		modelDeploymentSystemDataArray := []interface{}{}
+		if modelDeploymentSystemDataMap := ModelDeploymentSystemDataToMap(&s.Res.ModelDeploymentSystemData); modelDeploymentSystemDataMap != nil {
+			modelDeploymentSystemDataArray = append(modelDeploymentSystemDataArray, modelDeploymentSystemDataMap)
+		}
+		s.D.Set("model_deployment_system_data", modelDeploymentSystemDataArray)
+	} else {
+		s.D.Set("model_deployment_system_data", nil)
+	}
+
 	if s.Res.ModelDeploymentUrl != nil {
 		s.D.Set("model_deployment_url", *s.Res.ModelDeploymentUrl)
 	}
@@ -885,6 +1079,85 @@ func (s *DatascienceModelDeploymentResourceCrud) StopModelDeployment() error {
 
 	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_datascience.ModelDeploymentLifecycleStateInactive }
 	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToAutoScalingPolicyDetails(fieldKeyFormat string) (oci_datascience.AutoScalingPolicyDetails, error) {
+	var baseObject oci_datascience.AutoScalingPolicyDetails
+	//discriminator
+	autoScalingPolicyTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_scaling_policy_type"))
+	var autoScalingPolicyType string
+	if ok {
+		autoScalingPolicyType = autoScalingPolicyTypeRaw.(string)
+	} else {
+		autoScalingPolicyType = "" // default value
+	}
+	switch strings.ToLower(autoScalingPolicyType) {
+	case strings.ToLower("THRESHOLD"):
+		details := oci_datascience.ThresholdBasedAutoScalingPolicyDetails{}
+		if initialInstanceCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "initial_instance_count")); ok {
+			tmp := initialInstanceCount.(int)
+			details.InitialInstanceCount = &tmp
+		}
+		if maximumInstanceCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_instance_count")); ok {
+			tmp := maximumInstanceCount.(int)
+			details.MaximumInstanceCount = &tmp
+		}
+		if minimumInstanceCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "minimum_instance_count")); ok {
+			tmp := minimumInstanceCount.(int)
+			details.MinimumInstanceCount = &tmp
+		}
+		if rules, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rules")); ok {
+			interfaces := rules.([]interface{})
+			tmp := make([]oci_datascience.MetricExpressionRule, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "rules"), stateDataIndex)
+				converted, err := s.mapToMetricExpressionRule(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "rules")) {
+				details.Rules = tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown auto_scaling_policy_type '%v' was specified", autoScalingPolicyType)
+	}
+	return baseObject, nil
+}
+
+func AutoScalingPolicyDetailsToMap(obj oci_datascience.AutoScalingPolicyDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_datascience.ThresholdBasedAutoScalingPolicyDetails:
+		result["auto_scaling_policy_type"] = "THRESHOLD"
+
+		if v.InitialInstanceCount != nil {
+			result["initial_instance_count"] = int(*v.InitialInstanceCount)
+		}
+
+		if v.MaximumInstanceCount != nil {
+			result["maximum_instance_count"] = int(*v.MaximumInstanceCount)
+		}
+
+		if v.MinimumInstanceCount != nil {
+			result["minimum_instance_count"] = int(*v.MinimumInstanceCount)
+		}
+
+		rules := []interface{}{}
+		for _, item := range v.Rules {
+			rules = append(rules, MetricExpressionRuleToMap(item))
+		}
+		result["rules"] = rules
+	default:
+		log.Printf("[WARN] Received 'auto_scaling_policy_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
 }
 
 func (s *DatascienceModelDeploymentResourceCrud) mapToCategoryLogDetails(fieldKeyFormat string) (oci_datascience.CategoryLogDetails, error) {
@@ -957,6 +1230,47 @@ func CategoryLogDetailsToMap(obj *oci_datascience.CategoryLogDetails) map[string
 	return result
 }
 
+func (s *DatascienceModelDeploymentResourceCrud) mapToCustomExpressionQueryScalingConfiguration(fieldKeyFormat string) (oci_datascience.CustomExpressionQueryScalingConfiguration, error) {
+	result := oci_datascience.CustomExpressionQueryScalingConfiguration{}
+
+	if instanceCountAdjustment, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_count_adjustment")); ok {
+		tmp := instanceCountAdjustment.(int)
+		result.InstanceCountAdjustment = &tmp
+	}
+
+	if pendingDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pending_duration")); ok {
+		tmp := pendingDuration.(string)
+		result.PendingDuration = &tmp
+	}
+
+	if query, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query")); ok {
+		tmp := query.(string)
+		result.Query = &tmp
+	}
+
+	return result, nil
+}
+
+func CustomExpressionQueryScalingConfigurationToMap(obj *oci_datascience.CustomExpressionQueryScalingConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.InstanceCountAdjustment != nil {
+		result["instance_count_adjustment"] = int(*obj.InstanceCountAdjustment)
+	}
+
+	if obj.PendingDuration != nil {
+		result["pending_duration"] = string(*obj.PendingDuration)
+	}
+
+	if obj.Query != nil {
+		result["query"] = string(*obj.Query)
+	}
+
+	result["scaling_configuration_type"] = "QUERY"
+
+	return result
+}
+
 func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fieldKeyFormat string) (oci_datascience.InstanceConfiguration, error) {
 	result := oci_datascience.InstanceConfiguration{}
 
@@ -1023,6 +1337,105 @@ func LogDetailsToMap(obj *oci_datascience.LogDetails) map[string]interface{} {
 	return result
 }
 
+func (s *DatascienceModelDeploymentResourceCrud) mapToMetricExpressionRule(fieldKeyFormat string) (oci_datascience.MetricExpressionRule, error) {
+	var baseObject oci_datascience.MetricExpressionRule
+	//discriminator
+	metricExpressionRuleTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_expression_rule_type"))
+	var metricExpressionRuleType string
+	if ok {
+		metricExpressionRuleType = metricExpressionRuleTypeRaw.(string)
+	} else {
+		metricExpressionRuleType = "" // default value
+	}
+	switch strings.ToLower(metricExpressionRuleType) {
+	case strings.ToLower("CUSTOM_EXPRESSION"):
+		details := oci_datascience.CustomMetricExpressionRule{}
+		if scaleInConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_in_configuration")); ok {
+			if tmpList := scaleInConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_in_configuration"), 0)
+				tmp, err := s.mapToCustomExpressionQueryScalingConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_in_configuration, encountered error: %v", err)
+				}
+				details.ScaleInConfiguration = &tmp
+			}
+		}
+		if scaleOutConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_out_configuration")); ok {
+			if tmpList := scaleOutConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_out_configuration"), 0)
+				tmp, err := s.mapToCustomExpressionQueryScalingConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_out_configuration, encountered error: %v", err)
+				}
+				details.ScaleOutConfiguration = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("PREDEFINED_EXPRESSION"):
+		details := oci_datascience.PredefinedMetricExpressionRule{}
+		if metricType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_type")); ok {
+			details.MetricType = oci_datascience.PredefinedMetricExpressionRuleMetricTypeEnum(metricType.(string))
+		}
+		if scaleInConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_in_configuration")); ok {
+			if tmpList := scaleInConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_in_configuration"), 0)
+				tmp, err := s.mapToPredefinedExpressionThresholdScalingConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_in_configuration, encountered error: %v", err)
+				}
+				details.ScaleInConfiguration = &tmp
+			}
+		}
+		if scaleOutConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scale_out_configuration")); ok {
+			if tmpList := scaleOutConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scale_out_configuration"), 0)
+				tmp, err := s.mapToPredefinedExpressionThresholdScalingConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert scale_out_configuration, encountered error: %v", err)
+				}
+				details.ScaleOutConfiguration = &tmp
+			}
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown metric_expression_rule_type '%v' was specified", metricExpressionRuleType)
+	}
+	return baseObject, nil
+}
+
+func MetricExpressionRuleToMap(obj oci_datascience.MetricExpressionRule) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_datascience.CustomMetricExpressionRule:
+		result["metric_expression_rule_type"] = "CUSTOM_EXPRESSION"
+
+		if v.ScaleInConfiguration != nil {
+			result["scale_in_configuration"] = []interface{}{CustomExpressionQueryScalingConfigurationToMap(v.ScaleInConfiguration)}
+		}
+
+		if v.ScaleOutConfiguration != nil {
+			result["scale_out_configuration"] = []interface{}{CustomExpressionQueryScalingConfigurationToMap(v.ScaleOutConfiguration)}
+		}
+	case oci_datascience.PredefinedMetricExpressionRule:
+		result["metric_expression_rule_type"] = "PREDEFINED_EXPRESSION"
+
+		result["metric_type"] = string(v.MetricType)
+
+		if v.ScaleInConfiguration != nil {
+			result["scale_in_configuration"] = []interface{}{PredefinedExpressionThresholdScalingConfigurationToMap(v.ScaleInConfiguration)}
+		}
+
+		if v.ScaleOutConfiguration != nil {
+			result["scale_out_configuration"] = []interface{}{PredefinedExpressionThresholdScalingConfigurationToMap(v.ScaleOutConfiguration)}
+		}
+	default:
+		log.Printf("[WARN] Received 'metric_expression_rule_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *DatascienceModelDeploymentResourceCrud) mapToModelConfigurationDetails(fieldKeyFormat string) (oci_datascience.ModelConfigurationDetails, error) {
 	result := oci_datascience.ModelConfigurationDetails{}
 
@@ -1040,6 +1453,54 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelConfigurationDetails(
 			}
 			result.InstanceConfiguration = &tmp
 		}
+	}
+
+	if maximumBandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_bandwidth_mbps")); ok {
+		tmp := maximumBandwidthMbps.(int)
+		result.MaximumBandwidthMbps = &tmp
+	}
+
+	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
+		tmp := modelId.(string)
+		result.ModelId = &tmp
+	}
+
+	if scalingPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scaling_policy")); ok {
+		if tmpList := scalingPolicy.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scaling_policy"), 0)
+			tmp, err := s.mapToScalingPolicy(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert scaling_policy, encountered error: %v", err)
+			}
+			result.ScalingPolicy = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelConfigurationDetails(fieldKeyFormat string) (oci_datascience.UpdateModelConfigurationDetails, error) {
+	result := oci_datascience.UpdateModelConfigurationDetails{}
+
+	if bandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bandwidth_mbps")); ok {
+		tmp := bandwidthMbps.(int)
+		result.BandwidthMbps = &tmp
+	}
+
+	if instanceConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_configuration")); ok {
+		if tmpList := instanceConfiguration.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_configuration"), 0)
+			tmp, err := s.mapToInstanceConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert instance_configuration, encountered error: %v", err)
+			}
+			result.InstanceConfiguration = &tmp
+		}
+	}
+
+	if maximumBandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_bandwidth_mbps")); ok {
+		tmp := maximumBandwidthMbps.(int)
+		result.MaximumBandwidthMbps = &tmp
 	}
 
 	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
@@ -1070,6 +1531,10 @@ func ModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfigurationDetai
 
 	if obj.InstanceConfiguration != nil {
 		result["instance_configuration"] = []interface{}{InstanceConfigurationToMap(obj.InstanceConfiguration)}
+	}
+
+	if obj.MaximumBandwidthMbps != nil {
+		result["maximum_bandwidth_mbps"] = int(*obj.MaximumBandwidthMbps)
 	}
 
 	if obj.ModelId != nil {
@@ -1376,6 +1841,10 @@ func ModelDeploymentEnvironmentConfigurationDetailsToMap(obj *oci_datascience.Mo
 func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentInstanceShapeConfigDetails(fieldKeyFormat string) (oci_datascience.ModelDeploymentInstanceShapeConfigDetails, error) {
 	result := oci_datascience.ModelDeploymentInstanceShapeConfigDetails{}
 
+	if cpuBaseline, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cpu_baseline")); ok {
+		result.CpuBaseline = oci_datascience.ModelDeploymentInstanceShapeConfigDetailsCpuBaselineEnum(cpuBaseline.(string))
+	}
+
 	memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs"))
 	if ok {
 		tmp := float32(memoryInGBs.(float64))
@@ -1398,12 +1867,72 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelDeploymentInstanceSha
 func ModelDeploymentInstanceShapeConfigDetailsToMap(obj *oci_datascience.ModelDeploymentInstanceShapeConfigDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["cpu_baseline"] = string(obj.CpuBaseline)
+
 	if obj.MemoryInGBs != nil {
 		result["memory_in_gbs"] = float32(*obj.MemoryInGBs)
 	}
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = float32(*obj.Ocpus)
+	}
+
+	return result
+}
+
+func ModelDeploymentSystemDataToMap(obj *oci_datascience.ModelDeploymentSystemData) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_datascience.InstancePoolModelDeploymentSystemData:
+		result["system_infra_type"] = "INSTANCE_POOL"
+
+		if v.CurrentInstanceCount != nil {
+			result["current_instance_count"] = int(*v.CurrentInstanceCount)
+		}
+	default:
+		log.Printf("[WARN] Received 'system_infra_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *DatascienceModelDeploymentResourceCrud) mapToPredefinedExpressionThresholdScalingConfiguration(fieldKeyFormat string) (oci_datascience.PredefinedExpressionThresholdScalingConfiguration, error) {
+	result := oci_datascience.PredefinedExpressionThresholdScalingConfiguration{}
+
+	if instanceCountAdjustment, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_count_adjustment")); ok {
+		tmp := instanceCountAdjustment.(int)
+		result.InstanceCountAdjustment = &tmp
+	}
+
+	if pendingDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pending_duration")); ok {
+		tmp := pendingDuration.(string)
+		result.PendingDuration = &tmp
+	}
+
+	if threshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "threshold")); ok {
+		tmp := threshold.(int)
+		result.Threshold = &tmp
+	}
+
+	return result, nil
+}
+
+func PredefinedExpressionThresholdScalingConfigurationToMap(obj *oci_datascience.PredefinedExpressionThresholdScalingConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.InstanceCountAdjustment != nil {
+		result["instance_count_adjustment"] = int(*obj.InstanceCountAdjustment)
+	}
+
+	if obj.PendingDuration != nil {
+		result["pending_duration"] = string(*obj.PendingDuration)
+	}
+
+	result["scaling_configuration_type"] = "THRESHOLD"
+
+	if obj.Threshold != nil {
+		result["threshold"] = int(*obj.Threshold)
 	}
 
 	return result
@@ -1420,6 +1949,33 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToScalingPolicy(fieldKeyForm
 		policyType = "" // default value
 	}
 	switch strings.ToLower(policyType) {
+	case strings.ToLower("AUTOSCALING"):
+		details := oci_datascience.AutoScalingPolicy{}
+		if autoScalingPolicies, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_scaling_policies")); ok {
+			interfaces := autoScalingPolicies.([]interface{})
+			tmp := make([]oci_datascience.AutoScalingPolicyDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "auto_scaling_policies"), stateDataIndex)
+				converted, err := s.mapToAutoScalingPolicyDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "auto_scaling_policies")) {
+				details.AutoScalingPolicies = tmp
+			}
+		}
+		if coolDownInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cool_down_in_seconds")); ok {
+			tmp := coolDownInSeconds.(int)
+			details.CoolDownInSeconds = &tmp
+		}
+		if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+			tmp := isEnabled.(bool)
+			details.IsEnabled = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("FIXED_SIZE"):
 		details := oci_datascience.FixedSizeScalingPolicy{}
 		if instanceCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_count")); ok {
@@ -1436,6 +1992,22 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToScalingPolicy(fieldKeyForm
 func ScalingPolicyToMap(obj *oci_datascience.ScalingPolicy) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_datascience.AutoScalingPolicy:
+		result["policy_type"] = "AUTOSCALING"
+
+		autoScalingPolicies := []interface{}{}
+		for _, item := range v.AutoScalingPolicies {
+			autoScalingPolicies = append(autoScalingPolicies, AutoScalingPolicyDetailsToMap(item))
+		}
+		result["auto_scaling_policies"] = autoScalingPolicies
+
+		if v.CoolDownInSeconds != nil {
+			result["cool_down_in_seconds"] = int(*v.CoolDownInSeconds)
+		}
+
+		if v.IsEnabled != nil {
+			result["is_enabled"] = bool(*v.IsEnabled)
+		}
 	case oci_datascience.FixedSizeScalingPolicy:
 		result["policy_type"] = "FIXED_SIZE"
 
@@ -1450,44 +2022,6 @@ func ScalingPolicyToMap(obj *oci_datascience.ScalingPolicy) map[string]interface
 	return result
 }
 
-func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelConfigurationDetails(fieldKeyFormat string) (oci_datascience.UpdateModelConfigurationDetails, error) {
-	result := oci_datascience.UpdateModelConfigurationDetails{}
-
-	if bandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bandwidth_mbps")); ok {
-		tmp := bandwidthMbps.(int)
-		result.BandwidthMbps = &tmp
-	}
-
-	if instanceConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_configuration")); ok {
-		if tmpList := instanceConfiguration.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_configuration"), 0)
-			tmp, err := s.mapToInstanceConfiguration(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert instance_configuration, encountered error: %v", err)
-			}
-			result.InstanceConfiguration = &tmp
-		}
-	}
-
-	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
-		tmp := modelId.(string)
-		result.ModelId = &tmp
-	}
-
-	if scalingPolicy, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scaling_policy")); ok {
-		if tmpList := scalingPolicy.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scaling_policy"), 0)
-			tmp, err := s.mapToScalingPolicy(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert scaling_policy, encountered error: %v", err)
-			}
-			result.ScalingPolicy = tmp
-		}
-	}
-
-	return result, nil
-}
-
 func UpdateModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfigurationDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1497,6 +2031,10 @@ func UpdateModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfiguratio
 
 	if obj.InstanceConfiguration != nil {
 		result["instance_configuration"] = []interface{}{InstanceConfigurationToMap(obj.InstanceConfiguration)}
+	}
+
+	if obj.MaximumBandwidthMbps != nil {
+		result["maximum_bandwidth_mbps"] = int(*obj.MaximumBandwidthMbps)
 	}
 
 	if obj.ModelId != nil {
