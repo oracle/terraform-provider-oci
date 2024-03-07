@@ -121,7 +121,7 @@ var (
 	DatabaseMigrationMigrationDataTransferMediumDetailsV2Representation = map[string]interface{}{
 		"type":                  acctest.Representation{RepType: acctest.Required, Create: `AWS_S3`, Update: `AWS_S3`},
 		"object_storage_bucket": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
-		"access_key_id":         acctest.Representation{RepType: acctest.Required, Create: `abc`, Update: `abc`},
+		"access_key_id":         acctest.Representation{RepType: acctest.Required, Create: `AKIA4XMMNYWWF4PYZ3EW`, Update: `AKIA4XMMNYWWF4PYZ3EW`},
 		"name":                  acctest.Representation{RepType: acctest.Required, Create: `AWS_S3`, Update: `AWS_S3`},
 		"region":                acctest.Representation{RepType: acctest.Required, Create: `Ashburn`, Update: `Ashburn`},
 		"secret_access_key":     acctest.Representation{RepType: acctest.Required, Create: `3xYJLMQkRDROe7/QzrZTgRDzeq2akfkn+Hb+C95D`, Update: `3xYJLMQkRDROe7/QzrZTgRDzeq2akfkn+Hb+C95D`},
