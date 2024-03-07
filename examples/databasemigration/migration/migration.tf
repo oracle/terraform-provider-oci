@@ -263,7 +263,7 @@ resource "oci_database_migration_migration" "test_migration" {
   }
   data_transfer_medium_details_v2 {
     type = "AWS_S3"
-    access_key_id = "abc"
+    access_key_id = "AKIA4XMMNYWWF4PYZ3EW"
     object_storage_bucket {
       bucket = "bucket"
       namespace = "namespace"
