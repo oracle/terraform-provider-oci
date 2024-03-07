@@ -880,6 +880,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"net_services_architecture": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"next_long_term_backup_time_stamp": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -2094,6 +2098,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
+
+	s.D.Set("net_services_architecture", s.Res.NetServicesArchitecture)
 
 	if s.Res.NextLongTermBackupTimeStamp != nil {
 		s.D.Set("next_long_term_backup_time_stamp", s.Res.NextLongTermBackupTimeStamp.String())

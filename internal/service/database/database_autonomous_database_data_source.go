@@ -310,6 +310,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
 
+	s.D.Set("net_services_architecture", s.Res.NetServicesArchitecture)
+
 	if s.Res.NextLongTermBackupTimeStamp != nil {
 		s.D.Set("next_long_term_backup_time_stamp", s.Res.NextLongTermBackupTimeStamp.String())
 	}

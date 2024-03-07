@@ -195,6 +195,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["db_name"] = *r.DbName
 		}
 
+		if r.DbSplitThreshold != nil {
+			autonomousContainerDatabase["db_split_threshold"] = *r.DbSplitThreshold
+		}
+
 		if r.DbUniqueName != nil {
 			autonomousContainerDatabase["db_unique_name"] = *r.DbUniqueName
 		}
@@ -210,6 +214,8 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 		if r.DisplayName != nil {
 			autonomousContainerDatabase["display_name"] = *r.DisplayName
 		}
+
+		autonomousContainerDatabase["distribution_affinity"] = r.DistributionAffinity
 
 		if r.DstFileVersion != nil {
 			autonomousContainerDatabase["dst_file_version"] = *r.DstFileVersion
@@ -271,6 +277,8 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["memory_per_oracle_compute_unit_in_gbs"] = *r.MemoryPerOracleComputeUnitInGBs
 		}
 
+		autonomousContainerDatabase["net_services_architecture"] = r.NetServicesArchitecture
+
 		if r.NextMaintenanceRunId != nil {
 			autonomousContainerDatabase["next_maintenance_run_id"] = *r.NextMaintenanceRunId
 		}
@@ -326,6 +334,10 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 		}
 
 		autonomousContainerDatabase["version_preference"] = r.VersionPreference
+
+		if r.VmFailoverReservation != nil {
+			autonomousContainerDatabase["vm_failover_reservation"] = *r.VmFailoverReservation
+		}
 
 		resources = append(resources, autonomousContainerDatabase)
 	}
