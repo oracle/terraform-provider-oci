@@ -60,7 +60,16 @@ The following attributes are exported:
 			* `namespace` - Namespace name of the object store bucket. 
 	* `object_storage_details` - In lieu of a network database link, Oracle Cloud Infrastructure Object Storage bucket will be used to store Data Pump dump files for the migration. Additionally, it can be specified alongside a database link data transfer medium. 
 		* `bucket` - Bucket name. 
+		* `namespace` - Namespace name of the object store bucket.
+* `data_transfer_medium_details_v2` - Optional additional properties for dump transfer in source or target host. 
+	* `access_key_id` - AWS access key credentials identifier Details: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys 
+	* `name` - Name of database link from Oracle Cloud Infrastructure database to on-premise database. ODMS will create link, if the link does not already exist. 
+	* `object_storage_bucket` - In lieu of a network database link, Oracle Cloud Infrastructure Object Storage bucket will be used to store Data Pump dump files for the migration. Additionally, it can be specified alongside a database link data transfer medium. 
+		* `bucket` - Bucket name. 
 		* `namespace` - Namespace name of the object store bucket. 
+	* `region` - AWS region code where the S3 bucket is located. Region code should match the documented available regions: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions 
+	* `secret_access_key` - AWS secret access key credentials Details: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys 
+	* `type` - Type of the data transfer medium to use for the datapump
 * `datapump_settings` - Optional settings for Data Pump Export and Import jobs 
 	* `data_pump_parameters` - Optional parameters for Data Pump Export and Import. Refer to [Configuring Optional Initial Load Advanced Settings](https://docs.us.oracle.com/en/cloud/paas/database-migration/dmsus/working-migration-resources.html#GUID-24BD3054-FDF8-48FF-8492-636C1D4B71ED) 
 		* `estimate` - Estimate size of dumps that will be generated. 
@@ -83,6 +92,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Migration Display Name 
 * `dump_transfer_details` - Optional additional properties for dump transfer. 
+	* `shared_storage_mount_target_id` - Optional OCID of the shared storage mount target.
 	* `source` - Optional additional properties for dump transfer in source or target host. Default kind is CURL 
 		* `kind` - Type of dump transfer to use during migration in source or target host. Default kind is CURL 
 		* `oci_home` - Path to the Oracle Cloud Infrastructure CLI installation in the node. 
@@ -134,6 +144,7 @@ The following attributes are exported:
 			* `map_parallelism` - Number of threads used to read trail files (valid for Parallel Replicat) 
 			* `max_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
 			* `min_apply_parallelism` - Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat) 
+            * `performance_profile` - Extract performance.
 * `id` - The OCID of the resource 
 * `include_objects` - Database objects to include from migration. 
 	* `is_omit_excluded_table_from_replication` - Whether an excluded table should be omitted from replication. Only valid for database objects that have are of type TABLE and that are included in the exludeObjects. 

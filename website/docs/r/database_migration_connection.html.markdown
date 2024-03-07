@@ -133,7 +133,8 @@ The following attributes are exported:
 * `database_type` - Database connection type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - Database Connection display name identifier. 
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+* `manual_database_sub_type` - Database manual connection subtype. This value can only be specified for manual connections.
 * `id` - The OCID of the resource 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for Connections. 
