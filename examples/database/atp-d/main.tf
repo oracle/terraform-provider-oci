@@ -14,7 +14,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.20.0.1.0"
+  db_version                           = "19.22.0.1.0"
   db_name                              = "ACDNAME"
 
   #Optional
@@ -22,6 +22,12 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
     #Optional
     recovery_window_in_days = var.autonomous_container_database_backup_config_recovery_window_in_days
   }
+
+  #Optional
+  db_split_threshold           = 12
+  vm_failover_reservation      = 25
+  distribution_affinity        = "MINIMUM_DISTRIBUTION"
+  net_services_architecture    = "DEDICATED"
 
   compartment_id               = var.compartment_ocid
   freeform_tags                = var.autonomous_database_freeform_tags
@@ -179,7 +185,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster_primary.id
   display_name                         = "PrimaryACD"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.20.0.1.0"
+  db_version                           = "19.22.0.1.0"
   db_name                              = "PRIMARY"
 
   #Optional
