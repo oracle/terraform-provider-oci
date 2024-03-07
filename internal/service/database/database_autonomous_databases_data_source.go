@@ -424,6 +424,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["ncharacter_set"] = *r.NcharacterSet
 		}
 
+		autonomousDatabase["net_services_architecture"] = r.NetServicesArchitecture
+
 		if r.NextLongTermBackupTimeStamp != nil {
 			autonomousDatabase["next_long_term_backup_time_stamp"] = r.NextLongTermBackupTimeStamp.String()
 		}

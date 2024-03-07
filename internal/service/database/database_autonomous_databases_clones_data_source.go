@@ -577,6 +577,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"net_services_architecture": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"next_long_term_backup_time_stamp": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1199,6 +1203,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.NcharacterSet != nil {
 			autonomousDatabasesClone["ncharacter_set"] = *r.NcharacterSet
 		}
+
+		autonomousDatabasesClone["net_services_architecture"] = r.NetServicesArchitecture
 
 		if r.NextLongTermBackupTimeStamp != nil {
 			autonomousDatabasesClone["next_long_term_backup_time_stamp"] = r.NextLongTermBackupTimeStamp.String()
