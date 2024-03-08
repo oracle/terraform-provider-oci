@@ -154,6 +154,18 @@ type AutonomousContainerDatabaseSummary struct {
 
 	// The timestamp of last successful backup. Here NULL value represents either there are no successful backups or backups are not configured for this Autonomous Container Database.
 	TimeOfLastBackup *common.SDKTime `mandatory:"false" json:"timeOfLastBackup"`
+
+	// The value above which an Autonomous Database will be split across multiple nodes. This value defaults to 16 when the "CPU per VM" value on the Autonomous VM Cluster is greater than 16. Otherwise, it defaults to the "CPU per VM" value.
+	DbSplitThreshold *int `mandatory:"false" json:"dbSplitThreshold"`
+
+	// The percentage of CPUs to reserve for a single node Autonomous Database, in increments of 25.
+	VmFailoverReservation *int `mandatory:"false" json:"vmFailoverReservation"`
+
+	// This option determines whether to open an Autonomous Database across the maximum number of nodes or the least number of nodes. The default will be for the minimum number of VMs.
+	DistributionAffinity AutonomousContainerDatabaseSummaryDistributionAffinityEnum `mandatory:"false" json:"distributionAffinity,omitempty"`
+
+	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
+	NetServicesArchitecture AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
 }
 
 func (m AutonomousContainerDatabaseSummary) String() string {
@@ -186,6 +198,12 @@ func (m AutonomousContainerDatabaseSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousContainerDatabaseSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetAutonomousContainerDatabaseSummaryComputeModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousContainerDatabaseSummaryDistributionAffinityEnum(string(m.DistributionAffinity)); !ok && m.DistributionAffinity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DistributionAffinity: %s. Supported values are: %s.", m.DistributionAffinity, strings.Join(GetAutonomousContainerDatabaseSummaryDistributionAffinityEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnum(string(m.NetServicesArchitecture)); !ok && m.NetServicesArchitecture != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetServicesArchitecture: %s. Supported values are: %s.", m.NetServicesArchitecture, strings.Join(GetAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -548,5 +566,89 @@ func GetAutonomousContainerDatabaseSummaryComputeModelEnumStringValues() []strin
 // GetMappingAutonomousContainerDatabaseSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousContainerDatabaseSummaryComputeModelEnum(val string) (AutonomousContainerDatabaseSummaryComputeModelEnum, bool) {
 	enum, ok := mappingAutonomousContainerDatabaseSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousContainerDatabaseSummaryDistributionAffinityEnum Enum with underlying type: string
+type AutonomousContainerDatabaseSummaryDistributionAffinityEnum string
+
+// Set of constants representing the allowable values for AutonomousContainerDatabaseSummaryDistributionAffinityEnum
+const (
+	AutonomousContainerDatabaseSummaryDistributionAffinityMinimumDistribution AutonomousContainerDatabaseSummaryDistributionAffinityEnum = "MINIMUM_DISTRIBUTION"
+	AutonomousContainerDatabaseSummaryDistributionAffinityMaximumDistribution AutonomousContainerDatabaseSummaryDistributionAffinityEnum = "MAXIMUM_DISTRIBUTION"
+)
+
+var mappingAutonomousContainerDatabaseSummaryDistributionAffinityEnum = map[string]AutonomousContainerDatabaseSummaryDistributionAffinityEnum{
+	"MINIMUM_DISTRIBUTION": AutonomousContainerDatabaseSummaryDistributionAffinityMinimumDistribution,
+	"MAXIMUM_DISTRIBUTION": AutonomousContainerDatabaseSummaryDistributionAffinityMaximumDistribution,
+}
+
+var mappingAutonomousContainerDatabaseSummaryDistributionAffinityEnumLowerCase = map[string]AutonomousContainerDatabaseSummaryDistributionAffinityEnum{
+	"minimum_distribution": AutonomousContainerDatabaseSummaryDistributionAffinityMinimumDistribution,
+	"maximum_distribution": AutonomousContainerDatabaseSummaryDistributionAffinityMaximumDistribution,
+}
+
+// GetAutonomousContainerDatabaseSummaryDistributionAffinityEnumValues Enumerates the set of values for AutonomousContainerDatabaseSummaryDistributionAffinityEnum
+func GetAutonomousContainerDatabaseSummaryDistributionAffinityEnumValues() []AutonomousContainerDatabaseSummaryDistributionAffinityEnum {
+	values := make([]AutonomousContainerDatabaseSummaryDistributionAffinityEnum, 0)
+	for _, v := range mappingAutonomousContainerDatabaseSummaryDistributionAffinityEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousContainerDatabaseSummaryDistributionAffinityEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseSummaryDistributionAffinityEnum
+func GetAutonomousContainerDatabaseSummaryDistributionAffinityEnumStringValues() []string {
+	return []string{
+		"MINIMUM_DISTRIBUTION",
+		"MAXIMUM_DISTRIBUTION",
+	}
+}
+
+// GetMappingAutonomousContainerDatabaseSummaryDistributionAffinityEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousContainerDatabaseSummaryDistributionAffinityEnum(val string) (AutonomousContainerDatabaseSummaryDistributionAffinityEnum, bool) {
+	enum, ok := mappingAutonomousContainerDatabaseSummaryDistributionAffinityEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum Enum with underlying type: string
+type AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum string
+
+// Set of constants representing the allowable values for AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum
+const (
+	AutonomousContainerDatabaseSummaryNetServicesArchitectureDedicated AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum = "DEDICATED"
+	AutonomousContainerDatabaseSummaryNetServicesArchitectureShared    AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum = "SHARED"
+)
+
+var mappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnum = map[string]AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum{
+	"DEDICATED": AutonomousContainerDatabaseSummaryNetServicesArchitectureDedicated,
+	"SHARED":    AutonomousContainerDatabaseSummaryNetServicesArchitectureShared,
+}
+
+var mappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumLowerCase = map[string]AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum{
+	"dedicated": AutonomousContainerDatabaseSummaryNetServicesArchitectureDedicated,
+	"shared":    AutonomousContainerDatabaseSummaryNetServicesArchitectureShared,
+}
+
+// GetAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumValues Enumerates the set of values for AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum
+func GetAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumValues() []AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum {
+	values := make([]AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum, 0)
+	for _, v := range mappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumStringValues Enumerates the set of values in String for AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum
+func GetAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumStringValues() []string {
+	return []string{
+		"DEDICATED",
+		"SHARED",
+	}
+}
+
+// GetMappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnum(val string) (AutonomousContainerDatabaseSummaryNetServicesArchitectureEnum, bool) {
+	enum, ok := mappingAutonomousContainerDatabaseSummaryNetServicesArchitectureEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

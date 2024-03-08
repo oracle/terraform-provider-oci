@@ -211,6 +211,9 @@ type AutonomousDatabase struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	DbWorkload AutonomousDatabaseDbWorkloadEnum `mandatory:"false" json:"dbWorkload,omitempty"`
 
+	// This project introduces Autonomous Database for Developers (ADB-Dev), a free tier on dedicated infrastructure, and Cloud@Customer for database development purposes. ADB-Dev enables ExaDB customers to experiment with ADB for free and incentivizes enterprises to use ADB for new development projects.Note that ADB-Dev have 4 CPU and 20GB of memory. For ADB-Dev , memory and CPU cannot be scaled
+	IsDevTier *bool `mandatory:"false" json:"isDevTier"`
+
 	// Indicates if the database-level access control is enabled.
 	// If disabled, database access is defined by the network security rules.
 	// If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional,
@@ -414,6 +417,9 @@ type AutonomousDatabase struct {
 	TimeDisasterRecoveryRoleChanged *common.SDKTime `mandatory:"false" json:"timeDisasterRecoveryRoleChanged"`
 
 	RemoteDisasterRecoveryConfiguration *DisasterRecoveryConfiguration `mandatory:"false" json:"remoteDisasterRecoveryConfiguration"`
+
+	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
+	NetServicesArchitecture AutonomousDatabaseNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
 }
 
 func (m AutonomousDatabase) String() string {
@@ -479,6 +485,9 @@ func (m AutonomousDatabase) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAutonomousDatabaseDisasterRecoveryRegionTypeEnum(string(m.DisasterRecoveryRegionType)); !ok && m.DisasterRecoveryRegionType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DisasterRecoveryRegionType: %s. Supported values are: %s.", m.DisasterRecoveryRegionType, strings.Join(GetAutonomousDatabaseDisasterRecoveryRegionTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseNetServicesArchitectureEnum(string(m.NetServicesArchitecture)); !ok && m.NetServicesArchitecture != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NetServicesArchitecture: %s. Supported values are: %s.", m.NetServicesArchitecture, strings.Join(GetAutonomousDatabaseNetServicesArchitectureEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -1337,5 +1346,47 @@ func GetAutonomousDatabaseDisasterRecoveryRegionTypeEnumStringValues() []string 
 // GetMappingAutonomousDatabaseDisasterRecoveryRegionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingAutonomousDatabaseDisasterRecoveryRegionTypeEnum(val string) (AutonomousDatabaseDisasterRecoveryRegionTypeEnum, bool) {
 	enum, ok := mappingAutonomousDatabaseDisasterRecoveryRegionTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// AutonomousDatabaseNetServicesArchitectureEnum Enum with underlying type: string
+type AutonomousDatabaseNetServicesArchitectureEnum string
+
+// Set of constants representing the allowable values for AutonomousDatabaseNetServicesArchitectureEnum
+const (
+	AutonomousDatabaseNetServicesArchitectureDedicated AutonomousDatabaseNetServicesArchitectureEnum = "DEDICATED"
+	AutonomousDatabaseNetServicesArchitectureShared    AutonomousDatabaseNetServicesArchitectureEnum = "SHARED"
+)
+
+var mappingAutonomousDatabaseNetServicesArchitectureEnum = map[string]AutonomousDatabaseNetServicesArchitectureEnum{
+	"DEDICATED": AutonomousDatabaseNetServicesArchitectureDedicated,
+	"SHARED":    AutonomousDatabaseNetServicesArchitectureShared,
+}
+
+var mappingAutonomousDatabaseNetServicesArchitectureEnumLowerCase = map[string]AutonomousDatabaseNetServicesArchitectureEnum{
+	"dedicated": AutonomousDatabaseNetServicesArchitectureDedicated,
+	"shared":    AutonomousDatabaseNetServicesArchitectureShared,
+}
+
+// GetAutonomousDatabaseNetServicesArchitectureEnumValues Enumerates the set of values for AutonomousDatabaseNetServicesArchitectureEnum
+func GetAutonomousDatabaseNetServicesArchitectureEnumValues() []AutonomousDatabaseNetServicesArchitectureEnum {
+	values := make([]AutonomousDatabaseNetServicesArchitectureEnum, 0)
+	for _, v := range mappingAutonomousDatabaseNetServicesArchitectureEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAutonomousDatabaseNetServicesArchitectureEnumStringValues Enumerates the set of values in String for AutonomousDatabaseNetServicesArchitectureEnum
+func GetAutonomousDatabaseNetServicesArchitectureEnumStringValues() []string {
+	return []string{
+		"DEDICATED",
+		"SHARED",
+	}
+}
+
+// GetMappingAutonomousDatabaseNetServicesArchitectureEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAutonomousDatabaseNetServicesArchitectureEnum(val string) (AutonomousDatabaseNetServicesArchitectureEnum, bool) {
+	enum, ok := mappingAutonomousDatabaseNetServicesArchitectureEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

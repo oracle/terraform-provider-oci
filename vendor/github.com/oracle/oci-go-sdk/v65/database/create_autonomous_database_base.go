@@ -112,6 +112,9 @@ type CreateAutonomousDatabaseBase interface {
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is `TRUE`.
 	GetIsAutoScalingEnabled() *bool
 
+	// This project introduces Autonomous Database for Developers (ADB-Dev), a free tier on dedicated infrastructure, and Cloud@Customer for database development purposes. ADB-Dev enables ExaDB customers to experiment with ADB for free and incentivizes enterprises to use ADB for new development projects.Note that ADB-Dev have 4 CPU and 20GB of memory. For ADB-Dev , memory and CPU cannot be scaled
+	GetIsDevTier() *bool
+
 	// True if the database is on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	GetIsDedicated() *bool
 
@@ -267,6 +270,7 @@ type createautonomousdatabasebase struct {
 	LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                      `mandatory:"false" json:"licenseModel,omitempty"`
 	IsPreviewVersionWithServiceTermsAccepted *bool                                                             `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
 	IsAutoScalingEnabled                     *bool                                                             `mandatory:"false" json:"isAutoScalingEnabled"`
+	IsDevTier                                *bool                                                             `mandatory:"false" json:"isDevTier"`
 	IsDedicated                              *bool                                                             `mandatory:"false" json:"isDedicated"`
 	AutonomousContainerDatabaseId            *string                                                           `mandatory:"false" json:"autonomousContainerDatabaseId"`
 	InMemoryPercentage                       *int                                                              `mandatory:"false" json:"inMemoryPercentage"`
@@ -329,6 +333,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.LicenseModel = s.Model.LicenseModel
 	m.IsPreviewVersionWithServiceTermsAccepted = s.Model.IsPreviewVersionWithServiceTermsAccepted
 	m.IsAutoScalingEnabled = s.Model.IsAutoScalingEnabled
+	m.IsDevTier = s.Model.IsDevTier
 	m.IsDedicated = s.Model.IsDedicated
 	m.AutonomousContainerDatabaseId = s.Model.AutonomousContainerDatabaseId
 	m.InMemoryPercentage = s.Model.InMemoryPercentage
@@ -497,6 +502,11 @@ func (m createautonomousdatabasebase) GetIsPreviewVersionWithServiceTermsAccepte
 // GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m createautonomousdatabasebase) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
+}
+
+// GetIsDevTier returns IsDevTier
+func (m createautonomousdatabasebase) GetIsDevTier() *bool {
+	return m.IsDevTier
 }
 
 // GetIsDedicated returns IsDedicated
