@@ -25,6 +25,7 @@ import (
 	tf_bds "github.com/oracle/terraform-provider-oci/internal/service/bds"
 	tf_blockchain "github.com/oracle/terraform-provider-oci/internal/service/blockchain"
 	tf_budget "github.com/oracle/terraform-provider-oci/internal/service/budget"
+	tf_certificates "github.com/oracle/terraform-provider-oci/internal/service/certificates"
 	tf_certificates_management "github.com/oracle/terraform-provider-oci/internal/service/certificates_management"
 	tf_cloud_bridge "github.com/oracle/terraform-provider-oci/internal/service/cloud_bridge"
 	tf_cloud_guard "github.com/oracle/terraform-provider-oci/internal/service/cloud_guard"
@@ -121,7 +122,6 @@ import (
 )
 
 func init() {
-
 	if common.CheckForEnabledServices("adm") {
 		tf_adm.RegisterDatasource()
 	}
@@ -181,6 +181,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("budget") {
 		tf_budget.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("certificates") {
+		tf_certificates.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("certificatesmanagement") {
 		tf_certificates_management.RegisterDatasource()
@@ -461,5 +464,4 @@ func init() {
 	if common.CheckForEnabledServices("waf") {
 		tf_waf.RegisterDatasource()
 	}
-
 }
