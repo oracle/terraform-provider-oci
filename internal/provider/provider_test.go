@@ -3,7 +3,6 @@ package provider
 import (
 	"context"
 	"crypto/tls"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -692,8 +691,6 @@ func TestUnitResourcePrincipal_regionOverride(t *testing.T) {
 	d.Set(globalvar.RegionAttrName, "test-region")
 
 	os.Setenv("OCI_RESOURCE_PRINCIPAL_VERSION", "2.2")
-	fmt.Println("OCI_RESOURCE_PRINCIPAL_PRIVATE_PEM", os.Getenv("OCI_RESOURCE_PRINCIPAL_PRIVATE_PEM"))
-	fmt.Println("OCI_RESOURCE_PRINCIPAL_RPST", os.Getenv("OCI_RESOURCE_PRINCIPAL_RPST"))
 	os.Setenv("OCI_RESOURCE_PRINCIPAL_PRIVATE_PEM", os.Getenv("OCI_RESOURCE_PRINCIPAL_PRIVATE_PEM"))
 	os.Setenv("OCI_RESOURCE_PRINCIPAL_RPST", os.Getenv("OCI_RESOURCE_PRINCIPAL_RPST"))
 	os.Unsetenv("OCI_RESOURCE_PRINCIPAL_PRIVATE_PEM_PASSPHRASE")
