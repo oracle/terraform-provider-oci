@@ -31,5 +31,6 @@ provider "oci" {
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
-#  version = "5.19.0"
+  # https://registry.terraform.io/providers/oracle/oci/latest/docs
+#  version = "5.32.0"
 }

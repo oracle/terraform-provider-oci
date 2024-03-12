@@ -36,13 +36,9 @@ var (
 	}
 
 	LoggingLoggingUnifiedAgentConfigurationDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"group_id":                     acctest.Representation{RepType: acctest.Optional, Create: `${oci_identity_group.test_group.id}`},
-		"is_compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"log_id":                       acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log.test_log.id}`},
-		"filter":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationDataSourceFilterRepresentation},
-		//"state":                        acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationDataSourceFilterRepresentation},
 	}
 
 	LoggingUnifiedAgentConfigurationRepresentation = map[string]interface{}{
@@ -57,11 +53,25 @@ var (
 	}
 
 	LoggingUnifiedAgentConfigurationServiceConfigurationRepresentation = map[string]interface{}{
-		"configuration_type": acctest.Representation{RepType: acctest.Required, Create: `LOGGING`},
-		"destination":        acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationDestinationRepresentation},
-		"sources":            acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesRepresentation},
+		"configuration_type":                 acctest.Representation{RepType: acctest.Required, Create: `LOGGING`},
+		"destination":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationDestinationRepresentation},
+		"sources":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesRepresentation},
+		"unified_agent_configuration_filter": acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationUnifiedAgentConfigurationFilterRepresentation},
 	}
-
+	LoggingUnifiedAgentConfigurationServiceConfigurationUnifiedAgentConfigurationFilterRepresentation = map[string]interface{}{
+		"filter_type": acctest.Representation{RepType: acctest.Required, Create: `GREP_FILTER`},
+		"allow_list":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationUnifiedAgentConfigurationFilterAllowListRepresentation},
+		"deny_list":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationUnifiedAgentConfigurationFilterDenyListRepresentation},
+		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+	}
+	LoggingUnifiedAgentConfigurationServiceConfigurationUnifiedAgentConfigurationFilterAllowListRepresentation = map[string]interface{}{
+		"key":     acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
+		"pattern": acctest.Representation{RepType: acctest.Optional, Create: `pattern`, Update: `pattern2`},
+	}
+	LoggingUnifiedAgentConfigurationServiceConfigurationUnifiedAgentConfigurationFilterDenyListRepresentation = map[string]interface{}{
+		"key":     acctest.Representation{RepType: acctest.Optional, Create: `key`, Update: `key2`},
+		"pattern": acctest.Representation{RepType: acctest.Optional, Create: `pattern`, Update: `pattern2`},
+	}
 	LoggingUnifiedAgentConfigurationGroupAssociationRepresentation = map[string]interface{}{
 		"group_list": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_identity_group.test_group.id}`}}, // Update: []string{`${oci_identity_group.test_group.id}`, `ocid1.Group.oc1..aaaaaaaa5rvs7zjwdk3zdmysm7x7wcxyanbllutswe4xbl7ng4stohtg3sla`}},
 	}
@@ -125,13 +135,16 @@ var (
 	//acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Required, acctest.Create, ObjectStorageObjectRepresentation)
 
 	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesRepresentation = map[string]interface{}{
-		"source_type": acctest.Representation{RepType: acctest.Required, Create: `LOG_TAIL`},
-		"paths":       acctest.Representation{RepType: acctest.Required, Create: []string{`/var/log/*`}},
-		"name":        acctest.Representation{RepType: acctest.Required, Create: `name`},
-		"parser":      acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation},
+		"advanced_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: LoggingUnifiedAgentConfigurationServiceConfigurationApplicationConfigurationsSourcesAdvancedOptionsRepresentation},
+		"source_type":      acctest.Representation{RepType: acctest.Required, Create: `LOG_TAIL`},
+		"paths":            acctest.Representation{RepType: acctest.Required, Create: []string{`/var/log/*`}},
+		"name":             acctest.Representation{RepType: acctest.Required, Create: `name`},
+		"parser":           acctest.RepresentationGroup{RepType: acctest.Required, Group: LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserRepresentation},
 		//"channels":    acctest.Representation{RepType: acctest.Required, Create: []string{`Security`}, Update: []string{`Security`, `Application`}},
 	}
-
+	LoggingUnifiedAgentConfigurationServiceConfigurationApplicationConfigurationsSourcesAdvancedOptionsRepresentation = map[string]interface{}{
+		"is_read_from_head": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
 	// Add new test configs here
 	// CRI parser configs
 	LoggingUnifiedAgentConfigurationServiceConfigurationSourcesParserNestedParserRepresentation = map[string]interface{}{
@@ -314,11 +327,21 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.record_input.0.resource_group", "resourceGroup"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.destination.0.operational_metrics_configuration.0.source.0.type", "UMA_METRICS"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.#", "1"),
-				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.parser_type", "AUDITD"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.parser.0.is_estimate_current_event", "true"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.advanced_options.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.advanced_options.0.is_read_from_head", "false"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.0.key", "key"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.0.pattern", "pattern"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.0.key", "key"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.0.pattern", "pattern"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.filter_type", "GREP_FILTER"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.name", "name"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -367,6 +390,16 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.0.key", "key"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.0.pattern", "pattern"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.0.key", "key"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.0.pattern", "pattern"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.filter_type", "GREP_FILTER"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.advanced_options.0.is_read_from_head", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -410,6 +443,16 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.channels.#", "2"),
 				//resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.name", "name2"),
 				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.0.key", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.0.pattern", "pattern2"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.0.key", "key2"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.0.pattern", "pattern2"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.filter_type", "GREP_FILTER"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.unified_agent_configuration_filter.0.name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "service_configuration.0.sources.0.advanced_options.0.is_read_from_head", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
 				func(s *terraform.State) (err error) {
@@ -430,9 +473,6 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttrSet(datasourceName, "group_id"),
-				resource.TestCheckResourceAttr(datasourceName, "is_compartment_id_in_subtree", "false"),
-				resource.TestCheckResourceAttrSet(datasourceName, "log_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(datasourceName, "unified_agent_configuration_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "unified_agent_configuration_collection.0.items.#", "1"),
@@ -472,6 +512,16 @@ func TestLoggingUnifiedAgentConfigurationResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.channels.#", "2"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.name", "name2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.source_type", "LOG_TAIL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.sources.0.advanced_options.0.is_read_from_head", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.0.key", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.0.allow_list.0.pattern", "pattern2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.0.key", "key2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.0.deny_list.0.pattern", "pattern2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.0.filter_type", "GREP_FILTER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "service_configuration.0.unified_agent_configuration_filter.0.name", "name2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_last_modified"),
