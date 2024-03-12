@@ -50,6 +50,10 @@ func (m *scalingpolicy) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 
 	var err error
 	switch m.PolicyType {
+	case "AUTOSCALING":
+		mm := AutoScalingPolicy{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FIXED_SIZE":
 		mm := FixedSizeScalingPolicy{}
 		err = json.Unmarshal(data, &mm)
@@ -81,15 +85,18 @@ type ScalingPolicyPolicyTypeEnum string
 
 // Set of constants representing the allowable values for ScalingPolicyPolicyTypeEnum
 const (
-	ScalingPolicyPolicyTypeFixedSize ScalingPolicyPolicyTypeEnum = "FIXED_SIZE"
+	ScalingPolicyPolicyTypeFixedSize   ScalingPolicyPolicyTypeEnum = "FIXED_SIZE"
+	ScalingPolicyPolicyTypeAutoscaling ScalingPolicyPolicyTypeEnum = "AUTOSCALING"
 )
 
 var mappingScalingPolicyPolicyTypeEnum = map[string]ScalingPolicyPolicyTypeEnum{
-	"FIXED_SIZE": ScalingPolicyPolicyTypeFixedSize,
+	"FIXED_SIZE":  ScalingPolicyPolicyTypeFixedSize,
+	"AUTOSCALING": ScalingPolicyPolicyTypeAutoscaling,
 }
 
 var mappingScalingPolicyPolicyTypeEnumLowerCase = map[string]ScalingPolicyPolicyTypeEnum{
-	"fixed_size": ScalingPolicyPolicyTypeFixedSize,
+	"fixed_size":  ScalingPolicyPolicyTypeFixedSize,
+	"autoscaling": ScalingPolicyPolicyTypeAutoscaling,
 }
 
 // GetScalingPolicyPolicyTypeEnumValues Enumerates the set of values for ScalingPolicyPolicyTypeEnum
@@ -105,6 +112,7 @@ func GetScalingPolicyPolicyTypeEnumValues() []ScalingPolicyPolicyTypeEnum {
 func GetScalingPolicyPolicyTypeEnumStringValues() []string {
 	return []string{
 		"FIXED_SIZE",
+		"AUTOSCALING",
 	}
 }
 

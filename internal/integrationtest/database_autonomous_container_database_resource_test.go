@@ -33,6 +33,10 @@ var (
 	}
 
 	ACDatabaseRepresentation = map[string]interface{}{
+		"db_split_threshold":           acctest.Representation{RepType: acctest.Optional, Create: `12`},
+		"distribution_affinity":        acctest.Representation{RepType: acctest.Optional, Create: `MINIMUM_DISTRIBUTION`},
+		"net_services_architecture":    acctest.Representation{RepType: acctest.Optional, Create: `DEDICATED`},
+		"vm_failover_reservation":      acctest.Representation{RepType: acctest.Optional, Create: `25`},
 		"version_preference":           acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
 		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `containerdatabases2`},
 		"patch_model":                  acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
@@ -46,7 +50,7 @@ var (
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
-		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.21.0.1.0`},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.22.0.1.0`},
 		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
@@ -65,7 +69,7 @@ var (
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
 		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
-		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.21.0.1.0`},
+		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.22.0.1.0`},
 		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
@@ -90,6 +94,12 @@ var (
 	ACDatabaseResourceDependencies = DatabaseAVMClusterWithSingleNetworkResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseOCPUAutonomousVmClusterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation) +
+		KmsVaultIdVariableStr + OkvSecretVariableStr
+
+	ACDECPUatabaseResourceDependencies = DatabaseAVMClusterWithSingleNetworkResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseECPUAutonomousVmClusterRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation) +
 		KmsVaultIdVariableStr + OkvSecretVariableStr
 
@@ -135,7 +145,9 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_password", "vpcPassword"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "12"),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
+				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 				resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -149,10 +161,12 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "NO_PREFERENCE"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "ROLLING"),
+				resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATES"),
 				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "version_preference", "LATEST_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
 				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "false"),
@@ -183,7 +197,9 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(resourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "12"),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", acbDBName),
+				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "containerdatabases2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -198,10 +214,12 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.weeks_of_month.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
 				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
 				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
 				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
 				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "true"),
@@ -235,11 +253,14 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.db_split_threshold", "12"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.display_name", "containerdatabases2"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.distribution_affinity", "MINIMUM_DISTRIBUTION"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_store_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_store_wallet_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.is_dst_file_update_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.days_of_week.0.name", "TUESDAY"),
@@ -248,14 +269,15 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.months.0.name", "FEBRUARY"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.net_services_architecture", "DEDICATED"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.patch_model", "RELEASE_UPDATE_REVISIONS"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.memory_per_oracle_compute_unit_in_gbs"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.vm_failover_reservation", "25"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_container_databases.0.db_version"),
-				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.is_dst_file_update_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_container_databases.0.maintenance_window.0.patching_mode", "NONROLLING"),
 			),
 		},
@@ -273,9 +295,12 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.type", "NFS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.0.backup_destination_details.0.vpc_user", "bkupUser1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "db_split_threshold", "12"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "containerdatabases2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_dst_file_update_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_store_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "key_store_wallet_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.#", "1"),
@@ -286,14 +311,15 @@ func TestDatabaseExaccAutonomousContainerDatabase_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.months.0.name", "FEBRUARY"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.preference", "CUSTOM_PREFERENCE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.weeks_of_month.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "net_services_architecture", "DEDICATED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_level_agreement_type", "STANDARD"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "memory_per_oracle_compute_unit_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vm_failover_reservation", "25"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_version"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_dst_file_update_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window.0.patching_mode", "NONROLLING"),
 			),
 		},

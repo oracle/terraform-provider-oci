@@ -102,6 +102,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
 
+	if s.Res.DbSplitThreshold != nil {
+		s.D.Set("db_split_threshold", *s.Res.DbSplitThreshold)
+	}
+
 	if s.Res.DbUniqueName != nil {
 		s.D.Set("db_unique_name", *s.Res.DbUniqueName)
 	}
@@ -117,6 +121,8 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("distribution_affinity", s.Res.DistributionAffinity)
 
 	if s.Res.DstFileVersion != nil {
 		s.D.Set("dst_file_version", *s.Res.DstFileVersion)
@@ -174,6 +180,8 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
 
+	s.D.Set("net_services_architecture", s.Res.NetServicesArchitecture)
+
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
@@ -229,6 +237,10 @@ func (s *DatabaseAutonomousContainerDatabaseDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("version_preference", s.Res.VersionPreference)
+
+	if s.Res.VmFailoverReservation != nil {
+		s.D.Set("vm_failover_reservation", *s.Res.VmFailoverReservation)
+	}
 
 	return nil
 }

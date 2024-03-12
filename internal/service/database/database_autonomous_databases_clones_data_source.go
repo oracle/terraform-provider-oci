@@ -410,6 +410,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_dev_tier": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_free_tier": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -574,6 +578,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"ncharacter_set": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"net_services_architecture": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1114,6 +1122,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			autonomousDatabasesClone["is_dedicated"] = *r.IsDedicated
 		}
 
+		if r.IsDevTier != nil {
+			autonomousDatabasesClone["is_dev_tier"] = *r.IsDevTier
+		}
+
 		if r.IsFreeTier != nil {
 			autonomousDatabasesClone["is_free_tier"] = *r.IsFreeTier
 		}
@@ -1199,6 +1211,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		if r.NcharacterSet != nil {
 			autonomousDatabasesClone["ncharacter_set"] = *r.NcharacterSet
 		}
+
+		autonomousDatabasesClone["net_services_architecture"] = r.NetServicesArchitecture
 
 		if r.NextLongTermBackupTimeStamp != nil {
 			autonomousDatabasesClone["next_long_term_backup_time_stamp"] = r.NextLongTermBackupTimeStamp.String()

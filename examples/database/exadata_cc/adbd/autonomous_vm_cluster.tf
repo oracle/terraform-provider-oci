@@ -10,7 +10,7 @@ resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster" {
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
   cpu_core_count_per_node   = "20"
   autonomous_data_storage_size_in_tbs = "2.0"
-  memory_per_oracle_compute_unit_in_gbs = "12"
+  memory_per_oracle_compute_unit_in_gbs = "5"
   total_container_databases             = "2"
   #Optional
   is_local_backup_enabled = "false"
@@ -36,7 +36,7 @@ resource "oci_database_autonomous_vm_cluster" "autonomous_vm_cluster_2" {
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network2.id
   cpu_core_count_per_node   = "20"
   autonomous_data_storage_size_in_tbs = "2.0"
-  memory_per_oracle_compute_unit_in_gbs = "12"
+  memory_per_oracle_compute_unit_in_gbs = "5"
   total_container_databases             = "2"
   #Optional
   is_local_backup_enabled = "false"

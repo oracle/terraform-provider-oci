@@ -7,6 +7,7 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
+  version          = "5.25.0"
 }
 
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database" {
@@ -14,7 +15,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.20.0.1.0"
+  db_version                           = "19.22.0.1.0"
   db_name                              = "ACDNAME"
 
   #Optional
@@ -22,6 +23,12 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
     #Optional
     recovery_window_in_days = var.autonomous_container_database_backup_config_recovery_window_in_days
   }
+
+  #Optional
+  db_split_threshold           = 12
+  vm_failover_reservation      = 25
+  distribution_affinity        = "MINIMUM_DISTRIBUTION"
+  net_services_architecture    = "DEDICATED"
 
   compartment_id               = var.compartment_ocid
   freeform_tags                = var.autonomous_database_freeform_tags
@@ -82,7 +89,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
   #Optional
   autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
   db_workload                      = "OLTP"
-  display_name                     = "example_autonomous_database-007"
+  display_name                     = "example_autonomous_db-1"
   freeform_tags                    = var.autonomous_database_freeform_tags
   is_dedicated                     = "true"
   rotate_key_trigger               = "true"
@@ -101,10 +108,28 @@ resource "oci_database_autonomous_database" "test_autonomous_database_character_
   #Optional
   autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
   db_workload                      = "OLTP"
-  display_name                     = "example_autonomous_database-008"
+  display_name                     = "example_autonomous_db-2"
   is_dedicated                     = "true"
   character_set                    = "AL32UTF8"
   ncharacter_set                   = "AL16UTF16"
+}
+
+resource "oci_database_autonomous_database" "test_autonomous_database_developer" {
+  #Required
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  compute_count            = "4"
+  data_storage_size_in_gb  = "32"
+  db_name                  = "atpdb3"
+
+  #Optional
+  autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+  db_workload                      = "OLTP"
+  display_name                     = "example_autonomous_db-developer"
+  is_dedicated                     = "true"
+  character_set                    = "AL32UTF8"
+  ncharacter_set                   = "AL16UTF16"
+  is_dev_tier                      = "true"
 }
 
 data "oci_database_autonomous_container_databases" "test_autonomous_container_databases" {
@@ -179,7 +204,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster_primary.id
   display_name                         = "PrimaryACD"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.20.0.1.0"
+  db_version                           = "19.22.0.1.0"
   db_name                              = "PRIMARY"
 
   #Optional

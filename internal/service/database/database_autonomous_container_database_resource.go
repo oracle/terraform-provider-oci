@@ -132,6 +132,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"db_split_threshold": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"db_unique_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -150,6 +156,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+			},
+			"distribution_affinity": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"fast_start_fail_over_lag_limit_in_seconds": {
 				Type:     schema.TypeInt,
@@ -287,6 +299,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"net_services_architecture": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"peer_autonomous_container_database_backup_config": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -423,6 +441,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"vm_failover_reservation": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -784,6 +808,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.DbName = &tmp
 	}
 
+	if dbSplitThreshold, ok := s.D.GetOkExists("db_split_threshold"); ok {
+		tmp := dbSplitThreshold.(int)
+		request.DbSplitThreshold = &tmp
+	}
+
 	if dbUniqueName, ok := s.D.GetOkExists("db_unique_name"); ok {
 		tmp := dbUniqueName.(string)
 		request.DbUniqueName = &tmp
@@ -805,6 +834,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if distributionAffinity, ok := s.D.GetOkExists("distribution_affinity"); ok {
+		request.DistributionAffinity = oci_database.CreateAutonomousContainerDatabaseDetailsDistributionAffinityEnum(distributionAffinity.(string))
 	}
 
 	if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok && s.D.HasChange("fast_start_fail_over_lag_limit_in_seconds") {
@@ -845,6 +878,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 			}
 			request.MaintenanceWindowDetails = &tmp
 		}
+	}
+
+	if netServicesArchitecture, ok := s.D.GetOkExists("net_services_architecture"); ok {
+		request.NetServicesArchitecture = oci_database.CreateAutonomousContainerDatabaseDetailsNetServicesArchitectureEnum(netServicesArchitecture.(string))
 	}
 
 	if patchModel, ok := s.D.GetOkExists("patch_model"); ok {
@@ -909,10 +946,14 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 		request.VersionPreference = oci_database.CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
 	}
 
+	if vmFailoverReservation, ok := s.D.GetOkExists("vm_failover_reservation"); ok {
+		tmp := vmFailoverReservation.(int)
+		request.VmFailoverReservation = &tmp
+	}
+
 	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
 		tmp := standbyMaintenanceBufferInDays.(int)
 		request.StandbyMaintenanceBufferInDays = &tmp
-
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -1096,6 +1137,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
 
+	if s.Res.DbSplitThreshold != nil {
+		s.D.Set("db_split_threshold", *s.Res.DbSplitThreshold)
+	}
+
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
 	}
@@ -1111,6 +1156,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("distribution_affinity", s.Res.DistributionAffinity)
 
 	if s.Res.DstFileVersion != nil {
 		s.D.Set("dst_file_version", *s.Res.DstFileVersion)
@@ -1168,6 +1215,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
 
+	s.D.Set("net_services_architecture", s.Res.NetServicesArchitecture)
+
 	if s.Res.NextMaintenanceRunId != nil {
 		s.D.Set("next_maintenance_run_id", *s.Res.NextMaintenanceRunId)
 	}
@@ -1223,6 +1272,10 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("version_preference", s.Res.VersionPreference)
+
+	if s.Res.VmFailoverReservation != nil {
+		s.D.Set("vm_failover_reservation", *s.Res.VmFailoverReservation)
+	}
 
 	return nil
 }

@@ -92,6 +92,9 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is `TRUE`.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
+	// This project introduces Autonomous Database for Developers (ADB-Dev), a free tier on dedicated infrastructure, and Cloud@Customer for database development purposes. ADB-Dev enables ExaDB customers to experiment with ADB for free and incentivizes enterprises to use ADB for new development projects.Note that ADB-Dev have 4 CPU and 20GB of memory. For ADB-Dev , memory and CPU cannot be scaled
+	IsDevTier *bool `mandatory:"false" json:"isDevTier"`
+
 	// True if the database is on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
 	IsDedicated *bool `mandatory:"false" json:"isDedicated"`
 
@@ -345,6 +348,11 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetIsPreviewVersionWithServic
 // GetIsAutoScalingEnabled returns IsAutoScalingEnabled
 func (m CreateAutonomousDatabaseFromBackupDetails) GetIsAutoScalingEnabled() *bool {
 	return m.IsAutoScalingEnabled
+}
+
+// GetIsDevTier returns IsDevTier
+func (m CreateAutonomousDatabaseFromBackupDetails) GetIsDevTier() *bool {
+	return m.IsDevTier
 }
 
 // GetIsDedicated returns IsDedicated

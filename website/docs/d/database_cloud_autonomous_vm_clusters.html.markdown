@@ -58,7 +58,7 @@ The following attributes are exported:
 * `cloud_exadata_infrastructure_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Exadata infrastructure.
 * `cluster_time_zone` - The time zone of the Cloud Autonomous VM Cluster.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `compute_model` - The compute model of the Cloud Autonomous VM Cluster.  
+* `compute_model` - The compute model of the Cloud Autonomous VM Cluster. ECPU compute model is the recommended model and OCPU compute model is legacy. See [Compute Models in Autonomous Database on Dedicated Exadata #Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 * `cpu_core_count` - The number of CPU cores on the cloud Autonomous VM cluster.
 * `cpu_core_count_per_node` - The number of CPU cores enabled per VM cluster node.
 * `cpu_percentage` - The percentage of total number of CPUs used in an Autonomous VM Cluster.
@@ -70,14 +70,14 @@ The following attributes are exported:
 * `description` - User defined description of the cloud Autonomous VM cluster.
 * `display_name` - The user-friendly name for the cloud Autonomous VM cluster. The name does not need to be unique.
 * `domain` - The domain name for the cloud Autonomous VM cluster.
-* `exadata_storage_in_tbs_lowest_scaled_value` - The lowest value to which exadataStorage in TBs can be scaled down.
+* `exadata_storage_in_tbs_lowest_scaled_value` - The lowest value to which exadataStorage (in TBs) can be scaled down.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname` - The hostname for the cloud Autonomous VM cluster.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cloud Autonomous VM cluster.
 * `is_mtls_enabled_vm_cluster` - Enable mutual TLS(mTLS) authentication for database at time of provisioning a VMCluster. This is applicable to database TLS Certificates only. Default is TLS
 * `last_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance run.
 * `last_update_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last maintenance update history. This value is updated when a maintenance update starts.
-* `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud. License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service. Note that when provisioning an [Autonomous Database on dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the Autonomous Exadata Infrastructure level. When provisioning an [Autonomous Database Serverless] (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`.
+* `license_model` - The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud. License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service. Note that when provisioning an [Autonomous Database on dedicated Exadata infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the Autonomous Exadata Infrastructure level. When provisioning an [Autonomous Database Serverless] (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html) database, if a value is not specified, the system defaults the value to `BRING_YOUR_OWN_LICENSE`. Bring your own license (BYOL) also allows you to select the DB edition using the optional parameter.
 
 	This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, maxCpuCoreCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier. 
 * `lifecycle_details` - Additional information about the current lifecycle state.
@@ -97,8 +97,8 @@ The following attributes are exported:
 		*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
 	* `preference` - The maintenance window scheduling preference.
 	* `weeks_of_month` - Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
-* `max_acds_lowest_scaled_value` - The lowest value to which ACDs can be scaled down.
-* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per OCPU or ECPU.  
+* `max_acds_lowest_scaled_value` - The lowest value to which maximum number of ACDs can be scaled down.
+* `memory_per_oracle_compute_unit_in_gbs` - The amount of memory (in GBs) enabled per OCPU or ECPU.
 * `memory_size_in_gbs` - The memory allocated in GBs.
 * `next_maintenance_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next maintenance run.
 * `node_count` - The number of database servers in the cloud VM cluster. 
