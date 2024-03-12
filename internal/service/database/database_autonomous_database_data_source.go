@@ -224,6 +224,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_dedicated", *s.Res.IsDedicated)
 	}
 
+	if s.Res.IsDevTier != nil {
+		s.D.Set("is_dev_tier", *s.Res.IsDevTier)
+	}
+
 	if s.Res.IsFreeTier != nil {
 		s.D.Set("is_free_tier", *s.Res.IsFreeTier)
 	}
@@ -309,6 +313,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
 	}
+
+	s.D.Set("net_services_architecture", s.Res.NetServicesArchitecture)
 
 	if s.Res.NextLongTermBackupTimeStamp != nil {
 		s.D.Set("next_long_term_backup_time_stamp", s.Res.NextLongTermBackupTimeStamp.String())

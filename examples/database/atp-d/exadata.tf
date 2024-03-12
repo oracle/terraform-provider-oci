@@ -95,11 +95,11 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
   freeform_tags                   = var.autonomous_database_freeform_tags
   license_model                   = "LICENSE_INCLUDED"
   subnet_id                       = oci_core_subnet.exadata_subnet.id
-  #Optional
-#  autonomous_data_storage_size_in_tbs   = 5
-#  memory_per_oracle_compute_unit_in_gbs = 27
-#  cpu_core_count_per_node               = 50
-#  total_container_databases             = 12
+#  #Optional
+#  autonomous_data_storage_size_in_tbs   = 2
+#  memory_per_oracle_compute_unit_in_gbs = 5
+#  cpu_core_count_per_node               = 40
+#  total_container_databases             = 1
   compute_model                   = "ECPU"
 
   //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
@@ -118,11 +118,12 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
   freeform_tags                   = var.autonomous_database_freeform_tags
   license_model                   = "LICENSE_INCLUDED"
   subnet_id                       = oci_core_subnet.exadata_subnet.id
+  
   #Optional
-#  autonomous_data_storage_size_in_tbs   = 5
-#  memory_per_oracle_compute_unit_in_gbs = 27
-#  cpu_core_count_per_node               = 50
-#  total_container_databases             = 12
+#  autonomous_data_storage_size_in_tbs   = 2
+#  memory_per_oracle_compute_unit_in_gbs = 5
+#  cpu_core_count_per_node               = 40
+#  total_container_databases             = 1
   compute_model                   = "ECPU"
 
   //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
@@ -141,11 +142,11 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
   freeform_tags                   = var.autonomous_database_freeform_tags
   license_model                   = "LICENSE_INCLUDED"
   subnet_id                       = oci_core_subnet.exadata_subnet.id
-  #Optional
-#  autonomous_data_storage_size_in_tbs   = 5
-#  memory_per_oracle_compute_unit_in_gbs = 27
-#  cpu_core_count_per_node               = 50
-#  total_container_databases             = 12
+#  #Optional
+#  autonomous_data_storage_size_in_tbs   = 2
+#  memory_per_oracle_compute_unit_in_gbs = 5
+#  cpu_core_count_per_node               = 40
+#  total_container_databases             = 1
   compute_model                   = "ECPU"
 
   //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers

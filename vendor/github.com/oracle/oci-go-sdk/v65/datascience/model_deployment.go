@@ -52,6 +52,8 @@ type ModelDeployment struct {
 
 	CategoryLogDetails *CategoryLogDetails `mandatory:"false" json:"categoryLogDetails"`
 
+	ModelDeploymentSystemData ModelDeploymentSystemData `mandatory:"false" json:"modelDeploymentSystemData"`
+
 	// Details about the state of the model deployment.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -89,6 +91,7 @@ func (m *ModelDeployment) UnmarshalJSON(data []byte) (e error) {
 		Description                         *string                             `json:"description"`
 		ModelDeploymentConfigurationDetails modeldeploymentconfigurationdetails `json:"modelDeploymentConfigurationDetails"`
 		CategoryLogDetails                  *CategoryLogDetails                 `json:"categoryLogDetails"`
+		ModelDeploymentSystemData           modeldeploymentsystemdata           `json:"modelDeploymentSystemData"`
 		LifecycleDetails                    *string                             `json:"lifecycleDetails"`
 		FreeformTags                        map[string]string                   `json:"freeformTags"`
 		DefinedTags                         map[string]map[string]interface{}   `json:"definedTags"`
@@ -120,6 +123,16 @@ func (m *ModelDeployment) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.CategoryLogDetails = model.CategoryLogDetails
+
+	nn, e = model.ModelDeploymentSystemData.UnmarshalPolymorphicJSON(model.ModelDeploymentSystemData.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.ModelDeploymentSystemData = nn.(ModelDeploymentSystemData)
+	} else {
+		m.ModelDeploymentSystemData = nil
+	}
 
 	m.LifecycleDetails = model.LifecycleDetails
 

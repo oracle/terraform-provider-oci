@@ -139,6 +139,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `bds` - Discovers big data service resources within the specified compartment
     * `blockchain` - Discovers blockchain resources within the specified compartment
     * `budget` - Discovers budget resources across the entire tenancy
+    * `capacity_management` - Discovers capacity_management resources within the specified compartment
     * `certificates_management` - Discovers certificates_management resources within the specified compartment
     * `cloud_bridge` - Discovers cloud_bridge resources within the specified compartment
     * `cloud_guard` - Discovers cloud guard resources within the specified compartment
@@ -453,6 +454,11 @@ budget
 * oci\_budget\_budget
 * oci\_budget\_alert\_rule
 
+capacity_management
+    
+* oci\_capacity\_management\_occ\_availability\_catalog
+* oci\_capacity\_management\_occ\_capacity\_request
+
 certificates_management
 
 * oci\_certificates\_management\_ca\_bundle
@@ -661,6 +667,7 @@ dataintegration
 * oci\_dataintegration\_workspace\_export\_request
 * oci\_dataintegration\_workspace\_application\_patch
 * oci\_dataintegration\_workspace\_application\_schedule
+* oci\_dataintegration\_workspace\_application\_task\_schedule
 
 datascience
 

@@ -713,6 +713,9 @@ func (client BaseClient) httpDo(request *http.Request) (response *http.Response,
 // CloseBodyIfValid closes the body of an http response if the response and the body are valid
 func CloseBodyIfValid(httpResponse *http.Response) {
 	if httpResponse != nil && httpResponse.Body != nil {
+		if httpResponse.Header != nil && strings.ToLower(httpResponse.Header.Get("content-type")) == "text/event-stream" {
+			return
+		}
 		httpResponse.Body.Close()
 	}
 }
