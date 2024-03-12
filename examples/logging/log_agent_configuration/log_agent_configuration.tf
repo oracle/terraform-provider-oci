@@ -267,3 +267,261 @@ data "oci_logging_unified_agent_configurations" "test_unified_agent_configuratio
   log_id                       = var.test_log_id
   state                        = var.unified_agent_configuration_state
 }
+
+resource "oci_logging_unified_agent_configuration" "test_unified_agent_configuration_1" {
+  #Required
+  compartment_id = var.compartment_id
+  is_enabled     = var.unified_agent_configuration_is_enabled
+  service_configuration {
+    #Required
+    configuration_type = "LOGGING"
+
+    #Required field destination for service_configuration
+    destination {
+      #Required field for destination
+      log_object_id = var.test_log_id
+      operational_metrics_configuration {
+        destination {
+          compartment_id = var.compartment_id
+        }
+        source {
+          type = "UMA_METRICS"
+          record_input {
+            namespace = "tf_test_namespace"
+            resource_group = "tf-test-resource-group"
+          }
+        }
+      }
+    }
+    sources {
+      #Required
+      source_type = "LOG_TAIL"
+      name     = var.unified_agent_configuration_service_configuration_sources_name
+      advanced_options {
+          is_read_from_head = true
+      }
+      parser {
+        parser_type = "JSON"
+        field_time_key = "time"
+        is_keep_time_key = true
+        timeout_in_milliseconds = 1000
+      }
+      paths = ["/var/log/*"]
+    }
+    sources {
+      #Required
+      source_type = "WINDOWS_EVENT_LOG"
+      name     = "windows_event_test"
+      channels = ["system"]
+    }
+    # could test custom_plugin sources here too
+    unified_agent_configuration_filter {
+      filter_type = "GREP_FILTER"
+      allow_list {
+        key = "key"
+        pattern = "value"
+      }
+      deny_list {
+        key = "key"
+        pattern = "value"
+      }
+      name = "test"
+    }
+  }
+
+  #Optional
+  defined_tags = {
+    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
+  }
+  description   = var.unified_agent_configuration_description
+  display_name  = "test_unified_agent_configuration_1"
+  freeform_tags = var.unified_agent_configuration_freeform_tags
+  group_association {
+    #Optional
+    group_list = ["ocid1.dynamicgroup.oc1..aaaaaaaatqbpurg4jtr57dthka4lbykvsqajjmynecixwgsfgu2z36wf4kgq"]
+  }
+
+  lifecycle {
+    ignore_changes = [ defined_tags ]
+  }
+}
+data "oci_logging_unified_agent_configurations" "test_unified_agent_configurations_KUBERNETES" {
+  #Required
+  compartment_id = var.compartment_id
+
+  #Optional
+  display_name  = "test_unified_agent_configuration_1"
+  group_id                     = var.test_log_group_id
+  is_compartment_id_in_subtree = var.unified_agent_configuration_is_compartment_id_in_subtree
+  log_id                       = var.test_log_id
+  state                        = var.unified_agent_configuration_state
+}
+
+resource "oci_logging_unified_agent_configuration" "test_unified_agent_configuration_monitoring_KUBERNETES" {
+  #Required
+  compartment_id = var.compartment_id
+  is_enabled     = var.unified_agent_configuration_is_enabled
+  service_configuration {
+    #Required
+    configuration_type = "MONITORING"
+
+    application_configurations {
+      destination {
+        compartment_id = var.compartment_id
+        metrics_namespace = "tf_test_namespace"
+      }
+      source_type = "KUBERNETES"
+      source {
+        name = "kubernetes_source"
+        scrape_targets {
+          k8s_namespace = "kube_system"
+          resource_group = "tf-test-resource-group"
+          resource_type = "PODS"
+          service_name = "kubernetes"
+        }
+      }
+      unified_agent_configuration_filter {
+        filter_type = "KUBERNETES_FILTER"
+        name = "kubernetes_filter"
+        allow_list = ["allow_list"]
+        deny_list = ["deny_list"]
+      }
+    }
+  }
+
+  #Optional
+  defined_tags = {
+    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
+  }
+  description   = var.unified_agent_configuration_description
+  display_name  = "test_unified_agent_configuration_monitoring_KUBERNETES"
+  freeform_tags = var.unified_agent_configuration_freeform_tags
+  group_association {
+    #Optional
+    group_list = ["ocid1.dynamicgroup.oc1..aaaaaaaatqbpurg4jtr57dthka4lbykvsqajjmynecixwgsfgu2z36wf4kgq"]
+  }
+
+  lifecycle {
+    ignore_changes = [ defined_tags ]
+  }
+}
+
+data "oci_logging_unified_agent_configurations" "test_unified_agent_configuration_monitoring_KUBERNETES" {
+  #Required
+  compartment_id = var.compartment_id
+
+  #Optional
+  display_name  = "test_unified_agent_configuration_monitoring_KUBERNETES"
+#  group_id                     = var.test_log_group_id
+#  is_compartment_id_in_subtree = var.unified_agent_configuration_is_compartment_id_in_subtree
+#  log_id                       = var.test_log_id
+  filter {
+    name   = "id"
+    values = [oci_logging_unified_agent_configuration.test_unified_agent_configuration_monitoring_KUBERNETES.id]
+  }
+#  state                        = var.unified_agent_configuration_state
+}
+
+
+resource "oci_logging_unified_agent_configuration" "test_unified_agent_configuration_monitoring_TAIL" {
+  #Required
+  compartment_id = var.compartment_id
+  is_enabled     = var.unified_agent_configuration_is_enabled
+  service_configuration {
+    #Required
+    configuration_type = "MONITORING"
+
+    application_configurations {
+      destination {
+        compartment_id = var.compartment_id
+        metrics_namespace = "tf_test_namespace"
+      }
+      source_type = "TAIL"
+      sources {
+        #Required
+        source_type = "LOG_TAIL"
+        name     = "test_unified_agent_configuration_monitoring_1_sources_name_0"
+        parser {
+          parser_type = "JSON"
+          field_time_key = "time"
+          is_keep_time_key = true
+          timeout_in_milliseconds = 1000
+        }
+        paths = ["/var/log/*"]
+      }
+      sources {
+        #Required
+        source_type = "LOG_TAIL"
+        name     = "test_unified_agent_configuration_monitoring_1_sources_name_1"
+        parser {
+          parser_type = "REGEXP"
+          expression = "regexp"
+        }
+        paths = ["/var/log1/*"]
+      }
+    }
+  }
+
+  #Optional
+  defined_tags = {
+    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
+  }
+  description   = var.unified_agent_configuration_description
+  display_name  = "test_unified_agent_configuration_monitoring_TAIL"
+  freeform_tags = var.unified_agent_configuration_freeform_tags
+  group_association {
+    #Optional
+    group_list = ["ocid1.dynamicgroup.oc1..aaaaaaaatqbpurg4jtr57dthka4lbykvsqajjmynecixwgsfgu2z36wf4kgq"]
+  }
+
+  lifecycle {
+    ignore_changes = [ defined_tags ]
+  }
+}
+
+resource "oci_logging_unified_agent_configuration" "test_unified_agent_configuration_monitoring_URL" {
+  #Required
+  compartment_id = var.compartment_id
+  is_enabled     = var.unified_agent_configuration_is_enabled
+  service_configuration {
+    #Required
+    configuration_type = "MONITORING"
+
+    application_configurations {
+      destination {
+        compartment_id = var.compartment_id
+        metrics_namespace = "tf_test_namespace"
+      }
+      source_type = "URL"
+      source {
+        name = "url_source"
+        scrape_targets {
+          name = "url_scrape"
+          url = "http://example.com"
+        }
+      }
+      unified_agent_configuration_filter {
+        filter_type = "URL_FILTER"
+        name = "url_filter"
+        allow_list = ["allow_list"]
+        deny_list = ["deny_list"]
+      }
+    }
+  }
+
+  #Optional
+  defined_tags = {
+    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
+  }
+  description   = var.unified_agent_configuration_description
+  display_name  = "test_unified_agent_configuration_monitoring_URL"
+  freeform_tags = var.unified_agent_configuration_freeform_tags
+  group_association {
+    #Optional
+    group_list = ["ocid1.dynamicgroup.oc1..aaaaaaaatqbpurg4jtr57dthka4lbykvsqajjmynecixwgsfgu2z36wf4kgq"]
+  }
+
+  lifecycle {
+    ignore_changes = [ defined_tags ]
+  }
+}
