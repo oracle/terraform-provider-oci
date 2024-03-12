@@ -7,7 +7,7 @@
 ### Bug Fix
 - [Docs] Other Terraform Feedback
 
-## 5.33.0 (Unreleased)
+## 5.33.0 (March 12, 2024)
 
 ### Added
 - Support for OCI Control Center (OCC) 2.0 Feature Release
