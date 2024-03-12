@@ -7,7 +7,7 @@
 locals {
   region = "us-phoenix-1"
   tenancy_ocid = "ocid1.tenancy.oc1..aaaaaaaa4s2hncj4oaulmf5tz4yfeska6fya4gkd5jsg3fmlgq7pprgr7wiq"
-  user_ocid = "ocid1.user.oc1..aaaaaaaambwtocniy3w5bpc257se4eh35rfpdga6a3fsxitctmca6jrfayga"
+  user_ocid = "ocid1.user.oc1..aaaaaaaa5mxx5f6ltt5w6soekhzetsymtgntbjijmikyc4kqpbau2xfwnsva"
   fingerprint = "1e:84:e8:12:08:55:af:2e:51:5e:2a:57:41:ab:fd:c9"
   private_key_path = "/Users/shxi/.oci/oci_api_key.pem"
 }
