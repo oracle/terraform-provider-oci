@@ -17,6 +17,7 @@ import (
 )
 
 // ConsumerGroupsCapabilityDetails Specifies the details for the consumer group capability.
+// All fields are optional and are only used when the capability is added. Fields will be `null` when the capability is returned as part of the GetQueue API.
 type ConsumerGroupsCapabilityDetails struct {
 
 	// Specifies if the primary consumer group should be automatically enabled after adding the capability.

@@ -70,8 +70,11 @@ type VolumeAttachment interface {
 	// be attached in shareable mode. Defaults to false if not specified.
 	GetIsShareable() *bool
 
-	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
+	// Deprecated. Use `isEncryptionInTransitEnabled` instead.
 	GetIsPvEncryptionInTransitEnabled() *bool
+
+	// Whether in-transit encryption for the data volume's attachment is enabled or not.
+	GetIsEncryptionInTransitEnabled() *bool
 
 	// Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 	GetIsMultipath() *bool
@@ -92,6 +95,7 @@ type volumeattachment struct {
 	IsReadOnly                     *bool                               `mandatory:"false" json:"isReadOnly"`
 	IsShareable                    *bool                               `mandatory:"false" json:"isShareable"`
 	IsPvEncryptionInTransitEnabled *bool                               `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+	IsEncryptionInTransitEnabled   *bool                               `mandatory:"false" json:"isEncryptionInTransitEnabled"`
 	IsMultipath                    *bool                               `mandatory:"false" json:"isMultipath"`
 	IscsiLoginState                VolumeAttachmentIscsiLoginStateEnum `mandatory:"false" json:"iscsiLoginState,omitempty"`
 	IsVolumeCreatedDuringLaunch    *bool                               `mandatory:"false" json:"isVolumeCreatedDuringLaunch"`
@@ -128,6 +132,7 @@ func (m *volumeattachment) UnmarshalJSON(data []byte) error {
 	m.IsReadOnly = s.Model.IsReadOnly
 	m.IsShareable = s.Model.IsShareable
 	m.IsPvEncryptionInTransitEnabled = s.Model.IsPvEncryptionInTransitEnabled
+	m.IsEncryptionInTransitEnabled = s.Model.IsEncryptionInTransitEnabled
 	m.IsMultipath = s.Model.IsMultipath
 	m.IscsiLoginState = s.Model.IscsiLoginState
 	m.IsVolumeCreatedDuringLaunch = s.Model.IsVolumeCreatedDuringLaunch
@@ -151,6 +156,10 @@ func (m *volumeattachment) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		return mm, err
 	case "emulated":
 		mm := EmulatedVolumeAttachment{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "nvme":
+		mm := NvmeVolumeAttachment{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "paravirtualized":
@@ -186,6 +195,11 @@ func (m volumeattachment) GetIsShareable() *bool {
 // GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled
 func (m volumeattachment) GetIsPvEncryptionInTransitEnabled() *bool {
 	return m.IsPvEncryptionInTransitEnabled
+}
+
+// GetIsEncryptionInTransitEnabled returns IsEncryptionInTransitEnabled
+func (m volumeattachment) GetIsEncryptionInTransitEnabled() *bool {
+	return m.IsEncryptionInTransitEnabled
 }
 
 // GetIsMultipath returns IsMultipath

@@ -77,6 +77,12 @@ type Node struct {
 
 	// The date and time the instance is expected to be stopped / started, in the format defined by RFC3339.
 	TimeMaintenanceRebootDue *common.SDKTime `mandatory:"false" json:"timeMaintenanceRebootDue"`
+
+	// The date and time the instance was replaced by a new vm with a node backup.
+	TimeReplaced *common.SDKTime `mandatory:"false" json:"timeReplaced"`
+
+	// The node back id that was used for replacing the node.
+	NodeBackupId *string `mandatory:"false" json:"nodeBackupId"`
 }
 
 func (m Node) String() string {

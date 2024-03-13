@@ -21,7 +21,7 @@ type ConsumerGroupSummary struct {
 	// A unique identifier for the consumer group that is immutable on creation.
 	Id *string `mandatory:"true" json:"id"`
 
-	// A user-friendly name for the consumer group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the consumer group. It has to be unique within the same queue in a case-insensitive manner. It's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The time that the consumer group was created, expressed in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.

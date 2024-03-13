@@ -116,6 +116,10 @@ func (m *attachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := AttachIScsiVolumeDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "nvme":
+		mm := AttachNvmeVolumeDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "paravirtualized":
 		mm := AttachParavirtualizedVolumeDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -12,6 +12,7 @@
 package databasemanagement
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -68,6 +69,15 @@ type ExternalDatabaseSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The list of feature configurations
+	DbmgmtFeatureConfigs []DatabaseFeatureConfiguration `mandatory:"false" json:"dbmgmtFeatureConfigs"`
+
+	// The Oracle database version.
+	DatabaseVersion *string `mandatory:"false" json:"databaseVersion"`
+
+	// The operating system of database.
+	DatabasePlatformName *string `mandatory:"false" json:"databasePlatformName"`
 }
 
 func (m ExternalDatabaseSummary) String() string {
@@ -93,6 +103,83 @@ func (m ExternalDatabaseSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ExternalDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DbUniqueName                *string                                   `json:"dbUniqueName"`
+		DatabaseType                DatabaseTypeEnum                          `json:"databaseType"`
+		DatabaseSubType             DatabaseSubTypeEnum                       `json:"databaseSubType"`
+		ExternalContainerDatabaseId *string                                   `json:"externalContainerDatabaseId"`
+		ExternalDbHomeId            *string                                   `json:"externalDbHomeId"`
+		DbSystemInfo                *ExternalDbSystemBasicInfo                `json:"dbSystemInfo"`
+		DbManagementConfig          *DatabaseManagementConfig                 `json:"dbManagementConfig"`
+		InstanceDetails             []ExternalDatabaseInstance                `json:"instanceDetails"`
+		FreeformTags                map[string]string                         `json:"freeformTags"`
+		DefinedTags                 map[string]map[string]interface{}         `json:"definedTags"`
+		DbmgmtFeatureConfigs        []databasefeatureconfiguration            `json:"dbmgmtFeatureConfigs"`
+		DatabaseVersion             *string                                   `json:"databaseVersion"`
+		DatabasePlatformName        *string                                   `json:"databasePlatformName"`
+		Id                          *string                                   `json:"id"`
+		DisplayName                 *string                                   `json:"displayName"`
+		CompartmentId               *string                                   `json:"compartmentId"`
+		LifecycleState              ExternalDatabaseSummaryLifecycleStateEnum `json:"lifecycleState"`
+		TimeCreated                 *common.SDKTime                           `json:"timeCreated"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DbUniqueName = model.DbUniqueName
+
+	m.DatabaseType = model.DatabaseType
+
+	m.DatabaseSubType = model.DatabaseSubType
+
+	m.ExternalContainerDatabaseId = model.ExternalContainerDatabaseId
+
+	m.ExternalDbHomeId = model.ExternalDbHomeId
+
+	m.DbSystemInfo = model.DbSystemInfo
+
+	m.DbManagementConfig = model.DbManagementConfig
+
+	m.InstanceDetails = make([]ExternalDatabaseInstance, len(model.InstanceDetails))
+	copy(m.InstanceDetails, model.InstanceDetails)
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.DbmgmtFeatureConfigs = make([]DatabaseFeatureConfiguration, len(model.DbmgmtFeatureConfigs))
+	for i, n := range model.DbmgmtFeatureConfigs {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.DbmgmtFeatureConfigs[i] = nn.(DatabaseFeatureConfiguration)
+		} else {
+			m.DbmgmtFeatureConfigs[i] = nil
+		}
+	}
+	m.DatabaseVersion = model.DatabaseVersion
+
+	m.DatabasePlatformName = model.DatabasePlatformName
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.LifecycleState = model.LifecycleState
+
+	m.TimeCreated = model.TimeCreated
+
+	return
 }
 
 // ExternalDatabaseSummaryLifecycleStateEnum Enum with underlying type: string

@@ -74,8 +74,11 @@ type IScsiVolumeAttachment struct {
 	// be attached in shareable mode. Defaults to false if not specified.
 	IsShareable *bool `mandatory:"false" json:"isShareable"`
 
-	// Whether in-transit encryption for the data volume's paravirtualized attachment is enabled or not.
+	// Deprecated. Use `isEncryptionInTransitEnabled` instead.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
+
+	// Whether in-transit encryption for the data volume's attachment is enabled or not.
+	IsEncryptionInTransitEnabled *bool `mandatory:"false" json:"isEncryptionInTransitEnabled"`
 
 	// Whether the Iscsi or Paravirtualized attachment is multipath or not, it is not applicable to NVMe attachment.
 	IsMultipath *bool `mandatory:"false" json:"isMultipath"`
@@ -107,8 +110,7 @@ type IScsiVolumeAttachment struct {
 	// all iscsi sessions need to be all logged-in or logged-out to be in logged-in or logged-out state.
 	IscsiLoginState VolumeAttachmentIscsiLoginStateEnum `mandatory:"false" json:"iscsiLoginState,omitempty"`
 
-	// Refer the top-level definition of encryptionInTransitType.
-	// The default value is NONE.
+	// Deprecated. Use `isEncryptionInTransitEnabled` instead.
 	EncryptionInTransitType EncryptionInTransitTypeEnum `mandatory:"false" json:"encryptionInTransitType,omitempty"`
 }
 
@@ -170,6 +172,11 @@ func (m IScsiVolumeAttachment) GetVolumeId() *string {
 // GetIsPvEncryptionInTransitEnabled returns IsPvEncryptionInTransitEnabled
 func (m IScsiVolumeAttachment) GetIsPvEncryptionInTransitEnabled() *bool {
 	return m.IsPvEncryptionInTransitEnabled
+}
+
+// GetIsEncryptionInTransitEnabled returns IsEncryptionInTransitEnabled
+func (m IScsiVolumeAttachment) GetIsEncryptionInTransitEnabled() *bool {
+	return m.IsEncryptionInTransitEnabled
 }
 
 // GetIsMultipath returns IsMultipath

@@ -53,11 +53,13 @@ type BootVolumeAttachment struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Whether in-transit encryption for the boot volume's paravirtualized attachment is enabled or not.
+	// Deprecated. Use `isEncryptionInTransitEnabled` instead.
 	IsPvEncryptionInTransitEnabled *bool `mandatory:"false" json:"isPvEncryptionInTransitEnabled"`
 
-	// Refer the top-level definition of encryptionInTransitType.
-	// The default value is NONE.
+	// Specifies whether in-transit encryption is enabled for the boot volume's attachment.
+	IsEncryptionInTransitEnabled *bool `mandatory:"false" json:"isEncryptionInTransitEnabled"`
+
+	// Deprecated. Use `isEncryptionInTransitEnabled` instead.
 	EncryptionInTransitType EncryptionInTransitTypeEnum `mandatory:"false" json:"encryptionInTransitType,omitempty"`
 }
 

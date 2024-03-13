@@ -38,6 +38,8 @@ type ClusterCreateOptions struct {
 	PersistentVolumeConfig *PersistentVolumeConfigDetails `mandatory:"false" json:"persistentVolumeConfig"`
 
 	ServiceLbConfig *ServiceLbConfigDetails `mandatory:"false" json:"serviceLbConfig"`
+
+	OpenIdConnectTokenAuthenticationConfig *OpenIdConnectTokenAuthenticationConfig `mandatory:"false" json:"openIdConnectTokenAuthenticationConfig"`
 }
 
 func (m ClusterCreateOptions) String() string {
