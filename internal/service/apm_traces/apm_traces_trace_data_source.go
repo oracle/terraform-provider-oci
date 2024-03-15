@@ -6,9 +6,11 @@ package apm_traces
 import (
 	"context"
 	"strconv"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_apm_traces "github.com/oracle/oci-go-sdk/v65/apmtraces"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -22,9 +24,21 @@ func ApmTracesTraceDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"time_trace_started_greater_than_or_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_trace_started_less_than": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"trace_key": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"trace_namespace": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			// Computed
 			"error_span_count": {
@@ -75,6 +89,10 @@ func ApmTracesTraceDataSource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"source_name": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"span_count": {
 				Type:     schema.TypeInt,
@@ -214,6 +232,10 @@ func ApmTracesTraceDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"event_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"span_logs": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -251,6 +273,10 @@ func ApmTracesTraceDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"service_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_name": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -352,9 +378,29 @@ func (s *ApmTracesTraceDataSourceCrud) Get() error {
 		request.ApmDomainId = &tmp
 	}
 
+	if timeTraceStartedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_trace_started_greater_than_or_equal_to"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeTraceStartedGreaterThanOrEqualTo.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeTraceStartedGreaterThanOrEqualTo = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeTraceStartedLessThan, ok := s.D.GetOkExists("time_trace_started_less_than"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeTraceStartedLessThan.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeTraceStartedLessThan = &oci_common.SDKTime{Time: tmp}
+	}
+
 	if traceKey, ok := s.D.GetOkExists("trace_key"); ok {
 		tmp := traceKey.(string)
 		request.TraceKey = &tmp
+	}
+
+	if traceNamespace, ok := s.D.GetOkExists("trace_namespace"); ok {
+		request.TraceNamespace = oci_apm_traces.GetTraceTraceNamespaceEnum(traceNamespace.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "apm_traces")
@@ -404,6 +450,8 @@ func (s *ApmTracesTraceDataSourceCrud) SetData() error {
 		serviceSummaries = append(serviceSummaries, TraceServiceSummaryToMap(item))
 	}
 	s.D.Set("service_summaries", serviceSummaries)
+
+	s.D.Set("source_name", s.Res.SourceName)
 
 	if s.Res.SpanCount != nil {
 		s.D.Set("span_count", *s.Res.SpanCount)
@@ -493,6 +541,8 @@ func SpanToMap(obj oci_apm_traces.Span) map[string]interface{} {
 		result["service_name"] = string(*obj.ServiceName)
 	}
 
+	result["source_name"] = string(obj.SourceName)
+
 	tags := []interface{}{}
 	for _, item := range obj.Tags {
 		tags = append(tags, TagToMap(item))
@@ -530,6 +580,10 @@ func SpanLogToMap(obj oci_apm_traces.SpanLog) map[string]interface{} {
 
 func SpanLogCollectionToMap(obj oci_apm_traces.SpanLogCollection) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.EventName != nil {
+		result["event_name"] = string(*obj.EventName)
+	}
 
 	spanLogs := []interface{}{}
 	for _, item := range obj.SpanLogs {
