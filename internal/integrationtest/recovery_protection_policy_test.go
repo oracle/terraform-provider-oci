@@ -31,11 +31,11 @@ var (
 	RecoveryProtectionPolicyResourceConfig = RecoveryProtectionPolicyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_protection_policy", "test_protection_policy", acctest.Optional, acctest.Update, RecoveryProtectionPolicyRepresentation)
 
-	RecoveryprotectionPolicySingularDataSourceRepresentation = map[string]interface{}{
+	RecoveryProtectionPolicySingularDataSourceRepresentation = map[string]interface{}{
 		"protection_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_recovery_protection_policy.test_protection_policy.id}`},
 	}
 
-	RecoveryprotectionPolicyDataSourceRepresentation = map[string]interface{}{
+	RecoveryProtectionPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"owner":                acctest.Representation{RepType: acctest.Optional, Create: `customer`},
@@ -47,12 +47,17 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_recovery_protection_policy.test_protection_policy.id}`}},
 	}
 
+	// The RFC3339Nano format removes trailing zeros from the timestamp.
+	recoveryProtectionPolicyRepresentationPolicyLockedDateTimeCreate = time.Now().AddDate(0, 1, 0).UTC().Truncate(time.Second).Add(time.Millisecond).Format(time.RFC3339Nano)
+	recoveryProtectionPolicyRepresentationPolicyLockedDateTimeUpdate = time.Now().AddDate(0, 1, 1).UTC().Truncate(time.Second).Add(time.Millisecond).Format(time.RFC3339Nano)
+
 	RecoveryProtectionPolicyRepresentation = map[string]interface{}{
 		"backup_retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"policy_locked_date_time":         acctest.Representation{RepType: acctest.Optional, Create: recoveryProtectionPolicyRepresentationPolicyLockedDateTimeCreate, Update: recoveryProtectionPolicyRepresentationPolicyLockedDateTimeUpdate},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: recoveryIgnoreDefinedTagsRepresentation},
 	}
 
@@ -113,6 +118,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_predefined_policy"),
+				resource.TestCheckResourceAttr(resourceName, "policy_locked_date_time", recoveryProtectionPolicyRepresentationPolicyLockedDateTimeCreate),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -140,6 +146,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_predefined_policy"),
+				resource.TestCheckResourceAttr(resourceName, "policy_locked_date_time", recoveryProtectionPolicyRepresentationPolicyLockedDateTimeCreate),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -162,6 +169,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_predefined_policy"),
+				resource.TestCheckResourceAttr(resourceName, "policy_locked_date_time", recoveryProtectionPolicyRepresentationPolicyLockedDateTimeUpdate),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -175,7 +183,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_protection_policies", "test_protection_policies", acctest.Optional, acctest.Update, RecoveryprotectionPolicyDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_protection_policies", "test_protection_policies", acctest.Optional, acctest.Update, RecoveryProtectionPolicyDataSourceRepresentation) +
 				compartmentIdVariableStr + RecoveryProtectionPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_recovery_protection_policy", "test_protection_policy", acctest.Optional, acctest.Update, RecoveryProtectionPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -192,7 +200,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_protection_policy", "test_protection_policy", acctest.Required, acctest.Create, RecoveryprotectionPolicySingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_protection_policy", "test_protection_policy", acctest.Required, acctest.Create, RecoveryProtectionPolicySingularDataSourceRepresentation) +
 				compartmentIdVariableStr + RecoveryProtectionPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "protection_policy_id"),
@@ -203,6 +211,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_predefined_policy"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "policy_locked_date_time", recoveryProtectionPolicyRepresentationPolicyLockedDateTimeUpdate),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

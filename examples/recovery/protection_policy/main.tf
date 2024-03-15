@@ -1,8 +1,23 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
+variable "tenancy_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
+variable "region" {}
+variable "compartment_id" {}
+
+provider "oci" {
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = var.region
+}
+
 variable "protection_policy_backup_retention_period_in_days" {
-  default = 10
+  default = 14
 }
 
 variable "protection_policy_display_name" {
@@ -21,6 +36,10 @@ variable "protection_policy_state" {
   default = "ACTIVE"
 }
 
+variable "protection_policy_policy_locked_date_time" {
+  default = "2025-01-01T00:00:00.000Z"
+}
+
 
 resource "oci_recovery_protection_policy" "test_protection_policy" {
   #Required
@@ -29,6 +48,7 @@ resource "oci_recovery_protection_policy" "test_protection_policy" {
   display_name                    = var.protection_policy_display_name
 
   #Optional
+  policy_locked_date_time         = var.protection_policy_policy_locked_date_time
   freeform_tags = var.protection_policy_freeform_tags
 }
 

@@ -84,11 +84,15 @@ func (s *RecoveryRecoveryServiceSubnetDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("nsg_ids", s.Res.NsgIds)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
+
+	s.D.Set("subnets", s.Res.Subnets)
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))

@@ -114,6 +114,10 @@ func (s *RecoveryProtectedDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("metrics", nil)
 	}
 
+	if s.Res.PolicyLockedDateTime != nil {
+		s.D.Set("policy_locked_date_time", *s.Res.PolicyLockedDateTime)
+	}
+
 	if s.Res.ProtectionPolicyId != nil {
 		s.D.Set("protection_policy_id", *s.Res.ProtectionPolicyId)
 	}

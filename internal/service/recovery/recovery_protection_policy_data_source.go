@@ -92,6 +92,10 @@ func (s *RecoveryProtectionPolicyDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.PolicyLockedDateTime != nil {
+		s.D.Set("policy_locked_date_time", *s.Res.PolicyLockedDateTime)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
