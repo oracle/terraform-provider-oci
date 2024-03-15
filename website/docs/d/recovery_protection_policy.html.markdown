@@ -40,13 +40,8 @@ The following attributes are exported:
 * `id` - The protection policy OCID.
 * `is_predefined_policy` - Set to TRUE if the policy is Oracle-defined, and FALSE for a user-defined custom policy. You can modify only the custom policies.
 * `lifecycle_details` - Detailed description about the current lifecycle state of the protection policy. For example, it can be used to provide actionable information for a resource in a Failed state.
-* `state` - The current state of the protection policy. Allowed values are:
-	* CREATING
-	* UPDATING
-	* ACTIVE
-	* DELETING
-	* DELETED
-	* FAILED 
+* `policy_locked_date_time` - An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy. 
+* `state` - The current state of the protection policy. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`. For more information, see [Resource Tags](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm) 
 * `time_created` - An RFC3339 formatted datetime string that indicates the created time for the protection policy. For example: '2020-05-22T21:10:29.600Z'. 
 * `time_updated` - An RFC3339 formatted datetime string that indicates the updated time for the protection policy. For example: '2020-05-22T21:10:29.600Z'. 

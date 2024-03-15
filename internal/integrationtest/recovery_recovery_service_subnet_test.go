@@ -31,11 +31,11 @@ var (
 	RecoveryRecoveryServiceSubnetResourceConfig = RecoveryRecoveryServiceSubnetResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetRepresentation)
 
-	RecoveryrecoveryServiceSubnetSingularDataSourceRepresentation = map[string]interface{}{
+	RecoveryRecoveryServiceSubnetSingularDataSourceRepresentation = map[string]interface{}{
 		"recovery_service_subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id}`},
 	}
 
-	RecoveryrecoveryServiceSubnetDataSourceRepresentation = map[string]interface{}{
+	RecoveryRecoveryServiceSubnetDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id}`},
@@ -50,15 +50,29 @@ var (
 	RecoveryRecoveryServiceSubnetRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{}, Update: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"subnets":        acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.test_subnet.id}`}, Update: []string{`${oci_core_subnet.test_subnet.id}`, `${oci_core_subnet.test_subnet1.id}`}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: recoveryIgnoreDefinedTagsRepresentation},
+	}
+
+	RecoveryRecoveryServiceSubnetRepresentationForSubnetId = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Required, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{}, Update: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: recoveryIgnoreDefinedTagsRepresentation},
 	}
 
 	RecoveryRecoveryServiceSubnetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet1", acctest.Required, acctest.Create, acctest.GetMultipleUpdatedRepresenationCopy([]string{`cidr_block`}, []interface{}{acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/24`}}, CoreSubnetRepresentation)) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		DefinedTagsDependencies
 )
 
@@ -92,7 +106,7 @@ func TestRecoveryRecoveryServiceSubnetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "subnets.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
@@ -110,6 +124,170 @@ func TestRecoveryRecoveryServiceSubnetResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Create, RecoveryRecoveryServiceSubnetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "subnets.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(RecoveryRecoveryServiceSubnetRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "subnets.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "subnets.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_recovery_service_subnets", "test_recovery_service_subnets", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetDataSourceRepresentation) +
+				compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "id"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "subnets.#", "2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
+
+				resource.TestCheckResourceAttr(datasourceName, "recovery_service_subnet_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "recovery_service_subnet_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Required, acctest.Create, RecoveryRecoveryServiceSubnetSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "recovery_service_subnet_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + RecoveryRecoveryServiceSubnetRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: recovery/default
+func TestRecoveryRecoveryServiceSubnetResourceWithSubnetId(t *testing.T) {
+
+	httpreplay.SetScenario("TestRecoveryRecoveryServiceSubnetResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_recovery_recovery_service_subnet.test_recovery_service_subnet"
+	datasourceName := "data.oci_recovery_recovery_service_subnets.test_recovery_service_subnets"
+	singularDatasourceName := "data.oci_recovery_recovery_service_subnet.test_recovery_service_subnet"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+RecoveryRecoveryServiceSubnetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Create, RecoveryRecoveryServiceSubnetRepresentationForSubnetId), "recovery", "recoveryServiceSubnet", t)
+
+	acctest.ResourceTest(t, testAccCheckRecoveryRecoveryServiceSubnetDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Required, acctest.Create, RecoveryRecoveryServiceSubnetRepresentationForSubnetId),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Create, RecoveryRecoveryServiceSubnetRepresentationForSubnetId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -158,7 +336,7 @@ func TestRecoveryRecoveryServiceSubnetResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetRepresentationForSubnetId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -179,9 +357,9 @@ func TestRecoveryRecoveryServiceSubnetResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_recovery_service_subnets", "test_recovery_service_subnets", acctest.Optional, acctest.Update, RecoveryrecoveryServiceSubnetDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_recovery_service_subnets", "test_recovery_service_subnets", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetDataSourceRepresentation) +
 				compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Optional, acctest.Update, RecoveryRecoveryServiceSubnetRepresentationForSubnetId),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -196,7 +374,7 @@ func TestRecoveryRecoveryServiceSubnetResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Required, acctest.Create, RecoveryrecoveryServiceSubnetSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Required, acctest.Create, RecoveryRecoveryServiceSubnetSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + RecoveryRecoveryServiceSubnetResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "recovery_service_subnet_id"),
