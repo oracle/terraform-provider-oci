@@ -21,6 +21,22 @@ func ApmTracesTraceAggregatedSnapshotDataDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"server_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"service_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"span_key": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"span_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"trace_key": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -75,6 +91,26 @@ func (s *ApmTracesTraceAggregatedSnapshotDataDataSourceCrud) Get() error {
 	if apmDomainId, ok := s.D.GetOkExists("apm_domain_id"); ok {
 		tmp := apmDomainId.(string)
 		request.ApmDomainId = &tmp
+	}
+
+	if serverName, ok := s.D.GetOkExists("server_name"); ok {
+		tmp := serverName.(string)
+		request.ServerName = &tmp
+	}
+
+	if serviceName, ok := s.D.GetOkExists("service_name"); ok {
+		tmp := serviceName.(string)
+		request.ServiceName = &tmp
+	}
+
+	if spanKey, ok := s.D.GetOkExists("span_key"); ok {
+		tmp := spanKey.(string)
+		request.SpanKey = &tmp
+	}
+
+	if spanName, ok := s.D.GetOkExists("span_name"); ok {
+		tmp := spanName.(string)
+		request.SpanName = &tmp
 	}
 
 	if traceKey, ok := s.D.GetOkExists("trace_key"); ok {

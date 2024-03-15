@@ -32,10 +32,10 @@ data "oci_apm_traces_trace_snapshot_data" "test_trace_snapshot_data" {
 
 The following arguments are supported:
 
-* `apm_domain_id` - (Required) The APM Domain ID the request is intended for. 
-* `is_summarized` - (Optional) If enabled, then only span level details will be sent. 
+* `apm_domain_id` - (Required) The APM Domain ID for the intended request. 
+* `is_summarized` - (Optional) If enabled, only span level details are sent. 
 * `snapshot_time` - (Optional) Epoch time of snapshot. 
-* `thread_id` - (Optional) Thread id for which snapshots needs to be retrieved. This is an identifier of a thread, and is a positive long number generated when when a thread is created. 
+* `thread_id` - (Optional) Thread ID for which snapshots need to be retrieved. This identifier of a thread is a long positive number generated when a thread is created. 
 * `trace_key` - (Required) Unique Application Performance Monitoring trace identifier (traceId). 
 
 
