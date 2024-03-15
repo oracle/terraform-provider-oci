@@ -12,7 +12,17 @@ variable "trace_trace_key" {
   default = "traceKey"
 }
 
+variable "trace_time_trace_started_greater_than_or_equal_to" {
+  default = "YYYY-MM-DDTHH:MM:SS.SSSZ"
+}
 
+variable "trace_time_trace_started_less_than" {
+  default = "YYYY-MM-DDTHH:MM:SS.SSSZ"
+}
+
+variable "trace_trace_namespace" {
+  default = "TRACES"
+}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -26,5 +36,11 @@ data "oci_apm_traces_trace" "test_trace" {
   #Required
   apm_domain_id = var.apm_domain_id
   trace_key     = var.trace_trace_key
+
+  #Optional
+  trace_namespace = var.trace_trace_namespace
+  time_trace_started_greater_than_or_equal_to = var.trace_time_trace_started_greater_than_or_equal_to
+  time_trace_started_less_than = var.trace_time_trace_started_less_than
+
 }
 

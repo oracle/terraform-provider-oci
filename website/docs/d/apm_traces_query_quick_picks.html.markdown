@@ -27,7 +27,7 @@ data "oci_apm_traces_query_quick_picks" "test_query_quick_picks" {
 
 The following arguments are supported:
 
-* `apm_domain_id` - (Required) The APM Domain ID the request is intended for. 
+* `apm_domain_id` - (Required) The APM Domain ID for the intended request. 
 
 
 ## Attributes Reference
