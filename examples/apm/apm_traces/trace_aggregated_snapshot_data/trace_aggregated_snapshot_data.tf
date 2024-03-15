@@ -12,6 +12,21 @@ variable "trace_aggregated_snapshot_data_trace_key" {
   default = "traceKey"
 }
 
+variable "trace_aggregated_snapshot_data_server_name" {
+  default = "serverName"
+}
+
+variable "trace_aggregated_snapshot_data_service_name" {
+  default = "serviceName"
+}
+
+variable "trace_aggregated_snapshot_data_span_key" {
+  default = "spanKey"
+}
+
+variable "trace_aggregated_snapshot_data_span_name" {
+  default = "spanName"
+}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -25,5 +40,11 @@ data "oci_apm_traces_trace_aggregated_snapshot_data" "test_trace_aggregated_snap
   #Required
   apm_domain_id = var.apm_domain_id
   trace_key     = var.trace_aggregated_snapshot_data_trace_key
+
+  #Optional
+  server_name = var.trace_aggregated_snapshot_data_server_name
+  service_name = var.trace_aggregated_snapshot_data_service_name
+  span_key = var.trace_aggregated_snapshot_data_span_key
+  span_name = var.trace_aggregated_snapshot_data_span_name
 }
 
