@@ -67,11 +67,11 @@ var (
 		"tags":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringDiscoveryJobDiscoveryDetailsTagsRepresentation},
 	}
 	StackMonitoringDiscoveryJobDiscoveryDetailsPropertiesRepresentation = map[string]interface{}{
-		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"admin_server_host": "somehost.us.oracle.com",
+		"properties_map": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"admin_server_host": "somehost01.us.oracle.com",
 			"admin_server_port":     "7001",
 			"admin_server_protocol": "t3"}},
 	}
-	//Get API does not return sensitive data, it returns null
+	//Get API does not return sensitive data, as it returns null
 	ignoreSensitiveDiscoveryJobDataRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`discovery_details`, `system_tags`, `defined_tags`}},
 	}
