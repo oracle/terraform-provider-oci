@@ -38,14 +38,10 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The recovery service subnet OCID.
 * `lifecycle_details` - Detailed description about the current lifecycle state of the recovery service subnet. For example, it can be used to provide actionable information for a resource in a Failed state
-* `state` - The current state of the recovery service subnet. Allowed values are:
-	* CREATING
-	* UPDATING
-	* ACTIVE
-	* DELETING
-	* DELETED
-	* FAILED 
-* `subnet_id` - The OCID of the subnet used as the recovery service subnet.
+* `nsg_ids` - A list of network security group (NSG) OCIDs that are associated with the Recovery Service subnet. You can specify a maximum of 5 unique OCIDs, which implies that you can associate a maximum of 5 NSGs to each Recovery Service subnet. Specify an empty array if you want to remove all the associated NSGs from a Recovery Service subnet. See [Network Security Groups](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/) for more information. 
+* `state` - The current state of the recovery service subnet. 
+* `subnet_id` - Deprecated. One of the subnets associated with the Recovery Service subnet. 
+* `subnets` - A list of OCIDs of all the subnets associated with the Recovery Service subnet.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`. For more information, see [Resource Tags](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm) 
 * `time_created` - An RFC3339 formatted datetime string that indicates the last created time for a recovery service subnet. For example: '2020-05-22T21:10:29.600Z'. 
 * `time_updated` - An RFC3339 formatted datetime string that indicates the last updated time for a recovery service subnet. For example: '2020-05-22T21:10:29.600Z'. 

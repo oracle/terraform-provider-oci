@@ -11,6 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_recovery "github.com/oracle/oci-go-sdk/v65/recovery"
@@ -94,6 +95,15 @@ func RecoveryProtectedDatabaseResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"deletion_schedule": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_recovery.DeleteProtectedDatabaseDeletionSchedule72Hours),
+					string(oci_recovery.DeleteProtectedDatabaseDeletionScheduleRetentionPeriod),
+				}, true),
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -153,6 +163,10 @@ func RecoveryProtectedDatabaseResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"minimum_recovery_needed_in_days": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
 						"retention_period_in_days": {
 							Type:     schema.TypeFloat,
 							Computed: true,
@@ -163,6 +177,10 @@ func RecoveryProtectedDatabaseResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"policy_locked_date_time": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -253,6 +271,7 @@ func (s *RecoveryProtectedDatabaseResourceCrud) DeletedPending() []string {
 
 func (s *RecoveryProtectedDatabaseResourceCrud) DeletedTarget() []string {
 	return []string{
+		string(oci_recovery.LifecycleStateDeleteScheduled),
 		string(oci_recovery.LifecycleStateDeleted),
 	}
 }
@@ -556,23 +575,19 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Update() error {
 }
 
 func (s *RecoveryProtectedDatabaseResourceCrud) Delete() error {
-	request := oci_recovery.DeleteProtectedDatabaseRequest{}
+	request := oci_recovery.ScheduleProtectedDatabaseDeletionRequest{}
+
+	if deletionSchedule, ok := s.D.GetOkExists("deletion_schedule"); ok {
+		request.DeletionSchedule = oci_recovery.DeletionScheduleEnum(deletionSchedule.(string))
+	}
 
 	tmp := s.D.Id()
 	request.ProtectedDatabaseId = &tmp
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
-	response, err := s.Client.DeleteProtectedDatabase(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	// Wait until it finishes
-	_, delWorkRequestErr := protectedDatabaseWaitForWorkRequest(workId, "protecteddatabase",
-		oci_recovery.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
-	return delWorkRequestErr
+	_, err := s.Client.ScheduleProtectedDatabaseDeletion(context.Background(), request)
+	return err
 }
 
 func (s *RecoveryProtectedDatabaseResourceCrud) SetData() error {
@@ -622,6 +637,10 @@ func (s *RecoveryProtectedDatabaseResourceCrud) SetData() error {
 		s.D.Set("metrics", []interface{}{MetricsToMap(s.Res.Metrics)})
 	} else {
 		s.D.Set("metrics", nil)
+	}
+
+	if s.Res.PolicyLockedDateTime != nil {
+		s.D.Set("policy_locked_date_time", *s.Res.PolicyLockedDateTime)
 	}
 
 	if s.Res.ProtectionPolicyId != nil {
@@ -678,6 +697,10 @@ func MetricsToMap(obj *oci_recovery.Metrics) map[string]interface{} {
 		result["is_redo_logs_enabled"] = bool(*obj.IsRedoLogsEnabled)
 	}
 
+	if obj.MinimumRecoveryNeededInDays != nil {
+		result["minimum_recovery_needed_in_days"] = float32(*obj.MinimumRecoveryNeededInDays)
+	}
+
 	if obj.RetentionPeriodInDays != nil {
 		result["retention_period_in_days"] = float32(*obj.RetentionPeriodInDays)
 	}
@@ -710,6 +733,10 @@ func MetricsSummaryToMap(obj *oci_recovery.MetricsSummary) map[string]interface{
 
 	if obj.IsRedoLogsEnabled != nil {
 		result["is_redo_logs_enabled"] = bool(*obj.IsRedoLogsEnabled)
+	}
+
+	if obj.MinimumRecoveryNeededInDays != nil {
+		result["minimum_recovery_needed_in_days"] = float32(*obj.MinimumRecoveryNeededInDays)
 	}
 
 	if obj.RetentionPeriodInDays != nil {
@@ -770,6 +797,10 @@ func ProtectedDatabaseSummaryToMap(obj oci_recovery.ProtectedDatabaseSummary) ma
 
 	if obj.Metrics != nil {
 		result["metrics"] = []interface{}{MetricsSummaryToMap(obj.Metrics)}
+	}
+
+	if obj.PolicyLockedDateTime != nil {
+		result["policy_locked_date_time"] = string(*obj.PolicyLockedDateTime)
 	}
 
 	if obj.ProtectionPolicyId != nil {

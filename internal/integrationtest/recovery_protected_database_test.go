@@ -25,22 +25,22 @@ import (
 )
 
 var (
-	RecoveryProtectedDatabaseRequiredOnlyResource = RecoveryProtectedDatabaseResourceDependencies +
+	RecoveryProtectedDatabaseRequiredOnlyResource = RecoveryProtectedDatabaseResourceStaticDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Required, acctest.Create, RecoveryProtectedDatabaseRepresentation)
 
-	RecoveryProtectedDatabaseResourceConfig = RecoveryProtectedDatabaseResourceDependencies +
+	RecoveryProtectedDatabaseResourceConfig = RecoveryProtectedDatabaseResourceStaticDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Optional, acctest.Update, RecoveryProtectedDatabaseRepresentation)
 
-	RecoveryprotectedDatabaseSingularDataSourceRepresentation = map[string]interface{}{
+	RecoveryProtectedDatabaseSingularDataSourceRepresentation = map[string]interface{}{
 		"protected_database_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_recovery_protected_database.test_protected_database.id}`},
 	}
 
-	RecoveryprotectedDatabaseDataSourceRepresentation = map[string]interface{}{
+	RecoveryProtectedDatabaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":                         acctest.Representation{RepType: acctest.Optional, Create: `${oci_recovery_protected_database.test_protected_database.id}`},
-		"protection_policy_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_recovery_protection_policy.test_protection_policy.id}`},
-		"recovery_service_subnet_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id}`},
+		"protection_policy_id":       acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_recovery_protection_policy.test_protection_policy.id}`},
+		"recovery_service_subnet_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id}`},
 		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: RecoveryProtectedDatabaseDataSourceFilterRepresentation}}
 	RecoveryProtectedDatabaseDataSourceFilterRepresentation = map[string]interface{}{
@@ -53,11 +53,12 @@ var (
 		"db_unique_name":           acctest.Representation{RepType: acctest.Required, Create: `dbUniqueName`},
 		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"password":                 acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_secret#11`, Update: `BEstrO0ng_secret#12`},
-		"protection_policy_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_recovery_protection_policy.test_protection_policy.id}`},
+		"protection_policy_id":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_recovery_protection_policy.test_protection_policy.id}`},
 		"recovery_service_subnets": acctest.RepresentationGroup{RepType: acctest.Required, Group: RecoveryProtectedDatabaseRecoveryServiceSubnetsRepresentation},
 		"database_id":              acctest.Representation{RepType: acctest.Optional, Create: `DummyDatabaseID_` + utils.RandomString(10, utils.Charset)},
 		"database_size":            acctest.Representation{RepType: acctest.Optional, Create: `XS`, Update: `S`},
 		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"deletion_schedule":        acctest.Representation{RepType: acctest.Optional, Create: `DELETE_AFTER_72_HOURS`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_redo_logs_shipped":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"lifecycle":                acctest.RepresentationGroup{RepType: acctest.Required, Group: recoveryIgnoreDefinedTagsRepresentation},
@@ -67,13 +68,32 @@ var (
 	}
 
 	RecoveryProtectedDatabaseRecoveryServiceSubnetsRepresentation = map[string]interface{}{
-		"recovery_service_subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id}`},
+		"recovery_service_subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id}`},
 	}
-
 	RecoveryProtectedDatabaseResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_protection_policy", "test_protection_policy", acctest.Required, acctest.Create, RecoveryProtectionPolicyRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Required, acctest.Create, RecoveryRecoveryServiceSubnetRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies
+
+	recoveryServiceSubnetId            = utils.GetEnvSettingWithBlankDefault("recovery_service_subnet_id")
+	protectionPolicyId                 = utils.GetEnvSettingWithBlankDefault("protection_policy_id")
+	recoveryServiceSubnetIdVariableStr = fmt.Sprintf("variable \"recovery_service_subnet_id\" { default = \"%s\" }\n", recoveryServiceSubnetId)
+	protectionPolicyIdVariableStr      = fmt.Sprintf("variable \"protection_policy_id\" { default = \"%s\" }\n", protectionPolicyId)
+
+	recoveryServiceSubnetDependency = recoveryServiceSubnetIdVariableStr + `
+	data "oci_recovery_recovery_service_subnet" "test_recovery_service_subnet" {
+		recovery_service_subnet_id = "${var.recovery_service_subnet_id}"
+	}
+	`
+	recoveryProtectionPolicyDependency = protectionPolicyIdVariableStr + `
+	data "oci_recovery_protection_policy" "test_protection_policy" {
+		protection_policy_id = "${var.protection_policy_id}"
+	}
+	`
+	RecoveryProtectedDatabaseResourceStaticDependencies = recoveryServiceSubnetDependency +
+		recoveryProtectionPolicyDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 )
@@ -97,13 +117,13 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+RecoveryProtectedDatabaseResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+RecoveryProtectedDatabaseResourceStaticDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Optional, acctest.Create, RecoveryProtectedDatabaseRepresentation), "recovery", "protectedDatabase", t)
 
 	acctest.ResourceTest(t, testAccCheckRecoveryProtectedDatabaseDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + RecoveryProtectedDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + RecoveryProtectedDatabaseResourceStaticDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Required, acctest.Create, RecoveryProtectedDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -123,17 +143,18 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + RecoveryProtectedDatabaseResourceDependencies,
+			Config: config + compartmentIdVariableStr + RecoveryProtectedDatabaseResourceStaticDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + RecoveryProtectedDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + RecoveryProtectedDatabaseResourceStaticDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Optional, acctest.Create, RecoveryProtectedDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_size", "XS"),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", "dbUniqueName"),
+				resource.TestCheckResourceAttr(resourceName, "deletion_schedule", "DELETE_AFTER_72_HOURS"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -158,7 +179,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + RecoveryProtectedDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + RecoveryProtectedDatabaseResourceStaticDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(RecoveryProtectedDatabaseRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -168,6 +189,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_size", "XS"),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", "dbUniqueName"),
+				resource.TestCheckResourceAttr(resourceName, "deletion_schedule", "DELETE_AFTER_72_HOURS"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -190,13 +212,14 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + RecoveryProtectedDatabaseResourceDependencies +
+			Config: config + compartmentIdVariableStr + RecoveryProtectedDatabaseResourceStaticDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Optional, acctest.Update, RecoveryProtectedDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttr(resourceName, "database_size", "S"),
 				resource.TestCheckResourceAttr(resourceName, "db_unique_name", "dbUniqueName"),
+				resource.TestCheckResourceAttr(resourceName, "deletion_schedule", "DELETE_AFTER_72_HOURS"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -219,8 +242,8 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_protected_databases", "test_protected_databases", acctest.Optional, acctest.Update, RecoveryprotectedDatabaseDataSourceRepresentation) +
-				compartmentIdVariableStr + RecoveryProtectedDatabaseResourceDependencies +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_protected_databases", "test_protected_databases", acctest.Optional, acctest.Update, RecoveryProtectedDatabaseDataSourceRepresentation) +
+				compartmentIdVariableStr + RecoveryProtectedDatabaseResourceStaticDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Optional, acctest.Update, RecoveryProtectedDatabaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -237,7 +260,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Required, acctest.Create, RecoveryprotectedDatabaseSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_recovery_protected_database", "test_protected_database", acctest.Required, acctest.Create, RecoveryProtectedDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + RecoveryProtectedDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "protected_database_id"),
@@ -247,12 +270,11 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_unique_name", "dbUniqueName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "health"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "health_details"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_read_only_resource"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_redo_logs_shipped", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metrics.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "policy_locked_date_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "recovery_service_subnets.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "recovery_service_subnets.0.state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
@@ -267,6 +289,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
+				"deletion_schedule",
 				"password",
 			},
 			ResourceName: resourceName,
@@ -291,7 +314,8 @@ func testAccCheckRecoveryProtectedDatabaseDestroy(s *terraform.State) error {
 
 			if err == nil {
 				deletedLifecycleStates := map[string]bool{
-					string(oci_recovery.LifecycleStateDeleted): true,
+					string(oci_recovery.LifecycleStateDeleted):         true,
+					string(oci_recovery.LifecycleStateDeleteScheduled): true,
 				}
 				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
 					//resource lifecycle state is not in expected deleted lifecycle states.
