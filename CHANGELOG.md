@@ -1,3 +1,12 @@
+## 5.34.0 (Unreleased)
+
+### Added
+- Support for APM - Attribute Management - Synthetic Spans
+- Support for Enabling outbound private access using PE RCE for OIC Gen3 customers
+- Support for Stack Monitoring: Discovery & Monitoring of OHS
+### Bug Fix
+- [Docs] Other Terraform Feedback
+
 ## 5.33.0 (Unreleased)
 
 ### Added
