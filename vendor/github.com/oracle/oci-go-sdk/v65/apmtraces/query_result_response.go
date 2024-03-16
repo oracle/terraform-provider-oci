@@ -25,6 +25,12 @@ type QueryResultResponse struct {
 	// returned in this collection correspond to the total number of rows returned by the actual query that is run against
 	// the queried entity.
 	QueryResultRows []QueryResultRow `mandatory:"true" json:"queryResultRows"`
+
+	// A map containing metadata or additional information.
+	QueryResultMetadata map[string]interface{} `mandatory:"false" json:"queryResultMetadata"`
+
+	// A structure that provides warnings, if any, along with the query results.
+	QueryResultWarnings []QueryResultWarning `mandatory:"false" json:"queryResultWarnings"`
 }
 
 func (m QueryResultResponse) String() string {

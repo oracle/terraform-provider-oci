@@ -26,10 +26,73 @@ type TranslationDocumentResult struct {
 	// Translated text in selected target language.
 	TranslatedText *string `mandatory:"true" json:"translatedText"`
 
-	// Language code of the document. Please refer to respective model API documentation (https://docs.cloud.oracle.com/iaas/language/using/overview.htm) for supported languages.
+	// Language code supported
+	// Automatically detect language - auto
+	// Arabic - ar
+	// Brazilian Portuguese -  pt-BR
+	// Canadian French - fr-CA
+	// Croatian - hr
+	// Czech - cs
+	// Danish - da
+	// Dutch - nl
+	// English - en
+	// Finnish - fi
+	// French - fr
+	// German - de
+	// Greek - el
+	// Hebrew - he
+	// Hungarian - hu
+	// Italian - it
+	// Japanese - ja
+	// Korean - ko
+	// Norwegian - no
+	// Polish - pl
+	// Portuguese - pt
+	// Romanian - ro
+	// Russian - ru
+	// Simplified Chinese - zh-CN
+	// Slovak - sk
+	// Slovenian - sl
+	// Spanish - es
+	// Swedish - sv
+	// Thai - th
+	// Traditional Chinese - zh-TW
+	// Turkish - tr
+	// Vietnamese - vi
 	SourceLanguageCode *string `mandatory:"true" json:"sourceLanguageCode"`
 
-	// Language code of the document. Please refer to respective model API documentation (https://docs.cloud.oracle.com/iaas/language/using/overview.htm) for supported languages.
+	// Language code supported
+	// Arabic - ar
+	// Brazilian Portuguese -  pt-BR
+	// Canadian French - fr-CA
+	// Croatian - hr
+	// Czech - cs
+	// Danish - da
+	// Dutch - nl
+	// English - en
+	// Finnish - fi
+	// French - fr
+	// German - de
+	// Greek - el
+	// Hebrew - he
+	// Hungarian - hu
+	// Italian - it
+	// Japanese - ja
+	// Korean - ko
+	// Norwegian - no
+	// Polish - pl
+	// Portuguese - pt
+	// Romanian - ro
+	// Russian - ru
+	// Simplified Chinese - zh-CN
+	// Slovak - sk
+	// Slovenian - sl
+	// Spanish - es
+	// Swedish - sv
+	// Thai - th
+	// Traditional Chinese - zh-TW
+	// Turkish - tr
+	// Vietnamese - vi
 	TargetLanguageCode *string `mandatory:"true" json:"targetLanguageCode"`
 }
 

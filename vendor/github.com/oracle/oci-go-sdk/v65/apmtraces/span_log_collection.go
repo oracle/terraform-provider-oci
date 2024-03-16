@@ -21,6 +21,9 @@ type SpanLogCollection struct {
 	// Timestamp at which the log is created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// Name of the event for which the log is created.
+	EventName *string `mandatory:"false" json:"eventName"`
+
 	// List of logs associated with the span at the given timestamp.
 	SpanLogs []SpanLog `mandatory:"false" json:"spanLogs"`
 }

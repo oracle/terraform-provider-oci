@@ -33,6 +33,8 @@ type QueryResultMetadataSummary struct {
 	// will contain more than one OrderedBy summary object, if the sort was multidimensional.
 	QueryResultsOrderedBy []QueryResultsOrderedBySummary `mandatory:"false" json:"queryResultsOrderedBy"`
 
+	QueryResultsTopologyInfo *QueryResultsTopologyInfo `mandatory:"false" json:"queryResultsTopologyInfo"`
+
 	// Interval for the time series function in minutes.
 	TimeSeriesIntervalInMins *int `mandatory:"false" json:"timeSeriesIntervalInMins"`
 }
