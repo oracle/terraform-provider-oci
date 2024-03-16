@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetSpan.go.html to see an example of how to use GetSpanRequest.
 type GetSpanRequest struct {
 
-	// The APM Domain ID the request is intended for.
+	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique Application Performance Monitoring span identifier (spanId).
@@ -30,6 +30,15 @@ type GetSpanRequest struct {
 	// Unique Oracle-assigned identifier for the request.  If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Include spans that have a `spanStartTime` equal to or greater than this value.
+	TimeSpanStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeSpanStartedGreaterThanOrEqualTo"`
+
+	// Include spans that have a `spanStartTime`less than this value.
+	TimeSpanStartedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeSpanStartedLessThan"`
+
+	// Name space from which the span details need to be retrieved.
+	SpanNamespace GetSpanSpanNamespaceEnum `mandatory:"false" contributesTo:"query" name:"spanNamespace" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -67,6 +76,9 @@ func (request GetSpanRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetSpanRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingGetSpanSpanNamespaceEnum(string(request.SpanNamespace)); !ok && request.SpanNamespace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SpanNamespace: %s. Supported values are: %s.", request.SpanNamespace, strings.Join(GetGetSpanSpanNamespaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -94,4 +106,46 @@ func (response GetSpanResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetSpanResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetSpanSpanNamespaceEnum Enum with underlying type: string
+type GetSpanSpanNamespaceEnum string
+
+// Set of constants representing the allowable values for GetSpanSpanNamespaceEnum
+const (
+	GetSpanSpanNamespaceTraces    GetSpanSpanNamespaceEnum = "TRACES"
+	GetSpanSpanNamespaceSynthetic GetSpanSpanNamespaceEnum = "SYNTHETIC"
+)
+
+var mappingGetSpanSpanNamespaceEnum = map[string]GetSpanSpanNamespaceEnum{
+	"TRACES":    GetSpanSpanNamespaceTraces,
+	"SYNTHETIC": GetSpanSpanNamespaceSynthetic,
+}
+
+var mappingGetSpanSpanNamespaceEnumLowerCase = map[string]GetSpanSpanNamespaceEnum{
+	"traces":    GetSpanSpanNamespaceTraces,
+	"synthetic": GetSpanSpanNamespaceSynthetic,
+}
+
+// GetGetSpanSpanNamespaceEnumValues Enumerates the set of values for GetSpanSpanNamespaceEnum
+func GetGetSpanSpanNamespaceEnumValues() []GetSpanSpanNamespaceEnum {
+	values := make([]GetSpanSpanNamespaceEnum, 0)
+	for _, v := range mappingGetSpanSpanNamespaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetSpanSpanNamespaceEnumStringValues Enumerates the set of values in String for GetSpanSpanNamespaceEnum
+func GetGetSpanSpanNamespaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingGetSpanSpanNamespaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetSpanSpanNamespaceEnum(val string) (GetSpanSpanNamespaceEnum, bool) {
+	enum, ok := mappingGetSpanSpanNamespaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
