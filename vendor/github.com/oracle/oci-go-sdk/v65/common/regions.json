@@ -358,5 +358,11 @@
         "realmKey": "oc21",
         "regionIdentifier": "me-dcc-doha-1",
         "realmDomainComponent": "oraclecloud21.com"
+    },
+    {
+        "regionKey": "ahu",
+        "realmKey": "oc26",
+        "regionIdentifier": "me-abudhabi-3",
+        "realmDomainComponent": "oraclecloud26.com"
     }
 ]

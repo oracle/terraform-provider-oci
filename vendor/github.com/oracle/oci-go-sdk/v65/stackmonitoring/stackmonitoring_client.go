@@ -531,7 +531,7 @@ func (client StackMonitoringClient) createBaselineableMetric(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/CreateBaselineableMetricDetails/CreateBaselineableMetric"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/CreateBaselineableMetric"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
@@ -1694,7 +1694,7 @@ func (client StackMonitoringClient) evaluateBaselineableMetric(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/EvaluateBaselineableMetricResult/EvaluateBaselineableMetric"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/EvaluateBaselineableMetric"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "EvaluateBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
@@ -2337,7 +2337,7 @@ func (client StackMonitoringClient) listBaselineableMetrics(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetricSummary/ListBaselineableMetrics"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/ListBaselineableMetrics"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListBaselineableMetrics", apiReferenceLink)
 		return response, err
 	}
@@ -3606,7 +3606,7 @@ func (client StackMonitoringClient) updateBaselineableMetric(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/UpdateBaselineableMetricDetails/UpdateBaselineableMetric"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/BaselineableMetric/UpdateBaselineableMetric"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateBaselineableMetric", apiReferenceLink)
 		return response, err
 	}
