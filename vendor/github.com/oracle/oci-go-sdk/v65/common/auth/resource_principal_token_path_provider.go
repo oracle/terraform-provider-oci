@@ -118,6 +118,33 @@ func (pp DefaultRptPathProvider) ResourceID() (*string, error) {
 	return rpID, nil
 }
 
+type RptPathProviderForLeafResource struct {
+	path       string
+	resourceID string
+}
+
+func (pp RptPathProviderForLeafResource) Path() (*string, error) {
+	path := requireEnv(ResourcePrincipalRptPathForLeaf)
+	if path == nil {
+		rpPath := imdsPathTemplate
+		return &rpPath, nil
+	}
+	return path, nil
+}
+
+// ResourceID returns the resource associated with the resource principal
+func (pp RptPathProviderForLeafResource) ResourceID() (*string, error) {
+	rpID := requireEnv(ResourcePrincipalResourceIdForLeaf)
+	if rpID == nil {
+		instanceID, err := getInstanceIDFromMetadata()
+		if err != nil {
+			return nil, err
+		}
+		return &instanceID, nil
+	}
+	return rpID, nil
+}
+
 func getInstanceIDFromMetadata() (instanceID string, err error) {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", instanceIDURL, nil)
