@@ -45,8 +45,8 @@ type, or by viewing the resource in the Console.
 resource "oci_file_storage_replication" "test_replication" {
 	#Required
 	compartment_id = var.compartment_id
-	source_id = oci_file_storage_source.test_source.id
-	target_id = oci_cloud_guard_target.test_target.id
+	source_id = oci_file_storage_file_system.test_source.id
+	target_id = oci_file_storage_file_system.test_target.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
