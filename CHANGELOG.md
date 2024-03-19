@@ -1,4 +1,4 @@
-## 5.34.0 (Unreleased)
+## 5.34.0 (March 19, 2024)
 
 ### Added
 - Support for APM - Attribute Management - Synthetic Spans
