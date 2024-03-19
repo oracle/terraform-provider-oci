@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmtraces/GetTrace.go.html to see an example of how to use GetTraceRequest.
 type GetTraceRequest struct {
 
-	// The APM Domain ID the request is intended for.
+	// The APM Domain ID for the intended request.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
 	// Unique Application Performance Monitoring trace identifier (traceId).
@@ -27,6 +27,15 @@ type GetTraceRequest struct {
 	// Unique Oracle-assigned identifier for the request.  If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// Include traces that have a `minTraceStartTime` equal to or greater than this value.
+	TimeTraceStartedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeTraceStartedGreaterThanOrEqualTo"`
+
+	// Include traces that have a `minTraceStartTime` less than this value.
+	TimeTraceStartedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeTraceStartedLessThan"`
+
+	// Name space from which the trace details need to be retrieved.
+	TraceNamespace GetTraceTraceNamespaceEnum `mandatory:"false" contributesTo:"query" name:"traceNamespace" omitEmpty:"true"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -64,6 +73,9 @@ func (request GetTraceRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetTraceRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingGetTraceTraceNamespaceEnum(string(request.TraceNamespace)); !ok && request.TraceNamespace != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TraceNamespace: %s. Supported values are: %s.", request.TraceNamespace, strings.Join(GetGetTraceTraceNamespaceEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -91,4 +103,46 @@ func (response GetTraceResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetTraceResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// GetTraceTraceNamespaceEnum Enum with underlying type: string
+type GetTraceTraceNamespaceEnum string
+
+// Set of constants representing the allowable values for GetTraceTraceNamespaceEnum
+const (
+	GetTraceTraceNamespaceTraces    GetTraceTraceNamespaceEnum = "TRACES"
+	GetTraceTraceNamespaceSynthetic GetTraceTraceNamespaceEnum = "SYNTHETIC"
+)
+
+var mappingGetTraceTraceNamespaceEnum = map[string]GetTraceTraceNamespaceEnum{
+	"TRACES":    GetTraceTraceNamespaceTraces,
+	"SYNTHETIC": GetTraceTraceNamespaceSynthetic,
+}
+
+var mappingGetTraceTraceNamespaceEnumLowerCase = map[string]GetTraceTraceNamespaceEnum{
+	"traces":    GetTraceTraceNamespaceTraces,
+	"synthetic": GetTraceTraceNamespaceSynthetic,
+}
+
+// GetGetTraceTraceNamespaceEnumValues Enumerates the set of values for GetTraceTraceNamespaceEnum
+func GetGetTraceTraceNamespaceEnumValues() []GetTraceTraceNamespaceEnum {
+	values := make([]GetTraceTraceNamespaceEnum, 0)
+	for _, v := range mappingGetTraceTraceNamespaceEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetGetTraceTraceNamespaceEnumStringValues Enumerates the set of values in String for GetTraceTraceNamespaceEnum
+func GetGetTraceTraceNamespaceEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYNTHETIC",
+	}
+}
+
+// GetMappingGetTraceTraceNamespaceEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetTraceTraceNamespaceEnum(val string) (GetTraceTraceNamespaceEnum, bool) {
+	enum, ok := mappingGetTraceTraceNamespaceEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

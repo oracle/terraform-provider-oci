@@ -53,8 +53,14 @@ type Span struct {
 	// List of tags associated with the span.
 	Tags []Tag `mandatory:"false" json:"tags"`
 
+	// Metadata about the tags in the span.
+	TagsMetadata map[string]TagMetadata `mandatory:"false" json:"tagsMetadata"`
+
 	// List of logs associated with the span.
 	Logs []SpanLogCollection `mandatory:"false" json:"logs"`
+
+	// Source of span (spans, syn_spans).
+	SourceName SpanSourceNameEnum `mandatory:"false" json:"sourceName,omitempty"`
 }
 
 func (m Span) String() string {
@@ -67,8 +73,53 @@ func (m Span) String() string {
 func (m Span) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSpanSourceNameEnum(string(m.SourceName)); !ok && m.SourceName != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceName: %s. Supported values are: %s.", m.SourceName, strings.Join(GetSpanSourceNameEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// SpanSourceNameEnum Enum with underlying type: string
+type SpanSourceNameEnum string
+
+// Set of constants representing the allowable values for SpanSourceNameEnum
+const (
+	SpanSourceNameSpans    SpanSourceNameEnum = "SPANS"
+	SpanSourceNameSynSpans SpanSourceNameEnum = "SYN_SPANS"
+)
+
+var mappingSpanSourceNameEnum = map[string]SpanSourceNameEnum{
+	"SPANS":     SpanSourceNameSpans,
+	"SYN_SPANS": SpanSourceNameSynSpans,
+}
+
+var mappingSpanSourceNameEnumLowerCase = map[string]SpanSourceNameEnum{
+	"spans":     SpanSourceNameSpans,
+	"syn_spans": SpanSourceNameSynSpans,
+}
+
+// GetSpanSourceNameEnumValues Enumerates the set of values for SpanSourceNameEnum
+func GetSpanSourceNameEnumValues() []SpanSourceNameEnum {
+	values := make([]SpanSourceNameEnum, 0)
+	for _, v := range mappingSpanSourceNameEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetSpanSourceNameEnumStringValues Enumerates the set of values in String for SpanSourceNameEnum
+func GetSpanSourceNameEnumStringValues() []string {
+	return []string{
+		"SPANS",
+		"SYN_SPANS",
+	}
+}
+
+// GetMappingSpanSourceNameEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingSpanSourceNameEnum(val string) (SpanSourceNameEnum, bool) {
+	enum, ok := mappingSpanSourceNameEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
