@@ -3,6 +3,7 @@
 
 /*
  * This example shows how to add lifeCyclePolicyRules to a bucket
+ * object_name_filter attribute is ignored for target of type multipart uploads
  */
 
 variable "tenancy_ocid" {
@@ -62,12 +63,18 @@ resource "oci_objectstorage_object_lifecycle_policy" "lifecyclePolicy" {
     #Required
     action      = "ABORT"
     is_enabled  = "true"
-    name        = "test-rule-1"
+    name        = "test-rule-2"
     time_amount = "10"
     time_unit   = "DAYS"
 
     #Optional
     target = "multipart-uploads"
+
+    #Will be ignored as target is multipart-uploads
+    object_name_filter {
+      #Optional
+      inclusion_prefixes = ["this-prefix-will-be-ignored"]
+    }
   }
 }
 
