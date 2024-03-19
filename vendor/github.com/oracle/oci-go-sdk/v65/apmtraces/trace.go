@@ -80,6 +80,9 @@ type Trace struct {
 	// A summary of the spans by service.
 	ServiceSummaries []TraceServiceSummary `mandatory:"false" json:"serviceSummaries"`
 
+	// Source of trace (traces, syn_traces).
+	SourceName TraceSourceNameEnum `mandatory:"false" json:"sourceName,omitempty"`
+
 	SpanSummary *TraceSpanSummary `mandatory:"false" json:"spanSummary"`
 }
 
@@ -93,8 +96,53 @@ func (m Trace) String() string {
 func (m Trace) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingTraceSourceNameEnum(string(m.SourceName)); !ok && m.SourceName != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceName: %s. Supported values are: %s.", m.SourceName, strings.Join(GetTraceSourceNameEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// TraceSourceNameEnum Enum with underlying type: string
+type TraceSourceNameEnum string
+
+// Set of constants representing the allowable values for TraceSourceNameEnum
+const (
+	TraceSourceNameTraces    TraceSourceNameEnum = "TRACES"
+	TraceSourceNameSynTraces TraceSourceNameEnum = "SYN_TRACES"
+)
+
+var mappingTraceSourceNameEnum = map[string]TraceSourceNameEnum{
+	"TRACES":     TraceSourceNameTraces,
+	"SYN_TRACES": TraceSourceNameSynTraces,
+}
+
+var mappingTraceSourceNameEnumLowerCase = map[string]TraceSourceNameEnum{
+	"traces":     TraceSourceNameTraces,
+	"syn_traces": TraceSourceNameSynTraces,
+}
+
+// GetTraceSourceNameEnumValues Enumerates the set of values for TraceSourceNameEnum
+func GetTraceSourceNameEnumValues() []TraceSourceNameEnum {
+	values := make([]TraceSourceNameEnum, 0)
+	for _, v := range mappingTraceSourceNameEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetTraceSourceNameEnumStringValues Enumerates the set of values in String for TraceSourceNameEnum
+func GetTraceSourceNameEnumStringValues() []string {
+	return []string{
+		"TRACES",
+		"SYN_TRACES",
+	}
+}
+
+// GetMappingTraceSourceNameEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingTraceSourceNameEnum(val string) (TraceSourceNameEnum, bool) {
+	enum, ok := mappingTraceSourceNameEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -172,6 +172,18 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 
 		integrationInstance["shape"] = r.Shape
 
+		if r.PrivateEndpointOutboundConnection != nil {
+			privateEndpointOutboundConnectionArray := []interface{}{}
+			if privateEndpointOutboundConnectionMap := OutboundConnectionToMap(&r.PrivateEndpointOutboundConnection, true); privateEndpointOutboundConnectionMap != nil {
+				privateEndpointOutboundConnectionArray = append(privateEndpointOutboundConnectionArray, privateEndpointOutboundConnectionMap)
+			}
+			integrationInstance["private_endpoint_outbound_connection"] = privateEndpointOutboundConnectionArray
+		} else {
+			integrationInstance["private_endpoint_outbound_connection"] = nil
+		}
+
+		integrationInstance["shape"] = r.Shape
+
 		integrationInstance["state"] = r.LifecycleState
 
 		if r.StateMessage != nil {
