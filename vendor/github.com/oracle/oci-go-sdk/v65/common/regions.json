@@ -430,5 +430,17 @@
         "realmKey": "oc26",
         "regionIdentifier": "me-abudhabi-3",
         "realmDomainComponent": "oraclecloud26.com"
+    },
+    {
+        "regionKey": "rkt",
+        "realmKey": "oc29",
+        "regionIdentifier": "me-abudhabi-2",
+        "realmDomainComponent": "oraclecloud29.com"
+    },
+    {
+        "regionKey": "shj",
+        "realmKey": "oc29",
+        "regionIdentifier": "me-abudhabi-4",
+        "realmDomainComponent": "oraclecloud29.com"
     }
 ]
