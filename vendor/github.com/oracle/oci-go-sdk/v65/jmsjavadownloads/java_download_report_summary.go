@@ -4,7 +4,7 @@
 
 // Java Management Service Download API
 //
-// The APIs for the download engine of the Java Management Service.
+// The APIs for the <a href="https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html">Java Download</a> feature of Java Management Service.
 //
 
 package jmsjavadownloads
@@ -41,11 +41,23 @@ type JavaDownloadReportSummary struct {
 
 	CreatedBy *Principal `mandatory:"true" json:"createdBy"`
 
-	// The time the Java download report was created. An RFC3339 formatted datetime string.
+	// The time the Java download report was created, displayed as an RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// The current state of the Java download report.
 	LifecycleState LifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The start time from when the download records are included (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
+
+	// The end time until when the download records are included (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
+
+	// The property used for sorting the records.
+	SortBy JavaDownloadRecordSortByEnum `mandatory:"false" json:"sortBy,omitempty"`
+
+	// The sort order for the records.
+	SortOrder SortOrderEnum `mandatory:"false" json:"sortOrder,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Tagging/Concepts/understandingfreeformtags.htm).)
@@ -81,6 +93,12 @@ func (m JavaDownloadReportSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingJavaDownloadRecordSortByEnum(string(m.SortBy)); !ok && m.SortBy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", m.SortBy, strings.Join(GetJavaDownloadRecordSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSortOrderEnum(string(m.SortOrder)); !ok && m.SortOrder != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", m.SortOrder, strings.Join(GetSortOrderEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

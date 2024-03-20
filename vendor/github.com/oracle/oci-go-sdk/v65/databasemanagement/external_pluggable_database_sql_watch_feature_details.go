@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalPluggableDatabaseSqlWatchFeatureDetails The details required to enable Application performance feature.
+// ExternalPluggableDatabaseSqlWatchFeatureDetails The details required to enable the SQL watch feature.
 type ExternalPluggableDatabaseSqlWatchFeatureDetails struct {
 	ConnectorDetails ConnectorDetails `mandatory:"true" json:"connectorDetails"`
 }

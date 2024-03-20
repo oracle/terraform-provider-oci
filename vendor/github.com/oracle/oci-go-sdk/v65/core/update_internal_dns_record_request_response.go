@@ -14,10 +14,10 @@ import (
 // UpdateInternalDnsRecordRequest wrapper for the UpdateInternalDnsRecord operation
 type UpdateInternalDnsRecordRequest struct {
 
-	// The Dns Record's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The DNS record's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalDnsRecordId *string `mandatory:"true" contributesTo:"path" name:"internalDnsRecordId"`
 
-	// Details for updating DnsRecord.
+	// Details for updating `DnsRecord`.
 	UpdateInternalDnsRecordDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ModifyDatabaseManagementFeatureDetails The details of the cloud database feature.
+// ModifyDatabaseManagementFeatureDetails The details required to modify a Database Management features for an Oracle cloud database.
 type ModifyDatabaseManagementFeatureDetails struct {
 	FeatureDetails DatabaseFeatureDetails `mandatory:"true" json:"featureDetails"`
 }

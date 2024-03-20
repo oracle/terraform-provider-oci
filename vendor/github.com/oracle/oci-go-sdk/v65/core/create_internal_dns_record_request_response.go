@@ -14,7 +14,7 @@ import (
 // CreateInternalDnsRecordRequest wrapper for the CreateInternalDnsRecord operation
 type CreateInternalDnsRecordRequest struct {
 
-	// Details for creating DnsRecord.
+	// Details for creating `DnsRecord`.
 	CreateInternalDnsRecordDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

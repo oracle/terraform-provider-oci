@@ -33,7 +33,7 @@ type VnicaasVnicShapeConfig struct {
 	// It defines the internetBandwidth limit.
 	InternetBandwidthBps *int64 `mandatory:"false" json:"internetBandwidthBps"`
 
-	// Fleet name in which the servie vnic will be attached
+	// Fleet name in which the servie VNIC will be attached
 	FleetName *string `mandatory:"false" json:"fleetName"`
 }
 

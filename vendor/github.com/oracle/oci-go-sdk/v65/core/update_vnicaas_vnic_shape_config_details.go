@@ -24,7 +24,7 @@ import (
 // UpdateVnicaasVnicShapeConfigDetails Details required for updating the shape config of VnicaasVnic in VNIC attachment.
 type UpdateVnicaasVnicShapeConfigDetails struct {
 
-	// VNIC whose attachments need to be updated to the destination vnic shape.
+	// VNIC whose attachments need to be updated to the destination VNIC shape.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
 	VnicaasVnicShapeConfig *VnicaasVnicShapeConfig `mandatory:"true" json:"vnicaasVnicShapeConfig"`

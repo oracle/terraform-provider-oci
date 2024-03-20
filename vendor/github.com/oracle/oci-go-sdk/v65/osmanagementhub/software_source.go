@@ -53,9 +53,6 @@ type SoftwareSource interface {
 	// Information specified by the user about the software source.
 	GetDescription() *string
 
-	// The availabilities of a software source.
-	GetAvailabilities() []AvailabilityEnum
-
 	// The current state of the software source.
 	GetLifecycleState() SoftwareSourceLifecycleStateEnum
 
@@ -95,7 +92,6 @@ type SoftwareSource interface {
 type softwaresource struct {
 	JsonData           []byte
 	Description        *string                           `mandatory:"false" json:"description"`
-	Availabilities     []AvailabilityEnum                `mandatory:"false" json:"availabilities,omitempty"`
 	LifecycleState     SoftwareSourceLifecycleStateEnum  `mandatory:"false" json:"lifecycleState,omitempty"`
 	PackageCount       *int64                            `mandatory:"false" json:"packageCount"`
 	ChecksumType       ChecksumTypeEnum                  `mandatory:"false" json:"checksumType,omitempty"`
@@ -141,7 +137,6 @@ func (m *softwaresource) UnmarshalJSON(data []byte) error {
 	m.ArchType = s.Model.ArchType
 	m.Url = s.Model.Url
 	m.Description = s.Model.Description
-	m.Availabilities = s.Model.Availabilities
 	m.LifecycleState = s.Model.LifecycleState
 	m.PackageCount = s.Model.PackageCount
 	m.ChecksumType = s.Model.ChecksumType
@@ -187,11 +182,6 @@ func (m *softwaresource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 // GetDescription returns Description
 func (m softwaresource) GetDescription() *string {
 	return m.Description
-}
-
-// GetAvailabilities returns Availabilities
-func (m softwaresource) GetAvailabilities() []AvailabilityEnum {
-	return m.Availabilities
 }
 
 // GetLifecycleState returns LifecycleState
@@ -314,12 +304,6 @@ func (m softwaresource) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingArchTypeEnum(string(m.ArchType)); !ok && m.ArchType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchType: %s. Supported values are: %s.", m.ArchType, strings.Join(GetArchTypeEnumStringValues(), ",")))
-	}
-
-	for _, val := range m.Availabilities {
-		if _, ok := GetMappingAvailabilityEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availabilities: %s. Supported values are: %s.", val, strings.Join(GetAvailabilityEnumStringValues(), ",")))
-		}
 	}
 
 	if _, ok := GetMappingSoftwareSourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {

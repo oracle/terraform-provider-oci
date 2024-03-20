@@ -58,7 +58,7 @@ type ScheduledJob struct {
 	// Details describing the scheduled job.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The list of locations this scheduled job should operate on. (Empty list means apply to all locations)
+	// The list of locations this scheduled job should operate on for a job targeting on compartments. (Empty list means apply to all locations). This can only be set when managedCompartmentIds is not empty.
 	Locations []ManagedInstanceLocationEnum `mandatory:"false" json:"locations"`
 
 	// The time of the last execution of this scheduled job.

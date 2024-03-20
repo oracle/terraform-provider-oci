@@ -14,7 +14,7 @@ import (
 // DetachDavRequest wrapper for the DetachDav operation
 type DetachDavRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Direct Attached Vnic.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the direct attached VNIC.
 	DavId *string `mandatory:"true" contributesTo:"path" name:"davId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

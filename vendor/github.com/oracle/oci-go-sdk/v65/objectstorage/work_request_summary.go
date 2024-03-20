@@ -81,24 +81,33 @@ type WorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
 const (
-	WorkRequestSummaryOperationTypeCopyObject      WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
-	WorkRequestSummaryOperationTypeReencrypt       WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
-	WorkRequestSummaryOperationTypeBulkCopyObjects WorkRequestSummaryOperationTypeEnum = "BULK_COPY_OBJECTS"
-	WorkRequestSummaryOperationTypePrefixRename    WorkRequestSummaryOperationTypeEnum = "PREFIX_RENAME"
+	WorkRequestSummaryOperationTypeCopyObject            WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
+	WorkRequestSummaryOperationTypeReencrypt             WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
+	WorkRequestSummaryOperationTypeBulkCopyObjects       WorkRequestSummaryOperationTypeEnum = "BULK_COPY_OBJECTS"
+	WorkRequestSummaryOperationTypePrefixRename          WorkRequestSummaryOperationTypeEnum = "PREFIX_RENAME"
+	WorkRequestSummaryOperationTypePrivateEndpointCreate WorkRequestSummaryOperationTypeEnum = "PRIVATE_ENDPOINT_CREATE"
+	WorkRequestSummaryOperationTypePrivateEndpointUpdate WorkRequestSummaryOperationTypeEnum = "PRIVATE_ENDPOINT_UPDATE"
+	WorkRequestSummaryOperationTypePrivateEndpointDelete WorkRequestSummaryOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
-	"COPY_OBJECT":       WorkRequestSummaryOperationTypeCopyObject,
-	"REENCRYPT":         WorkRequestSummaryOperationTypeReencrypt,
-	"BULK_COPY_OBJECTS": WorkRequestSummaryOperationTypeBulkCopyObjects,
-	"PREFIX_RENAME":     WorkRequestSummaryOperationTypePrefixRename,
+	"COPY_OBJECT":             WorkRequestSummaryOperationTypeCopyObject,
+	"REENCRYPT":               WorkRequestSummaryOperationTypeReencrypt,
+	"BULK_COPY_OBJECTS":       WorkRequestSummaryOperationTypeBulkCopyObjects,
+	"PREFIX_RENAME":           WorkRequestSummaryOperationTypePrefixRename,
+	"PRIVATE_ENDPOINT_CREATE": WorkRequestSummaryOperationTypePrivateEndpointCreate,
+	"PRIVATE_ENDPOINT_UPDATE": WorkRequestSummaryOperationTypePrivateEndpointUpdate,
+	"PRIVATE_ENDPOINT_DELETE": WorkRequestSummaryOperationTypePrivateEndpointDelete,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
-	"copy_object":       WorkRequestSummaryOperationTypeCopyObject,
-	"reencrypt":         WorkRequestSummaryOperationTypeReencrypt,
-	"bulk_copy_objects": WorkRequestSummaryOperationTypeBulkCopyObjects,
-	"prefix_rename":     WorkRequestSummaryOperationTypePrefixRename,
+	"copy_object":             WorkRequestSummaryOperationTypeCopyObject,
+	"reencrypt":               WorkRequestSummaryOperationTypeReencrypt,
+	"bulk_copy_objects":       WorkRequestSummaryOperationTypeBulkCopyObjects,
+	"prefix_rename":           WorkRequestSummaryOperationTypePrefixRename,
+	"private_endpoint_create": WorkRequestSummaryOperationTypePrivateEndpointCreate,
+	"private_endpoint_update": WorkRequestSummaryOperationTypePrivateEndpointUpdate,
+	"private_endpoint_delete": WorkRequestSummaryOperationTypePrivateEndpointDelete,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -117,6 +126,9 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"REENCRYPT",
 		"BULK_COPY_OBJECTS",
 		"PREFIX_RENAME",
+		"PRIVATE_ENDPOINT_CREATE",
+		"PRIVATE_ENDPOINT_UPDATE",
+		"PRIVATE_ENDPOINT_DELETE",
 	}
 }
 

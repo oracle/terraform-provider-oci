@@ -19,7 +19,7 @@ import (
 type InstallPackagesOnManagedInstanceGroupDetails struct {
 
 	// The list of package names.
-	PackageNames []string `mandatory:"false" json:"packageNames"`
+	PackageNames []string `mandatory:"true" json:"packageNames"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }

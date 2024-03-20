@@ -14,7 +14,7 @@ import (
 // ChangeVnicAttachmentsCompartmentRequestRequest wrapper for the ChangeVnicAttachmentsCompartmentRequest operation
 type ChangeVnicAttachmentsCompartmentRequestRequest struct {
 
-	// Request to change the compartment of vnic attachment(s).
+	// Request to change the compartment of VNIC attachment(s).
 	ChangeVnicAttachmentsCompartmentRequest `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -14,10 +14,10 @@ import (
 // EnableExternalNonContainerDatabaseManagementFeatureRequest wrapper for the EnableExternalNonContainerDatabaseManagementFeature operation
 type EnableExternalNonContainerDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external non-container Database.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external non-container database.
 	ExternalNonContainerDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalNonContainerDatabaseId"`
 
-	// The details required to enable Database Management Feature for an external non-container Database.
+	// The details required to enable a Database Management feature for an external non-container database.
 	EnableExternalNonContainerDatabaseManagementFeatureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

@@ -14,7 +14,7 @@ import (
 // UpdateInternalVnicMetadataRequest wrapper for the UpdateInternalVnicMetadata operation
 type UpdateInternalVnicMetadataRequest struct {
 
-	// Request to update the metadata for a vnic attachment
+	// Request to update the metadata for a VNIC attachment
 	UpdateInternalVnicMetadataDetails `contributesTo:"body"`
 
 	// Unique identifier for the request.

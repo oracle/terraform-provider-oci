@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// EnableDatabaseManagementFeatureDetails The details of the cloud database feature.
+// EnableDatabaseManagementFeatureDetails The details required to enable Database Management features for an Oracle cloud database.
 type EnableDatabaseManagementFeatureDetails struct {
 	FeatureDetails DatabaseFeatureDetails `mandatory:"true" json:"featureDetails"`
 }

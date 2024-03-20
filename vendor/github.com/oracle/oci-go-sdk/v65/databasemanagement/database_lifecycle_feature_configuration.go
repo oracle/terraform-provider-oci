@@ -18,13 +18,16 @@ import (
 	"strings"
 )
 
-// DatabaseLifecycleFeatureConfiguration The details required to enable database lifecycle management feature.
+// DatabaseLifecycleFeatureConfiguration The details required to enable the Database Lifecycle Management feature.
 type DatabaseLifecycleFeatureConfiguration struct {
 	ConnectorDetails ConnectorDetails `mandatory:"false" json:"connectorDetails"`
 
 	DatabaseConnectionDetails *DatabaseConnectionDetails `mandatory:"false" json:"databaseConnectionDetails"`
 
-	// The list of the database management supported feature statuses:
+	// The Oracle license model that applies to the external database.
+	LicenseModel DatabaseLifecycleFeatureConfigurationLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
+
+	// The list of statuses for Database Management features.
 	FeatureStatus DatabaseFeatureConfigurationFeatureStatusEnum `mandatory:"true" json:"featureStatus"`
 }
 
@@ -52,6 +55,9 @@ func (m DatabaseLifecycleFeatureConfiguration) String() string {
 // Not recommended for calling this function directly
 func (m DatabaseLifecycleFeatureConfiguration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingDatabaseLifecycleFeatureConfigurationLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetDatabaseLifecycleFeatureConfigurationLicenseModelEnumStringValues(), ",")))
+	}
 
 	if _, ok := GetMappingDatabaseFeatureConfigurationFeatureStatusEnum(string(m.FeatureStatus)); !ok && m.FeatureStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureStatus: %s. Supported values are: %s.", m.FeatureStatus, strings.Join(GetDatabaseFeatureConfigurationFeatureStatusEnumStringValues(), ",")))
@@ -79,9 +85,10 @@ func (m DatabaseLifecycleFeatureConfiguration) MarshalJSON() (buff []byte, e err
 // UnmarshalJSON unmarshals from json
 func (m *DatabaseLifecycleFeatureConfiguration) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ConnectorDetails          connectordetails                              `json:"connectorDetails"`
-		DatabaseConnectionDetails *DatabaseConnectionDetails                    `json:"databaseConnectionDetails"`
-		FeatureStatus             DatabaseFeatureConfigurationFeatureStatusEnum `json:"featureStatus"`
+		ConnectorDetails          connectordetails                                      `json:"connectorDetails"`
+		DatabaseConnectionDetails *DatabaseConnectionDetails                            `json:"databaseConnectionDetails"`
+		LicenseModel              DatabaseLifecycleFeatureConfigurationLicenseModelEnum `json:"licenseModel"`
+		FeatureStatus             DatabaseFeatureConfigurationFeatureStatusEnum         `json:"featureStatus"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -101,7 +108,51 @@ func (m *DatabaseLifecycleFeatureConfiguration) UnmarshalJSON(data []byte) (e er
 
 	m.DatabaseConnectionDetails = model.DatabaseConnectionDetails
 
+	m.LicenseModel = model.LicenseModel
+
 	m.FeatureStatus = model.FeatureStatus
 
 	return
+}
+
+// DatabaseLifecycleFeatureConfigurationLicenseModelEnum Enum with underlying type: string
+type DatabaseLifecycleFeatureConfigurationLicenseModelEnum string
+
+// Set of constants representing the allowable values for DatabaseLifecycleFeatureConfigurationLicenseModelEnum
+const (
+	DatabaseLifecycleFeatureConfigurationLicenseModelLicenseIncluded     DatabaseLifecycleFeatureConfigurationLicenseModelEnum = "LICENSE_INCLUDED"
+	DatabaseLifecycleFeatureConfigurationLicenseModelBringYourOwnLicense DatabaseLifecycleFeatureConfigurationLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
+)
+
+var mappingDatabaseLifecycleFeatureConfigurationLicenseModelEnum = map[string]DatabaseLifecycleFeatureConfigurationLicenseModelEnum{
+	"LICENSE_INCLUDED":       DatabaseLifecycleFeatureConfigurationLicenseModelLicenseIncluded,
+	"BRING_YOUR_OWN_LICENSE": DatabaseLifecycleFeatureConfigurationLicenseModelBringYourOwnLicense,
+}
+
+var mappingDatabaseLifecycleFeatureConfigurationLicenseModelEnumLowerCase = map[string]DatabaseLifecycleFeatureConfigurationLicenseModelEnum{
+	"license_included":       DatabaseLifecycleFeatureConfigurationLicenseModelLicenseIncluded,
+	"bring_your_own_license": DatabaseLifecycleFeatureConfigurationLicenseModelBringYourOwnLicense,
+}
+
+// GetDatabaseLifecycleFeatureConfigurationLicenseModelEnumValues Enumerates the set of values for DatabaseLifecycleFeatureConfigurationLicenseModelEnum
+func GetDatabaseLifecycleFeatureConfigurationLicenseModelEnumValues() []DatabaseLifecycleFeatureConfigurationLicenseModelEnum {
+	values := make([]DatabaseLifecycleFeatureConfigurationLicenseModelEnum, 0)
+	for _, v := range mappingDatabaseLifecycleFeatureConfigurationLicenseModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDatabaseLifecycleFeatureConfigurationLicenseModelEnumStringValues Enumerates the set of values in String for DatabaseLifecycleFeatureConfigurationLicenseModelEnum
+func GetDatabaseLifecycleFeatureConfigurationLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
+}
+
+// GetMappingDatabaseLifecycleFeatureConfigurationLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDatabaseLifecycleFeatureConfigurationLicenseModelEnum(val string) (DatabaseLifecycleFeatureConfigurationLicenseModelEnum, bool) {
+	enum, ok := mappingDatabaseLifecycleFeatureConfigurationLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

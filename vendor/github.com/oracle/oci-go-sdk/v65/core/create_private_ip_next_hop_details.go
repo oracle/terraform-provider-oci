@@ -37,9 +37,11 @@ type CreatePrivateIpNextHopDetails struct {
 	// Turns on/off flow stickiness for the private IP's nextHop. The default is 'false'.
 	IsFlowStickinessEnabled *bool `mandatory:"false" json:"isFlowStickinessEnabled"`
 
-	// Specifies which next hop forwarding rules to enable for the private IP's nextHop. The default is an
-	// empty list or 'NOT_SPECIFIED'.
-	NexthopForwardingRules []PrivateIpNextHopForwardingRuleEnum `mandatory:"false" json:"nexthopForwardingRules"`
+	// Forwarding configuration for a private IP's nextHop. The default is 'DEFAULT'.
+	// DEFAULT: Default behavior where packets are flow hashed to a range of ports.
+	// SKIP_PORT_SHARDING: Packets will skip port sharding.
+	// SKIP_PORT_SHARDING_WITH_WILDCARD_LISTENER: Packets will skip port sharding and a wildcard listener will be used.
+	NextHopForwardingConfig CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum `mandatory:"false" json:"nextHopForwardingConfig,omitempty"`
 }
 
 func (m CreatePrivateIpNextHopDetails) String() string {
@@ -52,8 +54,57 @@ func (m CreatePrivateIpNextHopDetails) String() string {
 func (m CreatePrivateIpNextHopDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum(string(m.NextHopForwardingConfig)); !ok && m.NextHopForwardingConfig != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextHopForwardingConfig: %s. Supported values are: %s.", m.NextHopForwardingConfig, strings.Join(GetCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum Enum with underlying type: string
+type CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum string
+
+// Set of constants representing the allowable values for CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum
+const (
+	CreatePrivateIpNextHopDetailsNextHopForwardingConfigDefault                              CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum = "DEFAULT"
+	CreatePrivateIpNextHopDetailsNextHopForwardingConfigSkipPortSharding                     CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum = "SKIP_PORT_SHARDING"
+	CreatePrivateIpNextHopDetailsNextHopForwardingConfigSkipPortShardingWithWildcardListener CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum = "SKIP_PORT_SHARDING_WITH_WILDCARD_LISTENER"
+)
+
+var mappingCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum = map[string]CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum{
+	"DEFAULT":            CreatePrivateIpNextHopDetailsNextHopForwardingConfigDefault,
+	"SKIP_PORT_SHARDING": CreatePrivateIpNextHopDetailsNextHopForwardingConfigSkipPortSharding,
+	"SKIP_PORT_SHARDING_WITH_WILDCARD_LISTENER": CreatePrivateIpNextHopDetailsNextHopForwardingConfigSkipPortShardingWithWildcardListener,
+}
+
+var mappingCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnumLowerCase = map[string]CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum{
+	"default":            CreatePrivateIpNextHopDetailsNextHopForwardingConfigDefault,
+	"skip_port_sharding": CreatePrivateIpNextHopDetailsNextHopForwardingConfigSkipPortSharding,
+	"skip_port_sharding_with_wildcard_listener": CreatePrivateIpNextHopDetailsNextHopForwardingConfigSkipPortShardingWithWildcardListener,
+}
+
+// GetCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnumValues Enumerates the set of values for CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum
+func GetCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnumValues() []CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum {
+	values := make([]CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum, 0)
+	for _, v := range mappingCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnumStringValues Enumerates the set of values in String for CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum
+func GetCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnumStringValues() []string {
+	return []string{
+		"DEFAULT",
+		"SKIP_PORT_SHARDING",
+		"SKIP_PORT_SHARDING_WITH_WILDCARD_LISTENER",
+	}
+}
+
+// GetMappingCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum(val string) (CreatePrivateIpNextHopDetailsNextHopForwardingConfigEnum, bool) {
+	enum, ok := mappingCreatePrivateIpNextHopDetailsNextHopForwardingConfigEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -18,10 +18,10 @@ import (
 	"strings"
 )
 
-// ExternalConnectorDetails The details required to connect to an external Database.
+// ExternalConnectorDetails The details of the external database connector used to connect to the external database.
 type ExternalConnectorDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database connector.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database connector.
 	DatabaseConnectorId *string `mandatory:"true" json:"databaseConnectorId"`
 }
 

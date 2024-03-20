@@ -14,14 +14,14 @@ import (
 // GetInternalDrgRouteTableRequest wrapper for the GetInternalDrgRouteTable operation
 type GetInternalDrgRouteTableRequest struct {
 
-	// The label of the drg attachment.
+	// The label of the DRG attachment.
 	DrgAttachmentLabel *int64 `mandatory:"true" contributesTo:"path" name:"drgAttachmentLabel"`
 
 	// The name of the availability domain.
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
 
-	// The id the of Drg Route Table shard
+	// The id the of DRG route table shard
 	ShardId *int64 `mandatory:"false" contributesTo:"query" name:"shardId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

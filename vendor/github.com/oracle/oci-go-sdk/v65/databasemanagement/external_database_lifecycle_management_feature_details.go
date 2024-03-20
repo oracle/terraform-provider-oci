@@ -18,9 +18,12 @@ import (
 	"strings"
 )
 
-// ExternalDatabaseLifecycleManagementFeatureDetails The details required to enable database lifecycle management feature.
+// ExternalDatabaseLifecycleManagementFeatureDetails The details required to enable the Database Lifecycle Management feature.
 type ExternalDatabaseLifecycleManagementFeatureDetails struct {
 	ConnectorDetails ConnectorDetails `mandatory:"true" json:"connectorDetails"`
+
+	// The Oracle license model that applies to the external database.
+	LicenseModel ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum `mandatory:"true" json:"licenseModel"`
 }
 
 // GetConnectorDetails returns ConnectorDetails
@@ -37,6 +40,9 @@ func (m ExternalDatabaseLifecycleManagementFeatureDetails) String() string {
 // Not recommended for calling this function directly
 func (m ExternalDatabaseLifecycleManagementFeatureDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -61,7 +67,8 @@ func (m ExternalDatabaseLifecycleManagementFeatureDetails) MarshalJSON() (buff [
 // UnmarshalJSON unmarshals from json
 func (m *ExternalDatabaseLifecycleManagementFeatureDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ConnectorDetails connectordetails `json:"connectorDetails"`
+		ConnectorDetails connectordetails                                                  `json:"connectorDetails"`
+		LicenseModel     ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum `json:"licenseModel"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -79,5 +86,49 @@ func (m *ExternalDatabaseLifecycleManagementFeatureDetails) UnmarshalJSON(data [
 		m.ConnectorDetails = nil
 	}
 
+	m.LicenseModel = model.LicenseModel
+
 	return
+}
+
+// ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum Enum with underlying type: string
+type ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum string
+
+// Set of constants representing the allowable values for ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum
+const (
+	ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelLicenseIncluded     ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum = "LICENSE_INCLUDED"
+	ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelBringYourOwnLicense ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum = "BRING_YOUR_OWN_LICENSE"
+)
+
+var mappingExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum = map[string]ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum{
+	"LICENSE_INCLUDED":       ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelLicenseIncluded,
+	"BRING_YOUR_OWN_LICENSE": ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelBringYourOwnLicense,
+}
+
+var mappingExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnumLowerCase = map[string]ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum{
+	"license_included":       ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelLicenseIncluded,
+	"bring_your_own_license": ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelBringYourOwnLicense,
+}
+
+// GetExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnumValues Enumerates the set of values for ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum
+func GetExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnumValues() []ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum {
+	values := make([]ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum, 0)
+	for _, v := range mappingExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnumStringValues Enumerates the set of values in String for ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum
+func GetExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnumStringValues() []string {
+	return []string{
+		"LICENSE_INCLUDED",
+		"BRING_YOUR_OWN_LICENSE",
+	}
+}
+
+// GetMappingExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum(val string) (ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum, bool) {
+	enum, ok := mappingExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

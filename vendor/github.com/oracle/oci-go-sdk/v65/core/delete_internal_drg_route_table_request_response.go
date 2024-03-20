@@ -14,7 +14,7 @@ import (
 // DeleteInternalDrgRouteTableRequest wrapper for the DeleteInternalDrgRouteTable operation
 type DeleteInternalDrgRouteTableRequest struct {
 
-	// The label of the drg attachment.
+	// The label of the DRG attachment.
 	DrgAttachmentLabel *int64 `mandatory:"true" contributesTo:"path" name:"drgAttachmentLabel"`
 
 	// The name of the availability domain.

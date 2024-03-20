@@ -30,7 +30,7 @@ type VnicShapeConfig struct {
 	// The bandwidth in Mbps that the shape can use.
 	AggregateBandwidthBps *int64 `mandatory:"false" json:"aggregateBandwidthBps"`
 
-	// VCNCP will use this flag to set the internet bandwidth for always free vnic.
+	// VCNCP will use this flag to set the internet bandwidth for always free VNIC.
 	IsAlwaysFree *bool `mandatory:"false" json:"isAlwaysFree"`
 
 	// An enum for different platforms (E3, A1, X5, etc).
@@ -61,45 +61,51 @@ type VnicShapeConfigVnicShapeCategoryEnum string
 
 // Set of constants representing the allowable values for VnicShapeConfigVnicShapeCategoryEnum
 const (
-	VnicShapeConfigVnicShapeCategoryX510gNicmodelBasic10g   VnicShapeConfigVnicShapeCategoryEnum = "X5_10G_NicModel.Basic10G"
-	VnicShapeConfigVnicShapeCategoryX625gNicmodelBasic25g   VnicShapeConfigVnicShapeCategoryEnum = "X6_25G_NicModel.Basic25G"
-	VnicShapeConfigVnicShapeCategoryX725gNicmodelBasic25g   VnicShapeConfigVnicShapeCategoryEnum = "X7_25G_NicModel.Basic25G"
-	VnicShapeConfigVnicShapeCategoryX950gNicmodelBasic50g   VnicShapeConfigVnicShapeCategoryEnum = "X9_50G_NicModel.Basic50G"
-	VnicShapeConfigVnicShapeCategoryX9100gNicmodelBasic100g VnicShapeConfigVnicShapeCategoryEnum = "X9_100G_NicModel.Basic100G"
-	VnicShapeConfigVnicShapeCategoryE125gNicmodelBasic25g   VnicShapeConfigVnicShapeCategoryEnum = "E1_25G_NicModel.Basic25G"
-	VnicShapeConfigVnicShapeCategoryE350gNicmodelBasic50g   VnicShapeConfigVnicShapeCategoryEnum = "E3_50G_NicModel.Basic50G"
-	VnicShapeConfigVnicShapeCategoryE450gNicmodelBasic50g   VnicShapeConfigVnicShapeCategoryEnum = "E4_50G_NicModel.Basic50G"
-	VnicShapeConfigVnicShapeCategoryE550gNicmodelBasic50g   VnicShapeConfigVnicShapeCategoryEnum = "E5_50G_NicModel.Basic50G"
-	VnicShapeConfigVnicShapeCategoryE5100gNicmodelBasic100g VnicShapeConfigVnicShapeCategoryEnum = "E5_100G_NicModel.Basic100G"
-	VnicShapeConfigVnicShapeCategoryA150gNicmodelBasic50g   VnicShapeConfigVnicShapeCategoryEnum = "A1_50G_NicModel.Basic50G"
+	VnicShapeConfigVnicShapeCategoryX510gNicmodelBasic10g     VnicShapeConfigVnicShapeCategoryEnum = "X5_10G_NicModel.Basic10G"
+	VnicShapeConfigVnicShapeCategoryX625gNicmodelBasic25g     VnicShapeConfigVnicShapeCategoryEnum = "X6_25G_NicModel.Basic25G"
+	VnicShapeConfigVnicShapeCategoryX725gNicmodelBasic25g     VnicShapeConfigVnicShapeCategoryEnum = "X7_25G_NicModel.Basic25G"
+	VnicShapeConfigVnicShapeCategoryX950gNicmodelBasic50g     VnicShapeConfigVnicShapeCategoryEnum = "X9_50G_NicModel.Basic50G"
+	VnicShapeConfigVnicShapeCategoryX9100gNicmodelBasic100g   VnicShapeConfigVnicShapeCategoryEnum = "X9_100G_NicModel.Basic100G"
+	VnicShapeConfigVnicShapeCategoryE125gNicmodelBasic25g     VnicShapeConfigVnicShapeCategoryEnum = "E1_25G_NicModel.Basic25G"
+	VnicShapeConfigVnicShapeCategoryE350gNicmodelBasic50g     VnicShapeConfigVnicShapeCategoryEnum = "E3_50G_NicModel.Basic50G"
+	VnicShapeConfigVnicShapeCategoryE450gNicmodelBasic50g     VnicShapeConfigVnicShapeCategoryEnum = "E4_50G_NicModel.Basic50G"
+	VnicShapeConfigVnicShapeCategoryE550gNicmodelBasic50g     VnicShapeConfigVnicShapeCategoryEnum = "E5_50G_NicModel.Basic50G"
+	VnicShapeConfigVnicShapeCategoryE5100gNicmodelBasic100g   VnicShapeConfigVnicShapeCategoryEnum = "E5_100G_NicModel.Basic100G"
+	VnicShapeConfigVnicShapeCategoryA150gNicmodelBasic50g     VnicShapeConfigVnicShapeCategoryEnum = "A1_50G_NicModel.Basic50G"
+	VnicShapeConfigVnicShapeCategoryGnrc200gNicmodelBasic200g VnicShapeConfigVnicShapeCategoryEnum = "GNRC_200G_NicModel.Basic200G"
+	VnicShapeConfigVnicShapeCategoryGnrc400gNicmodelBasic400g VnicShapeConfigVnicShapeCategoryEnum = "GNRC_400G_NicModel.Basic400G"
 )
 
 var mappingVnicShapeConfigVnicShapeCategoryEnum = map[string]VnicShapeConfigVnicShapeCategoryEnum{
-	"X5_10G_NicModel.Basic10G":   VnicShapeConfigVnicShapeCategoryX510gNicmodelBasic10g,
-	"X6_25G_NicModel.Basic25G":   VnicShapeConfigVnicShapeCategoryX625gNicmodelBasic25g,
-	"X7_25G_NicModel.Basic25G":   VnicShapeConfigVnicShapeCategoryX725gNicmodelBasic25g,
-	"X9_50G_NicModel.Basic50G":   VnicShapeConfigVnicShapeCategoryX950gNicmodelBasic50g,
-	"X9_100G_NicModel.Basic100G": VnicShapeConfigVnicShapeCategoryX9100gNicmodelBasic100g,
-	"E1_25G_NicModel.Basic25G":   VnicShapeConfigVnicShapeCategoryE125gNicmodelBasic25g,
-	"E3_50G_NicModel.Basic50G":   VnicShapeConfigVnicShapeCategoryE350gNicmodelBasic50g,
-	"E4_50G_NicModel.Basic50G":   VnicShapeConfigVnicShapeCategoryE450gNicmodelBasic50g,
-	"E5_50G_NicModel.Basic50G":   VnicShapeConfigVnicShapeCategoryE550gNicmodelBasic50g,
-	"E5_100G_NicModel.Basic100G": VnicShapeConfigVnicShapeCategoryE5100gNicmodelBasic100g,
-	"A1_50G_NicModel.Basic50G":   VnicShapeConfigVnicShapeCategoryA150gNicmodelBasic50g,
+	"X5_10G_NicModel.Basic10G":     VnicShapeConfigVnicShapeCategoryX510gNicmodelBasic10g,
+	"X6_25G_NicModel.Basic25G":     VnicShapeConfigVnicShapeCategoryX625gNicmodelBasic25g,
+	"X7_25G_NicModel.Basic25G":     VnicShapeConfigVnicShapeCategoryX725gNicmodelBasic25g,
+	"X9_50G_NicModel.Basic50G":     VnicShapeConfigVnicShapeCategoryX950gNicmodelBasic50g,
+	"X9_100G_NicModel.Basic100G":   VnicShapeConfigVnicShapeCategoryX9100gNicmodelBasic100g,
+	"E1_25G_NicModel.Basic25G":     VnicShapeConfigVnicShapeCategoryE125gNicmodelBasic25g,
+	"E3_50G_NicModel.Basic50G":     VnicShapeConfigVnicShapeCategoryE350gNicmodelBasic50g,
+	"E4_50G_NicModel.Basic50G":     VnicShapeConfigVnicShapeCategoryE450gNicmodelBasic50g,
+	"E5_50G_NicModel.Basic50G":     VnicShapeConfigVnicShapeCategoryE550gNicmodelBasic50g,
+	"E5_100G_NicModel.Basic100G":   VnicShapeConfigVnicShapeCategoryE5100gNicmodelBasic100g,
+	"A1_50G_NicModel.Basic50G":     VnicShapeConfigVnicShapeCategoryA150gNicmodelBasic50g,
+	"GNRC_200G_NicModel.Basic200G": VnicShapeConfigVnicShapeCategoryGnrc200gNicmodelBasic200g,
+	"GNRC_400G_NicModel.Basic400G": VnicShapeConfigVnicShapeCategoryGnrc400gNicmodelBasic400g,
 }
 
 var mappingVnicShapeConfigVnicShapeCategoryEnumLowerCase = map[string]VnicShapeConfigVnicShapeCategoryEnum{
-	"x5_10g_nicmodel.basic10g":   VnicShapeConfigVnicShapeCategoryX510gNicmodelBasic10g,
-	"x6_25g_nicmodel.basic25g":   VnicShapeConfigVnicShapeCategoryX625gNicmodelBasic25g,
-	"x7_25g_nicmodel.basic25g":   VnicShapeConfigVnicShapeCategoryX725gNicmodelBasic25g,
-	"x9_50g_nicmodel.basic50g":   VnicShapeConfigVnicShapeCategoryX950gNicmodelBasic50g,
-	"x9_100g_nicmodel.basic100g": VnicShapeConfigVnicShapeCategoryX9100gNicmodelBasic100g,
-	"e1_25g_nicmodel.basic25g":   VnicShapeConfigVnicShapeCategoryE125gNicmodelBasic25g,
-	"e3_50g_nicmodel.basic50g":   VnicShapeConfigVnicShapeCategoryE350gNicmodelBasic50g,
-	"e4_50g_nicmodel.basic50g":   VnicShapeConfigVnicShapeCategoryE450gNicmodelBasic50g,
-	"e5_50g_nicmodel.basic50g":   VnicShapeConfigVnicShapeCategoryE550gNicmodelBasic50g,
-	"e5_100g_nicmodel.basic100g": VnicShapeConfigVnicShapeCategoryE5100gNicmodelBasic100g,
-	"a1_50g_nicmodel.basic50g":   VnicShapeConfigVnicShapeCategoryA150gNicmodelBasic50g,
+	"x5_10g_nicmodel.basic10g":     VnicShapeConfigVnicShapeCategoryX510gNicmodelBasic10g,
+	"x6_25g_nicmodel.basic25g":     VnicShapeConfigVnicShapeCategoryX625gNicmodelBasic25g,
+	"x7_25g_nicmodel.basic25g":     VnicShapeConfigVnicShapeCategoryX725gNicmodelBasic25g,
+	"x9_50g_nicmodel.basic50g":     VnicShapeConfigVnicShapeCategoryX950gNicmodelBasic50g,
+	"x9_100g_nicmodel.basic100g":   VnicShapeConfigVnicShapeCategoryX9100gNicmodelBasic100g,
+	"e1_25g_nicmodel.basic25g":     VnicShapeConfigVnicShapeCategoryE125gNicmodelBasic25g,
+	"e3_50g_nicmodel.basic50g":     VnicShapeConfigVnicShapeCategoryE350gNicmodelBasic50g,
+	"e4_50g_nicmodel.basic50g":     VnicShapeConfigVnicShapeCategoryE450gNicmodelBasic50g,
+	"e5_50g_nicmodel.basic50g":     VnicShapeConfigVnicShapeCategoryE550gNicmodelBasic50g,
+	"e5_100g_nicmodel.basic100g":   VnicShapeConfigVnicShapeCategoryE5100gNicmodelBasic100g,
+	"a1_50g_nicmodel.basic50g":     VnicShapeConfigVnicShapeCategoryA150gNicmodelBasic50g,
+	"gnrc_200g_nicmodel.basic200g": VnicShapeConfigVnicShapeCategoryGnrc200gNicmodelBasic200g,
+	"gnrc_400g_nicmodel.basic400g": VnicShapeConfigVnicShapeCategoryGnrc400gNicmodelBasic400g,
 }
 
 // GetVnicShapeConfigVnicShapeCategoryEnumValues Enumerates the set of values for VnicShapeConfigVnicShapeCategoryEnum
@@ -125,6 +131,8 @@ func GetVnicShapeConfigVnicShapeCategoryEnumStringValues() []string {
 		"E5_50G_NicModel.Basic50G",
 		"E5_100G_NicModel.Basic100G",
 		"A1_50G_NicModel.Basic50G",
+		"GNRC_200G_NicModel.Basic200G",
+		"GNRC_400G_NicModel.Basic400G",
 	}
 }
 

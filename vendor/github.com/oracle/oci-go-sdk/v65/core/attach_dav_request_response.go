@@ -14,10 +14,10 @@ import (
 // AttachDavRequest wrapper for the AttachDav operation
 type AttachDavRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Direct Attached Vnic.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the direct attached VNIC.
 	DavId *string `mandatory:"true" contributesTo:"path" name:"davId"`
 
-	// Request to attach the Direct Attached Vnic for an instance.
+	// Request to attach the direct attached VNIC for an instance.
 	AttachDavDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

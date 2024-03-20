@@ -19,7 +19,7 @@ import (
 type DetachSoftwareSourcesFromManagedInstanceGroupDetails struct {
 
 	// The list of software sources OCIDs to be detached.
-	SoftwareSources []string `mandatory:"false" json:"softwareSources"`
+	SoftwareSources []string `mandatory:"true" json:"softwareSources"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }

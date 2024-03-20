@@ -169,6 +169,9 @@ type ExadataInfrastructure struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// If true, the infrastructure is using granular maintenance scheduling preference.
+	IsSchedulingPolicyAssociated *bool `mandatory:"false" json:"isSchedulingPolicyAssociated"`
 }
 
 func (m ExadataInfrastructure) String() string {

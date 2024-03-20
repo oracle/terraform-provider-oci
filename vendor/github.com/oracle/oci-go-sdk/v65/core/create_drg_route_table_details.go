@@ -48,6 +48,9 @@ type CreateDrgRouteTableDetails struct {
 	// If you want traffic to be routed using ECMP across your virtual circuits or IPSec tunnels to
 	// your on-premises networks, enable ECMP on the DRG route table.
 	IsEcmpEnabled *bool `mandatory:"false" json:"isEcmpEnabled"`
+
+	// Optional OCID supplied to create an internal resource backing a global resource.
+	Id *string `mandatory:"false" json:"id"`
 }
 
 func (m CreateDrgRouteTableDetails) String() string {

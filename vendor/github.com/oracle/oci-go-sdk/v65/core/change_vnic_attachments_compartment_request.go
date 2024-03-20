@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// ChangeVnicAttachmentsCompartmentRequest This structure is used when changing vnic attachment compartment.
+// ChangeVnicAttachmentsCompartmentRequest This structure is used when changing VNIC attachment compartment.
 type ChangeVnicAttachmentsCompartmentRequest struct {
 
 	// List of VNICs whose attachments need to move to the destination compartment

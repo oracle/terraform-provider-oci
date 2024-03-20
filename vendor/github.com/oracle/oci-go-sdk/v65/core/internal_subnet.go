@@ -97,7 +97,7 @@ type InternalSubnet struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal Hosted Zone the `DnsRecord` belongs to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal Hosted Zone the `DnsRecord` object belongs to.
 	InternalHostedZoneId *string `mandatory:"false" json:"internalHostedZoneId"`
 
 	// For an IPv6-enabled subnet, this is the IPv6 prefix for the subnet's IP address space.

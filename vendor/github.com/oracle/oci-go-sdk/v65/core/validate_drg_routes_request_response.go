@@ -18,7 +18,7 @@ type ValidateDrgRoutesRequest struct {
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The State of the DRG (Classical/Migrated/Upgraded) of the DRG.
+	// The State of the DRG (Classical, Migrated, or Upgraded) of the DRG.
 	DrgState DrgUpgradeStateStateEnum `mandatory:"false" contributesTo:"query" name:"drgState" omitEmpty:"true"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG.

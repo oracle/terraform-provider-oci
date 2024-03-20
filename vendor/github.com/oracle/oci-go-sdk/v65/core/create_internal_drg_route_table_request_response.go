@@ -14,7 +14,7 @@ import (
 // CreateInternalDrgRouteTableRequest wrapper for the CreateInternalDrgRouteTable operation
 type CreateInternalDrgRouteTableRequest struct {
 
-	// Internal Drg Route Table details.
+	// Internal DRG route table details.
 	CreateInternalDrgRouteTableDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

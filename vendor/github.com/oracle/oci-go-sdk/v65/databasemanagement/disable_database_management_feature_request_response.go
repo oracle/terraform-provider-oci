@@ -17,7 +17,7 @@ type DisableDatabaseManagementFeatureRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database.
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// The details required to disable Database Management Feature for a database.
+	// The details required to disable a Database Management feature for an Oracle cloud database.
 	DisableDatabaseManagementFeatureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

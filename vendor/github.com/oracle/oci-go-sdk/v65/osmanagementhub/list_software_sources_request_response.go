@@ -39,7 +39,7 @@ type ListSoftwareSourcesRequest struct {
 	AvailabilityAtOci []AvailabilityEnum `contributesTo:"query" name:"availabilityAtOci" omitEmpty:"true" collectionFormat:"multi"`
 
 	// The availabilities of the software source. Use this query parameter to filter across availabilities in different environments.
-	Availabilities []AvailabilityEnum `contributesTo:"query" name:"availabilities" omitEmpty:"true" collectionFormat:"multi"`
+	AvailabilityAnywhere []AvailabilityEnum `contributesTo:"query" name:"availabilityAnywhere" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Indicates whether the software source is mandatory in an autonomous linux environment.
 	IsMandatoryForAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isMandatoryForAutonomousLinux"`
@@ -145,9 +145,9 @@ func (request ListSoftwareSourcesRequest) ValidateEnumValue() (bool, error) {
 		}
 	}
 
-	for _, val := range request.Availabilities {
+	for _, val := range request.AvailabilityAnywhere {
 		if _, ok := GetMappingAvailabilityEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availabilities: %s. Supported values are: %s.", val, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAnywhere: %s. Supported values are: %s.", val, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 		}
 	}
 

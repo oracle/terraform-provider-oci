@@ -18,10 +18,10 @@ import (
 	"strings"
 )
 
-// MacsConnectorDetails The details required to connect to an cloud Database.
+// MacsConnectorDetails The management agent details required to connect to an Oracle cloud Database.
 type MacsConnectorDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the managementAgent.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the management agent.
 	ManagementAgentId *string `mandatory:"true" json:"managementAgentId"`
 }
 

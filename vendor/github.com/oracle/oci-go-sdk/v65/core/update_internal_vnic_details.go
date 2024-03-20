@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// UpdateInternalVnicDetails This structure is used when updating vnic for internal clients.
+// UpdateInternalVnicDetails This structure is used when updating VNIC for internal clients.
 // For more information about VNICs, see
 // Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 type UpdateInternalVnicDetails struct {
@@ -72,7 +72,7 @@ type UpdateInternalVnicDetails struct {
 	// Must be unique across all VNICs in the subnet and comply with
 	// RFC 952 (https://tools.ietf.org/html/rfc952) and
 	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
-	// The value appears in the Vnic object and also the
+	// The value appears in the `Vnic` object and also the
 	// PrivateIp object returned by
 	// ListPrivateIps and
 	// GetPrivateIp.

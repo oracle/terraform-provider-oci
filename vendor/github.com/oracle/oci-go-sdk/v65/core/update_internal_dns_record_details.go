@@ -21,14 +21,14 @@ import (
 	"strings"
 )
 
-// UpdateInternalDnsRecordDetails This structure is used when updating DnsRecord for internal clients.
+// UpdateInternalDnsRecordDetails This structure is used when updating a `DnsRecord` object for internal clients.
 type UpdateInternalDnsRecordDetails struct {
 
-	// Time to live value for the DnsRecord, according to RFC 1035 (https://tools.ietf.org/html/rfc1035).
+	// Time to live value for the `DnsRecord`, according to RFC 1035 (https://tools.ietf.org/html/rfc1035).
 	// Defaults to 86400.
 	Ttl *int `mandatory:"false" json:"ttl"`
 
-	// Value for the DnsRecord.
+	// Value for the `DnsRecord`.
 	// -*A:* One or more IPv4 addresses. Enter addresses on separate lines.
 	Value *string `mandatory:"false" json:"value"`
 }

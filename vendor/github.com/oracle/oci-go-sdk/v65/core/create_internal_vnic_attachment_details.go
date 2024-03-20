@@ -35,10 +35,10 @@ type CreateInternalVnicAttachmentDetails struct {
 	// available IP address within the subnet's CIDR. If you don't specify a
 	// value, Oracle automatically assigns a private IP address from the subnet.
 	// This is the VNIC's *primary* private IP address. The value appears in
-	// the Vnic object and also the
-	// PrivateIp object returned by
-	// ListPrivateIps and
-	// GetPrivateIp.
+	// the `Vnic` object and also the
+	// `PrivateIp` object returned by
+	// `ListPrivateIps` and
+	// `GetPrivateIp`.
 	// Example: `10.0.3.3`
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
@@ -49,16 +49,16 @@ type CreateInternalVnicAttachmentDetails struct {
 	// Ambassador SVNICs under the same site/gateway.
 	GroupId *string `mandatory:"false" json:"groupId"`
 
-	// The compute instance id of the resource pool to be used for the vnic
+	// The compute instance id of the resource pool to be used for the VNIC.
 	InstanceIdForResourcePool *string `mandatory:"false" json:"instanceIdForResourcePool"`
 
 	// The availability domain of the VNIC attachment
 	InternalAvailabilityDomain *string `mandatory:"false" json:"internalAvailabilityDomain"`
 
-	// The overlay MAC address of the instance
+	// The overlay MAC address of the instance.
 	MacAddress *string `mandatory:"false" json:"macAddress"`
 
-	// index of NIC that VNIC is attaching to (OS boot order)
+	// Index of NIC that VNIC is attaching to (OS boot order).
 	NicIndex *int `mandatory:"false" json:"nicIndex"`
 
 	// The tag used internally to identify the sending VNIC. It can be specified in scenarios where a specific
@@ -75,10 +75,10 @@ type CreateInternalVnicAttachmentDetails struct {
 	// The IP address of the instance in the substrate.
 	SubstrateIp *string `mandatory:"false" json:"substrateIp"`
 
-	// Indicates whether vlanTag 0 can be assigned to this vnic or not.
+	// Indicates whether vlanTag 0 can be assigned to this VNIC or not.
 	IsSkipVlanTag0 *bool `mandatory:"false" json:"isSkipVlanTag0"`
 
-	// Specifies the shard to attach the VNIC to
+	// Specifies the shard to attach the VNIC to.
 	ShardId *string `mandatory:"false" json:"shardId"`
 
 	// This parameter captures if a VNIC needs to be attached with latency sensitivity condition.

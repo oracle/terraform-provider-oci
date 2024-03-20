@@ -102,6 +102,10 @@ type DeletePrivateEndpointResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
+	// Unique Oracle-assigned identifier for the asynchronous request. If you need to contact Oracle about a
+	// particular request, provide this request ID.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
+
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
 	OpcClientRequestId *string `presentIn:"header" name:"opc-client-request-id"`
 

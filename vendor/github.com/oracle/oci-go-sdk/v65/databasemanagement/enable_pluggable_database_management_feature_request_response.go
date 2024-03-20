@@ -14,10 +14,10 @@ import (
 // EnablePluggableDatabaseManagementFeatureRequest wrapper for the EnablePluggableDatabaseManagementFeature operation
 type EnablePluggableDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the pluggable Database.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle cloud pluggable database.
 	PluggableDatabaseId *string `mandatory:"true" contributesTo:"path" name:"pluggableDatabaseId"`
 
-	// The details required to enable pluggable Database Management Feature for a database.
+	// The details required to enable a Database Management feature for an Oracle cloud pluggable database.
 	EnablePluggableDatabaseManagementFeatureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

@@ -19,7 +19,7 @@ import (
 type InstallWindowsUpdatesOnManagedInstanceGroupDetails struct {
 
 	// The type(s) of Windows Updates to be applied.
-	WindowsUpdateTypes []WindowsUpdateTypesEnum `mandatory:"false" json:"windowsUpdateTypes,omitempty"`
+	WindowsUpdateTypes []WindowsUpdateTypesEnum `mandatory:"true" json:"windowsUpdateTypes"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }
@@ -33,7 +33,6 @@ func (m InstallWindowsUpdatesOnManagedInstanceGroupDetails) String() string {
 // Not recommended for calling this function directly
 func (m InstallWindowsUpdatesOnManagedInstanceGroupDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
 	for _, val := range m.WindowsUpdateTypes {
 		if _, ok := GetMappingWindowsUpdateTypesEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WindowsUpdateTypes: %s. Supported values are: %s.", val, strings.Join(GetWindowsUpdateTypesEnumStringValues(), ",")))

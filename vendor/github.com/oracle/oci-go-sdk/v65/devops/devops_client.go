@@ -1389,6 +1389,65 @@ func (client DevopsClient) createRepository(ctx context.Context, request common.
 	return response, err
 }
 
+// CreateRepositoryBackupSettings Create a Repository backup configuration.
+// A default retry strategy applies to this operation CreateRepositoryBackupSettings()
+func (client DevopsClient) CreateRepositoryBackupSettings(ctx context.Context, request CreateRepositoryBackupSettingsRequest) (response CreateRepositoryBackupSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRepositoryBackupSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRepositoryBackupSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRepositoryBackupSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRepositoryBackupSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRepositoryBackupSettingsResponse")
+	}
+	return
+}
+
+// createRepositoryBackupSettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) createRepositoryBackupSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryBackupSettings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRepositoryBackupSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackupSettings/CreateRepositoryBackupSettings"
+		err = common.PostProcessServiceError(err, "Devops", "CreateRepositoryBackupSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateRepositoryPrivateAccess Creates a new RepositoryPrivateAccess.
 // A default retry strategy applies to this operation CreateRepositoryPrivateAccess()
 func (client DevopsClient) CreateRepositoryPrivateAccess(ctx context.Context, request CreateRepositoryPrivateAccessRequest) (response CreateRepositoryPrivateAccessResponse, err error) {
@@ -2438,6 +2497,114 @@ func (client DevopsClient) deleteRepository(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/DeleteRepository"
 		err = common.PostProcessServiceError(err, "Devops", "DeleteRepository", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteRepositoryBackup Deletes a RepositoryBackup resource by identifier
+// A default retry strategy applies to this operation DeleteRepositoryBackup()
+func (client DevopsClient) DeleteRepositoryBackup(ctx context.Context, request DeleteRepositoryBackupRequest) (response DeleteRepositoryBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRepositoryBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRepositoryBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRepositoryBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRepositoryBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRepositoryBackupResponse")
+	}
+	return
+}
+
+// deleteRepositoryBackup implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) deleteRepositoryBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/repositoryBackups/{repositoryBackupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRepositoryBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackup/DeleteRepositoryBackup"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteRepositoryBackup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteRepositoryBackupSettings Delete Repository backup configuration given a backup config identifier.
+// A default retry strategy applies to this operation DeleteRepositoryBackupSettings()
+func (client DevopsClient) DeleteRepositoryBackupSettings(ctx context.Context, request DeleteRepositoryBackupSettingsRequest) (response DeleteRepositoryBackupSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRepositoryBackupSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRepositoryBackupSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRepositoryBackupSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRepositoryBackupSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRepositoryBackupSettingsResponse")
+	}
+	return
+}
+
+// deleteRepositoryBackupSettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) deleteRepositoryBackupSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/repositoryBackupSettings/{repositoryBackupSettingsId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRepositoryBackupSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackupSettings/DeleteRepositoryBackupSettings"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteRepositoryBackupSettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -4168,6 +4335,114 @@ func (client DevopsClient) getRepositoryArchiveContent(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/GetRepositoryArchiveContent"
 		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryArchiveContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRepositoryBackup Returns the metadata of a repository backup given an identifier.
+// A default retry strategy applies to this operation GetRepositoryBackup()
+func (client DevopsClient) GetRepositoryBackup(ctx context.Context, request GetRepositoryBackupRequest) (response GetRepositoryBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRepositoryBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRepositoryBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRepositoryBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRepositoryBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRepositoryBackupResponse")
+	}
+	return
+}
+
+// getRepositoryBackup implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) getRepositoryBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryBackups/{repositoryBackupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRepositoryBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackup/GetRepositoryBackup"
+		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryBackup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRepositoryBackupSettings Retrieves Repository backup configuration details for a backup config identifier.
+// A default retry strategy applies to this operation GetRepositoryBackupSettings()
+func (client DevopsClient) GetRepositoryBackupSettings(ctx context.Context, request GetRepositoryBackupSettingsRequest) (response GetRepositoryBackupSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRepositoryBackupSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRepositoryBackupSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRepositoryBackupSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRepositoryBackupSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRepositoryBackupSettingsResponse")
+	}
+	return
+}
+
+// getRepositoryBackupSettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) getRepositoryBackupSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryBackupSettings/{repositoryBackupSettingsId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRepositoryBackupSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackupSettings/GetRepositoryBackupSettings"
+		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryBackupSettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -6173,6 +6448,114 @@ func (client DevopsClient) listRepositories(ctx context.Context, request common.
 	return response, err
 }
 
+// ListRepositoryBackupSettings List Repository backup Settings in a compartment.
+// A default retry strategy applies to this operation ListRepositoryBackupSettings()
+func (client DevopsClient) ListRepositoryBackupSettings(ctx context.Context, request ListRepositoryBackupSettingsRequest) (response ListRepositoryBackupSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRepositoryBackupSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRepositoryBackupSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRepositoryBackupSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRepositoryBackupSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryBackupSettingsResponse")
+	}
+	return
+}
+
+// listRepositoryBackupSettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listRepositoryBackupSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryBackupSettings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRepositoryBackupSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackupSettings/ListRepositoryBackupSettings"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryBackupSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRepositoryBackups Returns a list of backups available for the repository.
+// A default retry strategy applies to this operation ListRepositoryBackups()
+func (client DevopsClient) ListRepositoryBackups(ctx context.Context, request ListRepositoryBackupsRequest) (response ListRepositoryBackupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRepositoryBackups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRepositoryBackupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRepositoryBackupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRepositoryBackupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryBackupsResponse")
+	}
+	return
+}
+
+// listRepositoryBackups implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listRepositoryBackups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryBackups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRepositoryBackupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackup/ListRepositoryBackups"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryBackups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListRepositoryBuildRunSnapshots Returns a list of build run snapshots for a given commit under the repository.
 // A default retry strategy applies to this operation ListRepositoryBuildRunSnapshots()
 func (client DevopsClient) ListRepositoryBuildRunSnapshots(ctx context.Context, request ListRepositoryBuildRunSnapshotsRequest) (response ListRepositoryBuildRunSnapshotsResponse, err error) {
@@ -6883,6 +7266,65 @@ func (client DevopsClient) reopenPullRequest(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/PullRequest/ReopenPullRequest"
 		err = common.PostProcessServiceError(err, "Devops", "ReopenPullRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RestoreRepositoryBackup Restore a RepositoryBackup
+// A default retry strategy applies to this operation RestoreRepositoryBackup()
+func (client DevopsClient) RestoreRepositoryBackup(ctx context.Context, request RestoreRepositoryBackupRequest) (response RestoreRepositoryBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restoreRepositoryBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestoreRepositoryBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestoreRepositoryBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreRepositoryBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreRepositoryBackupResponse")
+	}
+	return
+}
+
+// restoreRepositoryBackup implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) restoreRepositoryBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryBackups/{repositoryBackupId}/actions/restore", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestoreRepositoryBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackup/RestoreRepositoryBackup"
+		err = common.PostProcessServiceError(err, "Devops", "RestoreRepositoryBackup", apiReferenceLink)
 		return response, err
 	}
 
@@ -8144,6 +8586,114 @@ func (client DevopsClient) updateRepository(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/UpdateRepository"
 		err = common.PostProcessServiceError(err, "Devops", "UpdateRepository", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRepositoryBackup Update the tags of repository backup given an identifier.
+// A default retry strategy applies to this operation UpdateRepositoryBackup()
+func (client DevopsClient) UpdateRepositoryBackup(ctx context.Context, request UpdateRepositoryBackupRequest) (response UpdateRepositoryBackupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRepositoryBackup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRepositoryBackupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRepositoryBackupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRepositoryBackupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRepositoryBackupResponse")
+	}
+	return
+}
+
+// updateRepositoryBackup implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) updateRepositoryBackup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/repositoryBackups/{repositoryBackupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRepositoryBackupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackup/UpdateRepositoryBackup"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositoryBackup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRepositoryBackupSettings Update a Repository backup configuration.
+// A default retry strategy applies to this operation UpdateRepositoryBackupSettings()
+func (client DevopsClient) UpdateRepositoryBackupSettings(ctx context.Context, request UpdateRepositoryBackupSettingsRequest) (response UpdateRepositoryBackupSettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRepositoryBackupSettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRepositoryBackupSettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRepositoryBackupSettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRepositoryBackupSettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRepositoryBackupSettingsResponse")
+	}
+	return
+}
+
+// updateRepositoryBackupSettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) updateRepositoryBackupSettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/repositoryBackupSettings/{repositoryBackupSettingsId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRepositoryBackupSettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackupSettings/UpdateRepositoryBackupSettings"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositoryBackupSettings", apiReferenceLink)
 		return response, err
 	}
 

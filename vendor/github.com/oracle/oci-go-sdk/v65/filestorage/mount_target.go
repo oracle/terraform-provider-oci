@@ -59,8 +59,8 @@ type MountTarget struct {
 	// mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
 
-	// The OCIDs of the private IPv6 addresses associated with this mount target.
-	MtIpv6Ids []string `mandatory:"false" json:"mtIpv6Ids"`
+	// The OCIDs of the IPv6 addresses associated with this mount target.
+	MountTargetIpv6Ids []string `mandatory:"false" json:"mountTargetIpv6Ids"`
 
 	// The method used to map a Unix UID to secondary groups. If NONE, the mount target will not use the Unix UID for ID mapping.
 	IdmapType MountTargetIdmapTypeEnum `mandatory:"false" json:"idmapType,omitempty"`

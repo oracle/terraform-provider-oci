@@ -4659,7 +4659,7 @@ func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, r
 
 // UpdatePrivateEndpoint Performs a partial or full update of a user-defined data associated with the Private Endpoint.
 // Use UpdatePrivateEndpoint to move a Private Endpoint from one compartment to another within the same tenancy. Supply the compartmentID
-// of the compartment that you want to move the Private Endpoint to. Or use it to update the name, subnetId, endpointFqdn or privateEndpointIp of the Private Endpoint.
+// of the compartment that you want to move the Private Endpoint to. Or use it to update the name, subnetId, endpointFqdn or privateEndpointIp or accessTargets of the Private Endpoint.
 // For more information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // This API follows replace semantics (rather than merge semantics). That means if the body provides values for
 // parameters and the resource has exisiting ones, this operation will replace those existing values.

@@ -14,7 +14,7 @@ import (
 // GetDrgMigrationCountRegionRequest wrapper for the GetDrgMigrationCountRegion operation
 type GetDrgMigrationCountRegionRequest struct {
 
-	// The airport code of the region.
+	// The region key of the region.
 	RegionId *string `mandatory:"true" contributesTo:"path" name:"regionId"`
 
 	// Unique identifier for the request.

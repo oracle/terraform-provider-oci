@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ModifyPluggableDatabaseManagementFeatureDetails The details of the cloud database feature.
+// ModifyPluggableDatabaseManagementFeatureDetails The details required to modify a Database Management feature for an Oracle cloud pluggable database.
 type ModifyPluggableDatabaseManagementFeatureDetails struct {
 	FeatureDetails DatabaseFeatureDetails `mandatory:"true" json:"featureDetails"`
 }

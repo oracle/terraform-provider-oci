@@ -54,8 +54,8 @@ type MountTargetSummary struct {
 	// this mount target.
 	ExportSetId *string `mandatory:"false" json:"exportSetId"`
 
-	// The OCIDs of the private IPv6 addresses associated with this mount target.
-	MtIpv6Ids []string `mandatory:"false" json:"mtIpv6Ids"`
+	// The OCIDs of the IPv6 addresses associated with this mount target.
+	MountTargetIpv6Ids []string `mandatory:"false" json:"mountTargetIpv6Ids"`
 
 	// A list of Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with this mount target.
 	// A maximum of 5 is allowed.

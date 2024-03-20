@@ -14,10 +14,10 @@ import (
 // EnableExternalPluggableDatabaseManagementFeatureRequest wrapper for the EnableExternalPluggableDatabaseManagementFeature operation
 type EnableExternalPluggableDatabaseManagementFeatureRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external pluggable Database.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external pluggable database.
 	ExternalPluggableDatabaseId *string `mandatory:"true" contributesTo:"path" name:"externalPluggableDatabaseId"`
 
-	// The details required to enable Database Management Feature for an external pluggable Database.
+	// The details required to enable a Database Management feature for an external pluggable database.
 	EnableExternalPluggableDatabaseManagementFeatureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

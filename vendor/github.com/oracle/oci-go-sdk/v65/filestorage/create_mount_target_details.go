@@ -54,7 +54,7 @@ type CreateMountTargetDetails struct {
 	// Ipv6  (https://docs.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6) resource
 	// To update the `hostnameLabel`, use `GetMountTarget` to obtain the
 	// OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target's
-	// private IPv6s (`mtIpv6Ids`). Then, you can use
+	// IPv6 address (`mountTargetIpv6Ids`). Then, you can use
 	// UpdateIpv6 (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Ipv6/UpdateIpv6)
 	// to update the `hostnameLabel` value.
 	// For more information, see
@@ -65,13 +65,6 @@ type CreateMountTargetDetails struct {
 	// A private IP address of your choice. Must be an available IP address within
 	// the subnet's CIDR. If you don't specify a value, Oracle automatically
 	// assigns a private IP address from the subnet.
-	// Note: This attribute value is stored in the PrivateIp (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/) resource,
-	// not in the `mountTarget` resource.
-	// To update the `ipAddress`, use `GetMountTarget` to obtain the
-	// OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the mount target's
-	// private IPs (`privateIpIds`). Then, you can use
-	// UpdatePrivateIp (https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/PrivateIp/UpdatePrivateIp)
-	// to update the `ipAddress` value.
 	// Example: `10.0.3.3`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 

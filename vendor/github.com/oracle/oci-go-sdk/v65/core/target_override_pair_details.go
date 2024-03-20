@@ -25,12 +25,16 @@ import (
 // In order to support ADB-S colocation, ADB-S traffic via SGW/PAGW needs to be routed to
 // dedicated fleets. Thus the existing default routes will be overridden with the overrideTargets
 // provided here by SGW/PAGW at the time of GGW creation.
+// When overrideEcmpTargets are provided by SGW/PAGW/NATGW at the time of GGW creation, destinations in InternalEcmpGroup
+// takes precedence over default routes (including routes for colocation in case of SGW and PAGW)
 type TargetOverridePairDetails struct {
 
 	// The destination CIDRs that needs to be overridden. The rule's `destination` is an IP address range in CIDR notation.
 	OverrideDestination *string `mandatory:"false" json:"overrideDestination"`
 
 	OverrideTarget *OverrideTargetDetails `mandatory:"false" json:"overrideTarget"`
+
+	OverrideEcmpTarget *OverrideEcmpTargetDetails `mandatory:"false" json:"overrideEcmpTarget"`
 }
 
 func (m TargetOverridePairDetails) String() string {

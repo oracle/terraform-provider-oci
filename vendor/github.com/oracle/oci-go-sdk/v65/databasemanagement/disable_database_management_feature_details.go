@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// DisableDatabaseManagementFeatureDetails The details of the database feature.
+// DisableDatabaseManagementFeatureDetails The details required to disable Database Management features for an Oracle cloud database.
 type DisableDatabaseManagementFeatureDetails struct {
 
-	// The name of the database management feature
+	// The name of the Database Management feature.
 	Feature DbManagementFeatureEnum `mandatory:"true" json:"feature"`
 }
 

@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// CreateInternalDrgRouteTableDetails Details to create and update internal Drg route table. Partitioned DRG Route Tables are supported when specifying the sharding information.
+// CreateInternalDrgRouteTableDetails Details to create and update internal DRG route table. Partitioned DRG Route Tables are supported when specifying the sharding information.
 type CreateInternalDrgRouteTableDetails struct {
 
-	// The label of the drg attachment.
+	// The label of the DRG attachment.
 	DrgAttachmentLabel *int64 `mandatory:"true" json:"drgAttachmentLabel"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG which contains this route table.
@@ -33,16 +33,16 @@ type CreateInternalDrgRouteTableDetails struct {
 	// The collection of rules which will be used by VCN Dataplane to route DRG traffic.
 	Rules []InternalDrgRouteRule `mandatory:"true" json:"rules"`
 
-	// The sequence number for the DRG Route Table update (version of the DRG Route Table). Only supported for partitioned route tables.
+	// The sequence number for the DRG route table update (version of the DRG route table). Only supported for partitioned route tables.
 	SequenceNumber *int64 `mandatory:"false" json:"sequenceNumber"`
 
-	// The total number of shards/partitions for the specified DRG Route Table. Only supported for partitioned route tables.
+	// The total number of shards/partitions for the specified DRG route table. Only supported for partitioned route tables.
 	ShardsTotal *int64 `mandatory:"false" json:"shardsTotal"`
 
-	// The shard number for the DRG Route Table shard. Only supported for partitioned route tables.
+	// The shard number for the DRG route table shard. Only supported for partitioned route tables.
 	ShardId *int64 `mandatory:"false" json:"shardId"`
 
-	// The DRG Route Table partitions's physical availability domain. This attribute will be null if this is a non-partitioned DRG Route Table.
+	// The DRG route table partitions's physical availability domain. This attribute will be null if this is a non-partitioned DRG route table.
 	// Example: `PHX-AD-1`
 	InternalAvailabilityDomain *string `mandatory:"false" json:"internalAvailabilityDomain"`
 }

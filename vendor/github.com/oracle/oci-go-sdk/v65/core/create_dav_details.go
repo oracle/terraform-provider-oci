@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// CreateDavDetails Details to create a Direct Attached Vnic.
+// CreateDavDetails Details to create a direct attached VNIC.
 type CreateDavDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Direct Attached Vnic's compartment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the direct attached VNIC's compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Index of NIC for Direct Attached Vnic.
+	// Index of NIC for direct attached VNIC.
 	NicIndex *int `mandatory:"true" json:"nicIndex"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -38,8 +38,8 @@ type CreateDavDetails struct {
 	// vcnxAttachmentIds property is not defined.
 	RemoteEndpointSubstrateIp *string `mandatory:"false" json:"remoteEndpointSubstrateIp"`
 
-	// The label type for Direct Attached Vnic. This is used to determine the
-	// label forwarding to be used by the Direct Attached Vnic.
+	// The label type for a direct attached VNIC. This is used to determine the
+	// label forwarding to be used by the direct attached VNIC.
 	LabelType CreateDavDetailsLabelTypeEnum `mandatory:"false" json:"labelType,omitempty"`
 
 	// List of VCNx Attachments to a DRG. This is a required property

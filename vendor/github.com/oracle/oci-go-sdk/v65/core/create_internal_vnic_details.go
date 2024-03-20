@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// CreateInternalVnicDetails This structure is used when creating vnic for internal clients.
+// CreateInternalVnicDetails This structure is used when creating VNIC for internal clients.
 // For more information about VNICs, see
 // Virtual Network Interface Cards (VNICs) (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 type CreateInternalVnicDetails struct {
@@ -61,7 +61,7 @@ type CreateInternalVnicDetails struct {
 	// Contact sic_vcn_us_grp@oracle.com before setting this flag.
 	// Indicates that the Cavium should not enforce Internet ingress/egress throttling.
 	// Defaults to `false`, in which case we do enforce that throttling.
-	// At least one of subnetId OR the vlanId are required
+	// At least one of `subnetId` OR the `vlanId` are required
 	BypassInternetThrottle *bool `mandatory:"false" json:"bypassInternetThrottle"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -84,15 +84,15 @@ type CreateInternalVnicDetails struct {
 	// Must be unique across all VNICs in the subnet and comply with
 	// RFC 952 (https://tools.ietf.org/html/rfc952) and
 	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
-	// The value appears in the Vnic object and also the
-	// PrivateIp object returned by
-	// ListPrivateIps and
-	// GetPrivateIp.
+	// The value appears in the `Vnic` object and also the
+	// `PrivateIp` object returned by
+	// `ListPrivateIps` and
+	// `GetPrivateIp`.
 	// For more information, see
 	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// When launching an instance, use this `hostnameLabel` instead
 	// of the deprecated `hostnameLabel` in
-	// LaunchInstanceDetails.
+	// `LaunchInstanceDetails`.
 	// If you provide both, the values must match.
 	// Example: `bminstance1`
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
@@ -122,7 +122,7 @@ type CreateInternalVnicDetails struct {
 	// Indicates if the VNIC is primary which means it cannot be detached.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 
-	// Indicates if the VNIC is a service vnic.
+	// Indicates if the VNIC is a service VNIC.
 	IsServiceVnic *bool `mandatory:"false" json:"isServiceVnic"`
 
 	// Only provided when no publicIpPoolId is specified.
@@ -136,7 +136,7 @@ type CreateInternalVnicDetails struct {
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// ID of the entity owning the VNIC. This is passed in the create vnic call.
+	// ID of the entity owning the VNIC. This is passed in the create VNIC call.
 	// If none is passed and if there is an attachment then the attached instanceId is the ownerId.
 	OwnerId *string `mandatory:"false" json:"ownerId"`
 
@@ -144,10 +144,10 @@ type CreateInternalVnicDetails struct {
 	// available IP address within the subnet's CIDR. If you don't specify a
 	// value, Oracle automatically assigns a private IP address from the subnet.
 	// This is the VNIC's *primary* private IP address. The value appears in
-	// the Vnic object and also the
-	// PrivateIp object returned by
-	// ListPrivateIps and
-	// GetPrivateIp.
+	// the `Vnic` object and also the
+	// `PrivateIp` object returned by
+	// `ListPrivateIps` and
+	// `GetPrivateIp`.
 	// Example: `10.0.3.3`
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 

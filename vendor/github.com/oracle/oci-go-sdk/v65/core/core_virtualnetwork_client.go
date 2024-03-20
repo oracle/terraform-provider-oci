@@ -828,9 +828,9 @@ func (client VirtualNetworkClient) advertiseByoipRange(ctx context.Context, requ
 	return response, err
 }
 
-// AttachDav Attach the Direct Attached Vnic to requested instance. Only after a DAV
-// has been attached, the respective MicroVnic mappings will get generated for
-// VCN DP tto consume.
+// AttachDav Attach the direct attached VNIC (DAV) to requested instance. Only after a DAV
+// has been attached will the respective MicroVnic mappings get generated for
+// VCN DP to consume.
 func (client VirtualNetworkClient) AttachDav(ctx context.Context, request AttachDavRequest) (response AttachDavResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2119,6 +2119,65 @@ func (client VirtualNetworkClient) changeInternalDrgCompartment(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrg/ChangeInternalDrgCompartment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeInternalDrgCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeInternalEcmpGroupCompartment Moves an Internal Ecmp Group into a different compartment within the same tenancy. For information | about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes). When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeInternalEcmpGroupCompartment()
+func (client VirtualNetworkClient) ChangeInternalEcmpGroupCompartment(ctx context.Context, request ChangeInternalEcmpGroupCompartmentRequest) (response ChangeInternalEcmpGroupCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeInternalEcmpGroupCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeInternalEcmpGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeInternalEcmpGroupCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeInternalEcmpGroupCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeInternalEcmpGroupCompartmentResponse")
+	}
+	return
+}
+
+// changeInternalEcmpGroupCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeInternalEcmpGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalEcmpGroups/{internalEcmpGroupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeInternalEcmpGroupCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalEcmpGroup/ChangeInternalEcmpGroupCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeInternalEcmpGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -4314,7 +4373,7 @@ func (client VirtualNetworkClient) createDatapathMessage(ctx context.Context, re
 	return response, err
 }
 
-// CreateDav Request to create a Direct Attached Vnic.
+// CreateDav Request to create a direct attached VNIC.
 func (client VirtualNetworkClient) CreateDav(ctx context.Context, request CreateDavRequest) (response CreateDavResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5008,7 +5067,7 @@ func (client VirtualNetworkClient) createInternalByoipv6Range(ctx context.Contex
 	return response, err
 }
 
-// CreateInternalDnsRecord Creates a new Dns Record.
+// CreateInternalDnsRecord Creates a new DNS record.
 func (client VirtualNetworkClient) CreateInternalDnsRecord(ctx context.Context, request CreateInternalDnsRecordRequest) (response CreateInternalDnsRecordResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5257,6 +5316,65 @@ func (client VirtualNetworkClient) createInternalDrgRouteTable(ctx context.Conte
 	return response, err
 }
 
+// CreateInternalEcmpGroup Creates a new internal ecmp group
+// A default retry strategy applies to this operation CreateInternalEcmpGroup()
+func (client VirtualNetworkClient) CreateInternalEcmpGroup(ctx context.Context, request CreateInternalEcmpGroupRequest) (response CreateInternalEcmpGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalEcmpGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalEcmpGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalEcmpGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalEcmpGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalEcmpGroupResponse")
+	}
+	return
+}
+
+// createInternalEcmpGroup implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalEcmpGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalEcmpGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateInternalEcmpGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalEcmpGroup/CreateInternalEcmpGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalEcmpGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateInternalFloatingIp Create a floating IP
 func (client VirtualNetworkClient) CreateInternalFloatingIp(ctx context.Context, request CreateInternalFloatingIpRequest) (response CreateInternalFloatingIpResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5373,7 +5491,7 @@ func (client VirtualNetworkClient) createInternalGenericGateway(ctx context.Cont
 	return response, err
 }
 
-// CreateInternalPrivateIp Create a Internal private IP.
+// CreateInternalPrivateIp Create an internal private IP.
 func (client VirtualNetworkClient) CreateInternalPrivateIp(ctx context.Context, request CreateInternalPrivateIpRequest) (response CreateInternalPrivateIpResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5614,64 +5732,6 @@ func (client VirtualNetworkClient) createInternalVnicAttachment(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/CreateInternalVnicAttachment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalVnicAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateInternalZprAttachment Creates an Internal ZPR attachment that can be attached to a compartment.
-func (client VirtualNetworkClient) CreateInternalZprAttachment(ctx context.Context, request CreateInternalZprAttachmentRequest) (response CreateInternalZprAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createInternalZprAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateInternalZprAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateInternalZprAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalZprAttachmentResponse")
-	}
-	return
-}
-
-// createInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) createInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/zprAttachments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateInternalZprAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/CreateInternalZprAttachment"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalZprAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -7949,7 +8009,7 @@ func (client VirtualNetworkClient) deleteDatapathMessage(ctx context.Context, re
 	return response, err
 }
 
-// DeleteDav Deletes a Direct Attached Vnic.
+// DeleteDav Deletes a direct attached VNIC.
 func (client VirtualNetworkClient) DeleteDav(ctx context.Context, request DeleteDavRequest) (response DeleteDavResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8555,7 +8615,7 @@ func (client VirtualNetworkClient) deleteInternalByoipv6Range(ctx context.Contex
 	return response, err
 }
 
-// DeleteInternalDnsRecord Deletes a DnsRecord.
+// DeleteInternalDnsRecord Deletes a `DnsRecord`.
 func (client VirtualNetworkClient) DeleteInternalDnsRecord(ctx context.Context, request DeleteInternalDnsRecordRequest) (response DeleteInternalDnsRecordResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8763,6 +8823,60 @@ func (client VirtualNetworkClient) deleteInternalDrgRouteTable(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgRouteTable/DeleteInternalDrgRouteTable"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalDrgRouteTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteInternalEcmpGroup Deletes an internal ecmp group.
+// A default retry strategy applies to this operation DeleteInternalEcmpGroup()
+func (client VirtualNetworkClient) DeleteInternalEcmpGroup(ctx context.Context, request DeleteInternalEcmpGroupRequest) (response DeleteInternalEcmpGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalEcmpGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalEcmpGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalEcmpGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalEcmpGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalEcmpGroupResponse")
+	}
+	return
+}
+
+// deleteInternalEcmpGroup implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalEcmpGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalEcmpGroups/{internalEcmpGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteInternalEcmpGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalEcmpGroup/DeleteInternalEcmpGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalEcmpGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -8999,7 +9113,7 @@ func (client VirtualNetworkClient) deleteInternalPublicIp(ctx context.Context, r
 	return response, err
 }
 
-// DeleteInternalVnic Deletes specified internal Vnic
+// DeleteInternalVnic Deletes specified internal VNIC
 func (client VirtualNetworkClient) DeleteInternalVnic(ctx context.Context, request DeleteInternalVnicRequest) (response DeleteInternalVnicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -9098,59 +9212,6 @@ func (client VirtualNetworkClient) deleteInternalVnicAttachment(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/DeleteInternalVnicAttachment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalVnicAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeleteInternalZprAttachment Detaches a ZPR Attachment from a resource.
-func (client VirtualNetworkClient) DeleteInternalZprAttachment(ctx context.Context, request DeleteInternalZprAttachmentRequest) (response DeleteInternalZprAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteInternalZprAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteInternalZprAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteInternalZprAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalZprAttachmentResponse")
-	}
-	return
-}
-
-// deleteInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) deleteInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteInternalZprAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/DeleteInternalZprAttachment"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalZprAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -10599,7 +10660,7 @@ func (client VirtualNetworkClient) deleteVtap(ctx context.Context, request commo
 	return response, err
 }
 
-// DetachDav Detach the Direct Attached Vnic from instance.
+// DetachDav Detach the direct attached VNIC from instance.
 func (client VirtualNetworkClient) DetachDav(ctx context.Context, request DetachDavRequest) (response DetachDavResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10721,7 +10782,7 @@ func (client VirtualNetworkClient) detachServiceId(ctx context.Context, request 
 }
 
 // DetachServiceVnicFromDestinationShard Detaches service VNIC, getting live migrated, from destination shard. This API is called by dataplane
-// as part of aborting an in-progress service vnic live migration.
+// as part of aborting an in-progress service VNIC live migration.
 // **Note** that this API cannot be called after API call to route traffic to destination shard.
 func (client VirtualNetworkClient) DetachServiceVnicFromDestinationShard(ctx context.Context, request DetachServiceVnicFromDestinationShardRequest) (response DetachServiceVnicFromDestinationShardResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13067,7 +13128,7 @@ func (client VirtualNetworkClient) getDatapathMessage(ctx context.Context, reque
 	return response, err
 }
 
-// GetDav Get the Direct Attached Vnic.
+// GetDav Get the direct attached VNIC.
 func (client VirtualNetworkClient) GetDav(ctx context.Context, request GetDavRequest) (response GetDavResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13592,6 +13653,59 @@ func (client VirtualNetworkClient) getDrgRouteTable(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/GetDrgRouteTable"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgRouteTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetEncryptionStatus Get the encryption status of the entity.
+func (client VirtualNetworkClient) GetEncryptionStatus(ctx context.Context, request GetEncryptionStatusRequest) (response GetEncryptionStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEncryptionStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEncryptionStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEncryptionStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEncryptionStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEncryptionStatusResponse")
+	}
+	return
+}
+
+// getEncryptionStatus implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getEncryptionStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/encryptionStatus/{encryptionStatusId}/actions/getEncryptionStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEncryptionStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EncryptionStatus/GetEncryptionStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetEncryptionStatus", apiReferenceLink)
 		return response, err
 	}
 
@@ -14582,7 +14696,7 @@ func (client VirtualNetworkClient) getInternalDrgAttachment(ctx context.Context,
 	return response, err
 }
 
-// GetInternalDrgRouteTable Gets current version of DRG Route Table mapping for a given DRG_Attachment_Label.
+// GetInternalDrgRouteTable Gets current version of DRG route table mapping for a given DRG_Attachment_Label.
 // A default retry strategy applies to this operation GetInternalDrgRouteTable()
 func (client VirtualNetworkClient) GetInternalDrgRouteTable(ctx context.Context, request GetInternalDrgRouteTableRequest) (response GetInternalDrgRouteTableResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -14634,6 +14748,60 @@ func (client VirtualNetworkClient) getInternalDrgRouteTable(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgRouteTable/GetInternalDrgRouteTable"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalDrgRouteTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetInternalEcmpGroup Get an internal ecmp group.
+// A default retry strategy applies to this operation GetInternalEcmpGroup()
+func (client VirtualNetworkClient) GetInternalEcmpGroup(ctx context.Context, request GetInternalEcmpGroupRequest) (response GetInternalEcmpGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInternalEcmpGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalEcmpGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalEcmpGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalEcmpGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalEcmpGroupResponse")
+	}
+	return
+}
+
+// getInternalEcmpGroup implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalEcmpGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalEcmpGroups/{internalEcmpGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInternalEcmpGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalEcmpGroup/GetInternalEcmpGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalEcmpGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -14972,7 +15140,7 @@ func (client VirtualNetworkClient) getInternalSubnet(ctx context.Context, reques
 	return response, err
 }
 
-// GetInternalVnic Gets the information for the specified internal vnic.
+// GetInternalVnic Gets the information for the specified internal VNIC.
 func (client VirtualNetworkClient) GetInternalVnic(ctx context.Context, request GetInternalVnicRequest) (response GetInternalVnicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15071,59 +15239,6 @@ func (client VirtualNetworkClient) getInternalVnicAttachment(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/GetInternalVnicAttachment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalVnicAttachment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetInternalZprAttachment Gets the `ZprAttachment` resource.
-func (client VirtualNetworkClient) GetInternalZprAttachment(ctx context.Context, request GetInternalZprAttachmentRequest) (response GetInternalZprAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getInternalZprAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetInternalZprAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetInternalZprAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetInternalZprAttachmentResponse")
-	}
-	return
-}
-
-// getInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) getInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetInternalZprAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/GetInternalZprAttachment"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalZprAttachment", apiReferenceLink)
 		return response, err
 	}
 
@@ -20182,6 +20297,60 @@ func (client VirtualNetworkClient) listInternalDrgs(ctx context.Context, request
 	return response, err
 }
 
+// ListInternalEcmpGroups Gets a list of internal ecmp groups in the specified compartment
+// A default retry strategy applies to this operation ListInternalEcmpGroups()
+func (client VirtualNetworkClient) ListInternalEcmpGroups(ctx context.Context, request ListInternalEcmpGroupsRequest) (response ListInternalEcmpGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInternalEcmpGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalEcmpGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalEcmpGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalEcmpGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalEcmpGroupsResponse")
+	}
+	return
+}
+
+// listInternalEcmpGroups implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalEcmpGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalEcmpGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInternalEcmpGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalEcmpGroup/ListInternalEcmpGroups"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalEcmpGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListInternalFloatingIps Get a list of floating IPs
 func (client VirtualNetworkClient) ListInternalFloatingIps(ctx context.Context, request ListInternalFloatingIpsRequest) (response ListInternalFloatingIpsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -20521,59 +20690,6 @@ func (client VirtualNetworkClient) listInternalVnics(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnic/ListInternalVnics"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalVnics", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListInternalZprAttachments List the ZprAttachments in the specified compartement.
-func (client VirtualNetworkClient) ListInternalZprAttachments(ctx context.Context, request ListInternalZprAttachmentsRequest) (response ListInternalZprAttachmentsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listInternalZprAttachments, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListInternalZprAttachmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListInternalZprAttachmentsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListInternalZprAttachmentsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListInternalZprAttachmentsResponse")
-	}
-	return
-}
-
-// listInternalZprAttachments implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) listInternalZprAttachments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/zprAttachments", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListInternalZprAttachmentsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/ListInternalZprAttachments"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalZprAttachments", apiReferenceLink)
 		return response, err
 	}
 
@@ -24193,6 +24309,64 @@ func (client VirtualNetworkClient) setDrgPeeringConnection(ctx context.Context, 
 	return response, err
 }
 
+// SetEncryptionStatus Enables/Disables encryption state of a region or VCN.
+func (client VirtualNetworkClient) SetEncryptionStatus(ctx context.Context, request SetEncryptionStatusRequest) (response SetEncryptionStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.setEncryptionStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetEncryptionStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetEncryptionStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetEncryptionStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetEncryptionStatusResponse")
+	}
+	return
+}
+
+// setEncryptionStatus implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) setEncryptionStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/encryptionStatus/actions/setEncryptionStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetEncryptionStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EncryptionStatus/SetEncryptionStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "SetEncryptionStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SetInternalDrgRouteData Sets the route data for the given Drg.
 func (client VirtualNetworkClient) SetInternalDrgRouteData(ctx context.Context, request SetInternalDrgRouteDataRequest) (response SetInternalDrgRouteDataResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -25349,7 +25523,7 @@ func (client VirtualNetworkClient) updateDatapathMessage(ctx context.Context, re
 	return response, err
 }
 
-// UpdateDav Update an existing Direct Attached Vnic
+// UpdateDav Update an existing direct attached VNIC.
 func (client VirtualNetworkClient) UpdateDav(ctx context.Context, request UpdateDavRequest) (response UpdateDavResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -26284,8 +26458,8 @@ func (client VirtualNetworkClient) updateIPSecConnectionTunnelSharedSecret(ctx c
 	return response, err
 }
 
-// UpdateInternalDnsRecord Updates the specified DnsRecord.
-// Currently, only the name, ttl, and value can be updated for DnsRecord.
+// UpdateInternalDnsRecord Updates the specified `DnsRecord`.
+// Currently, only the name, ttl, and value can be updated for `DnsRecord`.
 func (client VirtualNetworkClient) UpdateInternalDnsRecord(ctx context.Context, request UpdateInternalDnsRecordRequest) (response UpdateInternalDnsRecordResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -26438,6 +26612,60 @@ func (client VirtualNetworkClient) updateInternalDrgAttachment(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDrgAttachment/UpdateInternalDrgAttachment"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalDrgAttachment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateInternalEcmpGroup Updates the specified InternalEcmpGroup's display name or definedTags or freeformTags or nextHopEntries. Avoid entering confidential information.Note that the nextHopEntries` object you provide replaces the entire existing set of nextHopEntries.
+// A default retry strategy applies to this operation UpdateInternalEcmpGroup()
+func (client VirtualNetworkClient) UpdateInternalEcmpGroup(ctx context.Context, request UpdateInternalEcmpGroupRequest) (response UpdateInternalEcmpGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateInternalEcmpGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInternalEcmpGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInternalEcmpGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInternalEcmpGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalEcmpGroupResponse")
+	}
+	return
+}
+
+// updateInternalEcmpGroup implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateInternalEcmpGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internalEcmpGroups/{internalEcmpGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateInternalEcmpGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalEcmpGroup/UpdateInternalEcmpGroup"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalEcmpGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -26745,7 +26973,7 @@ func (client VirtualNetworkClient) updateInternalVnic(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateInternalVnicMetadata Request to updates the customer facing metrics metadata for a vnic attachment.
+// UpdateInternalVnicMetadata Request to updates the customer facing metrics metadata for a VNIC attachment.
 func (client VirtualNetworkClient) UpdateInternalVnicMetadata(ctx context.Context, request UpdateInternalVnicMetadataRequest) (response UpdateInternalVnicMetadataResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -26796,59 +27024,6 @@ func (client VirtualNetworkClient) updateInternalVnicMetadata(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalVnicAttachment/UpdateInternalVnicMetadata"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalVnicMetadata", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateInternalZprAttachment Updates the details for the specified `ZprAttachment`.
-func (client VirtualNetworkClient) UpdateInternalZprAttachment(ctx context.Context, request UpdateInternalZprAttachmentRequest) (response UpdateInternalZprAttachmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateInternalZprAttachment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateInternalZprAttachmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateInternalZprAttachmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateInternalZprAttachmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalZprAttachmentResponse")
-	}
-	return
-}
-
-// updateInternalZprAttachment implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) updateInternalZprAttachment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internal/zprAttachments/{zprAttachmentId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateInternalZprAttachmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalZprAttachment/UpdateInternalZprAttachment"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalZprAttachment", apiReferenceLink)
 		return response, err
 	}
 

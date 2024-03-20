@@ -24,7 +24,7 @@ import (
 // UpdateVnicShapeDetails This structure is used when updating the shape of VNIC in VNIC attachment.
 type UpdateVnicShapeDetails struct {
 
-	// VNIC whose attachments need to be updated to the destination vnic shape.
+	// VNIC whose attachments need to be updated to the destination VNIC shape.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
 	// Shape of VNIC that will be used to update VNIC attachment.

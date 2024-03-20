@@ -66,6 +66,12 @@ type NamedCredential struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// System tags can be viewed by users, but can only be created by the system.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m NamedCredential) String() string {
@@ -105,6 +111,7 @@ func (m *NamedCredential) UnmarshalJSON(data []byte) (e error) {
 		AssociatedResource *string                           `json:"associatedResource"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
 		Name               *string                           `json:"name"`
 		Id                 *string                           `json:"id"`
 		CompartmentId      *string                           `json:"compartmentId"`
@@ -142,6 +149,8 @@ func (m *NamedCredential) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.Name = model.Name
 

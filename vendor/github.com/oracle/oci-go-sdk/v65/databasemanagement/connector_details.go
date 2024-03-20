@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ConnectorDetails The connector details required to connect to an cloud database.
+// ConnectorDetails The connector details required to connect to an Oracle cloud database.
 type ConnectorDetails interface {
 }
 

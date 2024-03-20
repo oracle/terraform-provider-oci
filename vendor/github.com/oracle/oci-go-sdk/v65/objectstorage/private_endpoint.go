@@ -55,7 +55,7 @@ type PrivateEndpoint struct {
 	Prefix *string `mandatory:"true" json:"prefix"`
 
 	// The entity tag (ETag) for the Private Endpoint.
-	ETag *string `mandatory:"true" json:"eTag"`
+	Etag *string `mandatory:"true" json:"etag"`
 
 	// A list of additional prefix that you can provide along with any other prefix. These resulting endpointFqdn's are added to the
 	// customer VCN's DNS record.
@@ -68,6 +68,9 @@ type PrivateEndpoint struct {
 
 	// The Private Endpoint's lifecycle state.
 	LifecycleState PrivateEndpointLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// A list of targets that can be accessed by the private endpoint.
+	AccessTargets []AccessTargetDetails `mandatory:"false" json:"accessTargets"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

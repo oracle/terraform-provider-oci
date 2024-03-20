@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DatabaseLifecycleManagementFeatureDetails The details required to enable database lifecycle management feature.
+// DatabaseLifecycleManagementFeatureDetails The details required to enable the Database Lifecycle Management feature.
 type DatabaseLifecycleManagementFeatureDetails struct {
 	DatabaseConnectionDetails *DatabaseConnectionDetails `mandatory:"true" json:"databaseConnectionDetails"`
 

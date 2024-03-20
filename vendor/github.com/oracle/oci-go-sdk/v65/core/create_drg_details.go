@@ -27,6 +27,9 @@ type CreateDrgDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the DRG.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Optional OCID supplied to create an internal resource backing a global resource.
+	Id *string `mandatory:"false" json:"id"`
+
 	// Indicates if this is a Regional DRG or a Global DRG
 	Type DrgTypeEnum `mandatory:"false" json:"type,omitempty"`
 

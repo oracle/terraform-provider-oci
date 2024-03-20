@@ -18,10 +18,10 @@ import (
 	"strings"
 )
 
-// PrivateEndPointConnectorDetails The details required to connect to an cloud  Database.
+// PrivateEndPointConnectorDetails The private endpoint details required to connect to an Oracle cloud Database.
 type PrivateEndPointConnectorDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private Endpoint.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	PrivateEndPointId *string `mandatory:"true" json:"privateEndPointId"`
 }
 

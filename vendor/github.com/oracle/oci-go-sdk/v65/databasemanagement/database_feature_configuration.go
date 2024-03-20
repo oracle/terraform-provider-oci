@@ -18,10 +18,10 @@ import (
 	"strings"
 )
 
-// DatabaseFeatureConfiguration The details of an external database feature configuration details.
+// DatabaseFeatureConfiguration The details of an external database feature configuration.
 type DatabaseFeatureConfiguration interface {
 
-	// The list of the database management supported feature statuses:
+	// The list of statuses for Database Management features.
 	GetFeatureStatus() DatabaseFeatureConfigurationFeatureStatusEnum
 
 	GetConnectorDetails() ConnectorDetails
@@ -65,16 +65,16 @@ func (m *databasefeatureconfiguration) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.Feature {
+	case "DIAGNOSTICS_AND_MANAGEMENT":
+		mm := DatabaseDiagnosticsAndManagementFeatureConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DB_LIFECYCLE_MANAGEMENT":
 		mm := DatabaseLifecycleFeatureConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SQLWATCH":
 		mm := DatabaseSqlWatchFeatureConfiguration{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "DIAGNOSTICS_AND_PERFORMANCE":
-		mm := DatabaseDiagnosticsAndPerformanceFeatureConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

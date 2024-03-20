@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// UpdateDavDetails Details to update a Direct Attached Vnic.
+// UpdateDavDetails Details to update a direct attached VNIC.
 type UpdateDavDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

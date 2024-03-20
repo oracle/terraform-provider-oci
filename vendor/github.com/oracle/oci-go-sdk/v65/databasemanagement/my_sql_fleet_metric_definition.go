@@ -34,6 +34,9 @@ type MySqlFleetMetricDefinition struct {
 
 	// The unit of the metric value.
 	Unit *string `mandatory:"true" json:"unit"`
+
+	// The value of the metric.
+	MetricValueDouble *float64 `mandatory:"false" json:"metricValueDouble"`
 }
 
 func (m MySqlFleetMetricDefinition) String() string {

@@ -39,6 +39,9 @@ type AddDrgRouteRuleDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the next hop DRG attachment. The next hop DRG attachment is responsible
 	// for reaching the network destination.
 	NextHopDrgAttachmentId *string `mandatory:"true" json:"nextHopDrgAttachmentId"`
+
+	// Optional ID while creating Route Rules on an internal DRG route table.
+	Id *string `mandatory:"false" json:"id"`
 }
 
 func (m AddDrgRouteRuleDetails) String() string {

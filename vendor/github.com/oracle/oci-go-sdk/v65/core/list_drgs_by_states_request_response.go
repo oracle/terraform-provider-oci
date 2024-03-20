@@ -18,10 +18,10 @@ type ListDrgsByStatesRequest struct {
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A query param to return resources that match the given compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) exactly.
+	// A query parameter to return resources that match the given compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) exactly.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The State of the DRG (Classical/Migrated/Upgraded) of the DRG.
+	// The State of the DRG (Classical, Migrated, or Upgraded) of the DRG.
 	DrgState DrgUpgradeStateStateEnum `mandatory:"false" contributesTo:"query" name:"drgState" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated

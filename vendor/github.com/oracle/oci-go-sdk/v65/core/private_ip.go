@@ -41,7 +41,7 @@ import (
 // CreateVnicDetails when calling either
 // LaunchInstance or
 // AttachVnic. To update the hostname
-// for a primary private IP, you use UpdateVnic.
+// for a primary private IP, you use `UpdateVnic`.
 // `PrivateIp` objects that are created for use with the Oracle Cloud VMware Solution are
 // assigned to a VLAN and not a VNIC in a subnet. See the
 // descriptions of the relevant attributes in the `PrivateIp` object. Also see

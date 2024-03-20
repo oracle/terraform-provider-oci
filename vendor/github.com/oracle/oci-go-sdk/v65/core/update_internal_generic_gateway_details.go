@@ -40,10 +40,6 @@ type UpdateInternalGenericGatewayDetails struct {
 	// Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags extended for this resource. This is unique to ZPR, and extends the defined tags to include a mode keyword as well
-	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
-	DefinedTagsExtended *string `mandatory:"false" json:"definedTagsExtended"`
 }
 
 func (m UpdateInternalGenericGatewayDetails) String() string {

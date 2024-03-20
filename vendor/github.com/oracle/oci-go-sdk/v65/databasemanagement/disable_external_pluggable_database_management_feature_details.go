@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// DisableExternalPluggableDatabaseManagementFeatureDetails The details of the external pluggable database feature.
+// DisableExternalPluggableDatabaseManagementFeatureDetails The details required to disable a Database Management feature for an external pluggable database.
 type DisableExternalPluggableDatabaseManagementFeatureDetails struct {
 
-	// The name of the database management feature
+	// The name of the Database Management feature.
 	Feature DbManagementFeatureEnum `mandatory:"true" json:"feature"`
 }
 

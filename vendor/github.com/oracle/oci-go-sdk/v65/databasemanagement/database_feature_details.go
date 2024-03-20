@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DatabaseFeatureDetails The details required to enable specified feature.
+// DatabaseFeatureDetails The details required to enable the specified Database Management feature.
 type DatabaseFeatureDetails interface {
 	GetDatabaseConnectionDetails() *DatabaseConnectionDetails
 
@@ -59,12 +59,12 @@ func (m *databasefeaturedetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 
 	var err error
 	switch m.Feature {
-	case "DB_LIFECYCLE_MANAGEMENT":
-		mm := DatabaseLifecycleManagementFeatureDetails{}
+	case "DIAGNOSTICS_AND_MANAGEMENT":
+		mm := DatabaseDiagnosticsAndManagementFeatureDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DIAGNOSTICS_AND_PERFORMANCE":
-		mm := DatabaseDiagnosticsAndPerformanceFeatureDetails{}
+	case "DB_LIFECYCLE_MANAGEMENT":
+		mm := DatabaseLifecycleManagementFeatureDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "SQLWATCH":

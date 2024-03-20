@@ -14,7 +14,7 @@ import (
 // DeleteInternalDnsRecordRequest wrapper for the DeleteInternalDnsRecord operation
 type DeleteInternalDnsRecordRequest struct {
 
-	// The Dns Record's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// The DNS record's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalDnsRecordId *string `mandatory:"true" contributesTo:"path" name:"internalDnsRecordId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

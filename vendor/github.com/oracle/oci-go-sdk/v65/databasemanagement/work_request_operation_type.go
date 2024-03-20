@@ -47,6 +47,7 @@ const (
 	WorkRequestOperationTypeUpdateExternalMysqlCredential     WorkRequestOperationTypeEnum = "UPDATE_EXTERNAL_MYSQL_CREDENTIAL"
 	WorkRequestOperationTypeCreateExternalMysqlConnector      WorkRequestOperationTypeEnum = "CREATE_EXTERNAL_MYSQL_CONNECTOR"
 	WorkRequestOperationTypeDeleteExternalMysqlConnector      WorkRequestOperationTypeEnum = "DELETE_EXTERNAL_MYSQL_CONNECTOR"
+	WorkRequestOperationTypeDeleteExternalMysqlDatabase       WorkRequestOperationTypeEnum = "DELETE_EXTERNAL_MYSQL_DATABASE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -77,6 +78,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_EXTERNAL_MYSQL_CREDENTIAL":      WorkRequestOperationTypeUpdateExternalMysqlCredential,
 	"CREATE_EXTERNAL_MYSQL_CONNECTOR":       WorkRequestOperationTypeCreateExternalMysqlConnector,
 	"DELETE_EXTERNAL_MYSQL_CONNECTOR":       WorkRequestOperationTypeDeleteExternalMysqlConnector,
+	"DELETE_EXTERNAL_MYSQL_DATABASE":        WorkRequestOperationTypeDeleteExternalMysqlDatabase,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -107,6 +109,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_external_mysql_credential":      WorkRequestOperationTypeUpdateExternalMysqlCredential,
 	"create_external_mysql_connector":       WorkRequestOperationTypeCreateExternalMysqlConnector,
 	"delete_external_mysql_connector":       WorkRequestOperationTypeDeleteExternalMysqlConnector,
+	"delete_external_mysql_database":        WorkRequestOperationTypeDeleteExternalMysqlDatabase,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -148,6 +151,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_EXTERNAL_MYSQL_CREDENTIAL",
 		"CREATE_EXTERNAL_MYSQL_CONNECTOR",
 		"DELETE_EXTERNAL_MYSQL_CONNECTOR",
+		"DELETE_EXTERNAL_MYSQL_DATABASE",
 	}
 }
 

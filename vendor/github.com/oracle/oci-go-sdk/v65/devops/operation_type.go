@@ -67,6 +67,8 @@ const (
 	OperationTypeUpdateRepositoryPrivateAccess           OperationTypeEnum = "UPDATE_REPOSITORY_PRIVATE_ACCESS"
 	OperationTypeDeleteRepositoryPrivateAccess           OperationTypeEnum = "DELETE_REPOSITORY_PRIVATE_ACCESS"
 	OperationTypeMoveRepositoryPrivateAccess             OperationTypeEnum = "MOVE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeRestoreRepositoryBackup                 OperationTypeEnum = "RESTORE_REPOSITORY_BACKUP"
+	OperationTypeDeleteRepositoryBackup                  OperationTypeEnum = "DELETE_REPOSITORY_BACKUP"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -119,6 +121,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeUpdateRepositoryPrivateAccess,
 	"DELETE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeDeleteRepositoryPrivateAccess,
 	"MOVE_REPOSITORY_PRIVATE_ACCESS":              OperationTypeMoveRepositoryPrivateAccess,
+	"RESTORE_REPOSITORY_BACKUP":                   OperationTypeRestoreRepositoryBackup,
+	"DELETE_REPOSITORY_BACKUP":                    OperationTypeDeleteRepositoryBackup,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -171,6 +175,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_repository_private_access":            OperationTypeUpdateRepositoryPrivateAccess,
 	"delete_repository_private_access":            OperationTypeDeleteRepositoryPrivateAccess,
 	"move_repository_private_access":              OperationTypeMoveRepositoryPrivateAccess,
+	"restore_repository_backup":                   OperationTypeRestoreRepositoryBackup,
+	"delete_repository_backup":                    OperationTypeDeleteRepositoryBackup,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -234,6 +240,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_REPOSITORY_PRIVATE_ACCESS",
 		"DELETE_REPOSITORY_PRIVATE_ACCESS",
 		"MOVE_REPOSITORY_PRIVATE_ACCESS",
+		"RESTORE_REPOSITORY_BACKUP",
+		"DELETE_REPOSITORY_BACKUP",
 	}
 }
 

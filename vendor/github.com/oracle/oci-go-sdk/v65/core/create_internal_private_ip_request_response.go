@@ -14,7 +14,7 @@ import (
 // CreateInternalPrivateIpRequest wrapper for the CreateInternalPrivateIp operation
 type CreateInternalPrivateIpRequest struct {
 
-	// Request to create a internal private IP
+	// Request to create an internal private IP.
 	CreateInternalPrivateIpDetails `contributesTo:"body"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

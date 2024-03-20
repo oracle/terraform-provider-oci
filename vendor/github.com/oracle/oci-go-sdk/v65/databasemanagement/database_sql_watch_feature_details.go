@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DatabaseSqlWatchFeatureDetails The details required to enable Application performance feature.
+// DatabaseSqlWatchFeatureDetails The details required to enable the SQL Watch feature.
 type DatabaseSqlWatchFeatureDetails struct {
 	DatabaseConnectionDetails *DatabaseConnectionDetails `mandatory:"true" json:"databaseConnectionDetails"`
 

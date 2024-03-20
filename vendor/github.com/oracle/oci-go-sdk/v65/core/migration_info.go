@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// MigrationInfo Optional info that is present if a vnic is getting migrated as part of instance live migration
+// MigrationInfo Optional info that is present if a VNIC is getting migrated as part of instance live migration
 type MigrationInfo struct {
 
 	// Live migration session ID

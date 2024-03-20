@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// UpdateVnicShapeConfigDetails Details required for updating the shape config of Vnic in VNIC attachment.
+// UpdateVnicShapeConfigDetails Details required for updating the shape config of VNIC in VNIC attachment.
 type UpdateVnicShapeConfigDetails struct {
 
-	// VNIC whose attachments need to be updated to the destination vnic shape.
+	// VNIC whose attachments need to be updated to the destination VNIC shape.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
 	VnicShapeConfig *VnicShapeConfig `mandatory:"true" json:"vnicShapeConfig"`

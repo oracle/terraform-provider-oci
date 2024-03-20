@@ -19,7 +19,7 @@ import (
 type ChangeAvailabilityOfSoftwareSourcesDetails struct {
 
 	// List of objects containing software source ids and its availability.
-	SoftwareSourceAvailabilities []SoftwareSourceAvailability `mandatory:"false" json:"softwareSourceAvailabilities"`
+	SoftwareSourceAvailabilities []SoftwareSourceAvailability `mandatory:"true" json:"softwareSourceAvailabilities"`
 }
 
 func (m ChangeAvailabilityOfSoftwareSourcesDetails) String() string {

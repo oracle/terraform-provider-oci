@@ -18,13 +18,13 @@ import (
 	"strings"
 )
 
-// BasicDatabaseConnectionStringDetails The Oracle Database connection string.
+// BasicDatabaseConnectionStringDetails The details of the Oracle Database basic connection string.
 type BasicDatabaseConnectionStringDetails struct {
 
 	// The service name of the database.
 	Service *string `mandatory:"true" json:"service"`
 
-	// The port number.
+	// The port number used to connect to the database.
 	Port *int `mandatory:"true" json:"port"`
 
 	// The protocol used to connect to the database.

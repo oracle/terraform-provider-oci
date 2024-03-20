@@ -14,7 +14,7 @@ import (
 // UpdateVnicShapeRequest wrapper for the UpdateVnicShape operation
 type UpdateVnicShapeRequest struct {
 
-	// Request to change the shape of vnic attachment.
+	// Request to change the shape of VNIC attachment.
 	UpdateVnicShapeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

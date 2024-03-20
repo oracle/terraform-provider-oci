@@ -14,7 +14,7 @@ import (
 // UpdateEncryptionCapabilityRequest wrapper for the UpdateEncryptionCapability operation
 type UpdateEncryptionCapabilityRequest struct {
 
-	// Request to enable or disable the encryption capability of a service vnic attachment.
+	// Request to enable or disable the encryption capability of a service VNIC attachment.
 	UpdateEncryptionCapabilityDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

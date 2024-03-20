@@ -37,7 +37,7 @@ type CreateDatapathMessageDetails struct {
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
 	// The substrate IP address of the smartNic where the VNIC is attached to and the message has to be delivered.
-	// **Note:** This is a required field if vnic is getting live migrated.
+	// **Note:** This is a required field if VNIC is getting live migrated.
 	SubstrateIp *string `mandatory:"false" json:"substrateIp"`
 }
 

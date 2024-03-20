@@ -63,6 +63,9 @@ type ListDrgAttachmentsRequest struct {
 	// state. The value is case insensitive.
 	LifecycleState DrgAttachmentLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// Internal query parameter to filter DRG attachments on internalType
+	InternalType ListDrgAttachmentsInternalTypeEnum `mandatory:"false" contributesTo:"query" name:"internalType" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -114,6 +117,9 @@ func (request ListDrgAttachmentsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDrgAttachmentLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetDrgAttachmentLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListDrgAttachmentsInternalTypeEnum(string(request.InternalType)); !ok && request.InternalType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InternalType: %s. Supported values are: %s.", request.InternalType, strings.Join(GetListDrgAttachmentsInternalTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -284,5 +290,51 @@ func GetListDrgAttachmentsSortOrderEnumStringValues() []string {
 // GetMappingListDrgAttachmentsSortOrderEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDrgAttachmentsSortOrderEnum(val string) (ListDrgAttachmentsSortOrderEnum, bool) {
 	enum, ok := mappingListDrgAttachmentsSortOrderEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDrgAttachmentsInternalTypeEnum Enum with underlying type: string
+type ListDrgAttachmentsInternalTypeEnum string
+
+// Set of constants representing the allowable values for ListDrgAttachmentsInternalTypeEnum
+const (
+	ListDrgAttachmentsInternalTypeGdrgServiceResource ListDrgAttachmentsInternalTypeEnum = "GDRG_SERVICE_RESOURCE"
+	ListDrgAttachmentsInternalTypeGdrgMeshRpc         ListDrgAttachmentsInternalTypeEnum = "GDRG_MESH_RPC"
+	ListDrgAttachmentsInternalTypeAll                 ListDrgAttachmentsInternalTypeEnum = "ALL"
+)
+
+var mappingListDrgAttachmentsInternalTypeEnum = map[string]ListDrgAttachmentsInternalTypeEnum{
+	"GDRG_SERVICE_RESOURCE": ListDrgAttachmentsInternalTypeGdrgServiceResource,
+	"GDRG_MESH_RPC":         ListDrgAttachmentsInternalTypeGdrgMeshRpc,
+	"ALL":                   ListDrgAttachmentsInternalTypeAll,
+}
+
+var mappingListDrgAttachmentsInternalTypeEnumLowerCase = map[string]ListDrgAttachmentsInternalTypeEnum{
+	"gdrg_service_resource": ListDrgAttachmentsInternalTypeGdrgServiceResource,
+	"gdrg_mesh_rpc":         ListDrgAttachmentsInternalTypeGdrgMeshRpc,
+	"all":                   ListDrgAttachmentsInternalTypeAll,
+}
+
+// GetListDrgAttachmentsInternalTypeEnumValues Enumerates the set of values for ListDrgAttachmentsInternalTypeEnum
+func GetListDrgAttachmentsInternalTypeEnumValues() []ListDrgAttachmentsInternalTypeEnum {
+	values := make([]ListDrgAttachmentsInternalTypeEnum, 0)
+	for _, v := range mappingListDrgAttachmentsInternalTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDrgAttachmentsInternalTypeEnumStringValues Enumerates the set of values in String for ListDrgAttachmentsInternalTypeEnum
+func GetListDrgAttachmentsInternalTypeEnumStringValues() []string {
+	return []string{
+		"GDRG_SERVICE_RESOURCE",
+		"GDRG_MESH_RPC",
+		"ALL",
+	}
+}
+
+// GetMappingListDrgAttachmentsInternalTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDrgAttachmentsInternalTypeEnum(val string) (ListDrgAttachmentsInternalTypeEnum, bool) {
+	enum, ok := mappingListDrgAttachmentsInternalTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

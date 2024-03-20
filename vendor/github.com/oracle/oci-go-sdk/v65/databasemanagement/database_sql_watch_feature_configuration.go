@@ -18,13 +18,13 @@ import (
 	"strings"
 )
 
-// DatabaseSqlWatchFeatureConfiguration The details required to enable real application testing feature.
+// DatabaseSqlWatchFeatureConfiguration The details required to enable the SQL Watch feature.
 type DatabaseSqlWatchFeatureConfiguration struct {
 	ConnectorDetails ConnectorDetails `mandatory:"false" json:"connectorDetails"`
 
 	DatabaseConnectionDetails *DatabaseConnectionDetails `mandatory:"false" json:"databaseConnectionDetails"`
 
-	// The list of the database management supported feature statuses:
+	// The list of statuses for Database Management features.
 	FeatureStatus DatabaseFeatureConfigurationFeatureStatusEnum `mandatory:"true" json:"featureStatus"`
 }
 

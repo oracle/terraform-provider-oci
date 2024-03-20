@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DatabaseConnectionStringDetails The Oracle Database connection string.
+// DatabaseConnectionStringDetails The details of the Oracle Database connection string.
 type DatabaseConnectionStringDetails interface {
 }
 

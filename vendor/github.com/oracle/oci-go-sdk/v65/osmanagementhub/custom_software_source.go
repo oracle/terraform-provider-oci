@@ -93,9 +93,6 @@ type CustomSoftwareSource struct {
 	// Possible availabilities of a software source for OCI environments.
 	AvailabilityAtOci AvailabilityEnum `mandatory:"true" json:"availabilityAtOci"`
 
-	// The availabilities of a software source.
-	Availabilities []AvailabilityEnum `mandatory:"false" json:"availabilities,omitempty"`
-
 	// The OS family the software source belongs to.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
 
@@ -142,11 +139,6 @@ func (m CustomSoftwareSource) GetAvailability() AvailabilityEnum {
 // GetAvailabilityAtOci returns AvailabilityAtOci
 func (m CustomSoftwareSource) GetAvailabilityAtOci() AvailabilityEnum {
 	return m.AvailabilityAtOci
-}
-
-// GetAvailabilities returns Availabilities
-func (m CustomSoftwareSource) GetAvailabilities() []AvailabilityEnum {
-	return m.Availabilities
 }
 
 // GetRepoId returns RepoId
@@ -235,12 +227,6 @@ func (m CustomSoftwareSource) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
-	for _, val := range m.Availabilities {
-		if _, ok := GetMappingAvailabilityEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availabilities: %s. Supported values are: %s.", val, strings.Join(GetAvailabilityEnumStringValues(), ",")))
-		}
-	}
-
 	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))
 	}

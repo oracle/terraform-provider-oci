@@ -19,7 +19,7 @@ import (
 type AttachManagedInstancesToManagedInstanceGroupDetails struct {
 
 	// The list of managed instance OCIDs to be attached.
-	ManagedInstances []string `mandatory:"false" json:"managedInstances"`
+	ManagedInstances []string `mandatory:"true" json:"managedInstances"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }

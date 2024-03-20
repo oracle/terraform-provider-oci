@@ -14,7 +14,7 @@ import (
 // CreateDavRequest wrapper for the CreateDav operation
 type CreateDavRequest struct {
 
-	// Request to create a Direct Attached Vnic.
+	// Request to create a direct attached VNIC.
 	CreateDavDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

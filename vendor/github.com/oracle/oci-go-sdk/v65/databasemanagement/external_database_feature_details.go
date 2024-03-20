@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalDatabaseFeatureDetails The details required to enable specified feature.
+// ExternalDatabaseFeatureDetails The details required to enable the specified Database Management feature.
 type ExternalDatabaseFeatureDetails interface {
 	GetConnectorDetails() ConnectorDetails
 }
@@ -59,12 +59,12 @@ func (m *externaldatabasefeaturedetails) UnmarshalPolymorphicJSON(data []byte) (
 		mm := ExternalDatabaseLifecycleManagementFeatureDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DIAGNOSTICS_AND_PERFORMANCE":
-		mm := ExternalDatabaseDiagnosticsAndPerformanceFeatureDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "SQLWATCH":
 		mm := ExternalDatabaseSqlWatchFeatureDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DIAGNOSTICS_AND_MANAGEMENT":
+		mm := ExternalDatabaseDiagnosticsAndManagementFeatureDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

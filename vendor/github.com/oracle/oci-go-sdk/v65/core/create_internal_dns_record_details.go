@@ -21,29 +21,29 @@ import (
 	"strings"
 )
 
-// CreateInternalDnsRecordDetails This structure is used when creating DnsRecord for internal clients.
+// CreateInternalDnsRecordDetails This structure is used when creating a `DnsRecord` object for internal clients.
 type CreateInternalDnsRecordDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the DnsRecord.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the `DnsRecord`.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal Hosted Zone the DnsRecord belongs to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Internal Hosted Zone the `DnsRecord` object belongs to.
 	InternalHostedZoneId *string `mandatory:"true" json:"internalHostedZoneId"`
 
-	// Name of the DnsRecord.
+	// Name of the `DnsRecord`.
 	// -*A:* Partially Qualified DNS Name that will be mapped to the IPv4 address
 	Name *string `mandatory:"true" json:"name"`
 
-	// Type of Dns Record according to RFC 1035 (https://tools.ietf.org/html/rfc1035).
+	// Type of DNS record according to RFC 1035 (https://tools.ietf.org/html/rfc1035).
 	// Currently supported list of types are the following.
 	// -*A:* Type 1, a hostname to IPv4 address
 	Type CreateInternalDnsRecordDetailsTypeEnum `mandatory:"true" json:"type"`
 
-	// Value for the DnsRecord.
+	// Value for the `DnsRecord`.
 	// -*A:* One or more IPv4 addresses. Comma separated.
 	Value *string `mandatory:"true" json:"value"`
 
-	// Time to live value in seconds for the DnsRecord, according to RFC 1035 (https://tools.ietf.org/html/rfc1035).
+	// Time to live value in seconds for the `DnsRecord`, according to RFC 1035 (https://tools.ietf.org/html/rfc1035).
 	// Defaults to 86400.
 	Ttl *int `mandatory:"false" json:"ttl"`
 }

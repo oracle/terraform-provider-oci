@@ -20,24 +20,27 @@ type WorkRequestResourceMetadataKeyEnum string
 
 // Set of constants representing the allowable values for WorkRequestResourceMetadataKeyEnum
 const (
-	WorkRequestResourceMetadataKeyRegion    WorkRequestResourceMetadataKeyEnum = "REGION"
-	WorkRequestResourceMetadataKeyNamespace WorkRequestResourceMetadataKeyEnum = "NAMESPACE"
-	WorkRequestResourceMetadataKeyBucket    WorkRequestResourceMetadataKeyEnum = "BUCKET"
-	WorkRequestResourceMetadataKeyObject    WorkRequestResourceMetadataKeyEnum = "OBJECT"
+	WorkRequestResourceMetadataKeyRegion              WorkRequestResourceMetadataKeyEnum = "REGION"
+	WorkRequestResourceMetadataKeyNamespace           WorkRequestResourceMetadataKeyEnum = "NAMESPACE"
+	WorkRequestResourceMetadataKeyBucket              WorkRequestResourceMetadataKeyEnum = "BUCKET"
+	WorkRequestResourceMetadataKeyObject              WorkRequestResourceMetadataKeyEnum = "OBJECT"
+	WorkRequestResourceMetadataKeyPrivateEndpointName WorkRequestResourceMetadataKeyEnum = "PRIVATE_ENDPOINT_NAME"
 )
 
 var mappingWorkRequestResourceMetadataKeyEnum = map[string]WorkRequestResourceMetadataKeyEnum{
-	"REGION":    WorkRequestResourceMetadataKeyRegion,
-	"NAMESPACE": WorkRequestResourceMetadataKeyNamespace,
-	"BUCKET":    WorkRequestResourceMetadataKeyBucket,
-	"OBJECT":    WorkRequestResourceMetadataKeyObject,
+	"REGION":                WorkRequestResourceMetadataKeyRegion,
+	"NAMESPACE":             WorkRequestResourceMetadataKeyNamespace,
+	"BUCKET":                WorkRequestResourceMetadataKeyBucket,
+	"OBJECT":                WorkRequestResourceMetadataKeyObject,
+	"PRIVATE_ENDPOINT_NAME": WorkRequestResourceMetadataKeyPrivateEndpointName,
 }
 
 var mappingWorkRequestResourceMetadataKeyEnumLowerCase = map[string]WorkRequestResourceMetadataKeyEnum{
-	"region":    WorkRequestResourceMetadataKeyRegion,
-	"namespace": WorkRequestResourceMetadataKeyNamespace,
-	"bucket":    WorkRequestResourceMetadataKeyBucket,
-	"object":    WorkRequestResourceMetadataKeyObject,
+	"region":                WorkRequestResourceMetadataKeyRegion,
+	"namespace":             WorkRequestResourceMetadataKeyNamespace,
+	"bucket":                WorkRequestResourceMetadataKeyBucket,
+	"object":                WorkRequestResourceMetadataKeyObject,
+	"private_endpoint_name": WorkRequestResourceMetadataKeyPrivateEndpointName,
 }
 
 // GetWorkRequestResourceMetadataKeyEnumValues Enumerates the set of values for WorkRequestResourceMetadataKeyEnum
@@ -56,6 +59,7 @@ func GetWorkRequestResourceMetadataKeyEnumStringValues() []string {
 		"NAMESPACE",
 		"BUCKET",
 		"OBJECT",
+		"PRIVATE_ENDPOINT_NAME",
 	}
 }
 

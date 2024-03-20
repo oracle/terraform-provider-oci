@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// InternalVnic This is a vnic type only used in operations with overlay customers and RCE.
+// InternalVnic This is a VNIC type only used in operations with overlay customers and RCE.
 // It defines additonal properties: isManaged, resourceType, resourceId, isBMVnic, isGarpEnabled, isEdpEnabled, and isServiceVnic
 type InternalVnic struct {
 
@@ -62,7 +62,7 @@ type InternalVnic struct {
 	// Indicates if the VNIC is associated with (and will be attached to) a BM instance.
 	IsBmVnic *bool `mandatory:"false" json:"isBmVnic"`
 
-	// Indicates if the VNIC is a service vnic.
+	// Indicates if the VNIC is a service VNIC.
 	IsServiceVnic *bool `mandatory:"false" json:"isServiceVnic"`
 
 	// Indicates if this VNIC can issue GARP requests. False by default.
@@ -160,7 +160,7 @@ type InternalVnic struct {
 	// are prohibited to add private IP to Exadata node.
 	IsPrivateIpCreationBlocked *bool `mandatory:"false" json:"isPrivateIpCreationBlocked"`
 
-	// ID of the entity owning the VNIC. This is passed in the create vnic call.
+	// ID of the entity owning the VNIC. This is passed in the create VNIC call.
 	// If none is passed and if there is an attachment then the attached instanceId is the ownerId.
 	OwnerId *string `mandatory:"false" json:"ownerId"`
 

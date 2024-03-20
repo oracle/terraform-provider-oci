@@ -21,13 +21,13 @@ import (
 	"strings"
 )
 
-// UpdateEncryptionCapabilityDetails Details required for updating the encryption capability for a service vnic.
+// UpdateEncryptionCapabilityDetails Details required for updating the encryption capability for a service VNIC.
 type UpdateEncryptionCapabilityDetails struct {
 
 	// Service VNIC OCID whose encryption capability needs to be updated.
 	VnicId *string `mandatory:"true" json:"vnicId"`
 
-	// Indicates if the service vnic supports encryption.
+	// Indicates if the service VNIC supports encryption.
 	IsEncryptionSupported *bool `mandatory:"true" json:"isEncryptionSupported"`
 }
 

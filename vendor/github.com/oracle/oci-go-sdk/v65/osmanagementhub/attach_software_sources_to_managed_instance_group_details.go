@@ -19,7 +19,7 @@ import (
 type AttachSoftwareSourcesToManagedInstanceGroupDetails struct {
 
 	// The list of software sources OCIDs to be attached.
-	SoftwareSources []string `mandatory:"false" json:"softwareSources"`
+	SoftwareSources []string `mandatory:"true" json:"softwareSources"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }

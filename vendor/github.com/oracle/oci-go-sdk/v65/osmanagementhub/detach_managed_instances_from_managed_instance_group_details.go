@@ -19,7 +19,7 @@ import (
 type DetachManagedInstancesFromManagedInstanceGroupDetails struct {
 
 	// The list of managed instance OCIDs to be detached.
-	ManagedInstances []string `mandatory:"false" json:"managedInstances"`
+	ManagedInstances []string `mandatory:"true" json:"managedInstances"`
 }
 
 func (m DetachManagedInstancesFromManagedInstanceGroupDetails) String() string {

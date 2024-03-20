@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// EnableExternalContainerDatabaseManagementFeatureDetails The details of the external container database feature.
+// EnableExternalContainerDatabaseManagementFeatureDetails The details required to enable a Database Management feature for an external container database.
 type EnableExternalContainerDatabaseManagementFeatureDetails struct {
 	FeatureDetails ExternalDatabaseFeatureDetails `mandatory:"true" json:"featureDetails"`
 }

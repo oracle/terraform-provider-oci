@@ -4,7 +4,7 @@
 
 // Java Management Service Download API
 //
-// The APIs for the download engine of the Java Management Service.
+// The APIs for the <a href="https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html">Java Download</a> feature of Java Management Service.
 //
 
 package jmsjavadownloads
@@ -21,7 +21,7 @@ type RequestSummarizedJavaDownloadCountsDetails struct {
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) here should be the tenancy OCID.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Group as property specifying the aggregation type for download counts.
+	// The property that specifies the aggregation type for the download counts.
 	GroupAs JavaDownloadCountAggregationTypeEnum `mandatory:"true" json:"groupAs"`
 
 	// Unique Java family version identifier.

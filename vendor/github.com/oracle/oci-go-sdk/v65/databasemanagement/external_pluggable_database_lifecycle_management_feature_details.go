@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalPluggableDatabaseLifecycleManagementFeatureDetails The details required to enable database lifecycle management feature.
+// ExternalPluggableDatabaseLifecycleManagementFeatureDetails The details required to enable the Database Lifecycle Management feature.
 type ExternalPluggableDatabaseLifecycleManagementFeatureDetails struct {
 	ConnectorDetails ConnectorDetails `mandatory:"true" json:"connectorDetails"`
 }

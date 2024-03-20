@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// DisableExternalNonContainerDatabaseManagementFeatureDetails The details of the external non-container database feature.
+// DisableExternalNonContainerDatabaseManagementFeatureDetails The details required to disable a Database Management feature for an external non-container database.
 type DisableExternalNonContainerDatabaseManagementFeatureDetails struct {
 
-	// The name of the database management feature
+	// The name of the Database Management feature.
 	Feature DbManagementFeatureEnum `mandatory:"true" json:"feature"`
 }
 

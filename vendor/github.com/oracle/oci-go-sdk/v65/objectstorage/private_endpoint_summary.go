@@ -47,20 +47,10 @@ type PrivateEndpointSummary struct {
 	Prefix *string `mandatory:"true" json:"prefix"`
 
 	// The entity tag for the Private Endpoint.
-	ETag *string `mandatory:"true" json:"eTag"`
+	Etag *string `mandatory:"true" json:"etag"`
 
 	// The summaries of Private Endpoints' lifecycle state.
 	LifecycleState PrivateEndpointLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
-
-	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags *interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m PrivateEndpointSummary) String() string {

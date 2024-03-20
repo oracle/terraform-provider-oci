@@ -44,7 +44,7 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 	// with the route target set to the value of the attachment's export route target.
 	ExportRouteTarget *string `mandatory:"false" json:"exportRouteTarget"`
 
-	// The MPLS label of the DRG attachment
+	// The MPLS label of the DRG attachment.
 	MplsLabel *int `mandatory:"false" json:"mplsLabel"`
 
 	// The BGP ASN to use for the IPSec connection's route target.
@@ -54,12 +54,12 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 	RegionName *string `mandatory:"false" json:"regionName"`
 
 	// Common Export route target to use for the DRG Attachment instead of per-attachment route target.
-	// This is applicable to DRG Attachments that are assigned to a DRG Route Table which is whitelisted for high
+	// This is applicable to DRG attachments that are assigned to a DRG route table which is whitelisted for high
 	// throughput mode.
 	CommonExportRT *string `mandatory:"false" json:"commonExportRT"`
 
-	// Common Import route target to use for the DRG Attachment instead of per-attachment import route target.
-	// This is applicable to DRG Attachments that are assigned to a DRG Route Table which is whitelisted for high
+	// Common Import route target to use for the DRG attachment instead of per-attachment import route target.
+	// This is applicable to DRG attachments that are assigned to a DRG route table which is whitelisted for high
 	// throughput mode.
 	CommonImportRT *string `mandatory:"false" json:"commonImportRT"`
 

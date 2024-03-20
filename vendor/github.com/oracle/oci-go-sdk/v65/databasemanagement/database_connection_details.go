@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// DatabaseConnectionDetails The connection details required to connect to database.
+// DatabaseConnectionDetails The connection details required to connect to the database.
 type DatabaseConnectionDetails struct {
 	ConnectionString DatabaseConnectionStringDetails `mandatory:"true" json:"connectionString"`
 

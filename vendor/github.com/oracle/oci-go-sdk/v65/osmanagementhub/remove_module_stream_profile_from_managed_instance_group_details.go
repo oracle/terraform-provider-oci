@@ -19,7 +19,7 @@ import (
 type RemoveModuleStreamProfileFromManagedInstanceGroupDetails struct {
 
 	// The name of a module.
-	ModuleName *string `mandatory:"false" json:"moduleName"`
+	ModuleName *string `mandatory:"true" json:"moduleName"`
 
 	// The name of a stream of the specified module.
 	StreamName *string `mandatory:"false" json:"streamName"`

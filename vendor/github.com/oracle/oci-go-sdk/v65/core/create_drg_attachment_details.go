@@ -32,6 +32,14 @@ type CreateDrgAttachmentDetails struct {
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Optional OCID supplied to create an internal resource backing a global resource.
+	Id *string `mandatory:"false" json:"id"`
+
+	// STANDARD applies to all regional resources which are customer visible, GDRG_SERVICE_RESOURCE applies to
+	// internal resources created to back GlobalDRGAttachments, and GDRG_MESH_RPC applies to internal RPC Attachments
+	// used to facilitate GlobalDRG functionality.
+	InternalType DrgAttachmentInternalTypeEnum `mandatory:"false" json:"internalType,omitempty"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table that is assigned to this attachment.
 	// The DRG route table manages traffic inside the DRG.
 	DrgRouteTableId *string `mandatory:"false" json:"drgRouteTableId"`
@@ -77,6 +85,9 @@ func (m CreateDrgAttachmentDetails) String() string {
 func (m CreateDrgAttachmentDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingDrgAttachmentInternalTypeEnum(string(m.InternalType)); !ok && m.InternalType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InternalType: %s. Supported values are: %s.", m.InternalType, strings.Join(GetDrgAttachmentInternalTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum(string(m.TransitiveTrafficEnabled)); !ok && m.TransitiveTrafficEnabled != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TransitiveTrafficEnabled: %s. Supported values are: %s.", m.TransitiveTrafficEnabled, strings.Join(GetCreateDrgAttachmentDetailsTransitiveTrafficEnabledEnumStringValues(), ",")))
 	}
@@ -90,6 +101,8 @@ func (m CreateDrgAttachmentDetails) ValidateEnumValue() (bool, error) {
 func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		DisplayName              *string                                                `json:"displayName"`
+		Id                       *string                                                `json:"id"`
+		InternalType             DrgAttachmentInternalTypeEnum                          `json:"internalType"`
 		DrgRouteTableId          *string                                                `json:"drgRouteTableId"`
 		NetworkDetails           drgattachmentnetworkcreatedetails                      `json:"networkDetails"`
 		DefinedTags              map[string]map[string]interface{}                      `json:"definedTags"`
@@ -106,6 +119,10 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.DisplayName = model.DisplayName
+
+	m.Id = model.Id
+
+	m.InternalType = model.InternalType
 
 	m.DrgRouteTableId = model.DrgRouteTableId
 

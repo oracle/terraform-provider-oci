@@ -85,9 +85,6 @@ type ChangeEventCompartmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// Unique Oracle-assigned identifier for the asynchronous work. You can use this to query its status.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
-
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`

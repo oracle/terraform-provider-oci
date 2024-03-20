@@ -17,7 +17,7 @@ type EnableDatabaseManagementFeatureRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Database.
 	DatabaseId *string `mandatory:"true" contributesTo:"path" name:"databaseId"`
 
-	// The details required to enable Database Management Feature for a database.
+	// The details required to enable a Database Management feature for an Oracle cloud database.
 	EnableDatabaseManagementFeatureDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

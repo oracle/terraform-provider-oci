@@ -55,7 +55,7 @@ type ScheduledJobSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
-	// The list of locations this scheduled job should operate on. (Empty list means apply to all locations)
+	// The list of locations this scheduled job should operate on for a job targeting on compartments. (Empty list means apply to all locations). This can only be set when managedCompartmentIds is not empty.
 	Locations []ManagedInstanceLocationEnum `mandatory:"false" json:"locations"`
 
 	// The time/date of the last execution of this scheduled job.

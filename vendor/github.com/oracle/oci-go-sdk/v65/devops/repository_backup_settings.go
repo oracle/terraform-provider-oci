@@ -1,0 +1,175 @@
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// DevOps API
+//
+// Use the DevOps API to create DevOps projects, configure code repositories,  add artifacts to deploy, build and test software applications, configure  target deployment environments, and deploy software applications.  For more information, see DevOps (https://docs.cloud.oracle.com/Content/devops/using/home.htm).
+//
+
+package devops
+
+import (
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// RepositoryBackupSettings Repository Backup Settings.
+type RepositoryBackupSettings struct {
+
+	// The name of the backup setting.
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// Id of the backup setting
+	Id *string `mandatory:"true" json:"id"`
+
+	// The OCID of the compartment.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// Lifecycle state of backup settings
+	LifecycleState RepositoryBackupSettingsLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
+
+	// The frequency at which backup of the repository will be created.
+	Frequency RepositoryBackupSettingsFrequencyEnum `mandatory:"true" json:"frequency"`
+
+	// The number of days after which the backup file produced by the rule will be deleted
+	RetentionPeriodInDays *int `mandatory:"true" json:"retentionPeriodInDays"`
+
+	// Enable backup.
+	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
+
+	// Enforce a minimum count of backups
+	MinimumBackupsToRetain *int `mandatory:"true" json:"minimumBackupsToRetain"`
+
+	// The time when backup settings was created. An RFC3339 formatted datetime string
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The time when backup settings was updated. An RFC3339 formatted datetime string
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
+	// The start date after which backups will be created. An RFC3339 formatted datetime string
+	TimeBackupCreationStart *common.SDKTime `mandatory:"true" json:"timeBackupCreationStart"`
+
+	// The textual description for the Repository Backup
+	Description *string `mandatory:"false" json:"description"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+}
+
+func (m RepositoryBackupSettings) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m RepositoryBackupSettings) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := GetMappingRepositoryBackupSettingsLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRepositoryBackupSettingsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRepositoryBackupSettingsFrequencyEnum(string(m.Frequency)); !ok && m.Frequency != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Frequency: %s. Supported values are: %s.", m.Frequency, strings.Join(GetRepositoryBackupSettingsFrequencyEnumStringValues(), ",")))
+	}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}
+
+// RepositoryBackupSettingsLifecycleStateEnum Enum with underlying type: string
+type RepositoryBackupSettingsLifecycleStateEnum string
+
+// Set of constants representing the allowable values for RepositoryBackupSettingsLifecycleStateEnum
+const (
+	RepositoryBackupSettingsLifecycleStateActive   RepositoryBackupSettingsLifecycleStateEnum = "ACTIVE"
+	RepositoryBackupSettingsLifecycleStateDeleting RepositoryBackupSettingsLifecycleStateEnum = "DELETING"
+)
+
+var mappingRepositoryBackupSettingsLifecycleStateEnum = map[string]RepositoryBackupSettingsLifecycleStateEnum{
+	"ACTIVE":   RepositoryBackupSettingsLifecycleStateActive,
+	"DELETING": RepositoryBackupSettingsLifecycleStateDeleting,
+}
+
+var mappingRepositoryBackupSettingsLifecycleStateEnumLowerCase = map[string]RepositoryBackupSettingsLifecycleStateEnum{
+	"active":   RepositoryBackupSettingsLifecycleStateActive,
+	"deleting": RepositoryBackupSettingsLifecycleStateDeleting,
+}
+
+// GetRepositoryBackupSettingsLifecycleStateEnumValues Enumerates the set of values for RepositoryBackupSettingsLifecycleStateEnum
+func GetRepositoryBackupSettingsLifecycleStateEnumValues() []RepositoryBackupSettingsLifecycleStateEnum {
+	values := make([]RepositoryBackupSettingsLifecycleStateEnum, 0)
+	for _, v := range mappingRepositoryBackupSettingsLifecycleStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRepositoryBackupSettingsLifecycleStateEnumStringValues Enumerates the set of values in String for RepositoryBackupSettingsLifecycleStateEnum
+func GetRepositoryBackupSettingsLifecycleStateEnumStringValues() []string {
+	return []string{
+		"ACTIVE",
+		"DELETING",
+	}
+}
+
+// GetMappingRepositoryBackupSettingsLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRepositoryBackupSettingsLifecycleStateEnum(val string) (RepositoryBackupSettingsLifecycleStateEnum, bool) {
+	enum, ok := mappingRepositoryBackupSettingsLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// RepositoryBackupSettingsFrequencyEnum Enum with underlying type: string
+type RepositoryBackupSettingsFrequencyEnum string
+
+// Set of constants representing the allowable values for RepositoryBackupSettingsFrequencyEnum
+const (
+	RepositoryBackupSettingsFrequencyDaily   RepositoryBackupSettingsFrequencyEnum = "DAILY"
+	RepositoryBackupSettingsFrequencyWeekly  RepositoryBackupSettingsFrequencyEnum = "WEEKLY"
+	RepositoryBackupSettingsFrequencyMonthly RepositoryBackupSettingsFrequencyEnum = "MONTHLY"
+)
+
+var mappingRepositoryBackupSettingsFrequencyEnum = map[string]RepositoryBackupSettingsFrequencyEnum{
+	"DAILY":   RepositoryBackupSettingsFrequencyDaily,
+	"WEEKLY":  RepositoryBackupSettingsFrequencyWeekly,
+	"MONTHLY": RepositoryBackupSettingsFrequencyMonthly,
+}
+
+var mappingRepositoryBackupSettingsFrequencyEnumLowerCase = map[string]RepositoryBackupSettingsFrequencyEnum{
+	"daily":   RepositoryBackupSettingsFrequencyDaily,
+	"weekly":  RepositoryBackupSettingsFrequencyWeekly,
+	"monthly": RepositoryBackupSettingsFrequencyMonthly,
+}
+
+// GetRepositoryBackupSettingsFrequencyEnumValues Enumerates the set of values for RepositoryBackupSettingsFrequencyEnum
+func GetRepositoryBackupSettingsFrequencyEnumValues() []RepositoryBackupSettingsFrequencyEnum {
+	values := make([]RepositoryBackupSettingsFrequencyEnum, 0)
+	for _, v := range mappingRepositoryBackupSettingsFrequencyEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRepositoryBackupSettingsFrequencyEnumStringValues Enumerates the set of values in String for RepositoryBackupSettingsFrequencyEnum
+func GetRepositoryBackupSettingsFrequencyEnumStringValues() []string {
+	return []string{
+		"DAILY",
+		"WEEKLY",
+		"MONTHLY",
+	}
+}
+
+// GetMappingRepositoryBackupSettingsFrequencyEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRepositoryBackupSettingsFrequencyEnum(val string) (RepositoryBackupSettingsFrequencyEnum, bool) {
+	enum, ok := mappingRepositoryBackupSettingsFrequencyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}

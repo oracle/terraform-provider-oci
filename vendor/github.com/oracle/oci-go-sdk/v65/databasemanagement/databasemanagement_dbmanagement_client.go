@@ -2596,7 +2596,7 @@ func (client DbManagementClient) disableAutomaticSpmEvolveAdvisorTask(ctx contex
 	return response, err
 }
 
-// DisableDatabaseManagementFeature Disables Database Management feature for the specified database.
+// DisableDatabaseManagementFeature Disables a Database Management feature for the specified Oracle cloud database.
 // A default retry strategy applies to this operation DisableDatabaseManagementFeature()
 func (client DbManagementClient) DisableDatabaseManagementFeature(ctx context.Context, request DisableDatabaseManagementFeatureRequest) (response DisableDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2655,7 +2655,7 @@ func (client DbManagementClient) disableDatabaseManagementFeature(ctx context.Co
 	return response, err
 }
 
-// DisableExternalContainerDatabaseManagementFeature Disables Database Management feature for the specified external container database.
+// DisableExternalContainerDatabaseManagementFeature Disables a Database Management feature for the specified external container database.
 // A default retry strategy applies to this operation DisableExternalContainerDatabaseManagementFeature()
 func (client DbManagementClient) DisableExternalContainerDatabaseManagementFeature(ctx context.Context, request DisableExternalContainerDatabaseManagementFeatureRequest) (response DisableExternalContainerDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2957,7 +2957,7 @@ func (client DbManagementClient) disableExternalMySqlDatabaseManagement(ctx cont
 	return response, err
 }
 
-// DisableExternalNonContainerDatabaseManagementFeature Disables Database Management feature for the specified external non-container database.
+// DisableExternalNonContainerDatabaseManagementFeature Disables a Database Management feature for the specified external non-container database.
 // A default retry strategy applies to this operation DisableExternalNonContainerDatabaseManagementFeature()
 func (client DbManagementClient) DisableExternalNonContainerDatabaseManagementFeature(ctx context.Context, request DisableExternalNonContainerDatabaseManagementFeatureRequest) (response DisableExternalNonContainerDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3016,7 +3016,7 @@ func (client DbManagementClient) disableExternalNonContainerDatabaseManagementFe
 	return response, err
 }
 
-// DisableExternalPluggableDatabaseManagementFeature Disables Database Management feature for the specified external pluggable database.
+// DisableExternalPluggableDatabaseManagementFeature Disables a Database Management feature for the specified external pluggable database.
 // A default retry strategy applies to this operation DisableExternalPluggableDatabaseManagementFeature()
 func (client DbManagementClient) DisableExternalPluggableDatabaseManagementFeature(ctx context.Context, request DisableExternalPluggableDatabaseManagementFeatureRequest) (response DisableExternalPluggableDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3130,7 +3130,7 @@ func (client DbManagementClient) disableHighFrequencyAutomaticSpmEvolveAdvisorTa
 	return response, err
 }
 
-// DisablePluggableDatabaseManagementFeature Disables Database Management feature for the specified database.
+// DisablePluggableDatabaseManagementFeature Disables a Database Management feature for the specified Oracle cloud pluggable database.
 // A default retry strategy applies to this operation DisablePluggableDatabaseManagementFeature()
 func (client DbManagementClient) DisablePluggableDatabaseManagementFeature(ctx context.Context, request DisablePluggableDatabaseManagementFeatureRequest) (response DisablePluggableDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3552,7 +3552,7 @@ func (client DbManagementClient) enableAutomaticSpmEvolveAdvisorTask(ctx context
 	return response, err
 }
 
-// EnableDatabaseManagementFeature Enables Database Management feature for the specified cloud database.
+// EnableDatabaseManagementFeature Enables a Database Management feature for the specified cloud database.
 // A default retry strategy applies to this operation EnableDatabaseManagementFeature()
 func (client DbManagementClient) EnableDatabaseManagementFeature(ctx context.Context, request EnableDatabaseManagementFeatureRequest) (response EnableDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3611,7 +3611,7 @@ func (client DbManagementClient) enableDatabaseManagementFeature(ctx context.Con
 	return response, err
 }
 
-// EnableExternalContainerDatabaseManagementFeature Enables Database Management feature for the specified external database.
+// EnableExternalContainerDatabaseManagementFeature Enables a Database Management feature for the specified external container database.
 // A default retry strategy applies to this operation EnableExternalContainerDatabaseManagementFeature()
 func (client DbManagementClient) EnableExternalContainerDatabaseManagementFeature(ctx context.Context, request EnableExternalContainerDatabaseManagementFeatureRequest) (response EnableExternalContainerDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3971,7 +3971,7 @@ func (client DbManagementClient) enableExternalNonContainerDatabaseManagementFea
 	return response, err
 }
 
-// EnableExternalPluggableDatabaseManagementFeature Enables Database Management feature for the specified external pluggable database.
+// EnableExternalPluggableDatabaseManagementFeature Enables a Database Management feature for the specified external pluggable database.
 // A default retry strategy applies to this operation EnableExternalPluggableDatabaseManagementFeature()
 func (client DbManagementClient) EnableExternalPluggableDatabaseManagementFeature(ctx context.Context, request EnableExternalPluggableDatabaseManagementFeatureRequest) (response EnableExternalPluggableDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4089,7 +4089,7 @@ func (client DbManagementClient) enableHighFrequencyAutomaticSpmEvolveAdvisorTas
 	return response, err
 }
 
-// EnablePluggableDatabaseManagementFeature Enables Database Management feature for the specified cloud pluggable database.
+// EnablePluggableDatabaseManagementFeature Enables a Database Management feature for the specified Oracle cloud pluggable database.
 // A default retry strategy applies to this operation EnablePluggableDatabaseManagementFeature()
 func (client DbManagementClient) EnablePluggableDatabaseManagementFeature(ctx context.Context, request EnablePluggableDatabaseManagementFeatureRequest) (response EnablePluggableDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9568,7 +9568,7 @@ func (client DbManagementClient) loadSqlPlanBaselinesFromCursorCache(ctx context
 	return response, err
 }
 
-// ModifyDatabaseManagementFeature Modifies Database Management feature for the specified cloud database.
+// ModifyDatabaseManagementFeature Modifies a Database Management feature for the specified Oracle cloud database.
 // A default retry strategy applies to this operation ModifyDatabaseManagementFeature()
 func (client DbManagementClient) ModifyDatabaseManagementFeature(ctx context.Context, request ModifyDatabaseManagementFeatureRequest) (response ModifyDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -9627,7 +9627,7 @@ func (client DbManagementClient) modifyDatabaseManagementFeature(ctx context.Con
 	return response, err
 }
 
-// ModifyPluggableDatabaseManagementFeature Modifies Database Management feature for the specified cloud pluggable database.
+// ModifyPluggableDatabaseManagementFeature Modifies the Database Management feature for the specified Oracle cloud pluggable database.
 // A default retry strategy applies to this operation ModifyPluggableDatabaseManagementFeature()
 func (client DbManagementClient) ModifyPluggableDatabaseManagementFeature(ctx context.Context, request ModifyPluggableDatabaseManagementFeatureRequest) (response ModifyPluggableDatabaseManagementFeatureResponse, err error) {
 	var ociResponse common.OCIResponse

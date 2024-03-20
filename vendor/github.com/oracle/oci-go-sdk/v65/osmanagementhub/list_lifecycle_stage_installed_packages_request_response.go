@@ -26,9 +26,6 @@ type ListLifecycleStageInstalledPackagesRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// The OCID of the managed instance for which to list resources.
-	ManagedInstanceId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceId"`
-
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
@@ -109,8 +106,8 @@ type ListLifecycleStageInstalledPackagesResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of LifecycleStageInstalledPackagesCollection instances
-	LifecycleStageInstalledPackagesCollection `presentIn:"body"`
+	// A list of InstalledPackageCollection instances
+	InstalledPackageCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

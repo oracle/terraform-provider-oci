@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// ExternalDatabaseSqlWatchFeatureDetails The details required to enable sql watch feature.
+// ExternalDatabaseSqlWatchFeatureDetails The details required to enable the SQL Watch feature.
 type ExternalDatabaseSqlWatchFeatureDetails struct {
 	ConnectorDetails ConnectorDetails `mandatory:"true" json:"connectorDetails"`
 }
