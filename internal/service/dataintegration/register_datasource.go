@@ -23,5 +23,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_import_requests", DataintegrationWorkspaceImportRequestsDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_project", DataintegrationWorkspaceProjectDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspace_projects", DataintegrationWorkspaceProjectsDataSource())
+	tfresource.RegisterDatasource("oci_dataintegration_workspace_task", DataintegrationWorkspaceTaskDataSource())
+	tfresource.RegisterDatasource("oci_dataintegration_workspace_tasks", DataintegrationWorkspaceTasksDataSource())
 	tfresource.RegisterDatasource("oci_dataintegration_workspaces", DataintegrationWorkspacesDataSource())
 }
