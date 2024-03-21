@@ -57,6 +57,10 @@ variable "alarm_metric_compartment_id_in_subtree" {
   default = false
 }
 
+variable "alarm_notification_version" {
+  default = "1.X"
+}
+
 variable "alarm_namespace" {
   default = "oci_computeagent"
 }
@@ -79,6 +83,10 @@ variable "alarm_resolution" {
 
 variable "alarm_resource_group" {
   default = "resourceGroup"
+}
+
+variable "alarm_rule_name" {
+  default = "BASE"
 }
 
 variable "alarm_severity" {
@@ -167,10 +175,26 @@ resource "oci_monitoring_alarm" "test_alarm" {
   body                             = var.alarm_body
   message_format                   = var.alarm_message_format
   metric_compartment_id_in_subtree = var.alarm_metric_compartment_id_in_subtree
+  notification_version             = var.alarm_notification_version
+  overrides {
+    body             = "90% CPU utilization."
+    pending_duration = "PT10M"
+    query            = "CPUUtilization[1m].mean() > 90"
+    rule_name        = "RULE1"
+    severity         = "WARNING"
+  }
+  overrides {
+    body             = "95% CPU utilization."
+    pending_duration = "PT5M"
+    query            = "CPUUtilization[1m].mean() > 95"
+    rule_name        = "RULE2"
+    severity         = "CRITICAL"
+  }
   pending_duration                 = var.alarm_pending_duration
   repeat_notification_duration     = var.alarm_repeat_notification_duration
   resolution                       = var.alarm_resolution
   resource_group                   = var.alarm_resource_group
+  rule_name                        = var.alarm_rule_name
   is_notifications_per_metric_dimension_enabled = var.is_notifications_per_metric_dimension_enabled
 
   suppression {

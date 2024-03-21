@@ -151,8 +151,22 @@ func (s *MonitoringAlarmsDataSourceCrud) SetData() error {
 			alarm["namespace"] = *r.Namespace
 		}
 
+		if r.NotificationVersion != nil {
+			alarm["notification_version"] = *r.NotificationVersion
+		}
+
+		overrides := []interface{}{}
+		for _, item := range r.Overrides {
+			overrides = append(overrides, AlarmOverrideToMap(item))
+		}
+		alarm["overrides"] = overrides
+
 		if r.Query != nil {
 			alarm["query"] = *r.Query
+		}
+
+		if r.RuleName != nil {
+			alarm["rule_name"] = *r.RuleName
 		}
 
 		alarm["severity"] = r.Severity

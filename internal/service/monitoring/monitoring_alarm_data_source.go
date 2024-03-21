@@ -108,6 +108,16 @@ func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
 
+	if s.Res.NotificationVersion != nil {
+		s.D.Set("notification_version", *s.Res.NotificationVersion)
+	}
+
+	overrides := []interface{}{}
+	for _, item := range s.Res.Overrides {
+		overrides = append(overrides, AlarmOverrideToMap(item))
+	}
+	s.D.Set("overrides", overrides)
+
 	if s.Res.PendingDuration != nil {
 		s.D.Set("pending_duration", *s.Res.PendingDuration)
 	}
@@ -126,6 +136,10 @@ func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 
 	if s.Res.ResourceGroup != nil {
 		s.D.Set("resource_group", *s.Res.ResourceGroup)
+	}
+
+	if s.Res.RuleName != nil {
+		s.D.Set("rule_name", *s.Res.RuleName)
 	}
 
 	s.D.Set("severity", s.Res.Severity)
