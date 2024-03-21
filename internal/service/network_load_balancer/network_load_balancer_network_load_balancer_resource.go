@@ -70,6 +70,11 @@ func NetworkLoadBalancerNetworkLoadBalancerResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_symmetric_hash_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"network_security_group_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -275,6 +280,11 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) Create() error {
 	if isPrivate, ok := s.D.GetOkExists("is_private"); ok {
 		tmp := isPrivate.(bool)
 		request.IsPrivate = &tmp
+	}
+
+	if isSymmetricHashEnabled, ok := s.D.GetOkExists("is_symmetric_hash_enabled"); ok {
+		tmp := isSymmetricHashEnabled.(bool)
+		request.IsSymmetricHashEnabled = &tmp
 	}
 
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
@@ -507,6 +517,11 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) Update() error {
 		request.IsPreserveSourceDestination = &tmp
 	}
 
+	if isSymmetricHashEnabled, ok := s.D.GetOkExists("is_symmetric_hash_enabled"); ok {
+		tmp := isSymmetricHashEnabled.(bool)
+		request.IsSymmetricHashEnabled = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.NetworkLoadBalancerId = &tmp
 	if nlbIpVersion, ok := s.D.GetOkExists("nlb_ip_version"); ok {
@@ -570,6 +585,10 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerResourceCrud) SetData() error {
 
 	if s.Res.IsPrivate != nil {
 		s.D.Set("is_private", *s.Res.IsPrivate)
+	}
+
+	if s.Res.IsSymmetricHashEnabled != nil {
+		s.D.Set("is_symmetric_hash_enabled", *s.Res.IsSymmetricHashEnabled)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -654,6 +673,10 @@ func NetworkLoadBalancerSummaryToMap(obj oci_network_load_balancer.NetworkLoadBa
 
 	if obj.IsPrivate != nil {
 		result["is_private"] = bool(*obj.IsPrivate)
+	}
+
+	if obj.IsSymmetricHashEnabled != nil {
+		result["is_symmetric_hash_enabled"] = bool(*obj.IsSymmetricHashEnabled)
 	}
 
 	if obj.LifecycleDetails != nil {
