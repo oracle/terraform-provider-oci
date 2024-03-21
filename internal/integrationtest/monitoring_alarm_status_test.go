@@ -63,6 +63,7 @@ func TestMonitoringAlarmStatusResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.0.display_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.0.rule_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.0.severity"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.0.status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_statuses.0.timestamp_triggered"),
