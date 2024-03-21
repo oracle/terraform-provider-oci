@@ -668,6 +668,7 @@ dataintegration
 * oci\_dataintegration\_workspace\_application\_patch
 * oci\_dataintegration\_workspace\_application\_schedule
 * oci\_dataintegration\_workspace\_application\_task\_schedule
+* oci\_dataintegration\_workspace\_task
 
 datascience
 
