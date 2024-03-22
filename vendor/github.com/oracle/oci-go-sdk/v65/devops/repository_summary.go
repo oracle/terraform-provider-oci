@@ -27,7 +27,7 @@ type RepositorySummary struct {
 	// The OCID of the DevOps project containing the repository.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
-	// Unique name of a repository. This value is mutable.
+	// Name of the repository. Should be unique within the project. This value is mutable.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Tenancy unique namespace.

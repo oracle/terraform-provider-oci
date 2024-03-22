@@ -20,15 +20,18 @@ type UnifiedAgentServiceConfigurationTypesEnum string
 
 // Set of constants representing the allowable values for UnifiedAgentServiceConfigurationTypesEnum
 const (
-	UnifiedAgentServiceConfigurationTypesLogging UnifiedAgentServiceConfigurationTypesEnum = "LOGGING"
+	UnifiedAgentServiceConfigurationTypesLogging    UnifiedAgentServiceConfigurationTypesEnum = "LOGGING"
+	UnifiedAgentServiceConfigurationTypesMonitoring UnifiedAgentServiceConfigurationTypesEnum = "MONITORING"
 )
 
 var mappingUnifiedAgentServiceConfigurationTypesEnum = map[string]UnifiedAgentServiceConfigurationTypesEnum{
-	"LOGGING": UnifiedAgentServiceConfigurationTypesLogging,
+	"LOGGING":    UnifiedAgentServiceConfigurationTypesLogging,
+	"MONITORING": UnifiedAgentServiceConfigurationTypesMonitoring,
 }
 
 var mappingUnifiedAgentServiceConfigurationTypesEnumLowerCase = map[string]UnifiedAgentServiceConfigurationTypesEnum{
-	"logging": UnifiedAgentServiceConfigurationTypesLogging,
+	"logging":    UnifiedAgentServiceConfigurationTypesLogging,
+	"monitoring": UnifiedAgentServiceConfigurationTypesMonitoring,
 }
 
 // GetUnifiedAgentServiceConfigurationTypesEnumValues Enumerates the set of values for UnifiedAgentServiceConfigurationTypesEnum
@@ -44,6 +47,7 @@ func GetUnifiedAgentServiceConfigurationTypesEnumValues() []UnifiedAgentServiceC
 func GetUnifiedAgentServiceConfigurationTypesEnumStringValues() []string {
 	return []string{
 		"LOGGING",
+		"MONITORING",
 	}
 }
 

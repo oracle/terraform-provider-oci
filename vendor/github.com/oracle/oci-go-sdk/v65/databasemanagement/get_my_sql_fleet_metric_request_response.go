@@ -47,6 +47,9 @@ type GetMySqlFleetMetricRequest struct {
 	// The parameter to filter by MySQL database version.
 	FilterByMySqlDatabaseVersion *string `mandatory:"false" contributesTo:"query" name:"filterByMySqlDatabaseVersion"`
 
+	// The parameter to filter based on whether HeatWave is enabled for the database.
+	IsHeatWaveEnabled *bool `mandatory:"false" contributesTo:"query" name:"isHeatWaveEnabled"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

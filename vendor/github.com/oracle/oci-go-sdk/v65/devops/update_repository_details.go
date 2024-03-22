@@ -18,7 +18,7 @@ import (
 // UpdateRepositoryDetails The information to be updated.
 type UpdateRepositoryDetails struct {
 
-	// Unique name of a repository.
+	// Name of the repository. Should be unique within the project.
 	Name *string `mandatory:"false" json:"name"`
 
 	// Details of the repository. Avoid entering confidential information.

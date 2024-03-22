@@ -35,6 +35,7 @@ const (
 	OperationTypeChangeCompartment         OperationTypeEnum = "CHANGE_COMPARTMENT"
 	OperationTypeAttachNlbToPod            OperationTypeEnum = "ATTACH_NLB_TO_POD"
 	OperationTypeDetachNlbFromPod          OperationTypeEnum = "DETACH_NLB_FROM_POD"
+	OperationTypeLiveMigration             OperationTypeEnum = "LIVE_MIGRATION"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -55,6 +56,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"CHANGE_COMPARTMENT":           OperationTypeChangeCompartment,
 	"ATTACH_NLB_TO_POD":            OperationTypeAttachNlbToPod,
 	"DETACH_NLB_FROM_POD":          OperationTypeDetachNlbFromPod,
+	"LIVE_MIGRATION":               OperationTypeLiveMigration,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -75,6 +77,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"change_compartment":           OperationTypeChangeCompartment,
 	"attach_nlb_to_pod":            OperationTypeAttachNlbToPod,
 	"detach_nlb_from_pod":          OperationTypeDetachNlbFromPod,
+	"live_migration":               OperationTypeLiveMigration,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -106,6 +109,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"CHANGE_COMPARTMENT",
 		"ATTACH_NLB_TO_POD",
 		"DETACH_NLB_FROM_POD",
+		"LIVE_MIGRATION",
 	}
 }
 

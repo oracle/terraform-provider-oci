@@ -166,6 +166,7 @@ const (
 	DeployArtifactDeployArtifactTypeGenericFile        DeployArtifactDeployArtifactTypeEnum = "GENERIC_FILE"
 	DeployArtifactDeployArtifactTypeDockerImage        DeployArtifactDeployArtifactTypeEnum = "DOCKER_IMAGE"
 	DeployArtifactDeployArtifactTypeHelmChart          DeployArtifactDeployArtifactTypeEnum = "HELM_CHART"
+	DeployArtifactDeployArtifactTypeHelmCommandSpec    DeployArtifactDeployArtifactTypeEnum = "HELM_COMMAND_SPEC"
 	DeployArtifactDeployArtifactTypeCommandSpec        DeployArtifactDeployArtifactTypeEnum = "COMMAND_SPEC"
 )
 
@@ -176,6 +177,7 @@ var mappingDeployArtifactDeployArtifactTypeEnum = map[string]DeployArtifactDeplo
 	"GENERIC_FILE":        DeployArtifactDeployArtifactTypeGenericFile,
 	"DOCKER_IMAGE":        DeployArtifactDeployArtifactTypeDockerImage,
 	"HELM_CHART":          DeployArtifactDeployArtifactTypeHelmChart,
+	"HELM_COMMAND_SPEC":   DeployArtifactDeployArtifactTypeHelmCommandSpec,
 	"COMMAND_SPEC":        DeployArtifactDeployArtifactTypeCommandSpec,
 }
 
@@ -186,6 +188,7 @@ var mappingDeployArtifactDeployArtifactTypeEnumLowerCase = map[string]DeployArti
 	"generic_file":        DeployArtifactDeployArtifactTypeGenericFile,
 	"docker_image":        DeployArtifactDeployArtifactTypeDockerImage,
 	"helm_chart":          DeployArtifactDeployArtifactTypeHelmChart,
+	"helm_command_spec":   DeployArtifactDeployArtifactTypeHelmCommandSpec,
 	"command_spec":        DeployArtifactDeployArtifactTypeCommandSpec,
 }
 
@@ -207,6 +210,7 @@ func GetDeployArtifactDeployArtifactTypeEnumStringValues() []string {
 		"GENERIC_FILE",
 		"DOCKER_IMAGE",
 		"HELM_CHART",
+		"HELM_COMMAND_SPEC",
 		"COMMAND_SPEC",
 	}
 }
