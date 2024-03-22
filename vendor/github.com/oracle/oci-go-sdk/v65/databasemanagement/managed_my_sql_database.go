@@ -37,6 +37,30 @@ type ManagedMySqlDatabase struct {
 
 	// The name of the Managed MySQL Database.
 	Name *string `mandatory:"true" json:"name"`
+
+	// The name of the HeatWave cluster.
+	HeatWaveClusterDisplayName *string `mandatory:"false" json:"heatWaveClusterDisplayName"`
+
+	// If HeatWave is enabled for this db system or not.
+	IsHeatWaveEnabled *bool `mandatory:"false" json:"isHeatWaveEnabled"`
+
+	// If HeatWave Lakehouse is enabled for the db system or not.
+	IsLakehouseEnabled *bool `mandatory:"false" json:"isLakehouseEnabled"`
+
+	// Shape of the nodes in the HeatWave cluster.
+	HeatWaveNodeShape *string `mandatory:"false" json:"heatWaveNodeShape"`
+
+	// The total memory belonging to the HeatWave cluster in GBs.
+	HeatWaveMemorySize *int `mandatory:"false" json:"heatWaveMemorySize"`
+
+	// The information about an individual HeatWave nodes in the cluster.
+	HeatWaveNodes []HeatWaveNode `mandatory:"false" json:"heatWaveNodes"`
+
+	// If the HeatWave cluster is active or not.
+	IsHeatWaveActive *bool `mandatory:"false" json:"isHeatWaveActive"`
+
+	// The date and time the Managed MySQL Database was created.
+	TimeCreatedHeatWave *common.SDKTime `mandatory:"false" json:"timeCreatedHeatWave"`
 }
 
 func (m ManagedMySqlDatabase) String() string {

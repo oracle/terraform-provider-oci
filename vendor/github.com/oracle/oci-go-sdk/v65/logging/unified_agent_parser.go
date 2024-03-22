@@ -124,6 +124,10 @@ func (m *unifiedagentparser) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := UnifiedAgentSyslogParser{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OPENMETRICS":
+		mm := UnifiedAgentOpenmetricsParser{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUDITD":
 		mm := UnifiedAgentAuditdParser{}
 		err = json.Unmarshal(data, &mm)
@@ -236,6 +240,7 @@ const (
 	UnifiedAgentParserParserTypeMultiline     UnifiedAgentParserParserTypeEnum = "MULTILINE"
 	UnifiedAgentParserParserTypeGrok          UnifiedAgentParserParserTypeEnum = "GROK"
 	UnifiedAgentParserParserTypeMultilineGrok UnifiedAgentParserParserTypeEnum = "MULTILINE_GROK"
+	UnifiedAgentParserParserTypeOpenmetrics   UnifiedAgentParserParserTypeEnum = "OPENMETRICS"
 )
 
 var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParserTypeEnum{
@@ -253,6 +258,7 @@ var mappingUnifiedAgentParserParserTypeEnum = map[string]UnifiedAgentParserParse
 	"MULTILINE":      UnifiedAgentParserParserTypeMultiline,
 	"GROK":           UnifiedAgentParserParserTypeGrok,
 	"MULTILINE_GROK": UnifiedAgentParserParserTypeMultilineGrok,
+	"OPENMETRICS":    UnifiedAgentParserParserTypeOpenmetrics,
 }
 
 var mappingUnifiedAgentParserParserTypeEnumLowerCase = map[string]UnifiedAgentParserParserTypeEnum{
@@ -270,6 +276,7 @@ var mappingUnifiedAgentParserParserTypeEnumLowerCase = map[string]UnifiedAgentPa
 	"multiline":      UnifiedAgentParserParserTypeMultiline,
 	"grok":           UnifiedAgentParserParserTypeGrok,
 	"multiline_grok": UnifiedAgentParserParserTypeMultilineGrok,
+	"openmetrics":    UnifiedAgentParserParserTypeOpenmetrics,
 }
 
 // GetUnifiedAgentParserParserTypeEnumValues Enumerates the set of values for UnifiedAgentParserParserTypeEnum
@@ -298,6 +305,7 @@ func GetUnifiedAgentParserParserTypeEnumStringValues() []string {
 		"MULTILINE",
 		"GROK",
 		"MULTILINE_GROK",
+		"OPENMETRICS",
 	}
 }
 

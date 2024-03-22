@@ -25,8 +25,9 @@ type GetAlarmHistoryRequest struct {
 	// request, please provide the complete request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The type of history entries to retrieve. State history (STATE_HISTORY) or state transition history (STATE_TRANSITION_HISTORY).
-	// If not specified, entries of both types are retrieved.
+	// The type of history entries to retrieve.
+	// State history (STATE_HISTORY), state transition history (STATE_TRANSITION_HISTORY), rule history (RULE_HISTORY) or rule transition history (RULE_TRANSITION_HISTORY).
+	// If not specified, entries of all types are retrieved.
 	// Example: `STATE_HISTORY`
 	AlarmHistorytype GetAlarmHistoryAlarmHistorytypeEnum `mandatory:"false" contributesTo:"query" name:"alarmHistorytype" omitEmpty:"true"`
 
@@ -128,18 +129,24 @@ type GetAlarmHistoryAlarmHistorytypeEnum string
 
 // Set of constants representing the allowable values for GetAlarmHistoryAlarmHistorytypeEnum
 const (
-	GetAlarmHistoryAlarmHistorytypeHistory           GetAlarmHistoryAlarmHistorytypeEnum = "STATE_HISTORY"
-	GetAlarmHistoryAlarmHistorytypeTransitionHistory GetAlarmHistoryAlarmHistorytypeEnum = "STATE_TRANSITION_HISTORY"
+	GetAlarmHistoryAlarmHistorytypeStateHistory           GetAlarmHistoryAlarmHistorytypeEnum = "STATE_HISTORY"
+	GetAlarmHistoryAlarmHistorytypeStateTransitionHistory GetAlarmHistoryAlarmHistorytypeEnum = "STATE_TRANSITION_HISTORY"
+	GetAlarmHistoryAlarmHistorytypeRuleHistory            GetAlarmHistoryAlarmHistorytypeEnum = "RULE_HISTORY"
+	GetAlarmHistoryAlarmHistorytypeRuleTransitionHistory  GetAlarmHistoryAlarmHistorytypeEnum = "RULE_TRANSITION_HISTORY"
 )
 
 var mappingGetAlarmHistoryAlarmHistorytypeEnum = map[string]GetAlarmHistoryAlarmHistorytypeEnum{
-	"STATE_HISTORY":            GetAlarmHistoryAlarmHistorytypeHistory,
-	"STATE_TRANSITION_HISTORY": GetAlarmHistoryAlarmHistorytypeTransitionHistory,
+	"STATE_HISTORY":            GetAlarmHistoryAlarmHistorytypeStateHistory,
+	"STATE_TRANSITION_HISTORY": GetAlarmHistoryAlarmHistorytypeStateTransitionHistory,
+	"RULE_HISTORY":             GetAlarmHistoryAlarmHistorytypeRuleHistory,
+	"RULE_TRANSITION_HISTORY":  GetAlarmHistoryAlarmHistorytypeRuleTransitionHistory,
 }
 
 var mappingGetAlarmHistoryAlarmHistorytypeEnumLowerCase = map[string]GetAlarmHistoryAlarmHistorytypeEnum{
-	"state_history":            GetAlarmHistoryAlarmHistorytypeHistory,
-	"state_transition_history": GetAlarmHistoryAlarmHistorytypeTransitionHistory,
+	"state_history":            GetAlarmHistoryAlarmHistorytypeStateHistory,
+	"state_transition_history": GetAlarmHistoryAlarmHistorytypeStateTransitionHistory,
+	"rule_history":             GetAlarmHistoryAlarmHistorytypeRuleHistory,
+	"rule_transition_history":  GetAlarmHistoryAlarmHistorytypeRuleTransitionHistory,
 }
 
 // GetGetAlarmHistoryAlarmHistorytypeEnumValues Enumerates the set of values for GetAlarmHistoryAlarmHistorytypeEnum
@@ -156,6 +163,8 @@ func GetGetAlarmHistoryAlarmHistorytypeEnumStringValues() []string {
 	return []string{
 		"STATE_HISTORY",
 		"STATE_TRANSITION_HISTORY",
+		"RULE_HISTORY",
+		"RULE_TRANSITION_HISTORY",
 	}
 }
 

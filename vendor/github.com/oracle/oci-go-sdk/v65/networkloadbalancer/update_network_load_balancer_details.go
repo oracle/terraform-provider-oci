@@ -28,6 +28,10 @@ type UpdateNetworkLoadBalancerDetails struct {
 	// enabled on the load balancer VNIC, and packets are sent to the backend with the entire IP header intact.
 	IsPreserveSourceDestination *bool `mandatory:"false" json:"isPreserveSourceDestination"`
 
+	// This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.
+	// This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
+	IsSymmetricHashEnabled *bool `mandatory:"false" json:"isSymmetricHashEnabled"`
+
 	// IP version associated with the NLB.
 	NlbIpVersion NlbIpVersionEnum `mandatory:"false" json:"nlbIpVersion,omitempty"`
 
