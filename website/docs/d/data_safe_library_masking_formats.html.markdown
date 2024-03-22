@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_safe_library_masking_formats
 This data source provides the list of Library Masking Formats in Oracle Cloud Infrastructure Data Safe service.
 
-Gets a list of library masking formats based on the specified query parameters. 
+Gets a list of library masking formats based on the specified query parameters.
 
 
 ## Example Usage

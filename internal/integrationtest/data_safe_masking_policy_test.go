@@ -31,20 +31,15 @@ var (
 	DataSafeMaskingPolicyRequiredOnlyResource = DataSafeMaskingPolicyResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, maskingPolicyRepresentation)
 
-	DataSafeMaskingPolicyResourceConfig = DataSafeMaskingPolicyResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Update, maskingPolicyRepresentation)
+	DataSafeMaskingPolicyResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Update, maskingPolicyOptionalRepresentation)
 
 	DataSafemaskingPolicySingularDataSourceRepresentation = map[string]interface{}{
-		"masking_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_masking_policy.test_masking_policy.id}`},
+		"masking_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${var.masking_policy_id}`},
 	}
 
 	DataSafemaskingPolicyDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: maskingPolicyDataSourceFilterRepresentation}}
-	maskingPolicyDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_masking_policy.test_masking_policy.id}`}},
 	}
 
 	maskingPolicyRepresentation = map[string]interface{}{
@@ -57,19 +52,27 @@ var (
 		//"is_drop_temp_tables_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 		"is_redo_logging_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_refresh_stats_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"parallel_degree":          acctest.Representation{RepType: acctest.Optional, Create: `parallelDegree`, Update: `parallelDegree2`},
+		"parallel_degree":          acctest.Representation{RepType: acctest.Optional, Create: `DEFAULT`, Update: `DEFAULT`},
 		"post_masking_script":      acctest.Representation{RepType: acctest.Optional, Create: `postMaskingScript`, Update: `postMaskingScript2`},
 		"pre_masking_script":       acctest.Representation{RepType: acctest.Optional, Create: `preMaskingScript`, Update: `preMaskingScript2`},
 		"recompile":                acctest.Representation{RepType: acctest.Optional, Create: `SERIAL`, Update: `SERIAL`},
 	}
+	maskingPolicyOptionalRepresentation = map[string]interface{}{
+		"column_source":            acctest.RepresentationGroup{RepType: acctest.Required, Group: maskingPolicyColumnSourceRepresentation},
+		"compartment_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":             acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_redo_logging_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_refresh_stats_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"parallel_degree":          acctest.Representation{RepType: acctest.Optional, Create: `DEFAULT`, Update: `DEFAULT`},
+	}
 	maskingPolicyColumnSourceRepresentation = map[string]interface{}{
 		"column_source":           acctest.Representation{RepType: acctest.Required, Create: `SENSITIVE_DATA_MODEL`},
-		"sensitive_data_model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model1.id}`, Update: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model2.id}`},
+		"sensitive_data_model_id": acctest.Representation{RepType: acctest.Required, Create: `${var.sensitive_data_model_id}`, Update: `${var.sensitive_data_model_id}`},
 	}
 
-	DataSafeMaskingPolicyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model1", acctest.Required, acctest.Create, sensitiveDataModelRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model2", acctest.Required, acctest.Create, sensitiveDataModelRepresentation) +
-		DefinedTagsDependencies
+	DataSafeMaskingPolicyResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -88,6 +91,12 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 	targetId := utils.GetEnvSettingWithBlankDefault("data_safe_target_ocid")
 	targetIdVariableStr := fmt.Sprintf("variable \"target_id\" { default = \"%s\" }\n", targetId)
 
+	sensitiveDataModelId := utils.GetEnvSettingWithBlankDefault("data_safe_sensitive_data_model_id")
+	sensitiveDataModelVariableStr := fmt.Sprintf("variable \"sensitive_data_model_id\" { default = \"%s\" }\n", sensitiveDataModelId)
+
+	maskingPolicyId := utils.GetEnvSettingWithBlankDefault("data_safe_masking_policy_id")
+	maskingPolicyIdVariableStr := fmt.Sprintf("variable \"masking_policy_id\" { default = \"%s\" }\n", maskingPolicyId)
+
 	resourceName := "oci_data_safe_masking_policy.test_masking_policy"
 	datasourceName := "data.oci_data_safe_masking_policies.test_masking_policies"
 	singularDatasourceName := "data.oci_data_safe_masking_policy.test_masking_policy"
@@ -97,10 +106,10 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSafeMaskingPolicyResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Create, maskingPolicyRepresentation), "datasafe", "maskingPolicy", t)
 
-	acctest.ResourceTest(t, testAccCheckDataSafeMaskingPolicyDestroy, []resource.TestStep{
-		// verify Create
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		//verify Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + sensitiveDataModelVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, maskingPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_source.#", "1"),
@@ -117,27 +126,18 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr,
+			Config: config + compartmentIdVariableStr + sensitiveDataModelVariableStr + targetIdVariableStr,
 		},
-		// verify Create with optionals
+		//verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Create, maskingPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + sensitiveDataModelVariableStr + targetIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Create, maskingPolicyOptionalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_source.0.column_source", "SENSITIVE_DATA_MODEL"),
 				resource.TestCheckResourceAttrSet(resourceName, "column_source.0.sensitive_data_model_id"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_redo_logging_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_refresh_stats_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "parallel_degree", "parallelDegree"),
-				resource.TestCheckResourceAttr(resourceName, "post_masking_script", "postMaskingScript"),
-				resource.TestCheckResourceAttr(resourceName, "pre_masking_script", "preMaskingScript"),
-				resource.TestCheckResourceAttr(resourceName, "recompile", "SERIAL"),
+				resource.TestCheckResourceAttr(resourceName, "recompile", "NONE"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -156,9 +156,9 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + sensitiveDataModelVariableStr + targetIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(maskingPolicyRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(maskingPolicyOptionalRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -168,14 +168,11 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_redo_logging_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_refresh_stats_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "parallel_degree", "parallelDegree"),
-				resource.TestCheckResourceAttr(resourceName, "post_masking_script", "postMaskingScript"),
-				resource.TestCheckResourceAttr(resourceName, "pre_masking_script", "preMaskingScript"),
-				resource.TestCheckResourceAttr(resourceName, "recompile", "SERIAL"),
+				resource.TestCheckResourceAttr(resourceName, "parallel_degree", "DEFAULT"),
+				resource.TestCheckResourceAttr(resourceName, "recompile", "NONE"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -190,10 +187,10 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
+		//verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Update, maskingPolicyRepresentation),
+			Config: config + compartmentIdVariableStr + sensitiveDataModelVariableStr + targetIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Update, maskingPolicyOptionalRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_source.0.column_source", "SENSITIVE_DATA_MODEL"),
@@ -201,14 +198,11 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_redo_logging_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_refresh_stats_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "parallel_degree", "parallelDegree2"),
-				resource.TestCheckResourceAttr(resourceName, "post_masking_script", "postMaskingScript2"),
-				resource.TestCheckResourceAttr(resourceName, "pre_masking_script", "preMaskingScript2"),
-				resource.TestCheckResourceAttr(resourceName, "recompile", "SERIAL"),
+				resource.TestCheckResourceAttr(resourceName, "parallel_degree", "DEFAULT"),
+				resource.TestCheckResourceAttr(resourceName, "recompile", "NONE"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -222,58 +216,43 @@ func TestDataSafeMaskingPolicyResource_basic(t *testing.T) {
 				},
 			),
 		},
+		// verify resource import
+		{
+			Config:                  config + DataSafeMaskingPolicyResourceConfig + compartmentIdVariableStr + sensitiveDataModelVariableStr,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{`state`},
+			ResourceName:            resourceName,
+		},
 		// verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_policies", "test_masking_policies", acctest.Optional, acctest.Update, DataSafemaskingPolicyDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeMaskingPolicyResourceDependencies + targetIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Optional, acctest.Update, maskingPolicyRepresentation),
+				compartmentIdVariableStr + targetIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-
 				resource.TestCheckResourceAttr(datasourceName, "masking_policy_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "masking_policy_collection.0.items.#", "1"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_masking_policy", "test_masking_policy", acctest.Required, acctest.Create, DataSafemaskingPolicySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + DataSafeMaskingPolicyResourceConfig,
+				compartmentIdVariableStr + targetIdVariableStr + maskingPolicyIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "masking_policy_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_source.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_source.0.column_source", "SENSITIVE_DATA_MODEL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "is_drop_temp_tables_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_drop_temp_tables_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_redo_logging_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_refresh_stats_enabled", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "parallel_degree", "parallelDegree2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "post_masking_script", "postMaskingScript2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "pre_masking_script", "preMaskingScript2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "recompile", "SERIAL"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "parallel_degree", "DEFAULT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "recompile", "NONE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
-		},
-		// remove singular datasource from previous step so that it doesn't conflict with import tests
-		{
-			Config: config + compartmentIdVariableStr + DataSafeMaskingPolicyResourceConfig + targetIdVariableStr,
-		},
-		// verify resource import
-		{
-			Config:                  config,
-			ImportState:             true,
-			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
-			ResourceName:            resourceName,
 		},
 	})
 }

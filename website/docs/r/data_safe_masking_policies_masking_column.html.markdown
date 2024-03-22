@@ -21,7 +21,7 @@ formats are assigned to the column.
 Using the maskingFormats attribute, you can assign one or more masking formats
 to a column. You need to specify a condition as part of each masking format. It
 enables you to do <a href="https://docs.oracle.com/en/cloud/paas/data-safe/udscs/conditional-masking.html">conditional masking</a>
-so that you can mask the column data values differently using different 
+so that you can mask the column data values differently using different
 masking conditions. A masking format can have one or more format entries. The
 combined output of all the format entries is used for masking. It provides the
 flexibility to define a masking format that can generate different parts of a data

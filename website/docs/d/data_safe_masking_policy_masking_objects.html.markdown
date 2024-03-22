@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_data_safe_masking_policy_masking_objects
 This data source provides the list of Masking Policy Masking Objects in Oracle Cloud Infrastructure Data Safe service.
 
-Gets a list of masking objects present in the specified masking policy and based on the specified query parameters. 
+Gets a list of masking objects present in the specified masking policy and based on the specified query parameters.
 
 
 ## Example Usage

@@ -12,7 +12,7 @@ This resource provides the Masking Policy resource in Oracle Cloud Infrastructur
 
 Creates a new masking policy and associates it with a sensitive data model or a target database.
 
-To use a sensitive data model as the source of masking columns, set the columnSource attribute to 
+To use a sensitive data model as the source of masking columns, set the columnSource attribute to
 SENSITIVE_DATA_MODEL and provide the sensitiveDataModelId attribute. After creating a masking policy,
 you can use the AddMaskingColumnsFromSdm operation to automatically add all the columns from
 the associated sensitive data model. In this case, the target database associated with the
@@ -25,7 +25,7 @@ is used for column and masking format validations.
 
 After creating a masking policy, you can use the CreateMaskingColumn or PatchMaskingColumns
 operation to manually add columns to the policy. You need to add the parent columns only,
-and it automatically adds the child columns (in referential relationship with the parent columns) 
+and it automatically adds the child columns (in referential relationship with the parent columns)
 from the associated sensitive data model or target database.
 
 
@@ -80,6 +80,7 @@ The following arguments are supported:
 * `pre_masking_script` - (Optional) (Updatable) A pre-masking script, which can contain SQL and PL/SQL statements. It's executed before  the core masking script generated using the masking policy. It's usually used to perform any preparation or prerequisite work before masking data. 
 * `recompile` - (Optional) (Updatable) Specifies how to recompile invalid objects post data masking. Allowed values are 'SERIAL' (recompile in serial),  'PARALLEL' (recompile in parallel), 'NONE' (do not recompile). If it's set to PARALLEL, the value of parallelDegree attribute is used. Use the built-in UTL_RECOMP package to recompile any remaining invalid objects after masking completes. 
 * `add_masking_columns_from_sdm_trigger` - (Optional) (Updatable) An optional property when incremented triggers Add Masking Columns From Sdm. Could be set to any integer value.
+* `generate_health_report_trigger` - (Optional) (Updatable) An optional property when incremented triggers Generate Health Report. Could be set to any integer value.
 
 
 ** IMPORTANT **
