@@ -80,7 +80,6 @@ resource "oci_data_safe_masking_policy" "test_masking_policy" {
     column_source = var.masking_policy_column_source_column_source
 
     #Optional
-    sensitive_data_model_id = oci_data_safe_sensitive_data_model.test_sensitive_data_model.id
     target_id               = var.data_safe_target_ocid
   }
   compartment_id = var.compartment_ocid
