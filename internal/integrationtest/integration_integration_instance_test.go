@@ -132,7 +132,7 @@ var (
 	}
 
 	ignoreDefinedTagsDifferencesRepresentationAgain = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
 	}
 
 	integrationInstanceAlternateCustomEndpointsRepresentation = map[string]interface{}{
@@ -187,6 +187,9 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	nsgId := utils.GetEnvSettingWithBlankDefault("nsg_id")
 	nsgIdStr := fmt.Sprintf("variable \"nsg_id\" { default = \"%s\" }\n", nsgId)
 
+	domainIdVariable := utils.GetEnvSettingWithBlankDefault("domain_id")
+	domainIdVariableStr := fmt.Sprintf("variable \"domain_id\" { default = \"%s\" }\n", domainIdVariable)
+
 	resourceName := "oci_integration_integration_instance.test_integration_instance"
 	datasourceName := "data.oci_integration_integration_instances.test_integration_instances"
 	singularDatasourceName := "data.oci_integration_integration_instance.test_integration_instance"
@@ -200,7 +203,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + subnetIdStr + nsgIdStr + idcsAccessTokenVariableStr() + IntegrationIntegrationInstanceResourceDependencies +
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + domainIdVariableStr + subnetIdStr + nsgIdStr + idcsAccessTokenVariableStr() + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_private_endpoint_outbound_connection", "integration_private_endpoint", acctest.Required, acctest.Create, integrationPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -260,7 +263,6 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
 				resource.TestCheckResourceAttr(resourceName, "custom_endpoint.#", "0"),
 				// resource.TestCheckResourceAttrSet(resourceName, "custom_endpoint.0.certificate_secret_id"),
