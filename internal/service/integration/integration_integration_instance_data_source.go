@@ -156,6 +156,10 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("state_message", *s.Res.StateMessage)
 	}
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

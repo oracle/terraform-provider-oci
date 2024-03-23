@@ -84,6 +84,7 @@ The following attributes are exported:
 * `shape` - Shape
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the the Integration Instance was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time the IntegrationInstance was updated. An RFC3339 formatted datetime string.
 
