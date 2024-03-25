@@ -442,5 +442,11 @@
         "realmKey": "oc29",
         "regionIdentifier": "me-abudhabi-4",
         "realmDomainComponent": "oraclecloud29.com"
+    },
+    {
+        "regionKey": "ebb",
+        "realmKey": "oc23",
+        "regionIdentifier": "us-somerset-1",
+        "realmDomainComponent": "oraclecloud23.com"
     }
 ]
