@@ -448,5 +448,11 @@
         "realmKey": "oc23",
         "regionIdentifier": "us-somerset-1",
         "realmDomainComponent": "oraclecloud23.com"
+    },
+    {
+        "regionKey": "ebl",
+        "realmKey": "oc23",
+        "regionIdentifier": "us-thames-1",
+        "realmDomainComponent": "oraclecloud23.com"
     }
 ]
