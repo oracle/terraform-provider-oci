@@ -1,4 +1,4 @@
-## 5.35.0 (Unreleased)
+## 5.35.0 (March 27, 2024)
 
 ### Added
 - Support for ADB-S: Refreshable Clones (Phase 2 with Automatic Refresh)
@@ -9,7 +9,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - Support for Alarms enhancements
 - Support for create_task API for Rest task
 
-## 5.35.0 (Unreleased)
+## 5.35.0 (March 27, 2024)
 
 
 ## 5.34.0 (March 19, 2024)
