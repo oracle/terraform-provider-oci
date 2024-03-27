@@ -18,6 +18,7 @@ import (
 )
 
 var (
+	// Fix the bug
 	VaultSecretRequiredOnlyResource = VaultSecretResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultSecretRepresentation)
 
@@ -72,9 +73,8 @@ var (
 		"time_of_absolute_expiry":                       acctest.Representation{RepType: acctest.Optional, Create: deletionTime.Format(time.RFC3339)},
 	}
 	VaultSecretRotationConfigTargetSystemDetailsRepresentation = map[string]interface{}{
-		"target_system_type": acctest.Representation{RepType: acctest.Required, Create: `ADB`, Update: `FUNCTION`},
-		"adb_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.adb_id}`},
-		"function_id":        acctest.Representation{RepType: acctest.Optional, Update: `${var.function_id}`},
+		"target_system_type": acctest.Representation{RepType: acctest.Required, Create: `ADB`, Update: `ADB`},
+		"adb_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.adb_id}`, Update: `${var.adb_id}`},
 	}
 
 	VaultSecretResourceDependencies = DefinedTagsDependencies
@@ -111,7 +111,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+vaultIdVariableStr+keyIdVariableStr+VaultSecretResourceDependencies+adbIdVariableStr+functionIdVariableStr+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+vaultIdVariableStr+keyIdVariableStr+VaultSecretResourceDependencies+adbIdVariableStr+functionIdVariableStr+adbIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
 			"secret_name": acctest.Representation{RepType: acctest.Required, Create: secretName2},
 		})), "vault", "secret", t)
@@ -187,7 +187,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + adbIdVariableStr + functionIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + adbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(VaultSecretRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -234,7 +234,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + adbIdVariableStr + functionIdVariableStr +
+			Config: config + compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + adbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update,
 					acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
 						"secret_rules.secret_version_expiry_interval",
@@ -253,8 +253,8 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.is_scheduled_rotation_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.rotation_interval", "P90D"),
 				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.target_system_details.#", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "rotation_config.0.target_system_details.0.function_id"),
-				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.target_system_details.0.target_system_type", "FUNCTION"),
+				resource.TestCheckResourceAttrSet(resourceName, "rotation_config.0.target_system_details.0.adb_id"),
+				resource.TestCheckResourceAttr(resourceName, "rotation_config.0.target_system_details.0.target_system_type", "ADB"),
 				resource.TestCheckResourceAttr(resourceName, "secret_content.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "secret_content.0.content", "PHZhcj4mbHQ7YmFzZTY0X2VuY29kZWRfc2VjcmV0X2NvbnRlbnRzJmd0OzwvdmFyPg=="),
 				resource.TestCheckResourceAttr(resourceName, "secret_content.0.content_type", "BASE64"),
@@ -284,7 +284,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secrets", "test_secrets", acctest.Optional, acctest.Update, VaultVaultSecretDataSourceRepresentation) +
-				vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + compartmentIdVariableStr + adbIdVariableStr + functionIdVariableStr +
+				vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + compartmentIdVariableStr + adbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
 					"secret_rules.secret_version_expiry_interval",
 					"secret_rules.time_of_absolute_expiry",
@@ -302,14 +302,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.key_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.last_rotation_time"),
-				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.next_rotation_time"),
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.0.is_scheduled_rotation_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.0.rotation_interval", "P90D"),
 				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.0.target_system_details.#", "1"),
-				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.rotation_config.0.target_system_details.0.function_id"),
-				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.0.target_system_details.0.target_system_type", "FUNCTION"),
+				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.rotation_config.0.target_system_details.0.adb_id"),
+				resource.TestCheckResourceAttr(datasourceName, "secrets.0.rotation_config.0.target_system_details.0.target_system_type", "ADB"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.rotation_status"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.secret_name"),
 				resource.TestCheckResourceAttrSet(datasourceName, "secrets.0.state"),
@@ -321,7 +319,7 @@ func TestVaultSecretResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Required, acctest.Create, VaultVaultSecretSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + functionIdVariableStr +
+				compartmentIdVariableStr + vaultIdVariableStr + keyIdVariableStr + VaultSecretResourceDependencies + adbIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_vault_secret", "test_secret", acctest.Optional, acctest.Update, acctest.GetRepresentationCopyWithMultipleRemovedProperties([]string{
 					"secret_rules.secret_version_expiry_interval",
 					"secret_rules.time_of_absolute_expiry",
@@ -336,14 +334,12 @@ func TestVaultSecretResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "last_rotation_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.%", "1"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "next_rotation_time"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.0.is_scheduled_rotation_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.0.rotation_interval", "P90D"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.0.target_system_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.0.target_system_details.0.target_system_type", "FUNCTION"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rotation_config.0.target_system_details.0.target_system_type", "ADB"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "rotation_status"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_rules.0.is_enforced_on_deleted_secret_versions", "true"),

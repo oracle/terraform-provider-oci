@@ -162,12 +162,10 @@ func VaultSecretResource() *schema.Resource {
 						"content": {
 							Type:     schema.TypeString,
 							Optional: true,
-							//Computed: true,
 						},
 						"name": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 						"stage": {
 							Type:     schema.TypeString,
@@ -690,13 +688,17 @@ func (s *VaultSecretResourceCrud) mapToSecretContentDetails(fieldKeyFormat strin
 	switch strings.ToLower(contentType) {
 	case strings.ToLower("BASE64"):
 		details := oci_vault.Base64SecretContentDetails{}
-		if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content")); ok {
+		if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content")); ok && len(content.(string)) > 0 {
 			tmp := content.(string)
 			details.Content = &tmp
+		} else {
+			details.Content = nil
 		}
-		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok && len(name.(string)) > 0 {
 			tmp := name.(string)
 			details.Name = &tmp
+		} else {
+			details.Name = nil
 		}
 		if stage, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "stage")); ok {
 			details.Stage = oci_vault.SecretContentDetailsStageEnum(stage.(string))
