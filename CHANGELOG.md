@@ -2,15 +2,12 @@
 
 ### Added
 - Support for ADB-S: Refreshable Clones (Phase 2 with Automatic Refresh)
-support for Devops Deploy Helm Uninstall/Open Cli
+- Support for Devops Deploy Helm Uninstall/Open Cli
 - Support for Database Management MySQL Heatwave
 - Support for UMA metrics, filter plugin and read_logs_from_head enablement
 - Support for NLB Transparent Mode(Non-SNAT Use Case)
 - Support for Alarms enhancements
 - Support for create_task API for Rest task
-
-## 5.35.0 (March 27, 2024)
-
 
 ## 5.34.0 (March 19, 2024)
 
