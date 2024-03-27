@@ -93,6 +93,63 @@ func (client *ManagedMySqlDatabasesClient) ConfigurationProvider() *common.Confi
 	return client.config
 }
 
+// GetHeatWaveFleetMetric Gets the health metrics for a fleet of HeatWave clusters in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetHeatWaveFleetMetric.go.html to see an example of how to use GetHeatWaveFleetMetric API.
+func (client ManagedMySqlDatabasesClient) GetHeatWaveFleetMetric(ctx context.Context, request GetHeatWaveFleetMetricRequest) (response GetHeatWaveFleetMetricResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getHeatWaveFleetMetric, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetHeatWaveFleetMetricResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetHeatWaveFleetMetricResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetHeatWaveFleetMetricResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetHeatWaveFleetMetricResponse")
+	}
+	return
+}
+
+// getHeatWaveFleetMetric implements the OCIOperation interface (enables retrying operations)
+func (client ManagedMySqlDatabasesClient) getHeatWaveFleetMetric(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/heatWaveFleetMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetHeatWaveFleetMetricResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/HeatWaveFleetMetrics/GetHeatWaveFleetMetric"
+		err = common.PostProcessServiceError(err, "ManagedMySqlDatabases", "GetHeatWaveFleetMetric", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetManagedMySqlDatabase Retrieves the general information for a specific MySQL Database.
 //
 // # See also

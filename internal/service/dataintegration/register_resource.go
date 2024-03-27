@@ -15,4 +15,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_dataintegration_workspace_folder", DataintegrationWorkspaceFolderResource())
 	tfresource.RegisterResource("oci_dataintegration_workspace_import_request", DataintegrationWorkspaceImportRequestResource())
 	tfresource.RegisterResource("oci_dataintegration_workspace_project", DataintegrationWorkspaceProjectResource())
+	tfresource.RegisterResource("oci_dataintegration_workspace_task", DataintegrationWorkspaceTaskResource())
 }

@@ -94,6 +94,10 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerDataSourceCrud) SetData() error {
 		s.D.Set("is_private", *s.Res.IsPrivate)
 	}
 
+	if s.Res.IsSymmetricHashEnabled != nil {
+		s.D.Set("is_symmetric_hash_enabled", *s.Res.IsSymmetricHashEnabled)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

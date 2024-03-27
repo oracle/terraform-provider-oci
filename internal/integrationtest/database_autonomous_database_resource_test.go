@@ -149,13 +149,13 @@ var (
 	AutonomousDatabaseDedicatedResourceDependencies = DatabaseAutonomousContainerDatabaseResourceConfig
 
 	autonomousDatabaseRefreshableCloneSourceADBRepresentation = acctest.RepresentationCopyWithNewProperties(
-		acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"kms_key_id", "vault_id", "scheduled_operations"}), map[string]interface{}{
+		acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"kms_key_id", "vault_id", "scheduled_operations", "db_tools_details", "defined_tags", "customer_contacts"}), map[string]interface{}{
 			"db_name":    acctest.Representation{RepType: acctest.Required, Create: adbDbRefreshableCloneSourceADBName},
 			"db_version": acctest.Representation{RepType: acctest.Optional, Create: `19c`},
 		})
 
 	autonomousDatabaseRefreshableCloneRepresentation = acctest.RepresentationCopyWithNewProperties(
-		acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"timeouts", "kms_key_id", "vault_id", "scheduled_operations"}), map[string]interface{}{
+		acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"timeouts", "kms_key_id", "vault_id", "scheduled_operations", "db_tools_details", "defined_tags", "customer_contacts"}), map[string]interface{}{
 			"admin_password":              acctest.Representation{RepType: acctest.Optional, Create: ``},
 			"source":                      acctest.Representation{RepType: acctest.Required, Create: `CLONE_TO_REFRESHABLE`},
 			"db_name":                     acctest.Representation{RepType: acctest.Required, Create: adbDbRefreshableCloneName},
@@ -397,6 +397,9 @@ var (
 		"resource_pool_leader_id": acctest.Representation{RepType: acctest.Required, Update: ` `},
 		"db_name":                 acctest.Representation{RepType: acctest.Required, Create: adbMemberName},
 	})
+
+	timeOfAutoRefreshCreate = time.Now().UTC().AddDate(0, 0, 1).Truncate(time.Millisecond)
+	timeOfAutoRefreshUpdate = time.Now().UTC().AddDate(0, 0, 2).Truncate(time.Millisecond)
 )
 
 // issue-routing-tag: database/dbaas-adb
@@ -2930,11 +2933,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
-				// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -2979,22 +2977,12 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.is_refreshable_clone"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.license_model"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.open_mode"),
-				// todo: commented due to a bug in service, to be reverted after they fix it
-				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.refreshable_mode"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.refreshable_status"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.source_id"),
 				resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.standby_db.#", "1"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_created"),
-				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_deletion_of_free_autonomous_database"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_maintenance_begin"),
 				resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_maintenance_end"),
-				// values are not available immediately
-				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_last_failover"),
-				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_last_refresh"),
-				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_last_refresh_point"),
-				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_last_switchover"),
-				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_of_next_refresh"),
-				//resource.TestCheckResourceAttrSet(clonesDatasourceName, "autonomous_databases.0.time_reclamation_of_free_autonomous_database"),
 				resource.TestCheckResourceAttr(clonesDatasourceName, "autonomous_databases.0.whitelisted_ips.#", "1"),
 
 				resource.TestCheckResourceAttr(refreshableClonesDatasourceName, "refreshable_clone_collection.#", "1"),
@@ -3036,11 +3024,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
-				// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -3081,11 +3064,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
-				// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -3127,17 +3105,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.is_refreshable_clone", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.open_mode"),
-				// todo: commented due to a bug in service, to be reverted after they fix it
-				//resource.TestCheckResourceAttr(singularDatasourceName, "refreshable_mode", "MANUAL"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.refreshable_status", "REFRESHING"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.source_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_created"),
-				// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_of_last_refresh_point"),
-				// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_of_last_refresh"),
-				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.time_of_next_refresh"),
 			),
 		},
 		//5. verify singular datasource
@@ -3168,17 +3139,10 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_refreshable_clone", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "open_mode"),
-				// todo: commented due to a bug in service, to be reverted after they fix it
-				//resource.TestCheckResourceAttr(singularDatasourceName, "refreshable_mode", "MANUAL"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "refreshable_status", "REFRESHING"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_databases.0.time_of_last_refresh_point"),
-				// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_databases.0.time_of_last_refresh"),
-				//resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_databases.0.time_of_next_refresh"),
 			),
 		},
 		//6. verify detaching a refreshable clone
@@ -3212,11 +3176,6 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
-				// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_until_reconnect_clone_enabled"),
 				resource.TestCheckResourceAttr(resourceName, "is_reconnect_clone_enabled", "true"),
 
@@ -3242,7 +3201,7 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", adbDbRefreshableCloneName),
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
-				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -3259,17 +3218,157 @@ func TestResourceDatabaseAutonomousDatabaseResource_refreshableClone(t *testing.
 				resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				// time_of_last_refresh_point apply when refreshable_mode both MANUAL and AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh_point"),
-				// time_of_last_refresh and time_of_next_refresh returned when refreshable_mode=AUTOMATIC, not available immediately
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_last_refresh"),
-				//resource.TestCheckResourceAttrSet(resourceName, "autonomous_databases.0.time_of_next_refresh"),
 				resource.TestCheckResourceAttr(resourceName, "is_reconnect_clone_enabled", "false"),
+
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}
+					return err
+				},
+			),
+		},
+		//8. Updating Automatic Refreshable Clone mode
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+						"refreshable_mode":                  acctest.Representation{RepType: acctest.Optional, Create: `MANUAL`, Update: `AUTOMATIC`},
+						"auto_refresh_point_lag_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `5000`, Update: `5000`},
+						"auto_refresh_frequency_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `6000`, Update: `6000`},
+						"time_of_auto_refresh_start":        acctest.Representation{RepType: acctest.Optional, Create: timeOfAutoRefreshCreate.Format(time.RFC3339Nano), Update: timeOfAutoRefreshUpdate.Format(time.RFC3339Nano)},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbDbRefreshableCloneName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_refreshable_clone", "true"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+				resource.TestCheckResourceAttr(resourceName, "refreshable_mode", "AUTOMATIC"),
+				resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_reconnect_clone_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_point_lag_in_seconds", "5000"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_frequency_in_seconds", "6000"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_of_auto_refresh_start"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		//9. Updating Auto-Refreshable Clone parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+						"refreshable_mode":                  acctest.Representation{RepType: acctest.Optional, Create: `AUTOMATIC`, Update: `AUTOMATIC`},
+						"auto_refresh_point_lag_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `5000`, Update: `8500`},
+						"auto_refresh_frequency_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `6000`, Update: `10500`},
+						"time_of_auto_refresh_start":        acctest.Representation{RepType: acctest.Optional, Create: timeOfAutoRefreshCreate.Format(time.RFC3339Nano), Update: timeOfAutoRefreshUpdate.Format(time.RFC3339Nano)},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbDbRefreshableCloneName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_refreshable_clone", "true"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+				resource.TestCheckResourceAttr(resourceName, "refreshable_mode", "AUTOMATIC"),
+				resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_reconnect_clone_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_point_lag_in_seconds", "8500"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_frequency_in_seconds", "10500"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_of_auto_refresh_start"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		//10. Delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies,
+		},
+		//11. Creating Auto-Refreshable Clone parameters
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_source", acctest.Optional, acctest.Create, autonomousDatabaseRefreshableCloneSourceADBRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRefreshableCloneRepresentation, map[string]interface{}{
+						"refreshable_mode":                  acctest.Representation{RepType: acctest.Optional, Create: `AUTOMATIC`, Update: `AUTOMATIC`},
+						"auto_refresh_point_lag_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `7000`, Update: `14000`},
+						"auto_refresh_frequency_in_seconds": acctest.Representation{RepType: acctest.Optional, Create: `8000`, Update: `16000`},
+						"time_of_auto_refresh_start":        acctest.Representation{RepType: acctest.Optional, Create: timeOfAutoRefreshCreate.Format(time.RFC3339Nano), Update: timeOfAutoRefreshUpdate.Format(time.RFC3339Nano)},
+					})),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbDbRefreshableCloneName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_data_guard_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_free_tier", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_refreshable_clone", "true"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttrSet(resourceName, "open_mode"),
+				resource.TestCheckResourceAttr(resourceName, "refreshable_mode", "AUTOMATIC"),
+				resource.TestCheckResourceAttr(resourceName, "source", "CLONE_TO_REFRESHABLE"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_point_lag_in_seconds", "7000"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_frequency_in_seconds", "8000"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_of_auto_refresh_start"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -4138,7 +4237,7 @@ func TestDatabaseAutonomousDatabaseResource_ElasticResourcePool(t *testing.T) {
 }
 
 func TestDatabaseAutonomousDatabase_opsi_dbms(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_basic")
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabase_opsi_dbms")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()

@@ -25,6 +25,9 @@ type UnifiedAgentLoggingConfiguration struct {
 	Sources []UnifiedAgentLoggingSource `mandatory:"true" json:"sources"`
 
 	Destination *UnifiedAgentLoggingDestination `mandatory:"true" json:"destination"`
+
+	// Logging filter object.
+	Filter []UnifiedAgentLoggingFilter `mandatory:"false" json:"filter"`
 }
 
 func (m UnifiedAgentLoggingConfiguration) String() string {
@@ -60,6 +63,7 @@ func (m UnifiedAgentLoggingConfiguration) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *UnifiedAgentLoggingConfiguration) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Filter      []unifiedagentloggingfilter     `json:"filter"`
 		Sources     []unifiedagentloggingsource     `json:"sources"`
 		Destination *UnifiedAgentLoggingDestination `json:"destination"`
 	}{}
@@ -69,6 +73,18 @@ func (m *UnifiedAgentLoggingConfiguration) UnmarshalJSON(data []byte) (e error) 
 		return
 	}
 	var nn interface{}
+	m.Filter = make([]UnifiedAgentLoggingFilter, len(model.Filter))
+	for i, n := range model.Filter {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.Filter[i] = nn.(UnifiedAgentLoggingFilter)
+		} else {
+			m.Filter[i] = nil
+		}
+	}
 	m.Sources = make([]UnifiedAgentLoggingSource, len(model.Sources))
 	for i, n := range model.Sources {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

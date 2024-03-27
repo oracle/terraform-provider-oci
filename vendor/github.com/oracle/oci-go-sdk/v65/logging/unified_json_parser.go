@@ -62,6 +62,12 @@ type UnifiedJsonParser struct {
 	// Process time value using the specified format.
 	TimeFormat *string `mandatory:"false" json:"timeFormat"`
 
+	// If true, a separator parameter can be further defined.
+	ParseNested *bool `mandatory:"false" json:"parseNested"`
+
+	// Keys of adjacent levels are joined by the separator.
+	Separator *string `mandatory:"false" json:"separator"`
+
 	// JSON parser time type.
 	TimeType UnifiedJsonParserTimeTypeEnum `mandatory:"false" json:"timeType,omitempty"`
 }

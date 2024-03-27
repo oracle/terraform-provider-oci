@@ -21,6 +21,10 @@ import (
 // CreateUnifiedAgentConfigurationDetails Unified Agent configuration creation object.
 type CreateUnifiedAgentConfigurationDetails struct {
 
+	// The user-friendly display name. This must be unique within the enclosing resource,
+	// and it's changeable. Avoid entering confidential information.
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
 	// Whether or not this resource is currently enabled.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
@@ -29,9 +33,8 @@ type CreateUnifiedAgentConfigurationDetails struct {
 	// The OCID of the compartment that the resource belongs to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The user-friendly display name. This must be unique within the enclosing resource,
-	// and it's changeable. Avoid entering confidential information.
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	// Description for this resource.
+	Description *string `mandatory:"true" json:"description"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -42,9 +45,6 @@ type CreateUnifiedAgentConfigurationDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Description for this resource.
-	Description *string `mandatory:"false" json:"description"`
 
 	GroupAssociation *GroupAssociationDetails `mandatory:"false" json:"groupAssociation"`
 }
@@ -68,14 +68,14 @@ func (m CreateUnifiedAgentConfigurationDetails) ValidateEnumValue() (bool, error
 // UnmarshalJSON unmarshals from json
 func (m *CreateUnifiedAgentConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName          *string                                 `json:"displayName"`
 		DefinedTags          map[string]map[string]interface{}       `json:"definedTags"`
 		FreeformTags         map[string]string                       `json:"freeformTags"`
-		Description          *string                                 `json:"description"`
 		GroupAssociation     *GroupAssociationDetails                `json:"groupAssociation"`
+		DisplayName          *string                                 `json:"displayName"`
 		IsEnabled            *bool                                   `json:"isEnabled"`
 		ServiceConfiguration unifiedagentserviceconfigurationdetails `json:"serviceConfiguration"`
 		CompartmentId        *string                                 `json:"compartmentId"`
+		Description          *string                                 `json:"description"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -83,15 +83,13 @@ func (m *CreateUnifiedAgentConfigurationDetails) UnmarshalJSON(data []byte) (e e
 		return
 	}
 	var nn interface{}
-	m.DisplayName = model.DisplayName
-
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
 
-	m.Description = model.Description
-
 	m.GroupAssociation = model.GroupAssociation
+
+	m.DisplayName = model.DisplayName
 
 	m.IsEnabled = model.IsEnabled
 
@@ -106,6 +104,8 @@ func (m *CreateUnifiedAgentConfigurationDetails) UnmarshalJSON(data []byte) (e e
 	}
 
 	m.CompartmentId = model.CompartmentId
+
+	m.Description = model.Description
 
 	return
 }

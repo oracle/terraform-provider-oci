@@ -64,6 +64,10 @@ func MonitoringAlarmStatusesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"rule_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"severity": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -203,6 +207,10 @@ func (s *MonitoringAlarmStatusesDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			alarmStatus["id"] = *r.Id
+		}
+
+		if r.RuleName != nil {
+			alarmStatus["rule_name"] = *r.RuleName
 		}
 
 		alarmStatus["severity"] = r.Severity

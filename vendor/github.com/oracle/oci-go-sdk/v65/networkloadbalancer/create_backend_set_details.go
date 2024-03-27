@@ -17,7 +17,7 @@ import (
 
 // CreateBackendSetDetails The configuration details for creating a backend set in a network load balancer.
 // For more information about backend set configuration, see
-// Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
+// Managing Backend Sets (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/BackendSets/backend-set-management.htm).
 // **Caution:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateBackendSetDetails struct {
 

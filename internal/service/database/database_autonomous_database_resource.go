@@ -62,6 +62,16 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"auto_refresh_frequency_in_seconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"auto_refresh_point_lag_in_seconds": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"autonomous_container_database_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -472,6 +482,12 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"time_of_auto_refresh_start": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
 			},
 			"timestamp": {
 				Type:             schema.TypeString,
@@ -1517,6 +1533,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.ArePrimaryWhitelistedIpsUsed = &tmp
 	}
 
+	if autoRefreshFrequencyInSeconds, ok := s.D.GetOkExists("auto_refresh_frequency_in_seconds"); ok && s.D.HasChange("auto_refresh_frequency_in_seconds") {
+		tmp := autoRefreshFrequencyInSeconds.(int)
+		request.AutoRefreshFrequencyInSeconds = &tmp
+	}
+
+	if autoRefreshPointLagInSeconds, ok := s.D.GetOkExists("auto_refresh_point_lag_in_seconds"); ok && s.D.HasChange("auto_refresh_point_lag_in_seconds") {
+		tmp := autoRefreshPointLagInSeconds.(int)
+		request.AutoRefreshPointLagInSeconds = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
@@ -1798,6 +1824,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if timeOfAutoRefreshStart, ok := s.D.GetOkExists("time_of_auto_refresh_start"); ok && s.D.HasChange("time_of_auto_refresh_start") {
+		tmp, err := time.Parse(time.RFC3339, timeOfAutoRefreshStart.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeOfAutoRefreshStart = &oci_common.SDKTime{Time: tmp}
+	}
+
 	if whitelistedIps, ok := s.D.GetOkExists("whitelisted_ips"); ok && s.D.HasChange("whitelisted_ips") {
 		set := whitelistedIps.(*schema.Set)
 		interfaces := set.List()
@@ -1881,6 +1915,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("apex_details", []interface{}{AutonomousDatabaseApexToMap(s.Res.ApexDetails)})
 	} else {
 		s.D.Set("apex_details", nil)
+	}
+
+	if s.Res.AutoRefreshFrequencyInSeconds != nil {
+		s.D.Set("auto_refresh_frequency_in_seconds", *s.Res.AutoRefreshFrequencyInSeconds)
+	}
+
+	if s.Res.AutoRefreshPointLagInSeconds != nil {
+		s.D.Set("auto_refresh_point_lag_in_seconds", *s.Res.AutoRefreshPointLagInSeconds)
 	}
 
 	if s.Res.AutonomousContainerDatabaseId != nil {
@@ -2151,8 +2193,6 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("provisionable_cpus", s.Res.ProvisionableCpus)
 
-	//s.D.Set("refreshable_mode", s.Res.RefreshableMode)
-
 	if s.Res.RefreshableMode != "" {
 		s.D.Set("refreshable_mode", s.Res.RefreshableMode)
 	}
@@ -2237,6 +2277,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceEnd != nil {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
+	}
+
+	if s.Res.TimeOfAutoRefreshStart != nil {
+		s.D.Set("time_of_auto_refresh_start", s.Res.TimeOfAutoRefreshStart.Format(time.RFC3339Nano))
 	}
 
 	if s.Res.TimeOfJoiningResourcePool != nil {
@@ -3247,6 +3291,14 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := arePrimaryWhitelistedIpsUsed.(bool)
 			details.ArePrimaryWhitelistedIpsUsed = &tmp
 		}
+		if autoRefreshFrequencyInSeconds, ok := s.D.GetOkExists("auto_refresh_frequency_in_seconds"); ok {
+			tmp := autoRefreshFrequencyInSeconds.(int)
+			details.AutoRefreshFrequencyInSeconds = &tmp
+		}
+		if autoRefreshPointLagInSeconds, ok := s.D.GetOkExists("auto_refresh_point_lag_in_seconds"); ok {
+			tmp := autoRefreshPointLagInSeconds.(int)
+			details.AutoRefreshPointLagInSeconds = &tmp
+		}
 		if autonomousContainerDatabaseId, ok := s.D.GetOkExists("autonomous_container_database_id"); ok {
 			tmp := autonomousContainerDatabaseId.(string)
 			details.AutonomousContainerDatabaseId = &tmp
@@ -3479,6 +3531,13 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if timeOfAutoRefreshStart, ok := s.D.GetOkExists("time_of_auto_refresh_start"); ok {
+			tmp, err := time.Parse(time.RFC3339, timeOfAutoRefreshStart.(string))
+			if err != nil {
+				return err
+			}
+			details.TimeOfAutoRefreshStart = &oci_common.SDKTime{Time: tmp}
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)

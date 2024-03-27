@@ -50,8 +50,9 @@ var (
 	deployHelmStageRepresentation = acctest.GetUpdatedRepresentationCopy("deploy_stage_type", acctest.Representation{RepType: acctest.Required, Create: `OKE_HELM_CHART_DEPLOYMENT`},
 		acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DevopsDeployStageRepresentation, []string{"wait_criteria"}), map[string]interface{}{
 			"oke_cluster_deploy_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_environment.test_deploy_kubernetes_environment.id}`},
-			"helm_chart_deploy_artifact_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_artifact.test_deploy_inline_artifact.id}`},
+			"helm_chart_deploy_artifact_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_artifact.test_deploy_helm_artifact.id}`},
 			"release_name":                      acctest.Representation{RepType: acctest.Required, Create: `release-name`},
+			"purpose":                           acctest.Representation{RepType: acctest.Required, Create: `EXECUTE_HELM_UPGRADE`, Update: `EXECUTE_HELM_COMMAND`},
 			"namespace":                         acctest.Representation{RepType: acctest.Optional, Create: `namespace`},
 			"rollback_policy":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: deployHelmStageRollbackPolicyRepresentation},
 			"are_hooks_enabled":                 acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -66,9 +67,10 @@ var (
 			"should_reuse_values":               acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 			"should_skip_crds":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 			"should_skip_render_subchart_notes": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+			"is_uninstall_on_stage_delete":      acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 		}))
 
-	DeployHelmStageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_inline_artifact", acctest.Required, acctest.Create, deployHelmArtifactRepresentation) +
+	DeployHelmStageResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_helm_artifact", acctest.Required, acctest.Create, deployHelmChartArtifactRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_environment", "test_deploy_kubernetes_environment", acctest.Required, acctest.Create, DevopsdeployEnvironmentRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_pipeline", "test_deploy_pipeline", acctest.Required, acctest.Create, DevopsDeployPipelineRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
@@ -102,6 +104,7 @@ func TestDevopsDeployStageResource_deployHelm(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_type", "OKE_HELM_CHART_DEPLOYMENT"),
 				resource.TestCheckResourceAttr(resourceName, "release_name", "release-name"),
+				resource.TestCheckResourceAttr(resourceName, "purpose", "EXECUTE_HELM_UPGRADE"),
 				resource.TestCheckResourceAttrSet(resourceName, "deploy_pipeline_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "helm_chart_deploy_artifact_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_stage_predecessor_collection.#", "1"),
@@ -139,6 +142,7 @@ func TestDevopsDeployStageResource_deployHelm(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "defined_tags.%", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "release_name", "release-name"),
+				resource.TestCheckResourceAttr(resourceName, "purpose", "EXECUTE_HELM_UPGRADE"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "oke_cluster_deploy_environment_id"),
 				resource.TestCheckResourceAttr(resourceName, "namespace", "namespace"),
@@ -149,6 +153,7 @@ func TestDevopsDeployStageResource_deployHelm(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "are_hooks_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_debug_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_force_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_uninstall_on_stage_delete", "true"),
 				resource.TestCheckResourceAttr(resourceName, "max_history", "10"),
 				resource.TestCheckResourceAttr(resourceName, "set_string.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "set_string.0.items.#", "1"),
@@ -215,6 +220,8 @@ func TestDevopsDeployStageResource_deployHelm(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "should_reuse_values", "true"),
 				resource.TestCheckResourceAttr(resourceName, "should_skip_crds", "true"),
 				resource.TestCheckResourceAttr(resourceName, "should_skip_render_subchart_notes", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_uninstall_on_stage_delete", "false"),
+				resource.TestCheckResourceAttr(resourceName, "purpose", "EXECUTE_HELM_COMMAND"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -281,6 +288,8 @@ func TestDevopsDeployStageResource_deployHelm(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "should_reuse_values", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "should_skip_crds", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "should_skip_render_subchart_notes", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_uninstall_on_stage_delete", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "purpose", "EXECUTE_HELM_COMMAND"),
 			),
 		},
 		{

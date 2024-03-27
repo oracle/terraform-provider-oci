@@ -49,8 +49,57 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"heat_wave_cluster_display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"heat_wave_memory_size": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"heat_wave_node_shape": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"heat_wave_nodes": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"status": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"time_created": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"id": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_heat_wave_active": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_heat_wave_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_lakehouse_enabled": {
+										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"name": {
@@ -58,6 +107,10 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created_heat_wave": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -146,6 +199,22 @@ func (s *DatabaseManagementManagedMySqlDatabasesDataSourceCrud) SetData() error 
 	}
 
 	return nil
+}
+
+func HeatWaveNodeToMap(obj oci_database_management.HeatWaveNode) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	result["status"] = string(obj.Status)
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
 }
 
 func ManagedMySqlDatabaseSummaryToMap(obj oci_database_management.ManagedMySqlDatabaseSummary) map[string]interface{} {
