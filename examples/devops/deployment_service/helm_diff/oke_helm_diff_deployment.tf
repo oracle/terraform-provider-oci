@@ -93,6 +93,7 @@ resource "oci_devops_deploy_stage" "test_helm_deploy_stage" {
   }
   deploy_stage_type = "OKE_HELM_CHART_DEPLOYMENT"
   release_name = "release-name"
+  purpose = "EXECUTE_HELM_UPGRADE"
   helm_chart_deploy_artifact_id = oci_devops_deploy_artifact.test_deploy_helm_artifact.id
 }
 

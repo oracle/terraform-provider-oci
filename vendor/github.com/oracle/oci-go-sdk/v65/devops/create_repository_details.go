@@ -18,7 +18,7 @@ import (
 // CreateRepositoryDetails Information about the new repository.
 type CreateRepositoryDetails struct {
 
-	// Unique name of a repository.
+	// Name of the repository. Should be unique within the project.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID of the DevOps project containing the repository.

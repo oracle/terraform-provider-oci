@@ -66,6 +66,7 @@ The following attributes are exported:
 
 * `display_name` - The configured name of the alarm.  Example: `High CPU Utilization` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm. 
+* `rule_name` - Identifier of the alarm's base values for alarm evaluation, for use when the alarm contains overrides.  A valid ruleName value starts with an alphabetic character and includes only alphanumeric characters, underscores and square brackets.  Minimum number of characters: 3. Default value is `BASE`. For information about alarm overrides, see [AlarmOverride](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/AlarmOverride). 
 * `severity` - The perceived type of response required when the alarm is in the "FIRING" state.  Example: `CRITICAL` 
 * `status` - The status of this alarm. Status is collective, across all metric streams in the alarm. To list alarm status for each metric stream, use [RetrieveDimensionStates](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmDimensionStatesCollection/RetrieveDimensionStates). The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`. Example: `FIRING` 
 * `suppression` - The configuration details for suppressing an alarm. 

@@ -33,12 +33,16 @@ type RepositoryRefSummary interface {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	GetSystemTags() map[string]map[string]interface{}
 }
 
 type repositoryrefsummary struct {
 	JsonData     []byte
 	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags   map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	RefName      *string                           `mandatory:"true" json:"refName"`
 	FullRefName  *string                           `mandatory:"true" json:"fullRefName"`
 	RepositoryId *string                           `mandatory:"true" json:"repositoryId"`
@@ -61,6 +65,7 @@ func (m *repositoryrefsummary) UnmarshalJSON(data []byte) error {
 	m.RepositoryId = s.Model.RepositoryId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
 	m.RefType = s.Model.RefType
 
 	return err
@@ -97,6 +102,11 @@ func (m repositoryrefsummary) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m repositoryrefsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m repositoryrefsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 // GetRefName returns RefName

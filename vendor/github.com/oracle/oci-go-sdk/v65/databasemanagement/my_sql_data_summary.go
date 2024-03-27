@@ -115,6 +115,12 @@ type MySqlDataSummary struct {
 
 	// The 99.9th percentile of the query latency.
 	Quantile999 *float32 `mandatory:"true" json:"quantile999"`
+
+	// The number of query executions offloaded to HeatWave.
+	HeatWaveOffloaded *float32 `mandatory:"false" json:"heatWaveOffloaded"`
+
+	// The number of query executions with HeatWave out-of-memory errors.
+	HeatWaveOutOfMemory *float32 `mandatory:"false" json:"heatWaveOutOfMemory"`
 }
 
 func (m MySqlDataSummary) String() string {

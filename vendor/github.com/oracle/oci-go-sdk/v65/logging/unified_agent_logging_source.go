@@ -57,6 +57,10 @@ func (m *unifiedagentloggingsource) UnmarshalPolymorphicJSON(data []byte) (inter
 
 	var err error
 	switch m.SourceType {
+	case "CUSTOM_PLUGIN":
+		mm := UnifiedAgentCustomPluginLogSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "WINDOWS_EVENT_LOG":
 		mm := UnifiedAgentWindowsEventSource{}
 		err = json.Unmarshal(data, &mm)
@@ -99,16 +103,19 @@ type UnifiedAgentLoggingSourceSourceTypeEnum string
 const (
 	UnifiedAgentLoggingSourceSourceTypeLogTail         UnifiedAgentLoggingSourceSourceTypeEnum = "LOG_TAIL"
 	UnifiedAgentLoggingSourceSourceTypeWindowsEventLog UnifiedAgentLoggingSourceSourceTypeEnum = "WINDOWS_EVENT_LOG"
+	UnifiedAgentLoggingSourceSourceTypeCustomPlugin    UnifiedAgentLoggingSourceSourceTypeEnum = "CUSTOM_PLUGIN"
 )
 
 var mappingUnifiedAgentLoggingSourceSourceTypeEnum = map[string]UnifiedAgentLoggingSourceSourceTypeEnum{
 	"LOG_TAIL":          UnifiedAgentLoggingSourceSourceTypeLogTail,
 	"WINDOWS_EVENT_LOG": UnifiedAgentLoggingSourceSourceTypeWindowsEventLog,
+	"CUSTOM_PLUGIN":     UnifiedAgentLoggingSourceSourceTypeCustomPlugin,
 }
 
 var mappingUnifiedAgentLoggingSourceSourceTypeEnumLowerCase = map[string]UnifiedAgentLoggingSourceSourceTypeEnum{
 	"log_tail":          UnifiedAgentLoggingSourceSourceTypeLogTail,
 	"windows_event_log": UnifiedAgentLoggingSourceSourceTypeWindowsEventLog,
+	"custom_plugin":     UnifiedAgentLoggingSourceSourceTypeCustomPlugin,
 }
 
 // GetUnifiedAgentLoggingSourceSourceTypeEnumValues Enumerates the set of values for UnifiedAgentLoggingSourceSourceTypeEnum
@@ -125,6 +132,7 @@ func GetUnifiedAgentLoggingSourceSourceTypeEnumStringValues() []string {
 	return []string{
 		"LOG_TAIL",
 		"WINDOWS_EVENT_LOG",
+		"CUSTOM_PLUGIN",
 	}
 }
 

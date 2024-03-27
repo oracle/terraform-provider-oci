@@ -16,8 +16,8 @@ import (
 )
 
 // Listener The congfiguration of the listener.
-// For more information about backend set configuration, see
-// Managing Load Balancer Listeners (https://docs.cloud.oracle.com/Content/Balance/Tasks/managinglisteners.htm).
+// For more information about listener configuration, see
+// Managing Load Balancer Listeners (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/Listeners/listener-management.htm).
 type Listener struct {
 
 	// A friendly name for the listener. It must be unique and it cannot be changed.
@@ -33,10 +33,9 @@ type Listener struct {
 	Port *int `mandatory:"true" json:"port"`
 
 	// The protocol on which the listener accepts connection requests.
-	// For public network load balancers, ANY protocol refers to TCP/UDP.
+	// For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port.
 	// For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true).
-	// To get a list of valid protocols, use the ListNetworkLoadBalancersProtocols
-	// operation.
+	// "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.
 	// Example: `TCP`
 	Protocol ListenerProtocolsEnum `mandatory:"true" json:"protocol"`
 

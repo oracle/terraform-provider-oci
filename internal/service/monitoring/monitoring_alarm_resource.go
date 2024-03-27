@@ -99,6 +99,50 @@ func MonitoringAlarmResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"notification_version": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"overrides": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"body": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"pending_duration": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"query": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"rule_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"severity": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"pending_duration": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -115,6 +159,11 @@ func MonitoringAlarmResource() *schema.Resource {
 				Computed: true,
 			},
 			"resource_group": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"rule_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -306,6 +355,28 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 		request.Namespace = &tmp
 	}
 
+	if notificationVersion, ok := s.D.GetOkExists("notification_version"); ok {
+		tmp := notificationVersion.(string)
+		request.NotificationVersion = &tmp
+	}
+
+	if overrides, ok := s.D.GetOkExists("overrides"); ok {
+		interfaces := overrides.([]interface{})
+		tmp := make([]oci_monitoring.AlarmOverride, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "overrides", stateDataIndex)
+			converted, err := s.mapToAlarmOverride(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("overrides") {
+			request.Overrides = tmp
+		}
+	}
+
 	if pendingDuration, ok := s.D.GetOkExists("pending_duration"); ok {
 		tmp := pendingDuration.(string)
 		request.PendingDuration = &tmp
@@ -329,6 +400,11 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 	if resourceGroup, ok := s.D.GetOkExists("resource_group"); ok {
 		tmp := resourceGroup.(string)
 		request.ResourceGroup = &tmp
+	}
+
+	if ruleName, ok := s.D.GetOkExists("rule_name"); ok {
+		tmp := ruleName.(string)
+		request.RuleName = &tmp
 	}
 
 	if severity, ok := s.D.GetOkExists("severity"); ok {
@@ -458,6 +534,28 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 		request.Namespace = &tmp
 	}
 
+	if notificationVersion, ok := s.D.GetOkExists("notification_version"); ok {
+		tmp := notificationVersion.(string)
+		request.NotificationVersion = &tmp
+	}
+
+	if overrides, ok := s.D.GetOkExists("overrides"); ok {
+		interfaces := overrides.([]interface{})
+		tmp := make([]oci_monitoring.AlarmOverride, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "overrides", stateDataIndex)
+			converted, err := s.mapToAlarmOverride(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("overrides") {
+			request.Overrides = tmp
+		}
+	}
+
 	if pendingDuration, ok := s.D.GetOkExists("pending_duration"); ok {
 		tmp := pendingDuration.(string)
 		request.PendingDuration = &tmp
@@ -481,6 +579,11 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 	if resourceGroup, ok := s.D.GetOkExists("resource_group"); ok {
 		tmp := resourceGroup.(string)
 		request.ResourceGroup = &tmp
+	}
+
+	if ruleName, ok := s.D.GetOkExists("rule_name"); ok {
+		tmp := ruleName.(string)
+		request.RuleName = &tmp
 	}
 
 	if severity, ok := s.D.GetOkExists("severity"); ok {
@@ -564,6 +667,16 @@ func (s *MonitoringAlarmResourceCrud) SetData() error {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
 
+	if s.Res.NotificationVersion != nil {
+		s.D.Set("notification_version", *s.Res.NotificationVersion)
+	}
+
+	overrides := []interface{}{}
+	for _, item := range s.Res.Overrides {
+		overrides = append(overrides, AlarmOverrideToMap(item))
+	}
+	s.D.Set("overrides", overrides)
+
 	if s.Res.PendingDuration != nil {
 		s.D.Set("pending_duration", *s.Res.PendingDuration)
 	}
@@ -582,6 +695,10 @@ func (s *MonitoringAlarmResourceCrud) SetData() error {
 
 	if s.Res.ResourceGroup != nil {
 		s.D.Set("resource_group", *s.Res.ResourceGroup)
+	}
+
+	if s.Res.RuleName != nil {
+		s.D.Set("rule_name", *s.Res.RuleName)
 	}
 
 	s.D.Set("severity", s.Res.Severity)
@@ -603,6 +720,60 @@ func (s *MonitoringAlarmResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *MonitoringAlarmResourceCrud) mapToAlarmOverride(fieldKeyFormat string) (oci_monitoring.AlarmOverride, error) {
+	result := oci_monitoring.AlarmOverride{}
+
+	if body, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "body")); ok {
+		tmp := body.(string)
+		result.Body = &tmp
+	}
+
+	if pendingDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "pending_duration")); ok {
+		tmp := pendingDuration.(string)
+		result.PendingDuration = &tmp
+	}
+
+	if query, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query")); ok {
+		tmp := query.(string)
+		result.Query = &tmp
+	}
+
+	if ruleName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rule_name")); ok {
+		tmp := ruleName.(string)
+		result.RuleName = &tmp
+	}
+
+	if severity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "severity")); ok {
+		result.Severity = oci_monitoring.AlarmSeverityEnum(severity.(string))
+	}
+
+	return result, nil
+}
+
+func AlarmOverrideToMap(obj oci_monitoring.AlarmOverride) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Body != nil {
+		result["body"] = string(*obj.Body)
+	}
+
+	if obj.PendingDuration != nil {
+		result["pending_duration"] = string(*obj.PendingDuration)
+	}
+
+	if obj.Query != nil {
+		result["query"] = string(*obj.Query)
+	}
+
+	if obj.RuleName != nil {
+		result["rule_name"] = string(*obj.RuleName)
+	}
+
+	result["severity"] = string(obj.Severity)
+
+	return result
 }
 
 func (s *MonitoringAlarmResourceCrud) mapToSuppression(fieldKeyFormat string) (oci_monitoring.Suppression, error) {

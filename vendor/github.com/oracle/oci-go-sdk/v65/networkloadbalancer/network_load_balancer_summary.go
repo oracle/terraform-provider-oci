@@ -58,7 +58,7 @@ type NetworkLoadBalancerSummary struct {
 	// A public network load balancer is accessible from the internet, depending the
 	// security list rules (https://docs.cloud.oracle.com/Content/network/Concepts/securitylists.htm) for your virtual cloudn network. For more information about public and
 	// private network load balancers,
-	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/Balance/Concepts/balanceoverview.htm#how-network-load-balancing-works).
+	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/overview.htm).
 	// This value is true by default.
 	// Example: `true`
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
@@ -66,6 +66,10 @@ type NetworkLoadBalancerSummary struct {
 	// When enabled, the skipSourceDestinationCheck parameter is automatically enabled on the load balancer VNIC.
 	// Packets are sent to the backend set without any changes to the source and destination IP.
 	IsPreserveSourceDestination *bool `mandatory:"false" json:"isPreserveSourceDestination"`
+
+	// This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.
+	// This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
+	IsSymmetricHashEnabled *bool `mandatory:"false" json:"isSymmetricHashEnabled"`
 
 	// An array of network security groups OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the network load
 	// balancer.

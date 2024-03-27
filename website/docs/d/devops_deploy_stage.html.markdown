@@ -89,11 +89,13 @@ The following attributes are exported:
 * `function_timeout_in_seconds` - Timeout for execution of the Function. Value in seconds.
 * `green_backend_ips` - Collection of backend environment IP addresses.
 	* `items` - The IP address of the backend server. A server could be a compute instance or a load balancer.
-* `helm_chart_deploy_artifact_id` - Helm chart artifact OCID. 
+* `helm_chart_deploy_artifact_id` - Helm chart artifact OCID.
+* `helm_command_artifact_ids` - List of Helm command artifact OCIDs.
 * `id` - Unique identifier that is immutable on creation.
 * `is_async` - A boolean flag specifies whether this stage executes asynchronously.
 * `is_debug_enabled` - Enables helm --debug option to stream output to tf stdout. Set to false by default.
 * `is_force_enabled` - Force resource update through delete; or if required, recreate. Set to false by default.
+* `is_uninstall_on_stage_delete` - Uninstall the Helm chart release on deleting the stage.
 * `is_validation_enabled` - A boolean flag specifies whether the invoked function must be validated.
 * `kubernetes_manifest_deploy_artifact_ids` - List of Kubernetes manifest artifact OCIDs.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -113,6 +115,7 @@ The following attributes are exported:
 	* `listener_name` - Name of the load balancer listener.
 	* `load_balancer_id` - The OCID of the load balancer.
 * `project_id` - The OCID of a project.
+* `purpose` - The purpose of running this Helm stage
 * `release_name` - Release name of the Helm chart.
 * `rollback_policy` - Specifies the rollback policy. This is initiated on the failure of certain stage types.
 	* `policy_type` - Specifies type of the deployment stage rollback policy.

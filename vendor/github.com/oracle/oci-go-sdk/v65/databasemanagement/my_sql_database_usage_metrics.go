@@ -47,6 +47,15 @@ type MySqlDatabaseUsageMetrics struct {
 
 	// A list of the database health metrics like CPU, Storage, and Memory.
 	Metrics []MySqlFleetMetricDefinition `mandatory:"true" json:"metrics"`
+
+	// If HeatWave is enabled for this db system or not.
+	IsHeatWaveEnabled *bool `mandatory:"false" json:"isHeatWaveEnabled"`
+
+	// The name of the HeatWave cluster.
+	HeatWaveClusterDisplayName *string `mandatory:"false" json:"heatWaveClusterDisplayName"`
+
+	// The number of nodes in the HeatWave cluster.
+	HeatWaveNodeCount *int `mandatory:"false" json:"heatWaveNodeCount"`
 }
 
 func (m MySqlDatabaseUsageMetrics) String() string {

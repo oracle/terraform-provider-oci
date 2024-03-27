@@ -496,6 +496,15 @@ func DevopsDeployStageResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+
+			"helm_command_artifact_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+
 			"is_async": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -507,6 +516,11 @@ func DevopsDeployStageResource() *schema.Resource {
 				Computed: true,
 			},
 			"is_force_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"is_uninstall_on_stage_delete": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
@@ -638,6 +652,11 @@ func DevopsDeployStageResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"purpose": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"release_name": {
 				Type:     schema.TypeString,
@@ -1019,13 +1038,17 @@ func (s *DevopsDeployStageResourceCrud) Create() error {
 	if err != nil {
 		return err
 	}
-
 	workId := response.OpcWorkRequestId
 	var identifier *string
 	identifier = response.GetId()
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
+	log.Printf("##########################################")
+	log.Printf("##########################################")
+	fmt.Println(response)
+	log.Printf("##########################################")
+	log.Printf("##########################################")
 	return s.getDeployStageFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "devops"), oci_devops.ActionTypeCreated, s.D.Timeout(schema.TimeoutCreate))
 }
 
@@ -2415,6 +2438,67 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_devops.WaitDeployStage:
+		s.D.Set("deploy_stage_type", "WAIT")
+		if v.WaitCriteria != nil {
+			waitCriteriaArray := []interface{}{}
+			if waitCriteriaMap := WaitCriteriaToMap(&v.WaitCriteria); waitCriteriaMap != nil {
+				waitCriteriaArray = append(waitCriteriaArray, waitCriteriaMap)
+			}
+			s.D.Set("wait_criteria", waitCriteriaArray)
+		} else {
+			s.D.Set("wait_criteria", nil)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.DeployPipelineId != nil {
+			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
+		}
+
+		if v.DeployStagePredecessorCollection != nil {
+			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
+		} else {
+			s.D.Set("deploy_stage_predecessor_collection", nil)
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProjectId != nil {
+			s.D.Set("project_id", *v.ProjectId)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_devops.OkeHelmChartDeployStage:
 		s.D.Set("deploy_stage_type", "OKE_HELM_CHART_DEPLOYMENT")
 
@@ -2430,12 +2514,20 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 			s.D.Set("helm_chart_deploy_artifact_id", *v.HelmChartDeployArtifactId)
 		}
 
+		if v.HelmCommandArtifactIds != nil {
+			s.D.Set("helm_command_artifact_ids", v.HelmCommandArtifactIds)
+		}
+
 		if v.IsDebugEnabled != nil {
 			s.D.Set("is_debug_enabled", *v.IsDebugEnabled)
 		}
 
 		if v.IsForceEnabled != nil {
 			s.D.Set("is_force_enabled", *v.IsForceEnabled)
+		}
+
+		if v.IsUninstallOnStageDelete != nil {
+			s.D.Set("is_uninstall_on_stage_delete", *v.IsUninstallOnStageDelete)
 		}
 
 		if v.MaxHistory != nil {
@@ -2449,6 +2541,8 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 		if v.OkeClusterDeployEnvironmentId != nil {
 			s.D.Set("oke_cluster_deploy_environment_id", *v.OkeClusterDeployEnvironmentId)
 		}
+
+		s.D.Set("purpose", v.Purpose)
 
 		if v.ReleaseName != nil {
 			s.D.Set("release_name", *v.ReleaseName)
@@ -2555,68 +2649,6 @@ func (s *DevopsDeployStageResourceCrud) SetData() error {
 		if v.ProjectId != nil {
 			s.D.Set("project_id", *v.ProjectId)
 		}
-
-		if v.SystemTags != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
-		}
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
-		}
-
-		if v.TimeUpdated != nil {
-			s.D.Set("time_updated", v.TimeUpdated.String())
-		}
-	case oci_devops.WaitDeployStage:
-		s.D.Set("deploy_stage_type", "WAIT")
-
-		if v.WaitCriteria != nil {
-			waitCriteriaArray := []interface{}{}
-			if waitCriteriaMap := WaitCriteriaToMap(&v.WaitCriteria); waitCriteriaMap != nil {
-				waitCriteriaArray = append(waitCriteriaArray, waitCriteriaMap)
-			}
-			s.D.Set("wait_criteria", waitCriteriaArray)
-		} else {
-			s.D.Set("wait_criteria", nil)
-		}
-
-		if v.CompartmentId != nil {
-			s.D.Set("compartment_id", *v.CompartmentId)
-		}
-
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
-
-		if v.DeployPipelineId != nil {
-			s.D.Set("deploy_pipeline_id", *v.DeployPipelineId)
-		}
-
-		if v.DeployStagePredecessorCollection != nil {
-			s.D.Set("deploy_stage_predecessor_collection", []interface{}{DeployStagePredecessorCollectionToMap(v.DeployStagePredecessorCollection)})
-		} else {
-			s.D.Set("deploy_stage_predecessor_collection", nil)
-		}
-
-		if v.Description != nil {
-			s.D.Set("description", *v.Description)
-		}
-
-		if v.DisplayName != nil {
-			s.D.Set("display_name", *v.DisplayName)
-		}
-
-		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.LifecycleDetails != nil {
-			s.D.Set("lifecycle_details", *v.LifecycleDetails)
-		}
-
-		if v.ProjectId != nil {
-			s.D.Set("project_id", *v.ProjectId)
-		}
-
-		s.D.Set("state", v.LifecycleState)
 
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
@@ -3326,6 +3358,16 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 			}
 			result["rollback_policy"] = rollbackPolicyArray
 		}
+	case oci_devops.WaitDeployStageSummary:
+		result["deploy_stage_type"] = "WAIT"
+
+		if v.WaitCriteria != nil {
+			waitCriteriaArray := []interface{}{}
+			if waitCriteriaMap := WaitCriteriaSummaryToMap(&v.WaitCriteria); waitCriteriaMap != nil {
+				waitCriteriaArray = append(waitCriteriaArray, waitCriteriaMap)
+			}
+			result["wait_criteria"] = waitCriteriaArray
+		}
 	case oci_devops.OkeHelmChartDeployStageSummary:
 		result["deploy_stage_type"] = "OKE_HELM_CHART_DEPLOYMENT"
 
@@ -3337,12 +3379,20 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 			result["helm_chart_deploy_artifact_id"] = string(*v.HelmChartDeployArtifactId)
 		}
 
+		if v.HelmCommandArtifactIds != nil {
+			result["helm_command_artifact_ids"] = v.HelmCommandArtifactIds
+		}
+
 		if v.IsDebugEnabled != nil {
 			result["is_debug_enabled"] = bool(*v.IsDebugEnabled)
 		}
 
 		if v.IsForceEnabled != nil {
 			result["is_force_enabled"] = bool(*v.IsForceEnabled)
+		}
+
+		if v.IsUninstallOnStageDelete != nil {
+			result["is_uninstall_on_stage_delete"] = bool(*v.IsUninstallOnStageDelete)
 		}
 
 		if v.MaxHistory != nil {
@@ -3355,6 +3405,13 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 
 		if v.OkeClusterDeployEnvironmentId != nil {
 			result["oke_cluster_deploy_environment_id"] = string(*v.OkeClusterDeployEnvironmentId)
+		}
+
+		if v.Purpose != "" {
+			result["purpose"] = string(v.Purpose)
+		} else {
+			v.Purpose = oci_devops.OkeHelmChartDeployStageSummaryPurposeEnum("EXECUTE_HELM_UPGRADE")
+			result["purpose"] = v.Purpose
 		}
 
 		if v.ReleaseName != nil {
@@ -3420,16 +3477,6 @@ func DeployStageSummaryToMap(obj oci_devops.DeployStageSummary) map[string]inter
 		}
 
 		result["values_artifact_ids"] = v.ValuesArtifactIds
-	case oci_devops.WaitDeployStageSummary:
-		result["deploy_stage_type"] = "WAIT"
-
-		if v.WaitCriteria != nil {
-			waitCriteriaArray := []interface{}{}
-			if waitCriteriaMap := WaitCriteriaSummaryToMap(&v.WaitCriteria); waitCriteriaMap != nil {
-				waitCriteriaArray = append(waitCriteriaArray, waitCriteriaMap)
-			}
-			result["wait_criteria"] = waitCriteriaArray
-		}
 	default:
 		log.Printf("[WARN] Received 'deploy_stage_type' of unknown type %v", obj)
 		return nil
@@ -4957,6 +5004,51 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDeployStageDetails = details
+	case strings.ToLower("WAIT"):
+		details := oci_devops.CreateWaitDeployStageDetails{}
+		if waitCriteria, ok := s.D.GetOkExists("wait_criteria"); ok {
+			if tmpList := waitCriteria.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "wait_criteria", 0)
+				tmp, err := s.mapToWaitCriteria(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.WaitCriteria = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
+			tmp := deployPipelineId.(string)
+			details.DeployPipelineId = &tmp
+		}
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDeployStageDetails = details
 	case strings.ToLower("OKE_HELM_CHART_DEPLOYMENT"):
 		details := oci_devops.CreateOkeHelmChartDeployStageDetails{}
 		if areHooksEnabled, ok := s.D.GetOkExists("are_hooks_enabled"); ok {
@@ -4967,6 +5059,20 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			tmp := helmChartDeployArtifactId.(string)
 			details.HelmChartDeployArtifactId = &tmp
 		}
+
+		if helmCommandArtifactIds, ok := s.D.GetOkExists("helm_command_artifact_ids"); ok {
+			interfaces := helmCommandArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("helm_command_artifact_ids") {
+				details.HelmCommandArtifactIds = tmp
+			}
+		}
+
 		if isDebugEnabled, ok := s.D.GetOkExists("is_debug_enabled"); ok {
 			tmp := isDebugEnabled.(bool)
 			details.IsDebugEnabled = &tmp
@@ -4974,6 +5080,10 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 		if isForceEnabled, ok := s.D.GetOkExists("is_force_enabled"); ok {
 			tmp := isForceEnabled.(bool)
 			details.IsForceEnabled = &tmp
+		}
+		if isUninstallOnStageDelete, ok := s.D.GetOkExists("is_uninstall_on_stage_delete"); ok {
+			tmp := isUninstallOnStageDelete.(bool)
+			details.IsUninstallOnStageDelete = &tmp
 		}
 		if maxHistory, ok := s.D.GetOkExists("max_history"); ok {
 			tmp := maxHistory.(int)
@@ -4986,6 +5096,9 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 		if okeClusterDeployEnvironmentId, ok := s.D.GetOkExists("oke_cluster_deploy_environment_id"); ok {
 			tmp := okeClusterDeployEnvironmentId.(string)
 			details.OkeClusterDeployEnvironmentId = &tmp
+		}
+		if purpose, ok := s.D.GetOkExists("purpose"); ok {
+			details.Purpose = oci_devops.CreateOkeHelmChartDeployStageDetailsPurposeEnum(purpose.(string))
 		}
 		if releaseName, ok := s.D.GetOkExists("release_name"); ok {
 			tmp := releaseName.(string)
@@ -5063,51 +5176,6 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicCreateDeployS
 			}
 			if len(tmp) != 0 || s.D.HasChange("values_artifact_ids") {
 				details.ValuesArtifactIds = tmp
-			}
-		}
-		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.DefinedTags = convertedDefinedTags
-		}
-		if deployPipelineId, ok := s.D.GetOkExists("deploy_pipeline_id"); ok {
-			tmp := deployPipelineId.(string)
-			details.DeployPipelineId = &tmp
-		}
-		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
-			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
-				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.DeployStagePredecessorCollection = &tmp
-			}
-		}
-		if description, ok := s.D.GetOkExists("description"); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
-		request.CreateDeployStageDetails = details
-	case strings.ToLower("WAIT"):
-		details := oci_devops.CreateWaitDeployStageDetails{}
-		if waitCriteria, ok := s.D.GetOkExists("wait_criteria"); ok {
-			if tmpList := waitCriteria.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "wait_criteria", 0)
-				tmp, err := s.mapToWaitCriteria(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.WaitCriteria = tmp
 			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -6076,6 +6144,49 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDeployStageDetails = details
+	case strings.ToLower("WAIT"):
+		details := oci_devops.UpdateWaitDeployStageDetails{}
+		if waitCriteria, ok := s.D.GetOkExists("wait_criteria"); ok {
+			if tmpList := waitCriteria.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "wait_criteria", 0)
+				tmp, err := s.mapToWaitCriteria(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.WaitCriteria = tmp
+			}
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.DeployStageId = &tmp
+		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
+			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
+				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				details.DeployStagePredecessorCollection = &tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDeployStageDetails = details
 	case strings.ToLower("OKE_HELM_CHART_DEPLOYMENT"):
 		details := oci_devops.UpdateOkeHelmChartDeployStageDetails{}
 		if areHooksEnabled, ok := s.D.GetOkExists("are_hooks_enabled"); ok {
@@ -6086,6 +6197,18 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			tmp := helmChartDeployArtifactId.(string)
 			details.HelmChartDeployArtifactId = &tmp
 		}
+		if helmCommandArtifactIds, ok := s.D.GetOkExists("helm_command_artifact_ids"); ok {
+			interfaces := helmCommandArtifactIds.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("helm_command_artifact_ids") {
+				details.HelmCommandArtifactIds = tmp
+			}
+		}
 		if isDebugEnabled, ok := s.D.GetOkExists("is_debug_enabled"); ok {
 			tmp := isDebugEnabled.(bool)
 			details.IsDebugEnabled = &tmp
@@ -6093,6 +6216,10 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 		if isForceEnabled, ok := s.D.GetOkExists("is_force_enabled"); ok {
 			tmp := isForceEnabled.(bool)
 			details.IsForceEnabled = &tmp
+		}
+		if isUninstallOnStageDelete, ok := s.D.GetOkExists("is_uninstall_on_stage_delete"); ok {
+			tmp := isUninstallOnStageDelete.(bool)
+			details.IsUninstallOnStageDelete = &tmp
 		}
 		if maxHistory, ok := s.D.GetOkExists("max_history"); ok {
 			tmp := maxHistory.(int)
@@ -6105,6 +6232,9 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 		if okeClusterDeployEnvironmentId, ok := s.D.GetOkExists("oke_cluster_deploy_environment_id"); ok {
 			tmp := okeClusterDeployEnvironmentId.(string)
 			details.OkeClusterDeployEnvironmentId = &tmp
+		}
+		if purpose, ok := s.D.GetOkExists("purpose"); ok {
+			details.Purpose = oci_devops.UpdateOkeHelmChartDeployStageDetailsPurposeEnum(purpose.(string))
 		}
 		if releaseName, ok := s.D.GetOkExists("release_name"); ok {
 			tmp := releaseName.(string)
@@ -6182,49 +6312,6 @@ func (s *DevopsDeployStageResourceCrud) populateTopLevelPolymorphicUpdateDeployS
 			}
 			if len(tmp) != 0 || s.D.HasChange("values_artifact_ids") {
 				details.ValuesArtifactIds = tmp
-			}
-		}
-		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.DefinedTags = convertedDefinedTags
-		}
-		tmp := s.D.Id()
-		request.DeployStageId = &tmp
-		if deployStagePredecessorCollection, ok := s.D.GetOkExists("deploy_stage_predecessor_collection"); ok {
-			if tmpList := deployStagePredecessorCollection.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "deploy_stage_predecessor_collection", 0)
-				tmp, err := s.mapToDeployStagePredecessorCollection(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.DeployStagePredecessorCollection = &tmp
-			}
-		}
-		if description, ok := s.D.GetOkExists("description"); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
-		request.UpdateDeployStageDetails = details
-	case strings.ToLower("WAIT"):
-		details := oci_devops.UpdateWaitDeployStageDetails{}
-		if waitCriteria, ok := s.D.GetOkExists("wait_criteria"); ok {
-			if tmpList := waitCriteria.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "wait_criteria", 0)
-				tmp, err := s.mapToWaitCriteria(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				details.WaitCriteria = tmp
 			}
 		}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {

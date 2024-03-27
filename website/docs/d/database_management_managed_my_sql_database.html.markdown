@@ -34,9 +34,20 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment.
-* `db_name` - MySQL Database Name
-* `db_version` - MySQL Database Version
-* `id` - The OCID of the Managed MySql Database.
+* `db_name` - The name of the MySQL Database.
+* `db_version` - The version of the MySQL Database.
+* `id` - The OCID of the Managed MySQL Database.
+* `time_created` - The date and time the Managed MySQL Database was created.
+* `heat_wave_cluster_display_name` - The name of the HeatWave cluster.
+* `heat_wave_memory_size` - The total memory belonging to the HeatWave cluster in GBs.
+* `heat_wave_node_shape` - Shape of the nodes in the HeatWave cluster.
+* `heat_wave_nodes` - The information about an individual HeatWave nodes in the cluster.
+	* `id` - The ID associated with the HeatWave node.
+	* `status` - The status of the HeatWave node. Indicates whether the status of the node is UP, DOWN, or UNKNOWN at the current time.
+	* `time_created` - The date and time the node was created.
+* `is_heat_wave_active` - If the HeatWave cluster is active or not.
+* `is_heat_wave_enabled` - If HeatWave is enabled for this db system or not.
+* `is_lakehouse_enabled` - If HeatWave Lakehouse is enabled for the db system or not.
 * `name` - The name of the Managed MySQL Database.
-* `time_created` - The date and time the Managed Database was created.
+* `time_created_heat_wave` - The date and time the Managed MySQL Database was created.
 

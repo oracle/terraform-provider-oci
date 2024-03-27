@@ -28,6 +28,8 @@ type UnifiedAgentTailLogSource struct {
 	Paths []string `mandatory:"true" json:"paths"`
 
 	Parser UnifiedAgentParser `mandatory:"false" json:"parser"`
+
+	AdvancedOptions *UnifiedAgentTailSourceAdvancedOptions `mandatory:"false" json:"advancedOptions"`
 }
 
 // GetName returns Name
@@ -68,9 +70,10 @@ func (m UnifiedAgentTailLogSource) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *UnifiedAgentTailLogSource) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Parser unifiedagentparser `json:"parser"`
-		Name   *string            `json:"name"`
-		Paths  []string           `json:"paths"`
+		Parser          unifiedagentparser                     `json:"parser"`
+		AdvancedOptions *UnifiedAgentTailSourceAdvancedOptions `json:"advancedOptions"`
+		Name            *string                                `json:"name"`
+		Paths           []string                               `json:"paths"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -87,6 +90,8 @@ func (m *UnifiedAgentTailLogSource) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Parser = nil
 	}
+
+	m.AdvancedOptions = model.AdvancedOptions
 
 	m.Name = model.Name
 
