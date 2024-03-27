@@ -14,10 +14,10 @@ import (
 // SwitchModuleStreamOnManagedInstanceGroupRequest wrapper for the SwitchModuleStreamOnManagedInstanceGroup operation
 type SwitchModuleStreamOnManagedInstanceGroupRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
-	// Details for module stream to switch on the managed instance group.
+	// Provides the details used to switch module streams on a managed instance group.
 	SwitchModuleStreamOnManagedInstanceGroupDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

@@ -14,10 +14,10 @@ import (
 // InstallWindowsUpdatesOnManagedInstanceRequest wrapper for the InstallWindowsUpdatesOnManagedInstance operation
 type InstallWindowsUpdatesOnManagedInstanceRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
-	// Details about Windows Updates to be installed on a managed instance.
+	// Details about Windows updates to be installed on a managed instance.
 	InstallWindowsUpdatesOnManagedInstanceDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

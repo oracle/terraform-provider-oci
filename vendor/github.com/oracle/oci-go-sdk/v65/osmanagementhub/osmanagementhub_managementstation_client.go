@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,7 +92,7 @@ func (client *ManagementStationClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// ChangeManagementStationCompartment Moves a ManagementStation resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeManagementStationCompartment Moves a managment station to a different compartment.
 // A default retry strategy applies to this operation ChangeManagementStationCompartment()
 func (client ManagementStationClient) ChangeManagementStationCompartment(ctx context.Context, request ChangeManagementStationCompartmentRequest) (response ChangeManagementStationCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -150,7 +151,7 @@ func (client ManagementStationClient) changeManagementStationCompartment(ctx con
 	return response, err
 }
 
-// CreateManagementStation Creates a management station.
+// CreateManagementStation Create a management station. You must provide proxy and mirror configuration information.
 // A default retry strategy applies to this operation CreateManagementStation()
 func (client ManagementStationClient) CreateManagementStation(ctx context.Context, request CreateManagementStationRequest) (response CreateManagementStationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -425,7 +426,7 @@ func (client ManagementStationClient) listMirrors(ctx context.Context, request c
 	return response, err
 }
 
-// RefreshManagementStationConfig Refresh all Selected Software Sources and send the config to the selected Management Station
+// RefreshManagementStationConfig Refreshes the list of software sources mirrored by the management station to support the associated instances.
 // A default retry strategy applies to this operation RefreshManagementStationConfig()
 func (client ManagementStationClient) RefreshManagementStationConfig(ctx context.Context, request RefreshManagementStationConfigRequest) (response RefreshManagementStationConfigResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -484,7 +485,7 @@ func (client ManagementStationClient) refreshManagementStationConfig(ctx context
 	return response, err
 }
 
-// SynchronizeMirrors Synchronizes the specified mirrors associated with the management station.
+// SynchronizeMirrors Synchronize the specified software sources mirrors on the management station.
 // A default retry strategy applies to this operation SynchronizeMirrors()
 func (client ManagementStationClient) SynchronizeMirrors(ctx context.Context, request SynchronizeMirrorsRequest) (response SynchronizeMirrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -543,7 +544,7 @@ func (client ManagementStationClient) synchronizeMirrors(ctx context.Context, re
 	return response, err
 }
 
-// SynchronizeSingleMirrors Synchronize the specified mirror associated with a management station.
+// SynchronizeSingleMirrors Synchronize the specified software source mirrors on the management station.
 // A default retry strategy applies to this operation SynchronizeSingleMirrors()
 func (client ManagementStationClient) SynchronizeSingleMirrors(ctx context.Context, request SynchronizeSingleMirrorsRequest) (response SynchronizeSingleMirrorsResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -18,10 +19,10 @@ import (
 // VmcoreDetails Kernel event vmcore details
 type VmcoreDetails struct {
 
-	// Kernel vmcore backtrace
+	// Kernel vmcore backtrace.
 	Backtrace *string `mandatory:"true" json:"backtrace"`
 
-	// Kernel vmcore component
+	// Kernel vmcore component.
 	Component *string `mandatory:"true" json:"component"`
 }
 

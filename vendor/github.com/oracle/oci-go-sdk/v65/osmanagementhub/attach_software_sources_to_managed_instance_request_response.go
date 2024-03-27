@@ -14,7 +14,7 @@ import (
 // AttachSoftwareSourcesToManagedInstanceRequest wrapper for the AttachSoftwareSourcesToManagedInstance operation
 type AttachSoftwareSourcesToManagedInstanceRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// Details of software sources to be attached to a managed instance.

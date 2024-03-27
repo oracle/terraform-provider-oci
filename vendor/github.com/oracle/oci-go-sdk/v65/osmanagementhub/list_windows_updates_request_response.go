@@ -14,15 +14,14 @@ import (
 // ListWindowsUpdatesRequest wrapper for the ListWindowsUpdates operation
 type ListWindowsUpdatesRequest struct {
 
-	// The OCID of the compartment that contains the resources to list. This parameter is required.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only packages that match the given update classification type.
 	ClassificationType []ClassificationTypesEnum `contributesTo:"query" name:"classificationType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// Unique identifiers for the Windows updates. NOTE - This is not an OCID,
-	// but is a unique identifier assigned by Microsoft.
-	// Example: `6981d463-cd91-4a26-b7c4-ea4ded9183ed`
+	// A filter based on the unique identifier for the Windows update. Note that this is not an OCID, but is a unique identifier assigned by Microsoft.
+	// Example: '6981d463-cd91-4a26-b7c4-ea4ded9183ed'
 	Name []string `contributesTo:"query" name:"name" collectionFormat:"multi"`
 
 	// A filter to return resources that may partially match the given display name.

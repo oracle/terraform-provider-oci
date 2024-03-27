@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,22 +16,22 @@ import (
 	"strings"
 )
 
-// MirrorSyncStatus Status summary of all repos
+// MirrorSyncStatus Status summary of the mirror sync.
 type MirrorSyncStatus struct {
 
-	// Total of mirrors in 'failed' state
+	// Total number of software sources that have not yet been synced.
 	Unsynced *int `mandatory:"true" json:"unsynced"`
 
-	// Total of mirrors in 'queued' state
+	// Total number of software sources that are queued for sync.
 	Queued *int `mandatory:"true" json:"queued"`
 
-	// Total of mirrors in 'syncing' state
+	// Total number of software sources currently syncing.
 	Syncing *int `mandatory:"true" json:"syncing"`
 
-	// Total of mirrors in 'synced' state
+	// Total number of software sources that successfully synced.
 	Synced *int `mandatory:"true" json:"synced"`
 
-	// Total of mirrors in 'failed' state
+	// Total number of software sources that failed to sync.
 	Failed *int `mandatory:"true" json:"failed"`
 }
 

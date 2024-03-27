@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdatableAutonomousSettings fields that used in autonomous linux service and can be updated by users.
+// UpdatableAutonomousSettings Updatable settings for the Autonomous Linux service.
 type UpdatableAutonomousSettings struct {
 
-	// indicator for whether user has opted in for uploading crash files, changeable by users.
+	// Indicates whether Autonomous Linux will collect crash files.
 	IsDataCollectionAuthorized *bool `mandatory:"false" json:"isDataCollectionAuthorized"`
 }
 

@@ -14,7 +14,7 @@ import (
 // CreateManagedInstanceGroupRequest wrapper for the CreateManagedInstanceGroup operation
 type CreateManagedInstanceGroupRequest struct {
 
-	// Details for the new managed instance group.
+	// Provides the information used to create the managed instance group.
 	CreateManagedInstanceGroupDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

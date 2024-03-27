@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,8 +92,8 @@ func (client *SoftwareSourceClient) ConfigurationProvider() *common.Configuratio
 	return client.config
 }
 
-// AddPackagesToSoftwareSource Adds packages to a software source. This operation can only be done for custom and versioned custom software sources that are not
-// created using filters.
+// AddPackagesToSoftwareSource Adds packages to a software source. This operation can only be done for custom and versioned custom software sources that are not created using filters.
+// For a versioned custom software source, you can only add packages when the source is created. Once content is added to a versioned custom software source, it is immutable.
 // A default retry strategy applies to this operation AddPackagesToSoftwareSource()
 func (client SoftwareSourceClient) AddPackagesToSoftwareSource(ctx context.Context, request AddPackagesToSoftwareSourceRequest) (response AddPackagesToSoftwareSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -210,8 +211,8 @@ func (client SoftwareSourceClient) changeAvailabilityOfSoftwareSources(ctx conte
 	return response, err
 }
 
-// ChangeSoftwareSourceCompartment Moves a resource into a different compartment. When provided, If-Match
-// is checked against ETag values of the resource.
+// ChangeSoftwareSourceCompartment Moves the specified software sources to a different compartment within the same tenancy.
+// For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeSoftwareSourceCompartment()
 func (client SoftwareSourceClient) ChangeSoftwareSourceCompartment(ctx context.Context, request ChangeSoftwareSourceCompartmentRequest) (response ChangeSoftwareSourceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -442,7 +443,7 @@ func (client SoftwareSourceClient) deleteSoftwareSource(ctx context.Context, req
 	return response, err
 }
 
-// GetErratum Gets information about the specified erratum by its advisory name.
+// GetErratum Returns information about the specified erratum based on its advisory name.
 // A default retry strategy applies to this operation GetErratum()
 func (client SoftwareSourceClient) GetErratum(ctx context.Context, request GetErratumRequest) (response GetErratumResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -496,7 +497,7 @@ func (client SoftwareSourceClient) getErratum(ctx context.Context, request commo
 	return response, err
 }
 
-// GetModuleStream Gets information about the specified module stream in a software source.
+// GetModuleStream Returns information about the specified module stream in a software source.
 // A default retry strategy applies to this operation GetModuleStream()
 func (client SoftwareSourceClient) GetModuleStream(ctx context.Context, request GetModuleStreamRequest) (response GetModuleStreamResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -550,7 +551,7 @@ func (client SoftwareSourceClient) getModuleStream(ctx context.Context, request 
 	return response, err
 }
 
-// GetModuleStreamProfile Gets information about the specified module stream profile in a software source.
+// GetModuleStreamProfile Returns information about the specified module stream profile in a software source.
 // A default retry strategy applies to this operation GetModuleStreamProfile()
 func (client SoftwareSourceClient) GetModuleStreamProfile(ctx context.Context, request GetModuleStreamProfileRequest) (response GetModuleStreamProfileResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -604,7 +605,7 @@ func (client SoftwareSourceClient) getModuleStreamProfile(ctx context.Context, r
 	return response, err
 }
 
-// GetPackageGroup Gets information about the specified package group from a software source.
+// GetPackageGroup Returns information about the specified package group from a software source.
 // A default retry strategy applies to this operation GetPackageGroup()
 func (client SoftwareSourceClient) GetPackageGroup(ctx context.Context, request GetPackageGroupRequest) (response GetPackageGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -658,7 +659,7 @@ func (client SoftwareSourceClient) getPackageGroup(ctx context.Context, request 
 	return response, err
 }
 
-// GetSoftwarePackage Gets information about the specified software package.
+// GetSoftwarePackage Returns information about the specified software package.
 // A default retry strategy applies to this operation GetSoftwarePackage()
 func (client SoftwareSourceClient) GetSoftwarePackage(ctx context.Context, request GetSoftwarePackageRequest) (response GetSoftwarePackageResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -712,7 +713,7 @@ func (client SoftwareSourceClient) getSoftwarePackage(ctx context.Context, reque
 	return response, err
 }
 
-// GetSoftwarePackageByName Gets information about the specified software package.
+// GetSoftwarePackageByName Returns information about the specified software package based on its fully qualified name.
 // A default retry strategy applies to this operation GetSoftwarePackageByName()
 func (client SoftwareSourceClient) GetSoftwarePackageByName(ctx context.Context, request GetSoftwarePackageByNameRequest) (response GetSoftwarePackageByNameResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -766,7 +767,7 @@ func (client SoftwareSourceClient) getSoftwarePackageByName(ctx context.Context,
 	return response, err
 }
 
-// GetSoftwareSource Gets information about the specified software source.
+// GetSoftwareSource Returns information about the specified software source.
 // A default retry strategy applies to this operation GetSoftwareSource()
 func (client SoftwareSourceClient) GetSoftwareSource(ctx context.Context, request GetSoftwareSourceRequest) (response GetSoftwareSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -820,7 +821,7 @@ func (client SoftwareSourceClient) getSoftwareSource(ctx context.Context, reques
 	return response, err
 }
 
-// ListAllSoftwarePackages Lists software packages available through OS Management Hub.  Filter the list against a variety of criteria
+// ListAllSoftwarePackages Lists software packages available through the OS Management Hub service.  Filter the list against a variety of criteria
 // including but not limited to its name.
 // A default retry strategy applies to this operation ListAllSoftwarePackages()
 func (client SoftwareSourceClient) ListAllSoftwarePackages(ctx context.Context, request ListAllSoftwarePackagesRequest) (response ListAllSoftwarePackagesResponse, err error) {
@@ -875,8 +876,8 @@ func (client SoftwareSourceClient) listAllSoftwarePackages(ctx context.Context, 
 	return response, err
 }
 
-// ListEntitlements Lists entitlements in the specified tenancy OCID. Filter the list against a variety of criteria including but
-// not limited to its CSI, and vendor name.
+// ListEntitlements Lists entitlements in the specified tenancy OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but
+// not limited to its Customer Support Identifier (CSI), and vendor name.
 // A default retry strategy applies to this operation ListEntitlements()
 func (client SoftwareSourceClient) ListEntitlements(ctx context.Context, request ListEntitlementsRequest) (response ListEntitlementsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -985,8 +986,8 @@ func (client SoftwareSourceClient) listErrata(ctx context.Context, request commo
 	return response, err
 }
 
-// ListModuleStreamProfiles Lists module stream profiles from the specified software source OCID. Filter the list against a variety of
-// criteria including but not limited to its module name, stream name, and (profile) name.
+// ListModuleStreamProfiles Lists module stream profiles from the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of
+// criteria including but not limited to its module name, stream name, and profile name.
 // A default retry strategy applies to this operation ListModuleStreamProfiles()
 func (client SoftwareSourceClient) ListModuleStreamProfiles(ctx context.Context, request ListModuleStreamProfilesRequest) (response ListModuleStreamProfilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1040,8 +1041,8 @@ func (client SoftwareSourceClient) listModuleStreamProfiles(ctx context.Context,
 	return response, err
 }
 
-// ListModuleStreams Lists module streams from the specified software source OCID. Filter the list against a variety of
-// criteria including but not limited to its module name and (stream) name.
+// ListModuleStreams Lists module streams from the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+// Filter the list against a variety of criteria including but not limited to its module name and (stream) name.
 // A default retry strategy applies to this operation ListModuleStreams()
 func (client SoftwareSourceClient) ListModuleStreams(ctx context.Context, request ListModuleStreamsRequest) (response ListModuleStreamsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1095,7 +1096,7 @@ func (client SoftwareSourceClient) listModuleStreams(ctx context.Context, reques
 	return response, err
 }
 
-// ListPackageGroups Lists package groups that associate with the specified software source OCID. Filter the list against a
+// ListPackageGroups Lists package groups that are associated with the specified software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
 // variety of criteria including but not limited to its name, and package group type.
 // A default retry strategy applies to this operation ListPackageGroups()
 func (client SoftwareSourceClient) ListPackageGroups(ctx context.Context, request ListPackageGroupsRequest) (response ListPackageGroupsResponse, err error) {
@@ -1315,7 +1316,7 @@ func (client SoftwareSourceClient) listSoftwareSourceVendors(ctx context.Context
 	return response, err
 }
 
-// ListSoftwareSources Lists software sources that match the specified tenancy or software source OCID. Filter the list against a
+// ListSoftwareSources Lists software sources that match the specified tenancy or software source OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a
 // variety of criteria including but not limited to its name, status, architecture, and OS family.
 // A default retry strategy applies to this operation ListSoftwareSources()
 func (client SoftwareSourceClient) ListSoftwareSources(ctx context.Context, request ListSoftwareSourcesRequest) (response ListSoftwareSourcesResponse, err error) {
@@ -1370,7 +1371,7 @@ func (client SoftwareSourceClient) listSoftwareSources(ctx context.Context, requ
 	return response, err
 }
 
-// SearchSoftwareSourceModuleStreams Lists modules from a list of software sources. Filter the list against a variety of
+// SearchSoftwareSourceModuleStreams Returns a list of module streams from the specified software sources. Filter the list against a variety of
 // criteria including the module name.
 // A default retry strategy applies to this operation SearchSoftwareSourceModuleStreams()
 func (client SoftwareSourceClient) SearchSoftwareSourceModuleStreams(ctx context.Context, request SearchSoftwareSourceModuleStreamsRequest) (response SearchSoftwareSourceModuleStreamsResponse, err error) {
@@ -1426,7 +1427,7 @@ func (client SoftwareSourceClient) searchSoftwareSourceModuleStreams(ctx context
 }
 
 // SearchSoftwareSourceModules Lists modules from a list of software sources. Filter the list against a variety of
-// criteria including the (module) name.
+// criteria including the module name.
 // A default retry strategy applies to this operation SearchSoftwareSourceModules()
 func (client SoftwareSourceClient) SearchSoftwareSourceModules(ctx context.Context, request SearchSoftwareSourceModulesRequest) (response SearchSoftwareSourceModulesResponse, err error) {
 	var ociResponse common.OCIResponse

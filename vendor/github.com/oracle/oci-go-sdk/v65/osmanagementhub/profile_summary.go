@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,31 +16,31 @@ import (
 	"strings"
 )
 
-// ProfileSummary Summary of the registration profile.
+// ProfileSummary Provides summary information for a registration profile.
 type ProfileSummary struct {
 
-	// The OCID of the profile that is immutable on creation.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the registration profile.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the profile.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The description of the registration profile.
+	// User-specified description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID of the management station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
-	// The profile type. Either SOFTWARESOURCE, GROUP or LIFECYCLE.
+	// The type of registration profile.
 	ProfileType ProfileTypeEnum `mandatory:"false" json:"profileType,omitempty"`
 
-	// The registration type.
+	// The type of instance to register.
 	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
 
-	// The software source vendor name.
+	// The vendor of the operating system for the instance.
 	VendorName VendorNameEnum `mandatory:"false" json:"vendorName,omitempty"`
 
 	// The operating system family.
@@ -54,16 +55,10 @@ type ProfileSummary struct {
 	// The current state of the registration profile.
 	LifecycleState ProfileLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Indicates if profile is set as the default. The default value is false.
-	// There is exactly one default profile for a specified architecture, OS family,
-	// registration type and vendor.
-	// If set to true, the profile will be designated as default profile.
-	// If set to false, the profile will not be designated as the default profile.
+	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.
 	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
 
-	// Indicates if profile is created by the service. The default value is false.
-	// If set to true, the profile has been created by the service.
-	// If set to false, the profile has not been created by the service.
+	// Indicates if the profile was created by the service. OS Management Hub provides a limited set of standardized profiles that can be used to register Autonomous Linux or Windows instances.
 	IsServiceProvidedProfile *bool `mandatory:"false" json:"isServiceProvidedProfile"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

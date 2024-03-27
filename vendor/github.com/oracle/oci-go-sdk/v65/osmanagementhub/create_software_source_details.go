@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,16 +17,16 @@ import (
 	"strings"
 )
 
-// CreateSoftwareSourceDetails Description of a software source to be created.
+// CreateSoftwareSourceDetails Provides the information used to create a software source.
 type CreateSoftwareSourceDetails interface {
 
-	// The OCID of the compartment containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	GetCompartmentId() *string
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// Information specified by the user about the software source.
+	// User-specified description for the software source. Avoid entering confidential information.
 	GetDescription() *string
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

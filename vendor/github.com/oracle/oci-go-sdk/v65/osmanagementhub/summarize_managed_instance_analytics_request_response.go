@@ -17,20 +17,20 @@ type SummarizeManagedInstanceAnalyticsRequest struct {
 	// A filter to return only metrics whose name matches the given metric names.
 	MetricNames []MetricNameEnum `contributesTo:"query" name:"metricNames" omitEmpty:"true" collectionFormat:"multi"`
 
-	// This compartmentId is used to list managed instances within a compartment.
-	// Or serve as an additional filter to restrict only managed instances with in certain compartment if other filter presents.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the managed instance group for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group. This filter returns resources associated with this group.
 	ManagedInstanceGroupId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceGroupId"`
 
-	// The OCID of the lifecycle environment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment. This filter returns only resource contained with the specified lifecycle environment.
 	LifecycleEnvironmentId *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironmentId"`
 
-	// The OCID of the lifecycle stage for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage. This resource returns resources associated with this lifecycle stage.
 	LifecycleStageId *string `mandatory:"false" contributesTo:"query" name:"lifecycleStageId"`
 
-	// A filter to return only instances whose managed instance status matches the given status.
+	// A filter to return only managed instances whose status matches the status provided.
 	Status []ManagedInstanceStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
 
 	// A filter to return only resources whose location matches the given value.
@@ -39,10 +39,10 @@ type SummarizeManagedInstanceAnalyticsRequest struct {
 	// A filter to return only resources whose location does not match the given value.
 	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only resources whose OS family type matches the given OS family.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
 	// A filter to return resources that match the given display names.
@@ -61,8 +61,8 @@ type SummarizeManagedInstanceAnalyticsRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The field to sort by. Only one sort order may be provided. The default is sort by name (on deprecation), which is synonym of metricName. (default order ascending)
-	// List Instance Metrics also supports sort by Managed Instance displayNames (default order ascending).
+	// The field to sort by. Only one sort order may be provided. The default is to sort in ascending order by metricName (previously name, which is now depricated).
+	// You can also sort by displayName (default is ascending order).
 	SortBy SummarizeManagedInstanceAnalyticsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.

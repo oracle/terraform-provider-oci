@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// ManagementStationEventData Management Station Event
+// ManagementStationEventData Provides additional information for a management station event.
 type ManagementStationEventData struct {
 
-	// Management Station Operation type
+	// Type of management station operation.
 	OperationType ManagementStationEventDataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Status
+	// Status of the management station operation.
 	Status EventStatusEnum `mandatory:"true" json:"status"`
 
 	AdditionalDetails *WorkRequestEventDataAdditionalDetails `mandatory:"false" json:"additionalDetails"`

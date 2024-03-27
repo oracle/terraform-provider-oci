@@ -14,10 +14,10 @@ import (
 // UpdateEventRequest wrapper for the UpdateEvent operation
 type UpdateEventRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Event.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	EventId *string `mandatory:"true" contributesTo:"path" name:"eventId"`
 
-	// The event tags to be updated.
+	// Provides the information used to update the event tags.
 	UpdateEventDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -14,10 +14,10 @@ import (
 // AttachManagedInstancesToManagedInstanceGroupRequest wrapper for the AttachManagedInstancesToManagedInstanceGroup operation
 type AttachManagedInstancesToManagedInstanceGroupRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
-	// Details for managed instances to attach to the managed instance group.
+	// The managed instances OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to attach to the managed instance group.
 	AttachManagedInstancesToManagedInstanceGroupDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

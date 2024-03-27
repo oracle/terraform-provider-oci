@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,13 +17,12 @@ import (
 	"strings"
 )
 
-// Event A Event is an occurrence of something on its Managed Instance that the customer might be interested in.
-// To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to
-// an administrator. If you're an administrator who needs to write policies to give users access, see
-// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm).
+// Event An event is an occurrence of something of interest on a managed instance,
+// such as a kernel crash, software package update, or software source
+// update.
 type Event interface {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Event.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	GetId() *string
 
 	// Summary of the event.
@@ -35,7 +35,7 @@ type Event interface {
 	// Example: `2016-08-25T21:10:29.600Z`
 	GetTimeCreated() *common.SDKTime
 
-	// The current state of the Event.
+	// The current state of the event.
 	GetLifecycleState() EventLifecycleStateEnum
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -56,18 +56,18 @@ type Event interface {
 
 	GetSystemDetails() *SystemDetails
 
-	// time when event occurred
+	// The date and time that the event occurred.
 	GetTimeOccurred() *common.SDKTime
 
-	// The date and time the Event was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time that the event was updated (in RFC 3339 (https://tools.ietf.org/html/rfc3339) format).
 	// Example: `2016-08-25T21:10:29.600Z`
 	GetTimeUpdated() *common.SDKTime
 
-	// A message that describes the current state of the Event in more detail. For example,
-	// can be used to provide actionable information for a resource in the Failed state.
+	// Describes the current state of the event in more detail. For example, the
+	// message can provide actionable information for a resource in the 'FAILED' state.
 	GetLifecycleDetails() *string
 
-	// True, if the event is managed by Autonomous Linux Service.
+	// Indicates whether the event occurred on a resource that is managed by the Autonomous Linux service.
 	GetIsManagedByAutonomousLinux() *bool
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.

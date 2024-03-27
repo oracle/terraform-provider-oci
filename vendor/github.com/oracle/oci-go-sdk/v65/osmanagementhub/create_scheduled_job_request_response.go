@@ -14,7 +14,7 @@ import (
 // CreateScheduledJobRequest wrapper for the CreateScheduledJob operation
 type CreateScheduledJobRequest struct {
 
-	// Details for the new scheduled job.
+	// Provides the information used to create the scheduled job.
 	CreateScheduledJobDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

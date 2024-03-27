@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,10 +16,10 @@ import (
 	"strings"
 )
 
-// StationHealth Overall health information of a Management Station
+// StationHealth Overall health information of the management station.
 type StationHealth struct {
 
-	// Overal health status of the Management Station
+	// Overall health status of the management station.
 	State HealthStateEnum `mandatory:"true" json:"state"`
 
 	// Explanation of the health status.

@@ -14,8 +14,7 @@ import (
 // ListAllSoftwarePackagesRequest wrapper for the ListAllSoftwarePackages operation
 type ListAllSoftwarePackagesRequest struct {
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Example: `My new resource`
+	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return resources that may partially match the given display name.
@@ -27,12 +26,10 @@ type ListAllSoftwarePackagesRequest struct {
 	// A filter to return software packages that match the given architecture.
 	Architecture ListAllSoftwarePackagesArchitectureEnum `mandatory:"false" contributesTo:"query" name:"architecture" omitEmpty:"true"`
 
-	// A boolean variable that is used to list only the latest versions of packages, module streams,
-	// and stream profiles when set to true. All packages, module streams, and stream profiles are
-	// returned when set to false.
+	// Indicates whether to list only the latest versions of packages, module streams, and stream profiles.
 	IsLatest *bool `mandatory:"false" contributesTo:"query" name:"isLatest"`
 
-	// A filter to return only resources that match the given osFamily.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily ListAllSoftwarePackagesOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

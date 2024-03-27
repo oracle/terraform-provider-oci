@@ -14,7 +14,7 @@ import (
 // UpdateProfileRequest wrapper for the UpdateProfile operation
 type UpdateProfileRequest struct {
 
-	// The OCID of the registration profile.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	ProfileId *string `mandatory:"true" contributesTo:"path" name:"profileId"`
 
 	// The information to be updated.

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// PackageGroupSummary Yum/DNF package group that associated with a software source.
+// PackageGroupSummary The yum or DNF package group that is associated with a software source.
 type PackageGroupSummary struct {
 
 	// Package group identifier.
@@ -24,16 +25,16 @@ type PackageGroupSummary struct {
 	// Package group name.
 	Name *string `mandatory:"true" json:"name"`
 
-	// description of the package group.
+	// Description of the package group.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Indicates if this package group is visible by users.
+	// Indicates if this package group is visible to users.
 	IsUserVisible *bool `mandatory:"false" json:"isUserVisible"`
 
 	// Indicates if this package group is the default.
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 
-	// the IDs of the package group's repositories.
+	// The repository IDs of the package group.
 	Repositories []string `mandatory:"false" json:"repositories"`
 
 	// Indicates if this is a group, category or environment.

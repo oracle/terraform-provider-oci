@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// SoftwarePackage The details for a software package.
+// SoftwarePackage An object that defines a software package.
 type SoftwarePackage struct {
 
 	// Package name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Unique identifier for the package. NOTE - This is not an OCID.
+	// Unique identifier for the package. Note that this is not an OCID.
 	Name *string `mandatory:"true" json:"name"`
 
 	// Type of the package.
@@ -33,7 +34,7 @@ type SoftwarePackage struct {
 	// The architecture for which this software was built
 	Architecture SoftwarePackageArchitectureEnum `mandatory:"false" json:"architecture,omitempty"`
 
-	// Date of the last update to the package.
+	// The date and time the package was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	LastModifiedDate *string `mandatory:"false" json:"lastModifiedDate"`
 
 	// Checksum of the package.

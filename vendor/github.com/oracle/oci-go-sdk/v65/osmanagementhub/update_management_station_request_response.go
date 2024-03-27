@@ -14,10 +14,10 @@ import (
 // UpdateManagementStationRequest wrapper for the UpdateManagementStation operation
 type UpdateManagementStationRequest struct {
 
-	// The OCID of the management station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 	ManagementStationId *string `mandatory:"true" contributesTo:"path" name:"managementStationId"`
 
-	// The information to be updated.
+	// The information used to update the management station.
 	UpdateManagementStationDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

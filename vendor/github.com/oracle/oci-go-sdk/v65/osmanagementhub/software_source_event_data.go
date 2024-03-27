@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// SoftwareSourceEventData Software source event data
+// SoftwareSourceEventData Provides additional information for a software source event.
 type SoftwareSourceEventData struct {
 
-	// Software source Operation type
+	// Type of software source operation.
 	OperationType SoftwareSourceEventDataOperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Status
+	// Status of the software source operation.
 	Status EventStatusEnum `mandatory:"true" json:"status"`
 
 	AdditionalDetails *WorkRequestEventDataAdditionalDetails `mandatory:"false" json:"additionalDetails"`

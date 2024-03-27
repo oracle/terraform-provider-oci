@@ -32,10 +32,7 @@ type SqlMonitorConfiguration struct {
 	// Database connection string.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
-	// JDBC driver class.
-	JdbcDriverClass *string `mandatory:"false" json:"jdbcDriverClass"`
-
-	CloudWallet *CloudWalletDetails `mandatory:"false" json:"cloudWallet"`
+	DatabaseWalletDetails *DatabaseWalletDetails `mandatory:"false" json:"databaseWalletDetails"`
 
 	// Database type.
 	DatabaseType DatabaseTypeEnum `mandatory:"false" json:"databaseType,omitempty"`

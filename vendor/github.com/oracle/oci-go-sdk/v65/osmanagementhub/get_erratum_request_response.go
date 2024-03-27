@@ -14,10 +14,10 @@ import (
 // GetErratumRequest wrapper for the GetErratum operation
 type GetErratumRequest struct {
 
-	// The OCID of the compartment that contains the resources to list. This parameter is required.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The erratum name (e.g. ELSA-2023-34678).
+	// The erratum name (such as ELSA-2023-34678).
 	Name *string `mandatory:"true" contributesTo:"path" name:"name"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

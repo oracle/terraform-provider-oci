@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,21 +17,21 @@ import (
 	"strings"
 )
 
-// KernelEventContent Kernel event content
+// KernelEventContent Provides information collected for the kernel event.
 type KernelEventContent struct {
 
-	// Kernel event content location
+	// Location of the Kernel event content.
 	ContentLocation *string `mandatory:"true" json:"contentLocation"`
 
-	// content size
+	// Size of the event content.
 	Size *int `mandatory:"false" json:"size"`
 
-	// Crash Content Availability Status:
-	//   * NOT_AVAILABLE - content is not available on the instance/resource nor in the service
-	//   * AVAILABLE_ON_INSTANCE - content is only available on the instance/resource
-	//   * AVAILABLE_ON_SERVICE - content is only available on the service
-	//   * AVAILABLE_ON_INSTANCE_AND_SERVICE - content is available both on the instance/resource and the service
-	//   * AVAILABLE_ON_INSTANCE_UPLOAD_IN_PROGRESS - content is available on the instance/resource and its upload is in progress
+	// Crash content availability status:
+	//     * 'NOT_AVAILABLE' indicates the content is not available on the instance nor in the service
+	//     * 'AVAILABLE_ON_INSTANCE' indicates the content is only available on the instance.
+	//     * 'AVAILABLE_ON_SERVICE' indicates the content is only available on the service.
+	//     * 'AVAILABLE_ON_INSTANCE_AND_SERVICE' indicates the content is available both on the instance and the service
+	//     * 'AVAILABLE_ON_INSTANCE_UPLOAD_IN_PROGRESS' indicates the content is available on the instance and its upload to the service is in progress.
 	ContentAvailability KernelEventContentContentAvailabilityEnum `mandatory:"true" json:"contentAvailability"`
 }
 

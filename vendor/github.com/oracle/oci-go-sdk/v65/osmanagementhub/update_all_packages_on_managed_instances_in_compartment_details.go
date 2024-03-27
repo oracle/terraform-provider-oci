@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// UpdateAllPackagesOnManagedInstancesInCompartmentDetails The details about the package types to be updated.
+// UpdateAllPackagesOnManagedInstancesInCompartmentDetails Provides the information used to update all packages of a specified type on managed instances within the specified compartment.
 type UpdateAllPackagesOnManagedInstancesInCompartmentDetails struct {
 
-	// The compartment being targeted by this operation.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The type of updates to be applied.
+	// The types of updates to be applied.
 	UpdateTypes []UpdateTypesEnum `mandatory:"false" json:"updateTypes,omitempty"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`

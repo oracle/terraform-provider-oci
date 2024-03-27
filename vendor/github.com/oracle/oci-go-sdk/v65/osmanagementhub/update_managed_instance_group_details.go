@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,16 +16,16 @@ import (
 	"strings"
 )
 
-// UpdateManagedInstanceGroupDetails The information to be updated.
+// UpdateManagedInstanceGroupDetails Provides the information used to update the managed instance group.
 type UpdateManagedInstanceGroupDetails struct {
 
-	// A user-friendly name for the managed instance group job. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the managed instance group. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// User specified information about the managed instance group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// User-specified description of the managed instance group. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// OCID for the ONS topic, which is channel we send notification to customers
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
 	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
 
 	AutonomousSettings *UpdatableAutonomousSettings `mandatory:"false" json:"autonomousSettings"`

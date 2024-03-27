@@ -10,30 +10,45 @@
 package apmsynthetics
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// CloudWalletDetails Details for cloud wallet.
-type CloudWalletDetails struct {
+// PasswordInText Password.
+type PasswordInText struct {
 
-	// The base64 encoded database cloud wallet configuration zip file.
-	CloudWalletFile []byte `mandatory:"false" json:"cloudWalletFile"`
+	// Password.
+	Password *string `mandatory:"true" json:"password"`
 }
 
-func (m CloudWalletDetails) String() string {
+func (m PasswordInText) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CloudWalletDetails) ValidateEnumValue() (bool, error) {
+func (m PasswordInText) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m PasswordInText) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePasswordInText PasswordInText
+	s := struct {
+		DiscriminatorParam string `json:"passwordType"`
+		MarshalTypePasswordInText
+	}{
+		"IN_TEXT",
+		(MarshalTypePasswordInText)(m),
+	}
+
+	return json.Marshal(&s)
 }

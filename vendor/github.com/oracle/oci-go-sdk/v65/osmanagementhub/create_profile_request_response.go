@@ -14,7 +14,7 @@ import (
 // CreateProfileRequest wrapper for the CreateProfile operation
 type CreateProfileRequest struct {
 
-	// Details for the new registration profile.
+	// Provides the information used to create the registration profile.
 	CreateProfileDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -14,7 +14,7 @@ import (
 // InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest wrapper for the InstallAllWindowsUpdatesOnManagedInstancesInCompartment operation
 type InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest struct {
 
-	// The details about Windows Update types to be installed on all managed instances in a compartment.
+	// The details about Windows update types to be installed on all managed instances in a compartment.
 	InstallAllWindowsUpdatesOnManagedInstancesInCompartmentDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

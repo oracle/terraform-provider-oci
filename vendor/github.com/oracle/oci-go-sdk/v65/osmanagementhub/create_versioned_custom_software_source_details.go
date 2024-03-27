@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,10 +17,10 @@ import (
 	"strings"
 )
 
-// CreateVersionedCustomSoftwareSourceDetails Description of a versioned custom software source to be created.
+// CreateVersionedCustomSoftwareSourceDetails Provides the information used to create a versioned custom software source.
 type CreateVersionedCustomSoftwareSourceDetails struct {
 
-	// The OCID of the compartment containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// List of vendor software sources.
@@ -28,10 +29,10 @@ type CreateVersionedCustomSoftwareSourceDetails struct {
 	// The version to assign to this custom software source.
 	SoftwareSourceVersion *string `mandatory:"true" json:"softwareSourceVersion"`
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Information specified by the user about the software source.
+	// User-specified description for the software source. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -46,13 +47,13 @@ type CreateVersionedCustomSoftwareSourceDetails struct {
 
 	CustomSoftwareSourceFilter *CustomSoftwareSourceFilter `mandatory:"false" json:"customSoftwareSourceFilter"`
 
-	// Indicates whether the software source should automatically resolve package dependencies for the user.
+	// Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.
 	IsAutoResolveDependencies *bool `mandatory:"false" json:"isAutoResolveDependencies"`
 
-	// Indicates whether the software source should be created from a list of packages provided by the user.
+	// Indicates whether the service should create the software source from a list of packages provided by the user.
 	IsCreatedFromPackageList *bool `mandatory:"false" json:"isCreatedFromPackageList"`
 
-	// The packages for the software source.
+	// A property used for compatibility only. It doesn't provide a complete list of packages. See AddPackagesToSoftwareSourceDetails for providing the list of packages used to create the software source when isCreatedFromPackageList is set to true.
 	Packages []string `mandatory:"false" json:"packages"`
 }
 

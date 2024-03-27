@@ -14,7 +14,7 @@ import (
 // ListLifecycleEnvironmentsRequest wrapper for the ListLifecycleEnvironments operation
 type ListLifecycleEnvironmentsRequest struct {
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return resources that match the given display names.
@@ -23,13 +23,13 @@ type ListLifecycleEnvironmentsRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// The OCID of the lifecycle environment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
 	LifecycleEnvironmentId *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironmentId"`
 
 	// A filter to return only profiles that match the given archType.
 	ArchType ListLifecycleEnvironmentsArchTypeEnum `mandatory:"false" contributesTo:"query" name:"archType" omitEmpty:"true"`
 
-	// A filter to return only resources that match the given osFamily.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily ListLifecycleEnvironmentsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
 	// A filter to return only resources whose location matches the given value.

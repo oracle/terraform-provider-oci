@@ -83,6 +83,9 @@ type MysqlConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The name or address of a host.
 	Host *string `mandatory:"false" json:"host"`
 
@@ -210,6 +213,11 @@ func (m MysqlConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m MysqlConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m MysqlConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m MysqlConnectionSummary) String() string {

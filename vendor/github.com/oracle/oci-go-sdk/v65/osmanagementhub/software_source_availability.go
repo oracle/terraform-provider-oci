@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,16 +16,16 @@ import (
 	"strings"
 )
 
-// SoftwareSourceAvailability An object that contains a software source OCID and its availability.
+// SoftwareSourceAvailability An object that defines the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) and the availability of a vendor software source.
 type SoftwareSourceAvailability struct {
 
-	// The OCID for a vendor software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source.
 	SoftwareSourceId *string `mandatory:"true" json:"softwareSourceId"`
 
-	// Possible availabilities of a software source for non-OCI environments.
+	// Availability of the software source to instances in private data centers or third-party clouds.
 	Availability AvailabilityEnum `mandatory:"false" json:"availability,omitempty"`
 
-	// Possible availabilities of a software source for OCI environments.
+	// Availability of the software source to OCI instances.
 	AvailabilityAtOci AvailabilityEnum `mandatory:"false" json:"availabilityAtOci,omitempty"`
 }
 

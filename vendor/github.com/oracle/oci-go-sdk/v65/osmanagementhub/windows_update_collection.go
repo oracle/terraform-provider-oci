@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,10 +16,11 @@ import (
 	"strings"
 )
 
-// WindowsUpdateCollection Results of a Windows Update search.
+// WindowsUpdateCollection A set of Windows updates returned for the ListWindowsUpdates operation.
+// The list contains a summary of each update.
 type WindowsUpdateCollection struct {
 
-	// List of Windows Update.
+	// List of Windows updates.
 	Items []WindowsUpdateSummary `mandatory:"true" json:"items"`
 }
 

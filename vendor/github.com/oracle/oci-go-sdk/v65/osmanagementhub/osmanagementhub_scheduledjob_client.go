@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,7 +92,7 @@ func (client *ScheduledJobClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// ChangeScheduledJobCompartment Moves a ScheduledJob resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
+// ChangeScheduledJobCompartment Moves a scheduled job to another compartment.
 // A default retry strategy applies to this operation ChangeScheduledJobCompartment()
 func (client ScheduledJobClient) ChangeScheduledJobCompartment(ctx context.Context, request ChangeScheduledJobCompartmentRequest) (response ChangeScheduledJobCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -317,9 +318,7 @@ func (client ScheduledJobClient) getScheduledJob(ctx context.Context, request co
 	return response, err
 }
 
-// ListScheduledJobs Lists scheduled jobs that match the specified compartment or scheduled job OCID.
-// Filter the list against a variety of criteria including but not limited to its display name,
-// lifecycle state, operation type, and schedule type.
+// ListScheduledJobs Lists scheduled jobs that match the specified compartment or scheduled job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // A default retry strategy applies to this operation ListScheduledJobs()
 func (client ScheduledJobClient) ListScheduledJobs(ctx context.Context, request ListScheduledJobsRequest) (response ListScheduledJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -373,8 +372,8 @@ func (client ScheduledJobClient) listScheduledJobs(ctx context.Context, request 
 	return response, err
 }
 
-// RunScheduledJobNow Triggers an already created RECURRING scheduled job to run immediately instead of waiting
-// for its next regularly scheduled time. This operation does not support ONETIME scheduled job.
+// RunScheduledJobNow Triggers an already created recurring scheduled job to run immediately instead of waiting for its next regularly
+// scheduled time. This operation only applies to recurring jobs, not one-time scheduled jobs.
 // A default retry strategy applies to this operation RunScheduledJobNow()
 func (client ScheduledJobClient) RunScheduledJobNow(ctx context.Context, request RunScheduledJobNowRequest) (response RunScheduledJobNowResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -14,7 +14,7 @@ import (
 // DeleteScheduledJobRequest wrapper for the DeleteScheduledJob operation
 type DeleteScheduledJobRequest struct {
 
-	// The OCID of the scheduled job.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
 	ScheduledJobId *string `mandatory:"true" contributesTo:"path" name:"scheduledJobId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

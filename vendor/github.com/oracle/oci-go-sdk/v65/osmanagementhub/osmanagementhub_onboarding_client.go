@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,7 +92,7 @@ func (client *OnboardingClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// ChangeProfileCompartment Changes the profile compartment.
+// ChangeProfileCompartment Moves the profile to a different compartment.
 // A default retry strategy applies to this operation ChangeProfileCompartment()
 func (client OnboardingClient) ChangeProfileCompartment(ctx context.Context, request ChangeProfileCompartmentRequest) (response ChangeProfileCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -150,9 +151,7 @@ func (client OnboardingClient) changeProfileCompartment(ctx context.Context, req
 	return response, err
 }
 
-// CreateProfile Creates a registration profile.
-// A profile is a supplementary file for the OS Management Hub agentry
-// that dictates the content for a managed instance at registration time.
+// CreateProfile Creates a registration profile. A profile defines the content applied to the instance when registering it with the service.
 // A default retry strategy applies to this operation CreateProfile()
 func (client OnboardingClient) CreateProfile(ctx context.Context, request CreateProfileRequest) (response CreateProfileResponse, err error) {
 	var ociResponse common.OCIResponse

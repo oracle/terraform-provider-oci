@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,24 +16,23 @@ import (
 	"strings"
 )
 
-// AvailableWindowsUpdateSummary An update available for installation on the Windows managed instance.
+// AvailableWindowsUpdateSummary An object that defines an available update for a Windows instance.
 type AvailableWindowsUpdateSummary struct {
 
-	// Windows Update name
+	// Name of the Windows update.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Unique identifier for the Windows update. NOTE - This is not an OCID,
-	// but is a unique identifier assigned by Microsoft.
-	// Example: `6981d463-cd91-4a26-b7c4-ea4ded9183ed`
+	// Unique identifier for the Windows update. Note that this is not an OCID, but is a unique identifier assigned by Microsoft.
+	// Example: '6981d463-cd91-4a26-b7c4-ea4ded9183ed'
 	UpdateId *string `mandatory:"true" json:"updateId"`
 
-	// The classification of this update.
+	// The type of Windows update.
 	UpdateType ClassificationTypesEnum `mandatory:"true" json:"updateType"`
 
-	// Indicates whether the update can be installed using OSMH.
+	// Indicates whether the update can be installed using the service.
 	Installable WindowsUpdateInstallableEnum `mandatory:"false" json:"installable,omitempty"`
 
-	// Indicates whether a reboot may be required to complete installation of this update.
+	// Indicates whether a reboot is required to complete the installation of this update.
 	IsRebootRequiredForInstallation *bool `mandatory:"false" json:"isRebootRequiredForInstallation"`
 }
 

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,20 +16,20 @@ import (
 	"strings"
 )
 
-// KernelEventData Kernel event data
+// KernelEventData Information about the kernel event.
 type KernelEventData struct {
 	Content *KernelEventContent `mandatory:"true" json:"content"`
 
-	// Event count
+	// Number of times the event has occurred.
 	Count *int `mandatory:"true" json:"count"`
 
-	// Event fingerprint
+	// Fingerprint of the event.
 	EventFingerprint *string `mandatory:"true" json:"eventFingerprint"`
 
-	// Event reason
+	// Reason for the event.
 	Reason *string `mandatory:"true" json:"reason"`
 
-	// Event first occurred time
+	// The date and time that the event first occurred.
 	TimeFirstOccurred *common.SDKTime `mandatory:"true" json:"timeFirstOccurred"`
 
 	AdditionalDetails *KernelEventAdditionalDetails `mandatory:"false" json:"additionalDetails"`

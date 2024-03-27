@@ -14,7 +14,7 @@ import (
 // CreateManagementStationRequest wrapper for the CreateManagementStation operation
 type CreateManagementStationRequest struct {
 
-	// Details for the new ManagementStation.
+	// Provides the information used to create a management station.
 	CreateManagementStationDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

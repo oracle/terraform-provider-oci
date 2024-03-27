@@ -35,6 +35,11 @@ type DrPlanGroup struct {
 
 	// The list of steps in the group.
 	Steps []DrPlanStep `mandatory:"true" json:"steps"`
+
+	// A flag indicating whether this group should be enabled for execution.
+	// This flag is only applicable to the `USER_DEFINED_PAUSE` group. The flag should be null for the remaining group types.
+	// Example: `true`
+	IsPauseEnabled *bool `mandatory:"false" json:"isPauseEnabled"`
 }
 
 func (m DrPlanGroup) String() string {

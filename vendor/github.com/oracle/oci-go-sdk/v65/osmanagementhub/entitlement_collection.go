@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,10 +16,10 @@ import (
 	"strings"
 )
 
-// EntitlementCollection Results of a Entitlement search. Contains boh EntitlementSummary items and other information, such as metadata.
+// EntitlementCollection The set of entitlements returned for the ListEntitlements.
 type EntitlementCollection struct {
 
-	// List of Entitlement.
+	// List of entitlements.
 	Items []EntitlementSummary `mandatory:"true" json:"items"`
 }
 

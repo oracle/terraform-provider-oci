@@ -14,7 +14,7 @@ import (
 // DeleteManagedInstanceRequest wrapper for the DeleteManagedInstance operation
 type DeleteManagedInstanceRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

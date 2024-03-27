@@ -14,10 +14,10 @@ import (
 // ChangeEventCompartmentRequest wrapper for the ChangeEventCompartment operation
 type ChangeEventCompartmentRequest struct {
 
-	// The information to be updated.
+	// Specifies the compartment to move the event to.
 	ChangeEventCompartmentDetails `contributesTo:"body"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Event.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	EventId *string `mandatory:"true" contributesTo:"path" name:"eventId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

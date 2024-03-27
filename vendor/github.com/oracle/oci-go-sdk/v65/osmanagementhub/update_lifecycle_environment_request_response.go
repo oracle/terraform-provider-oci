@@ -14,7 +14,7 @@ import (
 // UpdateLifecycleEnvironmentRequest wrapper for the UpdateLifecycleEnvironment operation
 type UpdateLifecycleEnvironmentRequest struct {
 
-	// The OCID of the lifecycle environment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
 	LifecycleEnvironmentId *string `mandatory:"true" contributesTo:"path" name:"lifecycleEnvironmentId"`
 
 	// The information to be updated.

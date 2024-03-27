@@ -14,13 +14,13 @@ import (
 // ListManagedInstanceGroupsRequest wrapper for the ListManagedInstanceGroups operation
 type ListManagedInstanceGroupsRequest struct {
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the managed instance group for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group. This filter returns resources associated with this group.
 	ManagedInstanceGroupId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceGroupId"`
 
-	// The OCID for the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
 	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`
 
 	// A filter to return resources that match the given display names.
@@ -32,7 +32,7 @@ type ListManagedInstanceGroupsRequest struct {
 	// A filter to return only profiles that match the given archType.
 	ArchType ListManagedInstanceGroupsArchTypeEnum `mandatory:"false" contributesTo:"query" name:"archType" omitEmpty:"true"`
 
-	// A filter to return only resources that match the given osFamily.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily ListManagedInstanceGroupsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
@@ -45,7 +45,7 @@ type ListManagedInstanceGroupsRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// A filter to return only resources their lifecycle state matches the given lifecycle state.
+	// A filter to return only managed instance groups that are in the specified state.
 	LifecycleState ManagedInstanceGroupLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources whose location matches the given value.
@@ -54,7 +54,7 @@ type ListManagedInstanceGroupsRequest struct {
 	// A filter to return only resources whose location does not match the given value.
 	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.

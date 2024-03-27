@@ -14,7 +14,7 @@ import (
 // ListWorkRequestLogsRequest wrapper for the ListWorkRequestLogs operation
 type ListWorkRequestLogsRequest struct {
 
-	// The OCID of the work request.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	WorkRequestId *string `mandatory:"true" contributesTo:"path" name:"workRequestId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

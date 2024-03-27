@@ -24,6 +24,9 @@ type FtpMonitorConfiguration struct {
 
 	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
 
+	// If enabled, Active mode will be used for the FTP connection.
+	IsActiveMode *bool `mandatory:"false" json:"isActiveMode"`
+
 	FtpBasicAuthenticationDetails *BasicAuthenticationDetails `mandatory:"false" json:"ftpBasicAuthenticationDetails"`
 
 	// Download size limit in Bytes, at which to stop the transfer. Maximum download size limit is 5 MiB.
@@ -46,9 +49,6 @@ type FtpMonitorConfiguration struct {
 
 	// FTP monitor request type.
 	FtpRequestType FtpRequestTypeEnum `mandatory:"false" json:"ftpRequestType,omitempty"`
-
-	// FTP request mode.
-	FtpRequestMode FtpRequestModeEnum `mandatory:"false" json:"ftpRequestMode,omitempty"`
 }
 
 // GetIsFailureRetried returns IsFailureRetried
@@ -76,9 +76,6 @@ func (m FtpMonitorConfiguration) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingFtpRequestTypeEnum(string(m.FtpRequestType)); !ok && m.FtpRequestType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FtpRequestType: %s. Supported values are: %s.", m.FtpRequestType, strings.Join(GetFtpRequestTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingFtpRequestModeEnum(string(m.FtpRequestMode)); !ok && m.FtpRequestMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FtpRequestMode: %s. Supported values are: %s.", m.FtpRequestMode, strings.Join(GetFtpRequestModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

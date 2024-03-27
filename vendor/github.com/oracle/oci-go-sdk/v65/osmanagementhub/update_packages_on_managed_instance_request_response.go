@@ -14,7 +14,7 @@ import (
 // UpdatePackagesOnManagedInstanceRequest wrapper for the UpdatePackagesOnManagedInstance operation
 type UpdatePackagesOnManagedInstanceRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// Details about packages to be updated on a managed instance.

@@ -14,7 +14,7 @@ import (
 // GetPackageGroupRequest wrapper for the GetPackageGroup operation
 type GetPackageGroupRequest struct {
 
-	// The software source OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// The unique package group identifier.

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,29 +17,28 @@ import (
 	"strings"
 )
 
-// SoftwareSource A software source contains a collection of packages.
+// SoftwareSource The object that defines a software source. A software source contains a collection of packages. For more information, see Managing Software Sources (https://docs.cloud.oracle.com/iaas/osmh/doc/software-sources.htm).
 type SoftwareSource interface {
 
-	// OCID for the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	GetId() *string
 
-	// The OCID of the compartment containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	GetCompartmentId() *string
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source.
 	GetDisplayName() *string
 
-	// The date and time the software source was created, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the software source was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	GetTimeCreated() *common.SDKTime
 
-	// Possible availabilities of a software source for non-OCI environments.
+	// Availability of the software source (for non-OCI environments).
 	GetAvailability() AvailabilityEnum
 
-	// Possible availabilities of a software source for OCI environments.
+	// Availability of the software source (for OCI environments).
 	GetAvailabilityAtOci() AvailabilityEnum
 
-	// The Repo ID for the software source.
+	// The repository ID for the software source.
 	GetRepoId() *string
 
 	// The OS family the software source belongs to.
@@ -47,16 +47,16 @@ type SoftwareSource interface {
 	// The architecture type supported by the software source.
 	GetArchType() ArchTypeEnum
 
-	// URL for the repository.
+	// URL for the repository. For vendor software sources, this is the URL to the regional yum server. For custom software sources, this is 'custom/<repoId>'.
 	GetUrl() *string
 
-	// Information specified by the user about the software source.
+	// User-specified description for the software source.
 	GetDescription() *string
 
 	// The current state of the software source.
 	GetLifecycleState() SoftwareSourceLifecycleStateEnum
 
-	// Number of packages.
+	// Number of packages the software source contains.
 	GetPackageCount() *int64
 
 	// The yum repository checksum type used by this software source.

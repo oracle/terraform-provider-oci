@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,19 +17,19 @@ import (
 	"strings"
 )
 
-// CreateVendorSoftwareSourceDetails Description of a vendor software source to be created.
+// CreateVendorSoftwareSourceDetails Provides the information used to replicated a vendor software source into another compartment (other than root).
 type CreateVendorSoftwareSourceDetails struct {
 
-	// The OCID of the compartment containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the origin of the vendor software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment that is being replicated.
 	OriginSoftwareSourceId *string `mandatory:"true" json:"originSoftwareSourceId"`
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Information specified by the user about the software source.
+	// User-specified description for the software source. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

@@ -14,7 +14,7 @@ import (
 // DeleteManagedInstanceGroupRequest wrapper for the DeleteManagedInstanceGroup operation
 type DeleteManagedInstanceGroupRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

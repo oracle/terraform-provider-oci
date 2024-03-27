@@ -14,7 +14,7 @@ import (
 // ListManagedInstanceErrataRequest wrapper for the ListManagedInstanceErrata operation
 type ListManagedInstanceErrataRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// A filter to return only packages that match the given update classification type.
@@ -27,7 +27,7 @@ type ListManagedInstanceErrataRequest struct {
 	// A filter to return resources that may partially match the erratum name given.
 	NameContains *string `mandatory:"false" contributesTo:"query" name:"nameContains"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

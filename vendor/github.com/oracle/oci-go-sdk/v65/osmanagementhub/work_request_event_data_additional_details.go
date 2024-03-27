@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// WorkRequestEventDataAdditionalDetails Work Request Event data additional details
+// WorkRequestEventDataAdditionalDetails Provides additional information for the work request associated with an event.
 type WorkRequestEventDataAdditionalDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Resource triggering the Event, such as the scheduled job id.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource that triggered the event, such as scheduled job id.
 	InitiatorId *string `mandatory:"true" json:"initiatorId"`
 
-	// List of all work request IDs associated
+	// List of all work request OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the event.
 	WorkRequestIds []string `mandatory:"false" json:"workRequestIds"`
 }
 

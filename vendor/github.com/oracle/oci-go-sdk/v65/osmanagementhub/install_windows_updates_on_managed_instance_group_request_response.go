@@ -14,10 +14,10 @@ import (
 // InstallWindowsUpdatesOnManagedInstanceGroupRequest wrapper for the InstallWindowsUpdatesOnManagedInstanceGroup operation
 type InstallWindowsUpdatesOnManagedInstanceGroupRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
-	// Details about Windows Updates to be installed on a managed instance group.
+	// Provides the details used to install Windows updates on a managed instance group.
 	InstallWindowsUpdatesOnManagedInstanceGroupDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

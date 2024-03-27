@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,11 +16,10 @@ import (
 	"strings"
 )
 
-// ChangeLifecycleEnvironmentCompartmentDetails CompartmentId for a lifecycle environment.
+// ChangeLifecycleEnvironmentCompartmentDetails Provides the information used to move the lifecycle environment to another compartment.
 type ChangeLifecycleEnvironmentCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the
-	// compartment into which the resource should be moved.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to move the lifecycle environment to.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 

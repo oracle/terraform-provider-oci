@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,10 +17,10 @@ import (
 	"strings"
 )
 
-// KernelOopsEvent kernel oops event
+// KernelOopsEvent Information about the kernel OOPS event. A kernel OOPS event occurs when the kernel detects an erroneous state inside itself.
 type KernelOopsEvent struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Event.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	Id *string `mandatory:"true" json:"id"`
 
 	// Summary of the event.
@@ -52,25 +53,25 @@ type KernelOopsEvent struct {
 
 	SystemDetails *SystemDetails `mandatory:"false" json:"systemDetails"`
 
-	// time when event occurred
+	// The date and time that the event occurred.
 	TimeOccurred *common.SDKTime `mandatory:"false" json:"timeOccurred"`
 
-	// The date and time the Event was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time that the event was updated (in RFC 3339 (https://tools.ietf.org/html/rfc3339) format).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A message that describes the current state of the Event in more detail. For example,
-	// can be used to provide actionable information for a resource in the Failed state.
+	// Describes the current state of the event in more detail. For example, the
+	// message can provide actionable information for a resource in the 'FAILED' state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// True, if the event is managed by Autonomous Linux Service.
+	// Indicates whether the event occurred on a resource that is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The current state of the Event.
+	// The current state of the event.
 	LifecycleState EventLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 

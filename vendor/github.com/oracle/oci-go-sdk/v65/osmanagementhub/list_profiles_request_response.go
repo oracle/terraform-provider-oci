@@ -14,7 +14,7 @@ import (
 // ListProfilesRequest wrapper for the ListProfiles operation
 type ListProfilesRequest struct {
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return resources that match the given display names.
@@ -23,28 +23,28 @@ type ListProfilesRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// A filter to return registration profiles that match the given profileType.
+	// A filter to return registration profiles that match the given profile type.
 	ProfileType []ProfileTypeEnum `contributesTo:"query" name:"profileType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The OCID of the registration profile.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile. A filter used to return the specified profile.
 	ProfileId *string `mandatory:"false" contributesTo:"query" name:"profileId"`
 
-	// A filter to return only resources that match the given osFamily.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily ListProfilesOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
 	// A filter to return only profiles that match the given archType.
 	ArchType ListProfilesArchTypeEnum `mandatory:"false" contributesTo:"query" name:"archType" omitEmpty:"true"`
 
-	// A filter to return only profiles that match the given registration type.
+	// A filter to return profiles that match the given instance type.
 	RegistrationType []ProfileRegistrationTypeEnum `contributesTo:"query" name:"registrationType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// A boolean variable that is used to list only the default profile resources.
 	IsDefaultProfile *bool `mandatory:"false" contributesTo:"query" name:"isDefaultProfile"`
 
-	// A boolean variable that is used to list only the service-provided profile resources.
+	// A filter to return only service-provided profiles.
 	IsServiceProvidedProfile *bool `mandatory:"false" contributesTo:"query" name:"isServiceProvidedProfile"`
 
-	// A filter to return only profiles that match the given vendorName.
+	// A filter to return only resources that match the given vendor name.
 	VendorName ListProfilesVendorNameEnum `mandatory:"false" contributesTo:"query" name:"vendorName" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
@@ -57,7 +57,7 @@ type ListProfilesRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// A filter to return only registration profile whose lifecycleState matches the given lifecycleState.
+	// A filter to return only registration profiles in the given state.
 	LifecycleState ProfileLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.

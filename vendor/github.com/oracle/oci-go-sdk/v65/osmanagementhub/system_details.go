@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,28 +16,28 @@ import (
 	"strings"
 )
 
-// SystemDetails An object that describes system architecture, OS version etc.
+// SystemDetails Provides information about the system architecture and operating system.
 type SystemDetails struct {
 
-	// Possible CPU architecture types.
+	// Architecture type.
 	Architecture ArchTypeEnum `mandatory:"true" json:"architecture"`
 
-	// Operating system types.
+	// Operating system type.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
 
-	// OS name
+	// Name of the operating system.
 	OsName *string `mandatory:"true" json:"osName"`
 
-	// OS version
+	// Version of the operating system.
 	OsSystemVersion *string `mandatory:"true" json:"osSystemVersion"`
 
-	// Ksplice effective kernel version
+	// Version of the Ksplice effective kernel.
 	KspliceEffectiveKernelVersion *string `mandatory:"false" json:"kspliceEffectiveKernelVersion"`
 
-	// Kernel release
+	// Release of the kernel.
 	OsKernelRelease *string `mandatory:"false" json:"osKernelRelease"`
 
-	// Kernel version
+	// Version of the kernel.
 	OsKernelVersion *string `mandatory:"false" json:"osKernelVersion"`
 }
 

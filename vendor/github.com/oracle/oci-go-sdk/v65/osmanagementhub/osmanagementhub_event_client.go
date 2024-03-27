@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,7 +92,7 @@ func (client *EventClient) ConfigurationProvider() *common.ConfigurationProvider
 	return client.config
 }
 
-// ChangeEventCompartment Moves a Event into a different compartment within the same tenancy. For information about moving resources between
+// ChangeEventCompartment Moves an event into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeEventCompartment()
 func (client EventClient) ChangeEventCompartment(ctx context.Context, request ChangeEventCompartmentRequest) (response ChangeEventCompartmentResponse, err error) {
@@ -151,7 +152,7 @@ func (client EventClient) changeEventCompartment(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteEvent Deletes an Event.
+// DeleteEvent Deletes the specified event.
 // A default retry strategy applies to this operation DeleteEvent()
 func (client EventClient) DeleteEvent(ctx context.Context, request DeleteEventRequest) (response DeleteEventResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -205,7 +206,7 @@ func (client EventClient) deleteEvent(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// DeleteEventContent Delete an event content ZIP archive from the service
+// DeleteEventContent Deletes an event content ZIP archive from the service.
 // A default retry strategy applies to this operation DeleteEventContent()
 func (client EventClient) DeleteEventContent(ctx context.Context, request DeleteEventContentRequest) (response DeleteEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -264,7 +265,7 @@ func (client EventClient) deleteEventContent(ctx context.Context, request common
 	return response, err
 }
 
-// GetEvent Gets information about an Event.
+// GetEvent Returns information about the specified event.
 // A default retry strategy applies to this operation GetEvent()
 func (client EventClient) GetEvent(ctx context.Context, request GetEventRequest) (response GetEventResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -318,7 +319,7 @@ func (client EventClient) getEvent(ctx context.Context, request common.OCIReques
 	return response, err
 }
 
-// GetEventContent Get additional data about a event as a ZIP archive. The archive content depends on the event type.
+// GetEventContent Returns a ZIP archive with additional information about an event. The archive content depends on the event type.
 // A default retry strategy applies to this operation GetEventContent()
 func (client EventClient) GetEventContent(ctx context.Context, request GetEventContentRequest) (response GetEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -371,7 +372,7 @@ func (client EventClient) getEventContent(ctx context.Context, request common.OC
 	return response, err
 }
 
-// ImportEventContent Upload an event content ZIP archive from the instance to the service.
+// ImportEventContent Uploads an event content ZIP archive from an instance to the service.
 // A default retry strategy applies to this operation ImportEventContent()
 func (client EventClient) ImportEventContent(ctx context.Context, request ImportEventContentRequest) (response ImportEventContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -430,7 +431,7 @@ func (client EventClient) importEventContent(ctx context.Context, request common
 	return response, err
 }
 
-// ListEvents Gets a list of Events.
+// ListEvents Lists events that match the specified criteria, such as compartment, state, and event type.
 // A default retry strategy applies to this operation ListEvents()
 func (client EventClient) ListEvents(ctx context.Context, request ListEventsRequest) (response ListEventsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -484,7 +485,7 @@ func (client EventClient) listEvents(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
-// UpdateEvent Updates event tags.
+// UpdateEvent Updates the tags for an event.
 // A default retry strategy applies to this operation UpdateEvent()
 func (client EventClient) UpdateEvent(ctx context.Context, request UpdateEventRequest) (response UpdateEventResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,16 +16,16 @@ import (
 	"strings"
 )
 
-// SoftwareSourceVendorSummary Software vendor name, list of osFamily and archType.
+// SoftwareSourceVendorSummary Provides summary information about a software source vendor, including name, operating system family, and architecture type.
 type SoftwareSourceVendorSummary struct {
 
 	// Name of the vendor providing the software source.
 	Name VendorNameEnum `mandatory:"true" json:"name"`
 
-	// List of corresponding osFamilies.
+	// List of corresponding operating system families.
 	OsFamilies []OsFamilyEnum `mandatory:"true" json:"osFamilies"`
 
-	// List of corresponding archTypes.
+	// List of corresponding architecture types.
 	ArchTypes []ArchTypeEnum `mandatory:"true" json:"archTypes"`
 }
 

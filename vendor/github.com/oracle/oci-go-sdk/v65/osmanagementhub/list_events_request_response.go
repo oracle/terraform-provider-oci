@@ -14,26 +14,25 @@ import (
 // ListEventsRequest wrapper for the ListEvents operation
 type ListEventsRequest struct {
 
-	// The summary of the Event.
+	// A filter to return only events whose summary matches the given value.
 	EventSummary *string `mandatory:"false" contributesTo:"query" name:"eventSummary"`
 
-	// The summary of the Event
+	// A filter to return only events with a summary that contains the value provided.
 	EventSummaryContains *string `mandatory:"false" contributesTo:"query" name:"eventSummaryContains"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Event.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the event.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The eventFingerprint of the KernelEventData.
 	EventFingerprint *string `mandatory:"false" contributesTo:"query" name:"eventFingerprint"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources that match the given lifecycle state. The
-	// state value is case-insensitive.
+	// A filter to return only events that match the state provided. The state value is case-insensitive.
 	LifecycleState EventLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The OCID of target resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resource. This filter returns resources associated with the specified resource.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
 	// A filter to return only resources whose type matches the given value.
@@ -49,11 +48,11 @@ type ListEventsRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// Events before date provided.
+	// A filter that returns events that occurred on or before the date provided.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreatedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedLessThan"`
 
-	// Events after or equal date provided.
+	// A filter that returns events that occurred on or after the date provided.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
 
@@ -66,7 +65,7 @@ type ListEventsRequest struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

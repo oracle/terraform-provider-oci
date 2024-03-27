@@ -14,7 +14,7 @@ import (
 // RemovePackagesFromManagedInstanceRequest wrapper for the RemovePackagesFromManagedInstance operation
 type RemovePackagesFromManagedInstanceRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// Details about packages to be removed on a managed instance.

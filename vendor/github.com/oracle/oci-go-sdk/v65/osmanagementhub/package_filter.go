@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,10 +16,10 @@ import (
 	"strings"
 )
 
-// PackageFilter Used to select packages from VendorSoftwareSources to create/update CustomSoftwareSources.
+// PackageFilter Provides the information used to create a filter for packages from a vendor software source to create or update a custom software source.
 type PackageFilter struct {
 
-	// The type of the filter, which can be of two types - INCLUDE or EXCLUDE.
+	// The type of the filter.
 	FilterType FilterTypeEnum `mandatory:"true" json:"filterType"`
 
 	// The package name.

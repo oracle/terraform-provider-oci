@@ -59,6 +59,8 @@ type DedicatedAiCluster struct {
 
 	Capacity DedicatedAiClusterCapacity `mandatory:"false" json:"capacity"`
 
+	PreviousState *DedicatedAiCluster `mandatory:"false" json:"previousState"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -107,6 +109,7 @@ func (m *DedicatedAiCluster) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated      *common.SDKTime                      `json:"timeUpdated"`
 		LifecycleDetails *string                              `json:"lifecycleDetails"`
 		Capacity         dedicatedaiclustercapacity           `json:"capacity"`
+		PreviousState    *DedicatedAiCluster                  `json:"previousState"`
 		FreeformTags     map[string]string                    `json:"freeformTags"`
 		DefinedTags      map[string]map[string]interface{}    `json:"definedTags"`
 		SystemTags       map[string]map[string]interface{}    `json:"systemTags"`
@@ -141,6 +144,8 @@ func (m *DedicatedAiCluster) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Capacity = nil
 	}
+
+	m.PreviousState = model.PreviousState
 
 	m.FreeformTags = model.FreeformTags
 

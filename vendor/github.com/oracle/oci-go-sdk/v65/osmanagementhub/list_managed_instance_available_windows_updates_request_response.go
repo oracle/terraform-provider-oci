@@ -14,28 +14,26 @@ import (
 // ListManagedInstanceAvailableWindowsUpdatesRequest wrapper for the ListManagedInstanceAvailableWindowsUpdates operation
 type ListManagedInstanceAvailableWindowsUpdatesRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// A filter to return only packages that match the given update classification type.
 	ClassificationType []ClassificationTypesEnum `contributesTo:"query" name:"classificationType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// Unique identifiers for the Windows updates. NOTE - This is not an OCID,
-	// but is a unique identifier assigned by Microsoft.
-	// Example: `6981d463-cd91-4a26-b7c4-ea4ded9183ed`
+	// A filter based on the unique identifier for the Windows update. Note that this is not an OCID, but is a unique identifier assigned by Microsoft.
+	// Example: '6981d463-cd91-4a26-b7c4-ea4ded9183ed'
 	Name []string `contributesTo:"query" name:"name" collectionFormat:"multi"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Example: `My new resource`
+	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// Indicator of whether the update can be installed using OSMH.
+	// Indicates if the update can be installed by the OS Management Hub service.
 	IsInstallable WindowsUpdateInstallableEnum `mandatory:"false" contributesTo:"query" name:"isInstallable" omitEmpty:"true"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

@@ -43,6 +43,9 @@ type CreateRedisConnectionDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
@@ -118,6 +121,11 @@ func (m CreateRedisConnectionDetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m CreateRedisConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetLocks returns Locks
+func (m CreateRedisConnectionDetails) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetVaultId returns VaultId

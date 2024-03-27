@@ -14,13 +14,13 @@ import (
 // ListEntitlementsRequest wrapper for the ListEntitlements operation
 type ListEntitlementsRequest struct {
 
-	// The OCID of the compartment that contains the resources to list. This parameter is required.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return entitlements that match the given CSI.
 	Csi *string `mandatory:"false" contributesTo:"query" name:"csi"`
 
-	// A filter to return only profiles that match the given vendorName.
+	// A filter to return only resources that match the given vendor name.
 	VendorName ListEntitlementsVendorNameEnum `mandatory:"false" contributesTo:"query" name:"vendorName" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

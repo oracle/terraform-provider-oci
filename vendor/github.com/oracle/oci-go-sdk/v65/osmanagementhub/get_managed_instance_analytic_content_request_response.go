@@ -15,20 +15,20 @@ import (
 // GetManagedInstanceAnalyticContentRequest wrapper for the GetManagedInstanceAnalyticContent operation
 type GetManagedInstanceAnalyticContentRequest struct {
 
-	// This compartmentId is used to list managed instances within a compartment.
-	// Or serve as an additional filter to restrict only managed instances with in certain compartment if other filter presents.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the managed instance group for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group. This filter returns resources associated with this group.
 	ManagedInstanceGroupId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceGroupId"`
 
-	// The OCID of the lifecycle environment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment. This filter returns only resource contained with the specified lifecycle environment.
 	LifecycleEnvironmentId *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironmentId"`
 
-	// The OCID of the lifecycle stage for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage. This resource returns resources associated with this lifecycle stage.
 	LifecycleStageId *string `mandatory:"false" contributesTo:"query" name:"lifecycleStageId"`
 
-	// A filter to return only instances whose managed instance status matches the given status.
+	// A filter to return only managed instances whose status matches the status provided.
 	Status []ManagedInstanceStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
 
 	// A filter to return resources that match the given display names.
@@ -37,16 +37,16 @@ type GetManagedInstanceAnalyticContentRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// A filter to return instances with number of available security updates equals to the number specified.
+	// A filter to return instances that have the specified number of available security updates.
 	SecurityUpdatesAvailableEqualsTo *int `mandatory:"false" contributesTo:"query" name:"securityUpdatesAvailableEqualsTo"`
 
-	// A filter to return instances with number of available bug updates equals to the number specified.
+	// A filter to return instances that have the specified number of available bug updates.
 	BugUpdatesAvailableEqualsTo *int `mandatory:"false" contributesTo:"query" name:"bugUpdatesAvailableEqualsTo"`
 
-	// A filter to return instances with number of available security updates greater than the number specified.
+	// A filter to return instances that have more available security updates than the number specified.
 	SecurityUpdatesAvailableGreaterThan *int `mandatory:"false" contributesTo:"query" name:"securityUpdatesAvailableGreaterThan"`
 
-	// A filter to return instances with number of available bug updates greater than the number specified.
+	// A filter to return instances that have more available bug updates than the number specified.
 	BugUpdatesAvailableGreaterThan *int `mandatory:"false" contributesTo:"query" name:"bugUpdatesAvailableGreaterThan"`
 
 	// A filter to return only resources whose location matches the given value.
@@ -55,13 +55,13 @@ type GetManagedInstanceAnalyticContentRequest struct {
 	// A filter to return only resources whose location does not match the given value.
 	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only resources whose OS family type matches the given OS family.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
-	// The format of the report the user wants to download. Default is CSV.
+	// The format of the report to download. Default is CSV.
 	ReportFormat GetManagedInstanceAnalyticContentReportFormatEnum `mandatory:"false" contributesTo:"query" name:"reportFormat" omitEmpty:"true"`
 
 	// The type of the report the user wants to download. Default is ALL.

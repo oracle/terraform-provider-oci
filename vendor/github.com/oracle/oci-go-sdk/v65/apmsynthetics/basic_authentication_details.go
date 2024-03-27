@@ -10,6 +10,7 @@
 package apmsynthetics
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -21,8 +22,7 @@ type BasicAuthenticationDetails struct {
 	// Username for authentication.
 	Username *string `mandatory:"true" json:"username"`
 
-	// User password for authentication.
-	Password *string `mandatory:"true" json:"password"`
+	Password Password `mandatory:"true" json:"password"`
 }
 
 func (m BasicAuthenticationDetails) String() string {
@@ -39,4 +39,31 @@ func (m BasicAuthenticationDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *BasicAuthenticationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Username *string  `json:"username"`
+		Password password `json:"password"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Username = model.Username
+
+	nn, e = model.Password.UnmarshalPolymorphicJSON(model.Password.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Password = nn.(Password)
+	} else {
+		m.Password = nil
+	}
+
+	return
 }

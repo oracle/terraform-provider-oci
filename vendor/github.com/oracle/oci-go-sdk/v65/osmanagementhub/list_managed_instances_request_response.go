@@ -14,7 +14,7 @@ import (
 // ListManagedInstancesRequest wrapper for the ListManagedInstances operation
 type ListManagedInstancesRequest struct {
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return resources that match the given display names.
@@ -23,19 +23,19 @@ type ListManagedInstancesRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// The OCID of the managed instance for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance. This filter returns resources associated with this managed instance.
 	ManagedInstanceId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceId"`
 
-	// A filter to return only instances whose managed instance status matches the given status.
+	// A filter to return only managed instances whose status matches the status provided.
 	Status []ManagedInstanceStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
 
 	// A filter to return only instances whose architecture type matches the given architecture.
 	ArchType []ArchTypeEnum `contributesTo:"query" name:"archType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only resources whose OS family type matches the given OS family.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only managed instances acting as management stations.
+	// A filter to return only managed instances that are acting as management stations.
 	IsManagementStation *bool `mandatory:"false" contributesTo:"query" name:"isManagementStation"`
 
 	// A filter to return only managed instances that are attached to the specified group.
@@ -53,7 +53,7 @@ type ListManagedInstancesRequest struct {
 	// A filter to return only managed instances that are attached to the specified group or lifecycle environment.
 	IsAttachedToGroupOrLifecycleStage *bool `mandatory:"false" contributesTo:"query" name:"isAttachedToGroupOrLifecycleStage"`
 
-	// The OCID for the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source. This filter returns resources associated with this software source.
 	SoftwareSourceId *string `mandatory:"false" contributesTo:"query" name:"softwareSourceId"`
 
 	// The assigned erratum name. It's unique and not changeable.
@@ -63,7 +63,7 @@ type ListManagedInstancesRequest struct {
 	// A filter to return only managed instances in a specific lifecycle environment.
 	LifecycleEnvironment *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironment"`
 
-	// A filter to return only managed instances that are NOT in a specific lifecycle environment.
+	// A filter to return only managed instances that aren't in a specific lifecycle environment.
 	LifecycleEnvironmentNotEqualTo *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironmentNotEqualTo"`
 
 	// A filter to return only resources whose location matches the given value.
@@ -75,13 +75,13 @@ type ListManagedInstancesRequest struct {
 	// A multi filter to return only managed instances that match the given profile ids.
 	Profile []string `contributesTo:"query" name:"profile" collectionFormat:"multi"`
 
-	// A multi filter to return only managed instances that do not contains the given profile ids.
+	// A multi filter to return only managed instances that don't contain the given profile OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	ProfileNotEqualTo []string `contributesTo:"query" name:"profileNotEqualTo" collectionFormat:"multi"`
 
-	// A filter to return only managed instances with registration profile attached.
+	// A filter to return only managed instances with a registration profile attached.
 	IsProfileAttached *bool `mandatory:"false" contributesTo:"query" name:"isProfileAttached"`
 
-	// A boolean variable that is used to list only the resource managed by Autonomous Linux Service.
+	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,19 +16,19 @@ import (
 	"strings"
 )
 
-// UpdateProxyConfigurationDetails Information for updating a proxy configuration
+// UpdateProxyConfigurationDetails Provides the information used to update the proxy configuration for a management station.
 type UpdateProxyConfigurationDetails struct {
 
-	// To enable or disable the proxy (default true)
+	// Indicates if the proxy should be enabled or disabled. Default is enabled.
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// List of hosts
+	// List of hosts.
 	Hosts []string `mandatory:"false" json:"hosts"`
 
-	// Port that the proxy will use
+	// Listening port used for the proxy.
 	Port *string `mandatory:"false" json:"port"`
 
-	// URL that the proxy will forward to
+	// The URL the proxy will forward to.
 	Forward *string `mandatory:"false" json:"forward"`
 }
 

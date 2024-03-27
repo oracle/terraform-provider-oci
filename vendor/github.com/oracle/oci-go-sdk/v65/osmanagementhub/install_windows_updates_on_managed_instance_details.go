@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,15 @@ import (
 	"strings"
 )
 
-// InstallWindowsUpdatesOnManagedInstanceDetails The details about the Windows Updates to be installed.
+// InstallWindowsUpdatesOnManagedInstanceDetails Provides the information used to install Windows updates on a managed instance.
 type InstallWindowsUpdatesOnManagedInstanceDetails struct {
 
-	// The list of Windows Update names (UUIDs).
+	// The list of Windows update unique identifiers.
+	// Note that this is not an OCID, but is a unique identifier assigned by Microsoft.
+	// Example: '6981d463-cd91-4a26-b7c4-ea4ded9183ed'
 	WindowsUpdateName []string `mandatory:"false" json:"windowsUpdateName"`
 
-	// The type(s) of Windows Updates to be applied.
+	// The types of Windows updates to be installed.
 	WindowsUpdateTypes []WindowsUpdateTypesEnum `mandatory:"false" json:"windowsUpdateTypes,omitempty"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`

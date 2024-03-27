@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -211,7 +212,8 @@ func (client ManagedInstanceClient) attachSoftwareSourcesToManagedInstance(ctx c
 	return response, err
 }
 
-// DeleteManagedInstance Deletes (unregisters) a ManagedInstance resource by identifier
+// DeleteManagedInstance Unregisters the specified managed instance from the service. Once unregistered, the service will no longer manage the instance.
+// For Linux instances, yum or DNF repository files will be restored to their state prior to registration.
 // A default retry strategy applies to this operation DeleteManagedInstance()
 func (client ManagedInstanceClient) DeleteManagedInstance(ctx context.Context, request DeleteManagedInstanceRequest) (response DeleteManagedInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -618,7 +620,7 @@ func (client ManagedInstanceClient) getWindowsUpdate(ctx context.Context, reques
 	return response, err
 }
 
-// InstallAllWindowsUpdatesOnManagedInstancesInCompartment Install all of the available Windows Updates for all of the managed instances in a compartment.
+// InstallAllWindowsUpdatesOnManagedInstancesInCompartment Installs all of the available Windows updates for managed instances in a compartment. This applies only to standalone Windows instances. This will not update instances that belong to a group.
 // A default retry strategy applies to this operation InstallAllWindowsUpdatesOnManagedInstancesInCompartment()
 func (client ManagedInstanceClient) InstallAllWindowsUpdatesOnManagedInstancesInCompartment(ctx context.Context, request InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest) (response InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -797,7 +799,7 @@ func (client ManagedInstanceClient) installPackagesOnManagedInstance(ctx context
 	return response, err
 }
 
-// InstallWindowsUpdatesOnManagedInstance Installs Windows update(s) on a managed instance.
+// InstallWindowsUpdatesOnManagedInstance Installs Windows updates on the specified managed instance.
 // A default retry strategy applies to this operation InstallWindowsUpdatesOnManagedInstance()
 func (client ManagedInstanceClient) InstallWindowsUpdatesOnManagedInstance(ctx context.Context, request InstallWindowsUpdatesOnManagedInstanceRequest) (response InstallWindowsUpdatesOnManagedInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -856,7 +858,7 @@ func (client ManagedInstanceClient) installWindowsUpdatesOnManagedInstance(ctx c
 	return response, err
 }
 
-// ListManagedInstanceAvailablePackages Returns a list of available packages for a managed instance.
+// ListManagedInstanceAvailablePackages Returns a list of packages that are available for installation on a managed instance.
 // A default retry strategy applies to this operation ListManagedInstanceAvailablePackages()
 func (client ManagedInstanceClient) ListManagedInstanceAvailablePackages(ctx context.Context, request ListManagedInstanceAvailablePackagesRequest) (response ListManagedInstanceAvailablePackagesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -910,7 +912,7 @@ func (client ManagedInstanceClient) listManagedInstanceAvailablePackages(ctx con
 	return response, err
 }
 
-// ListManagedInstanceAvailableSoftwareSources Returns a list of available software sources for a managed instance.
+// ListManagedInstanceAvailableSoftwareSources Returns a list of software sources that can be attached to the specified managed instance. Any software sources already attached to the instance are not included in the list.
 // A default retry strategy applies to this operation ListManagedInstanceAvailableSoftwareSources()
 func (client ManagedInstanceClient) ListManagedInstanceAvailableSoftwareSources(ctx context.Context, request ListManagedInstanceAvailableSoftwareSourcesRequest) (response ListManagedInstanceAvailableSoftwareSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -964,7 +966,7 @@ func (client ManagedInstanceClient) listManagedInstanceAvailableSoftwareSources(
 	return response, err
 }
 
-// ListManagedInstanceAvailableWindowsUpdates Returns a list of available Windows updates for a Managed Instance. This is only applicable to Windows instances.
+// ListManagedInstanceAvailableWindowsUpdates Returns a list of Windows updates that can be installed on the specified managed instance.
 // A default retry strategy applies to this operation ListManagedInstanceAvailableWindowsUpdates()
 func (client ManagedInstanceClient) ListManagedInstanceAvailableWindowsUpdates(ctx context.Context, request ListManagedInstanceAvailableWindowsUpdatesRequest) (response ListManagedInstanceAvailableWindowsUpdatesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1126,7 +1128,7 @@ func (client ManagedInstanceClient) listManagedInstanceInstalledPackages(ctx con
 	return response, err
 }
 
-// ListManagedInstanceInstalledWindowsUpdates Returns a list of installed Windows updates for a Managed Instance. This is only applicable to Windows instances.
+// ListManagedInstanceInstalledWindowsUpdates Returns a list of Windows updates that have been installed on the specified managed instance.
 // A default retry strategy applies to this operation ListManagedInstanceInstalledWindowsUpdates()
 func (client ManagedInstanceClient) ListManagedInstanceInstalledWindowsUpdates(ctx context.Context, request ListManagedInstanceInstalledWindowsUpdatesRequest) (response ListManagedInstanceInstalledWindowsUpdatesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1180,16 +1182,7 @@ func (client ManagedInstanceClient) listManagedInstanceInstalledWindowsUpdates(c
 	return response, err
 }
 
-// ListManagedInstanceModules Retrieve a list of modules, along with streams of the modules,
-// from a managed instance.  Filters may be applied to select
-// a subset of modules based on the filter criteria.
-// The 'name' attribute filters against the name of a module.
-// It accepts strings of the format "<string>".
-// The 'nameContains' attribute filters against the name of a module
-// based on partial match. It accepts strings of the format "<string>".
-// If this attribute is defined, only matching modules are included
-// in the result set. If it is not defined, the request  is not subject
-// to this filter.
+// ListManagedInstanceModules Retrieves a list of modules, along with streams of the modules, from a managed instance. Filters may be applied to select a subset of modules based on the filter criteria.
 // A default retry strategy applies to this operation ListManagedInstanceModules()
 func (client ManagedInstanceClient) ListManagedInstanceModules(ctx context.Context, request ListManagedInstanceModulesRequest) (response ListManagedInstanceModulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1351,7 +1344,7 @@ func (client ManagedInstanceClient) listManagedInstances(ctx context.Context, re
 	return response, err
 }
 
-// ListWindowsUpdates Returns a list of Windows Updates.
+// ListWindowsUpdates Lists Windows updates that have been reported to the service.
 // A default retry strategy applies to this operation ListWindowsUpdates()
 func (client ManagedInstanceClient) ListWindowsUpdates(ctx context.Context, request ListWindowsUpdatesRequest) (response ListWindowsUpdatesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1405,58 +1398,10 @@ func (client ManagedInstanceClient) listWindowsUpdates(ctx context.Context, requ
 	return response, err
 }
 
-// ManageModuleStreamsOnManagedInstance Perform an operation involving modules, streams, and profiles on a
-// managed instance.  Each operation may enable or disable an arbitrary
-// amount of module streams, and install or remove an arbitrary number
-// of module stream profiles.  When the operation is complete, the
-// state of the modules, streams, and profiles on the managed instance
-// will match the state indicated in the operation.
-// Each module stream specified in the list of module streams to enable
-// will be in the "ENABLED" state upon completion of the operation.
-// If there was already a stream of that module enabled, any work
-// required to switch from the current stream to the new stream is
-// performed implicitly.
-// Each module stream specified in the list of module streams to disable
-// will be in the "DISABLED" state upon completion of the operation.
-// Any profiles that are installed for the module stream will be removed
-// as part of the operation.
-// Each module stream profile specified in the list of profiles to install
-// will be in the "INSTALLED" state upon completion of the operation,
-// indicating that any packages that are part of the profile are installed
-// on the managed instance.  If the module stream containing the profile
-// is not enabled, it will be enabled as part of the operation.  There
-// is an exception when attempting to install a stream of a profile when
-// another stream of the same module is enabled.  It is an error to attempt
-// to install a profile of another module stream, unless enabling the
-// new module stream is explicitly included in this operation.
-// Each module stream profile specified in the list of profiles to remove
-// will be in the "AVAILABLE" state upon completion of the operation.
-// The status of packages within the profile after the operation is
-// complete is defined by the package manager on the managed instance.
-// Operations that contain one or more elements that are not allowed
-// are rejected.
-// The result of this request is a work request object.  The returned
-// work request is the parent of a structure of other WorkRequests.  Taken
-// as a whole, this structure indicates the entire set of work to be
-// performed to complete the operation.
-// This interface can also be used to perform a dry run of the operation
-// rather than committing it to a managed instance.  If a dry run is
-// requested, the OS Management Hub service will evaluate the operation
-// against the current module, stream, and profile state on the managed
-// instance.  It will calculate the impact of the operation on all
-// modules, streams, and profiles on the managed instance, including those
-// that are implicitly impacted by the operation.
-// The WorkRequest resulting from a dry run behaves differently than
-// a WorkRequest resulting from a committable operation.  Dry run
-// WorkRequests are always singletons and never have children.  The
-// impact of the operation is returned using the log and error
-// facilities of work requests.  The impact of operations that are
-// allowed by the OS Management Hub service are communicated as one or
-// more work request log entries.  Operations that are not allowed
-// by the OS Management Hub service are communicated as one or more
-// work request error entries.  Each entry, for either logs or errors,
-// contains a structured message containing the results of one
-// or more operations.
+// ManageModuleStreamsOnManagedInstance Enables or disables module streams and installs or removes module stream profiles. Once complete, the state of the modules, streams, and
+// profiles will match the state indicated in the operation. See ManageModuleStreamsOnManagedInstanceDetails
+// for more information. You can preform this operation as a dry run. For a dry run, the service evaluates the operation against the
+// current module, stream, and profile state on the managed instance, but does not commit the changes. Instead, the service returns work request log or error entries indicating the impact of the operation.
 // A default retry strategy applies to this operation ManageModuleStreamsOnManagedInstance()
 func (client ManagedInstanceClient) ManageModuleStreamsOnManagedInstance(ctx context.Context, request ManageModuleStreamsOnManagedInstanceRequest) (response ManageModuleStreamsOnManagedInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1515,7 +1460,7 @@ func (client ManagedInstanceClient) manageModuleStreamsOnManagedInstance(ctx con
 	return response, err
 }
 
-// RefreshSoftwareOnManagedInstance Refresh all installed and updatable software information on a managed instance.
+// RefreshSoftwareOnManagedInstance Refreshes the package or Windows update information on a managed instance with the latest data from the software source. This does not update packages on the instance. It provides the service with the latest package data.
 // A default retry strategy applies to this operation RefreshSoftwareOnManagedInstance()
 func (client ManagedInstanceClient) RefreshSoftwareOnManagedInstance(ctx context.Context, request RefreshSoftwareOnManagedInstanceRequest) (response RefreshSoftwareOnManagedInstanceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1756,7 +1701,7 @@ func (client ManagedInstanceClient) switchModuleStreamOnManagedInstance(ctx cont
 	return response, err
 }
 
-// UpdateAllPackagesOnManagedInstancesInCompartment Install all of the available package updates for all of the managed instances in a compartment.
+// UpdateAllPackagesOnManagedInstancesInCompartment Install all of the available package updates for all of the managed instances in a compartment. This applies only to standalone non-Windows instances. This will not update instances that belong to a group or lifecycle environment.
 // A default retry strategy applies to this operation UpdateAllPackagesOnManagedInstancesInCompartment()
 func (client ManagedInstanceClient) UpdateAllPackagesOnManagedInstancesInCompartment(ctx context.Context, request UpdateAllPackagesOnManagedInstancesInCompartmentRequest) (response UpdateAllPackagesOnManagedInstancesInCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1815,7 +1760,7 @@ func (client ManagedInstanceClient) updateAllPackagesOnManagedInstancesInCompart
 	return response, err
 }
 
-// UpdateManagedInstance Updates the managed instance.
+// UpdateManagedInstance Updates the specified managed instance information, such as description, ONS topic, and associated management station.
 // A default retry strategy applies to this operation UpdateManagedInstance()
 func (client ManagedInstanceClient) UpdateManagedInstance(ctx context.Context, request UpdateManagedInstanceRequest) (response UpdateManagedInstanceResponse, err error) {
 	var ociResponse common.OCIResponse

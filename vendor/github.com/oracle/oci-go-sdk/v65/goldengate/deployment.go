@@ -77,6 +77,9 @@ type Deployment struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// True if all of the aggregate resources are working correctly.
 	IsHealthy *bool `mandatory:"false" json:"isHealthy"`
 

@@ -14,7 +14,7 @@ import (
 // ListErrataRequest wrapper for the ListErrata operation
 type ListErrataRequest struct {
 
-	// The OCID of the compartment that contains the resources to list. This parameter is required.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The assigned erratum name. It's unique and not changeable.
@@ -30,7 +30,7 @@ type ListErrataRequest struct {
 	// A filter to return only errata that match the given advisory types.
 	AdvisoryType []AdvisoryTypesEnum `contributesTo:"query" name:"advisoryType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only resources that match the given osFamily.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily ListErrataOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
 	// The advisory severity.

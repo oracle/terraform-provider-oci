@@ -14,7 +14,7 @@ import (
 // DeleteSoftwareSourceRequest wrapper for the DeleteSoftwareSource operation
 type DeleteSoftwareSourceRequest struct {
 
-	// The software source OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

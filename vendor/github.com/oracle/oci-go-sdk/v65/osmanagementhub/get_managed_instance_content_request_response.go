@@ -15,7 +15,7 @@ import (
 // GetManagedInstanceContentRequest wrapper for the GetManagedInstanceContent operation
 type GetManagedInstanceContentRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// A filter to return only vulnerabilities matching the given types.
@@ -31,13 +31,13 @@ type GetManagedInstanceContentRequest struct {
 	// A filter to return only errata that match the given advisory types.
 	AdvisoryType []AdvisoryTypesEnum `contributesTo:"query" name:"advisoryType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return vulnerabilities that match the given name. For Advisory, this refers to the advisory name. For Windows Update, this refers to the Windows Update displayName.
+	// A filter to return vulnerabilities that match the given name. For Linux instances, this refers to the advisory name. For Windows instances, this refers to the Windows update display name.
 	VulnerabilityName []string `contributesTo:"query" name:"vulnerabilityName" collectionFormat:"multi"`
 
-	// A filter to return vulnerabilities that partially match the given name. For Advisory, this refers to the advisory name. For Windows Update, this refers to the Windows Update displayName.
+	// A filter to return vulnerabilities that partially match the given name. For Linux instances, this refers to the advisory name. For Windows instances, this refers to the Windows update display name.
 	VulnerabilityNameContains *string `mandatory:"false" contributesTo:"query" name:"vulnerabilityNameContains"`
 
-	// The format of the report the user wants to download. Default is CSV.
+	// The format of the report to download. Default is CSV.
 	ReportFormat GetManagedInstanceContentReportFormatEnum `mandatory:"false" contributesTo:"query" name:"reportFormat" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

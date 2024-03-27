@@ -14,7 +14,7 @@ import (
 // GetSoftwarePackageRequest wrapper for the GetSoftwarePackage operation
 type GetSoftwarePackageRequest struct {
 
-	// The software source OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// The name of the software package.

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// Erratum Details about the erratum.
+// Erratum An object that defines an erratum..
 type Erratum struct {
 
 	// Advisory name.
@@ -24,15 +25,13 @@ type Erratum struct {
 	// Summary description of the erratum.
 	Synopsis *string `mandatory:"false" json:"synopsis"`
 
-	// Date the erratum was issued, as described
-	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the erratum was issued (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeIssued *common.SDKTime `mandatory:"false" json:"timeIssued"`
 
 	// Details describing the erratum.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Most recent date the erratum was updated, as described
-	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the erratum was updated (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// Type of the erratum. This property is deprecated and it will be removed in a future API release. Please refer to the advisoryType property instead.
@@ -56,7 +55,7 @@ type Erratum struct {
 	// List of repository identifiers.
 	Repositories []string `mandatory:"false" json:"repositories"`
 
-	// List of Packages affected by this erratum.
+	// List of packages affected by this erratum.
 	Packages []SoftwarePackageSummary `mandatory:"false" json:"packages"`
 
 	// List of affected OS families.
