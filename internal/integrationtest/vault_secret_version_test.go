@@ -16,6 +16,7 @@ import (
 )
 
 var (
+	// fix the bug
 	VaultVaultSecretVersionSingularDataSourceRepresentation = map[string]interface{}{
 		"secret_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_secret.id}`},
 		"secret_version_number": acctest.Representation{RepType: acctest.Required, Create: `1`},

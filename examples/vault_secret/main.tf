@@ -54,14 +54,14 @@ resource "oci_vault_secret" "test_secret" {
     stage   = "CURRENT"
   }
   key_id = var.kms_key_ocid
-  secret_name = "TFsample1"
+  secret_name = "TFsample1e13"
   vault_id    = var.kms_vault_ocid
 }
 
 resource "oci_vault_secret" "test_secret_with_auto_rotation" {
   compartment_id = var.compartment_ocid
   key_id         = var.kms_key_ocid
-  secret_name    = "TFSecretAutoRotation"
+  secret_name    = "TFSecretAutoRotation211"
   vault_id       = var.kms_vault_ocid
 
   secret_content {
@@ -75,7 +75,7 @@ resource "oci_vault_secret" "test_secret_with_auto_rotation" {
   }
 
   rotation_config {
-    is_scheduled_rotation_enabled = "true"
+    is_scheduled_rotation_enabled = "false"
     rotation_interval = "P90D"
     target_system_details {
       function_id = var.function_ocid
@@ -87,7 +87,7 @@ resource "oci_vault_secret" "test_secret_with_auto_rotation" {
 resource "oci_vault_secret" "test_secret_with_target_system" {
   compartment_id = var.compartment_ocid
   key_id         = var.kms_key_ocid
-  secret_name    = "TFSecretWithTargetSystem"
+  secret_name    = "TFSecretWithTargetSyste2121m"
   vault_id       = var.kms_vault_ocid
 
   secret_content {
@@ -107,6 +107,21 @@ resource "oci_vault_secret" "test_secret_with_target_system" {
       target_system_type = "ADB"
     }
   }
+}
+
+resource "oci_vault_secret" "test_secret_without_version_name" {
+  compartment_id = var.compartment_ocid
+  secret_content {
+    #Required
+    content_type = "BASE64"
+
+    #Optional
+    content = "PHZhcj4mbHQ7YmFzZTY0X2VuY29kZWRfc2VjcmV0X2NvbnRlbnRzJmd0OzwvdmFyPg=="
+    stage   = "CURRENT"
+  }
+  key_id = var.kms_key_ocid
+  secret_name = "TFsampleWithoutVersionName212"
+  vault_id    = var.kms_vault_ocid
 }
 
 
