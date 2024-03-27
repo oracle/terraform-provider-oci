@@ -120,7 +120,6 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 			"members": {
 				Type:     schema.TypeList,
 				Optional: true,
-				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -655,6 +654,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Create() error {
 		}
 	}
 
+	request.Members = []oci_disaster_recovery.CreateDrProtectionGroupMemberDetails{}
 	if members, ok := s.D.GetOkExists("members"); ok {
 		interfaces := members.([]interface{})
 		tmp := make([]oci_disaster_recovery.CreateDrProtectionGroupMemberDetails, len(interfaces))
@@ -875,6 +875,7 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) Update() error {
 		}
 	}
 
+	request.Members = []oci_disaster_recovery.UpdateDrProtectionGroupMemberDetails{}
 	if members, ok := s.D.GetOkExists("members"); ok {
 		interfaces := members.([]interface{})
 		tmp := make([]oci_disaster_recovery.UpdateDrProtectionGroupMemberDetails, len(interfaces))
