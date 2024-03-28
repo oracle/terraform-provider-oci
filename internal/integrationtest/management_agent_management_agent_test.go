@@ -200,8 +200,10 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + managementAgentIdVariableStr + ManagementAgentResourceDependencies +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins", "test_management_agent_plugins", acctest.Required, acctest.Create, managementAgentPluginDataSourceRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Required, acctest.Create, managementAgentRepresentation),
+				acctest.GenerateDataSourceFromRepresentationMap("oci_management_agent_management_agent_plugins",
+					"test_management_agent_plugins", acctest.Required, acctest.Create, managementAgentPluginDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent",
+					"test_management_agent", acctest.Required, acctest.Create, managementAgentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				func(s *terraform.State) (err error) {
@@ -331,19 +333,10 @@ func testAccCheckManagementAgentManagementAgentDestroy(s *terraform.State) error
 
 			request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "management_agent")
 
-			response, err := client.GetManagementAgent(context.Background(), request)
+			_, err := client.GetManagementAgent(context.Background(), request)
 
-			if err == nil {
-				deletedLifecycleStates := map[string]bool{
-					string(oci_management_agent.LifecycleStatesTerminated): true, string(oci_management_agent.LifecycleStatesDeleted): true,
-				}
-				if _, ok := deletedLifecycleStates[string(response.LifecycleState)]; !ok {
-					//resource lifecycle state is not in expected deleted lifecycle states.
-					return fmt.Errorf("resource lifecycle state: %s is not in expected deleted lifecycle states", response.LifecycleState)
-				}
-				//resource lifecycle state is in expected deleted lifecycle states. continue with next one.
-				continue
-			}
+			//Destroy for resource does not delete the resource from MACS backend, it only removes it from terraform state file.
+			//resources should be removed manually by Uninstalling the agent from the on premise system or OCA compute node
 
 			//Verify that exception is for '404 not found'.
 			if failure, isServiceError := common.IsServiceError(err); !isServiceError || failure.GetHTTPStatusCode() != 404 {
