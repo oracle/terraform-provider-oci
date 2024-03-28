@@ -20,6 +20,41 @@ resource "oci_management_agent_management_agent" "test_management_agent" {
 	managed_agent_id = oci_management_agent_managed_agent.test_managed_agent.id
 }
 ```
+---
+Add plugin to Management Agent created via OCI Compute instance.
+
+Compute instance must have OCA Plugin "Management Agent" enabled
+```hcl
+resource "oci_core_instance" "instance" {
+    .....
+	agent_config {
+	  ...
+	  plugins_config {
+		desired_state = "ENABLED"
+		name          = "Management Agent"
+	  }
+	
+	}
+}
+```
+```hcl
+data "oci_management_agent_management_agents" "find_agent" {
+  compartment_id   = var.compartment_ocid
+  host_id          = oci_core_instance.instance.id
+  wait_for_host_id = 10
+}
+
+data "oci_management_agent_management_agent_plugins" "test_management_agent_plugins" {
+  compartment_id = var.compartment_ocid
+  display_name   = "Logging Analytics"
+}
+
+resource "oci_management_agent_management_agent" "test_management_agent" {
+  freeform_tags     = { "TestingTag" : "TestingValue" }
+  managed_agent_id  = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
+  deploy_plugins_id = [data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id]
+}
+```
 
 ## Argument Reference
 
@@ -29,11 +64,16 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) New displayName of Agent.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `deploy_plugins_id` - (Optional) (Updatable) Plugin Id list
+* `deploy_plugins_id` - (Optional) (Updatable) Plugin Id list to deploy to Management Agent. Once deployed, plugins cannot be undeployed.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
+Management Agent resources are not created or destroyed by terraform.
+
+Management Agents should be created using on premise installation, or OCA plugin for Management Agent. See [Management Agent](https://docs.oracle.com/en-us/iaas/management-agents/index.html).
+
+Destroy operation in terraform will not delete the Management Agent, this must be performed by steps indicated in [Management Agent](https://docs.oracle.com/en-us/iaas/management-agents/index.html). Destroy will remove the resource from terraform state only.
 ## Attributes Reference
 
 The following attributes are exported:

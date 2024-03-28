@@ -5,6 +5,8 @@ package management_agent
 
 import (
 	"context"
+	"log"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_management_agent "github.com/oracle/oci-go-sdk/v65/managementagent"
@@ -58,6 +60,10 @@ func ManagementAgentManagementAgentsDataSource() *schema.Resource {
 			},
 			"host_id": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"wait_for_host_id": {
+				Type:     schema.TypeInt,
 				Optional: true,
 			},
 			"install_type": {
@@ -180,6 +186,19 @@ func (s *ManagementAgentManagementAgentsDataSourceCrud) Get() error {
 	if hostId, ok := s.D.GetOkExists("host_id"); ok {
 		tmp := hostId.(string)
 		request.HostId = &tmp
+
+		if waitForHostId, ok := s.D.GetOkExists("wait_for_host_id"); ok {
+			// Wait for HostId to appear
+
+			waitForHostIdInt := waitForHostId.(int)
+
+			timeout := time.Duration(waitForHostIdInt) * time.Minute
+			_, err := managementAgentWaitForInstanceAgent(&tmp, request.CompartmentId, timeout, false, s.Client)
+			if err != nil {
+				log.Printf("[WARN] timeout waiting for Instance %v agent", &tmp)
+
+			}
+		}
 	}
 
 	if installType, ok := s.D.GetOkExists("install_type"); ok {
