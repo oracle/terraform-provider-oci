@@ -15,5 +15,4 @@ resource "oci_management_agent_management_agent_data_source" "add_datasource" {
 data "oci_management_agent_management_agent_data_sources" "test_datasource_data" {
   management_agent_id = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
   name = "PrometheusTestA"
-  depends_on = [oci_management_agent_management_agent_data_source.add_datasource]
 }
