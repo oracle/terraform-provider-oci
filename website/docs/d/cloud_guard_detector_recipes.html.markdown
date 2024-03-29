@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_cloud_guard_detector_recipes
 This data source provides the list of Detector Recipes in Oracle Cloud Infrastructure Cloud Guard service.
 
-Returns a list of all Detector Recipes in a compartment
+Returns a list of all detector recipes (DetectorRecipe objects) in a compartment, identified by compartmentId.
 
 The ListDetectorRecipes operation returns only the detector recipes in `compartmentId` passed.
 The list does not include any subcompartments of the compartmentId passed.
