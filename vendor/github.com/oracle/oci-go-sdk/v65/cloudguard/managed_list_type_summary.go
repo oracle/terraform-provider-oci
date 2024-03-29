@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ManagedListTypeSummary Summary of the ManagedListType.
+// ManagedListTypeSummary A managed list type summary (ManagedListTypeSummary object) contains summary information for a managed list type (ManagedListType object).
 type ManagedListTypeSummary struct {
 
 	// ManagedListType Identifier
