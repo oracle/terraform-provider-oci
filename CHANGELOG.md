@@ -1,3 +1,14 @@
+## 5.36.0 (Unreleased)
+
+### Added
+- Support for Management Agent wait_for_host_id and prevent destroy resource
+- Support for Email Delivery: Submit Configuration API
+- Support for Support for TLS 1.3
+- Support for Telesis IPv6 Single Stack/ Private IP Support
+- Support for Cloudguard-Logging Integration for JWCC - Customer Enablement
+### Bug Fix
+- Handle empty members in DR Protection Group
+
 ## 5.35.0 (Unreleased)
 
 
