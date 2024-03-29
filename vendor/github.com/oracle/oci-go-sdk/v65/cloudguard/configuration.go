@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// Configuration Cloud Guard configuration details of a tenancy.
+// Configuration Specifies several key settings for a Cloud Guard tenancy, identified by tenancy root compartment OCID.
 type Configuration struct {
 
 	// The reporting region value

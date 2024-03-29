@@ -4,11 +4,10 @@
 
 // Email Delivery API
 //
-// API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//
-// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
+// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -95,11 +94,11 @@ func (client *EmailClient) ConfigurationProvider() *common.ConfigurationProvider
 	return client.config
 }
 
-// ChangeEmailDomainCompartment Moves a email domain into a different compartment.
+// ChangeEmailDomainCompartment Moves an email domain into a different compartment.
 // When provided, If-Match is checked against ETag value of the resource.
 // For information about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
-// **Note:** All Dkim objects associated with this email domain will also be moved into the provided compartment.
+// **Note:** All DKIM objects associated with this email domain will also be moved into the provided compartment.
 //
 // # See also
 //
@@ -218,10 +217,10 @@ func (client EmailClient) changeSenderCompartment(ctx context.Context, request c
 	return response, err
 }
 
-// CreateDkim Creates a new DKIM for a email domain.
-// This DKIM will sign all approved senders in the tenancy that are in this email domain.
+// CreateDkim Creates a new DKIM for an email domain.
+// This DKIM signs all approved senders in the tenancy that are in this email domain.
 // Best security practices indicate to periodically rotate the DKIM that is doing the signing.
-// When a second DKIM is applied, all senders will seamlessly pick up the new key
+// When a second DKIM is applied, all senders seamlessly pick up the new key
 // without interruption in signing.
 //
 // # See also
@@ -468,7 +467,7 @@ func (client EmailClient) createSuppression(ctx context.Context, request common.
 // will stop signing the domain's outgoing mail.
 // DKIM keys are left in DELETING state for about a day to allow DKIM signatures on
 // in-transit mail to be validated.
-// Consider instead of deletion creating a new DKIM for this domain so the signing can be rotated to it.
+// Consider creating a new DKIM for this domain so the signing can be rotated to it instead of deletion.
 //
 // # See also
 //
@@ -525,7 +524,7 @@ func (client EmailClient) deleteDkim(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
-// DeleteEmailDomain Deletes a email domain.
+// DeleteEmailDomain Deletes an email domain.
 //
 // # See also
 //
@@ -748,6 +747,63 @@ func (client EmailClient) getDkim(ctx context.Context, request common.OCIRequest
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Dkim/GetDkim"
 		err = common.PostProcessServiceError(err, "Email", "GetDkim", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetEmailConfiguration Returns  email configuration associated with the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/email/GetEmailConfiguration.go.html to see an example of how to use GetEmailConfiguration API.
+func (client EmailClient) GetEmailConfiguration(ctx context.Context, request GetEmailConfigurationRequest) (response GetEmailConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEmailConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEmailConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEmailConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEmailConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEmailConfigurationResponse")
+	}
+	return
+}
+
+// getEmailConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client EmailClient) getEmailConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/configuration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEmailConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/emaildelivery/20170907/Configuration/GetEmailConfiguration"
+		err = common.PostProcessServiceError(err, "Email", "GetEmailConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -984,7 +1040,7 @@ func (client EmailClient) getWorkRequest(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListDkims Lists DKIMs for a email domain.
+// ListDkims Lists DKIMs for an email domain.
 //
 // # See also
 //
@@ -1442,7 +1498,7 @@ func (client EmailClient) updateDkim(ctx context.Context, request common.OCIRequ
 	return response, err
 }
 
-// UpdateEmailDomain Modifies a email domain.
+// UpdateEmailDomain Modifies an email domain.
 //
 // # See also
 //

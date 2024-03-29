@@ -4,11 +4,10 @@
 
 // Email Delivery API
 //
-// API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//
-// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
+// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -31,7 +30,7 @@ type WorkRequest struct {
 	// The id of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid of the compartment that contains the work request. Work requests should be scoped to
+	// The OCID of the compartment that contains the work request. Work requests should be scoped to
 	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
 	// and those resources are not in the same compartment, it is up to the service team to pick the primary
 	// resource whose compartment should be used

@@ -172,6 +172,69 @@ import (
 //     "RC4-MD5"
 //     "RC4-SHA"
 //     "SEED-SHA"
+//   - __oci-default-http2-ssl-cipher-suite-v1__
+//     "ECDHE-RSA-AES256-GCM-SHA384"
+//     "ECDHE-ECDSA-AES256-GCM-SHA384"
+//     "ECDHE-RSA-AES128-GCM-SHA256"
+//     "ECDHE-ECDSA-AES128-GCM-SHA256"
+//     "DHE-RSA-AES256-GCM-SHA384"
+//     "DHE-RSA-AES128-GCM-SHA256"
+//   - __oci-default-http2-tls-13-ssl-cipher-suite-v1__
+//     "TLS-AES-128-GCM-SHA256"
+//     "TLS-AES-256-GCM-SHA384"
+//     "TLS-CHACHA20-POLY1305-SHA256"
+//   - __oci-default-http2-tls-12-13-ssl-cipher-suite-v1__
+//     "ECDHE-RSA-AES256-GCM-SHA384"
+//     "ECDHE-ECDSA-AES256-GCM-SHA384"
+//     "ECDHE-RSA-AES128-GCM-SHA256"
+//     "ECDHE-ECDSA-AES128-GCM-SHA256"
+//     "DHE-RSA-AES256-GCM-SHA384"
+//     "DHE-RSA-AES128-GCM-SHA256"
+//     "TLS-AES-128-GCM-SHA256"
+//     "TLS-AES-256-GCM-SHA384"
+//     "TLS-CHACHA20-POLY1305-SHA256"
+//   - __oci-tls-13-recommended-ssl-cipher-suite-v1__
+//     "TLS-AES-128-GCM-SHA256"
+//     "TLS-AES-256-GCM-SHA384"
+//     "TLS-CHACHA20-POLY1305-SHA256"
+//   - __oci-tls-12-13-wider-ssl-cipher-suite-v1__
+//     "TLS-AES-128-GCM-SHA256"
+//     "TLS-AES-256-GCM-SHA384"
+//     "TLS-CHACHA20-POLY1305-SHA256"
+//     "ECDHE-ECDSA-AES128-GCM-SHA256"
+//     "ECDHE-RSA-AES128-GCM-SHA256"
+//     "ECDHE-ECDSA-AES128-SHA256"
+//     "ECDHE-RSA-AES128-SHA256"
+//     "ECDHE-ECDSA-AES256-GCM-SHA384"
+//     "ECDHE-RSA-AES256-GCM-SHA384"
+//     "ECDHE-ECDSA-AES256-SHA384"
+//     "ECDHE-RSA-AES256-SHA384"
+//     "AES128-GCM-SHA256"
+//     "AES128-SHA256"
+//     "AES256-GCM-SHA384"
+//     "AES256-SHA256"
+//   - __oci-tls-11-12-13-wider-ssl-cipher-suite-v1__
+//     "TLS-AES-128-GCM-SHA256"
+//     "TLS-AES-256-GCM-SHA384"
+//     "TLS-CHACHA20-POLY1305-SHA256"
+//     "ECDHE-ECDSA-AES128-GCM-SHA256"
+//     "ECDHE-RSA-AES128-GCM-SHA256"
+//     "ECDHE-ECDSA-AES128-SHA256"
+//     "ECDHE-RSA-AES128-SHA256"
+//     "ECDHE-ECDSA-AES256-GCM-SHA384"
+//     "ECDHE-RSA-AES256-GCM-SHA384"
+//     "ECDHE-ECDSA-AES256-SHA384"
+//     "ECDHE-RSA-AES256-SHA384"
+//     "AES128-GCM-SHA256"
+//     "AES128-SHA256"
+//     "AES256-GCM-SHA384"
+//     "AES256-SHA256"
+//     "ECDHE-ECDSA-AES128-SHA"
+//     "ECDHE-RSA-AES128-SHA"
+//     "ECDHE-RSA-AES256-SHA"
+//     "ECDHE-ECDSA-AES256-SHA"
+//     "AES128-SHA"
+//     "AES256-SHA"
 type SslCipherSuiteDetails struct {
 
 	// A friendly name for the SSL cipher suite. It must be unique and it cannot be changed.
@@ -182,11 +245,23 @@ type SslCipherSuiteDetails struct {
 	// * oci-compatible-ssl-cipher-suite-v1
 	// * oci-wider-compatible-ssl-cipher-suite-v1
 	// * oci-customized-ssl-cipher-suite
+	// * oci-default-http2-ssl-cipher-suite-v1
+	// * oci-default-http2-tls-13-ssl-cipher-suite-v1
+	// * oci-default-http2-tls-12-13-ssl-cipher-suite-v1
+	// * oci-tls-13-recommended-ssl-cipher-suite-v1
+	// * oci-tls-12-13-wider-ssl-cipher-suite-v1
+	// * oci-tls-11-12-13-wider-ssl-cipher-suite-v1
 	// example: `example_cipher_suite`
 	Name *string `mandatory:"true" json:"name"`
 
 	// A list of SSL ciphers the load balancer must support for HTTPS or SSL connections.
 	// The following ciphers are valid values for this property:
+	// *  __TLSv1.3 ciphers__
+	//         "TLS-AES-128-GCM-SHA256"
+	//         "TLS-AES-256-GCM-SHA384"
+	//         "TLS-CHACHA20-POLY1305-SHA256"
+	//         "TLS-AES-128-CCM-SHA256"
+	//         "TLS-AES-128-CCM-8-SHA256"
 	// *  __TLSv1.2 ciphers__
 	//         "AES128-GCM-SHA256"
 	//         "AES128-SHA256"
