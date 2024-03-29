@@ -21,6 +21,9 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 	compartment_id = var.compartment_id
 	display_name = var.network_load_balancer_display_name
 	subnet_id = oci_core_subnet.test_subnet.id
+	#Optional
+	assigned_ipv6 = var.network_load_balancer_assigned_ipv6
+	assigned_private_ipv4 = var.network_load_balancer_assigned_private_ipv4
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	is_preserve_source_destination = var.network_load_balancer_is_preserve_source_destination
@@ -29,10 +32,10 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 	network_security_group_ids = var.network_load_balancer_network_security_group_ids
 	nlb_ip_version = var.network_load_balancer_nlb_ip_version
 	reserved_ips {
-
 		#Optional
 		id = var.network_load_balancer_reserved_ips_id
 	}
+	subnet_ipv6cidr = var.network_load_balancer_subnet_ipv6cidr
 }
 ```
 
@@ -40,30 +43,8 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 
 The following arguments are supported:
 
-* `backend_sets` - (Optional) Backend sets associated with the network load balancer.
-	* `backends` - (Optional) An array of backends. 
-		* `ip_address` - (Optional) The IP address of the backend server. Example: `10.0.0.3` 
-		* `is_backup` - (Optional) Whether the network load balancer should treat this server as a backup unit. If `true`, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: `false` 
-		* `is_drain` - (Optional) Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: `false` 
-		* `is_offline` - (Optional) Whether the network load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
-		* `name` - (Optional) A read-only field showing the IP address/IP OCID and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0` 
-		* `port` - (Required) The communication port for the backend server.  Example: `8080` 
-		* `target_id` - (Optional) The IP OCID/Instance OCID associated with the backend server. Example: `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>` 
-		* `weight` - (Optional) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see [How Network Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introducton.htm#Policies).  Example: `3` 
-	* `health_checker` - (Required) The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/health-check-policy-management.htm). 
-		* `interval_in_millis` - (Optional) The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: `10000` 
-		* `port` - (Optional) The backend server port against which to run the health check. If the port is not specified, then the network load balancer uses the port information from the `Backend` object. The port must be specified if the backend port is 0.  Example: `8080` 
-		* `protocol` - (Required) The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: `HTTP` 
-		* `request_data` - (Optional) Base64 encoded pattern to be sent as UDP or TCP health check probe.
-		* `response_body_regex` - (Optional) A regular expression for parsing the response body from the backend server.  Example: `^((?!false).|\s)*$` 
-		* `response_data` - (Optional) Base64 encoded pattern to be validated as UDP or TCP health check probe response.
-		* `retries` - (Optional) The number of retries to attempt before a backend server is considered "unhealthy". This number also applies when recovering a server to the "healthy" state. The default value is 3.  Example: `3` 
-		* `return_code` - (Optional) The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, then you can use common HTTP status codes such as "200".  Example: `200` 
-		* `timeout_in_millis` - (Optional) The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000` 
-		* `url_path` - (Optional) The path against which to run the health check.  Example: `/healthcheck` 
-	* `ip_version` - (Optional) IP version associated with the backend set.
-	* `is_preserve_source` - (Optional) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
-	* `policy` - (Optional) The network load balancer policy for the backend set.  Example: `FIVE_TUPLE` 
+* `assigned_ipv6` - (Optional) IPv6 address to be assigned to the network load balancer being created. This IP address has to be part of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789" 
+* `assigned_private_ipv4` - (Optional) Private IP address to be assigned to the network load balancer being created. This IP address has to be in the CIDR range of the subnet where network load balancer is being created Example: "10.0.0.1"
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the network load balancer.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) Network load balancer identifier, which can be renamed.
@@ -79,6 +60,8 @@ The following arguments are supported:
 
 	Example: `true` 
 * `is_symmetric_hash_enabled` - (Optional) (Updatable) This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT. 
+
+	Example: `true`
 * `network_security_group_ids` - (Optional) (Updatable) An array of network security groups [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load balancer.
 
     During the creation of the network load balancer, the service adds the new load balancer to the specified network security groups.
@@ -100,6 +83,7 @@ The following arguments are supported:
 
         Example: "ocid1.publicip.oc1.phx.unique_ID" 
 * `subnet_id` - (Required) The subnet in which the network load balancer is spawned [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `subnet_ipv6cidr` - (Optional) IPv6 subnet prefix selection. If Ipv6 subnet prefix is passed, Nlb Ipv6 Address would be assign within the cidr block. NLB has to be dual or single stack ipv6 to support this.
 
 
 ** IMPORTANT **
@@ -109,35 +93,6 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `backend_sets` - Backend sets associated with the network load balancer.
-	* `backends` - Array of backends. 
-		* `ip_address` - The IP address of the backend server. Example: `10.0.0.3` 
-		* `is_backup` - Whether the network load balancer should treat this server as a backup unit. If `true`, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: `false` 
-		* `is_drain` - Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: `false` 
-		* `is_offline` - Whether the network load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
-		* `name` - A read-only field showing the IP address/IP OCID and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0` 
-		* `port` - The communication port for the backend server.  Example: `8080` 
-		* `target_id` - The IP OCID/Instance OCID associated with the backend server. Example: `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>` 
-		* `weight` - The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see [How Network Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introducton.htm#Policies).  Example: `3` 
-	* `health_checker` - The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/health-check-policy-management.htm). 
-		* `interval_in_millis` - The interval between health checks, in milliseconds. The default value is 10000 (10 seconds).  Example: `10000` 
-		* `port` - The backend server port against which to run the health check. If the port is not specified, then the network load balancer uses the port information from the `Backend` object. The port must be specified if the backend port is 0.  Example: `8080` 
-		* `protocol` - The protocol the health check must use; either HTTP or HTTPS, or UDP or TCP.  Example: `HTTP` 
-		* `request_data` - Base64 encoded pattern to be sent as UDP or TCP health check probe.
-		* `response_body_regex` - A regular expression for parsing the response body from the backend server.  Example: `^((?!false).|\s)*$` 
-		* `response_data` - Base64 encoded pattern to be validated as UDP or TCP health check probe response.
-		* `retries` - The number of retries to attempt before a backend server is considered "unhealthy". This number also applies when recovering a server to the "healthy" state. The default value is 3.  Example: `3` 
-		* `return_code` - The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, then you can use common HTTP status codes such as "200".  Example: `200` 
-		* `timeout_in_millis` - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000` 
-		* `url_path` - The path against which to run the health check.  Example: `/healthcheck` 
-	* `ip_version` - IP version associated with the backend set.
-	* `is_preserve_source` - If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
-	* `name` - A user-friendly name for the backend set that must be unique and cannot be changed.
-
-		Valid backend set names include only alphanumeric characters, dashes, and underscores. Backend set names cannot contain spaces. Avoid entering confidential information.
-
-		Example: `example_backend_set` 
-	* `policy` - The network load balancer policy for the backend set.  Example: `FIVE_TUPLE` 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the network load balancer.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name, which does not have to be unique, and can be changed.  Example: `example_load_balancer` 
@@ -171,8 +126,10 @@ The following attributes are exported:
 	A public network load balancer is accessible from the internet, depending the [security list rules](https://docs.cloud.oracle.com/iaas/Content/network/Concepts/securitylists.htm) for your virtual cloudn network. For more information about public and private network load balancers, see [How Network Load Balancing Works](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/overview.htm). This value is true by default.
 
 	Example: `true` 
-* `is_symmetric_hash_enabled` - This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT. 
-* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
+* `is_symmetric_hash_enabled` - This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
+
+    Example: `true` 
+* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `network_security_group_ids` - An array of network security groups [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load balancer.
 
     During the creation of the network load balancer, the service adds the new load balancer to the specified network security groups.

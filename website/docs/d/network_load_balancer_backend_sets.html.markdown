@@ -38,7 +38,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `backends` - Array of backends. 
+* `backends` - Array of backends.
 	* `ip_address` - The IP address of the backend server. Example: `10.0.0.3` 
 	* `is_backup` - Whether the network load balancer should treat this server as a backup unit. If `true`, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: `false` 
 	* `is_drain` - Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: `false` 
@@ -56,8 +56,8 @@ The following attributes are exported:
 	* `response_data` - Base64 encoded pattern to be validated as UDP or TCP health check probe response.
 	* `retries` - The number of retries to attempt before a backend server is considered "unhealthy". This number also applies when recovering a server to the "healthy" state. The default value is 3.  Example: `3` 
 	* `return_code` - The status code a healthy backend server should return. If you configure the health check policy to use the HTTP protocol, then you can use common HTTP status codes such as "200".  Example: `200` 
-	* `timeout_in_millis` - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000` 
-	* `url_path` - The path against which to run the health check.  Example: `/healthcheck` 
+	* `timeout_in_millis` - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000`
+	* `url_path` - The path against which to run the health check.  Example: `/healthcheck`
 * `ip_version` - IP version associated with the backend set.
 * `is_preserve_source` - If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 * `name` - A user-friendly name for the backend set that must be unique and cannot be changed.
