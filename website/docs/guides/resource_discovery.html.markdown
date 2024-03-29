@@ -936,6 +936,7 @@ metering_computation
 * oci\_metering\_computation\_schedule
 * oci\_metering\_computation\_usage\_carbon\_emissions\_query
 * oci\_metering\_computation\_usage\_carbon\_emission
+* oci\_metering\_computation\_usage\_statement\_email\_recipients\_group
 
 monitoring
 
