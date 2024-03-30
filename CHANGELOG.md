@@ -1,5 +1,10 @@
 ## 5.36.0 (Unreleased)
 
+### Bug Fix
+Remove computed: true from the SecretContent.Name field. Manually add the logic to set both the name and content to null if nothing is provided.
+
+## 5.36.0 (Unreleased)
+
 ### Added
 - Support for Management Agent wait_for_host_id and prevent destroy resource
 - Support for Email Delivery: Submit Configuration API
