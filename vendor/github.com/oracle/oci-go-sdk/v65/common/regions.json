@@ -454,5 +454,11 @@
         "realmKey": "oc23",
         "regionIdentifier": "us-thames-1",
         "realmDomainComponent": "oraclecloud23.com"
+    },
+    {
+        "regionKey": "ruh",
+        "realmKey": "oc1",
+        "regionIdentifier": "me-riyadh-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
