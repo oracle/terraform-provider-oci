@@ -57,6 +57,7 @@ The following attributes are exported:
 * `plan_groups` - The list of groups in this DR plan. 
 	* `display_name` - The display name of the group.  Example: `DATABASE_SWITCHOVER` 
 	* `id` - The unique id of the group. Must not be modified by user.  Example: `sgid1.group..uniqueID` 
+	* `is_pause_enabled` - A flag indicating whether this group should be enabled for execution. This flag is only applicable to the `USER_DEFINED_PAUSE` group. The flag should be null for the remaining group types.  Example: `true` 
 	* `steps` - The list of steps in the group. 
 		* `display_name` - The display name of the group.  Example: `DATABASE_SWITCHOVER` 
 		* `error_mode` - The error mode for this step. 
