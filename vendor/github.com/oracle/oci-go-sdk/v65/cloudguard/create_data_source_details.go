@@ -29,6 +29,9 @@ type CreateDataSourceDetails struct {
 	// Possible type of dataSourceFeed Provider(LoggingQuery)
 	DataSourceFeedProvider DataSourceFeedProviderEnum `mandatory:"true" json:"dataSourceFeedProvider"`
 
+	// Status of DataSource. Default value is DISABLED.
+	Status DataSourceStatusEnum `mandatory:"false" json:"status,omitempty"`
+
 	DataSourceDetails DataSourceDetails `mandatory:"false" json:"dataSourceDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -54,6 +57,9 @@ func (m CreateDataSourceDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataSourceFeedProvider: %s. Supported values are: %s.", m.DataSourceFeedProvider, strings.Join(GetDataSourceFeedProviderEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDataSourceStatusEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetDataSourceStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -63,6 +69,7 @@ func (m CreateDataSourceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateDataSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Status                 DataSourceStatusEnum              `json:"status"`
 		DataSourceDetails      datasourcedetails                 `json:"dataSourceDetails"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
@@ -76,6 +83,8 @@ func (m *CreateDataSourceDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.Status = model.Status
+
 	nn, e = model.DataSourceDetails.UnmarshalPolymorphicJSON(model.DataSourceDetails.JsonData)
 	if e != nil {
 		return

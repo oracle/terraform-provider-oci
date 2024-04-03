@@ -4,11 +4,10 @@
 
 // Email Delivery API
 //
-// API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//
-// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
+// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -22,30 +21,36 @@ type OperationStatusEnum string
 
 // Set of constants representing the allowable values for OperationStatusEnum
 const (
-	OperationStatusAccepted   OperationStatusEnum = "ACCEPTED"
-	OperationStatusInProgress OperationStatusEnum = "IN_PROGRESS"
-	OperationStatusFailed     OperationStatusEnum = "FAILED"
-	OperationStatusSucceeded  OperationStatusEnum = "SUCCEEDED"
-	OperationStatusCanceling  OperationStatusEnum = "CANCELING"
-	OperationStatusCanceled   OperationStatusEnum = "CANCELED"
+	OperationStatusAccepted       OperationStatusEnum = "ACCEPTED"
+	OperationStatusInProgress     OperationStatusEnum = "IN_PROGRESS"
+	OperationStatusWaiting        OperationStatusEnum = "WAITING"
+	OperationStatusNeedsAttention OperationStatusEnum = "NEEDS_ATTENTION"
+	OperationStatusFailed         OperationStatusEnum = "FAILED"
+	OperationStatusSucceeded      OperationStatusEnum = "SUCCEEDED"
+	OperationStatusCanceling      OperationStatusEnum = "CANCELING"
+	OperationStatusCanceled       OperationStatusEnum = "CANCELED"
 )
 
 var mappingOperationStatusEnum = map[string]OperationStatusEnum{
-	"ACCEPTED":    OperationStatusAccepted,
-	"IN_PROGRESS": OperationStatusInProgress,
-	"FAILED":      OperationStatusFailed,
-	"SUCCEEDED":   OperationStatusSucceeded,
-	"CANCELING":   OperationStatusCanceling,
-	"CANCELED":    OperationStatusCanceled,
+	"ACCEPTED":        OperationStatusAccepted,
+	"IN_PROGRESS":     OperationStatusInProgress,
+	"WAITING":         OperationStatusWaiting,
+	"NEEDS_ATTENTION": OperationStatusNeedsAttention,
+	"FAILED":          OperationStatusFailed,
+	"SUCCEEDED":       OperationStatusSucceeded,
+	"CANCELING":       OperationStatusCanceling,
+	"CANCELED":        OperationStatusCanceled,
 }
 
 var mappingOperationStatusEnumLowerCase = map[string]OperationStatusEnum{
-	"accepted":    OperationStatusAccepted,
-	"in_progress": OperationStatusInProgress,
-	"failed":      OperationStatusFailed,
-	"succeeded":   OperationStatusSucceeded,
-	"canceling":   OperationStatusCanceling,
-	"canceled":    OperationStatusCanceled,
+	"accepted":        OperationStatusAccepted,
+	"in_progress":     OperationStatusInProgress,
+	"waiting":         OperationStatusWaiting,
+	"needs_attention": OperationStatusNeedsAttention,
+	"failed":          OperationStatusFailed,
+	"succeeded":       OperationStatusSucceeded,
+	"canceling":       OperationStatusCanceling,
+	"canceled":        OperationStatusCanceled,
 }
 
 // GetOperationStatusEnumValues Enumerates the set of values for OperationStatusEnum
@@ -62,6 +67,8 @@ func GetOperationStatusEnumStringValues() []string {
 	return []string{
 		"ACCEPTED",
 		"IN_PROGRESS",
+		"WAITING",
+		"NEEDS_ATTENTION",
 		"FAILED",
 		"SUCCEEDED",
 		"CANCELING",

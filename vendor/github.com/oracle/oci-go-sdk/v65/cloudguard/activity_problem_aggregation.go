@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ActivityProblemAggregation Provides the dimensions and their corresponding count.
+// ActivityProblemAggregation Provides the parameters and their corresponding count.
 type ActivityProblemAggregation struct {
 
 	// The key-value pairs of dimensions and their names.

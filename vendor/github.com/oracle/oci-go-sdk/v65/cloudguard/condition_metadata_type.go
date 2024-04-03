@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ConditionMetadataType condition type provided by cloud guard
+// ConditionMetadataType The metadata definition of the requested condition type.
 type ConditionMetadataType struct {
 
 	// Name used to identify

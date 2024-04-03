@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DetectorRecipe Details of Detector recipe
+// DetectorRecipe A detector recipe is a collection of rules that can be configured to trigger problems that appear on the Cloud Guard Problems page. A DetectorRecipe object contains settings for a specific detector recipe, plus a list of the detector rules (DetectorRecipeDetectorRule objects) belonging to the DetectorRecipe object.
 type DetectorRecipe struct {
 
 	// Ocid for detector recipe

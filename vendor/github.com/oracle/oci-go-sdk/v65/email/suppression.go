@@ -4,11 +4,10 @@
 
 // Email Delivery API
 //
-// API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//
-// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
+// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -37,12 +36,12 @@ type Suppression struct {
 	Reason SuppressionReasonEnum `mandatory:"false" json:"reason,omitempty"`
 
 	// The date and time the suppression was added in "YYYY-MM-ddThh:mmZ"
-	// format with a Z offset, as defined by RFC 3339.
+	// format with a Z offset, as defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// The last date and time the suppression prevented submission
 	// in "YYYY-MM-ddThh:mmZ"
-	// format with a Z offset, as defined by RFC 3339.
+	// format with a Z offset, as defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	TimeLastSuppressed *common.SDKTime `mandatory:"false" json:"timeLastSuppressed"`
 
 	// The value of the Message-ID header from the email that triggered a suppression.
@@ -79,62 +78,4 @@ func (m Suppression) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// SuppressionReasonEnum Enum with underlying type: string
-type SuppressionReasonEnum string
-
-// Set of constants representing the allowable values for SuppressionReasonEnum
-const (
-	SuppressionReasonUnknown     SuppressionReasonEnum = "UNKNOWN"
-	SuppressionReasonHardbounce  SuppressionReasonEnum = "HARDBOUNCE"
-	SuppressionReasonComplaint   SuppressionReasonEnum = "COMPLAINT"
-	SuppressionReasonManual      SuppressionReasonEnum = "MANUAL"
-	SuppressionReasonSoftbounce  SuppressionReasonEnum = "SOFTBOUNCE"
-	SuppressionReasonUnsubscribe SuppressionReasonEnum = "UNSUBSCRIBE"
-)
-
-var mappingSuppressionReasonEnum = map[string]SuppressionReasonEnum{
-	"UNKNOWN":     SuppressionReasonUnknown,
-	"HARDBOUNCE":  SuppressionReasonHardbounce,
-	"COMPLAINT":   SuppressionReasonComplaint,
-	"MANUAL":      SuppressionReasonManual,
-	"SOFTBOUNCE":  SuppressionReasonSoftbounce,
-	"UNSUBSCRIBE": SuppressionReasonUnsubscribe,
-}
-
-var mappingSuppressionReasonEnumLowerCase = map[string]SuppressionReasonEnum{
-	"unknown":     SuppressionReasonUnknown,
-	"hardbounce":  SuppressionReasonHardbounce,
-	"complaint":   SuppressionReasonComplaint,
-	"manual":      SuppressionReasonManual,
-	"softbounce":  SuppressionReasonSoftbounce,
-	"unsubscribe": SuppressionReasonUnsubscribe,
-}
-
-// GetSuppressionReasonEnumValues Enumerates the set of values for SuppressionReasonEnum
-func GetSuppressionReasonEnumValues() []SuppressionReasonEnum {
-	values := make([]SuppressionReasonEnum, 0)
-	for _, v := range mappingSuppressionReasonEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSuppressionReasonEnumStringValues Enumerates the set of values in String for SuppressionReasonEnum
-func GetSuppressionReasonEnumStringValues() []string {
-	return []string{
-		"UNKNOWN",
-		"HARDBOUNCE",
-		"COMPLAINT",
-		"MANUAL",
-		"SOFTBOUNCE",
-		"UNSUBSCRIBE",
-	}
-}
-
-// GetMappingSuppressionReasonEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSuppressionReasonEnum(val string) (SuppressionReasonEnum, bool) {
-	enum, ok := mappingSuppressionReasonEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
