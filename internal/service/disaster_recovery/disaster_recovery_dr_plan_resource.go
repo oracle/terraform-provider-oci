@@ -97,6 +97,10 @@ func DisasterRecoveryDrPlanResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_pause_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"steps": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -667,6 +671,11 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanGroupDetails(field
 		result.Id = &tmp
 	}
 
+	if isPauseEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pause_enabled")); ok {
+		tmp := isPauseEnabled.(bool)
+		result.IsPauseEnabled = &tmp
+	}
+
 	if steps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "steps")); ok {
 		interfaces := steps.([]interface{})
 		tmp := make([]oci_disaster_recovery.UpdateDrPlanStepDetails, len(interfaces))
@@ -741,6 +750,10 @@ func DrPlanGroupToMap(obj oci_disaster_recovery.DrPlanGroup) map[string]interfac
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsPauseEnabled != nil {
+		result["is_pause_enabled"] = bool(*obj.IsPauseEnabled)
 	}
 
 	steps := []interface{}{}
