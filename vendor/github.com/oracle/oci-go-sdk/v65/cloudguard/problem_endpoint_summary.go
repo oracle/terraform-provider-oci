@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ProblemEndpointSummary Problem endpoints summary.
+// ProblemEndpointSummary Summary information for endpoints associated with a problem (Problem object).
 type ProblemEndpointSummary struct {
 
 	// Unique identifier for problem endpoint.

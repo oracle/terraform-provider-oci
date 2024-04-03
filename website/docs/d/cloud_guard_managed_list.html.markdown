@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_cloud_guard_managed_list
 This data source provides details about a specific Managed List resource in Oracle Cloud Infrastructure Cloud Guard service.
 
-Returns a managed list identified by managedListId
+Returns a managed list identified by managedListId.
 
 ## Example Usage
 

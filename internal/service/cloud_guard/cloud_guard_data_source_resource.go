@@ -183,6 +183,11 @@ func CloudGuardDataSourceResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"status": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"data_source_detector_mapping_info": {
@@ -228,10 +233,6 @@ func CloudGuardDataSourceResource() *schema.Resource {
 				},
 			},
 			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -358,6 +359,10 @@ func (s *CloudGuardDataSourceResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if status, ok := s.D.GetOkExists("status"); ok {
+		request.Status = oci_cloud_guard.DataSourceStatusEnum(status.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "cloud_guard")

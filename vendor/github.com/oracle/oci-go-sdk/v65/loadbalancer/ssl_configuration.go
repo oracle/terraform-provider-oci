@@ -79,6 +79,7 @@ type SslConfiguration struct {
 	// *  TLSv1
 	// *  TLSv1.1
 	// *  TLSv1.2
+	// *  TLSv1.3
 	// If this field is not specified, TLSv1.2 is the default.
 	// **Warning:** All SSL listeners created on a given port must use the same set of SSL protocols.
 	// **Notes:**

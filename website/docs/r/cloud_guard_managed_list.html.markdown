@@ -10,7 +10,7 @@ description: |-
 # oci_cloud_guard_managed_list
 This resource provides the Managed List resource in Oracle Cloud Infrastructure Cloud Guard service.
 
-Creates a new ManagedList.
+Creates a new ManagedList object.
 
 
 ## Example Usage

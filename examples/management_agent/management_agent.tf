@@ -9,6 +9,12 @@ variable "region" {}
 variable "compartment_ocid" {}
 variable "root_compartment_ocid" {}
 
+variable "shape" {
+  default = "VM.Standard.E4.Flex"
+}
+
+variable "subnet" {
+}
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -121,4 +127,65 @@ data "oci_management_agent_management_agent_available_histories" "test_managemen
 data "oci_management_agent_management_agent_get_auto_upgradable_config" "test_management_agent_get_auto_upgradable_config" {
   #Required
   compartment_id = var.tenancy_ocid
+}
+
+
+resource "oci_core_instance" "instance" {
+
+  agent_config {
+    is_monitoring_disabled = false
+    is_management_disabled = false
+    plugins_config {
+      desired_state = "ENABLED"
+      name          = "Management Agent"
+    }
+
+  }
+
+  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
+  compartment_id      = var.compartment_ocid
+  shape               = var.shape
+  shape_config {
+    ocpus         = 1
+    memory_in_gbs = 8
+  }
+
+  source_details {
+    source_type = "image"
+    source_id   =  data.oci_core_images.compute_images.images[0].id
+  }
+
+  create_vnic_details {
+    subnet_id              = var.subnet
+    display_name           = "example_vnic"
+    assign_public_ip       = false
+    skip_source_dest_check = false
+  }
+
+  display_name = "Terraform example Agent host"
+
+}
+data "oci_identity_availability_domains" "ads" {
+  compartment_id = var.compartment_ocid
+}
+data "oci_core_images" "compute_images" {
+  #Required
+  compartment_id           = var.compartment_ocid
+  operating_system         = "Oracle Autonomous Linux"
+  operating_system_version = "7.9"
+}
+
+
+data "oci_management_agent_management_agents" "find_compute_agent" {
+  compartment_id   = var.compartment_ocid
+  host_id          = oci_core_instance.instance.id
+  wait_for_host_id = 10
+}
+
+
+
+resource "oci_management_agent_management_agent" "test_compute_management_agent" {
+  freeform_tags     = { "TestingTag" : "TestingValue" }
+  managed_agent_id  = data.oci_management_agent_management_agents.find_compute_agent.management_agents[0].id
+  deploy_plugins_id = [data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id]
 }

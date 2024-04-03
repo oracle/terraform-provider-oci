@@ -36,7 +36,7 @@ var (
 	}
 
 	DisasterRecoveryDisasterRecoveryDrPlanExecutionDataSourceRepresentation = map[string]interface{}{
-		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_dr_protection_group.id}`},
+		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_peer.id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `Precheck Switchover from PHX to IAD`, Update: `displayName2`},
 		"dr_plan_execution_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_disaster_recovery_dr_plan_execution.test_dr_plan_execution.id}`},
 		"dr_plan_execution_type": acctest.Representation{RepType: acctest.Optional, Create: `SWITCHOVER_PRECHECK`},
@@ -61,14 +61,9 @@ var (
 		"are_warnings_ignored":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
-	DisasterRecoveryDrPlanExecutionResourceDependencies = acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket2", acctest.Required, acctest.Create,
-			acctest.RepresentationCopyWithNewProperties(ObjectStorageBucketRepresentation, map[string]interface{}{
-				"name": acctest.Representation{RepType: acctest.Required, Create: testBucketName2},
-			})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "source_volume_list", acctest.Required, acctest.Create, CoreVolumeRepresentation) +
+	DisasterRecoveryDrPlanExecutionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
+		ObjectStorageBucketDependencyConfig +
+		VolumeGroupDependencyConfig +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
 
@@ -79,21 +74,6 @@ var (
 	}))
 
 	DrPlanConfig = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan", "test_dr_plan", acctest.Required, acctest.Create, DisasterRecoveryDrPlanRepresentation)
-
-	VolumeGroupReplicasRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.1.name}`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-	}
-
-	VolumeGroupWithReplicationConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Create,
-		acctest.RepresentationCopyWithNewProperties(CoreVolumeGroupReplicationRepresentation, map[string]interface{}{
-			"volume_group_replicas": acctest.RepresentationGroup{RepType: acctest.Optional, Group: VolumeGroupReplicasRepresentation},
-		}))
-
-	VolumeGroupWithoutReplicationConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Optional, acctest.Update,
-		acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(CoreVolumeGroupReplicationRepresentation, map[string]interface{}{
-			"volume_group_replicas": acctest.RepresentationGroup{RepType: acctest.Optional, Group: VolumeGroupReplicasRepresentation},
-		}), []string{"volume_group_replicas"}))
 )
 
 // issue-routing-tag: disaster_recovery/default
@@ -113,26 +93,19 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DisasterRecoveryDrPlanExecutionResourceDependencies+
-		DrProtectionGroupConfig+DrPlanConfig+VolumeGroupWithReplicationConfig+
+		DrProtectionGroupConfig+DrPlanConfig+
 		acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Create, DisasterRecoveryDrPlanExecutionRepresentation), "disasterrecovery", "drPlanExecution", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// Create Dependencies
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig + VolumeGroupWithReplicationConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// Wait for 10 minutes
-				func(s *terraform.State) (err error) {
-					time.Sleep(10 * time.Minute)
-					return
-				},
-			),
+				DrProtectionGroupConfig,
 		},
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig + VolumeGroupWithReplicationConfig +
+				DrProtectionGroupConfig + DrPlanConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Required, acctest.Create, DisasterRecoveryDrPlanExecutionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "execution_options.#", "1"),
@@ -149,12 +122,12 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig + VolumeGroupWithReplicationConfig,
+				DrProtectionGroupConfig + DrPlanConfig,
 		},
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig + VolumeGroupWithReplicationConfig +
+				DrProtectionGroupConfig + DrPlanConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Create, DisasterRecoveryDrPlanExecutionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -191,7 +164,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig + VolumeGroupWithReplicationConfig +
+				DrProtectionGroupConfig + DrPlanConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Update, DisasterRecoveryDrPlanExecutionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
@@ -225,7 +198,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + DrPlanConfig + VolumeGroupWithReplicationConfig +
+				DrProtectionGroupConfig + DrPlanConfig +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_disaster_recovery_dr_plan_executions", "test_dr_plan_executions", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithRemovedProperties(DisasterRecoveryDisasterRecoveryDrPlanExecutionDataSourceRepresentation, []string{"state"})) +
 				acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Optional, acctest.Update, DisasterRecoveryDrPlanExecutionRepresentation),
@@ -243,7 +216,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceConfig +
-				DrProtectionGroupConfig + DrPlanConfig + VolumeGroupWithReplicationConfig +
+				DrProtectionGroupConfig + DrPlanConfig +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_disaster_recovery_dr_plan_execution", "test_dr_plan_execution", acctest.Required, acctest.Create, DisasterRecoveryDisasterRecoveryDrPlanExecutionSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dr_plan_execution_id"),
@@ -273,7 +246,7 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// verify resource import
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionRequiredOnlyResource +
-				DrProtectionGroupConfig + DrPlanConfig + VolumeGroupWithReplicationConfig,
+				DrProtectionGroupConfig + DrPlanConfig,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
@@ -282,23 +255,12 @@ func TestDisasterRecoveryDrPlanExecutionResource_basic(t *testing.T) {
 		// delete dr plan and dr plan execution
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + VolumeGroupWithReplicationConfig,
-		},
-		// Disable volume group replication without preserve replica
-		{
-			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupConfig + VolumeGroupWithoutReplicationConfig,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				func(s *terraform.State) (err error) {
-					time.Sleep(2 * time.Minute)
-					return
-				},
-			),
+				DrProtectionGroupConfig,
 		},
 		// Disassociate DrProtectionGroup
 		{
 			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
-				DrProtectionGroupWithDisassociateTriggerConfig + VolumeGroupWithoutReplicationConfig,
+				DrProtectionGroupWithDisassociateTriggerConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
 					time.Sleep(2 * time.Minute)
